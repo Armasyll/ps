@@ -25,18 +25,18 @@ function characterInteract(_character, _clearContent = true) {
     
     Menu.clear();
     
-    Menu.setOption(0, "characterTalk(" + _character.id + ")", "Talk");
+    Menu.setOption(0, "characterTalk({0})".format(_character.id), "Talk");
     if ((player.age > 18 && _character.age > 18))
-        Menu.setOption(1, "characterSex(" + _character.id + ")", "Sex");
+        Menu.setOption(1, "characterSex({0})".format(_character.id), "Sex");
     else
-        Menu.setOption(1, "characterSex(" + _character.id + ")", "Sex", undefined, undefined, undefined, undefined, true);
-    Menu.setOption(2, "getAppearance(" + _character.id + ")", "Appearance");
+        Menu.setOption(1, "characterSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
+    Menu.setOption(2, "getAppearance({0})".format(_character.id), "Appearance");
     if (_character.following != player)
-        Menu.setOption(3, "characterFollow({0})".format(_character.id), "Ask " + (_character.objectPronoun()) + " to follow you");
+        Menu.setOption(3, "characterFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
     else
-        Menu.setOption(3, _character.id + "Stay()", "Ask " + (_character.objectPronoun()) + " to stay here");
+        Menu.setOption(3, "characterStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
     
-    Menu.setOption(4, "characterOpen(" + _character.id + ")", "Inventory", "Rifle through " + (_character.possessiveAdjective()) + " pockets, if " + _character.subjectPronoun() + " has them.");
+    Menu.setOption(4, "characterOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
     
     if (player.room.characters.size > 2)
         Menu.setOption(7, "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
