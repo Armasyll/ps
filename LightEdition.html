@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Pack Street Simulator">
+        <meta name="author" content="armasyll">
+        <link rel="icon" href="favicon.ico">
+        <title>Pack Street Simulator - Light Edition</title>
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!--<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script data-description="General Functions" src="js/GeneralFunctions.js"></script>
+        <style>
+            html, body {
+                height:100%;
+                min-height:100%;
+                background-color:#1A1A1A;
+            }
+            img {
+                max-height:100%;
+                max-width:100%;
+            }
+            .container {
+                min-height:100%;
+                height:100%;
+                width:100%;
+                overflow:hidden;
+            }
+            .trim {
+                display: table;
+                table-layout: fixed;
+                width: 100%;
+                white-space: nowrap;
+            }
+            .trim > * {
+                display: table-cell;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .button-title:first-letter {
+                text-transform: uppercase;
+            }
+            
+            #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
+                max-height: 162px;
+                max-width: 162px;
+            }
+            
+            #contentContainer {
+                height:100%;
+                padding-right:0px;
+                padding-bottom:15px;
+                padding-left:0px;
+            }
+            #contentContainerHead {
+                background-color: #f5f5f5;
+                height: 2.5em;
+                min-height: 2.5em;
+            }
+            #contentContainerHead > #contentContainerHeadLocation {
+                float:left;
+            }
+            #contentContainerHead > .timeDisplay {
+                float:right;
+                margin-top:0.5em;
+                margin-right: 0.5em;
+            }
+            #contentContainerBody {
+                overflow-y: scroll;
+                padding: 1em;
+                height: calc(100% - 2.5em);
+                width: 100%;
+            }
+            #choiceContainer {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+            #choiceContainerBottom > .btn-group:first-child > .btn-group:first-child > .btn{
+                border-bottom-left-radius: 0px;
+            }
+            #choiceContainerBottom > .btn-group:first-child > .btn-group:last-child > .btn{
+                border-bottom-right-radius: 0px;
+            }
+            
+            #choiceContainerBottom > .btn-group:nth-child(2) > .btn-group:first-child > .btn{
+                border-bottom-left-radius: 0px;
+                border-top-left-radius: 0px;
+            }
+            #choiceContainerBottom > .btn-group:nth-child(2) > .btn-group:last-child > .btn{
+                border-bottom-right-radius: 0px;
+                border-top-right-radius: 0px;
+            }
+            
+            #choiceContainerBottom > .btn-group:last-child > .btn-group:first-child > .btn{
+                border-top-left-radius: 0px;
+            }
+            #choiceContainerBottom > .btn-group:last-child > .btn-group:last-child > .btn{
+                border-top-right-radius: 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="modal" id="optionsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title">Game Options</h4>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" id="toggleRapeButton" class="btn btn-info" onClick="toggleRape()"></button>
+                        <button type="button" id="toggleGoreButton" class="btn btn-info" onClick="toggleGore()"></button>
+                        <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="toggleDebug()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="helpModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title">Help</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr><td>`</td><td>Developer Menu</td></tr>
+                            <tr><td>o</td><td>Game Options</td></tr>
+                            <tr><td>h</td><td>Help</td></tr>
+                            <tr><td>1-4</td><td rowspan=3 style='vertical-align:middle;'>Menu navigation</td></tr>
+                            <tr><td>q-r</td></tr>
+                            <tr><td>a-f</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="aboutModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title">About</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <p>Packstreet Simulator written by Armasyll</p>
+                            <p>Graphical assets from tgweaver and unnamed artists, used with permission.</p>
+                            <p>Written assets from Armasyll and Zorotokon, used with permission.</p>
+                            <p>Javascript libraries used are jQuery and Bootstrap</p>
+                            <br/>
+                            <p><a href='HowToSetupPS.html' target='_blank'>How shit's done</a></p>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id='rowMid' class='row'>
+                <div id='locationInfoContainer' class="col-md-3 col-sm-4 hidden-xs">
+                    <div id="locationContentDisplay">
+                        <div class="row text-center" style="height:164px;">
+                            <div id="locationTitleTopImageContainer" class="text-center" style="width:164px; background-color:white; border-radius:0.25em; margin-left:auto; margin-right:auto;">
+                                <img src='images/characters/Armasyll.svg'/>
+                            </div>
+                        </div>
+                        <div class="locationTitleTopText trim text-center">Pack Street Simulator</div>
+                        <div class="locationTitleMid trim text-center">by Armasyll</div>
+                        <div class="locationTitleBot trim text-center">&nbsp;</div>
+                    </div>
+                    <div id="mapContentDisplay" style="background-color:rgb(44, 44, 44); border-radius:4px;">
+                        <canvas id="map"></canvas>
+                    </div>
+                </div>
+                <div id="contentContainer" class="col-md-9 col-sm-8 col-xs-12">
+                    <div style="height:100%; border-radius:4px; background-color:white;">
+                        <div id="contentContainerHead">
+                            <ol id="contentContainerHeadLocation" class="breadcrumb">
+                                <li class="locationTitleBot">&nbsp;</li>
+                                <li class="locationTitleMid">&nbsp;</li>
+                                <li class="locationTitleTopText">&nbsp;</li>
+                            </ol>
+                            <div class="timeDisplay"></div>
+                        </div>
+                        <div id="contentContainerBody">
+                            <blockquote><p>WARNING. This site contains sexually oriented adult material intended for individuals 18 years of age or older. If you are not yet 18, if adult material offends you, or if you are accessing this site from any country or locale where adult material is prohibited by law, PLEASE LEAVE NOW! If you understand and accept these terms, you may ENTER.</p></blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='rowBot' class='row'>
+                <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                    <div id="gameControlsDisplay" class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <button class="btn" data-toggle="modal" data-target="#helpModal">
+                                <small style="position:absolute; right:0px; top:-3px;">[H]</small>
+                                <div class="trim">Help</div>
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button class="btn" data-toggle="modal" data-target="#aboutModal">
+                                <div class="trim">About</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="choiceContainer" class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div id="choiceContainerBottom">
+                        <div class="btn-group btn-group-justified"><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div></div>
+                        <div class="btn-group btn-group-justified"><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div></div>
+                        <div class="btn-group btn-group-justified"><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div><div class="btn-group"><button class="btn  invisible" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></button></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script data-description="Game Variables" src="js/GameVariables.js"></script>
+        <script data-description="Game Functions" src="js/GameFunctions.js"></script>
+        <script data-description="Additional Game Variables">
+            /*
+            Dear ZNN staff,
+                If you're reading this, a 'const' means the variable cannot be changed. Since the variables below are by default 'false' and they cannot be changed, the player will not see content that checks against them.
+            That is, unless they go snooping around. In which case, they're going outside the constraints that I placed for their little snowflake eyes.
+            Really, nothing I can do then.
+            
+            Sincerely,
+            Armasyll
+            
+            P.S.
+                :v
+            */
+            const enableRape = false;
+            const enableGore = false;
+            var debug = false;
+        </script>
+        <script data-description="Classes" src="js/Classes.js"></script>
+        
+        <script data-description="Locations" src="js/data/Locations.js"></script>
+        <script data-description="Cells" src="js/data/Cells.js"></script>
+        <script data-description="Rooms" src="js/data/Rooms.js"></script>
+        <script data-description="Characters" src="js/data/Characters.js"></script>
+        <script data-description="Furniture" src="js/data/Furniture.js"></script>
+        <script data-description="Items" src="js/data/Items.js"></script>
+        
+        <script data-description="Locations Assignments" src="js/data/LocationsAssignments.js"></script>
+        <script data-description="Rooms Assignments" src="js/data/RoomsAssignments.js"></script>
+        <script data-description="Characters Assignments" src="js/data/CharactersAssignments.js"></script>
+        <script data-description="Furniture Assignments" src="js/data/FurnitureAssignments.js"></script>
+        <script data-description="Items Assignments" src="js/data/ItemsAssignments.js"></script>
+        
+        <script data-description="Rooms Interactions" src="js/data/RoomsInteractions.js"></script>
+        <script data-description="Character Interactions" src="js/data/CharactersInteractions.js"></script>
+        <script data-description="Furniture Interactions" src="js/data/FurnitureInteractions.js"></script>
+        <script data-description="Items Interactions" src="js/data/ItemsInteractions.js"></script>
+        
+        <script data-description="Room-specific Character Interactions" src="js/data/RoomCharacterInteractions.js"></script>
+        <script data-description="General Interactions" src="js/data/GeneralInteractions.js"></script>
+        
+        <script data-description="Menus" src="js/Menus.js"></script>
+        <script data-description="Last modifications to DOM">
+            toggleDebug = function() {
+                document.getElementById("toggleDebugButton").innerHTML = (debug ? "Enable" : "Disable") + " Debugging";
+                debug = !debug;
+            };
+            
+            document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
+        </script>
+        <script data-description="Start the game" src="js/Start.js"></script>
+        <script data-description="Events" src="js/data/GameEvents.js"></script>
+    </body>
+</html>

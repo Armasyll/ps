@@ -1,0 +1,9 @@
+alApartment.addOwner(al);
+avoApartment.addOwner(avo);
+chartyApartment.addOwner(charlie);
+chartyApartment.addOwner(marty);
+ozzyApartment.addOwner(ozzy);
+remmyApartment.addOwner(remmy);
+twinsApartment.addOwner(anneke);
+twinsApartment.addOwner(wolter);
+weaverApartment.addOwner(weaver);
