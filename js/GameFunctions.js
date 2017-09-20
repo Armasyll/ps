@@ -151,7 +151,17 @@ function moveCharacterToRoom(_character = player, _room) {
     if (_character.room != _room) {
         if (player == _character)
             tick("1m", false);
+        
         _character.moveToRoom(_room);
+        
+        if (_character.hasFollowers) {
+            _character.followers.forEach(function(_follower) {
+                if (_follower.room == _character.previousRoom || _follower.room == _character.room)
+                    moveCharacterToRoom(_follower, _room);
+                else
+                    characterMovements.set(_follower, findPathInCell(_follower.room, _room));
+            }, this);
+        }
         
         eventsIndexes.forEach(function(_event) {
             if (
@@ -163,8 +173,6 @@ function moveCharacterToRoom(_character = player, _room) {
                 _event.execute();
             }
         }, this);
-        //if (enableMinimap)
-        //    Minimap.generateMapFromStartRoom(player.room);
     }
 }
 function movePlayerToRoom(_room) {
@@ -287,7 +295,7 @@ function moveItemToFurniture(_item, _furniture, _useLastMenu = true) {
 function moveItemToRoom(_item, _room, _useLastMenu = true) {
     moveItemToEntity(_item, _room, _useLastMenu);
 }
-function tick(time, _updateMinimap = false) {
+function tick(time, _updateMinimap = false, _runLastMenu = true) {
     var _newTime = new Date(currentTime);
     
     if (Number.isInteger(time))
@@ -325,7 +333,7 @@ function tick(time, _updateMinimap = false) {
                 if (characterMovements.size > 0) {
                     characterMovements.forEach(function(_rooms, _character) {
                         if (_rooms.size > 0) {
-                            var _toRoom = Array.from(_rooms)[0];
+                            var _toRoom = _rooms.values().next().value;
                             moveCharacterToRoom(_character, _toRoom);
                             _rooms.delete(_toRoom);
                         }
@@ -362,6 +370,8 @@ function tick(time, _updateMinimap = false) {
     
     if (enableMinimap && _updateMinimap)
         Minimap.generateMapFromStartRoom(player.room);
+    if (_runLastMenu)
+        runLastMenu();
     return currentTime;
 }
 function findPathInCell(_startRoom, _targetRoom) {
@@ -385,7 +395,7 @@ function findPathInCell(_startRoom, _targetRoom) {
     _openList.add(_startRoom);
     
     while (_openList.size > 0 && _timeout < 511) {
-        var _currentRoom = Array.from(_openList)[0];
+        var _currentRoom = _openList.values().next().value;
         
         if (_currentRoom == _targetRoom) {
             var cur = _currentRoom;
@@ -394,7 +404,7 @@ function findPathInCell(_startRoom, _targetRoom) {
                 ret.push(_currentRoom);
                 _currentRoom = _roomParent.get(_currentRoom);
             }
-            return ret.reverse();
+            return new Set(ret.reverse());
         }
         
         _openList.delete(_currentRoom);
@@ -425,7 +435,53 @@ function findPathInCell(_startRoom, _targetRoom) {
     
     return undefined;
 }
+function sit(_character, _furniture = undefined) {
+}
+function lay(_character, _furniture = undefined) {
+}
+function sleep(_character, _furniture = undefined) {
+}
+function stand(_character) {
+}
+function walk(_character) {
+}
+function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    
+    if (_characterA instanceof Character && _characterB instanceof Character) {
+        if (_characterA == _characterB)
+            return;
+        
+        if (_characterA.following == _characterB) {
+            _characterA.following = undefined;
+            _characterB.removeFollower(_characterA);
+        }
+        
+        _characterB.follow(_characterA);
+        _characterA.addFollower(_characterB);
+        
+        if (typeof _preGeneratedPath == 'undefined')
+            _preGeneratedPath = findPathInCell(_characterB.room, _characterA.room);
+        characterMovements.set(_characterB, _preGeneratedPath);
+        
+        if (_characterB.hasFollowers) {
+            _characterB.followers.forEach(function(_follower) {
+                if (_follower instanceof Character)
+                    follow(_characterA, _follower, _preGeneratedPath);
+            }, this);
+            _characterB.followers.clear();
+        }
+    }
+}
 
+function runLastMenu() {
+    fn = new Function(lastMenu);
+    try {return fn();}catch (err) {}
+}
 window.addEventListener(
     "resize", 
     function() {

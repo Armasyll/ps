@@ -1318,9 +1318,6 @@ class Character extends Entity {
         return SpeciesIdNames.get(this.species);
     }
     
-    getFollowing() {
-        return this.following;
-    }
     setFollowing(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -1329,45 +1326,16 @@ class Character extends Entity {
             this.following = _character;
     }
     clearFollowing() {
-        if (this.following instanceof Character)
-            this.following.removeFollower(this);
-        
         this.following = undefined;
     }
     follow(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
-        if (_character instanceof Character) {
-            if (this.followers.has(_character))
-                Content.add(this.name + " cannot follow someone following them.");
-            else {
-                if (this.following instanceof Character)
-                    this.following.removeFollower(this);
-                
-                this.setFollowing(_character);
-                _character.addFollower(this);
-            }
-        }
-        
-        if (this.room != _character.room)
-            characterMovements.set(this, findPathInCell(this.room, _character.room));
-    }
-    isFollowing(_character = undefined) {
-        if (typeof _character == 'undefined')
-            return this.following instanceof Character;
-        else if (!(_character instanceof Character)) {
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-            if (!(_character instanceof Character))
-                return false;
-            else
-                return this.following == _character;
-        }
+        if (_character instanceof Character)
+            this.following = _character;
     }
     
-    getFollowers() {
-        return this.followers;
-    }
     addFollower(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -1387,25 +1355,8 @@ class Character extends Entity {
     clearFollowers() {
         this.followers.clear();
     }
-    lead(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
-        if (_character instanceof Character) {
-            this.clearFollowing();
-            
-            _character.setFollowing(this);
-            
-            if (_character.hasFollowers && _character.followers.length > 0) {
-                for (i = 0; i < _character.followers.length; i++) {
-                    _character.followers[i].follow(this);
-                }
-                _character.clearFollowers();
-            }
-        }
-    }
     hasFollowers() {
-        return this.followers.length > 0;
+        return this.followers.size > 0;
     }
     
     addSexWith(_character) {
@@ -1672,15 +1623,6 @@ class Character extends Entity {
         
         if (this.room instanceof Room)
             this.room.removeCharacter(this);
-        
-        if (this.hasFollowers) {
-            this.followers.forEach(function(follower) {
-                if (follower.room == this.previousRoom || follower.room == this.room)
-                    follower.moveToRoom(_room);
-                else
-                    characterMovements.set(follower, findPathInCell(follower.room, this.room));
-            }, this);
-        }
         
         this.previousRoom = this.room;
         this.room = _room;

@@ -1,4 +1,4 @@
-//characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom));
+characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom));
 
 //constructor(_id, _action, _characterA, _characterB, _item, _location, _cell, _room, _cron, _nextFunction, _runOnce)
 newDayWelcomeEvent = new GameEvent("newDayWelcomeEvent", undefined, player, undefined, undefined, alBuildingLocation, undefined, undefined, new Cron(undefined, 6), "newDayWelcome(newDayWelcomeEvent)", false);
@@ -10,5 +10,5 @@ charlieGiveHeartEvent = new GameEvent("charlieGiveHeartEvent", "give", charlie, 
 charlieRemoveLeftEyeEvent = new GameEvent("charlieTakeLeftEyeEvent", "remove", player, charlie, charlieLeftEye, undefined, undefined, undefined, undefined, "charlieRemoveOrgan(charlieRemoveLeftEyeEvent)", false);
 charlieGiveLeftEyeEvent = new GameEvent("charlieGiveLeftEyeEvent", "give", charlie, undefined, charlieLeftEye, undefined, undefined, undefined, undefined, "charlieRemoveOrgan(charlieGiveLeftEyeEvent)", false);
 
-//martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom))", false);
-//martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBedroomMarty))", false);
+martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom))", false);
+martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBedroomMarty))", false);

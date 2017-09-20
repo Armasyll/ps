@@ -2,7 +2,8 @@ function mainMenu() {
     Menu.addOption("start()", "Enter", "You meet the conditions above.");
     Menu.generate();
 }
-function baseMenu(_clearContent = 0, _clearMenu = 1) {
+function baseMenu(_clearContent = false, _clearMenu = true) {
+    lastMenu = "baseMenu({0}, {1})".format(_clearContent, _clearMenu);
     Menu.isExploring = false;
     
     if (_clearContent) {
@@ -37,6 +38,8 @@ function baseMenu(_clearContent = 0, _clearMenu = 1) {
     }
 }
 function personalCharacterMenu() {
+    lastMenu = "personalCharacterMenu()";
+    
     Title.set("Interact with yourself", player.image);
     
     if (player['ateCharlie'])
@@ -85,6 +88,8 @@ function exploreMenu() {
     Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
 }
 function localCharactersMenu() {
+    lastMenu = "localCharactersMenu()";
+    
     Title.set("Interact with those near you.");
     
     var _blob = ("You are currently in " + player.room.name);
@@ -227,6 +232,8 @@ function debugPrintUnassignedRooms() {
     Content.add(_blob);
 }
 function getAppearance(_character, _self = false) {
+    lastMenu = "getAppearance({0}, {1})".format(_character, _self);
+    
     Title.setTopImage(_character.image);
     
     _blob = "";
