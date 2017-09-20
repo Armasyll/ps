@@ -13,9 +13,8 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
             Menu.clear();
             Menu.setOption(7, "roomInteract(" + player.room.id + ", false, true, false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-            if (_furniture.items.size > 0) {
-                Menu.addOption("furnitureOpen(" + _furniture.id + ")", "Open", "There are items inside");
-            }
+            Menu.addOption("furnitureOpen(" + _furniture.id + ")", "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
+            
             _furniture.availableActions.forEach(function(_action) {
                 if (ActionsIdNames.has(_action)) {
                     switch(ActionsIdNames.get(_action)) {
@@ -54,7 +53,7 @@ function furnitureOpen(_furniture) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     
-    $blob = "";
+    /*$blob = "";
     $blob += ("Looking through the " + _furniture.name + ", you find ");
     if (_furniture.items.size == 1) {
         $blob += ("a " + Array.from(_furniture.items)[0].toString() + ".");
@@ -89,7 +88,13 @@ function furnitureOpen(_furniture) {
         Menu.addOption("moveItemToCharacter(" + _item.id + ")", "Take " + _item.name, _item.description);
     }, this);
     
-    Menu.generate();
+    Menu.generate();*/
+    
+    $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
+    $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
+    $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _furniture, true));
+    $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_furniture, player, true));
+    $("#dualInventoryModal").modal("show");
 }
 function furnitureUse(_furniture, _character = player) {
     if (!(_character instanceof Character))

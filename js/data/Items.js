@@ -22,8 +22,9 @@ rosiePantsPatchy = new Clothing("rosiePantsPatchy", "Patchy Pants", "A pair of t
 
 // Keys
 masterKey = new Item("masterKey", "Simple Key", "A simple key.", charlie);
-alBuildingSkeletonKey = new Item("alBuildingSkeletonKey", "Skeleton Key", "Skeleton key for Pack Street.", charlie);
-chartyApartmentKey = new Item("chartyApartmentKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", [charlie, marty]);
-twinsApartmentKey = new Item("twinsApartmentKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", [anneke, wolter]);
+alBuildingLocationKey = new Item("alBuildingLocationKey", "Skeleton Key", "Skeleton key for Pack Street.", charlie);
+chartyApartmentLocationKey = new Item("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", [charlie, marty]);
+twinsApartmentLocationKey = new Item("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", [anneke, wolter]);
+pandorasBoxLocationKey = new Item("pandorasBoxLocationKey", "Key to Pandora's Box", "A complex brass key meant for digitigrade mammals to Pandora's Box.", [pandora]);
 
 if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");

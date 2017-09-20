@@ -22,6 +22,7 @@ function baseMenu(_clearContent = 0, _clearMenu = 1) {
         /*if (player.room.rooms.size > 0)
             Menu.setOption(1, "exploreMenu()", "Explore your surroundings.");*/
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
+        Menu.setOption(7, "tick('1m', true)", "Wait");
         if (player.room.characters.size == 2) {
             _character = undefined;
             player.room.characters.forEach(function(character) {
@@ -45,7 +46,7 @@ function personalCharacterMenu() {
     Menu.setOption(10, "debugMenu()", "Debug Menu");
     Menu.setOption(11, "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("getAppearance(player, 1)", "Appearance");
-    Menu.addOption("getInventory(player, 1)", "Inventory");
+    Menu.addOption("characterOpen()", "Inventory");
     Menu.generate();
 }
 function exploreMenu() {
@@ -156,7 +157,7 @@ function debugSwitchRoom() {
     
     roomsIndexes.forEach(function (_key, _val) {
         if (typeof window[_key.id + "Interact"] === 'function')
-            Content.add(Menu.createButton("roomInteract(" + _key.id + ", 1, 1)", _key.name, _key.id, false));
+            Content.add(Menu.createButton("roomInteract(" + _key.id + ", true, true, true)", _key.name, _key.id, false));
     });
     
     Menu.setOption(7, "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
@@ -274,37 +275,10 @@ function getAppearance(_character, _self = false) {
     if (!_self && player.disposition.has(_character))
         Content.add("<p>Your disposition for them: " + player.disposition.get(_character).toString() + "</p>");
 }
-function getInventory(_character, _self = false) {
-    Title.setTopImage(_character.image);
-    
-    _blob = "";
-    
-    if (_self)
-        _blob += ("Looking through your pockets and on your person, you find ");
-    else
-        _blob += ("Looking through " + _character.toString() + "'s pockets and on their person, you find ");
-    
-    if (_character.items.size > 1) {
-        tempArray = [];
-        _character.items.forEach(function(_item) {
-            tempArray.push(_item.toString());
-        });
-        for (i = 0; i < tempArray.length - 1; i++) {
-            _blob += (tempArray[i]);
-            if (tempArray.length > 2)
-                _blob += (", ");
-        }
-        _blob += (" and " + tempArray[tempArray.length - 1] + ".");
-    }
-    else
-        _blob += "a " + Arra.from(_character.items.get)[0].toString() + ".";
-    
-    Content.add("<p>" + _blob + "</p>");
-}
 function start() {
     agreeTOS = true;
     document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small style="position:absolute; right:0px; top:-3px;">[O]</small><div class="trim">Options</div></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
-    document.getElementById('gameControlsDisplay').innerHTML += '<div class="btn-group" role="group"><button class="btn viewPersonalInventory"><small style="position:absolute; right:0px; top:-3px;">[I]</small><div class="trim">Inventory</div></button></div>';
+    //document.getElementById('gameControlsDisplay').innerHTML += '<div class="btn-group" role="group"><button class="btn viewPersonalInventory"><small style="position:absolute; right:0px; top:-3px;">[I]</small><div class="trim">Inventory</div></button></div>';
     
     if (enableMinimap) {
         Minimap.generateMapFromStartRoom(player.room);

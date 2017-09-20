@@ -36,10 +36,10 @@ function characterInteract(_character, _clearContent = true) {
     else
         Menu.setOption(3, _character.id + "Stay()", "Ask " + (_character.objectPronoun()) + " to stay here");
     
-    if (_character.items.size > 0)
-        Menu.setOption(4, "characterOpen(" + _character.id + ")", "Inventory", "Rifle through her pockets, if " + _character.subjectPronoun() + " has them.");
+    Menu.setOption(4, "characterOpen(" + _character.id + ")", "Inventory", "Rifle through " + (_character.possessiveAdjective()) + " pockets, if " + _character.subjectPronoun() + " has them.");
     
-    Menu.setOption(7, "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
+    if (player.room.characters.size > 2)
+        Menu.setOption(7, "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     fn = new Function(_character.id + "Interact()");
@@ -48,7 +48,7 @@ function characterInteract(_character, _clearContent = true) {
     Menu.generate();
 }
 function characterOpen(_character) {
-    if (!(_character instanceof Character))
+    if (typeof _character != 'undefined' && !(_character instanceof Character))
         _character = characterIndexes.get(_character);
     
     /*_blob = "";
@@ -88,35 +88,18 @@ function characterOpen(_character) {
     
     Menu.generate();*/
     
-    var title = player.name + "'s Inventory";
-    var body = '';
-    
-    player.items.forEach(function(_item) {
-        var _ownerString = '';
-        if (_item.owner instanceof Set && _item.owner.size > 0) {
-            _ownerString += "Owned by ";
-            
-            var _owners = Array.from(_item.owner);
-            if (_item.owner.size == 1)
-                _ownerString += _owners[0].name;
-            else {
-                for (i = 0; i < _owners.length - 1; i++) {
-                    _ownerString += _owners[i].name;
-                    if (_owners.length > 2)
-                        _ownerString += ", ";
-                }
-                _ownerString += " and " + _owners[_owners.length - 1].name + ".";
-            }
-        }
-        
-        body += "<div style='display:inline-block; background-color: white; border-radius: 4px; margin: 1em; padding: 0.25em; width:12em; max-width:12em; height:16em; max-height:16em;'><img class='text-center' style='border:0.1em solid white; background-color:white; border-radius:0.5em; max-height: 5em; margin-left:auto; margin-right:auto; display:block;' src='{0}' alt=''/><br/><div style='vertical-align:bottom;'><div class='text-center' style='height: 1em; max-height: 1em;'>{1}</div><div class='small text-center' style='height: 3em; max-height: 3em;'>{2}</div><p class='small' style='background-color: #d3d3d3; padding: 0.25em; height: 6em; max-height: 6em; overflow-y: scroll;'>{3}</p></div></div>".format(_item.image, _item.name, (typeof _item.owner != 'undefiend' ? _ownerString : ''), _item.description)
-    }, this);
-    
-    $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
-    $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
-    $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _character, true));
-    $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_character, player, true));
-    $("#dualInventoryModal").modal("show");
+    if (typeof _character != 'undefined' && _character instanceof Character) {
+        $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
+        $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
+        $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _character, true));
+        $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_character, player, true));
+        $("#dualInventoryModal").modal("show");
+    }
+    else {
+        $('#personalInventoryModal-title').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
+        $('#personalInventoryModal-body').html(generateEntityItemsGraphicalList(player, undefined, false));
+        $("#personalInventoryModal").modal("show");
+    }
 }
 function characterTalk(_character) {
     if (!(_character instanceof Character))

@@ -1,5 +1,37 @@
 if (debug) console.log("Assigning Rooms");
 
+// Zootopia, 42nd Street
+
+// Zootopia, Pack Street
+zootopiaPackStreet01.setWestRoom(zootopiaPackStreet02);
+zootopiaPackStreet02.setWestRoom(zootopiaPackStreet03);
+zootopiaPackStreet03.setWestRoom(zootopiaPackStreet04);
+zootopiaPackStreet04.setWestRoom(zootopiaPackStreet05);
+zootopiaPackStreet05.setWestRoom(zootopiaPackStreet06);
+zootopiaPackStreet06.setWestRoom(zootopiaPackStreet07);
+zootopiaPackStreet07.setWestRoom(zootopiaPackStreet08);
+zootopiaPackStreet08.setWestRoom(zootopiaPackStreet09);
+zootopiaPackStreet09.setWestRoom(zootopiaPackStreet10);
+zootopiaPackStreet06.setNorthRoom(alBuildingFirstFloorHallwayA);
+zootopiaPackStreet08.setNorthRoom(bettyBuildingFirstFloorHallwayA);
+zootopiaPackStreet10.setNorthRoom(pandorasBoxCheckout);
+zootopiaPackStreet10.setWestRoom(zootopia44thStreet06);
+
+zootopia44thStreet01.setSouthRoom(zootopia44thStreet02);
+zootopia44thStreet02.setSouthRoom(zootopia44thStreet03);
+zootopia44thStreet03.setSouthRoom(zootopia44thStreet04);
+zootopia44thStreet04.setSouthRoom(zootopia44thStreet05);
+zootopia44thStreet04.setEastRoom(zootopiaPandorasBoxParkingLot);
+zootopia44thStreet05.setSouthRoom(zootopia44thStreet06);
+zootopia44thStreet06.setSouthRoom(zootopia44thStreet07);
+zootopia44thStreet07.setSouthRoom(zootopia44thStreet08);
+zootopia44thStreet08.setSouthRoom(zootopia44thStreet09);
+zootopia44thStreet09.setSouthRoom(zootopia44thStreet10);
+zootopiaPandorasBoxParkingLot.setSouthRoom(pandorasBoxGarageF, {isLocked: true}, false);
+
+// Zootopia, 44th Street
+
+
 // Al Building, Basement
 alBuildingBasementA.setEastRoom(alBuildingBasementB);
 alBuildingBasementA.setSouthRoom(alBuildingBasementC);
@@ -20,45 +52,29 @@ alBuildingBasementJ.setEastRoom(alBuildingBasementL);
 alBuildingBasementK.setEastRoom(alBuildingBasementM);
 alBuildingBasementK.setSouthRoom(alBuildingBasementN);
 alBuildingBasementL.setEastRoom(alBuildingBasementN);
-alBuildingBasementA.floorImage = stoneFloor01;
-alBuildingBasementB.floorImage = stoneFloor01;
-alBuildingBasementC.floorImage = stoneFloor01;
-alBuildingBasementD.floorImage = stoneFloor01;
-alBuildingBasementE.floorImage = stoneFloor01;
-alBuildingBasementF.floorImage = stoneFloor01;
-alBuildingBasementG.floorImage = stoneFloor01;
-alBuildingBasementH.floorImage = stoneFloor01;
-alBuildingBasementI.floorImage = stoneFloor01;
-alBuildingBasementJ.floorImage = stoneFloor01;
-alBuildingBasementK.floorImage = stoneFloor01;
-alBuildingBasementL.floorImage = stoneFloor01;
-alBuildingBasementM.floorImage = stoneFloor01;
-alBuildingBasementN.floorImage = stoneFloor01;
+alBuildingBasementA.stairsUpImage = woodenStairsUpRight01;
 alBuildingBasementG.rugImage = brownRugCenter01;
 
 // Al Building, First Floor
 alBuildingFirstFloorHallwayA.setUpRoom(alBuildingSecondFloorHallwayA);
 alBuildingFirstFloorHallwayA.setNorthRoom(alBuildingFirstFloorHallwayB);
 alBuildingFirstFloorHallwayA.setWestRoom(alBuildingFirstFloorHallwayC);
-alBuildingFirstFloorHallwayA.setSouthRoom(zootopiaPackStreetAlBuilding);
-alBuildingFirstFloorHallwayB.setWestRoom(alBuildingFirstFloorHallwayD);
-alBuildingFirstFloorHallwayC.setNorthRoom(alBuildingFirstFloorHallwayD);
+//alBuildingFirstFloorHallwayA.setSouthRoom(zootopiaPackStreet06);
 alBuildingFirstFloorHallwayB.setNorthRoom(weaverApartmentLivingroom, {isLocked: true});
 alBuildingFirstFloorHallwayB.setEastRoom(ozzyApartmentLivingroom, {isLocked: true});
-alBuildingFirstFloorHallwayC.setWestRoom(alBuildingMaintenanceA);
+alBuildingFirstFloorHallwayC.setNorthRoom(alBuildingMaintenanceD);
+alBuildingFirstFloorHallwayB.setWestWall(0,false);
+alBuildingFirstFloorHallwayC.setNorthWall(0,false);
 alBuildingFirstFloorHallwayC.setWestWall(0,false);
-alBuildingFirstFloorHallwayD.setWestWall(0,false);
 alBuildingFirstFloorHallwayA.floorImage = woodenFloor01;
 alBuildingFirstFloorHallwayB.floorImage = woodenFloor01;
 alBuildingFirstFloorHallwayC.floorImage = woodenFloor01;
-alBuildingFirstFloorHallwayD.floorImage = woodenFloor01;
 
 alBuildingMaintenanceA.setNorthRoom(alBuildingMaintenanceB);
 alBuildingMaintenanceB.setNorthRoom(alBuildingMaintenanceC);
+alBuildingMaintenanceB.setEastRoom(alBuildingMaintenanceD);
 alBuildingMaintenanceC.setDownRoom(alBuildingBasementA);
-alBuildingMaintenanceA.floorImage = woodenFloorDark01;
-alBuildingMaintenanceB.floorImage = woodenFloorDark01;
-alBuildingMaintenanceC.floorImage = woodenFloorDark01;
+alBuildingMaintenanceC.stairsDownImage = woodenStairsDownRight01;
 
 ozzyApartmentLivingroom.setSouthRoom(ozzyApartmentBathroom);
 ozzyApartmentLivingroom.setEastRoom(ozzyApartmentBedroom);
@@ -147,6 +163,68 @@ avoApartmentLivingroomB.rugImage = blackRugEast01;
 avoApartmentBedroomAvo.rugImage = blackRugCenter01;
 
 // Al Building, Roof
+
+// pandorasBox
+pandorasBoxCheckout.setNorthRoom(pandorasBoxGarageA, {isLocked: true});
+pandorasBoxCheckout.setEastRoom(pandorasBoxFrontA);
+//pandorasBoxCheckout.setSouthRoom(zootopiaPackStreet10);
+pandorasBoxFrontA.setNorthRoom(pandorasBoxIsleA1);
+pandorasBoxFrontA.setEastRoom(pandorasBoxFrontB);
+pandorasBoxFrontB.setNorthRoom(pandorasBoxIsleB1);
+pandorasBoxFrontB.setEastRoom(pandorasBoxFrontC);
+pandorasBoxFrontC.setNorthRoom(pandorasBoxIsleC1);
+pandorasBoxIsleA1.setNorthRoom(pandorasBoxIsleA2);
+pandorasBoxIsleA2.setNorthRoom(pandorasBoxIsleA3);
+pandorasBoxIsleA3.setNorthRoom(pandorasBoxBackA);
+pandorasBoxIsleB1.setNorthRoom(pandorasBoxIsleB2);
+pandorasBoxIsleB2.setNorthRoom(pandorasBoxIsleB3);
+pandorasBoxIsleB3.setNorthRoom(pandorasBoxBackB);
+pandorasBoxIsleC1.setNorthRoom(pandorasBoxIsleC2);
+pandorasBoxIsleC2.setNorthRoom(pandorasBoxIsleC3);
+pandorasBoxIsleC3.setNorthRoom(pandorasBoxBackC);
+pandorasBoxBackA.setEastRoom(pandorasBoxBackB);
+pandorasBoxBackB.setEastRoom(pandorasBoxBackC);
+pandorasBoxGarageA.setNorthRoom(pandorasBoxGarageB);
+pandorasBoxGarageA.setDownRoom(pandorasBoxBasementA);
+pandorasBoxGarageB.setNorthRoom(pandorasBoxGarageC);
+pandorasBoxGarageC.setNorthRoom(pandorasBoxGarageD);
+pandorasBoxGarageD.setNorthRoom(pandorasBoxGarageE);
+pandorasBoxGarageE.setEastRoom(pandorasBoxGarageF);
+pandorasBoxGarageF.setEastRoom(zootopiaPandorasBoxParkingLot, {}, false);
+pandorasBoxBasementA.setNorthRoom(pandorasBoxBasementB);
+pandorasBoxBasementA.setEastRoom(pandorasBoxBasementC);
+pandorasBoxBasementB.setEastRoom(pandorasBoxBasementD);
+pandorasBoxBasementC.setNorthRoom(pandorasBoxBasementD);
+pandorasBoxBasementC.setEastRoom(pandorasBoxBasementE);
+pandorasBoxBasementD.setEastRoom(pandorasBoxBasementF);
+pandorasBoxBasementE.setNorthRoom(pandorasBoxBasementF);
+pandorasBoxBasementF.setNorthRoom(pandorasBoxBasementHiddenBedroom);
+pandorasBoxBasementHiddenBedroom.setWestRoom(pandorasBoxBasementHiddenBathroom);
+pandorasBoxCheckout.setSouthWall(1);
+pandorasBoxCheckout.rugImage = redRugURD01;
+pandorasBoxFrontA.rugImage = redRugURL01;
+pandorasBoxFrontB.rugImage = redRugURL01;
+pandorasBoxFrontC.rugImage = redRugUL01;
+pandorasBoxBackA.rugImage = redRugRD01;
+pandorasBoxBackB.rugImage = redRugRDL01;
+pandorasBoxBackC.rugImage = redRugDL01;
+pandorasBoxIsleA1.rugImage = redRugUpDown01;
+pandorasBoxIsleA2.rugImage = redRugUpDown01;
+pandorasBoxIsleA3.rugImage = redRugUpDown01;
+pandorasBoxIsleB1.rugImage = redRugUpDown01;
+pandorasBoxIsleB2.rugImage = redRugUpDown01;
+pandorasBoxIsleB3.rugImage = redRugUpDown01;
+pandorasBoxIsleC1.rugImage = redRugUpDown01;
+pandorasBoxIsleC2.rugImage = redRugUpDown01;
+pandorasBoxIsleC3.rugImage = redRugUpDown01;
+pandorasBoxGarageF.setEastWall(1);
+pandorasBoxBasementF.setNorthWall(3);
+pandorasBoxBasementHiddenBedroom.isSecret = true;
+pandorasBoxBasementHiddenBedroom.setSouthWall(1,false);
+pandorasBoxBasementHiddenBedroom.floorImage = woodenFloorDark01;
+pandorasBoxBasementHiddenBedroom.rugImage = redRugCenter01;
+pandorasBoxBasementHiddenBedroom.addFurniture(pandorasBoxBasementHiddenBed);
+pandorasBoxBasementHiddenBathroom.floorImage = checkerLinoleumFloor01;
 
 // Furniture to Room
 remmyApartmentBathroom.addFurniture(remmyApartmentBathroomTub);

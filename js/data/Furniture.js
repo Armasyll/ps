@@ -13,4 +13,6 @@ remmyApartmentBedroomBed = new Furniture("remmyApartmentBedroomBed", "Bed", "A w
 remmyApartmentBedroomBureau = new Furniture("remmyApartmentBedroomBureau", "Bureau", "A plywood bureau.", remmy, ["open", "put", "take"], "bureau", 0, 16);
 remmyApartmentBedroomHamper = new Furniture("remmyApartmentBedroomHamper", "Hamper", "A plastic clothes basket.", remmy, ["open", "put", "take"], "basket", 0, 10);
 
+pandorasBoxBasementHiddenBed = new Furniture("pandorasBoxBasementHiddenBed", "Bed", "A large, soft bed.", pandora, ["sit", "lay", "sleep"], "bed", 4, 8);
+
 if (debug) console.log("\tInitialized " + furnitureIndexes.size + " Furniture.");

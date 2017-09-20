@@ -149,14 +149,28 @@ function moveCharacterToRoom(_character = player, _room) {
     if (debug) console.log("Moving " + _character.id + " from " + _character.room.sid + " to " + _room.sid);
     
     if (_character.room != _room) {
-        tick(30);
+        if (player == _character)
+            tick("1m", false);
         _character.moveToRoom(_room);
-        if (enableMinimap)
-            Minimap.generateMapFromStartRoom(player.room);
+        
+        eventsIndexes.forEach(function(_event) {
+            if (
+                typeof _event.cron == 'undefined' &&
+                _character == _event.characterA &&
+                _character.room == _event.room &&
+                (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
+            ) {
+                _event.execute();
+            }
+        }, this);
+        //if (enableMinimap)
+        //    Minimap.generateMapFromStartRoom(player.room);
     }
 }
 function movePlayerToRoom(_room) {
     moveCharacterToRoom(player, _room);
+    if (enableMinimap)
+        Minimap.generateMapFromStartRoom(player.room);
 }
 function moveCharacterInDirection(_character, _direction) {
     if (!(_character instanceof Character))
@@ -273,7 +287,7 @@ function moveItemToFurniture(_item, _furniture, _useLastMenu = true) {
 function moveItemToRoom(_item, _room, _useLastMenu = true) {
     moveItemToEntity(_item, _room, _useLastMenu);
 }
-function tick(time) {
+function tick(time, _updateMinimap = false) {
     var _newTime = new Date(currentTime);
     
     if (Number.isInteger(time))
@@ -307,6 +321,20 @@ function tick(time) {
             previousTime = currentTime;
             currentTime.addMinutes(1);
             
+            if (currentTime.getSeconds() == 0) {
+                if (characterMovements.size > 0) {
+                    characterMovements.forEach(function(_rooms, _character) {
+                        if (_rooms.size > 0) {
+                            var _toRoom = Array.from(_rooms)[0];
+                            moveCharacterToRoom(_character, _toRoom);
+                            _rooms.delete(_toRoom);
+                        }
+                        else
+                            characterMovements.delete(_character);
+                    }, this);
+                }
+            }
+            
             eventsIndexes.forEach(function(_event) {
                 if (
                     _event.cron instanceof Cron &&
@@ -316,15 +344,12 @@ function tick(time) {
                         (typeof _event.room == 'undefined' || (_event.characterA instanceof Character && _event.characterA.room == _event.room))
                     ) &&
                     (
-                        typeof _event.cron == 'undefined' ||
-                        _event.cron instanceof Cron && (
-                            (typeof _event.cron.year == 'undefined' || (_event.cron.year >= previousTime.getFullYear() && _event.cron.year <= currentTime.getFullYear())) &&
-                            (typeof _event.cron.month == 'undefined' || (_event.cron.month >= previousTime.getMonth() + 1 && _event.cron.month <= currentTime.getMonth() + 1)) &&
-                            (typeof _event.cron.dom == 'undefined' || (_event.cron.dom >= previousTime.getDate() && _event.cron.dom <= currentTime.getDate())) &&
-                            (typeof _event.cron.dow == 'undefined' || (_event.cron.dow >= previousTime.getDay() && _event.cron.dow <= currentTime.getDay())) &&
-                            (typeof _event.cron.hours == 'undefined' || (_event.cron.hours >= previousTime.getHours() && _event.cron.hours <= currentTime.getHours())) &&
-                            (typeof _event.cron.minutes == 'undefined' || (_event.cron.minutes >= previousTime.getMinutes() && _event.cron.minutes <= currentTime.getMinutes()))
-                        )
+                        (typeof _event.cron.year == 'undefined' || (_event.cron.year >= previousTime.getFullYear() && _event.cron.year <= currentTime.getFullYear())) &&
+                        (typeof _event.cron.month == 'undefined' || (_event.cron.month >= previousTime.getMonth() + 1 && _event.cron.month <= currentTime.getMonth() + 1)) &&
+                        (typeof _event.cron.dom == 'undefined' || (_event.cron.dom >= previousTime.getDate() && _event.cron.dom <= currentTime.getDate())) &&
+                        (typeof _event.cron.dow == 'undefined' || (_event.cron.dow >= previousTime.getDay() && _event.cron.dow <= currentTime.getDay())) &&
+                        (typeof _event.cron.hours == 'undefined' || (_event.cron.hours >= previousTime.getHours() && _event.cron.hours <= currentTime.getHours())) &&
+                        (typeof _event.cron.minutes == 'undefined' || (_event.cron.minutes >= previousTime.getMinutes() && _event.cron.minutes <= currentTime.getMinutes()))
                     )
                 ) {
                     _event.execute();
@@ -335,7 +360,82 @@ function tick(time) {
     
     updateTimeDisplay();
     
+    if (enableMinimap && _updateMinimap)
+        Minimap.generateMapFromStartRoom(player.room);
     return currentTime;
+}
+function findPathInCell(_currentRoom, _targetRoom) {
+    if (!(_currentRoom instanceof Room))
+        _currentRoom = roomsIndexes.get(_currentRoom);
+    
+    if (!(_targetRoom instanceof Room))
+        _targetRoom = roomsIndexes.get(_targetRoom);
+    
+    if (!_currentRoom instanceof Room || !_targetRoom instanceof Room)
+        return;
+    
+    if (_currentRoom.cell != _targetRoom.cell)
+        return;
+    
+    // I think this is A-star
+    var _originalCurrentRoom = _currentRoom;
+    var _openRooms = new Set();
+    var _closedRooms = new Set();
+    var _roomCosts = new Map();
+    var _roomParent = new Map();
+    var _timeout = 0;
+    var _tempCost = 0;
+    var _cleanedPath = new Set();
+    
+    _openRooms.add(_currentRoom);
+    
+    while (_currentRoom != _targetRoom && _timeout < 511) {
+        var _tmpArr = Array.from(_openRooms);
+        var _lowestCost = Math.abs(_tmpArr[0].x - _targetRoom.x) + Math.abs(_tmpArr[0].y - _targetRoom.y);
+        var _currentRoom = _tmpArr[0];
+        var _tmpCost = _lowestCost;
+        
+        for (var i = 1; i < _tmpArr.length; i++) {
+            var _tmpCost = Math.abs(_tmpArr[i].x - _targetRoom.x) + Math.abs(_tmpArr[i].y - _targetRoom.y);
+            if (_tmpCost < _lowestCost) {
+                _lowestCost = _tmpCost;
+                _currentRoom = _tmpArr[i];
+            }
+        }
+        
+        _openRooms.delete(_currentRoom);
+        _closedRooms.add(_currentRoom);
+        _roomCosts.set(_currentRoom, Math.abs(_currentRoom.x - _targetRoom.x) + Math.abs(_currentRoom.y - _targetRoom.y));
+        
+        _currentRoom.attachedRooms.forEach(function(_room) {
+            if (_closedRooms.has(_room))
+                return;
+            
+            _tempCost = Math.abs(_room.x - _targetRoom.x) + Math.abs(_room.y - _targetRoom.y);
+            
+            if ((!_openRooms.has(_room) || _roomCosts.get(_currentRoom) > _tempCost) && _room.cell == _currentRoom.cell) {
+                _roomCosts.set(_room, _tempCost);
+                _roomParent.set(_room, _currentRoom);
+                if (!_openRooms.has(_room))
+                    _openRooms.add(_room);
+            }
+        }, this);
+        _timeout++;
+    }
+    
+    // Parse out a clean path from the original Current Room to the Target Room
+    _tempCost = _roomCosts.get(_originalCurrentRoom);
+    // Don't need the current room that the character would be in
+    //_cleanedPath.add(_originalCurrentRoom);
+    
+    _roomCosts.forEach(function(_val, _key) {
+        if (_val < _tempCost) {
+            _tempCost = _val;
+            _cleanedPath.add(_key);
+        }
+    }, this);
+    
+    return _cleanedPath;
 }
 
 window.addEventListener(
@@ -420,6 +520,10 @@ window.addEventListener(
             case "h": {
                 fn = undefined;
                 $('#helpModal').modal('toggle');
+                break;
+            }
+            case "i": {
+                fn = new Function(characterOpen());
                 break;
             }
             case "`": {

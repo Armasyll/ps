@@ -100,7 +100,7 @@ marty.preferredSex = 0;
 
 ozzy.sleeping = true;
 ozzy.image = "images/characters/Ozzy.png";
-ozzy.eyeType = 2;
+ozzy.eyeType = 0;
 ozzy.eyeColour = "orange";
 ozzy.furColourA = "dirty brown";
 ozzy.furColourAHex = "#bb8517";
@@ -114,6 +114,21 @@ ozzy.addPreferredSpecies("wolf");
 ozzy.addPreferredSpecies("deer");
 ozzy.addPreferredSpecies("sheep");
 ozzy.preferredSex = 1;
+
+pandora.sleeping = true;
+pandora.image = "images/characters/Pandora.svg";
+pandora.eyeType = 1;
+pandora.eyeColour = "";
+pandora.furColourA = "orange";
+pandora.furColourB = "black";
+pandora.furPattern = 2;
+pandora.moveTo(pandorasBoxBasementHiddenBedroom);
+pandora.agape = 60;
+pandora.philautia = 80;
+pandora.defaultDisposition.set(25, 50, 40, 5, 0);
+pandora.addPreferredSpecies("tiger");
+pandora.addPreferredSpecies("wolf");
+pandora.preferredSex = 0;
 
 remmy.image = "images/characters/Remmy.svg";
 remmy.eyeType = 2;
@@ -171,7 +186,7 @@ wolter.addPreferredSpecies("aardwolf");
 wolter.addPreferredSpecies("rabbit");
 wolter.addPreferredSpecies("wolf");
 wolter.addPreferredSpecies("fox");
-anneke.addAvoidedSpecies("pig");
+wolter.addAvoidedSpecies("pig");
 wolter.preferredSex = 1
 
 // Assign Clothes to Characters
@@ -186,9 +201,9 @@ rosie.wear(rosiePantsPatchy);
 wolter.wear(annekeBlouseBlue);
 wolter.wear(annekePantiesBlue);
 
-charlie.addItem(chartyApartmentKey);
+charlie.addItem(chartyApartmentLocationKey);
 charlie.addItem(charlieBeatingHeart);
 charlie.addItem(charlieLeftEye);
-marty.addItem(chartyApartmentKey);
-anneke.addItem(twinsApartmentKey);
-wolter.addItem(twinsApartmentKey);
+marty.addItem(chartyApartmentLocationKey);
+anneke.addItem(twinsApartmentLocationKey);
+wolter.addItem(twinsApartmentLocationKey);

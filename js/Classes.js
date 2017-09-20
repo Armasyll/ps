@@ -105,6 +105,8 @@ class Menu {
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
         Menu.isExploring = true;
         var _metaName = "";
+        var _secret = false;
+        
         if (downRoom instanceof Room) {
             if (player.room.cell.location != downRoom.cell.location)
                 _metaName = downRoom.cell.location.name;
@@ -112,7 +114,8 @@ class Menu {
                 _metaName = downRoom.name;
             else
                 _metaName = downRoom.location.name;
-            this.options[4] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[4] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
         }
         if (northRoom instanceof Room) {
             if (player.room.cell.location != northRoom.cell.location)
@@ -121,7 +124,8 @@ class Menu {
                 _metaName = northRoom.name;
             else
                 _metaName = northRoom.location.name;
-            this.options[5] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[5] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
         }
         if (upRoom instanceof Room) {
             if (player.room.cell.location != upRoom.cell.location)
@@ -130,7 +134,8 @@ class Menu {
                 _metaName = upRoom.name;
             else
                 _metaName = upRoom.location.name;
-            this.options[6] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[6] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
         }
         if (westRoom instanceof Room) {
             if (player.room.cell.location != westRoom.cell.location)
@@ -139,7 +144,8 @@ class Menu {
                 _metaName = westRoom.name;
             else
                 _metaName = westRoom.location.name;
-            this.options[8] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[8] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
         }
         if (southRoom instanceof Room) {
             if (player.room.cell.location != southRoom.cell.location)
@@ -148,7 +154,8 @@ class Menu {
                 _metaName = southRoom.name;
             else
                 _metaName = southRoom.location.name;
-            this.options[9] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[9] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
         }
         if (eastRoom instanceof Room) {
             if (player.room.cell.location != eastRoom.cell.location)
@@ -157,7 +164,8 @@ class Menu {
                 _metaName = eastRoom.name;
             else
                 _metaName = eastRoom.location.name;
-            this.options[10] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, undefined, "btn-info"];
+            
+            this.options[10] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
         }
     }
     static generate() {
@@ -264,6 +272,11 @@ class Minimap {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
         
+        if (typeof _room.cell.backgroundColor != 'undefined')
+            document.getElementById('mapContentDisplay').style.backgroundColor = _room.cell.backgroundColor;
+        else
+            document.getElementById('mapContentDisplay').style.backgroundColor = "rgb(44, 44, 44)";
+        
         if (_room.attachedRooms.has(0)) {
             if (!this.mappedRooms.has(_room.attachedRooms.get(0).id) && !this.queuedMappedRooms.has(_room.attachedRooms.get(0).id)) {
                 var xPos = this.queuedMappedRooms.get(_room.id)[0];
@@ -363,10 +376,22 @@ class Minimap {
             _itemPortraitLinks.push(_item.image);
         });
         
-        if (typeof _room.floorImage != 'undefined') {
-            this.canvas.drawImage(_room.floorImage, originalX, originalY, this.baseSize, this.baseSize);
+        // floorImage
+        var floorImage = undefined;
+        if (typeof _room.floorImage != 'undefined')
+            floorImage = _room.floorImage;
+        else if (_room.location instanceof Location && typeof _room.location.floorImage != 'undefined')
+            floorImage = _room.location.floorImage;
+        else if (_room.cell instanceof Cell && typeof _room.cell.floorImage != 'undefined')
+            floorImage = _room.cell.floorImage;
+        else if (_room.cell.location instanceof Location && typeof _room.cell.location.floorImage != 'undefined')
+            floorImage = _room.cell.location.floorImage;
+        
+        if (typeof floorImage != 'undefined') {
+            this.canvas.drawImage(floorImage, originalX, originalY, this.baseSize, this.baseSize);
         }
         
+        // rugImage
         if (typeof _room.rugImage != 'undefined') {
             this.canvas.drawImage(_room.rugImage, originalX, originalY, this.baseSize, this.baseSize);
         }
@@ -386,19 +411,21 @@ class Minimap {
             for (var i = 0; i < _characterPortraitLinks.length; i++) {
                 var characterPortraitLink = new Image();
                 characterPortraitLink.src = _characterPortraitLinks[i];
-                characterPortraitLink.i = i;
                 characterPortraitLink.canvas = this.canvas;
+                characterPortraitLink.i = i;
                 characterPortraitLink.originalX = originalX;
                 characterPortraitLink.originalY = originalY;
                 characterPortraitLink.baseSize = this.baseSize;
                 characterPortraitLink.onload = function() {
                     switch (this.i) {
-                        case 0 : {this.canvas.drawImage(this, this.originalX + this.baseSize/2, this.originalY + 6, this.baseSize/3, this.baseSize/3); break;}
-                        case 1 : {this.canvas.drawImage(this, this.originalX + this.baseSize/2 + 18, this.originalY + 12, this.baseSize/3, this.baseSize/3); break;}
-                        case 2 : {this.canvas.drawImage(this, this.originalX + this.baseSize/2, this.originalY + 30, this.baseSize/3, this.baseSize/3); break};
-                        case 3 : {this.canvas.drawImage(this, this.originalX + this.baseSize/2 + 18, this.originalY + 42, this.baseSize/3, this.baseSize/3); break};
-                        case 4 : this.canvas.drawImage(this, this.originalX + this.baseSize/2, this.originalY + 6, this.baseSize/3, this.baseSize/3); break;
-                        case 5 : this.canvas.drawImage(this, this.originalX + this.baseSize/2, this.originalY + 6, this.baseSize/3, this.baseSize/3); break;
+                        case 0 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/3,       this.originalY + this.baseSize/3,       this.baseSize/4,    this.baseSize/4); break;}
+                        case 1 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/4,       this.originalY + (this.baseSize/5),     this.baseSize/4,    this.baseSize/4); break;}
+                        case 2 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/10,      this.originalY + (this.baseSize*3/10),  this.baseSize/4,    this.baseSize/4); break;}
+                        case 3 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/4,       this.originalY + (this.baseSize*2/5),   this.baseSize/4,    this.baseSize/4); break;}
+                        case 4 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/10,      this.originalY + (this.baseSize*5/10),  this.baseSize/4,    this.baseSize/4); break;}
+                        case 5 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/4,       this.originalY + (this.baseSize*3/5),   this.baseSize/4,    this.baseSize/4); break;}
+                        case 6 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/10,      this.originalY + (this.baseSize*7/10),  this.baseSize/4,    this.baseSize/4); break;}
+                        case 7 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/4,       this.originalY + (this.baseSize*4/5),   this.baseSize/4,    this.baseSize/4); break;}
                     }
                 };
             }
@@ -605,19 +632,30 @@ class Minimap {
             this.canvas.stroke();
         }*/
         if (_room.attachedRooms.has(5) && _room.attachedRooms.has(4)) {
-            if (_room.floorImage == woodenFloor01 || _room.floorImage == woodenFloorDark01 || _room.floorImage == stoneFloor01)
-                this.canvas.drawImage(woodenStairsUpLeft01, originalX, originalY, this.baseSize, this.baseSize);
-            if (_room.floorImage == woodenFloor01 || _room.floorImage == woodenFloorDark01 || _room.floorImage == stoneFloor01)
-                this.canvas.drawImage(woodenStairsDownRight01, originalX, originalY, this.baseSize, this.baseSize);
+            var stairsUpImage = woodenStairsUpLeft01;
+            var stairsDownImage = woodenStairsDownRight01;
+            
+            if (typeof _room.stairsUpImage != 'undefined')
+                stairsUpImage = _room.stairsUpImage;
+            
+            if (typeof _room.stairsDownImage != 'undefined')
+                stairsDownImage = _room.stairsDownImage;
+            
+            this.canvas.drawImage(stairsUpImage, originalX, originalY, this.baseSize, this.baseSize);
+            this.canvas.drawImage(stairsDownImage, originalX, originalY, this.baseSize, this.baseSize);
         }
         else {
             if (_room.attachedRooms.has(5)) {
-                if (_room.floorImage == woodenFloor01 || _room.floorImage == woodenFloorDark01 || _room.floorImage == stoneFloor01)
-                    this.canvas.drawImage(woodenStairsUpRight01, originalX, originalY, this.baseSize, this.baseSize);
+                var stairsUpImage = woodenStairsUpRight01;
+                if (typeof _room.stairsUpImage != 'undefined')
+                    stairsUpImage = _room.stairsUpImage;
+                this.canvas.drawImage(stairsUpImage, originalX, originalY, this.baseSize, this.baseSize);
             }
             if (_room.attachedRooms.has(4)) {
-                if (_room.floorImage == woodenFloor01 || _room.floorImage == woodenFloorDark01 || _room.floorImage == stoneFloor01)
-                    this.canvas.drawImage(woodenStairsDownLeft01, originalX, originalY, this.baseSize, this.baseSize);
+                var stairsDownImage = woodenStairsDownLeft01;
+                if (typeof _room.stairsDownImage != 'undefined')
+                    stairsDownImage = _room.stairsDownImage;
+                this.canvas.drawImage(stairsDownImage, originalX, originalY, this.baseSize, this.baseSize);
             }
         }
     }
@@ -884,8 +922,9 @@ class Character extends Entity {
             sex is an int
                 0 - male
                 1 - female
+                2 - herm
         */
-        this.sex = _sex;
+        this.setSex(_sex);
         /*
             gender is an int
                 0 - male
@@ -1033,6 +1072,31 @@ class Character extends Entity {
         charactersIndexes.set(_id, this);
     }
     
+    getSex() {
+        return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
+    }
+    
+    setSex(_sex) {
+        if (isNaN(_sex)) {
+            switch (_sex.slice(0, 1)) {
+                case "m" : {
+                    this.sex = 0;
+                }
+                case "f" : {
+                    this.sex = 1;
+                }
+                case "h" : {
+                    this.sex = 2;
+                }
+            }
+        }
+        else if (_sex >= 0 && _sex < 4) {
+            this.sex = Number.parseInt(_sex);
+        }
+        else
+            this.sex = 0;
+    }
+    
     hasColouration() {
         return typeof this.furColourA != 'undefined';
     }
@@ -1161,7 +1225,7 @@ class Character extends Entity {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
         
         if (_room instanceof Room) {
-            if (this.containsItem(_room.sid + "Key") || this.containsItem(_room.location.id + "Key") || this.containsItem(_room.cell.location.id + "SkeletonKey") || this.containsItem("masterKey"))
+            if (this.containsItem(_room.sid + "Key") || this.containsItem(_room.location.id + "Key") || this.containsItem(_room.cell.location.id + "Key") || this.containsItem("masterKey"))
                 return true;
             return false;
         }
@@ -1285,6 +1349,9 @@ class Character extends Entity {
                 _character.addFollower(this);
             }
         }
+        
+        if (this.room != _character.room)
+            characterMovements.set(this, findPathInCell(this.room, _character.room));
     }
     isFollowing(_character = undefined) {
         if (typeof _character == 'undefined')
@@ -1608,8 +1675,11 @@ class Character extends Entity {
         
         if (this.hasFollowers) {
             this.followers.forEach(function(follower) {
-                follower.moveToRoom(_room);
-            });
+                if (follower.room == this.previousRoom || follower.room == this.room)
+                    follower.moveToRoom(_room);
+                else
+                    characterMovements.set(follower, findPathInCell(follower.room, this.room));
+            }, this);
         }
         
         this.previousRoom = this.room;
@@ -1641,6 +1711,8 @@ class Location {
         this.cells = new Set();
         this.rooms = new Set();
         this.owner = new Set();
+        
+        this.floorImage = undefined;
         
         locationsIndexes.set(_id, this);
     }
@@ -1734,6 +1806,10 @@ class Cell {
         this.setLocation(_location);
         this.grid = []; // <X,Y> = Room
         this.rooms = new Set();
+        
+        this.floorImage = undefined;
+        this.backgroundImage = undefined; // for minimap
+        this.backgroundColor = undefined; // for minimap
         
         cellsIndexes.set(_id, this);
     }
@@ -1864,7 +1940,12 @@ class Room extends Entity {
         this.westSide = 3;
         this.setType(_type);
         
+        this.isSecret = false;
+        
         this.floorImage = undefined;
+        this.rugImage = undefined;
+        this.stairsUpImage = undefined;
+        this.stairsDownImage = undefined;
         
         roomsIndexes.set(_id, this);
     }
