@@ -32,7 +32,7 @@ function characterInteract(_character, _clearContent = true) {
         Menu.setOption(1, "characterSex(" + _character.id + ")", "Sex", undefined, undefined, undefined, undefined, true);
     Menu.setOption(2, "getAppearance(" + _character.id + ")", "Appearance");
     if (_character.following != player)
-        Menu.setOption(3, _character.id + "Follow()", "Ask " + (_character.objectPronoun()) + " to follow you");
+        Menu.setOption(3, "characterFollow({0})".format(_character.id), "Ask " + (_character.objectPronoun()) + " to follow you");
     else
         Menu.setOption(3, _character.id + "Stay()", "Ask " + (_character.objectPronoun()) + " to stay here");
     
@@ -137,7 +137,9 @@ function characterFollow(_character) {
     else {
         Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
         
-        _character.follow(player);
+        console.log(player.followers);
+        follow(player, _character);
+        console.log(player.followers);
     }
     
     characterInteract(_character, false);
