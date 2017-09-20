@@ -62,7 +62,7 @@ alBuildingFirstFloorHallwayA.setWestRoom(alBuildingFirstFloorHallwayC);
 //alBuildingFirstFloorHallwayA.setSouthRoom(zootopiaPackStreet06);
 alBuildingFirstFloorHallwayB.setNorthRoom(weaverApartmentLivingroom, {isLocked: true});
 alBuildingFirstFloorHallwayB.setEastRoom(ozzyApartmentLivingroom, {isLocked: true});
-alBuildingFirstFloorHallwayC.setNorthRoom(alBuildingMaintenanceD);
+alBuildingFirstFloorHallwayC.setNorthRoom(alBuildingMaintenanceA);
 alBuildingFirstFloorHallwayB.setWestWall(0,false);
 alBuildingFirstFloorHallwayC.setNorthWall(0,false);
 alBuildingFirstFloorHallwayC.setWestWall(0,false);
@@ -70,9 +70,9 @@ alBuildingFirstFloorHallwayA.floorImage = woodenFloor01;
 alBuildingFirstFloorHallwayB.floorImage = woodenFloor01;
 alBuildingFirstFloorHallwayC.floorImage = woodenFloor01;
 
-alBuildingMaintenanceA.setNorthRoom(alBuildingMaintenanceB);
+alBuildingMaintenanceA.setWestRoom(alBuildingMaintenanceB);
 alBuildingMaintenanceB.setNorthRoom(alBuildingMaintenanceC);
-alBuildingMaintenanceB.setEastRoom(alBuildingMaintenanceD);
+alBuildingMaintenanceB.setSouthRoom(alBuildingMaintenanceD);
 alBuildingMaintenanceC.setDownRoom(alBuildingBasementA);
 alBuildingMaintenanceC.stairsDownImage = woodenStairsDownRight01;
 
