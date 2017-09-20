@@ -364,78 +364,66 @@ function tick(time, _updateMinimap = false) {
         Minimap.generateMapFromStartRoom(player.room);
     return currentTime;
 }
-function findPathInCell(_currentRoom, _targetRoom) {
-    if (!(_currentRoom instanceof Room))
-        _currentRoom = roomsIndexes.get(_currentRoom);
+function findPathInCell(_startRoom, _targetRoom) {
+    if (!(_startRoom instanceof Room))
+        _startRoom = roomsIndexes.get(_startRoom);
     
     if (!(_targetRoom instanceof Room))
         _targetRoom = roomsIndexes.get(_targetRoom);
     
-    if (!_currentRoom instanceof Room || !_targetRoom instanceof Room)
+    if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
         return;
     
-    if (_currentRoom.cell != _targetRoom.cell)
+    if (_startRoom.cell != _targetRoom.cell)
         return;
     
-    // I think this is A-star
-    var _originalCurrentRoom = _currentRoom;
-    var _openRooms = new Set();
-    var _closedRooms = new Set();
-    var _roomCosts = new Map();
+    var _openList = new Set();
+    var _closedList = new Set();
     var _roomParent = new Map();
     var _timeout = 0;
-    var _tempCost = 0;
-    var _cleanedPath = new Set();
     
-    _openRooms.add(_currentRoom);
+    _openList.add(_startRoom);
     
-    while (_currentRoom != _targetRoom && _timeout < 511) {
-        var _tmpArr = Array.from(_openRooms);
-        var _lowestCost = Math.abs(_tmpArr[0].x - _targetRoom.x) + Math.abs(_tmpArr[0].y - _targetRoom.y);
-        var _currentRoom = _tmpArr[0];
-        var _tmpCost = _lowestCost;
+    while (_openList.size > 0 && _timeout < 511) {
+        var _currentRoom = Array.from(_openList)[0];
         
-        for (var i = 1; i < _tmpArr.length; i++) {
-            var _tmpCost = Math.abs(_tmpArr[i].x - _targetRoom.x) + Math.abs(_tmpArr[i].y - _targetRoom.y);
-            if (_tmpCost < _lowestCost) {
-                _lowestCost = _tmpCost;
-                _currentRoom = _tmpArr[i];
+        if (_currentRoom == _targetRoom) {
+            var cur = _currentRoom;
+            var ret = [];
+            while (_roomParent.has(_currentRoom)) {
+                ret.push(_currentRoom);
+                _currentRoom = _roomParent.get(_currentRoom);
             }
+            return ret.reverse();
         }
         
-        _openRooms.delete(_currentRoom);
-        _closedRooms.add(_currentRoom);
-        _roomCosts.set(_currentRoom, Math.abs(_currentRoom.x - _targetRoom.x) + Math.abs(_currentRoom.y - _targetRoom.y));
+        _openList.delete(_currentRoom);
+        _closedList.add(_currentRoom);
         
-        _currentRoom.attachedRooms.forEach(function(_room) {
-            if (_closedRooms.has(_room))
+        _currentRoom.attachedRooms.forEach(function(_neighbor) {
+            if (_closedList.has(_neighbor))
                 return;
             
-            _tempCost = Math.abs(_room.x - _targetRoom.x) + Math.abs(_room.y - _targetRoom.y);
+            var _gScore = Math.abs(_currentRoom.x - _startRoom.x) + Math.abs(_currentRoom.y - _startRoom.x) + 1;
+            var _gScoreIsBest = false;
             
-            if ((!_openRooms.has(_room) || _roomCosts.get(_currentRoom) > _tempCost) && _room.cell == _currentRoom.cell) {
-                _roomCosts.set(_room, _tempCost);
-                _roomParent.set(_room, _currentRoom);
-                if (!_openRooms.has(_room))
-                    _openRooms.add(_room);
+            if (!_openList.has(_neighbor)) {
+                _gScoreIsBest = true;
+                _openList.add(_neighbor);
+            }
+            else if (_gScore < (Math.abs(_neighbor.x - _startRoom.x) + Math.abs(_neighbor.y - _startRoom.x))) {
+                _gScoreIsBest = true;
+            }
+            
+            if (_gScoreIsBest) {
+                _roomParent.set(_neighbor, _currentRoom);
             }
         }, this);
+        
         _timeout++;
     }
     
-    // Parse out a clean path from the original Current Room to the Target Room
-    _tempCost = _roomCosts.get(_originalCurrentRoom);
-    // Don't need the current room that the character would be in
-    //_cleanedPath.add(_originalCurrentRoom);
-    
-    _roomCosts.forEach(function(_val, _key) {
-        if (_val < _tempCost) {
-            _tempCost = _val;
-            _cleanedPath.add(_key);
-        }
-    }, this);
-    
-    return _cleanedPath;
+    return undefined;
 }
 
 window.addEventListener(
