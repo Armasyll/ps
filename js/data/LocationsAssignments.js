@@ -2,6 +2,10 @@ alBuildingLocation.image = 'images/locations/alBuilding.svg';
 bettyBuildingLocation.image = 'images/locations/bettyBuilding.svg';
 pandorasBoxLocation.image = 'images/locations/pandorasBox.svg';
 
+zootopia42ndStreetLocation.floorImage = streetUpDown01;
+zootopiaPackStreetLocation.floorImage = streetRightLeft01;
+zootopia44thStreetLocation.floorImage = streetUpDown01;
+
 alApartmentLocation.addOwner(al);
 avoApartmentLocation.addOwner(avo);
 chartyApartmentLocation.addOwner(charlie);

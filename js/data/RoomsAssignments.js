@@ -28,6 +28,9 @@ zootopia44thStreet07.setSouthRoom(zootopia44thStreet08);
 zootopia44thStreet08.setSouthRoom(zootopia44thStreet09);
 zootopia44thStreet09.setSouthRoom(zootopia44thStreet10);
 zootopiaPandorasBoxParkingLot.setSouthRoom(pandorasBoxGarageF, {isLocked: true}, false);
+zootopia44thStreet04.floorImage = streetUpCRightDown01;
+zootopia44thStreet06.floorImage = streetUpRightDown01;
+zootopiaPandorasBoxParkingLot.floorImage = parkingLotLeft01;
 
 // Zootopia, 44th Street
 
