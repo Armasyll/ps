@@ -135,7 +135,7 @@ remmy.eyeType = 2;
 remmy.eyeColour = "orange";
 remmy.furColourA = "white";
 remmy.furColourAHex = "#8a7d72";
-remmy.moveTo(remmyApartmentLivingroom);
+remmy.moveTo(remmyApartmentBedroom);
 remmy.agape = 50;
 remmy.philautia = 70;
 remmy.defaultDisposition.set(15, 0, 15, 0, 0);

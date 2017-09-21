@@ -903,7 +903,7 @@ class Character extends Entity {
         this.appearance = "";
         this.image = "images/characters/avatar.svg"; // base64 image, or url
         
-        this.currentActions = undefined;
+        this.currentActions = new Set();
         
         this.defaultDisposition = new Disposition(0,0,0,0,0);
         this.agape = 50;         // self
@@ -1070,6 +1070,9 @@ class Character extends Entity {
         this.location = undefined;
         
         charactersIndexes.set(_id, this);
+        
+        this.stand();
+        this.sleep();
     }
     
     getSex() {
@@ -1139,6 +1142,86 @@ class Character extends Entity {
     
     hasPants() {
         return this.clothingLegs instanceof Clothing;
+    }
+    
+    addCurrentAction(_actionType) {
+        if (isNaN(_actionType)) {
+            if (ActionsNameIds.has(_actionType))
+                this.currentActions.add(ActionsNameIds.get(_actionType));
+        }
+        else {
+            if (ActionsIdNames.has(_actionType))
+                this.currentActions.add(_actionType);
+        }
+    }
+    removeCurrentAction(_actionType) {
+        if (isNaN(_actionType)) {
+            if (ActionsNameIds.has(_actionType))
+                this.currentActions.delete(ActionsNameIds.get(_actionType));
+        }
+        else {
+            if (ActionsIdNames.has(_actionType))
+                this.currentActions.delete(_actionType);
+        }
+    }
+    hasCurrentAction(_actionType) {
+        if (isNaN(_actionType)) {
+            if (ActionsNameIds.has(_actionType))
+                this.currentActions.has(ActionsNameIds.get(_actionType));
+        }
+        else {
+            if (ActionsIdNames.has(_actionType))
+                this.currentActions.has(_actionType);
+        }
+    }
+    
+    sit(_furniture = undefined) {
+        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        
+        this.addCurrentAction("sit");
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("walk");
+        
+        this.furniture = _furniture
+    }
+    lay(_furniture = undefined) {
+        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        
+        this.addCurrentAction("lay");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("walk");
+        
+        this.furniture = _furniture
+    }
+    sleep(_furniture = undefined) {
+        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        
+        this.addCurrentAction("sleep");
+        this.removeCurrentAction("walk");
+        
+        this.furniture = _furniture
+    }
+    stand() {
+        this.addCurrentAction("stand");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("walk");
+        
+        this.furniture = undefined;
+    }
+    walk() {
+        this.addCurrentAction("walk");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        
+        this.furniture = undefined;
     }
     
     wear(_clothing) {
@@ -2573,7 +2656,7 @@ class Furniture extends Entity {
         }
         this.seatingSpace = _seatingSpace;
         this.storageSpace = _storageSpace;
-        this.characters = new Map(); // <Character, Action>
+        this.characters = new Set(); // <Character, Action>
         
         furnitureIndexes.set(_id, this);
     }
@@ -2588,20 +2671,7 @@ class Furniture extends Entity {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
-        if (isNaN(_actionType)) {
-            if (ActionsNameIds.has(_actionType))
-                _actionType = ActionsNameIds.get(_actionType);
-            else
-                _actionType = 2;
-        }
-        else {
-            if (ActionsIdNames.has(_actionType))
-                _actionType = _actionType;
-            else
-                _actionType = 2;
-        }
-        
-        this.characters.set(_character, _actionType);
+        this.characters.add(_character);
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
@@ -2621,40 +2691,28 @@ class Furniture extends Entity {
     }
     
     containsCharacters() {
-        return this.characters.size > 1;
+        return this.characters.size > 0;
     }
     hasCharacters() {
         return containsCharacters();
     }
     
-    seat(_character, _action = "sit") {
-        this.addCharacter(_character, _action);
-    }
-    unseat(_character) {
-        this.removeCharacter(_character);
-    }
-    
-    lie(_character, _action = "lay") {
-        this.addCharacter(_character, _action);
-    }
-    
     availableSeatingSpace() {
         var _charactersSeatingSpaceTotal = this.seatingSpace;
         
-        this.characters.forEach(function(_actionType, _character) {
+        this.characters.forEach(function(_character) {
             var _baseMultiplier = 1;
             
             // If they're laying or fucking, they're taking up double the space.
             // But then, if two people are fucking, then it takes double that... which makes no sense :v
             // So, only include laying. 2017/09/06
             //if (_actionType == 11 || _actionType == 3) {
-            if (_actionType == 3)
-                    _baseMultiplier = 2;
+            if (_character.hasCurrentAction("lay"))
+                _baseMultiplier = 2;
             
             // but what if it's a stoat and a wolf :v
             // wat then :V 2017/09/06
             
-            if (debug) console.log(_charactersSeatingSpaceTotal + " -= " + SpeciesSizeUnits.get(_character.species) + " * " + _baseMultiplier);
             _charactersSeatingSpaceTotal -= SpeciesSizeUnits.get(_character.species) * _baseMultiplier;
         }, this);
         

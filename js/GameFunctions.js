@@ -149,6 +149,8 @@ function moveCharacterToRoom(_character = player, _room) {
     if (debug) console.log("Moving " + _character.id + " from " + _character.room.sid + " to " + _room.sid);
     
     if (_character.room != _room) {
+        walk(_character);
+        
         if (player == _character)
             tick("1m", false);
         
@@ -173,6 +175,8 @@ function moveCharacterToRoom(_character = player, _room) {
                 _event.execute();
             }
         }, this);
+        
+        stand(_character);
     }
 }
 function movePlayerToRoom(_room) {
@@ -333,9 +337,13 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
                 if (characterMovements.size > 0) {
                     characterMovements.forEach(function(_rooms, _character) {
                         if (_rooms.size > 0) {
-                            var _toRoom = _rooms.values().next().value;
-                            moveCharacterToRoom(_character, _toRoom);
-                            _rooms.delete(_toRoom);
+                            var _room = _rooms.values().next().value;
+                            if (!_character.room.isLocked(_room) || _character.hasKey(_room)) {
+                                moveCharacterToRoom(_character, _room);
+                                _rooms.delete(_room);
+                            }
+                            else
+                                characterMovements.delete(_character);
                         }
                         else
                             characterMovements.delete(_character);
@@ -436,14 +444,78 @@ function findPathInCell(_startRoom, _targetRoom) {
     return undefined;
 }
 function sit(_character, _furniture = undefined) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+            _furniture.remove(_character);
+        
+        _character.sit(_furniture);
+        
+        if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species))
+            _furniture.addCharacter(_character);
+    }
 }
 function lay(_character, _furniture = undefined) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+            _furniture.remove(_character);
+        
+        _character.lay(_furniture);
+        
+        if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2)
+            _furniture.addCharacter(_character);
+    }
 }
 function sleep(_character, _furniture = undefined) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+            _furniture.remove(_character);
+        
+        _character.sleep(_furniture);
+        
+        if (_furniture instanceof Furniture) {
+            if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2) {
+                _character.lay(_furniture);
+                _character.sleep(_furniture);
+                
+                _furniture.addCharacter(_character);
+            }
+            else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species)) {
+                _character.sit(_furniture);
+                _character.sleep(_furniture);
+                
+                _furniture.addCharacter(_character);
+            }
+        }
+    }
 }
 function stand(_character) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.furniture instanceof Furniture)
+            _furniture.remove(_character);
+        _character.stand();
+    }
 }
 function walk(_character) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.furniture instanceof Furniture)
+            _furniture.remove(_character);
+        _character.walk();
+    }
 }
 function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character))
@@ -455,6 +527,8 @@ function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (_characterA instanceof Character && _characterB instanceof Character) {
         if (_characterA == _characterB)
             return;
+        
+        stand(_characterB);
         
         if (_characterA.following == _characterB) {
             _characterA.following = undefined;
@@ -475,6 +549,17 @@ function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
             }, this);
             _characterB.followers.clear();
         }
+    }
+}
+function stay() {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (_character instanceof Character) {
+        if (_character.following instanceof Character)
+            _character.following.removeFollower(_character);
+        
+        _character.clearFollowing();
     }
 }
 

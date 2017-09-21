@@ -131,22 +131,19 @@ function characterFollow(_character) {
     if (!(_character instanceof Character))
         _character = characterIndexes.get(_character);
     
-    if (_character.sleeping) {
-        Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronound()));
-    }
-    else {
-        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
-        
-        console.log(player.followers);
-        follow(player, _character);
-        console.log(player.followers);
-    }
-    
-    characterInteract(_character, false);
-    
-    /*fn = new Function(_character.id + "Follow()");
+    fn = new Function(_character.id + "Follow()");
     try {fn();}catch (err) {}
-    Menu.generate();*/
+    
+    Menu.generate();
+}
+function characterStay(_character) {
+    if (!(_character instanceof Character))
+        _character = characterIndexes.get(_character);
+    
+    fn = new Function(_character.id + "Stay()");
+    try {fn();}catch (err) {}
+    
+    Menu.generate();
 }
 
 
@@ -198,7 +195,7 @@ function charlieFollow() {
     else {
         Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
         
-        _character.follow(player);
+        follow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -208,7 +205,7 @@ function charlieStay() {
     
     Content.add("<p>You ask Charlie to wait here, and she nods her head.</p>");
     
-    _character.clearFollowing();
+    stay(_character);
     
     characterInteract(_character, false);
 }
@@ -234,7 +231,7 @@ function remmyFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        _character.follow(player);
+        follow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -267,7 +264,7 @@ function rosieFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        _character.follow(player);
+        follow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -299,7 +296,7 @@ function wolterFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        _character.follow(player);
+        follow(player, _character);
     }
     
     characterInteract(_character, false);

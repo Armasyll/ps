@@ -175,4 +175,6 @@ const ActionsIdNames = new Map();
     ActionsIdNames.set(14, "sex");
     ActionsIdNames.set(15, "attack");
     ActionsIdNames.set(16, "rape");
+    ActionsIdNames.set(17, "stand");
+    ActionsIdNames.set(18, "walk");
 const ActionsNameIds = map_flip(ActionsIdNames);
