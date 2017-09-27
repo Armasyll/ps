@@ -8,6 +8,7 @@ zootopia42ndStreetLocation = new Location("zootopia42ndStreetLocation", "42nd St
 zootopiaPackStreetLocation = new Location("zootopiaPackStreetLocation", "Pack Street");
 zootopia44thStreetLocation = new Location("zootopia44thStreetLocation", "44th Street");
 
+
 alBuildingBasementLocation = new Location("alBuildingBasementLocation", "Basement");
 alBuildingLocation = new Location("alBuildingLocation", "Al's Building");
 alBuildingLobbyLocation = new Location("alBuildingLobbyLocation", "Pack Lobby");
@@ -21,12 +22,15 @@ remmyApartmentLocation = new Location("remmyApartmentLocation", "Remmy's Apartme
 twinsApartmentLocation = new Location("twinsApartmentLocation", "Anneke and Wolter's Apartment");
 weaverApartmentLocation = new Location("weaverApartmentLocation", "Weaver's Apartment");
 
+
 bettyBuildingLocation = new Location("bettyBuildingLocation", "Betty's Building");
+
 
 pandorasBoxLocation = new Location("pandorasBoxLocation", "Pandora's Box");
 pandorasBoxStorefrontLocation = new Location("pandorasBoxStorefrontLocation", "Pandora's Box");
 pandorasBoxGarageLocation = new Location("pandorasBoxGarageLocation", "Pandora's Box");
 pandorasBoxBasementLocation = new Location("pandorasBoxBasementLocation", "Pandora's Box");
 pandorasBoxBasementHiddenLocation = new Location("pandorasBoxBasementHiddenLocation", "Pandora's Box");
+
 
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");

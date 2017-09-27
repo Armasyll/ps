@@ -7,6 +7,8 @@ playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "Lewdy Hopp
 doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.", undefined);
 charlieBeatingHeart = new Item("charlieBeatingHeart", "Charlie's Heart", "The vixen's still-beating heart thrums at a quick pace. It shifts around unnaturally, and feels as though it's pulling you in a specific direction.", charlie);
 charlieLeftEye = new Item("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.", charlie);
+bugBurgaDelux = new Item("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.");
+bugBurga = new Item("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.");
 
 // Clothing
 annekeBlouseBlue = new Clothing("annekeBlouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", anneke, "torso");
