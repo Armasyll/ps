@@ -1917,19 +1917,23 @@ class Room extends Entity {
     /**
      * Creates a new room
      *
-     * param string _id
-     * param string _name
-     * param Room _location
-     * param int _type Integer representing the type of room; 0 - hallway, lobby, bedroom, livingroom, bathroom, kitchen, diningroom, closet, 8 - basement
+     * param string _id, ID
+     * param string _sid, Super ID
+     * param string _name, Display name
+     * param int _type Integer representing the type of room; review RoomTypeIdNames in GameVariables.js
+     * param Cell _cell, Cell
+     * param Location _location, Sub location
      *
      */
-    constructor(_id = undefinend, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
+    constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
         super(_id, _name, "", _location);
         
         /*
             Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
         */
-        this.sid = _id;
+        if (typeof _sid == undefined)
+            _sid = _id;
+        this.sid = _sid;
         
         /*
             attachedRooms is a Map of an int and an array;
