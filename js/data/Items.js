@@ -24,6 +24,7 @@ rosiePantsPatchy = new Clothing("rosiePantsPatchy", "Patchy Pants", "A pair of t
 
 // Keys
 masterKey = new Item("masterKey", "Simple Key", "A simple key.", charlie);
+remmyApartmentLocationKey = new Item("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", remmy);
 alBuildingLocationKey = new Item("alBuildingLocationKey", "Skeleton Key", "Skeleton key for Pack Street.", charlie);
 chartyApartmentLocationKey = new Item("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", [charlie, marty]);
 twinsApartmentLocationKey = new Item("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", [anneke, wolter]);

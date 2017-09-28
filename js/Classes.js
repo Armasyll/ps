@@ -2042,6 +2042,33 @@ class Room extends Entity {
         return this.containsCharacters();
     }
     
+    lock(_room) {
+        if (_room instanceof Room)
+            _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
+        else if (_room >= 0 && _room < 7)
+            _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
+        
+        if (typeof _room == 'undefined')
+            return;
+        
+        var _options = _room.roomsOptions.get(this);
+        _options['isLocked'] = true;
+        _room.roomsOptions.set(this, _options);
+    }
+    unlock(_room) {
+        if (_room instanceof Room)
+            _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
+        else if (_room >= 0 && _room < 7)
+            _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
+        
+        if (typeof _room == 'undefined')
+            return;
+        
+        var _options = _room.roomsOptions.get(this);
+        _options['isLocked'] = false;
+        _room.roomsOptions.set(this, _options);
+    }
+    
     setAttachedRoom(_direction, _room, _options = {}, updateChild = false) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;

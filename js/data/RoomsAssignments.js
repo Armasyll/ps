@@ -255,9 +255,6 @@ bugBurga42ndOrderingCounterA.setSouthRoom(bugBurga42ndOrderingCounterB);
 bugBurga42ndKitchenA.setEastRoom(bugBurga42ndKitchenB);
 bugBurga42ndKitchenB.setSouthRoom(bugBurga42ndBreakRoomA);
 bugBurga42ndBreakRoomA.setWestRoom(bugBurga42ndBreakRoomB);
-bugBurga42ndBathroomM.setWestWall(1);
-bugBurga42ndBathroomF.setNorthWall(1);
-bugBurga42ndBreakRoomA.setNorthWall(1);
 
 // Furniture to Room
 remmyApartmentBathroom.addFurniture(remmyApartmentBathroomTub);

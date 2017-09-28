@@ -207,3 +207,4 @@ charlie.addItem(charlieLeftEye);
 marty.addItem(chartyApartmentLocationKey);
 anneke.addItem(twinsApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
+remmy.addItem(remmyApartmentLocationKey);

@@ -144,17 +144,17 @@ pandorasBoxBasementHiddenBathroom = new Room("pandorasBoxBasementHiddenBathroom"
 
 // bugBurga42nd
 console.log("\tInitializing bugBurga42nd");
-bugBurga42ndDiningA = new Room("bugBurga42ndDiningA", "bugBurga42ndDining", "Dining Area", undefined, bugBurga42ndCell);
-bugBurga42ndDiningB = new Room("bugBurga42ndDiningB", "bugBurga42ndDining", "Dining Area", undefined, bugBurga42ndCell);
-bugBurga42ndDiningC = new Room("bugBurga42ndDiningC", "bugBurga42ndDining", "Dining Area", undefined, bugBurga42ndCell);
-bugBurga42ndDiningD = new Room("bugBurga42ndDiningD", "bugBurga42ndDining", "Dining Area", undefined, bugBurga42ndCell);
+bugBurga42ndDiningA = new Room("bugBurga42ndDiningA", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
+bugBurga42ndDiningB = new Room("bugBurga42ndDiningB", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
+bugBurga42ndDiningC = new Room("bugBurga42ndDiningC", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
+bugBurga42ndDiningD = new Room("bugBurga42ndDiningD", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
 bugBurga42ndOrderingCounterA = new Room("bugBurga42ndOrderingCounterA", "bugBurga42ndOrderingCounter", "Checkout", undefined, bugBurga42ndCell);
 bugBurga42ndOrderingCounterB = new Room("bugBurga42ndOrderingCounterB", "bugBurga42ndOrderingCounter", "Checkout", undefined, bugBurga42ndCell);
-bugBurga42ndKitchenA = new Room("bugBurga42ndKitchenA", "bugBurga42ndKitchen", "Kitchen", undefined, bugBurga42ndCell);
-bugBurga42ndKitchenB = new Room("bugBurga42ndKitchenB", "bugBurga42ndKitchen", "Kitchen", undefined, bugBurga42ndCell);
-bugBurga42ndBathroomM = new Room("bugBurga42ndBathroomM", undefined, "Male Bathroom", undefined, bugBurga42ndCell);
-bugBurga42ndBathroomF = new Room("bugBurga42ndBathroomF", undefined, "Female Bathroom", undefined, bugBurga42ndCell);
-bugBurga42ndBreakRoomA = new Room("bugBurga42ndBreakRoomA", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell);
-bugBurga42ndBreakRoomB = new Room("bugBurga42ndBreakRoomB", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell);
+bugBurga42ndKitchenA = new Room("bugBurga42ndKitchenA", "bugBurga42ndKitchen", "Kitchen", "kitchen", bugBurga42ndCell, bugBurga42ndKitchenLocation);
+bugBurga42ndKitchenB = new Room("bugBurga42ndKitchenB", "bugBurga42ndKitchen", "Kitchen", "kitchen", bugBurga42ndCell, bugBurga42ndKitchenLocation);
+bugBurga42ndBathroomM = new Room("bugBurga42ndBathroomM", undefined, "Male Bathroom", "bathroom", bugBurga42ndCell);
+bugBurga42ndBathroomF = new Room("bugBurga42ndBathroomF", undefined, "Female Bathroom", "bathroom", bugBurga42ndCell);
+bugBurga42ndBreakRoomA = new Room("bugBurga42ndBreakRoomA", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell, bugBurga42ndBreakRoomLocation);
+bugBurga42ndBreakRoomB = new Room("bugBurga42ndBreakRoomB", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell, bugBurga42ndBreakRoomLocation);
 
 if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");
