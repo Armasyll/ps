@@ -60,19 +60,19 @@ alBuildingFirstFloorHallwayB = new Room("alBuildingFirstFloorHallwayB", "alBuild
 alBuildingFirstFloorHallwayC = new Room("alBuildingFirstFloorHallwayC", "alBuildingFirstFloorHallway", "Lobby", "lobby", alBuildingFirstFloor, alBuildingLobbyLocation);
 alBuildingFirstFloorHallwayD = new Room("alBuildingFirstFloorHallwayD", "alBuildingFirstFloorHallway", "Lobby", "lobby", alBuildingFirstFloor, alBuildingLobbyLocation);
 
-alBuildingMaintenanceA = new Room("alBuildingMaintenanceA", "alBuildingMaintenance", "Maintenance", 7, alBuildingFirstFloor, alBuildingMaintenanceLocation);
-alBuildingMaintenanceB = new Room("alBuildingMaintenanceB", "alBuildingMaintenance", "Maintenance", 7, alBuildingFirstFloor, alBuildingMaintenanceLocation);
-alBuildingMaintenanceC = new Room("alBuildingMaintenanceC", "alBuildingMaintenance", "Maintenance", 7, alBuildingFirstFloor, alBuildingMaintenanceLocation);
-alBuildingMaintenanceD = new Room("alBuildingMaintenanceD", "alBuildingMaintenance", "Maintenance", 7, alBuildingFirstFloor, alBuildingMaintenanceLocation);
+alBuildingMaintenanceA = new Room("alBuildingMaintenanceA", "alBuildingMaintenance", "Maintenance", "closet", alBuildingFirstFloor, alBuildingMaintenanceLocation);
+alBuildingMaintenanceB = new Room("alBuildingMaintenanceB", "alBuildingMaintenance", "Maintenance", "closet", alBuildingFirstFloor, alBuildingMaintenanceLocation);
+alBuildingMaintenanceC = new Room("alBuildingMaintenanceC", "alBuildingMaintenance", "Maintenance", "closet", alBuildingFirstFloor, alBuildingMaintenanceLocation);
+alBuildingMaintenanceD = new Room("alBuildingMaintenanceD", "alBuildingMaintenance", "Maintenance", "closet", alBuildingFirstFloor, alBuildingMaintenanceLocation);
 
-ozzyApartmentLivingroom = new Room("ozzyApartmentLivingroom", undefined, "Livingroom", 3, alBuildingFirstFloor, ozzyApartmentLocation);
-ozzyApartmentBathroom = new Room("ozzyApartmentBathroom", undefined, "Bathroom", 4, alBuildingFirstFloor, ozzyApartmentLocation);
-ozzyApartmentBedroom = new Room("ozzyApartmentBedroom", undefined, "Bedroom", 2, alBuildingFirstFloor, ozzyApartmentLocation);
+ozzyApartmentLivingroom = new Room("ozzyApartmentLivingroom", undefined, "Livingroom", "livingroom", alBuildingFirstFloor, ozzyApartmentLocation);
+ozzyApartmentBathroom = new Room("ozzyApartmentBathroom", undefined, "Bathroom", "bathroom", alBuildingFirstFloor, ozzyApartmentLocation);
+ozzyApartmentBedroom = new Room("ozzyApartmentBedroom", undefined, "Bedroom", "bedroom", alBuildingFirstFloor, ozzyApartmentLocation);
 
-weaverApartmentLivingroom = new Room("weaverApartmentLivingroom", undefined, "Livingroom", 3, alBuildingFirstFloor, weaverApartmentLocation);
-weaverApartmentBathroom = new Room("weaverApartmentBathroom", undefined, "Bathroom", 4, alBuildingFirstFloor, weaverApartmentLocation);
-weaverApartmentBedroomA = new Room("weaverApartmentBedroomA", undefined, "Bedroom", 2, alBuildingFirstFloor, weaverApartmentLocation);
-weaverApartmentBedroomB = new Room("weaverApartmentBedroomB", undefined, "Bedroom", 2, alBuildingFirstFloor, weaverApartmentLocation);
+weaverApartmentLivingroom = new Room("weaverApartmentLivingroom", undefined, "Livingroom", "livingroom", alBuildingFirstFloor, weaverApartmentLocation);
+weaverApartmentBathroom = new Room("weaverApartmentBathroom", undefined, "Bathroom", "bathroom", alBuildingFirstFloor, weaverApartmentLocation);
+weaverApartmentBedroomA = new Room("weaverApartmentBedroomA", undefined, "Bedroom", "bedroom", alBuildingFirstFloor, weaverApartmentLocation);
+weaverApartmentBedroomB = new Room("weaverApartmentBedroomB", undefined, "Bedroom", "bedroom", alBuildingFirstFloor, weaverApartmentLocation);
 
 alBuildingSecondFloorHallwayA = new Room("alBuildingSecondFloorHallwayA", "alBuildingSecondFloorHallway", "Hallway", "hallway", alBuildingSecondFloor);
 alBuildingSecondFloorHallwayB = new Room("alBuildingSecondFloorHallwayB", "alBuildingSecondFloorHallway", "Hallway", "hallway", alBuildingSecondFloor);
