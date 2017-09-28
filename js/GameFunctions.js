@@ -180,6 +180,7 @@ function moveCharacterToRoom(_character = player, _room) {
     }
 }
 function movePlayerToRoom(_room) {
+    characterMovements.delete(player);
     moveCharacterToRoom(player, _room);
     if (enableMinimap)
         Minimap.generateMapFromStartRoom(player.room);
