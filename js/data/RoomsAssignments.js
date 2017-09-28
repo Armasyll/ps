@@ -19,6 +19,7 @@ zootopiaPackStreet10.setWestRoom(zootopia44thStreet06);
 // Zootopia, 42nd Street
 zootopia42ndStreet06.setNorthRoom(zootopia42ndStreet05);
 zootopia42ndStreet05.setNorthRoom(zootopia42ndStreet04);
+zootopia42ndStreet05.setEastRoom(bugBurga42ndDiningA);
 zootopia42ndStreet04.setNorthRoom(zootopia42ndStreet03);
 zootopia42ndStreet03.setNorthRoom(zootopia42ndStreet02);
 zootopia42ndStreet02.setNorthRoom(zootopia42ndStreet01);
@@ -239,6 +240,24 @@ pandorasBoxBasementHiddenBedroom.floorImage = woodenFloorDark01;
 pandorasBoxBasementHiddenBedroom.rugImage = redRugCenter01;
 pandorasBoxBasementHiddenBedroom.addFurniture(pandorasBoxBasementHiddenBed);
 pandorasBoxBasementHiddenBathroom.floorImage = checkerLinoleumFloor01;
+
+
+// bugBurga42nd
+bugBurga42ndDiningA.setEastRoom(bugBurga42ndOrderingCounterA);
+bugBurga42ndDiningA.setSouthRoom(bugBurga42ndDiningB);
+bugBurga42ndDiningB.setEastRoom(bugBurga42ndOrderingCounterB);
+bugBurga42ndDiningB.setSouthRoom(bugBurga42ndDiningC);
+bugBurga42ndDiningC.setEastRoom(bugBurga42ndDiningD);
+bugBurga42ndDiningD.setEastRoom(bugBurga42ndBathroomM);
+bugBurga42ndDiningD.setSouthRoom(bugBurga42ndBathroomF);
+bugBurga42ndOrderingCounterA.setEastRoom(bugBurga42ndKitchenA);
+bugBurga42ndOrderingCounterA.setSouthRoom(bugBurga42ndOrderingCounterB);
+bugBurga42ndKitchenA.setEastRoom(bugBurga42ndKitchenB);
+bugBurga42ndKitchenB.setSouthRoom(bugBurga42ndBreakRoomA);
+bugBurga42ndBreakRoomA.setWestRoom(bugBurga42ndBreakRoomB);
+bugBurga42ndBathroomM.setWestWall(1);
+bugBurga42ndBathroomF.setNorthWall(1);
+bugBurga42ndBreakRoomA.setNorthWall(1);
 
 // Furniture to Room
 remmyApartmentBathroom.addFurniture(remmyApartmentBathroomTub);

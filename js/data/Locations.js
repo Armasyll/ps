@@ -33,4 +33,11 @@ pandorasBoxBasementLocation = new Location("pandorasBoxBasementLocation", "Pando
 pandorasBoxBasementHiddenLocation = new Location("pandorasBoxBasementHiddenLocation", "Pandora's Box");
 
 
+bugBurga42ndLocation = new Location("bugBurga42ndLocation", "Bug Burga");
+bugBurga42ndDiningLocation = new Location("bugBurga42ndDiningLocation", "Dining Area");
+bugBurga42ndOrderingCounterLocation = new Location("bugBurga42ndOrderingCounterLocation", "Checkout Counter");
+bugBurga42ndKitchenLocation = new Location("bugBurga42ndKitchenLocation", "Kitchen");
+bugBurga32ndBreakRoomLocation = new Location("bugBurga42ndBreakRoomLocation", "Break Room");
+
+
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");

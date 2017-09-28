@@ -50,6 +50,7 @@ var blackRugCenter01 = new Image(); blackRugCenter01.src = 'images/blackRugCente
 var blackRugEast01 = new Image(); blackRugEast01.src = 'images/blackRugEast01.svg';
 var blackRugWest01 = new Image(); blackRugWest01.src = 'images/blackRugWest01.svg';
 var checkerLinoleumFloor01 = new Image(); checkerLinoleumFloor01.src = 'images/checkerLinoleumFloor01.svg';
+var checkerLinoleumFloor02 = new Image(); checkerLinoleumFloor02.src = 'images/checkerLinoleumFloor02.svg';
 
 var streetUpRightDown01 = new Image(); streetUpRightDown01.src = 'images/streetUpRightDown01.svg';
 var streetUpCRightDown01 = new Image(); streetUpCRightDown01.src = 'images/streetUpCRightDown01.svg';

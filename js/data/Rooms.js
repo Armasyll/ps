@@ -2,6 +2,7 @@ if (debug) console.log("Initializing Rooms");
 
 limbo = new Room("limbo", "Limbo", 0, limboCell, limboLocation);
 
+// Zootopia
 zootopia42ndStreet01 = new Room("zootopia42ndStreet01", "1 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet02 = new Room("zootopia42ndStreet02", "2 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet03 = new Room("zootopia42ndStreet03", "3 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
@@ -193,5 +194,19 @@ pandorasBoxBasementC.sid = "pandorasBoxBasement";
 pandorasBoxBasementD.sid = "pandorasBoxBasement";
 pandorasBoxBasementE.sid = "pandorasBoxBasement";
 pandorasBoxBasementF.sid = "pandorasBoxBasement";
+
+// bugBurga42nd
+bugBurga42ndDiningA = new Room("bugBurga42ndDiningA", "Dining Area", undefined, bugBurga42ndCell);
+bugBurga42ndDiningB = new Room("bugBurga42ndDiningB", "Dining Area", undefined, bugBurga42ndCell);
+bugBurga42ndDiningC = new Room("bugBurga42ndDiningC", "Dining Area", undefined, bugBurga42ndCell);
+bugBurga42ndDiningD = new Room("bugBurga42ndDiningD", "Dining Area", undefined, bugBurga42ndCell);
+bugBurga42ndOrderingCounterA = new Room("bugBurga42ndOrderingCounterA", "Checkout", undefined, bugBurga42ndCell);
+bugBurga42ndOrderingCounterB = new Room("bugBurga42ndOrderingCounterB", "Checkout", undefined, bugBurga42ndCell);
+bugBurga42ndKitchenA = new Room("bugBurga42ndKitchenA", "Kitchen", undefined, bugBurga42ndCell);
+bugBurga42ndKitchenB = new Room("bugBurga42ndKitchenB", "Kitchen", undefined, bugBurga42ndCell);
+bugBurga42ndBathroomM = new Room("bugBurga42ndBathroomM", "Male Bathroom", undefined, bugBurga42ndCell);
+bugBurga42ndBathroomF = new Room("bugBurga42ndBathroomF", "Female Bathroom", undefined, bugBurga42ndCell);
+bugBurga42ndBreakRoomA = new Room("bugBurga42ndBreakRoomA", "Break Room", undefined, bugBurga42ndCell);
+bugBurga42ndBreakRoomB = new Room("bugBurga42ndBreakRoomB", "Break Room", undefined, bugBurga42ndCell);
 
 if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");

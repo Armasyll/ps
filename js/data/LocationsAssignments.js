@@ -21,3 +21,5 @@ pandorasBoxLocation.addOwner(pandora);
 pandorasBoxGarageLocation.addOwner(pandora);
 pandorasBoxStorefrontLocation.floorImage = woodenFloorDark01;
 pandorasBoxGarageLocation.floorImage = stoneFloor01;
+
+bugBurga42ndLocation.floorImage = checkerLinoleumFloor02;

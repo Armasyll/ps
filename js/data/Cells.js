@@ -18,4 +18,6 @@ pandorasBoxCell = new Cell("pandorasBoxCell", "Store", pandorasBoxLocation);
 pandorasBoxBasementCell = new Cell("pandorasBoxBasementCell", "Basement", pandorasBoxBasementLocation);
 pandorasBoxBasementHiddenCell = new Cell("pandorasBoxBasementHiddenCell", "Basement", pandorasBoxBasementHiddenLocation);
 
+bugBurga42ndCell = new Cell("bugBurga42ndCell", "Bug Burga", bugBurga42ndLocation);
+
 if (debug) console.log("\tInitialized " + cellsIndexes.size + " Cells.");
