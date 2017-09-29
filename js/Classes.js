@@ -2071,7 +2071,7 @@ class Room extends Entity {
         _room.roomsOptions.set(this, _options);
     }
     
-    setAttachedRoom(_direction, _room, _options = {}, updateChild = false) {
+    setAttachedRoom(_direction, _room, _options = {}, _updateChild = false) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
         
@@ -2180,7 +2180,7 @@ class Room extends Entity {
             }
         }
         
-        if (updateChild) {
+        if (_updateChild) {
             var _inversedDirection = 6;
             var __options = {};
             
@@ -2218,26 +2218,26 @@ class Room extends Entity {
                 _room.setAttachedRoom(_inversedDirection, this, __options);
         }
     }
-    setNorthRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(0, room, _options, updateChild);
+    setNorthRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(0, _room, _options, _updateChild);
     }
-    setEastRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(1, room, _options, updateChild);
+    setEastRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(1, _room, _options, _updateChild);
     }
-    setSouthRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(2, room, _options, updateChild);
+    setSouthRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(2, _room, _options, _updateChild);
     }
-    setWestRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(3, room, _options, updateChild);
+    setWestRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(3, _room, _options, _updateChild);
     }
-    setDownRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(4, room, _options, updateChild);
+    setDownRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(4, _room, _options, _updateChild);
     }
-    setUpRoom(room, _options = undefined, updateChild = true) {
-        this.setAttachedRoom(5, room, _options, updateChild);
+    setUpRoom(_room, _options = undefined, _updateChild = true) {
+        this.setAttachedRoom(5, _room, _options, _updateChild);
     }
-    unsetAttachedRoom(direction, updateChild = true, unsetRoom = 0) {
-        switch(direction) {
+    unsetAttachedRoom(_direction, _updateChild = true, _unsetRoom = false) {
+        switch(_direction) {
             case 0 : {
                 this.northSide = 3;
                 break;
@@ -2256,17 +2256,17 @@ class Room extends Entity {
             }
         }
         
-        if (this.attachedRooms.get(direction).cell != this.cell) {
+        if (this.attachedRooms.get(_direction).cell != this.cell) {
             this.gateway = false;
             this.cell.gateways.delete(this);
             
-            this.cell.cells.delete(this.attachedRooms.get(direction).cell);
+            this.cell.cells.delete(this.attachedRooms.get(_direction).cell);
         }
         
-        if (updateChild) {
+        if (_updateChild) {
             var inversedDirection = 4;
             
-            switch (direction) {
+            switch (_direction) {
                 case 0: {
                     inversedDirection = 2;
                     break;
@@ -2296,39 +2296,39 @@ class Room extends Entity {
                 }
             }
             
-            if (this.attachedRooms.get(direction).cell != this.cell) {
-                this.attachedRooms.get(direction).gateway = false;
-                this.attachedRooms.get(direction).cell.gateways.delete(this.attachedRooms.get(direction));
+            if (this.attachedRooms.get(_direction).cell != this.cell) {
+                this.attachedRooms.get(_direction).gateway = false;
+                this.attachedRooms.get(_direction).cell.gateways.delete(this.attachedRooms.get(_direction));
                 
-                this.attachedRooms.get(direction).cell.cells.delete(this.cell);
+                this.attachedRooms.get(_direction).cell.cells.delete(this.cell);
             }
             
             if (inversedDirection < 6)
-                this.attachedRooms.get(direction).unsetAttachedRoom(inversedDirection);
+                this.attachedRooms.get(_direction).unsetAttachedRoom(inversedDirection);
         }
         
-        this.attachedRooms.delete(direction);
+        this.attachedRooms.delete(_direction);
         
-        if (unsetRoom)
-            this.unsetRoom(room);
+        if (_unsetRoom)
+            this.unsetRoom(this.attachedRooms.get(_direction));
     }
-    unsetNorthRoom(updateChild = true) {
-        this.unsetAttachedRoom(0, updateChild);
+    unsetNorthRoom(_updateChild = true) {
+        this.unsetAttachedRoom(0, _updateChild);
     }
-    unsetEastRoom(updateChild = true) {
-        this.unsetAttachedRoom(1, updateChild);
+    unsetEastRoom(_updateChild = true) {
+        this.unsetAttachedRoom(1, _updateChild);
     }
-    unsetSouthRoom(updateChild = true) {
-        this.unsetAttachedRoom(2, updateChild);
+    unsetSouthRoom(_updateChild = true) {
+        this.unsetAttachedRoom(2, _updateChild);
     }
-    unsetWestRoom(updateChild = true) {
-        this.unsetAttachedRoom(3, updateChild);
+    unsetWestRoom(_updateChild = true) {
+        this.unsetAttachedRoom(3, _updateChild);
     }
-    unsetDownRoom(updateChild = true) {
-        this.unsetAttachedRoom(4, updateChild);
+    unsetDownRoom(_updateChild = true) {
+        this.unsetAttachedRoom(4, _updateChild);
     }
-    unsetUpRoom(updateChild = true) {
-        this.unsetAttachedRoom(5, updateChild);
+    unsetUpRoom(_updateChild = true) {
+        this.unsetAttachedRoom(5, _updateChild);
     }
     clearAttachedRooms() {
         this.attachedRooms.clear();
