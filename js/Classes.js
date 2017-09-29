@@ -1831,6 +1831,8 @@ class Cell {
         this.setLocation(_location);
         this.grid = []; // <X,Y> = Room
         this.rooms = new Set();
+        this.cells = new Set();
+        this.gateways = new Map();
         
         this.floorImage = undefined;
         this.backgroundImage = undefined; // for minimap
@@ -2100,6 +2102,13 @@ class Room extends Entity {
             this.mappedToGrid = true;
         }
         
+        if (_room.cell != this.cell) {
+            this.gateway = true;
+            this.cell.gateways.set(this, _room);
+            
+            this.cell.cells.add(_room.cell);
+        }
+        
         switch(_direction) {
             case 0 : {
                 if (this.roomsOptions.get(_room)['isLocked'])
@@ -2247,6 +2256,13 @@ class Room extends Entity {
             }
         }
         
+        if (this.attachedRooms.get(direction).cell != this.cell) {
+            this.gateway = false;
+            this.cell.gateways.delete(this);
+            
+            this.cell.cells.delete(this.attachedRooms.get(direction).cell);
+        }
+        
         if (updateChild) {
             var inversedDirection = 4;
             
@@ -2280,12 +2296,19 @@ class Room extends Entity {
                 }
             }
             
+            if (this.attachedRooms.get(direction).cell != this.cell) {
+                this.attachedRooms.get(direction).gateway = false;
+                this.attachedRooms.get(direction).cell.gateways.delete(this.attachedRooms.get(direction));
+                
+                this.attachedRooms.get(direction).cell.cells.delete(this.cell);
+            }
+            
             if (inversedDirection < 6)
                 this.attachedRooms.get(direction).unsetAttachedRoom(inversedDirection);
-            
         }
         
         this.attachedRooms.delete(direction);
+        
         if (unsetRoom)
             this.unsetRoom(room);
     }
