@@ -165,6 +165,7 @@ function moveCharacterToRoom(_character = player, _room) {
             }, this);
         }
         
+        if (debug) console.log("Checking for room events.");
         eventsIndexes.forEach(function(_event) {
             if (
                 typeof _event.cron == 'undefined' &&
@@ -255,18 +256,21 @@ function moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu = false) {
     
     if (_fromEntity instanceof Entity && _toEntity instanceof Entity) {
         _fromEntity.removeItem(_item);
+        if (debug) console.log("Checking for item removal events");
         eventsIndexes.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity))
                 _event.execute();
         }, this);
         
         if (!(_fromEntity.containsItem(_item))) {
+            if (debug) console.log("Checking for item given events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
                     _event.execute();
             }, this);
             
             _toEntity.addItem(_item);
+            if (debug) console.log("Checking for item taken events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
                     _event.execute();
@@ -335,6 +339,8 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
                 }
             }
             
+            if (debug) console.log("Checking for cron events.");
+            
             eventsIndexes.forEach(function(_event) {
                 if (
                     _event.cron instanceof Cron &&
@@ -364,6 +370,8 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
         Minimap.generateMapFromStartRoom(player.room);
     if (_runLastMenu)
         runLastMenu();
+    
+    eventsExecutedThisTick.clear();
     return currentTime;
 }
 function findPathInCell(_startRoom, _targetRoom) {

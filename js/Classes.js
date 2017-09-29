@@ -2891,6 +2891,9 @@ class GameEvent {
     }
     
     execute() {
+        if (eventsExecutedThisTick.has(this))
+            return;
+        
         if (debug) console.log("Executing " + this.id);
         var fn = new Function(this.nextFunction);
         try {fn();}catch (err) {}
@@ -2898,5 +2901,7 @@ class GameEvent {
         if (this.runOnce) {
             eventsIndexes.delete(this.id);
         }
+        
+        eventsExecutedThisTick.add(this);
     }
 }
