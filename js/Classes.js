@@ -1255,10 +1255,6 @@ class Character extends Entity {
             _clothing = itemsIndexes.get(_clothing);
         
         if (_clothing instanceof Clothing) {
-            if (_clothing.container instanceof Character) {
-                _clothing.container.takeOff(_clothing);
-            }
-            
             switch (_clothing.bodyPart) {
                 case 0 : this.clothingHead = _clothing; break;
                 case 1 : this.clothingEyes = _clothing; break;
@@ -1275,7 +1271,7 @@ class Character extends Entity {
                 case 12 : this.clothingLegs = _clothing; break;
                 case 13 : this.clothingFeet = _clothing; break;
             }
-            _clothing.container = this;
+            
             this.items.add(_clothing);
         }
     }
@@ -2409,12 +2405,6 @@ class Room extends Entity {
         
         _furniture.room = this;
         this.furniture.add(_furniture);
-        
-        if (_furniture.items.size > 0) {
-            _furniture.items.forEach(function(_item) {
-                _item.container.room.items.add(_item);
-            });
-        }
     }
     removeFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
@@ -2422,12 +2412,6 @@ class Room extends Entity {
         
         _furniture.room = undefined;
         this.furniture.delete(_furniture);
-        
-        if (_furniture.items.size > 0) {
-            _furniture.items.forEach(function(_item) {
-                _item.container.room.items.delete(_item);
-            });
-        }
     }
     
     containsFurniture(_furniture) {
@@ -2595,15 +2579,8 @@ class Room extends Entity {
 }
 
 class Item extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined, _container = undefined) {
-        super(_id, _name, _description, _owner);
-        
-        if (_container instanceof Room || _container instanceof Character || _container instanceof Furniture)
-            this.container = _container;
-        this.previousContainer = undefined;
-        
-        if (_container instanceof Furniture && _container.room instanceof Room)
-            this.room = _container.room;
+    constructor(_id = undefined, _name = undefined, _description = undefined) {
+        super(_id, _name, _description);
         
         this.image = "images/items/genericItem.svg";
         
@@ -2611,20 +2588,14 @@ class Item extends Entity {
     }
     
     moveToEntity(_entity) {
-        if (this.container instanceof Furniture || this.container instanceof Room || this.container instanceof Character)
-            this.container.room.items.delete(this);
-        
         if (_entity instanceof Character)
             return this.moveToCharacter(_entity);
         else if (_entity instanceof Furniture)
             return this.moveToFurniture(_entity);
         else if (_entity instanceof Room)
             return this.moveToRoom(_entity);
-        else if (typeof _entity == 'undefined') {
-            this.previousContainer = this.container;
-            this.container = undefined;
+        else if (typeof _entity == 'undefined')
             return true;
-        }
         else
             return false;
     }
@@ -2633,9 +2604,6 @@ class Item extends Entity {
             _furniture = furnitureIndexes.get(_furniture);
         
         if (_furniture instanceof Furniture) {
-            this.previousContainer = this.container;
-            this.container = _furniture;
-
             if (_furniture.room instanceof Room)
                 this.room = _furniture.room;
             else
@@ -2651,9 +2619,6 @@ class Item extends Entity {
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
         if (_character instanceof Character) {
-            this.previousContainer = this.container;
-            this.container = _character;
-            
             if (_character.room instanceof Room)
                 this.room = _character.room;
             else
@@ -2669,9 +2634,6 @@ class Item extends Entity {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
         
         if (_room instanceof Room) {
-            this.previousContainer = this.container;
-            this.container = _room;
-            
             this.room = _room;
             
             return true;
@@ -2684,8 +2646,8 @@ class Item extends Entity {
     }
 }
 class Clothing extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined, _bodyPart = undefined) {
-        super(_id, _name, _description, _owner);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined) {
+        super(_id, _name, _description);
         if (isNaN(_bodyPart))
             _bodyPart = BodyPartNameIds.get(_bodyPart);
         this.bodyPart = _bodyPart;
@@ -2929,6 +2891,7 @@ class GameEvent {
     }
     
     execute() {
+        if (debug) console.log("Executing " + this.id);
         var fn = new Function(this.nextFunction);
         try {fn();}catch (err) {}
         

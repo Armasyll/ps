@@ -117,7 +117,7 @@ function moveItemComplex(_item = undefined, _fromEntity = undefined, _toEntity =
     }
     
     if (_fromEntity.containsItem(_item))
-        return moveItemToEntity(_item, _toEntity, false);
+        return moveItemToEntity(_item, _fromEntity, _toEntity, false);
     else
         return false;
 }
@@ -249,37 +249,29 @@ function moveCharacterInDirection(_character, _direction) {
         }
     }
 }
-function moveItemToEntity(_item, _entity, _useLastMenu = false) {
+function moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu = false) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     
-    if (_entity instanceof Entity) {
-        if (_item.container instanceof Entity) {
-            if (_item.container instanceof Character) {
-                if (_item instanceof Clothing && _item.container.wearing(_item)) {
-                    if (_item.container.age < 18)
-                        return false;
-                    else
-                        _item.container.takeOff(_item);
-                }
-            }
-            _item.container.removeItem(_item);
-            
+    if (_fromEntity instanceof Entity && _toEntity instanceof Entity) {
+        _fromEntity.removeItem(_item);
+        eventsIndexes.forEach(function(_event) {
+            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity))
+                _event.execute();
+        }, this);
+        
+        if (!(_fromEntity.containsItem(_item))) {
             eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _entity))
+                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
+                    _event.execute();
+            }, this);
+            
+            _toEntity.addItem(_item);
+            eventsIndexes.forEach(function(_event) {
+                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
                     _event.execute();
             }, this);
         }
-        
-        _entity.addItem(_item);
-        eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _entity))
-                _event.execute();
-        }, this);
-        eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _entity))
-                _event.execute();
-        }, this);
     }
     
     if (_useLastMenu) {
@@ -288,17 +280,8 @@ function moveItemToEntity(_item, _entity, _useLastMenu = false) {
     }
     return true;
 }
-function moveItemToPlayer(_item) {
-    moveItemToEntity(_item, player, true);
-}
-function moveItemToCharacter(_item, _character = player, _useLastMenu = true) {
-    moveItemToEntity(_item, _character, _useLastMenu);
-}
-function moveItemToFurniture(_item, _furniture, _useLastMenu = true) {
-    moveItemToEntity(_item, _furniture, _useLastMenu);
-}
-function moveItemToRoom(_item, _room, _useLastMenu = true) {
-    moveItemToEntity(_item, _room, _useLastMenu);
+function moveItemToPlayer(_item, _fromEntity) {
+    moveItemToEntity(_item, _fromEntity, player, true);
 }
 function tick(time, _updateMinimap = false, _runLastMenu = true) {
     var _newTime = new Date(currentTime);
