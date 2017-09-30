@@ -10,7 +10,7 @@ function characterInteract(_character, _clearContent = true) {
     lastMenu = "characterInteract(" + _character.id + ",false,true)";
     
     Title.set(
-        _character.name + " in " + player.room.name, 
+        _character.name, 
         _character.image, 
         (typeof player.room.location !== 'undefined' ? player.room.location.name : "&nbsp;"), 
         (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")

@@ -42,9 +42,30 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-            
             .button-title:first-letter {
                 text-transform: uppercase;
+            }
+            .inventoryItemContainer {
+                display:inline-block;
+                background-color: white;
+                border-radius: 4px;
+                margin: 1em;
+                padding: 0.25em;
+                width:12em;
+                max-width:12em;
+                height:21em;
+                max-height:21em;
+                vertical-align:top;
+            }
+            .inventoryItemContainer > img {
+                border:0.1em solid white;
+                background-color:white;
+                border-radius:0.5em;
+                max-height: 5em;
+                margin-left:auto;
+                margin-right:auto;
+                display:block;
+                vertical-align:top;
             }
             
             #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
@@ -203,7 +224,7 @@
                                 <img src='images/characters/Armasyll.svg'/>
                             </div>
                         </div>
-                        <div class="locationTitleTopText trim text-center">Pack Street Simulator</div>
+                        <div class="locationTitleTopText text-center">Pack Street Simulator</div>
                         <div class="locationTitleMid trim text-center">by Armasyll</div>
                         <div class="locationTitleBot trim text-center">&nbsp;</div>
                     </div>
