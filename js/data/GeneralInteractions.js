@@ -152,8 +152,18 @@ function rosieGiveCharlieHeartFlee() {
     else
         charlie.moveTo(limbo);
     
+    
     characterTakeOver(charlie, rosie);
+    
+    charlie.removeItem(charlieBeatingHeart);
+    charlie.removeItem(charlieLeftEye);
     rosie.moveTo(limbo);
+    
+    charlie.sleeping = false;
+    charlie.alive = true;
+    characterStand(charlie);
+    
+    tick("1m", true, false);
 }
 function rosieGiveCharlieHeartStay() {
     moveCharacterToRoom(charlie, rosie.room);
@@ -187,8 +197,15 @@ function rosieGiveCharlieHeartStay() {
     Content.add("<p>While she sits up and brushes her fur down with a paw, you just shrug. \"Your heart only started acting funny when I got close to Rosie.'\" An empty Bug Burga box slaps you against the face.</p>");
     Content.add("<p>A scowl was fixed on Rosie's face as her eyes drifted to Charlie's normal resting squint. Rosie continued, \"It has fleas, a terrible diet,\" and examined her claws, \"and an in-grown claw.\"</p>");
     
-    
+    charlie.removeItem(charlieBeatingHeart);
+    charlie.removeItem(charlieLeftEye);
     rosie.moveTo(limbo);
+    
+    charlie.sleeping = false;
+    charlie.alive = true;
+    characterStand(charlie);
+    
+    tick("1m", true, false);
     
     Menu.clear();
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");

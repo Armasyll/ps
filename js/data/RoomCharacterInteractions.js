@@ -26,14 +26,14 @@ function alBuildingBasementRosieTalk() {
 function alBuildingSecondFloorHallwayCharlie() {
     _character = charlie;
     
-    Content.add("<p>You look at Charlie as you stand in " + player.room.name + "</p>");
+    Content.add("<p>You look at {0} as you stand in {1}</p>".format(_character.name, player.room.name));
 }
 function alBuildingSecondFloorHallwayCharlieTalk() {
     _character = charlie;
     
     Content.clear();
     
-    Content.add("<p>You talk to Charlie as you stand in " + player.room.name + "</p>");
+    Content.add("<p>You talk to {0} as you stand in {1}</p>".format(_character.name, player.room.name));
 }
 function alBuildingSecondFloorHallwayCharlieSex() {
     _character = charlie;
@@ -41,7 +41,7 @@ function alBuildingSecondFloorHallwayCharlieSex() {
     Content.clear();
     
     _blob = "";
-    _blob += ("Before you even ask about fucking, Charlie leans over the corner of the stair post, then looks up and down the flights of stairs. You peer over with her, and can't see anyone coming or going.</p>");
+    _blob += ("Before you even ask about fucking, {0} leans over the corner of the stair post, then looks up and down the flights of stairs. You peer over with her, and can't see anyone coming or going.</p>".format(_character.name));
     if (charlie.hasPants && charlie.hasPanties)
         _blob += ("<p>Undoing her pants, she tugs them down, along with her panties, and lifts her tail up. Widening her stance, she exposes her bare ass and pussy to you.");
     else if (charlie.hasPants && !charlie.hasPanties)
@@ -87,7 +87,7 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
     Content.clear();
     
     if (charlie['annoyed'] >= 6) {
-        Content.add("Charlie leaps from her window, and falls to her death two stories down.");
+        Content.add("{0} leaps from her window, and falls to her death two stories down.".format(_character.name));
         Content.add("You somehow obtain " + charlieBeatingHeart.toString() + " and " + charlieLeftEye.toString() + ".");
         charlie.living = false;
         moveCharacterToRoom(charlie, limbo);
@@ -134,7 +134,7 @@ function remmyApartmentLivingroomCharlie() {
     _character = charlie;
     
     _blob = "";
-    _blob += ("Charlie is on the couch");
+    _blob += ("{0} is on the couch".format(_character.name));
     if (!charlie.hasShirt && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += (", completely bare, and taking up all the space. Her fur is fluffed up along her chest and cheeks, and the room smells of violets. You don't know why she's in your apartment, naked, but you don't really care about the \"why\"s at the moment.");
     else if (!charlie.hasShirt && !charlie.hasPants() && charlie.hasUnderwear())
@@ -164,15 +164,18 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     
     clearContentAndMenu();
     
-    
-    Content.set("You sit down by {0}.<br/>\"Hey, {0}, what's up?\" you ask her, ".format(_character.name));
+    _blob = "";
+    _blob += "Sitting down by {0} you ask, \"Hey, {0}, what's up?\" ".format(_character.name);
     contentArray = [];
-    contentArray.push("and she just stares at you for a moment, before lookup up at the ceiling.<br/>A few seconds pass as she continues to scrutinize your ceiling. \"Not your standard of living.\" she finally says, and you nod in agreement.");
-    contentArray.push("and she grabs your crotch. \"Your dick, apparently,\" she whispers. It doesn't sound quite right with her scratchy voice, but your dick doesn't care.");
-    contentArray.push("and she grabs your crotch, and then frowns. \"Not your dick, apparently,\" she mutters. Indeed. You're not erect.");
-    contentArray.push("but she's managed to fall asleep on the couch.");
-    Content.add(contentArray[Math.floor(Math.random() * contentArray.length)]);
+    contentArray.push("She just stares at you for a moment, before lookup up at the ceiling. A few seconds pass until she says, \"Not your standard of living.\" and you nod in agreement.");
+    if (_character.age >= 18) {
+        contentArray.push("She grabs your crotch. \"Your dick, apparently,\" she whispers. It doesn't sound quite right with her scratchy voice, but your dick doesn't care.");
+        contentArray.push("She grabs your crotch, and then frowns. \"Not your dick, apparently,\" she mutters. Indeed. You're not erect.");
+    }
+    contentArray.push("You realize she's fallen asleep on the couch.");
+    _blob += contentArray[Math.floor(Math.random() * contentArray.length)];
     
+    Content.add("<p>" + _blob + "</p>");
     
     Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -266,12 +269,12 @@ function remmyApartmentLivingroomCharlieSex() {
     
     if (player.room.containsCharacter(wolter)) {
         if (wolter.sleeping)
-            Content.add("<p>Gently sitting on " + (player.room.owner == player ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to Charlie. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. Charlia's face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>");
+            Content.add("<p>Gently sitting on " + (player.room.owner == player ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. {0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name));
         else
             Content.add("");
     }
     else
-        Content.add("<p>Hopping on the couch, you lean over towards Charlie and nip at her ear. \"Let's have some fun, Charlie,\" you ask.</p>");
+        Content.add("<p>Hopping on the couch, you lean over towards {0} and nip at her ear. \"Let's have some fun, Charlie,\" you ask.</p>".format(_character.name));
     
     _blob = "";
     _blob += ("<p>With an imperceptable smile, she leans back against the couch");
@@ -289,11 +292,11 @@ function remmyApartmentLivingroomCharlieSex() {
     if (player.room.containsCharacter(wolter)) {
         if (wolter.sleeping) {
             if (enableRape) {
-                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeSleepingWolter()", "Rape Sleeping Wolter", "Charlie will hold him down");
+                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeSleepingWolter()", "Rape Sleeping Wolter", "{0} will hold him down".format(_character.name));
             }
         }
         else if (!wolter.sleeping) {
-            Content.add("<p>Wolter looks over at you, and sees Charlie spread eagle. Grinning at you, he gets up to leave. \"Yeah, I'm not gonna be a third wheel on this, you two have fun,\" he says with a wave of a paw.");
+            Content.add("<p>Wolter looks over at you, and sees {0} spread eagle. Grinning at you, he gets up to leave. \"Yeah, I'm not gonna be a third wheel on this, you two have fun,\" he says with a wave of a paw.".format(_character.name));
             
             Menu.addOption("remmyApartmentLivingroomCharlieSexWolter()", "Ask him to join", "Three ways are fun");
             if (enableRape) {
@@ -432,7 +435,7 @@ function remmyApartmentLivingroomWolter() {
 function remmyApartmentBathroomCharlie() {
     _character = charlie;
     
-    Content.add("<p>Charlie looks at your face, then tilts her head down to the tub containing sheddings of her fur, and her big black dildo shaped oddly like your cock.</p>");
+    Content.add("<p>{0} looks at your face, then tilts her head down to the tub containing sheddings of her fur, and her big black dildo shaped oddly like your cock.</p>".format(_character.name));
     Content.add("<p>Looking back at you, she says in her scratchy, monotone voice, \"This is exactly what it looks like, Remmy.\"</p>");
 }
 function remmyApartmentBathroomWolter() {

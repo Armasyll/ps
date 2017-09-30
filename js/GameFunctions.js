@@ -597,6 +597,8 @@ function characterTakeOver(_characterA, _characterB) {
     arr.set('defaultDisposition', _characterA.defaultDisposition);
     arr.set('agape', _characterA.agape);
     arr.set('philautia', _characterA.philautia);
+    arr.set('furColourAHex', _characterA.furColourAHex);
+    arr.set('furColourBHex', _characterA.furColourBHex);
     arr.set('hadSexWith', _characterA.hadSexWith);
     arr.set('hadSex', _characterA.hadSex || _characterB.hadSex);
     arr.set('sexCount', _characterA.sexCount + _characterB.sexCount);
