@@ -96,7 +96,7 @@ martina.preferredSex = 0;
 marty.sleeping = true;
 marty.image = "images/characters/Marty.svg";
 marty.moveTo(chartyApartmentBedroomMarty);
-marty.preferredSex = 0;
+marty.preferredSex = 1;
 
 ozzy.sleeping = true;
 ozzy.image = "images/characters/Ozzy.png";
@@ -154,7 +154,7 @@ rosie.furColourB = "cream";
 rosie.moveTo(alBuildingBasementG);
 rosie.agape = 25;
 rosie.philautia = 50;
-rosie.defaultDisposition.set(100, 15, 100, 0, 0);  // :v
+rosie.defaultDisposition.set(0, 25, 25, 0, 15, 0);  // no :v
 rosie.addPreferredSpecies("fox");
 rosie.addPreferredSpecies("wolf");
 
@@ -173,6 +173,7 @@ weaver.sleeping = true;
 weaver.eyeColour = "red";
 weaver.image = "images/characters/RedWeaver.png";
 weaver.moveTo(weaverApartmentLivingroom);
+weaver.preferredSex = 0;
 
 wolter.sleeping = true;
 wolter.eyeColour = "dark blue";
@@ -187,7 +188,7 @@ wolter.addPreferredSpecies("rabbit");
 wolter.addPreferredSpecies("wolf");
 wolter.addPreferredSpecies("fox");
 wolter.addAvoidedSpecies("pig");
-wolter.preferredSex = 1
+wolter.preferredSex = 1;
 
 // Assign Clothes to Characters
 betty.wear(bettyStraponHorseBlack);
