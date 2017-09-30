@@ -92,6 +92,7 @@ const SpeciesIdNames = new Map();
     SpeciesIdNames.set(10, "tiger");
     SpeciesIdNames.set(11, "antelope");
     SpeciesIdNames.set(12, "pig");
+    SpeciesIdNames.set(13, "horse");
 const SpeciesNameIds = map_flip(SpeciesIdNames);
 
 const SpeciesSizeUnits = new Map();
@@ -123,6 +124,30 @@ const BodyPartIdNames = new Map();
     BodyPartIdNames.set(12, "legs");
     BodyPartIdNames.set(13, "feet");
 const BodyPartNameIds = map_flip(BodyPartIdNames);
+
+const HandTypeIdNames = new Map();
+    HandTypeIdNames.set(0, "fur");
+    HandTypeIdNames.set(1, "pad");
+    HandTypeIdNames.set(2, "hoof");
+    HandTypeIdNames.set(4, "clovenhoof");
+    HandTypeIdNames.set(5, "skin");
+const HandTypeNameIds = map_flip(HandTypeIdNames);
+
+const FeetTypeIdNames = HandTypeIdNames;
+const FeetTypeNameIds = HandTypeNameIds;
+
+const EyeTypeIdNames = new Map();
+    EyeTypeIdNames.set(0, "circle");
+    EyeTypeIdNames.set(1, "slit");
+    EyeTypeIdNames.set(2, "rectangle");
+const EyeTypeNameIds = map_flip(EyeTypeIdNames);
+
+const FurTypeIdNames = new Map();
+    FurTypeIdNames.set(0, "skin");
+    FurTypeIdNames.set(1, "fur");
+    FurTypeIdNames.set(2, "wool");
+    FurTypeIdNames.set(3, "hair"); // Not as thick as fur
+const FurTypeNameIds = map_flip(FurTypeIdNames);
 
 const RoomTypeIdNames = new Map();
     RoomTypeIdNames.set(0, "hallway");

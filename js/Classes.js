@@ -916,52 +916,27 @@ class Character extends Entity {
         this.annoyed = 0;
         this.living = true;
         this.sleeping = false;
-        this.predator = false;
-        this.hooved = false;
-        /*
-            sex is an int
-                0 - male
-                1 - female
-                2 - herm
-        */
+        
         this.setSex(_sex);
-        /*
-            gender is an int
-                0 - male
-                1 - female
-        */
         this.gender = _sex;
-        this.setSpecies(_species);
         
+        this.furColourA = undefined; // Body
+        this.furColourAHex = undefined;
+        this.furColourB = undefined; // Middle
+        this.furColourBHex = undefined;
+        
+        // Handled by setSpecies
+        this.predator = false;
+        this.handType = 1;
+        this.feetType = 1;
         this.relatives = new Set();
-        
-        /*
-            0 - circular
-            1 - slitted
-            2 - sea-monster
-        */
         this.eyeType = 0;
         this.eyeColour = undefined;
-        
-        this.furColourA = undefined;
-        this.furColourB = undefined;
-        /*
-            0 - none
-            1 - short
-            2 - long
-            3 - wool
-        */
         this.furType = 0;
-        /*
-            0 - none
-            1 - spotted
-            2 - striped
-            3
-        */
-        this.furPattern = 0;
-        this.isFurTrimmed = 0;
-        this.isFurSoft = 0;
-        this.isFurThick = 0;
+        this.furTrimmed = 50;
+        this.furSoftness = 50;
+        
+        this.setSpecies(_species);
         
         this.hadSex = false;
         
@@ -1019,8 +994,6 @@ class Character extends Entity {
         */
         this.pubicHairSize = 0;
         
-        this.previousRoom = undefined;
-        
         this.following = undefined; // Character
         this.followers = new Set();
         
@@ -1061,12 +1034,12 @@ class Character extends Entity {
         this.prefersPrey = undefined;
         this.avoidsPrey = undefined;
         
-        this.exhibitionism = 0;
-        this.willExhibit = undefined;
-        this.somnophilia = 0;
-        this.intoxicated = 0;
-        this.incestual = 0;
+        this.exhibitionism = 0; // 0-100, preference for public sex
+        this.somnophilia = 0; // 0-100, preference for sleep sex
+        this.intoxicated = 0; // 0-100, drunkness
+        this.incestual = 0; // 0-100, preference for incest
         
+        this.previousRoom = undefined;
         this.room = undefined;
         this.cell = undefined;
         this.location = undefined;
@@ -1075,10 +1048,6 @@ class Character extends Entity {
         
         this.stand();
         this.sleep();
-    }
-    
-    getSex() {
-        return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
     }
     
     setSex(_sex) {
@@ -1100,6 +1069,12 @@ class Character extends Entity {
         }
         else
             this.sex = 0;
+    }
+    sexName() {
+        return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
+    }
+    getSex() {
+        return this.sexName();
     }
     
     hasColouration() {
@@ -1348,7 +1323,8 @@ class Character extends Entity {
                 return this.gender == 0 ? "jack" : "jill";
             }
             case 6 :
-            case 7 : {
+            case 7 : 
+            case 11 : {
                 return this.gender == 0 ? "buck" : "doe";
             }
             case 8 : 
@@ -1358,7 +1334,61 @@ class Character extends Entity {
             case 10 : {
                 return this.gender == 0 ? "tiger" : "tigress";
             }
+            case 12 : {
+                return this.gender == 0 ? "boar" : "sow";
+            }
+            case 13 : {
+                return this.gender == 0 ? "stallion" : "mare";
+            }
         }
+    }
+    
+    setHand(_type) {
+        if (isNaN(_type))
+            this.handType = HandTypeNameIds.has(_type) ? HandTypeNameIds.get(_type) : 0;
+        else if (HandTypeIdNames.has(_type))
+            this.handType = _type;
+        else
+            this.handType = 0;
+    }
+    handName() {
+        return HandTypeIdNames.get(this.handType);
+    }
+    
+    setFeet(_type) {
+        if (isNaN(_type))
+            this.feetType = FeetTypeNameIds.has(_type) ? FeetTypeNameIds.get(_type) : 0;
+        else if (FeetTypeIdNames.has(_type))
+            this.feetType = _type;
+        else
+            this.feetType = 0;
+    }
+    feetName() {
+        return FeetTypeIdNames.get(this.feetType);
+    }
+    
+    setEyes(_type) {
+        if (isNaN(_type))
+            this.eyeType = EyeTypeNameIds.has(_type) ? EyeTypeNameIds.get(_type) : 0;
+        else if (EyeTypeIdNames.has(_type))
+            this.eyeType = _type;
+        else
+            this.eyeType = 0;
+    }
+    eyeName() {
+        return EyeTypeIdNames.get(this.eyeType);
+    }
+    
+    setFur(_type) {
+        if (isNaN(_type))
+            this.furType = FurTypeNameIds.has(_type) ? FurTypeNameIds.get(_type) : 0;
+        else if (FurTypeIdNames.has(_type))
+            this.furType = _type;
+        else
+            this.furType = 0;
+    }
+    furName() {
+        return FurTypeIdNames.get(this.furType);
     }
     
     setSpecies(_species) {
@@ -1370,28 +1400,63 @@ class Character extends Entity {
             this.species = 0;
         
         switch (this.species) {
-            case 0 : 
-            case 1 : 
-            case 2 : 
-            case 3 : 
-            case 5 : 
-            case 8 : 
-            case 9 : 
-            case 10 : {
+            case 0 : {// fox
+                this.setEyes("slit");
+            }
+            case 1 : // wolf
+            case 2 : // aardwolf
+            case 3 : // heyna
+            case 5 : // stoat
+            case 8 : // jackal
+            case 9 : // coyote
+            case 10 : { // tiger
                 this.predator = true;
-                this.hoovedHands = false;
-                this.paddedHands = false;
+                this.setFeet("pad");
+                this.setHand("pad");
+                this.setFur("fur");
+                break;
             }
-            case 4 : 
-            case 6 : {
+            case 4 : { // sheep
                 this.predator = false;
-                this.hoovedHands = true;
-                this.paddedHands = false;
+                this.setFeet("clovenhoof");
+                this.setHand("clovenhoof");
+                this.setEyes("rectangle");
+                this.setFur("wool");
+                this.furSoftness = 75;
+                break;
             }
-            case 7 : {
+            case 6 : // deer
+            case 11 : { // antelope
                 this.predator = false;
-                this.hoovedHands = false;
-                this.paddedHands = true;
+                this.setFeet("clovenhoof");
+                this.setHand("clovenhoof");
+                this.setEyes("rectangle");
+                this.setFur("hair");
+                break;
+            }
+            case 7 : { // rabbit
+                this.predator = false;
+                this.setFeet("fur");
+                this.setHand("fur");
+                this.setFur("fur");
+                this.furSoftness =75;
+                break;
+            }
+            case 12 : { // pig
+                this.predator = false;
+                this.setFeet("clovenhoof");
+                this.setHand("clovenhoof");
+                this.setEyes("circle");
+                this.setFur("skin");
+                break;
+            }
+            case 13 : { // horse
+                this.predator = false;
+                this.setFeet("hoof");
+                this.setHand("hoof");
+                this.setEyes("rectangle");
+                this.setFur("hair");
+                break;
             }
         }
     }
@@ -1621,15 +1686,21 @@ class Character extends Entity {
     }
     
     willFuck(_character) {
+        if (debug) console.log("Calculating chance to fuck.");
+        
         var chance = 0;
         
         // Past Relations
         if (this.hadSexWith.has(_character))
             chance += 3;
         
+        if (debug) console.log("\tAfter past relations check: " + chance);
+        
         // Disposition
         chance += this.disposition.get(_character).eros / 5;
         chance += this.disposition.get(_character).manic / 2;
+        
+        if (debug) console.log("\tAfter disposition check: " + chance);
         
         // Species Preferences
         if (this.prefersSpecies.has(_character.species))
@@ -1643,11 +1714,15 @@ class Character extends Entity {
         if (this.avoidsPrey && _character.predator == false || this.avoidsPredators && _character.predator == true)
             chance -= 5;
         
+        if (debug) console.log("\tAfter species preference check: " + chance);
+        
         // Sexual Orientation
         if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2)
             chance += 10;
         else
             chance -= 50;
+        
+        if (debug) console.log("\tAfter sexual preference check: " + chance);
         
         // Rut and Lust
         if (this.lust > 25)
@@ -1655,23 +1730,33 @@ class Character extends Entity {
         else
             chance += (this.rut ? this.lust/3 : this.lust/5);
         
+        if (debug) console.log("\tAfter rut and lust check: " + chance);
+        
         // Exhibitionism
         if (player.room.characters.size > 2){
-            if (this.willExhibit == true)
-                chance += (this.exhibitionism / 10 + (player.room.characters.size - 2) * 4);
-            else if (this.willExhibit == false) {
+            if (this.exhibitionism > 0)
+                chance += ((this.exhibitionism / 5) * (player.room.characters.size - 2));
+            else {
                 _character.room.characters.forEach(function(__character) {
                     if (__character != this._character && __character != player)
-                        chance += this.hadSexWith(__character) ? 5 : -5;
+                        chance += this.hadSexWith.has(__character) ? 5 : -5;
                 }, this);
             }
         }
         
+        if (debug) console.log("\tAfter Exhibitionism check: " + chance);
+        
         // Incest
         if (this.relatives.has(_character) && this.incestual > 50)
             chance += 10;
-        else
+        else if (this.relatives.has(_character) && this.incestual > 25)
+            chance += 5;
+        else if (this.relatives.has(_character) && this.incestual > 0)
+            chance += 1;
+        else if (this.relatives.has(_character))
             chance -= 50;
+        
+        if (debug) console.log("\tAfter incest check: " + chance);
         
         // Intoxication
         if (this.intoxicated > 50) {
@@ -1681,13 +1766,17 @@ class Character extends Entity {
                 chance += 20;
         }
         
+        if (debug) console.log("\tAfter intoxication check: " + chance);
+        
         // Somnophilia
         if (this.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (this.somnophilia > 50 && this.hadSexWith(_character) && this.disposition.get(_character).eros > 75)
+            else if (this.somnophilia > 50 && this.hadSexWith.has(_character) && this.disposition.get(_character).eros > 75)
                 chance += 10;
         }
+        
+        if (debug) console.log("\tAfter Somnophilia check: " + chance);
         
         return (chance >= 50);
     }

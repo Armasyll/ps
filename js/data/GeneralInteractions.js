@@ -109,6 +109,7 @@ function charlieEatCharlieCont() {
     Menu.generate();
 }
 function rosieGiveCharlieHeart() {
+    Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie. With her heart in your {0}</p>".format(player.handName()));
     if (rosie.sleeping) {
         Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
         Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
@@ -137,7 +138,7 @@ function rosieGiveCharlieHeart() {
         Content.add("<p>The heart near her beats, and she falls to her knees as though she were a puppet with its strings cut. Her head and eyes lazily turn in its direction as she lets out a ragged breath.</p>");
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
-    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel pang of guilt") : "feel nothing"));
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
     
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
@@ -151,15 +152,16 @@ function rosieGiveCharlieHeartFlee() {
     else
         charlie.moveTo(limbo);
     
-    rosie.moveTo(limbo);
     characterTakeOver(charlie, rosie);
+    rosie.moveTo(limbo);
 }
 function rosieGiveCharlieHeartStay() {
     moveCharacterToRoom(charlie, rosie.room);
     
-    var _blob = ("There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from.");
+    var _blob = "";
     
     if (typeof charlie.cannibalized != 'undefined') {
+        _blob += "There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from. ";
         if (typeof player.ateCharlie != 'undefined')
             _blob += ("To your horror, you see Charlie limp towards you. A turtleneck sweater conceals the lower half of her face from view and neck from view, where you remember biting and tearing into. You still see bits of red speckled in her fur, and a bruise on her cheek where you struck her.");
         else
@@ -169,14 +171,24 @@ function rosieGiveCharlieHeartStay() {
         _blob += "";
     }
     else if (charlie.living && charlie.containsItem(charlieBeatingHeart)) {
+        _blob += "There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from. ";
         _blob += "As Charlie glares at you with a rare look of confusion, you see Rosie clutching her head as if in pain.</p>";
-        _blob += "<p>For a moment, Rosie looks up at her with tears in her eyes and both vixens' eyes meet. Charlie raises her paw up to the side of her face, and Rosie's paw moves her own to match her. Both vixens speak, one with a scratchy voice and the other with the pitch of a kit, and both say the same thing, \"What have you done, {0},\"".format(player.name);
+        _blob += "<p>Charlie raises a paw up to the side of her face, and Rosie's moves to match her. Both vixens speak, one with a scratchy voice and the other with the pitch of a kit, and both say the same thing, \"What have you done, {0},\"".format(player.name);
+    }
+    else {
+        _blob += "Rosie's paws reach forward and grasp the heart, bringing it to her lips. As her mouth opens, her canines surround a large portion of the beating organ, and she brings them forward, pressing into the raw flesh. With a quick bite into it, she pulls her head back, and without chewing, swallows.</p>";
+        _blob += "With gnashing teeth she tears apart the quivering heart with ease. Her frantic gaze dulls, and settles on you. By the end of her meal, no blood trailed down her chin, and no morsel was wasted.";
     }
     
-    Content.set("<p>" + _blob + "</p>");
+    characterTakeOver(charlie, rosie);
+    
+    Content.add("<p>" + _blob + "</p>");
+    Content.add("<p>In a monotone voice that didn't fit her, Rosie finally spoke. \"I dislike this body, Cormo.\"</p>");
+    Content.add("<p>While she sits up and brushes her fur down with a paw, you just shrug. \"Your heart only started acting funny when I got close to Rosie.'\" An empty Bug Burga box slaps you against the face.</p>");
+    Content.add("<p>A scowl was fixed on Rosie's face as her eyes drifted to Charlie's normal resting squint. Rosie continued, \"It has fleas, a terrible diet,\" and examined her claws, \"and an in-grown claw.\"</p>");
+    
     
     rosie.moveTo(limbo);
-    characterTakeOver(charlie, rosie);
     
     Menu.clear();
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
