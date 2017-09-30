@@ -834,12 +834,12 @@ class Disposition {
     }
     
     set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
-        _eros = isNaN(_eros) ? 0 : _eros
-        _philia = isNaN(_philia) ? 0 : _philia
-        _lodus = isNaN(_lodus) ? 0 : _lodus
-        _pragma = isNaN(_pragma) ? 0 : _pragma
-        _storge = isNaN(_storge) ? 0 : _storge
-        _manic = isNaN(_manic) ? 0 : _manic
+        _eros = isNaN(_eros) ? 0 : _eros;
+        _philia = isNaN(_philia) ? 0 : _philia;
+        _lodus = isNaN(_lodus) ? 0 : _lodus;
+        _pragma = isNaN(_pragma) ? 0 : _pragma;
+        _storge = isNaN(_storge) ? 0 : _storge;
+        _manic = isNaN(_manic) ? 0 : _manic;
         
         _eros = _eros < 0 ? 0 : _eros;
         _philia = _philia < 0 ? 0 : _philia;
