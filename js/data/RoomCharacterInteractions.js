@@ -165,7 +165,7 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     clearContentAndMenu();
     
     
-    Content.set("You sit down by Charlie.<br/>\"Hey, Charlie, what's up?\" you ask her, ");
+    Content.set("You sit down by {0}.<br/>\"Hey, {0}, what's up?\" you ask her, ".format(_character.name));
     contentArray = [];
     contentArray.push("and she just stares at you for a moment, before lookup up at the ceiling.<br/>A few seconds pass as she continues to scrutinize your ceiling. \"Not your standard of living.\" she finally says, and you nod in agreement.");
     contentArray.push("and she grabs your crotch. \"Your dick, apparently,\" she whispers. It doesn't sound quite right with her scratchy voice, but your dick doesn't care.");
@@ -180,7 +180,7 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     Menu.generate();
     
     
-    tick("2m");
+    tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieTalkHi() {
     _character = charlie;
@@ -188,7 +188,7 @@ function remmyApartmentLivingroomCharlieTalkHi() {
     clearContentAndMenu();
     
     
-    Content.add("You sit beside Charlie and say \"Hi,\"<br/>Her lips curl up just a smidgen, and she says \"Hello, Remmy.\"<br/>");
+    Content.add("You sit beside {0} and say \"Hi,\"<br/>Her lips curl up just a smidgen, and she says \"Hello, Remmy.\"<br/>".format(_character.name));
     
     
     Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
@@ -198,7 +198,7 @@ function remmyApartmentLivingroomCharlieTalkHi() {
     Menu.generate();
     
     
-    tick("2m");
+    tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieTalkHiCont() {
     _character = charlie;
@@ -208,21 +208,21 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
     charlie['annoyed'] += 1;
     
     if (charlie['annoyed'] == 1)
-        Content.add("You say \"Hi,\" again.<br/>The small smile on her face is gone as she repeats, \"Hello, Remmy.\"<br/>");
+        Content.add("<p>You say \"Hi,\" again.</p><p>The small smile on {0} face is gone as she repeats, \"Hello, {1}.\"</p>".format(_character.objectPronoun(), player.name));
     else if (charlie['annoyed'] < 5) {
-        Content.add("You continue saying \"Hi,\" to the vixen on your couch, and her eyes open");
+        Content.add("As you continue bugging the {0} on your couch, {1} eyes gradually open".format(_character.speciesName(), _character.objectPronoun()));
         if (charlie['annoyed'] == 2)
             Content.add(", almost imperceptibly.");
         else if (charlie['annoyed'] == 3)
             Content.add(" further.");
         else
-            Content.add(" even further. You can now see blue slivers looking at you.");
+            Content.add(" even further. You can now see {0} {1} looking at you.".format(_character.eyeColour, (_character.eyeType == 0 ? "pupils" : (_character.eyeType == 1 ? "slits" : "ungulate eyes"))));
         Content.add("<br/>");
     }
     else if (charlie['annoyed'] == 5)
-        Content.add("You just keep saying \"Hi,\" to her. Her light blue irises are visible under her half-lided stare, and her lips are pulled back enough to show her sharp teeth; She's breathing audibly through them.<br/>");
+        Content.add("<p>You just keep saying \"Hi\" to {0} even as she becomes visibly agitated. {3} {1} irises are visible under a half-lided stare, while {2} lips are pulled back enough to show sharp teeth</p>".format(_character.name, _character.eyeColour, _character.objectPronoun(), _character.objectPronoun().capitalize()));
     else if (charlie['annoyed'] == 6)
-        Content.add("Charlie gets up to leave, but you speak up, \"Charlie, wait!\" you say, and she stops to look at you.<br/>You say your last \"Hi.\"She grabs your shoulders, opening her mouth as wide as she can- you see rows of small, but sharp, predator teeth, as well as the back of her throat-<br/>She gekkers loudly at you, and pushes you onto the other side of your couch.</br>How rude.<br/>");
+        Content.add("<p>{0} gets up to leave, but then you call back to {1}; \"{0}, wait!\" {3} stops with {1} back turned to you.</p><p>Again, you say \"Hi.\"</p><p>{0} spins around to face you, grabs your shoulders, and gekkers loudly, moving {1} open mouth closer to yours with each 'gek'. Pushing you onto the other side of your couch, {2} turns back around and leaves.</p><p><i>How rude,</i> you think to yourself.<p/>".format(_character.name, _character.possessiveAdjective(), _character.subjectPronoun(), _character.subjectPronoun().capitalize()));
     
     
     Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
@@ -233,7 +233,7 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
     Menu.generate();
     
     
-    tick("2m");
+    tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     _character = charlie;
@@ -241,14 +241,14 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     clearContentAndMenu();
     
     
-    Content.set("<p>Charlie gekkers at you angrily and leaves.</p>");
+    Content.set("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
     
     
     moveCharacterToRoom(charlie, chartyApartmentBedroomCharlie);
     
     
     if (player.room.containsCharacter(wolter) && wolter.sleeping) {
-        Content.add("Wolter wakes with a snort. Sitting up quickly and looking around, he has a tired, dopey grin on his face.<br/>\"Hey, lambchop, what's cookin'?\" he asks, as Charlie closes the door to the hallway behind her.");
+        Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(wolter.name, wolter.subjectPronoun(), wolter.possessivePronoun(), player.name, charlie.name, charlie.objectPronoun()));
         wolter.sleeping = false;
     }
     
@@ -257,7 +257,7 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     Menu.generate();
     
     
-    tick("2m");
+    tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieSex() {
     _character = charlie;
@@ -312,7 +312,7 @@ function remmyApartmentLivingroomCharlieSex() {
     Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateGive()", "Finger her", "Hoof her, really.");
     Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceive()", "Let her jerk you off", "Pawpads are better than hooves.");
     
-    tick("2m");
+    tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
     _character = charlie;

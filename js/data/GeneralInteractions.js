@@ -56,6 +56,7 @@ function charlieEatCharlie() {
     charlie.moveToRoom(limbo);
     charlie.clearFollowing();
     charlie.living = false;
+    charlie.cannibalized = true;
     
     player.room.ateCharlie = true;
     player.ateCharlie = true;
@@ -109,18 +110,77 @@ function charlieEatCharlieCont() {
 }
 function rosieGiveCharlieHeart() {
     if (rosie.sleeping) {
-        Content.add("<p>With a shaky hoof, you place the beating heart beside the sleeping vixen. Her fur bristles, and her body shivers, but she does not appear to wake.</p>");
-        Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you breath a sigh of relief.</p>");
+        Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
+        Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
+        var _blob = "<p>Rosie wakes with a snort as her head lifts, lazily, from her tail. Blue eyes stare blearily in your direction as she opens her mouth in a wide yawn. ";
+        if (rosie.disposition.get(remmy)['philia'] > 50 || rosie.disposition.get(remmy)['storge'] > 50)
+            _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(player.sex == 0 ? "dad" : "mom");
+        else if (rosie.disposition.get(remmy)['philia'] > 20 || rosie.disposition.get(remmy)['storge'] > 20)
+            _blob += "In a chipper but tired voice she asks, \"Ugh, is it morning yet, {0}?\"".format(player.name);
+        else if (rosie.disposition.get(remmy)['philia'] > 0 || rosie.disposition.get(remmy)['storge'] > 0)
+            _blob += "In a tired, irritated voice she asks, \"What?\"";
+        else
+            _blob += "In a tired mumble, she asks, \"Who are you?\"";
+        Content.add(_blob + "</p>");
+        Content.add("<p>The heart near her beats, and both her head and eyes weakly turn in its direction as she lets out a ragged breath.</p>");
     }
     else {
-        Content.add("<p>Rosie gives you a confused stare, and then look in your outstretched hoof. Her eyes widen- a spark of recognition perhap- and she backs away. Your eyes turn to the heart as it rolls out of your hand, and falls to the ground with a soft thud.</p>");
-        Content.add("<p>Looking back at Rosie, you see the vixen staring forward, mouth open in a silent scream. Her fur bristles, and her body shivers, but she does not move.</p>");
+        Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched hoof. Turning her head to the side, she glares at the object in your paw. Without you moving, the heart rolls out of your {0}, and falls to the ground with a soft thud as it stops beating.</p>");
+        var _blob = "<p>Her blue eyes follow it, she takes a step back and looks back up to you. ";
+        if (rosie.disposition.get(remmy)['philia'] > 25 || rosie.disposition.get(remmy)['storge'] > 25)
+            _blob += "Confused, she asks, \"{0}, what's that?\"".format(player.name);
+        else if (rosie.disposition.get(remmy)['philia'] > 0 || rosie.disposition.get(remmy)['storge'] > 0)
+            _blob += "Fearful, she asks, \"What the fuck is that?\"";
+        else
+            _blob += "Fearful, she yells, \"Get that away from me!\" and bares her teeth.";
+        Content.add(_blob + "</p>");
+        Content.add("<p>The heart near her beats, and she falls to her knees as though she were a puppet with its strings cut. Her head and eyes lazily turn in its direction as she lets out a ragged breath.</p>");
     }
-    Content.add("<p>The room grows cold, and you feel the sudden urge to leave. You look again at the vixen, and notice her wide-eyed stare directed at the heart, and her mouth open in a silent snarl.</p>");
+    Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel pang of guilt") : "feel nothing"));
     
+    Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
     Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
-    Menu.setOption(11, "", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption(11, "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
+}
+function rosieGiveCharlieHeartFlee() {
+    if (charlie.cell == rosie.cell)
+        setCharacterMovementToCharacter(charlie, rosie);
+    else
+        charlie.moveTo(limbo);
+    
+    rosie.moveTo(limbo);
+    characterTakeOver(charlie, rosie);
+}
+function rosieGiveCharlieHeartStay() {
+    moveCharacterToRoom(charlie, rosie.room);
+    
+    var _blob = ("There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from.");
+    
+    if (typeof charlie.cannibalized != 'undefined') {
+        if (typeof player.ateCharlie != 'undefined')
+            _blob += ("To your horror, you see Charlie limp towards you. A turtleneck sweater conceals the lower half of her face from view and neck from view, where you remember biting and tearing into. You still see bits of red speckled in her fur, and a bruise on her cheek where you struck her.");
+        else
+            _blob += ("To a mix of relief and fear, you see a bruised and limping Charlie walk towards you. A turtleneck sweater conceals the lower half of her face, but you can make out red speckles of blood over her face.");
+    }
+    else if (typeof charlie.overdosed != 'undefined') {
+        _blob += "";
+    }
+    else if (charlie.living && charlie.containsItem(charlieBeatingHeart)) {
+        _blob += "As Charlie glares at you with a rare look of confusion, you see Rosie clutching her head as if in pain.</p>";
+        _blob += "<p>For a moment, Rosie looks up at her with tears in her eyes and both vixens' eyes meet. Charlie raises her paw up to the side of her face, and Rosie's paw moves her own to match her. Both vixens speak, one with a scratchy voice and the other with the pitch of a kit, and both say the same thing, \"What have you done, {0},\"".format(player.name);
+    }
+    
+    Content.set("<p>" + _blob + "</p>");
+    
+    rosie.moveTo(limbo);
+    characterTakeOver(charlie, rosie);
+    
+    Menu.clear();
+    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
 }
 function rosieGiveCharlieHeartNightmare() {
     music.src = 'audio/pbrlt.mp3';

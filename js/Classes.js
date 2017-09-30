@@ -933,6 +933,8 @@ class Character extends Entity {
         this.gender = _sex;
         this.setSpecies(_species);
         
+        this.relatives = new Set();
+        
         /*
             0 - circular
             1 - slitted
@@ -1929,7 +1931,7 @@ class Room extends Entity {
         /*
             Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
         */
-        if (typeof _sid == undefined)
+        if (typeof _sid == 'undefined')
             _sid = _id;
         this.sid = _sid;
         
@@ -2895,6 +2897,7 @@ class GameEvent {
             return;
         
         if (debug) console.log("Executing " + this.id);
+        
         var fn = new Function(this.nextFunction);
         try {fn();}catch (err) {}
         

@@ -6,6 +6,6 @@ remmyApartmentBedroomHamper.addItem(alBuildingLocationKey);
 remmyApartmentLivingroomCouch.addItem(playBuck942);
 remmyApartmentBedroomBed.addItem(pandorasBoxLocationKey);
 
-sleep(wolter, remmyApartmentLivingroomCouch);
-sit(charlie, remmyApartmentLivingroomCouch);
-lay(pandora, pandorasBoxBasementHiddenBed);
+characterSleep(wolter, remmyApartmentLivingroomCouch);
+characterSit(charlie, remmyApartmentLivingroomCouch);
+characterLay(pandora, pandorasBoxBasementHiddenBed);

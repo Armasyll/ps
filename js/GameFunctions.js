@@ -149,7 +149,7 @@ function moveCharacterToRoom(_character = player, _room) {
     if (debug) console.log("Moving " + _character.id + " from " + _character.room.sid + " to " + _room.sid);
     
     if (_character.room != _room) {
-        walk(_character);
+        characterWalk(_character);
         
         if (player == _character)
             tick("1m", false);
@@ -177,7 +177,7 @@ function moveCharacterToRoom(_character = player, _room) {
             }
         }, this);
         
-        stand(_character);
+        characterStand(_character);
     }
 }
 function movePlayerToRoom(_room) {
@@ -258,22 +258,34 @@ function moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu = false) {
         _fromEntity.removeItem(_item);
         if (debug) console.log("Checking for item removal events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity))
+            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
+                if (_fromEntity == player || _toEntity == player)
+                    hideModals();
+                
                 _event.execute();
+            }
         }, this);
         
         if (!(_fromEntity.containsItem(_item))) {
             if (debug) console.log("Checking for item given events");
             eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
+                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
+                    if (_fromEntity == player || _toEntity == player)
+                        hideModals();
+                    
                     _event.execute();
+                }
             }, this);
             
             _toEntity.addItem(_item);
             if (debug) console.log("Checking for item taken events");
             eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity))
+                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
+                    if (_fromEntity == player || _toEntity == player)
+                        hideModals();
+                    
                     _event.execute();
+                }
             }, this);
         }
     }
@@ -435,7 +447,7 @@ function findPathInCell(_startRoom, _targetRoom) {
     
     return undefined;
 }
-function sit(_character, _furniture = undefined) {
+function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -449,7 +461,7 @@ function sit(_character, _furniture = undefined) {
             _furniture.addCharacter(_character);
     }
 }
-function lay(_character, _furniture = undefined) {
+function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -463,7 +475,7 @@ function lay(_character, _furniture = undefined) {
             _furniture.addCharacter(_character);
     }
 }
-function sleep(_character, _furniture = undefined) {
+function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -489,7 +501,7 @@ function sleep(_character, _furniture = undefined) {
         }
     }
 }
-function stand(_character) {
+function characterStand(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -499,7 +511,7 @@ function stand(_character) {
         _character.stand();
     }
 }
-function walk(_character) {
+function characterWalk(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -509,7 +521,7 @@ function walk(_character) {
         _character.walk();
     }
 }
-function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
+function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     
@@ -520,7 +532,7 @@ function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
         if (_characterA == _characterB)
             return;
         
-        stand(_characterB);
+        characterStand(_characterB);
         
         if (_characterA.following == _characterB) {
             _characterA.following = undefined;
@@ -537,13 +549,13 @@ function follow(_characterA, _characterB, _preGeneratedPath = undefined) {
         if (_characterB.hasFollowers) {
             _characterB.followers.forEach(function(_follower) {
                 if (_follower instanceof Character)
-                    follow(_characterA, _follower, _preGeneratedPath);
+                    characterFollow(_characterA, _follower, _preGeneratedPath);
             }, this);
             _characterB.followers.clear();
         }
     }
 }
-function stay() {
+function characterStay() {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -555,10 +567,92 @@ function stay() {
     }
 }
 
+function setCharacterMovementToRoom(_character, _room) {
+    characterMovements.set(_character, findPathInCell(_character.room, _room));
+}
+function setCharacterMovementToCharacter(_character, _toCharacter) {
+    setCharacterMovementToRoom(_character, _toCharacter.room);
+}
 function runLastMenu() {
     fn = new Function(lastMenu);
     try {return fn();}catch (err) {}
 }
+
+function hideModals() {
+    $("#personalInventoryModal").modal("hide");
+    $("#dualInventoryModal").modal("hide");
+}
+function characterTakeOver(_characterA, _characterB) {
+    _characterA.clearFollowing();
+    _characterB.clearFollowing();
+    _characterA.clearFollowers();
+    _characterB.clearFollowers();
+    characterStand(_characterA);
+    characterStand(_characterB);
+    
+    var arr = new Map();
+    
+    arr.set('id', _characterA.id);
+    arr.set('disposition', _characterA.disposition);
+    arr.set('defaultDisposition', _characterA.defaultDisposition);
+    arr.set('agape', _characterA.agape);
+    arr.set('philautia', _characterA.philautia);
+    arr.set('hadSexWith', _characterA.hadSexWith);
+    arr.set('hadSex', _characterA.hadSex || _characterB.hadSex);
+    arr.set('sexCount', _characterA.sexCount + _characterB.sexCount);
+    arr.set('vaginalReceiveCount', _characterA.vaginalReceiveCount + _characterB.vaginalReceiveCount);
+    arr.set('vaginalGiveCount', _characterA.vaginalGiveCount + _characterB.vaginalGiveCount);
+    arr.set('analReceiveCount', _characterA.analReceiveCount + _characterB.analReceiveCount);
+    arr.set('analGiveCount', _characterA.analGiveCount + _characterB.analGiveCount);
+    arr.set('cunnilingusReceiveCount', _characterA.cunnilingusReceiveCount + _characterB.cunnilingusReceiveCount);
+    arr.set('cunnilingusGiveCount', _characterA.cunnilingusGiveCount + _characterB.cunnilingusGiveCount);
+    arr.set('analingusReceiveCount', _characterA.analingusReceiveCount + _characterB.analingusReceiveCount);
+    arr.set('analingusGiveCount', _characterA.analingusGiveCount + _characterB.analingusGiveCount);
+    arr.set('fellatioReceiveCount', _characterA.fellatioReceiveCount + _characterB.fellatioReceiveCount);
+    arr.set('fellatioGiveCount', _characterA.fellatioGiveCount + _characterB.fellatioGiveCount);
+    arr.set('masturbateCount', _characterA.masturbateCount + _characterB.masturbateCount);
+    arr.set('handjobCount', _characterA.handjobCount + _characterB.handjobCount);
+    arr.set('prefersSpecies', _characterA.prefersSpecies);
+    arr.set('avoidsSpecies', _characterA.avoidsSpecies);
+    arr.set('preferredSex', _characterA.preferredSex);
+    arr.set('avoidedSex', _characterA.avoidedSex);
+    arr.set('sexualOrientation', _characterA.sexualOrientation);
+    arr.set('preferredPenisSize', _characterA.preferredPenisSize);
+    arr.set('preferredPenisGirth', _characterA.preferredPenisGirth);
+    arr.set('preferredBreastSize', _characterA.preferredBreastSize);
+    arr.set('preferredSexCount', _characterA.preferredSexCount);
+    arr.set('prefersPredators', _characterA.prefersPredators);
+    arr.set('avoidsPredators', _characterA.avoidsPredators);
+    arr.set('prefersPrey', _characterA.prefersPrey);
+    arr.set('avoidsPrey', _characterA.avoidsPrey);
+    arr.set('exhibitionism', _characterA.exhibitionism);
+    arr.set('willExhibit', _characterA.willExhibit);
+    arr.set('somnophilia', _characterA.somnophilia);
+    arr.set('intoxicated', _characterA.intoxicated);
+    arr.set('incestual', _characterA.incestual);
+    arr.set('room', _characterA.room);
+    arr.set('cell', _characterA.cell);
+    arr.set('location', _characterA.location);
+    arr.set('items', Array.from(_characterA.items).concat(Array.from(_characterB.items)));
+    
+    for (var key in _characterB) {
+        _characterA[key] = _characterB[key];
+    }
+    
+    arr.forEach(function(_value, _key) {
+        _characterA[_key] = _value;
+    }, this);
+    
+    _characterA.name = '<i>{0}</i>'.format(_characterB.name);
+    _characterA.items = new Set(arr.get('items'));
+    
+    charactersIndexes.forEach(function(_character) {
+        if (_character != player && _character != _characterA && _character != _characterB) {
+            _character.disposition.set(_characterA, _character.disposition.get(_characterB));
+        }
+    }, this);
+}
+
 window.addEventListener(
     "resize", 
     function() {

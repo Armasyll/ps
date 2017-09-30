@@ -9,6 +9,7 @@ charlieRemoveHeartEvent = new GameEvent("charlieTakeHeartEvent", "remove", playe
 charlieGiveHeartEvent = new GameEvent("charlieGiveHeartEvent", "give", charlie, undefined, charlieBeatingHeart, undefined, undefined, undefined, undefined, "charlieRemoveOrgan(charlieGiveHeartEvent)", false);
 charlieRemoveLeftEyeEvent = new GameEvent("charlieTakeLeftEyeEvent", "remove", player, charlie, charlieLeftEye, undefined, undefined, undefined, undefined, "charlieRemoveOrgan(charlieRemoveLeftEyeEvent)", false);
 charlieGiveLeftEyeEvent = new GameEvent("charlieGiveLeftEyeEvent", "give", charlie, undefined, charlieLeftEye, undefined, undefined, undefined, undefined, "charlieRemoveOrgan(charlieGiveLeftEyeEvent)", false);
+rosieReceiveCharlieBeatingHeartEvent = new GameEvent("rosieReceiveCharlieBeatingHeartEvent", "give", undefined, rosie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "rosieGiveCharlieHeart(rosieReceiveCharlieBeatingHeartEvent)", true);
 
 martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom))", false);
 martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBedroomMarty))", false);

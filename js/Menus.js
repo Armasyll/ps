@@ -232,8 +232,6 @@ function debugPrintUnassignedRooms() {
     Content.add(_blob);
 }
 function getAppearance(_character, _self = false) {
-    lastMenu = "getAppearance({0}, {1})".format(_character, _self);
-    
     Title.setTopImage(_character.image);
     
     _blob = "";
