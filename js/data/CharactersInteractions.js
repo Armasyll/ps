@@ -195,7 +195,7 @@ function charlieFollow() {
     else {
         Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
         
-        follow(player, _character);
+        characterFollow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -231,7 +231,7 @@ function remmyFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        follow(player, _character);
+        characterFollow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -264,7 +264,7 @@ function rosieFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        follow(player, _character);
+        characterFollow(player, _character);
     }
     
     characterInteract(_character, false);
@@ -296,7 +296,7 @@ function wolterFollow() {
     else {
         Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
         
-        follow(player, _character);
+        characterFollow(player, _character);
     }
     
     characterInteract(_character, false);
