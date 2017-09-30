@@ -749,6 +749,7 @@ window.addEventListener(
         }
         
         if (typeof fn === 'function') {
+            hideModals();
             try {fn();}catch (err) {}
         }
     },
