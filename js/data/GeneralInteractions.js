@@ -211,41 +211,44 @@ function rosieGiveCharlieHeartStay() {
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
+
 function rosieGiveCharlieHeartNightmare() {
     music.src = 'audio/pbrlt.mp3';
     music.volume = 0.005;
     music.play();
 }
-function newDayWelcome(_event) {
+function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
     
     if (player.sex == 0)
         Content.add("<div class='small'>Also, you have an erection.</div>");
 }
-function remmyApartmentBathroomWaterbucket(_event) {
+function remmyApartmentBathroomWaterbucket(_event = undefined) {
     Content.add("<p>An empty water bucket falls from the top of the door on to your head.</p>");
 }
-function charlieHeartbeatRosie(_event) {
+function charlieHeartbeatRosie(_event = undefined) {
     if (_event.id == 'charlieHeartbeatRosieRoomEvent')
         Content.add("<p>You feel the heart tug towards the vixen before you.</p>");
     else
         Content.add("<p>Charlie's heart suddenly beats faster.</p>");
 }
-function charlieRemoveOrgan(_event) {
-    if (updateCharlieBuse()) {
-        fn = new Function(lastMenu);
-        try {fn();}catch (err) {}
-    }
-}
-function updateCharlieBuse() {
-    if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
+function updateCharlieBuse(_event = undefined) {
+    if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye)) {
         charlie.image = "images/characters/CharlieNoHeartAndLeftEye.svg";
-    else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye))
+        charlieInteractWhenPlayerHasHeart();
+    }
+    else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye)) {
         charlie.image = "images/characters/CharlieNoHeart.svg";
+        charlieInteractWhenPlayerHasHeart();
+    }
     else if (charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
         charlie.image = "images/characters/CharlieNoLeftEye.svg";
     else
         charlie.image = "images/characters/Charlie.svg";
     
     return true;
+}
+function charlieInteractWhenPlayerHasHeart() {
+    Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries in vain to grip her claws against your " + (player.hasPants() ? "pants" : "waist") + ".</p>");
+    Content.add("<p>Her gaze dulls as she lets out a sigh, letting her arms fall limp to her sides.</p>");
 }
