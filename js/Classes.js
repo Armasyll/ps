@@ -1783,10 +1783,18 @@ class Character extends Entity {
         if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
         
         // Rut and Lust
-        if (this.lust > 25)
-            chance += (this.rut ? this.lust/2 : this.lust/4);
+        if (this.rut && this.lust > 98)
+            chance += 100;
+        else if (this.lust > 79)
+            chance += (this.rut ? this.lust*2.5 : this.lust*1.5);
+        else if (this.lust > 59)
+            chance += (this.rut ? this.lust : this.lust/1.5);
+        else if (this.lust > 39)
+            chance += (this.rut ? this.lust/1.5 : this.lust/3);
+        else if (this.lust > 19)
+            chance += (this.rut ? this.lust/3 : this.lust/4);
         else
-            chance += (this.rut ? this.lust/3 : this.lust/5);
+            chance += (this.rut ? this.lust/4 : this.lust/5);
         
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
         
@@ -1805,24 +1813,17 @@ class Character extends Entity {
         if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
         
         // Incest
-        if (this.relatives.has(_character) && this.incestual > 50)
-            chance += 10;
-        else if (this.relatives.has(_character) && this.incestual > 25)
-            chance += 5;
-        else if (this.relatives.has(_character) && this.incestual > 0)
-            chance += 1;
-        else if (this.relatives.has(_character))
-            chance -= 50;
+        if (this.relatives.has(_character)) {
+            if (this.incestual > 0)
+                chance += this.incestual/4;
+            else
+                chance -= 50;
+        }
         
         if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
         
         // Intoxication
-        if (this.intoxicated > 50) {
-            if (enableRape)
-                chance += 40;
-            else
-                chance += 20;
-        }
+        chance += this.intoxicated/2.5;
         
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
         

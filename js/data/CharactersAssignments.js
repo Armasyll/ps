@@ -25,6 +25,8 @@ anneke.addPreferredSpecies("fox");
 anneke.addAvoidedSpecies("rabbit");
 anneke.addAvoidedSpecies("pig");
 anneke.preferredSex = 0;
+anneke.incestual = 25;
+anneke.relatives.add(wolter);
 
 avo.sleeping = true;
 avo.eyeColour = "dark blue";
@@ -189,6 +191,8 @@ wolter.addPreferredSpecies("wolf");
 wolter.addPreferredSpecies("fox");
 wolter.addAvoidedSpecies("pig");
 wolter.preferredSex = 1;
+wolter.incestual = 25;
+wolter.relatives.add(anneke);
 
 // Assign Clothes to Characters
 betty.wear(bettyStraponHorseBlack);
