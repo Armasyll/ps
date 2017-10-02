@@ -151,8 +151,7 @@ function charlieInteract() {
     _character = charlie;
     
     if (player.hasItem(charlieBeatingHeart)) {
-        Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries in vain to grip her claws against your " + (player.hasPants() ? "pants" : "waist") + ".</p>");
-        Content.add("<p>Her gaze dulls as she lets out a sigh, letting her arms fall limp to her sides.</p>");
+        charlieInteractWhenPlayerHasHeart();
     }
     
     if (enableGore && enableRape)

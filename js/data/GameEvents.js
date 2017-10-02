@@ -1,15 +1,15 @@
 characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom));
 
 //constructor(_id, _action, _characterA, _characterB, _item, _location, _cell, _room, _cron, _nextFunction, _runOnce)
-newDayWelcomeEvent = new GameEvent("newDayWelcomeEvent", undefined, player, undefined, undefined, alBuildingLocation, undefined, undefined, new Cron(undefined, 6), "newDayWelcome(newDayWelcomeEvent)", false);
-remmyApartmentBathroomWaterbucketEvent = new GameEvent("remmyApartmentBathroomWaterbucketEvent", undefined, undefined, undefined, undefined, undefined, undefined, remmyApartmentBathroom, undefined, "remmyApartmentBathroomWaterbucket(remmyApartmentBathroomWaterbucketEvent)", true);
-charlieHeartbeatRosieCellEvent = new GameEvent("charlieHeartbeatRosieCellEvent", undefined, player, rosie, charlieBeatingHeart, undefined, rosie.room.cell, undefined, undefined, "charlieHeartbeatRosie(charlieHeartbeatRosieCellEvent)", false);
-charlieHeartbeatRosieRoomEvent = new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, player, rosie, charlieBeatingHeart, undefined, undefined, rosie.room, undefined, "charlieHeartbeatRosie(charlieHeartbeatRosieRoomEvent)", false);
-charlieRemoveHeartEvent = new GameEvent("charlieTakeHeartEvent", "remove", player, charlie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "updateCharlieBuse(charlieRemoveHeartEvent)", false);
-charlieGiveHeartEvent = new GameEvent("charlieGiveHeartEvent", "give", undefined, charlie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "updateCharlieBuse(charlieGiveHeartEvent)", false);
-charlieRemoveLeftEyeEvent = new GameEvent("charlieTakeLeftEyeEvent", "remove", player, charlie, charlieLeftEye, undefined, undefined, undefined, undefined, "updateCharlieBuse(charlieRemoveLeftEyeEvent)", false);
-charlieGiveLeftEyeEvent = new GameEvent("charlieGiveLeftEyeEvent", "give", charlie, undefined, charlieLeftEye, undefined, undefined, undefined, undefined, "updateCharlieBuse(charlieGiveLeftEyeEvent)", false);
-rosieReceiveCharlieBeatingHeartEvent = new GameEvent("rosieReceiveCharlieBeatingHeartEvent", "give", undefined, rosie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "rosieGiveCharlieHeart(rosieReceiveCharlieBeatingHeartEvent)", true);
+newDayWelcomeEvent = new GameEvent("newDayWelcomeEvent", undefined, player, undefined, undefined, alBuildingLocation, undefined, undefined, new Cron(undefined, 6), "newDayWelcome('newDayWelcomeEvent')", false);
+remmyApartmentBathroomWaterbucketEvent = new GameEvent("remmyApartmentBathroomWaterbucketEvent", undefined, undefined, undefined, undefined, undefined, undefined, remmyApartmentBathroom, undefined, "remmyApartmentBathroomWaterbucket('remmyApartmentBathroomWaterbucketEvent')", true);
+charlieHeartbeatRosieCellEvent = new GameEvent("charlieHeartbeatRosieCellEvent", undefined, player, rosie, charlieBeatingHeart, undefined, rosie.room.cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);
+charlieHeartbeatRosieRoomEvent = new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, player, rosie, charlieBeatingHeart, undefined, undefined, rosie.room, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieRoomEvent')", false);
+charlieTakeHeartEvent = new GameEvent("charlieRemoveHeartEvent", "remove", player, charlie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveHeartEvent')", false);
+charlieReceiveHeartEvent = new GameEvent("charlieReceiveHeartEvent", "take", charlie, undefined, charlieBeatingHeart, undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveHeartEvent')", false);
+charlieRemoveLeftEyeEvent = new GameEvent("charlieRemoveLeftEyeEvent", "remove", player, charlie, charlieLeftEye, undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);
+charlieReceiveLeftEyeEvent = new GameEvent("charlieReceiveLeftEyeEvent", "take", charlie, undefined, charlieLeftEye, undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveLeftEyeEvent')", false);
+rosieReceiveCharlieBeatingHeartEvent = new GameEvent("rosieReceiveCharlieBeatingHeartEvent", "give", undefined, rosie, charlieBeatingHeart, undefined, undefined, undefined, undefined, "rosieGiveCharlieHeart('rosieReceiveCharlieBeatingHeartEvent')", true);
 
 martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBathroom))", false);
 martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, findPathInCell(martina.room, chartyApartmentBedroomMarty))", false);

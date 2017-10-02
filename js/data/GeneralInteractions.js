@@ -233,18 +233,19 @@ function charlieHeartbeatRosie(_event = undefined) {
         Content.add("<p>Charlie's heart suddenly beats faster.</p>");
 }
 function updateCharlieBuse(_event = undefined) {
-    if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye)) {
+    if (debug) console.log("Running updateCharlieBuse with {0}".format(_event));
+    
+    if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
         charlie.image = "images/characters/CharlieNoHeartAndLeftEye.svg";
-        charlieInteractWhenPlayerHasHeart();
-    }
-    else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye)) {
+    else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye))
         charlie.image = "images/characters/CharlieNoHeart.svg";
-        charlieInteractWhenPlayerHasHeart();
-    }
     else if (charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
         charlie.image = "images/characters/CharlieNoLeftEye.svg";
     else
         charlie.image = "images/characters/Charlie.svg";
+    
+    if (!charlie.hasItem(charlieBeatingHeart))
+        charlieInteractWhenPlayerHasHeart();
     
     return true;
 }

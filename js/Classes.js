@@ -1077,6 +1077,64 @@ class Character extends Entity {
         return this.sexName();
     }
     
+    
+    setDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
+        if (debug) console.log("Running setDisposition");
+        
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        if (!(_character instanceof Character)) {
+            if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
+            return false;
+        }
+        
+        if (_eros instanceof Disposition)
+            this.disposition.set(_character, _eros);
+        else if (this.disposition.has(_character)) {
+            _eros = isNaN(_eros) ? this.disposition.get(_character).eros : _eros;
+            _philia = isNaN(_philia) ? this.disposition.get(_character).philia : _philia;
+            _lodus = isNaN(_lodus) ? this.disposition.get(_character).lodus : _lodus;
+            _pragma = isNaN(_pragma) ? this.disposition.get(_character).pragma : _pragma;
+            _storge = isNaN(_storge) ? this.disposition.get(_character).storge : _storge;
+            _manic = isNaN(_manic) ? this.disposition.get(_character).manic : _manic;
+            
+            this.disposition.set(_character, this.disposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
+        }
+        else {
+            _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
+            _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
+            _lodus = isNaN(_lodus) ? this.defaultDisposition.lodus : _lodus;
+            _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
+            _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
+            _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
+            
+            this.disposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic));
+        }
+        
+        return this.disposition.get(_character);
+    }
+    getDisposition(_character, _disposition = undefined) {
+        if (debug) console.log("Running getDisposition");
+        
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        if (!(_character instanceof Character)) {
+            if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
+            return false;
+        }
+        
+        if (this.disposition.has(_character)) {
+            if (this.disposition.get(_character).hasOwnProperty(_disposition))
+                return this.disposition.get(_character)[_disposition];
+            else
+                return this.disposition.get(_character);
+        }
+        else
+            return false;
+    }
+    
     hasColouration() {
         return typeof this.furColourA != 'undefined';
     }
@@ -1686,7 +1744,7 @@ class Character extends Entity {
     }
     
     willFuck(_character) {
-        if (debug) console.log("Calculating chance to fuck.");
+        if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
         
         var chance = 0;
         
@@ -1694,13 +1752,13 @@ class Character extends Entity {
         if (this.hadSexWith.has(_character))
             chance += 3;
         
-        if (debug) console.log("\tAfter past relations check: " + chance);
+        if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
         
         // Disposition
-        chance += this.disposition.get(_character).eros / 5;
+        chance += this.disposition.get(_character).eros / 3;
         chance += this.disposition.get(_character).manic / 2;
         
-        if (debug) console.log("\tAfter disposition check: " + chance);
+        if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
         
         // Species Preferences
         if (this.prefersSpecies.has(_character.species))
@@ -1714,7 +1772,7 @@ class Character extends Entity {
         if (this.avoidsPrey && _character.predator == false || this.avoidsPredators && _character.predator == true)
             chance -= 5;
         
-        if (debug) console.log("\tAfter species preference check: " + chance);
+        if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
         
         // Sexual Orientation
         if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2)
@@ -1722,7 +1780,7 @@ class Character extends Entity {
         else
             chance -= 50;
         
-        if (debug) console.log("\tAfter sexual preference check: " + chance);
+        if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
         
         // Rut and Lust
         if (this.lust > 25)
@@ -1730,7 +1788,7 @@ class Character extends Entity {
         else
             chance += (this.rut ? this.lust/3 : this.lust/5);
         
-        if (debug) console.log("\tAfter rut and lust check: " + chance);
+        if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
         
         // Exhibitionism
         if (player.room.characters.size > 2){
@@ -1744,7 +1802,7 @@ class Character extends Entity {
             }
         }
         
-        if (debug) console.log("\tAfter Exhibitionism check: " + chance);
+        if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
         
         // Incest
         if (this.relatives.has(_character) && this.incestual > 50)
@@ -1756,7 +1814,7 @@ class Character extends Entity {
         else if (this.relatives.has(_character))
             chance -= 50;
         
-        if (debug) console.log("\tAfter incest check: " + chance);
+        if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
         
         // Intoxication
         if (this.intoxicated > 50) {
@@ -1766,7 +1824,7 @@ class Character extends Entity {
                 chance += 20;
         }
         
-        if (debug) console.log("\tAfter intoxication check: " + chance);
+        if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
         
         // Somnophilia
         if (this.sleeping) {
@@ -1776,9 +1834,10 @@ class Character extends Entity {
                 chance += 10;
         }
         
-        if (debug) console.log("\tAfter Somnophilia check: " + chance);
+        if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
         
-        return (chance >= 50);
+        if (debug) console.log("\tChecking if {0} is greater than 50: {1}".format(Math.ceil(chance), Math.ceil(chance) >= 50));
+        return (Math.ceil(chance) >= 50);
     }
     
     moveToRoom(_room, _checkLocked = false) {
