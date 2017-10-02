@@ -10,6 +10,7 @@ al.philautia = 50;
 al.addPreferredSpecies("wolf");
 al.addPreferredSpecies("deer");
 al.preferredSex = 1;
+al.addSexWith(velvet, true);
 
 anneke.sleeping = true;
 anneke.eyeColour = "dark blue";
@@ -26,7 +27,9 @@ anneke.addAvoidedSpecies("rabbit");
 anneke.addAvoidedSpecies("pig");
 anneke.preferredSex = 0;
 anneke.incestual = 25;
-anneke.relatives.add(wolter);
+anneke.addRelative(wolter, true);
+anneke.addSexWith(wolter, true);
+anneke.addSexWith(ozzy, true);
 
 avo.sleeping = true;
 avo.eyeColour = "dark blue";
@@ -37,6 +40,8 @@ avo.agape = 50;
 avo.philautia = 75;
 avo.addPreferredSpecies("wolf");
 avo.preferredSex = 0;
+avo.addSexWith(wolter, true);
+avo.addSexWith(betty, true);
 
 betty.sleeping = true;
 betty.image = "images/characters/Betty.png";
@@ -83,6 +88,7 @@ charlie.setDisposition(wolter,   new Disposition(25, 50, 50, 0, 0));
 charlie.setDisposition(velvet,   new Disposition(0, 50, 75, 0, 0));
 charlie.addAvoidedSpecies("fox");
 charlie.preferredSex = 0;
+charlie.addSexWith(wolter, true);
 
 cotton.sleeping = true;
 cotton.image = "images/characters/Cotton.png";
@@ -94,6 +100,7 @@ martina.sleeping = true;
 martina.image = "images/characters/Martina.svg";
 martina.moveTo(chartyApartmentBedroomMarty);
 martina.preferredSex = 0;
+martina.addSexWith(ozzy, true);
 
 marty.sleeping = true;
 marty.image = "images/characters/Marty.svg";
@@ -192,7 +199,6 @@ wolter.addPreferredSpecies("fox");
 wolter.addAvoidedSpecies("pig");
 wolter.preferredSex = 1;
 wolter.incestual = 25;
-wolter.relatives.add(anneke);
 
 // Assign Clothes to Characters
 betty.wear(bettyStraponHorseBlack);

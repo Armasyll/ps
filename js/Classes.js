@@ -830,6 +830,7 @@ class Disposition {
      * param int _manic, obsession
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+        if (debug) console.log("Creating a new instance of Disposition");
         this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
     }
     
@@ -884,9 +885,9 @@ class Disposition {
 
 class Character extends Entity {
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
+        if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
+        
         super(_id, _name, undefined, undefined);
-        this.id = _id;
-        this.name = _name;
         this.surname = "";
         if (this.name.split(", ").length > 1) {
             var tempName = this.name.split(", ");
@@ -1563,7 +1564,7 @@ class Character extends Entity {
         return this.followers.size > 0;
     }
     
-    addSexWith(_character) {
+    addSexWith(_character, _updateChild = false) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
@@ -1572,9 +1573,20 @@ class Character extends Entity {
             this.hadSex = true;
             this.sexCount++;
             
-            _character.hadSexWith.add(this);
-            _character.hadSex = true;
-            _character.sexCount++;
+            if (_updateChild)
+                _character.addSexWith(this, false);
+        }
+    }
+    
+    addRelative(_character, _updateChild = false) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        if (_character instanceof Character) {
+            this.relatives.add(_character);
+            
+            if (_updateChild)
+                _character.addRelative(this, false);
         }
     }
     
