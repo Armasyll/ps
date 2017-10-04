@@ -59,7 +59,7 @@ function generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _m
     return _body;
 }
 function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
-    if (moveItemComplex(_item, _fromEntity, _toEntity)) {
+    if (moveItemToEntity(_item, _fromEntity, _toEntity)) {
         var _lazyEntity = _fromEntity;
         if (_lazyEntity == player)
             _lazyEntity = _toEntity;
@@ -67,7 +67,7 @@ function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undef
         $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function moveItemComplex(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
+function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (typeof _item == 'undefined' || typeof _fromEntity == 'undefined' || typeof _toEntity == 'undefined')
         return undefined;
     
@@ -116,10 +116,50 @@ function moveItemComplex(_item = undefined, _fromEntity = undefined, _toEntity =
         return undefined;
     }
     
-    if (_fromEntity.containsItem(_item))
-        return moveItemToEntity(_item, _fromEntity, _toEntity, false);
+    if (_fromEntity.containsItem(_item)) {
+        _fromEntity.removeItem(_item);
+        if (debug) console.log("Checking for item removal events");
+        eventsIndexes.forEach(function(_event) {
+            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
+                if (_fromEntity == player || _toEntity == player)
+                    hideModals();
+                
+                _event.execute();
+            }
+        }, this);
+        
+        if (!(_fromEntity.containsItem(_item))) {
+            if (debug) console.log("Checking for item given events");
+            eventsIndexes.forEach(function(_event) {
+                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
+                    if (_fromEntity == player || _toEntity == player)
+                        hideModals();
+                    
+                    _event.execute();
+                }
+            }, this);
+            
+            _toEntity.addItem(_item);
+            if (debug) console.log("Checking for item taken events");
+            eventsIndexes.forEach(function(_event) {
+                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
+                    if (_fromEntity == player || _toEntity == player)
+                        hideModals();
+                    
+                    _event.execute();
+                }
+            }, this);
+        }
+    }
     else
         return false;
+    
+    if (_useLastMenu) {
+        fn = new Function(lastMenu);
+        try {fn();}catch (err) {}
+    }
+    
+    return true;
 }
 
 function clearContentAndMenu() {
@@ -250,52 +290,7 @@ function moveCharacterInDirection(_character, _direction) {
         }
     }
 }
-function moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu = false) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
-    
-    if (_fromEntity instanceof Entity && _toEntity instanceof Entity) {
-        _fromEntity.removeItem(_item);
-        if (debug) console.log("Checking for item removal events");
-        eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
-                if (_fromEntity == player || _toEntity == player)
-                    hideModals();
-                
-                _event.execute();
-            }
-        }, this);
-        
-        if (!(_fromEntity.containsItem(_item))) {
-            if (debug) console.log("Checking for item given events");
-            eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
-                    if (_fromEntity == player || _toEntity == player)
-                        hideModals();
-                    
-                    _event.execute();
-                }
-            }, this);
-            
-            _toEntity.addItem(_item);
-            if (debug) console.log("Checking for item taken events");
-            eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
-                    if (_fromEntity == player || _toEntity == player)
-                        hideModals();
-                    
-                    _event.execute();
-                }
-            }, this);
-        }
-    }
-    
-    if (_useLastMenu) {
-        fn = new Function(lastMenu);
-        try {fn();}catch (err) {}
-    }
-    return true;
-}
+
 function moveItemToPlayer(_item, _fromEntity) {
     moveItemToEntity(_item, _fromEntity, player, true);
 }

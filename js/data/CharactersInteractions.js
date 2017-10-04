@@ -47,58 +47,49 @@ function characterInteract(_character, _clearContent = true) {
     
     Menu.generate();
 }
-function characterInteractOpen(_character) {
-    if (typeof _character != 'undefined' && !(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+function characterInteractOpen(_character, _page = 0) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
     
-    /*_blob = "";
-    _blob += ("Looking through " + _character.name + "'s pockets, you find ");
-    if (_character.items.size == 1) {
-        _blob += ("a " + Array.from(_character.items)[0].toString() + ".");
-    }
-    else if (_character.items.size == 2) {
-        _character.items.forEach(function(_item) {
-            _blob += (_item.toString() + ".");
-        });
-    }
-    else {
-        // Lazy
-        tempArray = [];
-        
-        _character.items.forEach(function(_item) {
-            tempArray.push(_item.toString());
-        });
-        
-        for (i = 0; i < tempArray.length - 1; i++) {
-            _blob += (tempArray[i]);
-            if (tempArray.length > 2)
-                _blob += (", ");
+    if (usePopups) {
+        if (typeof _character != 'undefined') {
+            $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
+            $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
+            $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _character, true));
+            $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_character, player, true));
+            $("#dualInventoryModal").modal("show");
         }
-        _blob += (" and " + tempArray[tempArray.length - 1] + ".");
-    }
-    Content.add("<p>" + _blob + "</p>");
-    
-    Menu.clear();
-    Menu.setOption(7, lastMenu, "Back");
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    
-    _character.items.forEach(function(_item) {
-        Menu.addOption("moveItemToCharacter(" + _item.id + ")", "Take " + _item.name, _item.description);
-    }, this);
-    
-    Menu.generate();*/
-    
-    if (typeof _character != 'undefined' && _character instanceof Character) {
-        $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
-        $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
-        $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _character, true));
-        $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_character, player, true));
-        $("#dualInventoryModal").modal("show");
+        else {
+            $('#personalInventoryModal-title').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
+            $('#personalInventoryModal-body').html(generateEntityItemsGraphicalList(_character, undefined, false));
+            $("#personalInventoryModal").modal("show");
+        }
     }
     else {
-        $('#personalInventoryModal-title').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
-        $('#personalInventoryModal-body').html(generateEntityItemsGraphicalList(player, undefined, false));
-        $("#personalInventoryModal").modal("show");
+        Menu.clear();
+        Menu.isExploring = false;
+        Menu.setOption(11, lastMenu, _character.name);
+        //Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        
+        if (_character.items.size > 9) {
+            var _arr = Array.from(_character.items);
+            
+            if ((_page + 1) * 9 < _arr.length)
+                Menu.setOption(10, "characterInteractOpen({0}, {1})".format(_character.id, _page + 1), "Next");
+            if (_page > 0)
+                Menu.setOption(7, "characterInteractOpen({0}, {1})".format(_character.id, _page - 1), "Back");
+            
+            for (var _i = _page * 9; _i < _arr.length; _i++) {
+                Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+            }
+        }
+        else {
+            _character.items.forEach(function(_item) {
+                Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_item.id, _character.id, player.id), "Take " + _item.name, _item.description);
+            }, this);
+        }
+        
+        Menu.generate();
     }
 }
 function characterInteractTalk(_character) {

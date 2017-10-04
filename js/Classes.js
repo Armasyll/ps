@@ -90,7 +90,7 @@ class Menu {
         
         while (i <= this.options.length && i < 12 && _runCond) {
             if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10))) {
-                if (typeof this.options[i] === 'undefined') {
+                if (typeof this.options[i] == 'undefined') {
                     if ($id.length > 0 && !$id.endsWith(")"))
                         $id = $id + "()";
                     

@@ -21,6 +21,7 @@ var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
 var eventsExecutedThisTick = new Set();
+var usePopups = true;
 
 var stoneFloor01 = new Image(); stoneFloor01.src = 'images/stoneFloor01.svg';
 var woodenFloor01 = new Image(); woodenFloor01.src = 'images/woodenFloor01.svg';
