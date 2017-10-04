@@ -47,12 +47,12 @@ function characterInteract(_character, _clearContent = true) {
     
     Menu.generate();
 }
-function characterInteractOpen(_character, _page = 0) {
+function characterInteractOpen(_character, _page = 0, _clearContent = true) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
     
     if (usePopups) {
-        if (typeof _character != 'undefined') {
+        if (_character != player) {
             $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
             $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
             $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _character, true));
@@ -66,52 +66,70 @@ function characterInteractOpen(_character, _page = 0) {
         }
     }
     else {
-        _blob = "";
-        if (_character == player)
-            _blob += ("Looking through your pockets, you find ");
-        else
-            _blob += ("Looking through {0}'s pockets, you find ".format(_character.name));
-        
-        if (_character.items.size == 1) {
-            _blob += ("a " + Array.from(_character.items)[0].toString() + ".");
-        }
-        else if (_character.items.size == 2) {
-            _character.items.forEach(function(_item) {
-                _blob += (_item.toString() + ".");
-            });
-        }
-        else {
-            // Lazy
-            tempArray = [];
+        if (_clearContent) {
+            _blob = "";
+            if (_character == player)
+                _blob += ("Looking through your pockets, you find ");
+            else
+                _blob += ("Looking through {0}'s pockets, you find ".format(_character.name));
             
-            _character.items.forEach(function(_item) {
-                tempArray.push(_item.toString());
-            });
-            
-            for (i = 0; i < tempArray.length - 1; i++) {
-                _blob += (tempArray[i]);
-                if (tempArray.length > 2)
-                    _blob += (", ");
+            if (_character.items.size == 1) {
+                _blob += ("a " + Array.from(_character.items)[0].toString() + ".");
             }
-            _blob += (" and " + tempArray[tempArray.length - 1] + ".");
+            else if (_character.items.size == 2) {
+                _character.items.forEach(function(_item) {
+                    _blob += (_item.toString() + ".");
+                });
+            }
+            else {
+                // Lazy
+                tempArray = [];
+                
+                _character.items.forEach(function(_item) {
+                    tempArray.push(_item.toString());
+                });
+                
+                for (i = 0; i < tempArray.length - 1; i++) {
+                    _blob += (tempArray[i]);
+                    if (tempArray.length > 2)
+                        _blob += (", ");
+                }
+                _blob += (" and " + tempArray[tempArray.length - 1] + ".");
+            }
+            Content.add("<p>" + _blob + "</p>");
         }
-        Content.add("<p>" + _blob + "</p>");
         
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption(11, lastMenu, _character.name);
-        //Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.setOption(7, lastMenu, "Back");
+        Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
-        if (_character.items.size > 9) {
+        var _entriesLimit = 10;
+        if (_page > 0)
+            _entriesLimit = 9
+        
+        if (_character.items.size > 10) {
             var _arr = Array.from(_character.items);
             
-            if ((_page + 1) * 9 < _arr.length)
-                Menu.setOption(10, "characterInteractOpen({0}, {1})".format(_character.id, _page + 1), "Next");
+            if (((_page + 1) * _entriesLimit) < _arr.length)
+                Menu.setOption(6, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page + 1), "Look Further");
             if (_page > 0)
-                Menu.setOption(7, "characterInteractOpen({0}, {1})".format(_character.id, _page - 1), "Back");
+                Menu.setOption(10, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page - 1), "Look Back");
             
-            for (var _i = _page * 9; _i < _arr.length; _i++) {
-                Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+            if (_page == 0) {
+                for (var _i = 0; _i < 10; _i++) {
+                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                }
+            }
+            else if (((_page + 1) * _entriesLimit) > _character.items.size) {
+                for (var _i = (10 + 9 * (_page -1)); _i < (10 + 9 * (_page -1)) + 10 && _i < _character.items.size; _i++) {
+                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                }
+            }
+            else {
+                for (var _i = (10 + 9 * (_page -1)); _i < (10 + 9 * (_page -1)) + 9; _i++) {
+                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                }
             }
         }
         else {
