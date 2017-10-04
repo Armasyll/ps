@@ -66,6 +66,37 @@ function characterInteractOpen(_character, _page = 0) {
         }
     }
     else {
+        _blob = "";
+        if (_character == player)
+            _blob += ("Looking through your pockets, you find ");
+        else
+            _blob += ("Looking through {0}'s pockets, you find ".format(_character.name));
+        
+        if (_character.items.size == 1) {
+            _blob += ("a " + Array.from(_character.items)[0].toString() + ".");
+        }
+        else if (_character.items.size == 2) {
+            _character.items.forEach(function(_item) {
+                _blob += (_item.toString() + ".");
+            });
+        }
+        else {
+            // Lazy
+            tempArray = [];
+            
+            _character.items.forEach(function(_item) {
+                tempArray.push(_item.toString());
+            });
+            
+            for (i = 0; i < tempArray.length - 1; i++) {
+                _blob += (tempArray[i]);
+                if (tempArray.length > 2)
+                    _blob += (", ");
+            }
+            _blob += (" and " + tempArray[tempArray.length - 1] + ".");
+        }
+        Content.add("<p>" + _blob + "</p>");
+        
         Menu.clear();
         Menu.isExploring = false;
         Menu.setOption(11, lastMenu, _character.name);
@@ -123,6 +154,15 @@ function characterInteractFollow(_character) {
         _character = characterIndexes.get(_character);
     
     fn = new Function(_character.id + "Follow()");
+    try {fn();}catch (err) {}
+    
+    Menu.generate();
+}
+function characterInteractAttack(_character) {
+    if (!(_character instanceof Character))
+        _character = characterIndexes.get(_character);
+    
+    fn = new Function(_character.id + "Attack()");
     try {fn();}catch (err) {}
     
     Menu.generate();

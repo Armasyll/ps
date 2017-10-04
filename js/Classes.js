@@ -688,6 +688,7 @@ class Entity {
         
         this.addOwner(_owner);
         this.addAction(_actions);
+        this.addAction("look");
         
         if (!(_room instanceof Room)) {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
@@ -903,6 +904,18 @@ class Character extends Entity {
         this.age = _age;
         this.appearance = "";
         this.image = "images/characters/avatar.svg"; // base64 image, or url
+        
+        this.addAction("talk");
+        this.addAction("sex");
+        this.addAction("attack");
+        this.addAction("follow");
+        this.addAction("stay");
+        this.addAction("hold");
+        this.addAction("open"); // inventory... maybe :v
+        this.addAction("give");
+        this.addAction("remove");
+        this.addAction("take");
+        this.addAction("wear");
         
         this.currentActions = new Set();
         
@@ -2745,6 +2758,13 @@ class Item extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined) {
         super(_id, _name, _description);
         
+        this.addAction("use");
+        this.addAction("put");
+        this.addAction("take");
+        this.addAction("hold");
+        this.addAction("attack");
+        this.addAction("sex");
+        
         this.image = "images/items/genericItem.svg";
         
         itemsIndexes.set(_id, this);
@@ -2811,6 +2831,10 @@ class Item extends Entity {
 class Clothing extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined) {
         super(_id, _name, _description);
+        
+        this.addAction("wear");
+        this.addAction("remove");
+        
         if (isNaN(_bodyPart))
             _bodyPart = BodyPartNameIds.get(_bodyPart);
         this.bodyPart = _bodyPart;

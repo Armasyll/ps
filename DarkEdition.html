@@ -138,6 +138,7 @@
                         <button type="button" id="toggleRapeButton" class="btn btn-info" onClick="toggleRape()"></button>
                         <button type="button" id="toggleGoreButton" class="btn btn-info" onClick="toggleGore()"></button>
                         <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="toggleDebug()"></button>
+                        <button type="button" id="toggleInventoryModalButton" class="btn btn-info" onClick="toggleInventoryModal()"></button>
                     </div>
                 </div>
             </div>
@@ -318,10 +319,15 @@
                 document.getElementById("toggleDebugButton").innerHTML = (debug ? "Enable" : "Disable") + " Debugging";
                 debug = !debug;
             };
+            toggleInventoryModal = function() {
+                document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Popup" : "Use Menu");
+                usePopups = !usePopups;
+            };
             
             document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
             document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Disable" : "Enable") + " Violence";
             document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
+            document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Menu" : "Use Popup");
         </script>
         <script data-description="Start the game" src="js/Start.js"></script>
         <script data-description="Events" src="js/data/GameEvents.js"></script>

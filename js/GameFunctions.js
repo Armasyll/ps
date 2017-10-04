@@ -726,7 +726,7 @@ window.addEventListener(
             case "o": {
                 fn = undefined;
                 if (agreeTOS)
-                    $('#gameOptionsModal').modal('toggle');
+                    $('#optionsModal').modal('toggle');
                 break;
             }
             case "h": {
@@ -735,7 +735,7 @@ window.addEventListener(
                 break;
             }
             case "i": {
-                fn = new Function(characterOpen());
+                fn = new Function(characterInteractOpen());
                 break;
             }
             case "`": {

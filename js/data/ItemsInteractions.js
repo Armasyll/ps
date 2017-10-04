@@ -1,21 +1,30 @@
-/*function itemInteract(_item, _clearContent = false, _clearMenu = true) {
+function itemInteract(_item, _clearContent = false, _clearMenu = true) {
     
 }
-function itemUse(_item, _character = player) {
+function itemInteractUse(_item, _character = player) {
     
 }
-function itemTake(_item, _character = player) {
+function itemInteractPut(_item, _entity = player) {
     
 }
-function itemPut(_item, _entity = player) {
+function itemInteractGive(_item, _character = player) {
     
 }
-function itemHold(_item, _character = player) {
+function itemInteractTake(_item, _character = player) {
     
 }
-function itemLook(_item, _character = player) {
+function itemInteractHold(_item, _character = player) {
     
 }
-function itemSex(_item, _character = player) {
+function itemInteractWear(_item, _character = player) {
     
-}*/
+}
+function itemInteractLook(_item, _character = player) {
+    
+}
+function itemInteractAttack(_item, _character = player) {
+    
+}
+function itemInteractSex(_item, _character = player) {
+    
+}
