@@ -2818,8 +2818,8 @@ class Clothing extends Item {
 }
 
 class Furniture extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined, _actions = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
-        super(_id, _name, _description, _owner, _actions);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
+        super(_id, _name, _description, undefined, _actions);
         
         if (isNaN(_type)) {
             if (FurnitureTypeNameIds.has(_type))

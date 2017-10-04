@@ -49,7 +49,7 @@ function personalCharacterMenu() {
     Menu.setOption(10, "debugMenu()", "Debug Menu");
     Menu.setOption(11, "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("getAppearance(player, 1)", "Appearance");
-    Menu.addOption("characterOpen()", "Inventory");
+    Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();
 }
 function exploreMenu() {
