@@ -67,6 +67,15 @@ function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undef
         $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
+function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _lastPageNumber = 0) {
+    if (moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu)) {
+        characterInteractOpen(_fromEntity, _lastPageNumber, false);
+        
+        return true;
+    }
+    else
+        return undefined;
+}
 function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (typeof _item == 'undefined' || typeof _fromEntity == 'undefined' || typeof _toEntity == 'undefined')
         return undefined;

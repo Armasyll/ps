@@ -7,7 +7,7 @@ function characterInteract(_character, _clearContent = true) {
     Menu.isExploring = false;
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
-    lastMenu = "characterInteract(" + _character.id + ",false,true)";
+    lastMenu = "characterInteract({0}, false, true)".format(_character.id);
     
     Title.set(
         _character.name, 
@@ -101,7 +101,7 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
         
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption(7, lastMenu, "Back");
+        Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
         Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
         var _entriesLimit = 10;
@@ -111,6 +111,9 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
         if (_character.items.size > 10) {
             var _arr = Array.from(_character.items);
             
+            if (_page > 1 && _character.items.size + 9 < (10 + 9 * (_page)))
+                _page -= 1;
+            
             if (((_page + 1) * _entriesLimit) < _arr.length)
                 Menu.setOption(6, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page + 1), "Look Further");
             if (_page > 0)
@@ -118,23 +121,23 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
             
             if (_page == 0) {
                 for (var _i = 0; _i < 10; _i++) {
-                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
             else if (((_page + 1) * _entriesLimit) > _character.items.size) {
                 for (var _i = (10 + 9 * (_page -1)); _i < (10 + 9 * (_page -1)) + 10 && _i < _character.items.size; _i++) {
-                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
             else {
                 for (var _i = (10 + 9 * (_page -1)); _i < (10 + 9 * (_page -1)) + 9; _i++) {
-                    Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
         }
         else {
             _character.items.forEach(function(_item) {
-                Menu.addOption("moveItemToEntity({0}, {1}, {2}, false)".format(_item.id, _character.id, player.id), "Take " + _item.name, _item.description);
+                Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_item.id, _character.id, player.id), "Take " + _item.name, _item.description);
             }, this);
         }
         
@@ -145,12 +148,14 @@ function characterInteractTalk(_character) {
     if (!(_character instanceof Character))
         _character = characterIndexes.get(_character);
     
+    
     Menu.clear();
-    Menu.setOption(7, lastMenu, "Back");
+    Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     fn = new Function(_character.id + "Talk()");
     try {fn();}catch (err) {}
+    
     
     Menu.generate();
 }
@@ -159,7 +164,7 @@ function characterInteractSex(_character) {
         _character = characterIndexes.get(_character);
     
     Menu.clear();
-    Menu.setOption(7, lastMenu, "Back");
+    Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     fn = new Function(_character.id + "Sex()");
@@ -171,6 +176,10 @@ function characterInteractFollow(_character) {
     if (!(_character instanceof Character))
         _character = characterIndexes.get(_character);
     
+    Menu.clear();
+    Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
+    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    
     fn = new Function(_character.id + "Follow()");
     try {fn();}catch (err) {}
     
@@ -180,6 +189,10 @@ function characterInteractAttack(_character) {
     if (!(_character instanceof Character))
         _character = characterIndexes.get(_character);
     
+    Menu.clear();
+    Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
+    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    
     fn = new Function(_character.id + "Attack()");
     try {fn();}catch (err) {}
     
@@ -188,6 +201,10 @@ function characterInteractAttack(_character) {
 function characterInteractStay(_character) {
     if (!(_character instanceof Character))
         _character = characterIndexes.get(_character);
+    
+    Menu.clear();
+    Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
+    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     fn = new Function(_character.id + "Stay()");
     try {fn();}catch (err) {}

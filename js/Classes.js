@@ -3087,9 +3087,13 @@ class GameEvent {
         try {fn();}catch (err) {}
         
         if (this.runOnce) {
-            eventsIndexes.delete(this.id);
+            this.delete();
         }
         
         eventsExecutedThisTick.add(this);
+    }
+    
+    delete() {
+        eventsIndexes.delete(this.id);
     }
 }

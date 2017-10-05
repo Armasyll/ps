@@ -140,6 +140,13 @@ function rosieGiveCharlieHeart() {
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
     Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
     
+    charlieHeartbeatRosieCellEvent.delete();
+    charlieHeartbeatRosieRoomEvent.delete();
+    charlieTakeHeartEvent.delete();
+    charlieReceiveHeartEvent.delete();
+    charlieRemoveLeftEyeEvent.delete();
+    charlieReceiveLeftEyeEvent.delete();
+    
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
     Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
@@ -161,6 +168,7 @@ function rosieGiveCharlieHeartFlee() {
     
     charlie.sleeping = false;
     charlie.alive = true;
+    charlie.image = 'images/characters/RosieCharlie.png';
     characterStand(charlie);
     
     tick("1m", true, false);
@@ -203,6 +211,7 @@ function rosieGiveCharlieHeartStay() {
     
     charlie.sleeping = false;
     charlie.alive = true;
+    charlie.image = 'images/characters/RosieCharlie.png';
     characterStand(charlie);
     
     tick("1m", true, false);
