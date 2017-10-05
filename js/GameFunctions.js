@@ -457,7 +457,7 @@ function characterSit(_character, _furniture = undefined) {
     
     if (_character instanceof Character) {
         if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.remove(_character);
+            _furniture.removeCharacter(_character);
         
         _character.sit(_furniture);
         
@@ -471,7 +471,7 @@ function characterLay(_character, _furniture = undefined) {
     
     if (_character instanceof Character) {
         if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.remove(_character);
+            _furniture.removeCharacter(_character);
         
         _character.lay(_furniture);
         
@@ -485,7 +485,7 @@ function characterSleep(_character, _furniture = undefined) {
     
     if (_character instanceof Character) {
         if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.remove(_character);
+            _furniture.removeCharacter(_character);
         
         _character.sleep(_furniture);
         
@@ -510,8 +510,11 @@ function characterStand(_character) {
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
     if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture)
-            _furniture.remove(_character);
+        if (_character.furniture instanceof Furniture) {
+            _character.furniture.removeCharacter(_character);
+            _character.furniture = undefined;
+        }
+        
         _character.stand();
     }
 }
@@ -520,8 +523,11 @@ function characterWalk(_character) {
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
     if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture)
-            _furniture.remove(_character);
+        if (_character.furniture instanceof Furniture) {
+            _character.furniture.removeCharacter(_character);
+            _character.furniture = undefined;
+        }
+        
         _character.walk();
     }
 }

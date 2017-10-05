@@ -1225,7 +1225,8 @@ class Character extends Entity {
     }
     
     sit(_furniture = undefined) {
-        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
         this.addCurrentAction("sit");
         this.removeCurrentAction("lay");
@@ -1234,9 +1235,12 @@ class Character extends Entity {
         this.removeCurrentAction("walk");
         
         this.furniture = _furniture
+        
+        return _furniture;
     }
     lay(_furniture = undefined) {
-        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
         this.addCurrentAction("lay");
         this.removeCurrentAction("sit");
@@ -1245,14 +1249,19 @@ class Character extends Entity {
         this.removeCurrentAction("walk");
         
         this.furniture = _furniture
+        
+        return _furniture;
     }
     sleep(_furniture = undefined) {
-        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
         this.addCurrentAction("sleep");
         this.removeCurrentAction("walk");
         
         this.furniture = _furniture
+        
+        return _furniture;
     }
     stand() {
         this.addCurrentAction("stand");
