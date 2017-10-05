@@ -9,6 +9,7 @@ charlieBeatingHeart = new Item("charlieBeatingHeart", "Charlie's Heart", "The vi
 charlieLeftEye = new Item("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.");
 bugBurgaDelux = new Item("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.");
 bugBurga = new Item("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.");
+bugBurgaDrank = new Item("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.")
 
 // Clothing
 annekeBlouseBlue = new Clothing("annekeBlouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", "torso");

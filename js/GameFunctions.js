@@ -95,7 +95,8 @@ function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity 
         return undefined;
     }
     
-    if (!(_fromEntity instanceof Entity)) {
+    if (typeof _fromEntity == 'undefined') {}
+    else if (!(_fromEntity instanceof Entity)) {
         if (charactersIndexes.has(_fromEntity))
             _fromEntity = charactersIndexes.get(_fromEntity);
         else if (furnitureIndexes.has(_fromEntity))
@@ -125,19 +126,21 @@ function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity 
         return undefined;
     }
     
-    if (_fromEntity.containsItem(_item)) {
-        _fromEntity.removeItem(_item);
-        if (debug) console.log("Checking for item removal events");
-        eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
-                if (_fromEntity == player || _toEntity == player)
-                    hideModals();
-                
-                _event.execute();
-            }
-        }, this);
+    if (typeof _fromEntity == 'undefined' || _fromEntity.containsItem(_item)) {
+        if (typeof _fromEntity != 'undefined') {
+            _fromEntity.removeItem(_item);
+            if (debug) console.log("Checking for item removal events");
+            eventsIndexes.forEach(function(_event) {
+                if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
+                    if (_fromEntity == player || _toEntity == player)
+                        hideModals();
+                    
+                    _event.execute();
+                }
+            }, this);
+        }
         
-        if (!(_fromEntity.containsItem(_item))) {
+        if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
             if (debug) console.log("Checking for item given events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
@@ -662,6 +665,12 @@ function characterTakeOver(_characterA, _characterB) {
         if (_character != player && _character != _characterA && _character != _characterB) {
             _character.disposition.set(_characterA, _character.disposition.get(_characterB));
         }
+    }, this);
+}
+
+function addAllItems() {
+    itemsIndexes.forEach(function(_item) {
+        player.addItem(_item);
     }, this);
 }
 

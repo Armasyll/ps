@@ -8,3 +8,4 @@ charlieBeatingHeart.image = "images/items/charlieBeatingHeart.svg";
 annekePantiesBlue.image = "images/items/bluePanties.svg";
 bugBurgaDelux.image = "images/items/bugBurgaDelux.svg";
 bugBurga.image = "images/items/bugBurga.svg";
+bugBurgaDrank.image = "images/items/bugBurgaDrank.svg";
