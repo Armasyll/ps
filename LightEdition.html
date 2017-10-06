@@ -135,6 +135,7 @@
                         <button type="button" id="toggleGoreButton" class="btn btn-info" onClick="toggleGore()"></button>
                         <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="toggleDebug()"></button>
                         <button type="button" id="toggleInventoryModalButton" class="btn btn-info" onClick="toggleInventoryModal()"></button>
+                        <button type="button" id="toggleMenuSizeButton" class="btn btn-info" onClick="toggleMenuSize()"></button>
                     </div>
                 </div>
             </div>
@@ -320,9 +321,18 @@
                 document.getElementById("toggleDebugButton").innerHTML = (debug ? "Enable" : "Disable") + " Debugging";
                 debug = !debug;
             };
+            toggleInventoryModal = function() {
+                document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Popup Inventory" : "Use Menu Inventory");
+                usePopups = !usePopups;
+            };
+            toggleMenuSize = function() {
+                document.getElementById("toggleMenuSizeButton").innerHTML = (numberOfOptions == 12 ? "Use Normal Menu" : "Use Wide Menu");
+                numberOfOptions == 12 ? useWideMenu() : useNormalMenu();
+            };
             
             document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
-            document.getElementById("toggleInventoryModalButton").innerHTML = (toggleInventoryModal ? "Use Modal" : "Use Menu");
+            document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Menu Inventory" : "Use Popup Inventory");
+            document.getElementById("toggleMenuSizeButton").innerHTML = (numberOfOptions == 12 ? "Use Wide Menu" : "Use Normal Menu");
         </script>
         <script data-description="Start the game" src="js/Start.js"></script>
         <script data-description="Events" src="js/data/GameEvents.js"></script>
