@@ -67,7 +67,7 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
     }
     else {
         if (_clearContent) {
-            _blob = "";
+            var _blob = "";
             if (_character == player)
                 _blob += ("Looking through your pockets, you find ");
             else
@@ -83,25 +83,27 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
             }
             else {
                 // Lazy
-                tempArray = [];
+                _arr = [];
                 
                 _character.items.forEach(function(_item) {
-                    tempArray.push(_item.toString());
+                    _arr.push(_item.toString());
                 });
                 
-                for (i = 0; i < tempArray.length - 1; i++) {
-                    _blob += (tempArray[i]);
-                    if (tempArray.length > 2)
+                for (i = 0; i < _arr.length - 1; i++) {
+                    _blob += (_arr[i]);
+                    if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + tempArray[tempArray.length - 1] + ".");
+                delete _arr;
+                _blob += (" and " + _arr[_arr.length - 1] + ".");
             }
             Content.add("<p>" + _blob + "</p>");
+            delete _blob;
         }
         
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption(7, "characterInteract({0}, false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
         Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
         var _entriesLimit = 10;
@@ -115,9 +117,9 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
                 _page -= 1;
             
             if (((_page + 1) * _entriesLimit) < _arr.length)
-                Menu.setOption(6, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page + 1), "Look Further");
+                Menu.setOption(6, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page + 1), "Next");
             if (_page > 0)
-                Menu.setOption(10, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page - 1), "Look Back");
+                Menu.setOption(10, "characterInteractOpen({0}, {1}, false)".format(_character.id, _page - 1), "Previous");
             
             if (_page == 0) {
                 for (var _i = 0; _i < 10; _i++) {
