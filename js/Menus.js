@@ -262,10 +262,16 @@ function getAppearance(_character, _self = false) {
         _blob += (_character.clothingTorso.toString() + ", and nothing below the waste.");
     }
     else if (!_character.hasShirt() && _character.hasPants()) {
-        _blob += ("no shirt, but a " + _character.clothingLegs.toString() + ".");
+        if (_character.clothingLegs.plural)
+            _blob += ("no shirt, but a pair of " + _character.clothingLegs.toString() + ".");
+        else
+            _blob += ("no shirt, but a " + _character.clothingLegs.toString() + ".");
     }
     else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
-        _blob += ("nothing but a pair of " + _character.clothingLegs.toString() + ".");
+        if (_character.clothingLegs.plural)
+            _blob += ("nothing but a pair of " + _character.clothingGroin.toString() + ".");
+        else
+            _blob += "nothing by a {0}.".format(_character.clothingGroin.toString());
     }
     else {
         _blob += ("absolutely nothing.");

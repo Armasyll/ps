@@ -2764,7 +2764,7 @@ class Room extends Entity {
 }
 
 class Item extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false) {
         super(_id, _name, _description);
         
         this.addAction("use");
@@ -2774,7 +2774,11 @@ class Item extends Entity {
         this.addAction("attack");
         this.addAction("sex");
         
-        this.image = "images/items/genericItem.svg";
+        if (typeof _image == 'undefined')
+            _image = "images/items/genericItem.svg";
+        this.image = _image;
+        
+        this.plural = _plural;
         
         itemsIndexes.set(_id, this);
     }
