@@ -12,16 +12,16 @@ bugBurga = new Item("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, 
 bugBurgaDrank = new Item("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.", "images/items/bugBurgaDrank.svg");;
 
 // Clothing
-annekeBlouseBlue = new Clothing("annekeBlouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", "torso");
-annekePantiesBlue = new Clothing("annekePantiesBlue", "Blue Panties", "A pair of blue, almost see-through panties.", "groin", "images/items/bluePanties.svg", true);
-bettyStraponHorseBlack = new Clothing("bettyStraponHorseBlack", "Black Horse Strapon Dildo", "A black dildo attached to a strapon harness", "groin");
-charlieTurtleneckBlack = new Clothing("charlieTurtleneckBlack", "Black Turtleneck", "A black turtleneck sweater.", "torso");
-charliePantiesPink = new Clothing("charliePantiesPink", "Pink Panties", "A pair of pink panties.", "groin", undefined, true);
-charliePantsGrey = new Clothing("charliePantsGrey", "Grey Pants", "A pair of grey pants.", "legs", undefined, true);
-remmyTanktopWhite = new Clothing("remmyTanktopWhite", "White tank-top", "A white tank-top.", "torso");
-remmyCargopantsTan = new Clothing("remmyCargopantsTan", "Tan Cargo Pants", "A pair of tan cargo pants.", "legs", undefined, true);
-rosieShirtPatchy = new Clothing("rosieShirtPatchy", "Patchy Shirt", "A torn, patched up cloth shirt.", "torso");
-rosiePantsPatchy = new Clothing("rosiePantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", "legs", undefined, true);
+blouseBlue = new Clothing("blouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", "torso");
+pantiesBlue = new Clothing("pantiesBlue", "Blue Panties", "A pair of blue, almost see-through panties.", "groin", "images/items/bluePanties.svg", true);
+straponHorseBlack = new Clothing("straponHorseBlack", "Black Horse Strapon Dildo", "A black dildo attached to a strapon harness", "groin");
+turtleneckBlack = new Clothing("turtleneckBlack", "Black Turtleneck", "A black turtleneck sweater.", "torso");
+pantiesPink = new Clothing("pantiesPink", "Pink Panties", "A pair of pink panties.", "groin", undefined, true);
+pantsGrey = new Clothing("pantsGrey", "Grey Pants", "A pair of grey pants.", "legs", undefined, true);
+tanktopWhite = new Clothing("tanktopWhite", "White tank-top", "A white tank-top.", "torso");
+cargopantsTan = new Clothing("cargopantsTan", "Tan Cargo Pants", "A pair of tan cargo pants.", "legs", undefined, true);
+shirtPatchy = new Clothing("shirtPatchy", "Patchy Shirt", "A torn, patched up cloth shirt.", "torso");
+pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", "legs", undefined, true);
 
 // Keys
 masterKey = new Item("masterKey", "Simple Key", "A simple key.");

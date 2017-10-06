@@ -268,7 +268,7 @@ function getAppearance(_character, _self = false) {
             _blob += ("no shirt, but a " + _character.clothingLegs.toString() + ".");
     }
     else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
-        if (_character.clothingLegs.plural)
+        if (_character.clothingGroin.plural)
             _blob += ("nothing but a pair of " + _character.clothingGroin.toString() + ".");
         else
             _blob += "nothing by a {0}.".format(_character.clothingGroin.toString());

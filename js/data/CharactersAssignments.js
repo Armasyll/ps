@@ -201,16 +201,16 @@ wolter.preferredSex = 1;
 wolter.incestual = 25;
 
 // Assign Clothes to Characters
-betty.wear(bettyStraponHorseBlack);
-charlie.wear(charlieTurtleneckBlack);
-charlie.wear(charliePantiesPink);
-charlie.wear(charliePantsGrey);
-remmy.wear(remmyTanktopWhite);
-remmy.wear(remmyCargopantsTan);
-rosie.wear(rosieShirtPatchy);
-rosie.wear(rosiePantsPatchy);
-wolter.wear(annekeBlouseBlue);
-wolter.wear(annekePantiesBlue);
+betty.wear(straponHorseBlack);
+charlie.wear(turtleneckBlack);
+charlie.wear(pantiesPink);
+charlie.wear(pantsGrey);
+remmy.wear(tanktopWhite);
+remmy.wear(cargopantsTan);
+rosie.wear(shirtPatchy);
+rosie.wear(pantsPatchy);
+wolter.wear(blouseBlue);
+wolter.wear(pantiesBlue);
 
 charlie.addItem(chartyApartmentLocationKey);
 charlie.addItem(charlieBeatingHeart);
