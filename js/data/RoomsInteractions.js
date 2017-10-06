@@ -30,7 +30,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = true, _showC
             Menu.isExploring = false;
             
             Menu.clear();
-            Menu.setOption(11, "baseMenu(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
             if (debug) console.log("\tRoom for " + _room.sid);
             fn = new Function(_room.sid + "Interact(" + _showBaseMenu + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");

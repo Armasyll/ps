@@ -11,8 +11,8 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
         else {
             Menu.clear();
-            Menu.setOption(7, "roomInteract(" + player.room.id + ", false, true, false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
-            Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            Menu.setOption((numberOfOptions == 12 ? 7 : 9), "roomInteract(" + player.room.id + ", false, true, false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+            Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             Menu.addOption("furnitureOpen(" + _furniture.id + ")", "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
             
             _furniture.availableActions.forEach(function(_action) {
@@ -81,8 +81,8 @@ function furnitureOpen(_furniture) {
     Content.add("<p>" + $blob + "</p>");
     
     Menu.clear();
-    Menu.setOption(7, lastMenu, "Back");
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), lastMenu, "Back");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     _furniture.items.forEach(function(_item) {
         Menu.addOption("moveItemToCharacter(" + _item.id + ")", "Take " + _item.name, _item.description);

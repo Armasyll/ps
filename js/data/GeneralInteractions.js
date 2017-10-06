@@ -14,7 +14,7 @@ function chearlieEatFruitypebbles() {
         _blob += (".");
     Content.add("<p>" + _blob + "</p>");
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function charlieEatCharlie() {
@@ -61,7 +61,7 @@ function charlieEatCharlie() {
     player.room.ateCharlie = true;
     player.ateCharlie = true;
     
-    //Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    //Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.addOption("charlieEatCharlieMore()", "Eat some more of Charlie");
     Menu.generate();
@@ -93,7 +93,7 @@ function charlieEatCharlieFuck() {
     Content.add("<p>Pulling her limp, bloody corpse into your arms, you hug her body against yours, and start prodding your cock between her thighs. Blood smears across your face as you pull and squeeze her body against your thrusts. You can't tell whether it's blood, your precum, or if her body had felt some kind of sexual thrill before she died, but your cock slides easily in.</p>");
     Content.add("<p>You can't tell how long you've been fucking her body, but finally you cum. Releasing her body, it hits the floor with a dull thud, and your cock slips out. Your seed slowly mixed with the blood on the floor. With the sickening, horrible deed done, you wipe your mouth of bits of fur, meat, and blood.</p>");
     
-    //Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    //Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.generate();
 }
@@ -105,7 +105,7 @@ function charlieEatCharlieCont() {
     player.addItem(charlieLeftEye);
     player.addItem(charlieBeatingHeart);
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function rosieGiveCharlieHeart() {
@@ -150,7 +150,7 @@ function rosieGiveCharlieHeart() {
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
     Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
-    Menu.setOption(11, "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function rosieGiveCharlieHeartFlee() {
@@ -217,7 +217,7 @@ function rosieGiveCharlieHeartStay() {
     tick("1m", true, false);
     
     Menu.clear();
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 

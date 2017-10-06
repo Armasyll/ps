@@ -100,8 +100,8 @@ function remmyApartmentLivingroomCouchSex(_character = player) {
         _character = charactersIndexes.get(_character);
     
     Menu.clear();
-    Menu.setOption(7, lastMenu, "Back");
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), lastMenu, "Back");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     if (player.hasItem("charlieBigBlackRemmyDildo"))
         Menu.addOption("remmyApartmentLivingroomCouchSexDildoAnal()", "Ride " + (player == remmy ? "your" : "Remmy's") + " couch", "Anal, with " + (player == charlie ? "your" : "Charlie's") + " dildo");
     if (player.hasItem("charlieBigBlackRemmyDildo") && player.sex == 1)
@@ -177,8 +177,8 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     
     Content.add("<p>" + _blob + "</p>");
     
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     Menu.generate();
     
@@ -194,8 +194,8 @@ function remmyApartmentLivingroomCharlieTalkHi() {
     Content.add("You sit beside {0} and say \"Hi,\"<br/>Her lips curl up just a smidgen, and she says \"Hello, Remmy.\"<br/>".format(_character.name));
     
     
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
     
     Menu.generate();
@@ -228,8 +228,8 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
         Content.add("<p>{0} gets up to leave, but then you call back to {1}; \"{0}, wait!\" {3} stops with {1} back turned to you.</p><p>Again, you say \"Hi.\"</p><p>{0} spins around to face you, grabs your shoulders, and gekkers loudly, moving {1} open mouth closer to yours with each 'gek'. Pushing you onto the other side of your couch, {2} turns back around and leaves.</p><p><i>How rude,</i> you think to yourself.<p/>".format(_character.name, _character.possessiveAdjective(), _character.subjectPronoun(), _character.subjectPronoun().capitalize()));
     
     
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     if (charlie['annoyed'] < 6)
         Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
     
@@ -255,7 +255,7 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
         wolter.sleeping = false;
     }
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     Menu.generate();
     
@@ -332,8 +332,8 @@ function remmyApartmentLivingroomCharlieSexFellatioGive() {
     player.addSexWith(_character);
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingSwallow()", "Cum in her mouth");
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingFacial()", "Cum on her face");
     Menu.generate();
@@ -345,8 +345,8 @@ function remmyApartmentLivingroomCharlieSexVaginalGive() {
     player.addSexWith(_character);
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalBellybutter()", "Pull out");
     Menu.generate();
@@ -358,8 +358,8 @@ function remmyApartmentLivingroomCharlieSexAnalGive() {
     player.addSexWith(_character);
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalBackbaste()", "Pull out");
     Menu.generate();
@@ -371,8 +371,8 @@ function remmyApartmentLivingroomCharlieSexMasturbateGive() {
     player.addSexWith(_character);
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.generate();
     
     tick("15m");
@@ -382,8 +382,8 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     player.addSexWith(_character);
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption(7, "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     if (player.room.containsCharacter(wolter))
         if (wolter.sleeping && enableRape)
             Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter()", "Jizz on sleeping Wolter");

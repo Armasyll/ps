@@ -22,6 +22,7 @@ var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
 var eventsExecutedThisTick = new Set();
 var usePopups = true;
+var numberOfOptions = 12;
 
 const SpeciesIdNames = new Map();
     SpeciesIdNames.set(0, "fox");

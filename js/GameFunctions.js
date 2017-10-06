@@ -674,6 +674,15 @@ function addAllItems() {
     }, this);
 }
 
+function useWideMenu() {
+    numberOfOptions = 15;
+    runLastMenu();
+}
+function useNormalMenu() {
+    numberOfOptions = 12;
+    runLastMenu();
+}
+
 window.addEventListener(
     "resize", 
     function() {
@@ -685,7 +694,8 @@ window.addEventListener(
 window.addEventListener(
     "keypress",
     function(event) {
-        fn = undefined;
+        var fn = undefined;
+        var _placement = undefined;
         switch(event['key']) {
             case "1": {
                 if (typeof Menu.options[0] !== 'undefined' && typeof Menu.options[0][0] !== 'undefined')
@@ -707,54 +717,81 @@ window.addEventListener(
                     fn = new Function(Menu.options[3][0]);
                 break;
             }
+            case "5": {
+                if (numberOfOptions == 15) {
+                    if (typeof Menu.options[4] !== 'undefined' && typeof Menu.options[4][0] !== 'undefined')
+                        fn = new Function(Menu.options[3][0]);
+                }
+                break;
+            }
             case "q": {
-                if (typeof Menu.options[4] !== 'undefined' && typeof Menu.options[4][0] !== 'undefined')
-                    fn = new Function(Menu.options[4][0]);
+                _placement = (numberOfOptions == 12 ? 4 : 5);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "w": {
-                if (typeof Menu.options[5] !== 'undefined' && typeof Menu.options[5][0] !== 'undefined')
-                    fn = new Function(Menu.options[5][0]);
+                _placement = (numberOfOptions == 12 ? 5 : 6);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "e": {
-                if (typeof Menu.options[6] !== 'undefined' && typeof Menu.options[6][0] !== 'undefined')
-                    fn = new Function(Menu.options[6][0]);
+                _placement = (numberOfOptions == 12 ? 6 : 7);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "r": {
-                if (typeof Menu.options[7] !== 'undefined' && typeof Menu.options[7][0] !== 'undefined')
-                    fn = new Function(Menu.options[7][0]);
+                _placement = (numberOfOptions == 12 ? 7 : 8);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
+                break;
+            }
+            case "t": {
+                if (numberOfOptions == 15) {
+                    if (typeof Menu.options[9] !== 'undefined' && typeof Menu.options[9][0] !== 'undefined')
+                        fn = new Function(Menu.options[9][0]);
+                }
                 break;
             }
             case "a": {
-                if (typeof Menu.options[8] !== 'undefined' && typeof Menu.options[8][0] !== 'undefined')
-                    fn = new Function(Menu.options[8][0]);
+                _placement = (numberOfOptions == 12 ? 8 : 10);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "s": {
-                if (typeof Menu.options[9] !== 'undefined' && typeof Menu.options[9][0] !== 'undefined')
-                    fn = new Function(Menu.options[9][0]);
+                _placement = (numberOfOptions == 12 ? 9 : 11);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "d": {
-                if (typeof Menu.options[10] !== 'undefined' && typeof Menu.options[10][0] !== 'undefined')
-                    fn = new Function(Menu.options[10][0]);
+                _placement = (numberOfOptions == 12 ? 10 : 12);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "f": {
-                if (typeof Menu.options[11] !== 'undefined' && typeof Menu.options[11][0] !== 'undefined')
-                    fn = new Function(Menu.options[11][0]);
+                _placement = (numberOfOptions == 12 ? 11 : 13);
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
+                break;
+            }
+            case "g": {
+                if (numberOfOptions == 15) {
+                    if (typeof Menu.options[14] !== 'undefined' && typeof Menu.options[14][0] !== 'undefined')
+                        fn = new Function(Menu.options[14][0]);
+                }
                 break;
             }
             case "o": {
-                fn = undefined;
                 if (agreeTOS)
                     $('#optionsModal').modal('toggle');
                 break;
             }
             case "h": {
-                fn = undefined;
                 $('#helpModal').modal('toggle');
                 break;
             }

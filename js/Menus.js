@@ -23,7 +23,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         /*if (player.room.rooms.size > 0)
             Menu.setOption(1, "exploreMenu()", "Explore your surroundings.");*/
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
-        Menu.setOption(7, "tick('1m', true)", "Wait");
+        Menu.setOption((numberOfOptions == 12 ? 7 : 9), "tick('1m', true)", "Wait");
         if (player.room.characters.size == 2) {
             _character = undefined;
             player.room.characters.forEach(function(character) {
@@ -46,8 +46,7 @@ function personalCharacterMenu() {
         Content.add("You have blood caked across your face and dripping down your jaw, as well as bits of cream-coloured fur and red chunks of meat. You are very full.");
     
     Menu.clear();
-    Menu.setOption(10, "debugMenu()", "Debug Menu");
-    Menu.setOption(11, "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("getAppearance(player, 1)", "Appearance");
     Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();
@@ -119,7 +118,7 @@ function localCharactersMenu() {
             Menu.addOption("characterInteract(" + _character.id + ")", _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
     }
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 
@@ -131,7 +130,7 @@ function debugMenu() {
     
     clearContentAndMenu();
     
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("debugRoomInformation()", "Room Information");
     Menu.addOption("debugSwitchRoom()", "Switch Room");
     Menu.addOption("debugCharactersInformation()", "Characters Information");
@@ -165,8 +164,8 @@ function debugSwitchRoom() {
             Content.add(Menu.createButton("roomInteract(" + _key.id + ", true, true, true)", _key.name, _key.id, false));
     });
     
-    Menu.setOption(7, "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption(11, "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugCharactersInformation() {
@@ -208,8 +207,8 @@ function debugSwitchCharacter() {
     
     Content.add(_blob);
     
-    Menu.setOption(7, "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption(11, "roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugBrowserInformation() {

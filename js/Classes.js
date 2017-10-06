@@ -88,18 +88,35 @@ class Menu {
         var i = 0;
         var _runCond = 1;
         
-        while (i <= this.options.length && i < 12 && _runCond) {
-            if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10))) {
-                if (typeof this.options[i] == 'undefined') {
-                    if ($id.length > 0 && !$id.endsWith(")"))
-                        $id = $id + "()";
-                    
-                    this.options[i] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
-                    _runCond = 0;
+        if (numberOfOptions == 12) {
+            while (i <= this.options.length && i < numberOfOptions && _runCond) {
+                if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10))) {
+                    if (typeof this.options[i] == 'undefined') {
+                        if ($id.length > 0 && !$id.endsWith(")"))
+                            $id = $id + "()";
+                        
+                        this.options[i] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
+                        _runCond = 0;
+                    }
                 }
+                
+                i++;
             }
-            
-            i++;
+        }
+        else {
+            while (i <= this.options.length && i < numberOfOptions && _runCond) {
+                if (!(Menu.isExploring && (i == 5 || i == 6 || i == 7 || i == 10 || i == 11 || i == 12))) {
+                    if (typeof this.options[i] == 'undefined') {
+                        if ($id.length > 0 && !$id.endsWith(")"))
+                            $id = $id + "()";
+                        
+                        this.options[i] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
+                        _runCond = 0;
+                    }
+                }
+                
+                i++;
+            }
         }
     }
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
@@ -115,7 +132,7 @@ class Menu {
             else
                 _metaName = downRoom.location.name;
             
-            this.options[4] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
         }
         if (northRoom instanceof Room) {
             if (player.room.cell.location != northRoom.cell.location)
@@ -125,7 +142,7 @@ class Menu {
             else
                 _metaName = northRoom.location.name;
             
-            this.options[5] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
         }
         if (upRoom instanceof Room) {
             if (player.room.cell.location != upRoom.cell.location)
@@ -135,7 +152,7 @@ class Menu {
             else
                 _metaName = upRoom.location.name;
             
-            this.options[6] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
         }
         if (westRoom instanceof Room) {
             if (player.room.cell.location != westRoom.cell.location)
@@ -145,7 +162,7 @@ class Menu {
             else
                 _metaName = westRoom.location.name;
             
-            this.options[8] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
         }
         if (southRoom instanceof Room) {
             if (player.room.cell.location != southRoom.cell.location)
@@ -155,7 +172,7 @@ class Menu {
             else
                 _metaName = southRoom.location.name;
             
-            this.options[9] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
         }
         if (eastRoom instanceof Room) {
             if (player.room.cell.location != eastRoom.cell.location)
@@ -165,7 +182,7 @@ class Menu {
             else
                 _metaName = eastRoom.location.name;
             
-            this.options[10] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
+            this.options[(numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
         }
     }
     static generate() {
@@ -174,29 +191,57 @@ class Menu {
         document.getElementById("choiceContainerBottom").innerHTML = "";
         var _blob = "";
         _blob += '<div class="btn-group btn-group-justified">';
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < numberOfOptions; i++) {
             var _key = 0;
-            switch (i) {
-                case 0: _key = "1"; break;
-                case 1: _key = "2"; break;
-                case 2: _key = "3"; break;
-                case 3: _key = "4"; break;
-                case 4: _key = "q"; break;
-                case 5: _key = "w"; break;
-                case 6: _key = "e"; break;
-                case 7: _key = "r"; break;
-                case 8: _key = "a"; break;
-                case 9: _key = "s"; break;
-                case 10: _key = "d"; break;
-                case 11: _key = "f"; break;
+            
+            if (numberOfOptions == 12) {
+                switch (i) {
+                    case 0: _key = "1"; break;
+                    case 1: _key = "2"; break;
+                    case 2: _key = "3"; break;
+                    case 3: _key = "4"; break;
+                    case 4: _key = "q"; break;
+                    case 5: _key = "w"; break;
+                    case 6: _key = "e"; break;
+                    case 7: _key = "r"; break;
+                    case 8: _key = "a"; break;
+                    case 9: _key = "s"; break;
+                    case 10: _key = "d"; break;
+                    case 11: _key = "f"; break;
+                }
             }
+            else {
+                switch (i) {
+                    case 0: _key = "1"; break;
+                    case 1: _key = "2"; break;
+                    case 2: _key = "3"; break;
+                    case 3: _key = "4"; break;
+                    case 4: _key = "5"; break;
+                    case 5: _key = "q"; break;
+                    case 6: _key = "w"; break;
+                    case 7: _key = "e"; break;
+                    case 8: _key = "r"; break;
+                    case 9: _key = "t"; break;
+                    case 10: _key = "a"; break;
+                    case 11: _key = "s"; break;
+                    case 12: _key = "d"; break;
+                    case 13: _key = "f"; break;
+                    case 14: _key = "g"; break;
+                }
+            }
+            
             if (typeof this.options[i] === 'undefined')
                 _blob += this.createButton("", "&nbsp;", "&nbsp;", "", "", 1, 1, 0);
             else {
                 _blob += this.createButton(this.options[i], _key);
             }
-            if (i == 3 || i == 7) {
-                _blob += '</div><div class="btn-group btn-group-justified">';
+            if (numberOfOptions == 12) {
+                if (i == 3 || i == 7)
+                    _blob += '</div><div class="btn-group btn-group-justified">';
+            }
+            else {
+                if (i == 4 || i == 9)
+                    _blob += '</div><div class="btn-group btn-group-justified">';
             }
         }
         _blob += '</div>';
