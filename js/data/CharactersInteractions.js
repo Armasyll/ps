@@ -123,23 +123,23 @@ function characterInteractOpen(_character, _page = 0, _clearContent = true) {
             
             if (_page == 0) {
                 for (var _i = 0; _i < (numberOfOptions - 2); _i++) {
-                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _character.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
             else if (((_page + 1) * _entriesLimit) > _character.items.size) {
-                for (var _i = ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)); _i < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)) + (numberOfOptions - 2) && _i < _character.items.size; _i++) {
-                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                for (var _i = ((numberOfOptions - 3) + (numberOfOptions - 3) * (_page -1)); _i < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)) + (numberOfOptions - 2) && _i < _character.items.size; _i++) {
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _character.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
             else {
                 for (var _i = ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)); _i < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)) + (numberOfOptions - 3); _i++) {
-                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_arr[_i].id, _character.id, player.id), "Take " + _arr[_i].name, _arr[_i].description);
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _character.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
                 }
             }
         }
         else {
             _character.items.forEach(function(_item) {
-                Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, _page)".format(_item.id, _character.id, player.id), "Take " + _item.name, _item.description);
+                Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _character.id, player.id, _page), "Take " + _item.name, _item.description);
             }, this);
         }
         
