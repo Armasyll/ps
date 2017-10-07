@@ -1,30 +1,110 @@
 function itemInteract(_item, _clearContent = false, _clearMenu = true) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractUse(_item, _character = player) {
+function itemUse(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractPut(_item, _entity = player) {
+function itemPut(_item, _character = player) { // Rewrite this later for entities in general
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractGive(_item, _character = player) {
+function itemGive(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractTake(_item, _character = player) {
+function itemTake(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractHold(_item, _character = player) {
+function itemHold(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractWear(_item, _character = player) {
+function itemWear(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
+    _character.wear(_item);
+}
+function itemLook(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item))
+        return;
+    
+    Content.add(_item.description);
+}
+function itemAttack(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+    
     
 }
-function itemInteractLook(_item, _character = player) {
+function itemSex(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-}
-function itemInteractAttack(_item, _character = player) {
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
     
-}
-function itemInteractSex(_item, _character = player) {
     
 }

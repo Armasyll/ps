@@ -1,6 +1,7 @@
 function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
+    
     lastMenu = "furnitureInteract(" + _furniture.id + ",false,true)";
     
     Content.add("<p>You decide to look over the " + FurnitureTypeIdNames.get(_furniture.type) + ", and you see that it has " + (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items")) + " inside of it.</p>");
@@ -97,43 +98,73 @@ function furnitureOpen(_furniture) {
     $("#dualInventoryModal").modal("show");
 }
 function furnitureUse(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Use(" + _character.id + ")");
     try {fn();}catch (err) {}
 }
 function furnitureSit(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Sit(" + _character.id + ")");
     try {fn();}catch (err) {}
 }
 function furnitureLay(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Lay(" + _character.id + ")");
     try {fn();}catch (err) {}
 }
 function furnitureSleep(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Sleep(" + _character.id + ")");
     try {fn();}catch (err) {}
 }
 function furnitureLook(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Look(" + _character.id + ")");
     try {fn();}catch (err) {}
 }
 function furnitureSex(_furniture, _character = player) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+        return;
     
     fn = new Function(_furniture.id + "Sex(" + _character.id + ")");
     try {fn();}catch (err) {}

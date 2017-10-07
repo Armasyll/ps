@@ -2900,8 +2900,8 @@ class Clothing extends Item {
 }
 
 class Furniture extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
-        super(_id, _name, _description, undefined, _actions);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
+        super(_id, _name, _description, undefined);
         
         if (isNaN(_type)) {
             if (FurnitureTypeNameIds.has(_type))
@@ -2915,6 +2915,14 @@ class Furniture extends Entity {
             else
                 this.type = 0;
         }
+        
+        this.addAction("use");
+        this.addAction("sit");
+        this.addAction("lay");
+        this.addAction("sleep");
+        this.addAction("look");
+        this.addAction("sex");
+        
         this.seatingSpace = _seatingSpace;
         this.storageSpace = _storageSpace;
         this.characters = new Set(); // <Character, Action>
