@@ -407,21 +407,14 @@ class Minimap {
         var _characterPortraitLinks = [];
         var _itemPortraitLinks = [];
         
+        // Modify room wall colour
         if (_room.location.owner.size > 0) {
             var _owner = _room.location.getOwner(0);
             if (typeof _owner.furColourAHex != 'undefined')
                 _wallColour = _owner.furColourAHex;
         }
         
-        _room.characters.forEach(function(_character) {
-            _characterPortraitLinks.push(_character.image);
-        });
-        
-        _room.items.forEach(function(_item) {
-            _itemPortraitLinks.push(_item.image);
-        });
-        
-        // floorImage
+        // Add floor image
         var floorImage = undefined;
         if (typeof _room.floorImage != 'undefined')
             floorImage = _room.floorImage;
@@ -436,11 +429,12 @@ class Minimap {
             this.canvas.drawImage(floorImage, originalX, originalY, this.baseSize, this.baseSize);
         }
         
-        // rugImage
+        // add rug image
         if (typeof _room.rugImage != 'undefined') {
             this.canvas.drawImage(_room.rugImage, originalX, originalY, this.baseSize, this.baseSize);
         }
         
+        // Add current room overlay
         if (currentRoom) {
             this.canvas.beginPath();
             this.canvas.rect(originalX + 4, originalY + 4, this.baseSize - 8, this.baseSize - 8);
@@ -452,12 +446,20 @@ class Minimap {
             this.canvas.setLineDash([]);
         }
         
-        if (_characterPortraitLinks.length > 0) {
-            for (var i = 0; i < _characterPortraitLinks.length; i++) {
-                var characterPortraitLink = new Image();
-                characterPortraitLink.src = _characterPortraitLinks[i];
+        // Add item icons to rooms
+        /*_room.items.forEach(function(_item) {
+            _itemPortraitLinks.push(_item.image);
+        });*/
+        
+        // Add character icons to rooms
+        if (_room.hasCharacters()) {
+            var _i = 0;
+            var characterPortraitLink = undefined;
+            _room.characters.forEach(function(_character) {
+                characterPortraitLink = new Image();
+                characterPortraitLink.src = _character.image;
                 characterPortraitLink.canvas = this.canvas;
-                characterPortraitLink.i = i;
+                characterPortraitLink.i = _i;
                 characterPortraitLink.originalX = originalX;
                 characterPortraitLink.originalY = originalY;
                 characterPortraitLink.baseSize = this.baseSize;
@@ -473,11 +475,15 @@ class Minimap {
                         case 7 : {this.canvas.drawImage(this,   this.originalX + this.baseSize/4,       this.originalY + (this.baseSize*4/5),   this.baseSize/4,    this.baseSize/4); break;}
                     }
                 };
-            }
+                _i++;
+            }, this);
         }
         
         this.canvas.beginPath();
         this.canvas.moveTo((this.cWidth - this.baseSize)/2 + (xPos * this.baseSize) + 1, (this.cHeight - this.baseSize)/2 + (yPos * this.baseSize) + 1);
+        
+        // Add furniture icons to rooms
+        
         
         if (west == 1) {
             this.canvas.lineTo(currentX + 1, currentY + this.baseSize/3);
@@ -632,7 +638,10 @@ class Minimap {
         this.canvas.strokeStyle =_wallColour;        
         this.canvas.stroke();
         
-        /*if (_room.attachedRooms.has(5) || _room.attachedRooms.has(4)) {
+        // Add stairs
+        /*
+        // Draw stairs
+        if (_room.attachedRooms.has(5) || _room.attachedRooms.has(4)) {
             this.canvas.beginPath();
             currentX = originalX + this.baseSize/12;
             currentY = originalY + this.baseSize/2;
@@ -675,7 +684,9 @@ class Minimap {
             this.canvas.fill();
             this.canvas.strokeStyle = '#0099FF';
             this.canvas.stroke();
-        }*/
+        }
+        */
+        // Image stairs
         if (_room.attachedRooms.has(5) && _room.attachedRooms.has(4)) {
             var stairsUpImage = woodenStairsUpLeft01;
             var stairsDownImage = woodenStairsDownRight01;
@@ -2264,7 +2275,7 @@ class Room extends Entity {
     }
     
     containsCharacters() {
-        return this.characters.size > 1;
+        return this.characters.size > 0;
     }
     hasCharacters() {
         return this.containsCharacters();
