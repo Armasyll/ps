@@ -189,7 +189,7 @@ function initializeMinimap() {
         window.addEventListener(
             "resize", 
             function() {
-                Minimap.initializeMap();
+                Minimap.initialize();
                 Minimap.generateMapFromStartRoom(player.room);
             },
             false

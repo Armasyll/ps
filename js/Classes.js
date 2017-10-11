@@ -66,18 +66,17 @@ class Content {
     }
 }
 class Menu {
-    constructor() {
-        var options = [];
-        var isExploring = false;
+    static initialize() {
+        this.options = [];
+        this.isExploring = false;
     }
-    static options() {
-        return Menu.options;
-    }
+    
     static clear() {
         this.options = [];
         document.getElementById("choiceContainerBottom").innerHTML = "";
         this.generate();
     }
+    
     static setOption($index, $id, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0) {
         if ($id.length > 0 && !$id.endsWith(")"))
             $id = $id + "()";
@@ -275,7 +274,7 @@ class Menu {
     }
 }
 class Minimap {
-    static initializeMap() {
+    static initialize() {
         this.mappedRooms = new Map();
         this.queuedMappedRooms = new Map();
         
@@ -301,7 +300,7 @@ class Minimap {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
         
         if (typeof this.canvas === 'undefined')
-            this.initializeMap();
+            this.initialize();
         
         this.mappedRooms.clear();
         this.queuedMappedRooms.clear();
