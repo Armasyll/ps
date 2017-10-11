@@ -9,6 +9,11 @@ function resizeGui() {
         document.getElementById("contentContainerHeadLocation").style.display = '';
     else
         document.getElementById("contentContainerHeadLocation").style.display = 'none';
+    
+    if (isHidden(document.getElementById("locationInfoContainer")))
+        enableMinimap = false;
+    else
+        enableMinimap = true;
 }
 
 function updateTimeDisplay() {
@@ -180,7 +185,7 @@ function clearContentAndMenu() {
     Menu.clear();
 }
 function initializeMinimap() {
-    if (!_minimapInitialized) {
+    if (!initializedMinimap) {
         window.addEventListener(
             "resize", 
             function() {

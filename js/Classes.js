@@ -2223,7 +2223,7 @@ class Room extends Entity {
             _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
         
         if (typeof _location == 'undefined' && this.cell instanceof Cell && this.cell.location instanceof Location)
-            _location = this.cell.location
+            _location = this.cell.location;
         
         this.location = _location;
         

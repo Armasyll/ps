@@ -16,13 +16,13 @@ var enableAudio = false;
 var enableImages = true;
 var enableVideo = true;
 var enableMinimap = true;
-var _minimapInitialized = false;
+var initializedMinimap = false;
 var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
 var eventsExecutedThisTick = new Set();
 var usePopups = true;
-var numberOfOptions = 12;
+var numberOfOptions = 12; // 12 or 15, nothing else :v
 
 const SpeciesIdNames = new Map();
     SpeciesIdNames.set(0, "fox");
