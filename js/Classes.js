@@ -2068,9 +2068,9 @@ class Cell {
         this.grid = []; // <X,Y> = Room
         this.rooms = new Set();
         this.cells = new Set();
-        this.gateways = new Map();
+        this.gateways = new Set();
         
-        this.floorImage = undefined;
+        this.floorImage = undefined; // for minimap
         this.backgroundImage = undefined; // for minimap
         this.backgroundColor = undefined; // for minimap
         
@@ -2340,7 +2340,7 @@ class Room extends Entity {
         
         if (_room.cell != this.cell) {
             this.gateway = true;
-            this.cell.gateways.set(this, _room);
+            this.cell.gateways.add(this);
             
             this.cell.cells.add(_room.cell);
         }
