@@ -521,7 +521,7 @@ function findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set
     
     return undefined;
 }
-function findPathToRoom(_startRoom, _targetRoom) {
+function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
     
@@ -557,33 +557,41 @@ function findPathToRoom(_startRoom, _targetRoom) {
             }, this);
         }, this);
         
-        _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+        if (_cRoom != _cTargetRoom)
+            _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+        
         _roomPath = _roomPath.concat(_nRoom);
         _cRoom = _nRoom;
         
         while (_cRoom != _targetRoom && _i < 511) {
-            Array.from(_cRoom.cell.gateways).some(function(_room) {
-                return Array.from(_room.attachedRooms.values()).some(function(__room) {
-                    if (!_pCells.has(__room.cell) && __room.cell == _cellPath[_i]) {
-                        _cTargetRoom = _room;
-                        _nRoom = __room;
-                        
-                        return true;
-                    }
+            if (_cRoom.cell != _targetRoom.cell) {
+                Array.from(_cRoom.cell.gateways).some(function(_room) {
+                    return Array.from(_room.attachedRooms.values()).some(function(__room) {
+                        if (!_pCells.has(__room.cell) && __room.cell == _cellPath[_i]) {
+                            _cTargetRoom = _room;
+                            _nRoom = __room;
+                            
+                            return true;
+                        }
+                    }, this);
                 }, this);
-            }, this);
-            
-            _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
-            _roomPath = _roomPath.concat(_nRoom);
-            _cRoom = _nRoom;
-            
-            _i++;
+                
+                _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+                _roomPath = _roomPath.concat(_nRoom);
+                _cRoom = _nRoom;
+                
+                _i++;
+            }
+            else {
+                _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _targetRoom)));
+                _cRoom = _targetRoom;
+            }
         }
         
         return new Set(_roomPath);
     }
     else
-        return findPathFromRoomToRoom(_startRoom, _targetRoom)
+        return findPathFromRoomToRoom(_startRoom, _targetRoom);
 }
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))

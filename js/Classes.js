@@ -713,6 +713,12 @@ class Minimap {
                 this.canvas.drawImage(stairsDownImage, originalX, originalY, this.baseSize, this.baseSize);
             }
         }
+        
+        if (debug) {
+            this.canvas.fillStyle = "yellow";
+            this.canvas.textAlign = "center";
+            this.canvas.fillText("<{0}, {1}>".format(_room.x, _room.y), originalX + this.baseSize / 2, originalY + this.baseSize / 2);
+        }
     }
     
     static drawFacade(xPos, yPos, facade) {
