@@ -2,27 +2,26 @@ var ajax = new XMLHttpRequest();
 var parser = new DOMParser();
 var serializer = new XMLSerializer()
 
-var locationsIndexes = new Map();
-var cellsIndexes = new Map();
-var roomsIndexes = new Map();
-var charactersIndexes = new Map();
-var furnitureIndexes = new Map();
-var itemsIndexes = new Map();
-var eventsIndexes = new Map();
-var characterMovements = new Map(); // <Character, Set<Room>>
+var locationsIndexes = new Map();       // <String, Location>
+var cellsIndexes = new Map();           // <String, Cell>
+var roomsIndexes = new Map();           // <String, Room>
+var charactersIndexes = new Map();      // <String, Character>
+var furnitureIndexes = new Map();       // <String, Furniture>
+var itemsIndexes = new Map();           // <String, Item>
+var eventsIndexes = new Map();          // <String, GameEvent>
+var characterMovements = new Map();     // <Character, Set<Room>>
 var agreeTOS = false;
 var lastMenu = undefined;
 var enableAudio = false;
 var enableImages = true;
 var enableVideo = true;
 var enableMinimap = true;
-var initializedMinimap = false;
 var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
-var eventsExecutedThisTick = new Set();
+var eventsExecutedThisTick = new Set(); // Set of Events executed during the current Tick
 var usePopups = true;
-var numberOfOptions = 12; // 12 or 15, nothing else :v
+var numberOfOptions = 12;               // 12 or 15, nothing else :v
 
 const SpeciesIdNames = new Map();
     SpeciesIdNames.set(0, "fox");

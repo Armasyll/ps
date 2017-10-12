@@ -290,10 +290,8 @@ function start() {
     document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small style="position:absolute; right:0px; top:-3px;">[O]</small><div class="trim">Options</div></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
     //document.getElementById('gameControlsDisplay').innerHTML += '<div class="btn-group" role="group"><button class="btn viewPersonalInventory"><small style="position:absolute; right:0px; top:-3px;">[I]</small><div class="trim">Inventory</div></button></div>';
     
-    if (enableMinimap) {
+    if (enableMinimap)
         Minimap.generateMapFromStartRoom(player.room);
-        initializeMinimap();
-    }
     
     clearContentAndMenu();
     

@@ -960,24 +960,16 @@ function useNormalMenu() {
     runLastMenu();
 }
 
-function initializeMinimap() {
-    if (!initializedMinimap) {
-        window.addEventListener(
-            "resize", 
-            function() {
-                if (enableMinimap) {
-                    Minimap.initialize();
-                    Minimap.generateMapFromStartRoom(player.room);
-                }
-            },
-            false
-        );
-    }
-}
+
 window.addEventListener(
     "resize", 
     function() {
         resizeGui();
+        
+        if (enableMinimap) {
+            Minimap.initialize();
+            Minimap.generateMapFromStartRoom(player.room);
+        }
     },
     false
 );
