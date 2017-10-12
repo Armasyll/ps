@@ -218,7 +218,7 @@ function moveCharacterToRoom(_character = player, _room) {
                 if (_follower.room == _character.previousRoom || _follower.room == _character.room)
                     moveCharacterToRoom(_follower, _room);
                 else
-                    characterMovements.set(_follower, findPathInCell(_follower.room, _room));
+                    characterMovements.set(_follower, findPathToRoom(_follower.room, _room));
             }, this);
         }
         
@@ -398,7 +398,69 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
     eventsExecutedThisTick.clear();
     return currentTime;
 }
-function findPathInCell(_startRoom, _targetRoom) {
+function findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
+    if (!(_startCell instanceof Cell))
+        _startCell = cellsIndexes.get(_startCell);
+    
+    if (!(_targetCell instanceof Cell))
+        _targetCell = cellsIndexes.get(_targetCell);
+    
+    if (!_startCell instanceof Cell || !_targetCell instanceof Cell) {
+        if (debug) {
+            if (!_startCell instanceof Cell &&  !_targetCell instanceof Cell)
+                console.log("\tStart and Target cells aren't instance of Cell");
+            else if (!_startCell instanceof Cell)
+                console.log("\tStart cell isn't an instance of Cell.");
+            else
+                console.log("\tTarget cell isn't an instance of Cell.");
+        }
+        return;
+    }
+    
+    if (_startCell == _targetCell)
+        return new Set();
+    
+    var _openList = new Set();
+    var _closedList = _excludeCells;
+    var _parent = new Map();
+    var _timeout = 0;
+    
+    if (_startCell != _targetCell) {
+        _openList.add(_startCell);
+        
+        while (_openList.size > 0 && _timeout < 511) {
+            var _currentCell = _openList.values().next().value;
+            
+            if (_currentCell == _targetCell) {
+                var cur = _currentCell;
+                var ret = [];
+                while (_parent.has(_currentCell)) {
+                    ret.push(_currentCell);
+                    _currentCell = _parent.get(_currentCell);
+                }
+                return ret.reverse();
+            }
+            
+            _openList.delete(_currentCell);
+            _closedList.add(_currentCell);
+            
+            _currentCell.cells.forEach(function(_neighbor) {
+                if (_closedList.has(_neighbor))
+                    return;
+                
+                if (!_openList.has(_neighbor))
+                    _openList.add(_neighbor);
+                
+                _parent.set(_neighbor, _currentCell);
+            }, this);
+            
+            _timeout++;
+        }
+    }
+    
+    return undefined;
+}
+function findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
     
@@ -412,8 +474,8 @@ function findPathInCell(_startRoom, _targetRoom) {
         return;
     
     var _openList = new Set();
-    var _closedList = new Set();
-    var _roomParent = new Map();
+    var _closedList = _excludeRooms;
+    var _parent = new Map();
     var _timeout = 0;
     
     _openList.add(_startRoom);
@@ -424,9 +486,9 @@ function findPathInCell(_startRoom, _targetRoom) {
         if (_currentRoom == _targetRoom) {
             var cur = _currentRoom;
             var ret = [];
-            while (_roomParent.has(_currentRoom)) {
+            while (_parent.has(_currentRoom)) {
                 ret.push(_currentRoom);
-                _currentRoom = _roomParent.get(_currentRoom);
+                _currentRoom = _parent.get(_currentRoom);
             }
             return new Set(ret.reverse());
         }
@@ -450,7 +512,7 @@ function findPathInCell(_startRoom, _targetRoom) {
             }
             
             if (_gScoreIsBest) {
-                _roomParent.set(_neighbor, _currentRoom);
+                _parent.set(_neighbor, _currentRoom);
             }
         }, this);
         
@@ -458,6 +520,70 @@ function findPathInCell(_startRoom, _targetRoom) {
     }
     
     return undefined;
+}
+function findPathToRoom(_startRoom, _targetRoom) {
+    if (!(_startRoom instanceof Room))
+        _startRoom = roomsIndexes.get(_startRoom);
+    
+    if (!(_targetRoom instanceof Room))
+        _targetRoom = roomsIndexes.get(_targetRoom);
+    
+    if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
+        return;
+    
+    if (_startRoom.cell != _targetRoom.cell) {
+        var _cellPath = findPathFromCellToCell(_startRoom.cell, _targetRoom.cell);
+        var _roomPath = new Array();
+        var _cTargetRoom = undefined;
+        var _cRoom = _startRoom;
+        var _nRoom = undefined;
+        var _cCell = _startRoom.cell;
+        var _pCells = new Set();
+        var _i = 1;
+        
+        if (_cellPath.size == 0)
+            return;
+        
+        Array.from(_cRoom.cell.gateways).some(function(_room) {
+            _pCells.add(_room.cell);
+            Array.from(_room.attachedRooms.values()).some(function(__room) {
+                _pCells.add(__room.cell);
+                if (__room.cell == _cellPath[0]) {
+                    _cTargetRoom = _room;
+                    _nRoom = __room;
+                    
+                    return true;
+                }
+            }, this);
+        }, this);
+        
+        _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+        _roomPath = _roomPath.concat(_nRoom);
+        _cRoom = _nRoom;
+        
+        while (_cRoom != _targetRoom && _i < 511) {
+            Array.from(_cRoom.cell.gateways).some(function(_room) {
+                return Array.from(_room.attachedRooms.values()).some(function(__room) {
+                    if (!_pCells.has(__room.cell) && __room.cell == _cellPath[_i]) {
+                        _cTargetRoom = _room;
+                        _nRoom = __room;
+                        
+                        return true;
+                    }
+                }, this);
+            }, this);
+            
+            _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+            _roomPath = _roomPath.concat(_nRoom);
+            _cRoom = _nRoom;
+            
+            _i++;
+        }
+        
+        return new Set(_roomPath);
+    }
+    else
+        return findPathFromRoomToRoom(_startRoom, _targetRoom)
 }
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -561,7 +687,7 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
         _characterA.addFollower(_characterB);
         
         if (typeof _preGeneratedPath == 'undefined')
-            _preGeneratedPath = findPathInCell(_characterB.room, _characterA.room);
+            _preGeneratedPath = findPathToRoom(_characterB.room, _characterA.room);
         characterMovements.set(_characterB, _preGeneratedPath);
         
         if (_characterB.hasFollowers) {
@@ -586,7 +712,7 @@ function characterStay() {
 }
 
 function setCharacterMovementToRoom(_character, _room) {
-    characterMovements.set(_character, findPathInCell(_character.room, _room));
+    characterMovements.set(_character, findPathToRoom(_character.room, _room));
 }
 function setCharacterMovementToCharacter(_character, _toCharacter) {
     setCharacterMovementToRoom(_character, _toCharacter.room);
