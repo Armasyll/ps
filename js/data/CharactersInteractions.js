@@ -267,7 +267,7 @@ function charlieStay() {
     
     Content.add("<p>You ask Charlie to wait here, and she nods her head.</p>");
     
-    stay(_character);
+    characterStay(_character);
     
     characterInteract(_character, false);
 }

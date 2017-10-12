@@ -593,6 +593,34 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
     else
         return findPathFromRoomToRoom(_startRoom, _targetRoom);
 }
+/**
+ * Moves character in a path from their current room to target room.
+ *
+ * @param Character _character
+ * @param Room _targetRoom
+ *
+ * @return undefined is the Character, their Room, or the target Room are invalid; otherwise, True or False whether or not the path is available.
+ */
+function moveCharacterAlongPath(_character, _targetRoom) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_targetRoom instanceof Room))
+        _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
+    
+    if (typeof _character == 'undefined' || typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
+        return undefined;
+    
+    return characterMovements.set(_character, findPathToRoom(_character.room, _targetRoom));
+}
+/**
+ * Makes the Character Sit on Furniture or the ground.
+ *
+ * @param Character _character
+ * @param Furniture _furniture Can be undefined
+ *
+ * @return True or False whether or not the Character is seated on Furniture.
+ */
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -606,7 +634,17 @@ function characterSit(_character, _furniture = undefined) {
         if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species))
             _furniture.addCharacter(_character);
     }
+    
+    return _character.furniture instanceof Furniture;
 }
+/**
+ * Makes the Character Lay on Furniture or the ground.
+ *
+ * @param Character _character
+ * @param Furniture _furniture Can be undefined
+ *
+ * @return True or False whether or not the Character is lying on Furniture.
+ */
 function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -620,7 +658,17 @@ function characterLay(_character, _furniture = undefined) {
         if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2)
             _furniture.addCharacter(_character);
     }
+    
+    return _character.furniture instanceof Furniture;
 }
+/**
+ * Makes the Character Sleep on Furniture or the ground; they may sit or lay while sleeping.
+ *
+ * @param Character _character
+ * @param Furniture _furniture Can be undefined
+ *
+ * @return True or False whether or not the Character is sleeping on Furniture.
+ */
 function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -646,7 +694,16 @@ function characterSleep(_character, _furniture = undefined) {
             }
         }
     }
+    
+    return _character.furniture instanceof Furniture;
 }
+/**
+ * Makes the Character Stand.
+ *
+ * @param Character _character
+ *
+ * @return True.
+ */
 function characterStand(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -659,7 +716,16 @@ function characterStand(_character) {
         
         _character.stand();
     }
+    
+    return true;
 }
+/**
+ * Makes the Character Walk.
+ *
+ * @param Character _character
+ *
+ * @return True.
+ */
 function characterWalk(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -672,7 +738,17 @@ function characterWalk(_character) {
         
         _character.walk();
     }
+    
+    return true;
 }
+/**
+ * Makes the second Character Follow the first Character.
+ *
+ * @param Character _characterA The leader.
+ * @param Character _characterB The follower.
+ *
+ * @return True.
+ */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
@@ -706,8 +782,17 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
             _characterB.followers.clear();
         }
     }
+    
+    return true;
 }
-function characterStay() {
+/**
+ * Makes the Character Stay, stopping them from following another Character.
+ *
+ * @param Character _character
+ *
+ * @return True.
+ */
+function characterStay(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
@@ -717,6 +802,8 @@ function characterStay() {
         
         _character.clearFollowing();
     }
+    
+    return true;
 }
 
 function setCharacterMovementToRoom(_character, _room) {
