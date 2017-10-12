@@ -55,7 +55,7 @@ function generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _m
             ).format(
                 _item.image,
                 _item.name,
-                (typeof _item.owner != 'undefiend' ? _ownerString : ''),
+                (typeof _item.owner != 'undefined' ? _ownerString : ''),
                 _item.description,
                 (_modify === true ? (_fromEntity == player ? ("<button onclick='generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_item.id, _fromEntity.id, _toEntity.id) : ("<button onclick='generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_item.id, _fromEntity.id, _toEntity.id)) : '')
             )
@@ -81,8 +81,18 @@ function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity =
     else
         return undefined;
 }
+/**
+ * Moves an item from an Entity to another Entity.
+ *
+ * @param Item _item
+ * @param Entity _fromEntity
+ * @param Entity _toEntity
+ * @param Boolean _useLastMenu
+ *
+ * @return Boolean
+ */
 function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
-    if (typeof _item == 'undefined' || typeof _fromEntity == 'undefined' || typeof _toEntity == 'undefined')
+    if (typeof _item == 'undefined' || typeof _toEntity == 'undefined')
         return undefined;
     
     if (!(_item instanceof Entity)) {
@@ -179,23 +189,22 @@ function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity 
     return true;
 }
 
+/**
+ * Clears the Content and Menu.
+ */
 function clearContentAndMenu() {
     Title.clear();
     Content.clear();
     Menu.clear();
 }
-function initializeMinimap() {
-    if (!initializedMinimap) {
-        window.addEventListener(
-            "resize", 
-            function() {
-                Minimap.initialize();
-                Minimap.generateMapFromStartRoom(player.room);
-            },
-            false
-        );
-    }
-}
+/**
+ * Moves a Character to the specified Room.
+ *
+ * @param Character _character
+ * @param Room _room
+ *
+ * @return Boolean Whether or not the Character was moved to the Room.
+ */
 function moveCharacterToRoom(_character = player, _room) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
@@ -236,81 +245,126 @@ function moveCharacterToRoom(_character = player, _room) {
         
         characterStand(_character);
     }
+    
+    return _character.room == _room;
 }
+/**
+ * Moves the Player to the specified Room.
+ *
+ * @param Room _room
+ *
+ * @return Boolean
+ */
 function movePlayerToRoom(_room) {
     characterMovements.delete(player);
-    moveCharacterToRoom(player, _room);
-    if (enableMinimap)
+    var _moved = moveCharacterToRoom(player, _room);
+    if (enableMinimap && _moved)
         Minimap.generateMapFromStartRoom(player.room);
+    return _moved;
 }
+/**
+ * Moves a Character to the Room in a specific direction.
+ *
+ * @param Character _character
+ * @param String _direction 0, "north"; 1, "east"; 2, "south"; 3, "west"
+ *
+ * @return Undefined if the Character or direction are invalid. True or False whether or not the Character was moved.
+ */
 function moveCharacterInDirection(_character, _direction) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
+    
+    var _moved = undefined;
     
     if (_character instanceof Character) {
         var _room = undefined;
         switch (_direction) {
             case "north" :
+            case "n" :
             case 0 : {
                 if (_character.room.attachedRooms.has(0)) {
                     _room = _character.room.attachedRooms.get(0);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
             case "east" :
+            case "e" :
             case 1 : {
                 if (_character.room.attachedRooms.has(1)) {
                     _room = _character.room.attachedRooms.get(1);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
             case "south" :
+            case "s" :
             case 2 : {
                 if (_character.room.attachedRooms.has(2)) {
                     _room = _character.room.attachedRooms.get(2);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
             case "west" :
+            case "w" :
             case 3 : {
                 if (_character.room.attachedRooms.has(3)) {
                     _room = _character.room.attachedRooms.get(3);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
             case "down" :
+            case "d" :
             case 4 : {
                 if (_character.room.attachedRooms.has(4)) {
                     _room = _character.room.attachedRooms.get(4);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
             case "up" :
+            case "u" :
             case 5 : {
                 if (_character.room.attachedRooms.has(5)) {
                     _room = _character.room.attachedRooms.get(5);
                     if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        moveCharacterToRoom(_character, _room);
+                        _moved = moveCharacterToRoom(_character, _room);
                 }
                 break;
             }
         }
     }
+    
+    return _moved;
 }
 
+/**
+ * Moves an Item from an Entity to the Player.
+ *
+ * @param Item _item
+ * @param Entity _fromEntity
+ *
+ * @return Boolean
+ */
 function moveItemToPlayer(_item, _fromEntity) {
-    moveItemToEntity(_item, _fromEntity, player, true);
+    return moveItemToEntity(_item, _fromEntity, player, true);
 }
+/**
+ * Passes time.
+ *
+ * @param String time Amount of time to pass. If passed an integer, will treat it as seconds. "30s" will pass 30 seconds, "30m" will pass 30 minutes, "24h" will pass 24 hours, and "2d" will pass 2 days, in-game time.
+ * @param Boolean _updateMinimap Update the Minimap, if it's enabled.
+ * @param Boolean _runLastMenu Return to (run again) the last-used menu.
+ *
+ * @return Date The current time, in-game.
+ */
 function tick(time, _updateMinimap = false, _runLastMenu = true) {
     var _newTime = new Date(currentTime);
     
@@ -806,12 +860,9 @@ function characterStay(_character) {
     return true;
 }
 
-function setCharacterMovementToRoom(_character, _room) {
-    characterMovements.set(_character, findPathToRoom(_character.room, _room));
-}
-function setCharacterMovementToCharacter(_character, _toCharacter) {
-    setCharacterMovementToRoom(_character, _toCharacter.room);
-}
+/**
+ * Returns to (runs again) the last-used menu.
+ */
 function runLastMenu() {
     fn = new Function(lastMenu);
     try {return fn();}catch (err) {}
@@ -896,7 +947,7 @@ function characterTakeOver(_characterA, _characterB) {
 
 function addAllItems() {
     itemsIndexes.forEach(function(_item) {
-        player.addItem(_item);
+        moveItemToEntity(_item, undefined, player, false);
     }, this);
 }
 
@@ -909,6 +960,20 @@ function useNormalMenu() {
     runLastMenu();
 }
 
+function initializeMinimap() {
+    if (!initializedMinimap) {
+        window.addEventListener(
+            "resize", 
+            function() {
+                if (enableMinimap) {
+                    Minimap.initialize();
+                    Minimap.generateMapFromStartRoom(player.room);
+                }
+            },
+            false
+        );
+    }
+}
 window.addEventListener(
     "resize", 
     function() {
