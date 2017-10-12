@@ -217,9 +217,6 @@ function moveCharacterToRoom(_character = player, _room) {
     if (_character.room != _room) {
         characterWalk(_character);
         
-        if (player == _character)
-            tick("1m", false);
-        
         _character.moveToRoom(_room);
         
         if (_character.hasFollowers) {
@@ -258,8 +255,12 @@ function moveCharacterToRoom(_character = player, _room) {
 function movePlayerToRoom(_room) {
     characterMovements.delete(player);
     var _moved = moveCharacterToRoom(player, _room);
-    if (enableMinimap && _moved)
-        Minimap.generateMapFromStartRoom(player.room);
+    if (_moved) {
+        tick("1m", false);
+        
+        if (enableMinimap)
+            Minimap.generateMapFromStartRoom(player.room);
+    }
     return _moved;
 }
 /**
