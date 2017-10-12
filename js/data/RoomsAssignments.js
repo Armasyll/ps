@@ -27,7 +27,9 @@ zootopia42ndStreet06.setSouthRoom(zootopia42ndStreet07);
 zootopia42ndStreet07.setSouthRoom(zootopia42ndStreet08);
 zootopia42ndStreet08.setSouthRoom(zootopia42ndStreet09);
 zootopia42ndStreet09.setSouthRoom(zootopia42ndStreet10);
+zootopia42ndStreet09.setWestRoom(zootopiaFangStreet01);
 zootopia42ndStreet06.floorImage = streetUpDownLeft01;
+zootopia42ndStreet09.floorImage = streetUpDownLeft01;
 
 // Zootopia, 44th Street
 zootopia44thStreet06.setNorthRoom(zootopia44thStreet05);
@@ -45,7 +47,14 @@ zootopia44thStreet04.floorImage = streetUpCRightDown01;
 zootopia44thStreet06.floorImage = streetUpRightDown01;
 zootopiaPandorasBoxParkingLot.floorImage = parkingLotLeft01;
 
-
+zootopiaFangStreet01.setWestRoom(zootopiaFangStreet02);
+zootopiaFangStreet02.setWestRoom(zootopiaFangStreet03);
+zootopiaFangStreet03.setWestRoom(zootopiaFangStreet04);
+zootopiaFangStreet04.setWestRoom(zootopiaFangStreet05);
+zootopiaFangStreet05.setWestRoom(zootopiaFangStreet06);
+zootopiaFangStreet06.setWestRoom(zootopiaFangStreet07);
+zootopiaFangStreet07.setWestRoom(zootopiaFangStreet08);
+zootopiaFangStreet08.floorImage = streetRightCCap01;
 
 // Al Building, Basement
 alBuildingBasementA.setEastRoom(alBuildingBasementB);
