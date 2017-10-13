@@ -275,9 +275,9 @@ function avoWorkRoutineStart(_event = undefined) {
     return;
 }
 function avoWorkRoutineStartSit(_event = undefined) {
-    characterSit(pandorasBoxCheckoutDesk);
+    characterSit(avo, pandorasBoxCheckoutDesk);
 }
 function avoWorkRoutineEnd(_event = undefined) {
-    moveCharacterAlongPath(avo, avoApartmentLivingroom);
+    moveCharacterAlongPath(avo, avoApartmentBedroomAvo);
     return;
 }
