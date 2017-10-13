@@ -47,6 +47,7 @@ function personalCharacterMenu() {
     
     Menu.clear();
     Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((numberOfOptions == 12 ? 10 : 13), "$('#optionsModal').modal()", "Options");
     Menu.addOption("getAppearance(player, 1)", "Appearance");
     Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();
