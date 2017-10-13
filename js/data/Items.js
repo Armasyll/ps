@@ -25,7 +25,7 @@ pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patch
 tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles T-Shirt", "A Meles Meles band t-shirt.", "torso", "images/items/tshirtWhiteMelesMeles.svg", false);
 
 // Keys
-masterKey = new Key("masterKey", "Simple Key", "A simple key.");
+masterKey = new Key("masterKey", "Simple Key", "A simple key.", "images/items/masterKey.svg");
 remmyApartmentLocationKey = new Key("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", "images/items/remmyApartmentLocationKey.svg");
 alApartmentLocationKey = new Key("alApartmentLocationKey", "Al's Apartment Key", "Al's Apartment Key", "images/items/key.svg");
 alBuildingLocationKey = new Key("alBuildingLocationKey", "Skeleton Key", "Skeleton key for 3 Pack Street.", "images/items/key.svg");
