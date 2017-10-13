@@ -270,3 +270,9 @@ function charlieInteractWhenPlayerHasHeart() {
 function charlieInteractWhenPlayerHasEye() {
     return;
 }
+function avoWorkRoutineStart(_event = undefined) {
+    return;
+}
+function avoWorkRoutineEnd(_event = undefined) {
+    return;
+}

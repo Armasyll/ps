@@ -1,6 +1,6 @@
 if (debug) console.log("Initializing Rooms");
 
-limbo = new Room("limbo", "Limbo", 0, limboCell, limboLocation);
+limbo = new Room("limbo", "limbo", "Limbo", 0, limboCell, limboLocation);
 
 // Zootopia
 console.log("\tInitializing Zootopia");

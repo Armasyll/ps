@@ -3015,15 +3015,29 @@ class Furniture extends Entity {
 }
 class Cron {
     constructor(minutes = undefined, hours = undefined, dom = undefined, month = undefined, dow = undefined, year = undefined) {
-        if (typeof minutes == 'undefined' || !Number.isInteger(minutes))
+        if (typeof minutes == 'undefined')
             this.minutes = undefined;
+        else if (!Number.isInteger(minutes)) {
+            if (minutes.indexOf('-') != -1 || minutes.indexOf(',') != -1)
+                this.minutes = minutes;
+            else
+                this.minutes = undefined;
+        }
         else if (minutes < 0 || minutes > 59)
             this.minutes = undefined;
         else
             this.minutes = minutes;
         
-        if (typeof hours == 'undefined' || !Number.isInteger(hours))
+        if (typeof hours == 'undefined')
             this.hours = undefined;
+        else if (!Number.isInteger(hours)) {
+            if (hours.indexOf('-') != -1 && hours.match(/[0-23]+-[0-23]+/) != null || hours.indexOf(',') != -1 && hours.match(/[0-23]+,[0-23]+/) != null)
+                this.hours = hours;
+            else if (hours.indexOf('-') != -1 && hours.indexOf(',') != -1 && hours.match(/(([0-23]-)?[0-23]\,)?([0-23]\-[0-23])(\,[0-23](-[0-23])?)?/))
+                this.hours = hours;
+            else
+                this.hours = undefined;
+        }
         else if (hours < 0 || hours > 23)
             this.hours = undefined;
         else {
@@ -3033,8 +3047,14 @@ class Cron {
                 this.minutes = 0;
         }
         
-        if (typeof dom == 'undefined' || !Number.isInteger(dom))
+        if (typeof dom == 'undefined')
             this.dom = undefined;
+        else if (!Number.isInteger(dom)) {
+            if (dom.indexOf('-') != -1 || dom.indexOf(',') != -1)
+                this.dom = dom;
+            else
+                this.dom = undefined;
+        }
         else if (dom < 1 || dom > 31)
             this.dom = undefined;
         else {
@@ -3063,7 +3083,12 @@ class Cron {
                 case "OCT" : this.month = 10; break;
                 case "NOV" : this.month = 11; break;
                 case "DEC" : this.month = 12; break;
-                default : this.month = undefined;
+                default : {
+                    if (month.indexOf('-') != -1 || month.indexOf(',') != -1)
+                        this.month = month;
+                    else
+                        this.month = undefined;
+                };
             }
         }
         else if (month < 1 || month > 12)
@@ -3084,16 +3109,12 @@ class Cron {
         if (typeof dow == 'undefined')
             this.dow = undefined;
         else if (!Number.isInteger(dow)) {
-            switch (dow.toUpperCase()) {
-                case "SUN" : this.dow = 0; break;
-                case "MON" : this.dow = 1; break;
-                case "TEU" : this.dow = 2; break;
-                case "WED" : this.dow = 3; break;
-                case "THU" : this.dow = 4; break;
-                case "FRU" : this.dow = 5; break;
-                case "SAT" : this.dow = 6; break;
-                default : this.dow = undefined;
-            }
+            if (dow.indexOf('-') != -1 && dow.match(/\d+-\d+/) != null || dow.indexOf(',') != -1 && dow.match(/\d+,\d+/) != null)
+                this.dow = dow;
+            else if (dow.indexOf('-') != -1 && dow.indexOf(',') != -1 && dow.match(/(([1-7]-)?[1-7]\,)?([1-7]\-[1-7])(\,[1-7](-[1-7])?)?/))
+                this.dow = dow;
+            else
+                this.dow = parseDOWString(dow);
         }
         else if (dow < 0 || dow > 7)
             this.dow = undefined;
@@ -3102,7 +3123,9 @@ class Cron {
                 dow = 0;
             
             this.dow = dow;
-            
+        }
+        
+        if (typeof this.dow != 'undefined') {
             if (typeof this.hours == 'undefined')
                 this.hours = 0;
             
@@ -3127,6 +3150,89 @@ class Cron {
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
+    }
+    
+    parseDOWString(_dow) {
+        switch(_dow.toUpperCase()) {
+            case "SUN" : return 0; break;
+            case "MON" : return 1; break;
+            case "TEU" : return 2; break;
+            case "WED" : return 3; break;
+            case "THU" : return 4; break;
+            case "FRI" : return 5; break;
+            case "SAT" : return 6; break;
+            default : return undefined;
+        }
+    }
+    
+    containsMinutes(_date) {
+        var _number = undefined;
+        
+        if (this.minutes == undefined)
+            return true;
+        else if (_date instanceof Date)
+            _number = _date.getMinutes();
+        else if (Number.isInteger(_date))
+            _number = _date;
+        else if (!Number.isInteger(_date))
+            _number = Number.parseInt(_date);
+        
+        if (isNaN(_number))
+            return undefined;
+        
+        if (Number.isInteger(this.minutes))
+            return this.minutes == _number;
+        else
+            return String(_number).match(new RegExp("[{0}]".format(this.minutes))) != null;
+    }
+    containsHours(_date) {
+        var _number = undefined;
+        
+        if (this.hours == undefined)
+            return true;
+        else if (_date instanceof Date)
+            _number = _date.getHours();
+        else if (Number.isInteger(_date))
+            _number = _date;
+        else if (!Number.isInteger(_date))
+            _number = Number.parseInt(_date);
+        
+        if (isNaN(_number))
+            return undefined;
+        
+        if (Number.isInteger(this.hours))
+            return this.hours == _number;
+        else
+            return String(_number).match(new RegExp("[{0}]".format(this.hours))) != null;
+    }
+    containsDOW(_date = undefined) {
+        var _number = undefined;
+        
+        if (this.dow == undefined)
+            return true;
+        else if (_date instanceof Date)
+            _number = _date.getDay();
+        else if (Number.isInteger(_date))
+            _number = _date;
+        else if (!Number.isInteger(_date))
+            _number = Number.parseInt(_date);
+        
+        if (isNaN(_number))
+            return undefined;
+        
+        if (Number.isInteger(this.dow))
+            return this.dow == _number;
+        else
+            return String(_number).match(new RegExp("[{0}]".format(this.dow))) != null;
+    }
+    containsDOM(_date) {
+        return (this.dom == _date.getDate());
+    }
+    containsMonth(_date) {
+        return (this.month == _date.getMonth() + 1);
+    }
+    containsYear(_date) {
+        return (this.year == _date.getYear());
     }
 }
 class GameEvent {

@@ -429,14 +429,15 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
                         (typeof _event.room == 'undefined' || (_event.characterA instanceof Character && _event.characterA.room == _event.room))
                     ) &&
                     (
-                        (typeof _event.cron.year == 'undefined' || (_event.cron.year >= previousTime.getFullYear() && _event.cron.year <= currentTime.getFullYear())) &&
-                        (typeof _event.cron.month == 'undefined' || (_event.cron.month >= previousTime.getMonth() + 1 && _event.cron.month <= currentTime.getMonth() + 1)) &&
-                        (typeof _event.cron.dom == 'undefined' || (_event.cron.dom >= previousTime.getDate() && _event.cron.dom <= currentTime.getDate())) &&
-                        (typeof _event.cron.dow == 'undefined' || (_event.cron.dow >= previousTime.getDay() && _event.cron.dow <= currentTime.getDay())) &&
-                        (typeof _event.cron.hours == 'undefined' || (_event.cron.hours >= previousTime.getHours() && _event.cron.hours <= currentTime.getHours())) &&
-                        (typeof _event.cron.minutes == 'undefined' || (_event.cron.minutes >= previousTime.getMinutes() && _event.cron.minutes <= currentTime.getMinutes()))
+                        (typeof _event.cron.year == 'undefined' || (_event.cron.containsYear(currentTime))) &&
+                        (typeof _event.cron.month == 'undefined' || (_event.cron.containsMonth(currentTime))) &&
+                        (typeof _event.cron.dom == 'undefined' || (_event.cron.containsDOM(currentTime))) &&
+                        (typeof _event.cron.dow == 'undefined' || (_event.cron.containsDOW(currentTime))) &&
+                        (typeof _event.cron.hours == 'undefined' || (_event.cron.containsHours(currentTime))) &&
+                        (typeof _event.cron.minutes == 'undefined' || (_event.cron.containsMinutes(currentTime)))
                     )
                 ) {
+                    console.log("{0} : {1} == {2} ? ".format(_event.id, currentTime.getDay(), _event.cron.dow));
                     _event.execute();
                 }
             }, this);
