@@ -25,6 +25,7 @@ zootopiaPackStreet07 = new Room("zootopiaPackStreet07", "zootopiaPackStreet", "7
 zootopiaPackStreet08 = new Room("zootopiaPackStreet08", "zootopiaPackStreet", "8 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
 zootopiaPackStreet09 = new Room("zootopiaPackStreet09", "zootopiaPackStreet", "9 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
 zootopiaPackStreet10 = new Room("zootopiaPackStreet10", "zootopiaPackStreet", "10 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
+
 zootopiaPandorasBoxParkingLot = new Room("zootopiaPandorasBoxParkingLot", undefined, "Pandora's Box Parking Lot", "lot", zootopiaCell, zootopiaLocation);
 
 zootopia44thStreet01 = new Room("zootopia44thStreet01", "zootopia44thStreet", "1 44th Street", "street", zootopiaCell, zootopia44thStreetLocation);
@@ -46,6 +47,9 @@ zootopiaFangStreet05 = new Room("zootopiaFangStreet05", "zootopiaFangStreet", "5
 zootopiaFangStreet06 = new Room("zootopiaFangStreet06", "zootopiaFangStreet", "6 Fang Street", "street", zootopiaCell, zootopiaFangStreetLocation);
 zootopiaFangStreet07 = new Room("zootopiaFangStreet07", "zootopiaFangStreet", "7 Fang Street", "street", zootopiaCell, zootopiaFangStreetLocation);
 zootopiaFangStreet08 = new Room("zootopiaFangStreet08", "zootopiaFangStreet", "8 Fang Street", "street", zootopiaCell, zootopiaFangStreetLocation);
+
+zootopiaExchangeStreet01 = new Room("zootopiaExchangeStreet01", "zootopiaExchangeStreet", "1 Exchange Street", "street", zootopiaCell, zootopiaExchangeStreetLocation);
+zootopiaExchangeStreet02 = new Room("zootopiaExchangeStreet02", "zootopiaExchangeStreet", "2 Exchange Street", "street", zootopiaCell, zootopiaExchangeStreetLocation);
 
 // alBuilding
 console.log("\tInitializing alBuilding");

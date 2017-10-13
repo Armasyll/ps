@@ -1,14 +1,17 @@
 if (debug) console.log("Initializing Locations");
 
+
 limboLocation = new Location("limbo", "Limbo");
 
+
 zootopiaLocation = new Location("zootopiaLocation", "Zootopia");
+
 
 zootopia42ndStreetLocation = new Location("zootopia42ndStreetLocation", "42nd Street");
 zootopiaPackStreetLocation = new Location("zootopiaPackStreetLocation", "Pack Street");
 zootopia44thStreetLocation = new Location("zootopia44thStreetLocation", "44th Street");
 zootopiaFangStreetLocation = new Location("zootopiaFangStreetLocation", "Fang Street");
-
+zootopiaExchangeStreetLocation = new Location("zootopiaExchangeStreetLocation", "Exchange Street");
 
 alBuildingBasementLocation = new Location("alBuildingBasementLocation", "Basement");
 alBuildingLocation = new Location("alBuildingLocation", "Al's Building");
@@ -39,6 +42,9 @@ bugBurga42ndDiningLocation = new Location("bugBurga42ndDiningLocation", "Dining 
 bugBurga42ndOrderingCounterLocation = new Location("bugBurga42ndOrderingCounterLocation", "Checkout Counter");
 bugBurga42ndKitchenLocation = new Location("bugBurga42ndKitchenLocation", "Kitchen");
 bugBurga42ndBreakRoomLocation = new Location("bugBurga42ndBreakRoomLocation", "Break Room");
+
+
+packStreetPublicLibraryLocation = new Location("packStreetPublicLibraryLocation", "Pack Street Public Library");
 
 
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");
