@@ -3,6 +3,8 @@ characterMovements.set(martina, findPathToRoom(martina.room, chartyApartmentBath
 //constructor(_id, _action, _characterA, _characterB, _item, _location, _cell, _room, _cron, _nextFunction, _runOnce)
 newDayWelcomeEvent = new GameEvent("newDayWelcomeEvent", undefined, player, undefined, undefined, alBuildingLocation, undefined, undefined, new Cron(undefined, 6), "newDayWelcome('newDayWelcomeEvent')", false);
 avoWorkRoutineStartEvent = new GameEvent("avoWorkRoutineStartEvent", undefined, undefined, undefined, undefined, undefined, undefined, undefined, new Cron(30, 7, undefined, undefined, "1-5"), "avoWorkRoutineStart('avoWorkRoutineStartEvent')", false);
+avoWorkRoutineStartSitEvent = new GameEvent("avoWorkRoutineStartSit", undefined, avo, undefined, undefined, undefined, undefined, pandorasBoxCheckout, undefined, "avoWorkRoutineStartSit('avoWorkRoutineStartSitEvent')", false);
+avoWorkRoutineEndEvent = new GameEvent("avoWorkRoutineEndEvent", undefined, undefined, undefined, undefined, undefined, undefined, undefined, new Cron(30, 17, undefined, undefined, "1-5"), "avoWorkRoutineEnd('avoWorkRoutineEndEvent')", false);
 
 remmyApartmentBathroomWaterbucketEvent = new GameEvent("remmyApartmentBathroomWaterbucketEvent", undefined, undefined, undefined, undefined, undefined, undefined, remmyApartmentBathroom, undefined, "remmyApartmentBathroomWaterbucket('remmyApartmentBathroomWaterbucketEvent')", true);
 charlieHeartbeatRosieCellEvent = new GameEvent("charlieHeartbeatRosieCellEvent", undefined, player, rosie, charlieBeatingHeart, undefined, rosie.room.cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);

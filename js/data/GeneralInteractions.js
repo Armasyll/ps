@@ -271,8 +271,13 @@ function charlieInteractWhenPlayerHasEye() {
     return;
 }
 function avoWorkRoutineStart(_event = undefined) {
+    moveCharacterAlongPath(avo, pandorasBoxCheckout);
     return;
 }
+function avoWorkRoutineStartSit(_event = undefined) {
+    characterSit(pandorasBoxCheckoutDesk);
+}
 function avoWorkRoutineEnd(_event = undefined) {
+    moveCharacterAlongPath(avo, avoApartmentLivingroom);
     return;
 }
