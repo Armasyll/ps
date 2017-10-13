@@ -2903,15 +2903,15 @@ class Item extends Entity {
     }
 }
 class Key extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined) {
-        super(_id, _name, _description);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+        super(_id, _name, _description, _image);
         
         keysIndexes.set(_id, this);
     }
 }
 class Clothing extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined) {
-        super(_id, _name, _description);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined, _image = undefined, _plural = false) {
+        super(_id, _name, _description, _image, _plural);
         
         this.addAction("wear");
         this.addAction("remove");
