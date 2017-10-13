@@ -24,11 +24,16 @@ shirtPatchy = new Clothing("shirtPatchy", "Patchy Shirt", "A torn, patched up cl
 pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", "legs", undefined, true);
 
 // Keys
-masterKey = new Item("masterKey", "Simple Key", "A simple key.");
-remmyApartmentLocationKey = new Item("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", "images/items/remmyApartmentLocationKey.svg");
-alBuildingLocationKey = new Item("alBuildingLocationKey", "Skeleton Key", "Skeleton key for Pack Street.", "images/items/key.svg");
-chartyApartmentLocationKey = new Item("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key");
-twinsApartmentLocationKey = new Item("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key");
-pandorasBoxLocationKey = new Item("pandorasBoxLocationKey", "Key to Pandora's Box", "A complex brass key meant for digitigrade mammals to Pandora's Box.", "images/items/pandorasBoxLocationKey.svg");
+masterKey = new Key("masterKey", "Simple Key", "A simple key.");
+remmyApartmentLocationKey = new Key("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", "images/Keys/remmyApartmentLocationKey.svg");
+alApartmentLocationKey = new Key("alApartmentLocationKey", "Al's Apartment Key", "Al's Apartment Key", "images/Keys/key.svg");
+alBuildingLocationKey = new Key("alBuildingLocationKey", "Skeleton Key", "Skeleton key for 3 Pack Street.", "images/Keys/key.svg");
+avoApartmentLocationKey = new Key("avoApartmentLocationKey", "Avo's Apartment Key", "Avo's Apartment Key", "images/Keys/key.svg");
+bettyApartmentLocationKey = new Key("bettyApartmentLocationKey", "Betty's Apartment Key", "Betty's Apartment Key", "images/Keys/key.svg");
+bettyBuildingLocationKey = new Key("bettyBuildingLocationKey", "Skeleton Key", "Skeleton key for 5 Pack Street.", "images/Keys/key.svg");
+chartyApartmentLocationKey = new Key("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", "images/Keys/key.svg");
+ozzyApartmentLocationKey = new Key("ozzyApartmentLocationKey", "Ozzy's Apartment Key", "Ozzy's Apartment Key", "images/Keys/key.svg");
+twinsApartmentLocationKey = new Key("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", "images/Keys/key.svg");
+pandorasBoxLocationKey = new Key("pandorasBoxLocationKey", "Key to Pandora's Box", "A complex brass key meant for digitigrade mammals to Pandora's Box.", "images/items/pandorasBoxLocationKey.svg");
 
 if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");

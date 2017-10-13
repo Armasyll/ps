@@ -2902,6 +2902,13 @@ class Item extends Entity {
         return this.moveToEntity(_entity);
     }
 }
+class Key extends Item {
+    constructor(_id = undefined, _name = undefined, _description = undefined) {
+        super(_id, _name, _description);
+        
+        keysIndexes.set(_id, this);
+    }
+}
 class Clothing extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined) {
         super(_id, _name, _description);
@@ -2912,6 +2919,8 @@ class Clothing extends Item {
         if (isNaN(_bodyPart))
             _bodyPart = BodyPartNameIds.get(_bodyPart);
         this.bodyPart = _bodyPart;
+        
+        clothingIndexes.set(_id, this);
     }
 }
 
