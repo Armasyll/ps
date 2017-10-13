@@ -437,7 +437,7 @@ function tick(time, _updateMinimap = false, _runLastMenu = true) {
                         (typeof _event.cron.minutes == 'undefined' || (_event.cron.containsMinutes(currentTime)))
                     )
                 ) {
-                    console.log("{0} : {1} == {2} ? ".format(_event.id, currentTime.getDay(), _event.cron.dow));
+                    if (debug) console.log("EVENT: {0} : {1} == {2} ? ".format(_event.id, currentTime.getDay(), _event.cron.dow));
                     _event.execute();
                 }
             }, this);
