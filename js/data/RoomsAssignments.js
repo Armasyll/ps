@@ -293,6 +293,7 @@ remmyApartmentBedroom.addFurniture(remmyApartmentBedroomHamper);
 remmyApartmentLivingroom.addFurniture(remmyApartmentLivingroomCouch);
 remmyApartmentLivingroom.addFurniture(remmyApartmentLivingroomTV);
 
+pandorasBoxCheckout.addFurniture(pandorasBoxCheckoutDesk);
 pandorasBoxIsleA1.addFurniture(pandorasBoxIsleA1LeftShelf);
 pandorasBoxIsleA1.addFurniture(pandorasBoxIsleA1RightShelf);
 pandorasBoxIsleA2.addFurniture(pandorasBoxIsleA2LeftShelf);

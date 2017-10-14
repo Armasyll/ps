@@ -228,6 +228,8 @@ function moveCharacterToRoom(_character = player, _room) {
             }, this);
         }
         
+        characterStand(_character);
+        
         if (debug) console.log("Checking for room events.");
         eventsIndexes.forEach(function(_event) {
             if (
@@ -239,8 +241,6 @@ function moveCharacterToRoom(_character = player, _room) {
                 _event.execute();
             }
         }, this);
-        
-        characterStand(_character);
     }
     
     return _character.room == _room;
@@ -681,15 +681,16 @@ function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.removeCharacter(_character);
-        
-        _character.sit(_furniture);
-        
-        if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species))
-            _furniture.addCharacter(_character);
-    }
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+        _furniture.removeCharacter(_character);
+    
+    _character.sit(_furniture);
+    
+    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species))
+        _furniture.addCharacter(_character);
     
     return _character.furniture instanceof Furniture;
 }
@@ -705,15 +706,16 @@ function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.removeCharacter(_character);
-        
-        _character.lay(_furniture);
-        
-        if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2)
-            _furniture.addCharacter(_character);
-    }
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+        _furniture.removeCharacter(_character);
+    
+    _character.lay(_furniture);
+    
+    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2)
+        _furniture.addCharacter(_character);
     
     return _character.furniture instanceof Furniture;
 }
@@ -729,25 +731,26 @@ function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
-            _furniture.removeCharacter(_character);
-        
-        _character.sleep(_furniture);
-        
-        if (_furniture instanceof Furniture) {
-            if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2) {
-                _character.lay(_furniture);
-                _character.sleep(_furniture);
-                
-                _furniture.addCharacter(_character);
-            }
-            else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species)) {
-                _character.sit(_furniture);
-                _character.sleep(_furniture);
-                
-                _furniture.addCharacter(_character);
-            }
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
+        _furniture.removeCharacter(_character);
+    
+    _character.sleep(_furniture);
+    
+    if (_furniture instanceof Furniture) {
+        if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2) {
+            _character.lay(_furniture);
+            _character.sleep(_furniture);
+            
+            _furniture.addCharacter(_character);
+        }
+        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species)) {
+            _character.sit(_furniture);
+            _character.sleep(_furniture);
+            
+            _furniture.addCharacter(_character);
         }
     }
     
@@ -764,14 +767,15 @@ function characterStand(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture) {
-            _character.furniture.removeCharacter(_character);
-            _character.furniture = undefined;
-        }
-        
-        _character.stand();
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.furniture instanceof Furniture) {
+        _character.furniture.removeCharacter(_character);
+        _character.furniture = undefined;
     }
+    
+    _character.stand();
     
     return true;
 }
@@ -786,14 +790,15 @@ function characterWalk(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.furniture instanceof Furniture) {
-            _character.furniture.removeCharacter(_character);
-            _character.furniture = undefined;
-        }
-        
-        _character.walk();
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.furniture instanceof Furniture) {
+        _character.furniture.removeCharacter(_character);
+        _character.furniture = undefined;
     }
+    
+    _character.walk();
     
     return true;
 }
@@ -812,31 +817,32 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
     
-    if (_characterA instanceof Character && _characterB instanceof Character) {
-        if (_characterA == _characterB)
-            return;
-        
-        characterStand(_characterB);
-        
-        if (_characterA.following == _characterB) {
-            _characterA.following = undefined;
-            _characterB.removeFollower(_characterA);
-        }
-        
-        _characterB.follow(_characterA);
-        _characterA.addFollower(_characterB);
-        
-        if (typeof _preGeneratedPath == 'undefined')
-            _preGeneratedPath = findPathToRoom(_characterB.room, _characterA.room);
-        characterMovements.set(_characterB, _preGeneratedPath);
-        
-        if (_characterB.hasFollowers) {
-            _characterB.followers.forEach(function(_follower) {
-                if (_follower instanceof Character)
-                    characterFollow(_characterA, _follower, _preGeneratedPath);
-            }, this);
-            _characterB.followers.clear();
-        }
+    if (typeof _characterA == 'undefined' || typeof _characterB == 'undefined')
+        return undefined;
+    
+    if (_characterA == _characterB)
+        return;
+    
+    characterStand(_characterB);
+    
+    if (_characterA.following == _characterB) {
+        _characterA.following = undefined;
+        _characterB.removeFollower(_characterA);
+    }
+    
+    _characterB.follow(_characterA);
+    _characterA.addFollower(_characterB);
+    
+    if (typeof _preGeneratedPath == 'undefined')
+        _preGeneratedPath = findPathToRoom(_characterB.room, _characterA.room);
+    characterMovements.set(_characterB, _preGeneratedPath);
+    
+    if (_characterB.hasFollowers) {
+        _characterB.followers.forEach(function(_follower) {
+            if (_follower instanceof Character)
+                characterFollow(_characterA, _follower, _preGeneratedPath);
+        }, this);
+        _characterB.followers.clear();
     }
     
     return true;
@@ -852,12 +858,13 @@ function characterStay(_character) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (_character instanceof Character) {
-        if (_character.following instanceof Character)
-            _character.following.removeFollower(_character);
-        
-        _character.clearFollowing();
-    }
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (_character.following instanceof Character)
+        _character.following.removeFollower(_character);
+    
+    _character.clearFollowing();
     
     return true;
 }

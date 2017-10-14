@@ -276,6 +276,7 @@ function avoWorkRoutineStart(_event = undefined) {
 }
 function avoWorkRoutineStartSit(_event = undefined) {
     characterSit(avo, pandorasBoxCheckoutDesk);
+    return;
 }
 function avoWorkRoutineEnd(_event = undefined) {
     moveCharacterAlongPath(avo, avoApartmentBedroomAvo);
