@@ -2832,8 +2832,6 @@ class Item extends Entity {
         this.addAction("put");
         this.addAction("take");
         this.addAction("hold");
-        this.addAction("attack");
-        this.addAction("sex");
         
         if (typeof _image == 'undefined')
             _image = "images/items/genericItem.svg";
@@ -2946,7 +2944,6 @@ class Furniture extends Entity {
         this.addAction("lay");
         this.addAction("sleep");
         this.addAction("look");
-        this.addAction("sex");
         
         this.seatingSpace = _seatingSpace;
         this.storageSpace = _storageSpace;
