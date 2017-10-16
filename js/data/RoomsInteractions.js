@@ -1,4 +1,4 @@
-function roomInteract(_room, _showBaseMenu = false, _clearContent = true, _showContent = true, _checkLocked = true) {
+function roomInteract(_room, _showBaseMenu = false, _clearContent = false, _showContent = true, _checkLocked = true) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
     
@@ -21,7 +21,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = true, _showC
         
         if (_showBaseMenu) {
             if (debug) console.log("\tBase Menu and Room for " + _room.sid);
-            fn = new Function(_room.sid + "Interact(" + _showBaseMenu + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
+            fn = new Function(_room.sid + "Interact(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
             try {fn();}catch (err) {}
             
             baseMenu(0, 1);
@@ -33,7 +33,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = true, _showC
             Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
             if (debug) console.log("\tRoom for " + _room.sid);
-            fn = new Function(_room.sid + "Interact(" + _showBaseMenu + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
+            fn = new Function(_room.sid + "Interact(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
             try {fn();}catch (err) {}
             
             _room.furniture.forEach(function(_furniture) {
@@ -82,7 +82,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = true, _showC
         }, this);
     }
 }
-function limboInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function limboInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(limbo, false, false, true, false)";
     
     if (_clearContent) {
@@ -91,7 +91,7 @@ function limboInteract(_showBaseMenu = false, _clearContent = true, _showContent
     if (_showContent) {
     }
 }
-function alApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -100,7 +100,7 @@ function alApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = tr
     if (_showContent) {
     }
 }
-function alApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -109,7 +109,7 @@ function alApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true
     if (_showContent) {
     }
 }
-function alApartmentBedroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alApartmentBedroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alApartmentBedroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -118,7 +118,7 @@ function alApartmentBedroomInteract(_showBaseMenu = false, _clearContent = true,
     if (_showContent) {
     }
 }
-function alBuildingMaintenanceInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alBuildingMaintenanceInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alBuildingMaintenanceInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -129,7 +129,7 @@ function alBuildingMaintenanceInteract(_showBaseMenu = false, _clearContent = tr
         Content.add("<p>You're standing in the maintenance room of your Pack's apartment.</p>");
     }
 }
-function alBuildingBasementInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alBuildingBasementInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alBuildingBasementInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -139,13 +139,13 @@ function alBuildingBasementInteract(_showBaseMenu = false, _clearContent = true,
         Content.add("<p>The basement is dark, and full of terrors.</p>");
     }
     
-    if (!_showBaseMenu) {
+    if (!Menu.isExploring) {
         Content.add("<p>There's the skittering of something small and insignificant in the distance.</p>");
         if (player.room.furniture.size > 0)
             roomFurnitureExamine(player.room);
     }
 }
-function avoApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function avoApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(avoApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -154,7 +154,7 @@ function avoApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = t
     if (_showContent) {
     }
 }
-function avoApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function avoApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(avoApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -163,7 +163,7 @@ function avoApartmentBathroomInteract(_showBaseMenu = false, _clearContent = tru
     if (_showContent) {
     }
 }
-function avoApartmentBedroomAInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function avoApartmentBedroomAInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(avoApartmentBedroomA, false, false, true, false)";
     
     if (_clearContent) {
@@ -172,7 +172,7 @@ function avoApartmentBedroomAInteract(_showBaseMenu = false, _clearContent = tru
     if (_showContent) {
     }
 }
-function avoApartmentBedroomBInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function avoApartmentBedroomBInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(avoApartmentBedroomB, false, false, true, false)";
     
     if (_clearContent) {
@@ -181,7 +181,7 @@ function avoApartmentBedroomBInteract(_showBaseMenu = false, _clearContent = tru
     if (_showContent) {
     }
 }
-function chartyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function chartyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(chartyApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -190,7 +190,7 @@ function chartyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent 
     if (_showContent) {
     }
 }
-function chartyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function chartyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -199,7 +199,7 @@ function chartyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = 
     if (_showContent) {
     }
 }
-function chartyApartmentBedroomCharlieInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function chartyApartmentBedroomCharlieInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBedroomCharlie, false, false, true, false)";
     
     if (_clearContent) {
@@ -208,7 +208,7 @@ function chartyApartmentBedroomCharlieInteract(_showBaseMenu = false, _clearCont
     if (_showContent) {
     }
 }
-function chartyApartmentBedroomMartyInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function chartyApartmentBedroomMartyInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBedroomMarty, false, false, true, false)";
     
     if (_clearContent) {
@@ -217,7 +217,7 @@ function chartyApartmentBedroomMartyInteract(_showBaseMenu = false, _clearConten
     if (_showContent) {
     }
 }
-function ozzyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function ozzyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -226,7 +226,7 @@ function ozzyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = 
     if (_showContent) {
     }
 }
-function ozzyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function ozzyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -235,7 +235,7 @@ function ozzyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = tr
     if (_showContent) {
     }
 }
-function ozzyApartmentBedroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function ozzyApartmentBedroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentBedroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -244,7 +244,7 @@ function ozzyApartmentBedroomInteract(_showBaseMenu = false, _clearContent = tru
     if (_showContent) {
     }
 }
-function remmyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function remmyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(remmyApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -264,11 +264,11 @@ function remmyApartmentLivingroomInteract(_showBaseMenu = false, _clearContent =
         }
     }
     
-    if (!_showBaseMenu) {
+    if (!Menu.isExploring) {
         Menu.addOption("chearlieEatFruitypebbles()", "Eat Fruity Pebbles.");
     }
 }
-function remmyApartmentBedroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function remmyApartmentBedroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(remmyApartmentBedroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -285,7 +285,7 @@ function remmyApartmentBedroomInteract(_showBaseMenu = false, _clearContent = tr
         }
     }
 }
-function remmyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function remmyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(remmyApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -308,7 +308,7 @@ function remmyApartmentBathroomInteract(_showBaseMenu = false, _clearContent = t
     }
 }
 
-function twinsApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function twinsApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(twinsApartmentLivingroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -317,7 +317,7 @@ function twinsApartmentLivingroomInteract(_showBaseMenu = false, _clearContent =
     if (_showContent) {
     }
 }
-function twinsApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function twinsApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -326,7 +326,7 @@ function twinsApartmentBathroomInteract(_showBaseMenu = false, _clearContent = t
     if (_showContent) {
     }
 }
-function twinsApartmentBedroomAnnekeInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function twinsApartmentBedroomAnnekeInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBedroomAnneke, false, false, true, false)";
     
     if (_clearContent) {
@@ -335,7 +335,7 @@ function twinsApartmentBedroomAnnekeInteract(_showBaseMenu = false, _clearConten
     if (_showContent) {
     }
 }
-function twinsApartmentBedroomWolterInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function twinsApartmentBedroomWolterInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBedroomWolter, false, false, true, false)";
     
     if (_clearContent) {
@@ -344,7 +344,7 @@ function twinsApartmentBedroomWolterInteract(_showBaseMenu = false, _clearConten
     if (_showContent) {
     }
 }
-function alBuildingFirstFloorHallwayInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alBuildingFirstFloorHallwayInteract(_clearContent = false, _showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -353,9 +353,7 @@ function alBuildingFirstFloorHallwayInteract(_showBaseMenu = false, _clearConten
         Content.add("<p>You're standing in the first floor lobby of your Pack's apartment.</p>");
     }
 }
-function alBuildingSecondFloorHallwayInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
-    if (debug) console.log("\t\t_showBaseMenu: " + _showBaseMenu + ", _clearContent: " + _clearContent);
-    
+function alBuildingSecondFloorHallwayInteract(_clearContent = false, _showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -364,7 +362,7 @@ function alBuildingSecondFloorHallwayInteract(_showBaseMenu = false, _clearConte
         Content.add("<p>You're standing in the second floor hallway of your Pack's apartment.</p>");
     }
 }
-function alBuildingThirdFloorHallwayInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function alBuildingThirdFloorHallwayInteract(_clearContent = false, _showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -373,7 +371,7 @@ function alBuildingThirdFloorHallwayInteract(_showBaseMenu = false, _clearConten
             Content.add("<p>You're standing in the third floor hallway of your Pack's apartment.</p>");
     }
 }
-function weaverApartmentLivingroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function weaverApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(alBuildingThirdFloorHallwayB, false, false, true, false)";
     
     if (_clearContent) {
@@ -382,7 +380,7 @@ function weaverApartmentLivingroomInteract(_showBaseMenu = false, _clearContent 
     if (_showContent) {
     }
 }
-function weaverApartmentBathroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function weaverApartmentBathroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBathroom, false, false, true, false)";
     
     if (_clearContent) {
@@ -391,7 +389,7 @@ function weaverApartmentBathroomInteract(_showBaseMenu = false, _clearContent = 
     if (_showContent) {
     }
 }
-function weaverApartmentBedroomAInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function weaverApartmentBedroomAInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBedroomA, false, false, true, false)";
     
     if (_clearContent) {
@@ -400,7 +398,7 @@ function weaverApartmentBedroomAInteract(_showBaseMenu = false, _clearContent = 
     if (_showContent) {
     }
 }
-function weaverApartmentBedroomBInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function weaverApartmentBedroomBInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBedroomB, false, false, true, false)";
     
     if (_clearContent) {
@@ -410,7 +408,7 @@ function weaverApartmentBedroomBInteract(_showBaseMenu = false, _clearContent = 
     }
 }
 
-function pandorasBoxCheckoutInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxCheckoutInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxCheckoutInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -419,7 +417,7 @@ function pandorasBoxCheckoutInteract(_showBaseMenu = false, _clearContent = true
     if (_showContent) {
     }
 }
-function pandorasBoxFront(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxFront(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxFront, false, false, true, false)";
     
     if (_clearContent) {
@@ -428,7 +426,7 @@ function pandorasBoxFront(_showBaseMenu = false, _clearContent = true, _showCont
     if (_showContent) {
     }
 }
-function pandorasBoxBack(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxBack(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxBack, false, false, true, false)";
     
     if (_clearContent) {
@@ -437,7 +435,7 @@ function pandorasBoxBack(_showBaseMenu = false, _clearContent = true, _showConte
     if (_showContent) {
     }
 }
-function pandorasBoxIsleA(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxIsleA(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleA, false, false, true, false)";
     
     if (_clearContent) {
@@ -446,7 +444,7 @@ function pandorasBoxIsleA(_showBaseMenu = false, _clearContent = true, _showCont
     if (_showContent) {
     }
 }
-function pandorasBoxIsleB(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxIsleB(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleB, false, false, true, false)";
     
     if (_clearContent) {
@@ -455,7 +453,7 @@ function pandorasBoxIsleB(_showBaseMenu = false, _clearContent = true, _showCont
     if (_showContent) {
     }
 }
-function pandorasBoxIsleC(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxIsleC(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleC, false, false, true, false)";
     
     if (_clearContent) {
@@ -464,7 +462,7 @@ function pandorasBoxIsleC(_showBaseMenu = false, _clearContent = true, _showCont
     if (_showContent) {
     }
 }
-function pandorasBoxGarageInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxGarageInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxGarageInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -473,7 +471,7 @@ function pandorasBoxGarageInteract(_showBaseMenu = false, _clearContent = true, 
     if (_showContent) {
     }
 }
-function pandorasBoxGarageAInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxGarageAInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxGarageAInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -482,7 +480,7 @@ function pandorasBoxGarageAInteract(_showBaseMenu = false, _clearContent = true,
     if (_showContent) {
     }
 }
-function pandorasBoxBasementHiddenBedroomInteract(_showBaseMenu = false, _clearContent = true, _showContent = true) {
+function pandorasBoxBasementHiddenBedroomInteract(_clearContent = false, _showContent = true) {
     lastMenu = "roomInteract(pandorasBoxBasementHiddenBedroom, false, false, true, false)";
     
     if (_clearContent) {
