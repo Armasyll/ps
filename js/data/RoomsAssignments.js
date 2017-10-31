@@ -28,12 +28,14 @@ zootopia42ndStreet05.setNorthRoom(zootopia42ndStreet04);
 zootopia42ndStreet05.setEastRoom(bugBurga42ndDiningA);
 zootopia42ndStreet04.setNorthRoom(zootopia42ndStreet03);
 zootopia42ndStreet03.setNorthRoom(zootopia42ndStreet02);
+zootopia42ndStreet03.setWestRoom(zootopiaHarryStreet01);
 zootopia42ndStreet02.setNorthRoom(zootopia42ndStreet01);
 zootopia42ndStreet06.setSouthRoom(zootopia42ndStreet07);
 zootopia42ndStreet07.setSouthRoom(zootopia42ndStreet08);
 zootopia42ndStreet08.setSouthRoom(zootopia42ndStreet09);
 zootopia42ndStreet09.setSouthRoom(zootopia42ndStreet10);
 zootopia42ndStreet09.setWestRoom(zootopiaFangStreet01);
+zootopia42ndStreet03.floorImage = streetCUpCDownCLeft01;
 zootopia42ndStreet06.floorImage = streetCUpCDownCLeft01;
 zootopia42ndStreet09.floorImage = streetCUpCDownCLeft01;
 
@@ -55,6 +57,17 @@ zootopia44thStreet06.floorImage = streetCUpCRightCDownCLeft01;
 zootopiaPandorasBoxParkingLot.setSouthRoom(pandorasBoxGarageF, {isLocked: true}, false);
 zootopiaPandorasBoxParkingLot.floorImage = parkingLotRight01;
 zootopiaPandorasBoxParkingLot.setWalls(0);
+
+// Zootopia, Harry Street
+zootopiaHarryStreet01.setWestRoom(zootopiaHarryStreet02);
+zootopiaHarryStreet01.setSouthRoom(packStreetPublicLibraryEntrance);
+zootopiaHarryStreet02.setWestRoom(zootopiaHarryStreet03);
+zootopiaHarryStreet03.setWestRoom(zootopiaHarryStreet04);
+zootopiaHarryStreet04.setWestRoom(zootopiaHarryStreet05);
+zootopiaHarryStreet05.setWestRoom(zootopiaHarryStreet06);
+zootopiaHarryStreet06.setWestRoom(zootopiaHarryStreet07);
+zootopiaHarryStreet07.setWestRoom(zootopiaHarryStreet08);
+zootopiaHarryStreet08.floorImage = streetCRightCap01;
 
 // Zootopia, Fang Street
 zootopiaFangStreet01.setWestRoom(zootopiaFangStreet02);

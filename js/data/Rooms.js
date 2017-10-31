@@ -15,6 +15,15 @@ zootopia42ndStreet08 = new Room("zootopia42ndStreet08", "zootopia42ndStreet", "8
 zootopia42ndStreet09 = new Room("zootopia42ndStreet09", "zootopia42ndStreet", "9 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet10 = new Room("zootopia42ndStreet10", "zootopia42ndStreet", "10 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 
+zootopiaHarryStreet01 = new Room("zootopiaHarryStreet01", "zootopiaHarryStreet", "1 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet02 = new Room("zootopiaHarryStreet02", "zootopiaHarryStreet", "2 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet03 = new Room("zootopiaHarryStreet03", "zootopiaHarryStreet", "3 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet04 = new Room("zootopiaHarryStreet04", "zootopiaHarryStreet", "4 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet05 = new Room("zootopiaHarryStreet05", "zootopiaHarryStreet", "5 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet06 = new Room("zootopiaHarryStreet06", "zootopiaHarryStreet", "6 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet07 = new Room("zootopiaHarryStreet07", "zootopiaHarryStreet", "7 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+zootopiaHarryStreet08 = new Room("zootopiaHarryStreet08", "zootopiaHarryStreet", "8 Harry Street", "street", zootopiaCell, zootopiaHarryStreetLocation);
+
 zootopiaPackStreet01 = new Room("zootopiaPackStreet01", "zootopiaPackStreet", "1 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
 zootopiaPackStreet02 = new Room("zootopiaPackStreet02", "zootopiaPackStreet", "2 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
 zootopiaPackStreet03 = new Room("zootopiaPackStreet03", "zootopiaPackStreet", "3 Pack Street", "street", zootopiaCell, zootopiaPackStreetLocation);
@@ -169,5 +178,8 @@ bugBurga42ndBathroomM = new Room("bugBurga42ndBathroomM", undefined, "Male Bathr
 bugBurga42ndBathroomF = new Room("bugBurga42ndBathroomF", undefined, "Female Bathroom", "bathroom", bugBurga42ndCell);
 bugBurga42ndBreakRoomA = new Room("bugBurga42ndBreakRoomA", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell, bugBurga42ndBreakRoomLocation);
 bugBurga42ndBreakRoomB = new Room("bugBurga42ndBreakRoomB", "bugBurga42ndBreakRoom", "Break Room", undefined, bugBurga42ndCell, bugBurga42ndBreakRoomLocation);
+
+// packStreetPublicLibrary
+packStreetPublicLibraryEntrance = new Room("packStreetPublicLibraryEntrance", undefined, "Entrance", "hallway", packStreetPublicLibraryCell);
 
 if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");

@@ -5,6 +5,7 @@ bugBurga42ndLocation.image = 'images/locations/bugBurga42nd.svg';
 packStreetPublicLibraryLocation.image = 'images/locations/packStreetPublicLibrary.svg';
 
 zootopia42ndStreetLocation.floorImage = streetUpDown01;
+zootopiaHarryStreetLocation.floorImage = streetRightLeft01;
 zootopiaPackStreetLocation.floorImage = streetRightLeft01;
 zootopia44thStreetLocation.floorImage = streetUpDown01;
 zootopiaFangStreetLocation.floorImage = streetRightLeft01;

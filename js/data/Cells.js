@@ -20,4 +20,6 @@ pandorasBoxBasementHiddenCell = new Cell("pandorasBoxBasementHiddenCell", "Basem
 
 bugBurga42ndCell = new Cell("bugBurga42ndCell", "Bug Burga", bugBurga42ndLocation);
 
+packStreetPublicLibraryCell = new Cell("packStreetPublicLibraryCell", "Pack Street Library", packStreetPublicLibraryLocation);
+
 if (debug) console.log("\tInitialized " + cellsIndexes.size + " Cells.");
