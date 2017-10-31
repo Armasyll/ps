@@ -74,7 +74,10 @@ function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undef
 }
 function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _lastPageNumber = 0) {
     if (moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu)) {
-        characterInteractOpen(_fromEntity, _lastPageNumber, false);
+        if (_fromEntity instanceof Character)
+            characterInteractOpen(_fromEntity, _lastPageNumber, false);
+        else if (_fromEntity instanceof Furniture)
+            furnitureInteractOpen(_fromEntity, _lastPageNumber, false);
         
         return true;
     }

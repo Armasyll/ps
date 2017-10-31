@@ -322,33 +322,33 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
             Menu.clear();
             Menu.setOption((numberOfOptions == 12 ? 7 : 9), "roomInteract({0}, false, true, false)".format(player.room.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-            Menu.addOption("furnitureOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
+            Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
             
             _furniture.availableActions.forEach(function(_action) {
                 if (ActionsIdNames.has(_action)) {
                     switch(ActionsIdNames.get(_action)) {
                         case "use" : {
-                            Menu.addOption("furnitureUse({0})".format(this.id), "Use {0}".format(this.name));
+                            Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
                         }
                         case "sit" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSit({0})".format(this.id), "Sit on {0}".format(this.name));
+                                Menu.addOption("furnitureInteractSit({0})".format(this.id), "Sit on {0}".format(this.name));
                             break;
                         }
                         case "lay" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureLay({0})".format(this.id), "Lay in {0}".format(this.name));
+                                Menu.addOption("furnitureInteractLay({0})".format(this.id), "Lay in {0}".format(this.name));
                             break;
                         }
                         case "sleep" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
+                                Menu.addOption("furnitureInteractSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
                             break;
                         }
                         case "sex" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSex({0})".format(this.id), "Fuck {0}".format(this.name));
+                                Menu.addOption("furnitureInteractSex({0})".format(this.id), "Fuck {0}".format(this.name));
                             break;
                         }
                     }
@@ -358,54 +358,96 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
     }
 }
-function furnitureOpen(_furniture) {
+function furnitureInteractOpen(_furniture, _page = 0, _clearContent = true) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     
-    /*$blob = "";
-    $blob += ("Looking through the " + _furniture.name + ", you find ");
-    if (_furniture.items.size == 1) {
-        $blob += ("a " + Array.from(_furniture.items)[0].toString() + ".");
-    }
-    else if (_furniture.items.size == 2) {
-        _furniture.items.forEach(function(_item) {
-            $blob += (_item.toString() + ".");
-        });
+    if (usePopups) {
+        $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
+        $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
+        $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _furniture, true));
+        $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_furniture, player, true));
+        $("#dualInventoryModal").modal("show");
     }
     else {
-        // Lazy
-        tempArray = [];
-        
-        _furniture.items.forEach(function(_item) {
-            tempArray.push(_item.toString());
-        });
-        
-        for (i = 0; i < tempArray.length - 1; i++) {
-            $blob += (tempArray[i]);
-            if (tempArray.length > 2)
-                $blob += (", ");
+        if (_clearContent) {
+            var _blob = "";
+            _blob += ("Looking through the {0}, you find ".format(_furniture.toString()));
+            
+            if (_furniture.items.size == 1) {
+                _blob += ("a " + Array.from(_furniture.items)[0].toString() + ".");
+            }
+            else if (_furniture.items.size == 2) {
+                _furniture.items.forEach(function(_item) {
+                    _blob += (_item.toString() + ".");
+                });
+            }
+            else {
+                // Lazy
+                _arr = [];
+                
+                _furniture.items.forEach(function(_item) {
+                    _arr.push(_item.toString());
+                });
+                
+                for (i = 0; i < _arr.length - 1; i++) {
+                    _blob += (_arr[i]);
+                    if (_arr.length > 2)
+                        _blob += (", ");
+                }
+                delete _arr;
+                _blob += (" and " + _arr[_arr.length - 1] + ".");
+            }
+            Content.add("<p>" + _blob + "</p>");
+            delete _blob;
         }
-        $blob += (" and " + tempArray[tempArray.length - 1] + ".");
+        
+        Menu.clear();
+        Menu.isExploring = false;
+        Menu.setOption((numberOfOptions == 12 ? 7 : 9), "furnitureInteract({0}, false, true)".format(_furniture.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_furniture.name));
+        Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        
+        var _entriesLimit = numberOfOptions - 2;
+        if (_page > 0)
+            _entriesLimit = numberOfOptions - 3;
+        
+        if (_furniture.items.size > numberOfOptions - 2) {
+            var _arr = Array.from(_furniture.items);
+            
+            if (_page > 1 && _furniture.items.size + (numberOfOptions - 3) < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page)))
+                _page -= 1;
+            
+            if (((_page + 1) * _entriesLimit) < _arr.length)
+                Menu.setOption((numberOfOptions == 12 ? 6 : 8), "furnitureInteractOpen({0}, {1}, false)".format(_furniture.id, _page + 1), "Next");
+            if (_page > 0)
+                Menu.setOption((numberOfOptions == 12 ? 10 : 13), "furnitureInteractOpen({0}, {1}, false)".format(_furniture.id, _page - 1), "Previous");
+            
+            if (_page == 0) {
+                for (var _i = 0; _i < (numberOfOptions - 2); _i++) {
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _furniture.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
+                }
+            }
+            else if (((_page + 1) * _entriesLimit) > _furniture.items.size) {
+                for (var _i = ((numberOfOptions - 3) + (numberOfOptions - 3) * (_page -1)); _i < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)) + (numberOfOptions - 2) && _i < _furniture.items.size; _i++) {
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _furniture.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
+                }
+            }
+            else {
+                for (var _i = ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)); _i < ((numberOfOptions - 2) + (numberOfOptions - 3) * (_page -1)) + (numberOfOptions - 3); _i++) {
+                    Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_arr[_i].id, _furniture.id, player.id, _page), "Take " + _arr[_i].name, _arr[_i].description);
+                }
+            }
+        }
+        else {
+            _furniture.items.forEach(function(_item) {
+                Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _furniture.id, player.id, _page), "Take " + _item.name, _item.description);
+            }, this);
+        }
+        
+        Menu.generate();
     }
-    Content.add("<p>" + $blob + "</p>");
-    
-    Menu.clear();
-    Menu.setOption((numberOfOptions == 12 ? 7 : 9), lastMenu, "Back");
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    
-    _furniture.items.forEach(function(_item) {
-        Menu.addOption("moveItemToCharacter(" + _item.id + ")", "Take " + _item.name, _item.description);
-    }, this);
-    
-    Menu.generate();*/
-    
-    $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
-    $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
-    $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _furniture, true));
-    $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_furniture, player, true));
-    $("#dualInventoryModal").modal("show");
 }
-function furnitureUse(_furniture, _character = player) {
+function furnitureInteractUse(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -417,7 +459,7 @@ function furnitureUse(_furniture, _character = player) {
     fn = new Function(_furniture.id + "Use({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
-function furnitureSit(_furniture, _character = player) {
+function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -429,7 +471,7 @@ function furnitureSit(_furniture, _character = player) {
     fn = new Function(_furniture.id + "Sit({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
-function furnitureLay(_furniture, _character = player) {
+function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -441,7 +483,7 @@ function furnitureLay(_furniture, _character = player) {
     fn = new Function(_furniture.id + "Lay({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
-function furnitureSleep(_furniture, _character = player) {
+function furnitureInteractSleep(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -453,7 +495,7 @@ function furnitureSleep(_furniture, _character = player) {
     fn = new Function(_furniture.id + "Sleep({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
-function furnitureLook(_furniture, _character = player) {
+function furnitureInteractLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -465,7 +507,7 @@ function furnitureLook(_furniture, _character = player) {
     fn = new Function(_furniture.id + "Look({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
-function furnitureSex(_furniture, _character = player) {
+function furnitureInteractSex(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
@@ -489,7 +531,7 @@ function itemInteract(_item, _clearContent = false, _clearMenu = true) {
     
     
 }
-function itemUse(_item, _character = player) {
+function itemInteractUse(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -500,7 +542,7 @@ function itemUse(_item, _character = player) {
     
     
 }
-function itemPut(_item, _character = player) { // Rewrite this later for entities in general
+function itemInteractPut(_item, _character = player) { // Rewrite this later for entities in general
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -511,7 +553,7 @@ function itemPut(_item, _character = player) { // Rewrite this later for entitie
     
     
 }
-function itemGive(_item, _character = player) {
+function itemInteractGive(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -522,7 +564,7 @@ function itemGive(_item, _character = player) {
     
     
 }
-function itemTake(_item, _character = player) {
+function itemInteractTake(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -533,7 +575,7 @@ function itemTake(_item, _character = player) {
     
     
 }
-function itemHold(_item, _character = player) {
+function itemInteractHold(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -544,7 +586,7 @@ function itemHold(_item, _character = player) {
     
     
 }
-function itemWear(_item, _character = player) {
+function itemInteractWear(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -555,7 +597,7 @@ function itemWear(_item, _character = player) {
     
     _character.wear(_item);
 }
-function itemLook(_item, _character = player) {
+function itemInteractLook(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -566,7 +608,7 @@ function itemLook(_item, _character = player) {
     
     Content.add(_item.description);
 }
-function itemAttack(_item, _character = player) {
+function itemInteractAttack(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
@@ -577,7 +619,7 @@ function itemAttack(_item, _character = player) {
     
     
 }
-function itemSex(_item, _character = player) {
+function itemInteractSex(_item, _character = player) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
     if (!(_character instanceof Character))
