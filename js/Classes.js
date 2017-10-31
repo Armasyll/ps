@@ -3032,6 +3032,68 @@ class Furniture extends Entity {
         return _charactersSeatingSpaceTotal;
     }
 }
+class ElectronicDevice extends Item {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0) {
+        super(_id, _name, _description, undefined);
+    }
+}
+class WebPage {
+    constructor(_id, _name = undefined, _webSite = undefined, _content = undefined) {
+        this.id = _id;
+        this.name = _name;
+        
+        if (!(_webSite instanceof WebSite))
+            _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
+        
+        this.webSite = _webSite;
+        this.content = _content;
+        
+        webPageIndexes.set(this.id, this);
+    }
+}
+class WebSite {
+    constructor(_id, _name = undefined, _description = undefined) {
+        this.id = _id;
+        this.name = _name;
+        this.description = _description;
+        this.pages = new Set();
+        
+        webSiteIndexes.set(this.id, this);
+    }
+    
+    _addPagePage(_page) {
+        if (!(_page instanceof WebPage))
+            _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
+        
+        if (_page instanceof WebPage) {
+            _page.webSite = this;
+            this.pages.set(_page);
+        }
+    }
+    _addPageRaw(_id, _name = undefined, _content = undefined) {
+        var _page = new WebPage(_id, _name, this, _content);
+        
+        this._addPagePage(_page);
+    }
+    addPage(_id, _name = undefined, _content = undefined) {
+        if (!(_id instanceof WebPage) && webPageIndexes.has(_id))
+            _id = webPageIndexes.get(_id);
+        
+        if (_id instanceof WebPage)
+            this._addPagePage(_id);
+        else
+            this._addPageRaw(_id, _name, _content);
+    }
+    getPage(_page) {
+        if (!(_page instanceof WebPage))
+            _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
+        
+        if (_page instanceof WebPage && this.pages.contains(_page))
+            return _page;
+        else
+            return undefined;
+    }
+}
 class Cron {
     constructor(minutes = undefined, hours = undefined, dom = undefined, month = undefined, dow = undefined, year = undefined) {
         if (typeof minutes == 'undefined')
