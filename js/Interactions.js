@@ -1,4 +1,4 @@
-function roomInteract(_room, _showBaseMenu = false, _clearContent = false, _showContent = true, _checkLocked = true) {
+function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _showContent = undefined, _checkLocked = true) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
     
@@ -19,9 +19,14 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = false, _show
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
         );
         
+        if (typeof _clearContent != "boolean")
+            _clearContent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+        if (typeof _showContent != "boolean")
+            _showContent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+        
         if (_showBaseMenu) {
             if (debug) console.log("\tBase Menu and Room for " + _room.sid);
-            fn = new Function(_room.sid + "Interact(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
+            fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
             try {fn();}catch (err) {}
             
             baseMenu(0, 1);
@@ -33,7 +38,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = false, _show
             Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
             if (debug) console.log("\tRoom for " + _room.sid);
-            fn = new Function(_room.sid + "Interact(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + "," + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")");
+            fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
             try {fn();}catch (err) {}
             
             _room.furniture.forEach(function(_furniture) {
