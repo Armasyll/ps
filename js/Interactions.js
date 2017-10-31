@@ -3,7 +3,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
         _room = roomsIndexes.get(_room);
     
     if (player.room.isLocked(_room) && _checkLocked && !player.hasKey(_room)) {
-        Content.add("<p>" + _room.name + " is locked from this side.</p>");
+        Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
     }
     else {
         if (player.room !== _room) {
@@ -19,13 +19,15 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
         );
         
+        var _previousRoomDifferent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+        
         if (typeof _clearContent != "boolean")
-            _clearContent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+            _clearContent = _previousRoomDifferent;
         if (typeof _showContent != "boolean")
-            _showContent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+            _showContent = _previousRoomDifferent;
         
         if (_showBaseMenu) {
-            if (debug) console.log("\tBase Menu and Room for " + _room.sid);
+            if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
             fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
             try {fn();}catch (err) {}
             
@@ -35,14 +37,14 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
             Menu.isExploring = false;
             
             Menu.clear();
-            Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(" + (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid)) + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu({0})".format(_previousRoomDifferent ? "true" : "false"), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
             if (debug) console.log("\tRoom for " + _room.sid);
             fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
             try {fn();}catch (err) {}
             
             _room.furniture.forEach(function(_furniture) {
-                Menu.addOption("furnitureInteract(" + _furniture.id + ", 0, 1)", "Look at " + _furniture.name, _furniture.description);
+                Menu.addOption("furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
             });
             
             Menu.generate();
@@ -109,7 +111,7 @@ function characterInteract(_character, _clearContent = true) {
     if (_clearContent) {
         Content.clear();
         
-        fn = new Function(player.room.sid + _character.id.capitalize() + "()");
+        fn = new Function("{0}()".format(player.room.sid + _character.id.capitalize()));
         try {fn();}catch (err) {}
     }
     
@@ -308,45 +310,45 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     
-    lastMenu = "furnitureInteract(" + _furniture.id + ",false,true)";
+    lastMenu = "furnitureInteract({0},false,true)".format(_furniture.id);
     
-    Content.add("<p>You decide to look over the " + FurnitureTypeIdNames.get(_furniture.type) + ", and you see that it has " + (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items")) + " inside of it.</p>");
+    Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(FurnitureTypeIdNames.get(_furniture.type), (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items"))));
     
     if (_clearMenu) {
         if (_furniture.availableActions.size == 0) {
-            Content.add("<p>There is little you can do with " + _furniture.name + ".</p>");
+            Content.add("<p>There is little you can do with {0}.</p>".format(_furniture.name));
         }
         else {
             Menu.clear();
-            Menu.setOption((numberOfOptions == 12 ? 7 : 9), "roomInteract(" + player.room.id + ", false, true, false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+            Menu.setOption((numberOfOptions == 12 ? 7 : 9), "roomInteract({0}, false, true, false)".format(player.room.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-            Menu.addOption("furnitureOpen(" + _furniture.id + ")", "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
+            Menu.addOption("furnitureOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
             
             _furniture.availableActions.forEach(function(_action) {
                 if (ActionsIdNames.has(_action)) {
                     switch(ActionsIdNames.get(_action)) {
                         case "use" : {
-                            Menu.addOption("furnitureUse(" + this.id + ")", "Use " + this.name);
+                            Menu.addOption("furnitureUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
                         }
                         case "sit" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSit(" + this.id + ")", "Sit on " + this.name);
+                                Menu.addOption("furnitureSit({0})".format(this.id), "Sit on {0}".format(this.name));
                             break;
                         }
                         case "lay" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureLay(" + this.id + ")", "Lay in " + this.name);
+                                Menu.addOption("furnitureLay({0})".format(this.id), "Lay in {0}".format(this.name));
                             break;
                         }
                         case "sleep" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSleep(" + this.id + ")", "Sleep in " + this.name);
+                                Menu.addOption("furnitureSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
                             break;
                         }
                         case "sex" : {
                             if (!(player.furniture == this))
-                                Menu.addOption("furnitureSex(" + this.id + ")", "Fuck " + this.name);
+                                Menu.addOption("furnitureSex({0})".format(this.id), "Fuck {0}".format(this.name));
                             break;
                         }
                     }
@@ -412,7 +414,7 @@ function furnitureUse(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Use(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Use({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 function furnitureSit(_furniture, _character = player) {
@@ -424,7 +426,7 @@ function furnitureSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Sit(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Sit({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 function furnitureLay(_furniture, _character = player) {
@@ -436,7 +438,7 @@ function furnitureLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Lay(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Lay({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 function furnitureSleep(_furniture, _character = player) {
@@ -448,7 +450,7 @@ function furnitureSleep(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Sleep(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Sleep({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 function furnitureLook(_furniture, _character = player) {
@@ -460,7 +462,7 @@ function furnitureLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Look(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Look({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 function furnitureSex(_furniture, _character = player) {
@@ -472,7 +474,7 @@ function furnitureSex(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
     
-    fn = new Function(_furniture.id + "Sex(" + _character.id + ")");
+    fn = new Function(_furniture.id + "Sex({0})".format(_character.id));
     try {fn();}catch (err) {}
 }
 
