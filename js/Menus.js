@@ -19,7 +19,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (_clearMenu) {
         Menu.clear();
         exploreMenu();
-        Menu.setOption(0, "roomInteract(" + player.room.id + ")", "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
+        Menu.setOption(0, "roomInteract({0})".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
         /*if (player.room.rooms.size > 0)
             Menu.setOption(1, "exploreMenu()", "Explore your surroundings.");*/
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
@@ -298,7 +298,7 @@ function start() {
     
     Content.add("Your name is " + player.toString() + ", a " + player.age + " year old " + (player.sex == 0 ? 'male' : 'female') + " " + player.speciesName() + ".<br/>");
     
-    Menu.addOption("roomInteract(" + player.room.id + ", true)", "Get a move on.");
+    Menu.addOption("roomInteract({0}, true)".format(player.room.id), "Get a move on.");
     Menu.generate();
 }
 function quit() {

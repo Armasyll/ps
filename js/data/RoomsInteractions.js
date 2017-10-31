@@ -1,40 +1,28 @@
-function limboInteract(_clearContent = false, _showContent = true) {
+function limboInteract(_showContent = true) {
     lastMenu = "roomInteract(limbo, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function alApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function alApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(alApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function alApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function alApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(alApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function alApartmentBedroomInteract(_clearContent = false, _showContent = true) {
+function alApartmentBedroomInteract(_showContent = true) {
     lastMenu = "roomInteract(alApartmentBedroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function alBuildingMaintenanceInteract(_clearContent = false, _showContent = true) {
+function alBuildingMaintenanceInteract(_showContent = true) {
     lastMenu = "roomInteract(alBuildingMaintenanceInteract, false, false, true, false)";
     
     if (_clearContent) {
@@ -45,12 +33,9 @@ function alBuildingMaintenanceInteract(_clearContent = false, _showContent = tru
         Content.add("<p>You're standing in the maintenance room of your Pack's apartment.</p>");
     }
 }
-function alBuildingBasementInteract(_clearContent = false, _showContent = true) {
+function alBuildingBasementInteract(_showContent = true) {
     lastMenu = "roomInteract(alBuildingBasementInteract, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>The basement is dark, and full of terrors.</p>");
     }
@@ -61,111 +46,75 @@ function alBuildingBasementInteract(_clearContent = false, _showContent = true) 
             roomFurnitureExamine(player.room);
     }
 }
-function avoApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function avoApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(avoApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function avoApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function avoApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(avoApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function avoApartmentBedroomAInteract(_clearContent = false, _showContent = true) {
+function avoApartmentBedroomAInteract(_showContent = true) {
     lastMenu = "roomInteract(avoApartmentBedroomA, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function avoApartmentBedroomBInteract(_clearContent = false, _showContent = true) {
+function avoApartmentBedroomBInteract(_showContent = true) {
     lastMenu = "roomInteract(avoApartmentBedroomB, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function chartyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function chartyApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(chartyApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function chartyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function chartyApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function chartyApartmentBedroomCharlieInteract(_clearContent = false, _showContent = true) {
+function chartyApartmentBedroomCharlieInteract(_showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBedroomCharlie, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function chartyApartmentBedroomMartyInteract(_clearContent = false, _showContent = true) {
+function chartyApartmentBedroomMartyInteract(_showContent = true) {
     lastMenu = "roomInteract(chartyApartmentBedroomMarty, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function ozzyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function ozzyApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function ozzyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function ozzyApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function ozzyApartmentBedroomInteract(_clearContent = false, _showContent = true) {
+function ozzyApartmentBedroomInteract(_showContent = true) {
     lastMenu = "roomInteract(ozzyApartmentBedroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function remmyApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function remmyApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(remmyApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>" + (player == remmy ? 'Your' : "Remmy's") + " homely, cramped apartment, with cracked paint along the walls and an oddly splotchy ceiling.</p>");
         Content.add("<p>There's a fairly recent TV on a stand, along with a small coffee table and a somewhat clean couch, and it's joined with an open kitchenette.</p>");
@@ -184,12 +133,9 @@ function remmyApartmentLivingroomInteract(_clearContent = false, _showContent = 
         Menu.addOption("chearlieEatFruitypebbles()", "Eat Fruity Pebbles.");
     }
 }
-function remmyApartmentBedroomInteract(_clearContent = false, _showContent = true) {
+function remmyApartmentBedroomInteract(_showContent = true) {
     lastMenu = "roomInteract(remmyApartmentBedroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>Stepping into " + (player == remmy ? "your" : "Remmy's") + " room, you notice that it smells " + (player == charlie ? "of you. 'Good,' you think" : (player == remmy ? "kind of flowery" : "strongly of Charlie")) + ".</p>");
         
@@ -201,12 +147,9 @@ function remmyApartmentBedroomInteract(_clearContent = false, _showContent = tru
         }
     }
 }
-function remmyApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function remmyApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(remmyApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>You find " + (player == remmy ? 'your' : "Remmy's") + " bathroom hot and muggy, with stray bits of cream-coloured fur strawn about the small room. It doesn't take a trained nose to realize that the room smells strongly of wet canine and violet flowers.</o>");
         Content.add("<p>Beside the sink is " + (player == charlie ? 'your' : 'a') + " thick brush with a few stray cream-coloured hairs, as well as " + (player == remmy ? 'your' : 'a') + " wool pick. There's a cannister of musk-mask by the faucet, and a small bottle of " + (player == charlie ? 'your supply of ewe pheramone' : 'something you can\'t make out') + ".</p>");
@@ -224,43 +167,31 @@ function remmyApartmentBathroomInteract(_clearContent = false, _showContent = tr
     }
 }
 
-function twinsApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function twinsApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(twinsApartmentLivingroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function twinsApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function twinsApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function twinsApartmentBedroomAnnekeInteract(_clearContent = false, _showContent = true) {
+function twinsApartmentBedroomAnnekeInteract(_showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBedroomAnneke, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function twinsApartmentBedroomWolterInteract(_clearContent = false, _showContent = true) {
+function twinsApartmentBedroomWolterInteract(_showContent = true) {
     lastMenu = "roomInteract(twinsApartmentBedroomWolter, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function alBuildingFirstFloorHallwayInteract(_clearContent = false, _showContent = true) {
+function alBuildingFirstFloorHallwayInteract(_showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -269,7 +200,7 @@ function alBuildingFirstFloorHallwayInteract(_clearContent = false, _showContent
         Content.add("<p>You're standing in the first floor lobby of your Pack's apartment.</p>");
     }
 }
-function alBuildingSecondFloorHallwayInteract(_clearContent = false, _showContent = true) {
+function alBuildingSecondFloorHallwayInteract(_showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -278,7 +209,7 @@ function alBuildingSecondFloorHallwayInteract(_clearContent = false, _showConten
         Content.add("<p>You're standing in the second floor hallway of your Pack's apartment.</p>");
     }
 }
-function alBuildingThirdFloorHallwayInteract(_clearContent = false, _showContent = true) {
+function alBuildingThirdFloorHallwayInteract(_showContent = true) {
     if (_clearContent) {
         if (!(player.previousRoom.sid == player.room.sid))
             Content.clear();
@@ -287,121 +218,82 @@ function alBuildingThirdFloorHallwayInteract(_clearContent = false, _showContent
             Content.add("<p>You're standing in the third floor hallway of your Pack's apartment.</p>");
     }
 }
-function weaverApartmentLivingroomInteract(_clearContent = false, _showContent = true) {
+function weaverApartmentLivingroomInteract(_showContent = true) {
     lastMenu = "roomInteract(alBuildingThirdFloorHallwayB, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function weaverApartmentBathroomInteract(_clearContent = false, _showContent = true) {
+function weaverApartmentBathroomInteract(_showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBathroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function weaverApartmentBedroomAInteract(_clearContent = false, _showContent = true) {
+function weaverApartmentBedroomAInteract(_showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBedroomA, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function weaverApartmentBedroomBInteract(_clearContent = false, _showContent = true) {
+function weaverApartmentBedroomBInteract(_showContent = true) {
     lastMenu = "roomInteract(weaverApartmentBedroomB, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
 
-function pandorasBoxCheckoutInteract(_clearContent = false, _showContent = true) {
+function pandorasBoxCheckoutInteract(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxCheckoutInteract, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxFront(_clearContent = false, _showContent = true) {
+function pandorasBoxFront(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxFront, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxBack(_clearContent = false, _showContent = true) {
+function pandorasBoxBack(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxBack, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxIsleA(_clearContent = false, _showContent = true) {
+function pandorasBoxIsleA(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleA, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxIsleB(_clearContent = false, _showContent = true) {
+function pandorasBoxIsleB(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleB, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxIsleC(_clearContent = false, _showContent = true) {
+function pandorasBoxIsleC(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxIsleC, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxGarageInteract(_clearContent = false, _showContent = true) {
+function pandorasBoxGarageInteract(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxGarageInteract, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxGarageAInteract(_clearContent = false, _showContent = true) {
+function pandorasBoxGarageAInteract(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxGarageAInteract, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }
-function pandorasBoxBasementHiddenBedroomInteract(_clearContent = false, _showContent = true) {
+function pandorasBoxBasementHiddenBedroomInteract(_showContent = true) {
     lastMenu = "roomInteract(pandorasBoxBasementHiddenBedroom, false, false, true, false)";
     
-    if (_clearContent) {
-        Content.clear();
-    }
     if (_showContent) {
     }
 }

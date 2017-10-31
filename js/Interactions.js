@@ -21,14 +21,19 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
         
         var _previousRoomDifferent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
         
-        if (typeof _clearContent != "boolean")
-            _clearContent = _previousRoomDifferent;
+        if (typeof _clearContent != "boolean") {
+            if (_previousRoomDifferent)
+                Content.clear();
+        }
+        else if (_clearContent === true)
+            Content.clear();
+        
         if (typeof _showContent != "boolean")
             _showContent = _previousRoomDifferent;
         
         if (_showBaseMenu) {
             if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
-            fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
+            fn = new Function("{0}Interact({1})".format(_room.sid, _showContent));
             try {fn();}catch (err) {}
             
             baseMenu(0, 1);
@@ -40,7 +45,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
             Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu({0})".format(_previousRoomDifferent ? "true" : "false"), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
             if (debug) console.log("\tRoom for " + _room.sid);
-            fn = new Function("{0}Interact({1},{2})".format(_room.sid, _clearContent, _showContent));
+            fn = new Function("{0}Interact({1})".format(_room.sid, _showContent));
             try {fn();}catch (err) {}
             
             _room.furniture.forEach(function(_furniture) {
