@@ -102,7 +102,7 @@ class Menu {
                 i++;
             }
         }
-        else {
+        else if (numberOfOptions == 15) {
             while (i <= this.options.length && i < numberOfOptions && _runCond) {
                 if (!(Menu.isExploring && (i == 5 || i == 6 || i == 7 || i == 10 || i == 11 || i == 12))) {
                     if (typeof this.options[i] == 'undefined') {
@@ -185,6 +185,28 @@ class Menu {
         }
     }
     static generate() {
+        /* to-do 2017-10-30
+        if max == 12
+            setOptions 7, 11
+            if numOfOptions > 10
+                display 8 items per page, offset by ((page * 8) - 8)
+                if page > 1
+                    setOptions 10 (Previous)
+                if numOfOptions > (page * 8) + 1
+                    setOptions 6 (Next)
+            else
+                display 10 items
+        else if max == 15
+            setOptions 9, 14
+            if numOfOptions > 13
+                display 11 items per page, offset by ((page * 11) - 11)
+                if page > 1
+                    setOptions 13 (Previous)
+                if numOfOptions > (page * 11) + 1
+                    setOptions 8 (Next)
+            else
+                display 13 items
+        */
         if (Menu.isExploring)
             this.setExplorationOptions();
         document.getElementById("choiceContainerBottom").innerHTML = "";
