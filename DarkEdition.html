@@ -335,15 +335,15 @@
                 usePopups = !usePopups;
             };
             toggleMenuSize = function() {
-                document.getElementById("toggleMenuSizeButton").innerHTML = (numberOfOptions == 12 ? "Use Normal Menu" : "Use Wide Menu");
-                numberOfOptions == 12 ? useWideMenu() : useNormalMenu();
+                document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Wide Menu" : "Use Normal Menu");
+                Menu.useWideMenu ? useNormalMenu() : useWideMenu();
             };
             
             document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
             document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Disable" : "Enable") + " Violence";
             document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
             document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Menu Inventory" : "Use Popup Inventory");
-            document.getElementById("toggleMenuSizeButton").innerHTML = (numberOfOptions == 12 ? "Use Wide Menu" : "Use Normal Menu");
+            document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal Menu" : "Use Wide Menu");
         </script>
         <script data-description="Start the game" src="js/Start.js"></script>
         <script data-description="Start the game" src="js/data/Start.js"></script>

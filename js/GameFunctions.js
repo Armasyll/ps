@@ -72,12 +72,12 @@ function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undef
         $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _lastPageNumber = 0) {
+function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu)) {
         if (_fromEntity instanceof Character)
-            characterInteractOpen(_fromEntity, _lastPageNumber, false);
+            characterInteractOpen(_fromEntity, false);
         else if (_fromEntity instanceof Furniture)
-            furnitureInteractOpen(_fromEntity, _lastPageNumber, false);
+            furnitureInteractOpen(_fromEntity, false);
         
         return true;
     }
@@ -964,11 +964,11 @@ function addAllItems() {
 }
 
 function useWideMenu() {
-    numberOfOptions = 15;
+    Menu.useWideMenu = true;
     runLastMenu();
 }
 function useNormalMenu() {
-    numberOfOptions = 12;
+    Menu.useWideMenu = false;
     runLastMenu();
 }
 
@@ -993,91 +993,98 @@ window.addEventListener(
         var _placement = undefined;
         switch(event['key']) {
             case "1": {
-                if (typeof Menu.options[0] !== 'undefined' && typeof Menu.options[0][0] !== 'undefined')
-                    fn = new Function(Menu.options[0][0]);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 0;
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "2": {
-                if (typeof Menu.options[1] !== 'undefined' && typeof Menu.options[1][0] !== 'undefined')
-                    fn = new Function(Menu.options[1][0]);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 1;
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "3": {
-                if (typeof Menu.options[2] !== 'undefined' && typeof Menu.options[2][0] !== 'undefined')
-                    fn = new Function(Menu.options[2][0]);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 2;
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "4": {
-                if (typeof Menu.options[3] !== 'undefined' && typeof Menu.options[3][0] !== 'undefined')
-                    fn = new Function(Menu.options[3][0]);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 3;
+                if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                    fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "5": {
-                if (numberOfOptions == 15) {
-                    if (typeof Menu.options[4] !== 'undefined' && typeof Menu.options[4][0] !== 'undefined')
-                        fn = new Function(Menu.options[3][0]);
+                if (Menu.numberOfOptions == 15) {
+                    _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 4;
+                    if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                        fn = new Function(Menu.options[_placement][0]);
                 }
                 break;
             }
             case "q": {
-                _placement = (numberOfOptions == 12 ? 4 : 5);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 4 : 5);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "w": {
-                _placement = (numberOfOptions == 12 ? 5 : 6);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 5 : 6);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "e": {
-                _placement = (numberOfOptions == 12 ? 6 : 7);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 6 : 7);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "r": {
-                _placement = (numberOfOptions == 12 ? 7 : 8);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 7 : 8);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "t": {
-                if (numberOfOptions == 15) {
-                    if (typeof Menu.options[9] !== 'undefined' && typeof Menu.options[9][0] !== 'undefined')
-                        fn = new Function(Menu.options[9][0]);
+                if (Menu.numberOfOptions == 15) {
+                    _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 9;
+                    if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                        fn = new Function(Menu.options[_placement][0]);
                 }
                 break;
             }
             case "a": {
-                _placement = (numberOfOptions == 12 ? 8 : 10);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 8 : 10);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "s": {
-                _placement = (numberOfOptions == 12 ? 9 : 11);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 9 : 11);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "d": {
-                _placement = (numberOfOptions == 12 ? 10 : 12);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 10 : 12);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "f": {
-                _placement = (numberOfOptions == 12 ? 11 : 13);
+                _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + (Menu.numberOfOptions == 12 ? 11 : 13);
                 if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
                     fn = new Function(Menu.options[_placement][0]);
                 break;
             }
             case "g": {
-                if (numberOfOptions == 15) {
-                    if (typeof Menu.options[14] !== 'undefined' && typeof Menu.options[14][0] !== 'undefined')
-                        fn = new Function(Menu.options[14][0]);
+                if (Menu.numberOfOptions == 15) {
+                    _placement = ((Menu.page * Menu.numberOfOptions) - Menu.numberOfOptions) + 14;
+                    if (typeof Menu.options[_placement] !== 'undefined' && typeof Menu.options[_placement][0] !== 'undefined')
+                        fn = new Function(Menu.options[_placement][0]);
                 }
                 break;
             }

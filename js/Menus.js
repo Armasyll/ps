@@ -4,7 +4,7 @@ function mainMenu() {
 }
 function baseMenu(_clearContent = false, _clearMenu = true) {
     lastMenu = "baseMenu({0}, {1})".format(_clearContent, _clearMenu);
-    Menu.isExploring = false;
+    Menu.isExploring = true;
     
     if (_clearContent) {
     Title.clear();
@@ -20,10 +20,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         Menu.clear();
         exploreMenu();
         Menu.setOption(0, "roomInteract({0})".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
-        /*if (player.room.rooms.size > 0)
-            Menu.setOption(1, "exploreMenu()", "Explore your surroundings.");*/
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
-        Menu.setOption((numberOfOptions == 12 ? 7 : 9), "tick('1m', true)", "Wait");
         if (player.room.characters.size == 2) {
             _character = undefined;
             player.room.characters.forEach(function(character) {
@@ -34,6 +31,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         }
         else if (player.room.characters.size > 1)
             Menu.setOption(2, "localCharactersMenu()", "Interact with those near you.");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true)", "Wait");
         Menu.generate();
     }
 }
@@ -46,14 +44,14 @@ function personalCharacterMenu() {
         Content.add("You have blood caked across your face and dripping down your jaw, as well as bits of cream-coloured fur and red chunks of meat. You are very full.");
     
     Menu.clear();
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((numberOfOptions == 12 ? 10 : 13), "$('#optionsModal').modal()", "Options");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 13 : 10), "$('#optionsModal').modal()", "Options");
     Menu.addOption("getAppearance(player, 1)", "Appearance");
     Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();
 }
 function exploreMenu() {
-    isExploring = true;
+    Menu.isExploring = true;
     
     if (player.room.attachedRooms.has(0) && player.room.attachedRooms.get(0) instanceof Room)
         roomNorth = player.room.attachedRooms.get(0);
@@ -119,7 +117,7 @@ function localCharactersMenu() {
             Menu.addOption("characterInteract(" + _character.id + ")", _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
     }
     
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 
@@ -131,7 +129,7 @@ function debugMenu() {
     
     clearContentAndMenu();
     
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("debugRoomInformation()", "Room Information");
     Menu.addOption("debugSwitchRoom()", "Switch Room");
     Menu.addOption("debugCharactersInformation()", "Characters Information");
@@ -165,8 +163,8 @@ function debugSwitchRoom() {
             Content.add(Menu.createButton("roomInteract(" + _key.id + ", true, true, true)", _key.name, _key.id, false));
     });
     
-    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugCharactersInformation() {
@@ -208,8 +206,8 @@ function debugSwitchCharacter() {
     
     Content.add(_blob);
     
-    Menu.setOption((numberOfOptions == 12 ? 7 : 9), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption((numberOfOptions == 12 ? 11 : 14), "roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugBrowserInformation() {
@@ -230,6 +228,13 @@ function debugPrintUnassignedRooms() {
     _blob += "</u>";
     
     Content.add(_blob);
+}
+function debugMenuPopulate() {
+    Menu.setOption(0, "debugMenu()", "Debug Menu");
+    for (var _i = 0; _i < 33; _i++) {
+        Menu.addOption("debugMenu()", "Option {0}".format(_i))
+    }
+    Menu.generate();
 }
 function getAppearance(_character, _self = false) {
     Title.setTopImage(_character.image);
@@ -288,6 +293,7 @@ function getAppearance(_character, _self = false) {
 }
 function start() {
     agreeTOS = true;
+    Menu.isExploring = true;
     document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small style="position:absolute; right:0px; top:-3px;">[O]</small><div class="trim">Options</div></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
     //document.getElementById('gameControlsDisplay').innerHTML += '<div class="btn-group" role="group"><button class="btn viewPersonalInventory"><small style="position:absolute; right:0px; top:-3px;">[I]</small><div class="trim">Inventory</div></button></div>';
     

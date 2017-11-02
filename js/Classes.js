@@ -69,57 +69,149 @@ class Menu {
     static initialize() {
         this.options = [];
         this.isExploring = false;
+        this.page = 1;
+        this.numberOfOptions = 12;
+        this.useWideMenu = false;
+        this.resetNumberOfOptions();
     }
     
     static clear() {
         this.options = [];
         document.getElementById("choiceContainerBottom").innerHTML = "";
         this.generate();
+        this.page = 1;
+        this.resetNumberOfOptions();
     }
     
-    static setOption($index, $id, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0) {
-        if ($id.length > 0 && !$id.endsWith(")"))
-            $id = $id + "()";
-        
-        this.options[$index] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
+    static resetNumberOfOptions() {
+        if (this.useWideMenu)
+            this.numberOfOptions = 15;
+        else
+            this.numberOfOptions = 12;
     }
-    static addOption($id, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0) {
+    
+    static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _manualSet = false) {
+        if (typeof $disabled != 'boolean')
+            $disabled = false;
+        if (typeof $invisible != 'boolean')
+            $invisible = false;
+        if (typeof $secret != 'boolean')
+            $secret = false;
+        if (typeof _btnClass != 'string')
+            _btnClass = "";
+        if (typeof _manualSet != 'boolean')
+            _manualSet = false;
+        
+        if (isNaN($index)) {
+            if (this.numberOfOptions == 12) {
+                switch ($index) {
+                    case "1": $index = 0; break;
+                    case "2": $index = 1; break;
+                    case "3": $index = 2; break;
+                    case "4": $index = 3; break;
+                    case "q": $index = 4; break;
+                    case "w": $index = 5; break;
+                    case "e": $index = 6; break;
+                    case "r": $index = 7; break;
+                    case "a": $index = 8; break;
+                    case "s": $index = 9; break;
+                    case "d": $index = 10; break;
+                    case "f": $index = 11; break;
+                    default: $index = -1;
+                }
+            }
+            else {
+                switch ($index) {
+                    case "1": $index = 0; break;
+                    case "2": $index = 1; break;
+                    case "3": $index = 2; break;
+                    case "4": $index = 3; break;
+                    case "5": $index = 4; break;
+                    case "q": $index = 5; break;
+                    case "w": $index = 6; break;
+                    case "e": $index = 7; break;
+                    case "r": $index = 8; break;
+                    case "t": $index = 9; break;
+                    case "a": $index = 10; break;
+                    case "s": $index = 11; break;
+                    case "d": $index = 12; break;
+                    case "f": $index = 13; break;
+                    case "g": $index = 14; break;
+                    default: $index = -1;
+                }
+            }
+        }
+        
+        if ($index > -1 && $index < this.numberOfOptions * 10) {
+            var _runCond = true;
+            var _page = 0;
+            if ($index / this.numberOfOptions > 1)
+                _page = parseInt($index / this.numberOfOptions) + 1;
+            else
+                _page = 1;
+            
+            console.log("index {0} on page {1}".format($index, _page));
+            
+            if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
+                $functionCall = $functionCall + "()";
+            
+            if ($index == (this.numberOfOptions * _page) - (this.useWideMenu ? 7 : 6)) {
+                var _i = $index;
+                while (_i < this.numberOfOptions * 10 && _runCond) {
+                    if (typeof this.options[_i] == 'undefined')
+                        _runCond = false;
+                    else
+                        _i++;
+                }
+                this.options[$index] = ["Menu.generate({0})".format(_page + 1), "Next"];
+                $index = _i + 1;
+            }
+            else if ($index == ((this.numberOfOptions * _page) - 2) && _page > 1) {
+                var _i = $index;
+                while (_i < this.numberOfOptions * 10 && _runCond) {
+                    if (typeof this.options[_i] == 'undefined')
+                        _runCond = false;
+                    else
+                        _i++;
+                }
+                this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous"];
+                $index = _i + 1;
+            }
+            
+            this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass];
+            
+            return true;
+        }
+        else
+            return false;
+    }
+    static addOption($functionCall, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0, _btnClass = "") {
         var i = 0;
         var _runCond = 1;
         
-        if (numberOfOptions == 12) {
-            while (i <= this.options.length && i < numberOfOptions && _runCond) {
-                if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10))) {
-                    if (typeof this.options[i] == 'undefined') {
-                        if ($id.length > 0 && !$id.endsWith(")"))
-                            $id = $id + "()";
-                        
-                        this.options[i] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
-                        _runCond = 0;
-                    }
-                }
-                
-                i++;
+        if (this.numberOfOptions == 12) {
+            while (i <= this.options.length && _runCond) {
+                if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10)) && typeof this.options[i] == 'undefined')
+                    _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
+                else
+                    i++;
             }
         }
-        else if (numberOfOptions == 15) {
-            while (i <= this.options.length && i < numberOfOptions && _runCond) {
-                if (!(Menu.isExploring && (i == 5 || i == 6 || i == 7 || i == 10 || i == 11 || i == 12))) {
-                    if (typeof this.options[i] == 'undefined') {
-                        if ($id.length > 0 && !$id.endsWith(")"))
-                            $id = $id + "()";
-                        
-                        this.options[i] = [$id, $title, $subTitle, $hover, $disabled, $invisible, $secret];
-                        _runCond = 0;
-                    }
-                }
-                
-                i++;
+        else if (this.numberOfOptions == 15) {
+            while (i <= this.options.length && _runCond) {
+                if (!(Menu.isExploring && (i == 5 || i == 6 || i == 7 || i == 10 || i == 11 || i == 12)) && typeof this.options[i] == 'undefined')
+                    _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
+                else
+                    i++;
             }
         }
+        
+        return i;
     }
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
         Menu.isExploring = true;
+        Menu.page = 1;
+        
         var _metaName = "";
         var _secret = false;
         
@@ -131,7 +223,7 @@ class Menu {
             else
                 _metaName = downRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
         }
         if (northRoom instanceof Room) {
             if (player.room.cell.location != northRoom.cell.location)
@@ -141,7 +233,7 @@ class Menu {
             else
                 _metaName = northRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
         }
         if (upRoom instanceof Room) {
             if (player.room.cell.location != upRoom.cell.location)
@@ -151,7 +243,7 @@ class Menu {
             else
                 _metaName = upRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
         }
         if (westRoom instanceof Room) {
             if (player.room.cell.location != westRoom.cell.location)
@@ -161,7 +253,7 @@ class Menu {
             else
                 _metaName = westRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
         }
         if (southRoom instanceof Room) {
             if (player.room.cell.location != southRoom.cell.location)
@@ -171,7 +263,7 @@ class Menu {
             else
                 _metaName = southRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
         }
         if (eastRoom instanceof Room) {
             if (player.room.cell.location != eastRoom.cell.location)
@@ -181,41 +273,26 @@ class Menu {
             else
                 _metaName = eastRoom.location.name;
             
-            this.options[(numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
         }
     }
-    static generate() {
-        /* to-do 2017-10-30
-        if max == 12
-            setOptions 7, 11
-            if numOfOptions > 10
-                display 8 items per page, offset by ((page * 8) - 8)
-                if page > 1
-                    setOptions 10 (Previous)
-                if numOfOptions > (page * 8) + 1
-                    setOptions 6 (Next)
-            else
-                display 10 items
-        else if max == 15
-            setOptions 9, 14
-            if numOfOptions > 13
-                display 11 items per page, offset by ((page * 11) - 11)
-                if page > 1
-                    setOptions 13 (Previous)
-                if numOfOptions > (page * 11) + 1
-                    setOptions 8 (Next)
-            else
-                display 13 items
-        */
-        if (Menu.isExploring)
-            this.setExplorationOptions();
+    static generate(_page = 1) {
+        if (!isNaN(_page) && !Menu.isExploring)
+            Menu.page = _page;
+        
         document.getElementById("choiceContainerBottom").innerHTML = "";
+        
+        if (_page > 1 && parseInt(this.options.length / this.numberOfOptions) + 1 == _page) {
+            this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous"];
+        }
+        
         var _blob = "";
         _blob += '<div class="btn-group btn-group-justified">';
-        for (var i = 0; i < numberOfOptions; i++) {
+        for (var i = 0; i < this.numberOfOptions; i++) {
             var _key = 0;
+            var j = ((this.numberOfOptions * _page) - this.numberOfOptions) + i;
             
-            if (numberOfOptions == 12) {
+            if (this.numberOfOptions == 12) {
                 switch (i) {
                     case 0: _key = "1"; break;
                     case 1: _key = "2"; break;
@@ -251,12 +328,12 @@ class Menu {
                 }
             }
             
-            if (typeof this.options[i] === 'undefined')
+            if (typeof this.options[j] === 'undefined')
                 _blob += this.createButton("", "&nbsp;", "&nbsp;", "", "", 1, 1, 0);
             else {
-                _blob += this.createButton(this.options[i], _key);
+                _blob += this.createButton(this.options[j], _key);
             }
-            if (numberOfOptions == 12) {
+            if (this.numberOfOptions == 12) {
                 if (i == 3 || i == 7)
                     _blob += '</div><div class="btn-group btn-group-justified">';
             }
@@ -268,25 +345,25 @@ class Menu {
         _blob += '</div>';
         document.getElementById("choiceContainerBottom").innerHTML = _blob;
     }
-    static createButton($id, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "") {
-        if (typeof $id == 'object') {
+    static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "") {
+        if (typeof $functionCall == 'object') {
             $key = $title;
-            $title = (typeof $id[1] === 'undefined' ? $title : $id[1]);
-            $subTitle = (typeof $id[2] === 'undefined' || $id[2].length < 1) ? "&nbsp;" : $id[2];
-            $hover = (typeof $id[3] === 'undefined' ? "" : $id[3]);
-            $disabled = (typeof $id[4] === 'undefined' ? $disabled : $id[4]);
-            $invisible = (typeof $id[5] === 'undefined' ? $invisible : $id[5]);
-            $secret = (typeof $id[6] === 'undefined' ? $secret : $id[6]);
-            $btnClass = (typeof $id[7] === 'undefined' ? $btnClass : $id[7]);
-            $id = $id[0];
+            $title = (typeof $functionCall[1] === 'undefined' ? $title : $functionCall[1]);
+            $subTitle = (typeof $functionCall[2] === 'undefined' || $functionCall[2].length < 1) ? "&nbsp;" : $functionCall[2];
+            $hover = (typeof $functionCall[3] === 'undefined' ? "" : $functionCall[3]);
+            $disabled = (typeof $functionCall[4] === 'undefined' ? $disabled : $functionCall[4]);
+            $invisible = (typeof $functionCall[5] === 'undefined' ? $invisible : $functionCall[5]);
+            $secret = (typeof $functionCall[6] === 'undefined' ? $secret : $functionCall[6]);
+            $btnClass = (typeof $functionCall[7] === 'undefined' ? $btnClass : $functionCall[7]);
+            $functionCall = $functionCall[0];
         }
         
-        if ($id.length > 0 && !$id.endsWith(")"))
-            $id = $id + "()";
+        if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
+            $functionCall = $functionCall + "()";
         
         var _blob = "";
         _blob += '<div class="btn-group">';
-            _blob += '<button class="btn ' + $btnClass + ' ' + ($invisible ? 'invisible' : '') + '" onClick="' + $id + '" title="' + $hover + '" style="' + ($secret ? "opacity:0.0;" : "") + '" ' + ($disabled === true ? "disabled=disabled" : "") + '>';
+            _blob += '<button class="btn ' + $btnClass + ' ' + ($invisible ? 'invisible' : '') + '" onClick="' + $functionCall + '" title="' + $hover + '" style="' + ($secret ? "opacity:0.0;" : "") + '" ' + ($disabled === true ? "disabled=disabled" : "") + '>';
                 _blob += ($key !== false ? '<small style="position:absolute; right:0px; top:-3px;">[' + $key + ']</small>' : '');
                 _blob += '<div class="trim"><span class="button-title">' + $title + '</span></div>';
                 _blob += '<small class="trim"><span>' + $subTitle + '</span></small>';
