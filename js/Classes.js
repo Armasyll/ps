@@ -176,7 +176,7 @@ class Menu {
                 _tmpArr.forEach(function(_item) {
                     var _runCond = true;
                     while ($index < this.numberOfOptions * 10 && _runCond) {
-                        if (typeof this.options[$index] == 'undefined' && $index != (this.numberOfOptions * _page) - 2) {
+                        if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2)) {
                             this.options[$index] = _item;
                             _runCond = false;
                         }
