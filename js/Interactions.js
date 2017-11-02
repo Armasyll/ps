@@ -214,7 +214,7 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
         _characterB.items.forEach(function(_item) {
-            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false)".format(_item.id, _characterB.id, _characterA.id), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
         }, this);
         Menu.generate();
     }
@@ -339,7 +339,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
     }
 }
-function furnitureInteractOpen(_furniture, _clearContent = true) {
+function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     
@@ -351,15 +351,24 @@ function furnitureInteractOpen(_furniture, _clearContent = true) {
         $("#dualInventoryModal").modal("show");
     }
     else {
+        if (_switch) {
+            var _characterB = player;
+            var _characterA = _character;
+        }
+        else {
+            var _characterA = player;
+            var _characterB = _character;
+        }
+        
         if (_clearContent) {
             var _blob = "";
-            _blob += ("Looking through the {0}, you find ".format(_furniture.toString()));
+            _blob += ("Looking through the {0}, you find ".format(_characterB.toString()));
             
-            if (_furniture.items.size == 1) {
-                _blob += ("a " + Array.from(_furniture.items)[0].toString() + ".");
+            if (_characterB.items.size == 1) {
+                _blob += ("a " + Array.from(_characterB.items)[0].toString() + ".");
             }
-            else if (_furniture.items.size == 2) {
-                _furniture.items.forEach(function(_item) {
+            else if (_characterB.items.size == 2) {
+                _characterB.items.forEach(function(_item) {
                     _blob += (_item.toString() + ".");
                 });
             }
@@ -367,7 +376,7 @@ function furnitureInteractOpen(_furniture, _clearContent = true) {
                 // Lazy
                 _arr = [];
                 
-                _furniture.items.forEach(function(_item) {
+                _characterB.items.forEach(function(_item) {
                     _arr.push(_item.toString());
                 });
                 
@@ -385,11 +394,12 @@ function furnitureInteractOpen(_furniture, _clearContent = true) {
         
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_furniture.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_furniture.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
-        _furniture.items.forEach(function(_item) {
-            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false)".format(_item.id, _furniture.id, player.id), "Take " + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+        _characterB.items.forEach(function(_item) {
+            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
         }, this);
         
         Menu.generate();

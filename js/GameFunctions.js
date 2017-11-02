@@ -72,12 +72,20 @@ function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undef
         $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false) {
     if (moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu)) {
-        if (_fromEntity instanceof Character)
-            characterInteractOpen(_fromEntity, false);
-        else if (_fromEntity instanceof Furniture)
-            furnitureInteractOpen(_fromEntity, false);
+        if (_switch) {
+            if (_fromEntity instanceof Character)
+                characterInteractOpen(_toEntity, false, _switch);
+            else if (_fromEntity instanceof Furniture)
+                furnitureInteractOpen(_toEntity, false, _switch);
+        }
+        else {
+            if (_fromEntity instanceof Character)
+                characterInteractOpen(_fromEntity, false, _switch);
+            else if (_fromEntity instanceof Furniture)
+                furnitureInteractOpen(_fromEntity, false, _switch);
+        }
         
         return true;
     }

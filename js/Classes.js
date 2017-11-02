@@ -90,7 +90,7 @@ class Menu {
             this.numberOfOptions = 12;
     }
     
-    static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _manualSet = false) {
+    static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _softSet = true) {
         if (typeof $disabled != 'boolean')
             $disabled = false;
         if (typeof $invisible != 'boolean')
@@ -99,8 +99,8 @@ class Menu {
             $secret = false;
         if (typeof _btnClass != 'string')
             _btnClass = "";
-        if (typeof _manualSet != 'boolean')
-            _manualSet = false;
+        if (typeof _softSet != 'boolean')
+            _softSet = false;
         
         if (isNaN($index)) {
             if (this.numberOfOptions == 12) {
@@ -145,38 +145,58 @@ class Menu {
         if ($index > -1 && $index < this.numberOfOptions * 10) {
             var _runCond = true;
             var _page = 0;
+            
             if ($index / this.numberOfOptions > 1)
-                _page = parseInt($index / this.numberOfOptions) + 1;
+                _page = parseInt($index / this.numberOfOptions);
             else
                 _page = 1;
             
             if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
                 $functionCall = $functionCall + "()";
             
-            if ($index == (this.numberOfOptions * _page) - (this.useWideMenu ? 7 : 6)) {
-                var _i = $index;
-                while (_i < this.numberOfOptions * 10 && _runCond) {
-                    if (typeof this.options[_i] == 'undefined')
+            if ($index == this.numberOfOptions * (_page)) {
+                var _tmpArr = new Array();
+                var _startIndex = this.numberOfOptions * (_page - 1) + (this.useWideMenu ? 8 : 6);
+                
+                for(var _i = _startIndex; _i < this.options.length; _i++) {
+                    if (typeof this.options[_i] != 'undefined' && this.options[_i][8] == false) {
+                        _tmpArr.push(this.options[_i]);
+                        delete this.options[_i];
+                    }
+                }
+                
+                this.options[(this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6)] = ["Menu.generate({0})".format(_page + 1), "Next", "", false, false, false, false, undefined, true];
+                if (_page > 1)
+                    this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
+                
+                _tmpArr.push([$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet]);
+                
+                $index = (this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6);
+                
+                _tmpArr.forEach(function(_item) {
+                    var _runCond = true;
+                    while ($index < this.numberOfOptions * 10 && _runCond) {
+                        if (typeof this.options[$index] == 'undefined' && $index != (this.numberOfOptions * _page) - 2) {
+                            this.options[$index] = _item;
+                            _runCond = false;
+                        }
+                        else
+                            $index++;
+                    }
+                }, this);
+            }
+            else if ($index > this.numberOfOptions && $index == this.numberOfOptions * _page - 2)
+                this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
+            else {
+                var _runCond = true;
+                while ($index < this.numberOfOptions * 10 && _runCond) {
+                    if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2))
                         _runCond = false;
                     else
-                        _i++;
+                        $index++;
                 }
-                this.options[$index] = ["Menu.generate({0})".format(_page + 1), "Next"];
-                $index = _i + 1;
+                this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet];
             }
-            else if ($index == ((this.numberOfOptions * _page) - 2) && _page > 1) {
-                var _i = $index;
-                while (_i < this.numberOfOptions * 10 && _runCond) {
-                    if (typeof this.options[_i] == 'undefined')
-                        _runCond = false;
-                    else
-                        _i++;
-                }
-                this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous"];
-                $index = _i + 1;
-            }
-            
-            this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass];
             
             return true;
         }
@@ -189,7 +209,7 @@ class Menu {
         
         if (this.numberOfOptions == 12) {
             while (i <= this.options.length && _runCond) {
-                if (!(Menu.isExploring && (i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 10)) && typeof this.options[i] == 'undefined')
+                if (typeof this.options[i] == 'undefined')
                     _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
                 else
                     i++;
@@ -197,7 +217,7 @@ class Menu {
         }
         else if (this.numberOfOptions == 15) {
             while (i <= this.options.length && _runCond) {
-                if (!(Menu.isExploring && (i == 5 || i == 6 || i == 7 || i == 10 || i == 11 || i == 12)) && typeof this.options[i] == 'undefined')
+                if (typeof this.options[i] == 'undefined')
                     _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
                 else
                     i++;
