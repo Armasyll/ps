@@ -144,7 +144,7 @@ function characterInteract(_character, _clearContent = true) {
     
     Menu.generate();
 }
-function characterInteractOpen(_character, _clearContent = true) {
+function characterInteractOpen(_character, _clearContent = true, _switch = false) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
     
@@ -163,18 +163,27 @@ function characterInteractOpen(_character, _clearContent = true) {
         }
     }
     else {
+        if (_switch) {
+            var _characterB = player;
+            var _characterA = _character;
+        }
+        else {
+            var _characterA = player;
+            var _characterB = _character;
+        }
+        
         if (_clearContent) {
             var _blob = "";
-            if (_character == player)
+            if (_characterB == _characterA)
                 _blob += ("Looking through your pockets, you find ");
             else
-                _blob += ("Looking through {0}'s pockets, you find ".format(_character.name));
+                _blob += ("Looking through {0}'s pockets, you find ".format(_characterB.name));
             
-            if (_character.items.size == 1) {
-                _blob += ("a " + Array.from(_character.items)[0].toString() + ".");
+            if (_characterB.items.size == 1) {
+                _blob += ("a " + Array.from(_characterB.items)[0].toString() + ".");
             }
-            else if (_character.items.size == 2) {
-                _character.items.forEach(function(_item) {
+            else if (_characterB.items.size == 2) {
+                _characterB.items.forEach(function(_item) {
                     _blob += (_item.toString() + ".");
                 });
             }
@@ -182,7 +191,7 @@ function characterInteractOpen(_character, _clearContent = true) {
                 // Lazy
                 _arr = [];
                 
-                _character.items.forEach(function(_item) {
+                _characterB.items.forEach(function(_item) {
                     _arr.push(_item.toString());
                 });
                 
@@ -200,13 +209,13 @@ function characterInteractOpen(_character, _clearContent = true) {
         
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
-        _character.items.forEach(function(_item) {
-            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false)".format(_item.id, _character.id, player.id), "Take " + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+        _characterB.items.forEach(function(_item) {
+            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false)".format(_item.id, _characterB.id, _characterA.id), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
         }, this);
-        
         Menu.generate();
     }
 }

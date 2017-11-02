@@ -150,8 +150,6 @@ class Menu {
             else
                 _page = 1;
             
-            console.log("index {0} on page {1}".format($index, _page));
-            
             if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
                 $functionCall = $functionCall + "()";
             
@@ -1544,6 +1542,12 @@ class Character extends Entity {
     }
     reflexivePronoun() {
         return this.gender == 0 ? "himself" : "herself";
+    }
+    singularPossesiveName() {
+        if (this.name.slice(-1) == 's' || this.name.slice(-1) == 'z')
+            return "{0}'".format(this.name);
+        else
+            return "{0}'s".format(this.name);
     }
     grammaticalGender() {
         switch (this.species) {
