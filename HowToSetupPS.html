@@ -393,7 +393,7 @@ function variableNameRoom01Interact(_showContent = true) {
         Content.add("&lt;p&gt;This section is displayed when first Moving into the room.&lt;/p&gt;");
     }
     
-    if (!Menu.isExploring) {
+    if (!Menu.showingBaseMenu) {
         Content.add("&lt;p&gt;While this section is displayed when Exploring the room.&lt;/p&gt;");
     }
 }

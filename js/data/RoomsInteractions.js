@@ -40,7 +40,7 @@ function alBuildingBasementInteract(_showContent = true) {
         Content.add("<p>The basement is dark, and full of terrors.</p>");
     }
     
-    if (!Menu.isExploring) {
+    if (!Menu.showingBaseMenu) {
         Content.add("<p>There's the skittering of something small and insignificant in the distance.</p>");
         if (player.room.furniture.size > 0)
             roomFurnitureExamine(player.room);
@@ -129,7 +129,7 @@ function remmyApartmentLivingroomInteract(_showContent = true) {
         }
     }
     
-    if (!Menu.isExploring) {
+    if (!Menu.showingBaseMenu) {
         Menu.addOption("chearlieEatFruitypebbles()", "Eat Fruity Pebbles.");
     }
 }

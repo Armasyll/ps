@@ -39,7 +39,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
             baseMenu(0, 1);
         }
         else {
-            Menu.isExploring = false;
+            Menu.showingBaseMenu = false;
 
             Menu.clear();
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu({0})".format(_previousRoomDifferent ? "true" : "false"), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -101,7 +101,7 @@ function characterInteract(_character, _clearContent = true) {
     if (!player.disposition.has(_character))
         player.addNewCharacterDispositionFor(_character);
 
-    Menu.isExploring = false;
+    Menu.showingBaseMenu = false;
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     lastMenu = "characterInteract({0}, false, true)".format(_character.id);
@@ -208,7 +208,7 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
         }
 
         Menu.clear();
-        Menu.isExploring = false;
+        Menu.showingBaseMenu = false;
         if (_characterA != _characterB) {
             Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
             if (_characterB != player)
@@ -399,7 +399,7 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
         }
 
         Menu.clear();
-        Menu.isExploring = false;
+        Menu.showingBaseMenu = false;
         Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");

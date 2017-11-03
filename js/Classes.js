@@ -68,7 +68,7 @@ class Content {
 class Menu {
     static initialize() {
         this.options = [];
-        this.isExploring = false;
+        this.showingBaseMenu = false;
         this.page = 1;
         this.numberOfOptions = 12;
         this.useWideMenu = false;
@@ -230,7 +230,7 @@ class Menu {
         return i;
     }
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
-        Menu.isExploring = true;
+        Menu.showingBaseMenu = true;
         Menu.page = 1;
 
         var _metaName = "";
@@ -298,7 +298,7 @@ class Menu {
         }
     }
     static generate(_page = 1) {
-        if (!isNaN(_page) && !Menu.isExploring)
+        if (!isNaN(_page) && !Menu.showingBaseMenu)
             Menu.page = _page;
 
         document.getElementById("choiceContainerBottom").innerHTML = "";

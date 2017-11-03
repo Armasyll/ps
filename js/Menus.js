@@ -4,7 +4,7 @@ function mainMenu() {
 }
 function baseMenu(_clearContent = false, _clearMenu = true) {
     lastMenu = "baseMenu({0}, {1})".format(_clearContent, _clearMenu);
-    Menu.isExploring = true;
+    Menu.showingBaseMenu = true;
     
     if (_clearContent) {
     Title.clear();
@@ -51,7 +51,7 @@ function personalCharacterMenu() {
     Menu.generate();
 }
 function exploreMenu() {
-    Menu.isExploring = true;
+    Menu.showingBaseMenu = true;
     
     if (player.room.attachedRooms.has(0) && player.room.attachedRooms.get(0) instanceof Room)
         roomNorth = player.room.attachedRooms.get(0);
@@ -294,7 +294,7 @@ function getAppearance(_character, _self = false) {
 }
 function start() {
     agreeTOS = true;
-    Menu.isExploring = true;
+    Menu.showingBaseMenu = true;
     document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small style="position:absolute; right:0px; top:-3px;">[O]</small><div class="trim">Options</div></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
     //document.getElementById('gameControlsDisplay').innerHTML += '<div class="btn-group" role="group"><button class="btn viewPersonalInventory"><small style="position:absolute; right:0px; top:-3px;">[I]</small><div class="trim">Inventory</div></button></div>';
     
