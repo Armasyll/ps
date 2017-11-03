@@ -1,8 +1,8 @@
 function chearlieEatFruitypebbles() {
     clearContentAndMenu();
-    
+
     Title.set("Eat Fruity Pebbles");
-    
+
     _blob = "";
     _blob += ("Remmy chooses to eat some fruity fucking pebbles");
     if (player.room.characters.has(charlie)) {
@@ -13,15 +13,15 @@ function chearlieEatFruitypebbles() {
     else
         _blob += (".");
     Content.add("<p>" + _blob + "</p>");
-    
-    Menu.setOption((useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function charlieEatCharlie() {
     clearContentAndMenu();
-    
+
     Title.set("Eat Charlie");
-    
+
     Content.add("<p>You nibble at Charlie&apos;s neck affectionately, but she pushes you away. You push into her again, and she knows better than to resist you this time. You&apos;ve played this game out before, and she always ends up ‘running into a doorknob,&apos; or ‘falling down some stairs.&apos; She gasps as your teeth bite at her neck, eliciting fake moans. Not good enough.</p>");
     Content.add("<p>You bite down hard, hard enough to break the skin, hard enough to draw blood, hard enough to get a real scream from Charlie. And scream she did, as a rivulet of blood escaped her body and touched your tongue. You pull back, lips painted red, Charlie gasping, not looking at you. You&apos;ve stopped, just for a moment. The other animals in the apartment know better than to interrupt you and Charlie&apos;s play time, no.</p>");
     Content.add("<p>Something else made you stop. It was the taste in your mouth. Rich, warm, a bit like sucking on a penny. It was blood, Charlie&apos;s blood, and the liquid slips down your throat before you could even think of savoring it. But the source was still here, shivering and looking away, closing her eyes, just hoping you&apos;d be quick. You never were.</p>");
@@ -49,63 +49,63 @@ function charlieEatCharlie() {
     Content.add("<p>The deed is done, you are satisfied...</p>");
     Content.add("<p>No, no you are not. There&apos;s an entire apartment full of animals here, and you are still so very, very hungry.</p>");
     Content.add("<p>(Written by Zorotokon, used with permission.)</p>");
-    
+
     Content.add("<img src='images/Remmy Horror TT1 by akella.jpg'/>");
     Content.add("<p style='dispay:inline;'>(Image by Akella, used with permission.)</p>");
-    
+
     charlie.moveToRoom(limbo);
     charlie.clearFollowing();
     charlie.living = false;
     charlie.cannibalized = true;
-    
+
     player.room.ateCharlie = true;
     player.ateCharlie = true;
-    
-    //Menu.setOption((useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.addOption("charlieEatCharlieMore()", "Eat some more of Charlie");
     Menu.generate();
 }
 function charlieEatCharlieMore() {
     clearContentAndMenu();
-    
+
     Content.add("You decide to take a bigger bite out of Charlie. Getting down on all four of your hooves, you look her over briefly. <br/>");
     if (charlie.hasShirt && charlie.hasPants())
         Content.add("Her shirt is torn around the turtleneck and splattered in blood. There are bits of meat sticking out around her neck. ");
     else if (!charlie.hasShirt())
         Content.add("Her neck and jaw are torn out, and her chest caked in blood. ");
-    
+
     if (!charlie.hasPants() && !charlie.hasUnderwear())
         Content.add("The sight of her blodied, naked body gives you a thrill. You still feel a hunger, as well as lust. <br/>");
     else
         Content.add("You peel away her blodied clothes, throwing them into a pile by the couch. You still feel a hunger, as well as stronge, insatiable lust. <br/>");
-    
+
     Content.add("Pressing your lips against the gash in her neck, you bite down into some of the esposed meat, and jerk your head back. There's a wet tearing sound as the morsel pulls away from her neck, and her head falls <span class='hidden-md hidden-sm hidden-xs'>Back to </span>the floor with a dull thud.<br/>");
     Content.add("You chew thoughtfully for a moment, savouring the taste of real meat again.");
-    
+
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.addOption("fuckEatenCharlie()", "Fuck her corpse");
     Menu.generate();
 }
 function charlieEatCharlieFuck() {
     clearContentAndMenu();
-    
+
     Content.add("<p>Pulling her limp, bloody corpse into your arms, you hug her body against yours, and start prodding your cock between her thighs. Blood smears across your face as you pull and squeeze her body against your thrusts. You can't tell whether it's blood, your precum, or if her body had felt some kind of sexual thrill before she died, but your cock slides easily in.</p>");
     Content.add("<p>You can't tell how long you've been fucking her body, but finally you cum. Releasing her body, it hits the floor with a dull thud, and your cock slips out. Your seed slowly mixed with the blood on the floor. With the sickening, horrible deed done, you wipe your mouth of bits of fur, meat, and blood.</p>");
-    
-    //Menu.setOption((useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.generate();
 }
 function charlieEatCharlieCont() {
     clearContentAndMenu();
-    
+
     Content.add("After your grousome acts, you've gained two new items; " + charlieLeftEye.toString() + " and " + charlieBeatingHeart.toString());
-    
+
     player.addItem(charlieLeftEye);
     player.addItem(charlieBeatingHeart);
-    
-    Menu.setOption((useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function rosieGiveCharlieHeart() {
@@ -139,18 +139,18 @@ function rosieGiveCharlieHeart() {
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
     Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
-    
+
     charlieHeartbeatRosieCellEvent.delete();
     charlieHeartbeatRosieRoomEvent.delete();
     charlieTakeHeartEvent.delete();
     charlieReceiveHeartEvent.delete();
     charlieRemoveLeftEyeEvent.delete();
     charlieReceiveLeftEyeEvent.delete();
-    
+
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
     Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
-    Menu.setOption((useWideMenu ? 14 : 11), "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function rosieGiveCharlieHeartFlee() {
@@ -158,26 +158,26 @@ function rosieGiveCharlieHeartFlee() {
         setCharacterMovementToCharacter(charlie, rosie);
     else
         charlie.moveTo(limbo);
-    
-    
+
+
     characterTakeOver(charlie, rosie);
-    
+
     charlie.removeItem(charlieBeatingHeart);
     charlie.removeItem(charlieLeftEye);
     rosie.moveTo(limbo);
-    
+
     charlie.sleeping = false;
     charlie.alive = true;
     charlie.image = 'images/characters/RosieCharlie.png';
     characterStand(charlie);
-    
+
     tick("1m", true, false);
 }
 function rosieGiveCharlieHeartStay() {
     moveCharacterToRoom(charlie, rosie.room);
-    
+
     var _blob = "";
-    
+
     if (typeof charlie.cannibalized != 'undefined') {
         _blob += "There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from. ";
         if (typeof player.ateCharlie != 'undefined')
@@ -197,27 +197,27 @@ function rosieGiveCharlieHeartStay() {
         _blob += "Rosie's paws reach forward and grasp the heart, bringing it to her lips. As her mouth opens, her canines surround a large portion of the beating organ, and she brings them forward, pressing into the raw flesh. With a quick bite into it, she pulls her head back, and without chewing, swallows.</p>";
         _blob += "With gnashing teeth she tears apart the quivering heart with ease. Her frantic gaze dulls, and settles on you. By the end of her meal, no blood trailed down her chin, and no morsel was wasted.";
     }
-    
+
     characterTakeOver(charlie, rosie);
-    
+
     Content.add("<p>" + _blob + "</p>");
     Content.add("<p>In a monotone voice that didn't fit her, Rosie finally spoke. \"I dislike this body, Cormo.\"</p>");
     Content.add("<p>While she sits up and brushes her fur down with a paw, you just shrug. \"Your heart only started acting funny when I got close to Rosie.'\" An empty Bug Burga box slaps you against the face.</p>");
     Content.add("<p>A scowl was fixed on Rosie's face as her eyes drifted to Charlie's normal resting squint. Rosie continued, \"It has fleas, a terrible diet,\" and examined her claws, \"and an in-grown claw.\"</p>");
-    
+
     charlie.removeItem(charlieBeatingHeart);
     charlie.removeItem(charlieLeftEye);
     rosie.moveTo(limbo);
-    
+
     charlie.sleeping = false;
     charlie.alive = true;
     charlie.image = 'images/characters/RosieCharlie.png';
     characterStand(charlie);
-    
+
     tick("1m", true, false);
-    
+
     Menu.clear();
-    Menu.setOption((useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 
@@ -228,7 +228,7 @@ function rosieGiveCharlieHeartNightmare() {
 }
 function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
-    
+
     if (player.sex == 0)
         Content.add("<div class='small'>Also, you have an erection.</div>");
 }
@@ -243,7 +243,7 @@ function charlieHeartbeatRosie(_event = undefined) {
 }
 function updateCharlieBuse(_event = undefined) {
     if (debug) console.log("Running updateCharlieBuse with {0}".format(_event));
-    
+
     if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
         charlie.image = "images/characters/CharlieNoHeartAndLeftEye.svg";
     else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye))
@@ -252,10 +252,10 @@ function updateCharlieBuse(_event = undefined) {
         charlie.image = "images/characters/CharlieNoLeftEye.svg";
     else
         charlie.image = "images/characters/Charlie.svg";
-    
+
     if (!charlie.hasItem(charlieBeatingHeart))
         charlieInteractWhenPlayerHasHeart();
-    
+
     return true;
 }
 function charlieInteractWhenPlayerHasHeart() {

@@ -188,13 +188,16 @@ class Menu {
             else if ($index > this.numberOfOptions && $index == this.numberOfOptions * _page - 2)
                 this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
             else {
-                var _runCond = true;
-                while ($index < this.numberOfOptions * 10 && _runCond) {
-                    if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2))
-                        _runCond = false;
-                    else
-                        $index++;
+                if (typeof this.options[$index] != 'undefined') {
+                    var _runCond = true;
+                    while ($index < this.numberOfOptions * 10 && _runCond) {
+                        if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2))
+                            _runCond = false;
+                        else
+                            $index++;
+                    }
                 }
+
                 this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet];
             }
 
