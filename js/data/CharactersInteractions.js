@@ -23,7 +23,7 @@ function charlieRape() {
 function charlieSex() {
     _character = charlie;
     
-    if (_character.willFuck(player) || player.hasItem(charlieBeatingHeart)) {
+    if (_character.chanceToFuck(player) > 50 || player.hasItem(charlieBeatingHeart)) {
         fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
         try {fn();}catch (err) {}
     }
@@ -124,7 +124,7 @@ function wolterTalk() {
 function wolterSex() {
     _character = wolter;
     
-    if (_character.willFuck(player)) {
+    if (_character.chanceToFuck(player) > 50) {
         fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
         try {fn();}catch (err) {}
     }

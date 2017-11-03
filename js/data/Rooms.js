@@ -3,7 +3,6 @@ if (debug) console.log("Initializing Rooms");
 limbo = new Room("limbo", "limbo", "Limbo", 0, limboCell, limboLocation);
 
 // Zootopia
-console.log("\tInitializing Zootopia");
 zootopia42ndStreet01 = new Room("zootopia42ndStreet01", "zootopia42ndStreet", "1 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet02 = new Room("zootopia42ndStreet02", "zootopia42ndStreet", "2 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet03 = new Room("zootopia42ndStreet03", "zootopia42ndStreet", "3 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
@@ -61,7 +60,6 @@ zootopiaExchangeStreet01 = new Room("zootopiaExchangeStreet01", "zootopiaExchang
 zootopiaExchangeStreet02 = new Room("zootopiaExchangeStreet02", "zootopiaExchangeStreet", "2 Exchange Street", "street", zootopiaCell, zootopiaExchangeStreetLocation);
 
 // alBuilding
-console.log("\tInitializing alBuilding");
 alBuildingBasementA = new Room("alBuildingBasementA", "alBuildingBasement", "Basement", "basement", alBuildingBasementCell);
 alBuildingBasementB = new Room("alBuildingBasementB", "alBuildingBasement", "Basement", "basement", alBuildingBasementCell);
 alBuildingBasementC = new Room("alBuildingBasementC", "alBuildingBasement", "Basement", "basement", alBuildingBasementCell);
@@ -128,11 +126,9 @@ alApartmentBathroom = new Room("alApartmentBathroom", undefined, "Bathroom", "be
 alApartmentBedroom = new Room("alApartmentBedroom", undefined, "Bedroom", "bathroom", alBuildingThirdFloor, alApartmentLocation);
 
 // bettyBuilding
-console.log("\tInitializing bettyBuilding");
 bettyBuildingFirstFloorHallwayA = new Room("bettyBuildingFirstFloorHallwayA", undefined, "Lobby", "hallway", bettyBuildingFirstFloor);
 
 // pandorasBox
-console.log("\tInitializing pandorasBox");
 pandorasBoxCheckout = new Room("pandorasBoxCheckout", undefined, "Checkout", undefined, pandorasBoxCell, pandorasBoxStorefrontLocation);
 pandorasBoxFrontA = new Room("pandorasBoxFrontA", "pandorasBoxFront", "Front Isle", undefined, pandorasBoxCell, pandorasBoxStorefrontLocation);
 pandorasBoxFrontB = new Room("pandorasBoxFrontB", "pandorasBoxFront", "Front Isle", undefined, pandorasBoxCell, pandorasBoxStorefrontLocation);
@@ -165,7 +161,6 @@ pandorasBoxBasementHiddenBedroom = new Room("pandorasBoxBasementHiddenBedroom", 
 pandorasBoxBasementHiddenBathroom = new Room("pandorasBoxBasementHiddenBathroom", undefined, "Recording Bathroom", undefined, pandorasBoxBasementHiddenCell);
 
 // bugBurga42nd
-console.log("\tInitializing bugBurga42nd");
 bugBurga42ndDiningA = new Room("bugBurga42ndDiningA", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
 bugBurga42ndDiningB = new Room("bugBurga42ndDiningB", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);
 bugBurga42ndDiningC = new Room("bugBurga42ndDiningC", "bugBurga42ndDining", "Dining Area", "diningroom", bugBurga42ndCell, bugBurga42ndDiningLocation);

@@ -13,13 +13,13 @@ class Title {
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleTopText").length; _i++) {
             document.getElementsByClassName("locationTitleTopText")[_i].innerHTML = (typeof _titleTopString !== 'undefined' && _titleTopString !== "" ? _titleTopString : "&nbsp;");
         }
-        
+
         this.setTopImage(_titleTopImg);
-        
+
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleMid").length; _i++) {
             document.getElementsByClassName("locationTitleMid")[_i].innerHTML = (typeof _titleMidString !== 'undefined' && _titleMidString !== "" ? _titleMidString : "&nbsp;");
         }
-        
+
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleBot").length; _i++) {
             document.getElementsByClassName("locationTitleBot")[_i].innerHTML = (typeof _titleBotString !== 'undefined' && _titleBotString !== "" ? _titleBotString : "&nbsp;");
         }
@@ -40,13 +40,13 @@ class Title {
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleTopText").length; _i++) {
             document.getElementsByClassName("locationTitleMid")[_i].innerHTML = "&nbsp;";
         }
-        
+
         document.getElementById("locationTitleTopImageContainer").innerHTML = "";
-        
+
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleMid").length; _i++) {
             document.getElementsByClassName("locationTitleMid")[_i].innerHTML = "&nbsp;";
         }
-        
+
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleBot").length; _i++) {
             document.getElementsByClassName("locationTitleBot")[_i].innerHTML = "&nbsp;";
         }
@@ -74,7 +74,7 @@ class Menu {
         this.useWideMenu = false;
         this.resetNumberOfOptions();
     }
-    
+
     static clear() {
         this.options = [];
         document.getElementById("choiceContainerBottom").innerHTML = "";
@@ -82,14 +82,14 @@ class Menu {
         this.page = 1;
         this.resetNumberOfOptions();
     }
-    
+
     static resetNumberOfOptions() {
         if (this.useWideMenu)
             this.numberOfOptions = 15;
         else
             this.numberOfOptions = 12;
     }
-    
+
     static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _softSet = true) {
         if (typeof $disabled != 'boolean')
             $disabled = false;
@@ -101,7 +101,7 @@ class Menu {
             _btnClass = "";
         if (typeof _softSet != 'boolean')
             _softSet = false;
-        
+
         if (isNaN($index)) {
             if (this.numberOfOptions == 12) {
                 switch ($index) {
@@ -141,38 +141,38 @@ class Menu {
                 }
             }
         }
-        
+
         if ($index > -1 && $index < this.numberOfOptions * 10) {
             var _runCond = true;
             var _page = 0;
-            
+
             if ($index / this.numberOfOptions > 1)
                 _page = parseInt($index / this.numberOfOptions);
             else
                 _page = 1;
-            
+
             if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
                 $functionCall = $functionCall + "()";
-            
+
             if ($index == this.numberOfOptions * (_page)) {
                 var _tmpArr = new Array();
                 var _startIndex = this.numberOfOptions * (_page - 1) + (this.useWideMenu ? 8 : 6);
-                
+
                 for(var _i = _startIndex; _i < this.options.length; _i++) {
                     if (typeof this.options[_i] != 'undefined' && this.options[_i][8] == false) {
                         _tmpArr.push(this.options[_i]);
                         delete this.options[_i];
                     }
                 }
-                
+
                 this.options[(this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6)] = ["Menu.generate({0})".format(_page + 1), "Next", "", false, false, false, false, undefined, true];
                 if (_page > 1)
                     this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
-                
+
                 _tmpArr.push([$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet]);
-                
+
                 $index = (this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6);
-                
+
                 _tmpArr.forEach(function(_item) {
                     var _runCond = true;
                     while ($index < this.numberOfOptions * 10 && _runCond) {
@@ -197,7 +197,7 @@ class Menu {
                 }
                 this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet];
             }
-            
+
             return true;
         }
         else
@@ -206,7 +206,7 @@ class Menu {
     static addOption($functionCall, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0, _btnClass = "") {
         var i = 0;
         var _runCond = 1;
-        
+
         if (this.numberOfOptions == 12) {
             while (i <= this.options.length && _runCond) {
                 if (typeof this.options[i] == 'undefined')
@@ -223,93 +223,93 @@ class Menu {
                     i++;
             }
         }
-        
+
         return i;
     }
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
         Menu.isExploring = true;
         Menu.page = 1;
-        
+
         var _metaName = "";
         var _secret = false;
-        
+
         if (downRoom instanceof Room) {
             if (player.room.cell.location != downRoom.cell.location)
                 _metaName = downRoom.cell.location.name;
-            else if (player.room.location === downRoom.location || typeof downRoom.location === 'undefined') 
+            else if (player.room.location === downRoom.location || typeof downRoom.location === 'undefined')
                 _metaName = downRoom.name;
             else
                 _metaName = downRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
         }
         if (northRoom instanceof Room) {
             if (player.room.cell.location != northRoom.cell.location)
                 _metaName = northRoom.cell.location.name;
-            else if (player.room.location === northRoom.location || typeof northRoom.location === 'undefined') 
+            else if (player.room.location === northRoom.location || typeof northRoom.location === 'undefined')
                 _metaName = northRoom.name;
             else
                 _metaName = northRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
         }
         if (upRoom instanceof Room) {
             if (player.room.cell.location != upRoom.cell.location)
                 _metaName = upRoom.cell.location.name;
-            else if (player.room.location === upRoom.location || typeof upRoom.location === 'undefined') 
+            else if (player.room.location === upRoom.location || typeof upRoom.location === 'undefined')
                 _metaName = upRoom.name;
             else
                 _metaName = upRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
         }
         if (westRoom instanceof Room) {
             if (player.room.cell.location != westRoom.cell.location)
                 _metaName = westRoom.cell.location.name;
-            else if (player.room.location === westRoom.location || typeof westRoom.location === 'undefined') 
+            else if (player.room.location === westRoom.location || typeof westRoom.location === 'undefined')
                 _metaName = westRoom.name;
             else
                 _metaName = westRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
         }
         if (southRoom instanceof Room) {
             if (player.room.cell.location != southRoom.cell.location)
                 _metaName = southRoom.cell.location.name;
-            else if (player.room.location === southRoom.location || typeof southRoom.location === 'undefined') 
+            else if (player.room.location === southRoom.location || typeof southRoom.location === 'undefined')
                 _metaName = southRoom.name;
             else
                 _metaName = southRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
         }
         if (eastRoom instanceof Room) {
             if (player.room.cell.location != eastRoom.cell.location)
                 _metaName = eastRoom.cell.location.name;
-            else if (player.room.location === eastRoom.location || typeof eastRoom.location === 'undefined') 
+            else if (player.room.location === eastRoom.location || typeof eastRoom.location === 'undefined')
                 _metaName = eastRoom.name;
             else
                 _metaName = eastRoom.location.name;
-            
+
             this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
         }
     }
     static generate(_page = 1) {
         if (!isNaN(_page) && !Menu.isExploring)
             Menu.page = _page;
-        
+
         document.getElementById("choiceContainerBottom").innerHTML = "";
-        
+
         if (_page > 1 && parseInt(this.options.length / this.numberOfOptions) + 1 == _page) {
             this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous"];
         }
-        
+
         var _blob = "";
         _blob += '<div class="btn-group btn-group-justified">';
         for (var i = 0; i < this.numberOfOptions; i++) {
             var _key = 0;
             var j = ((this.numberOfOptions * _page) - this.numberOfOptions) + i;
-            
+
             if (this.numberOfOptions == 12) {
                 switch (i) {
                     case 0: _key = "1"; break;
@@ -345,7 +345,7 @@ class Menu {
                     case 14: _key = "g"; break;
                 }
             }
-            
+
             if (typeof this.options[j] === 'undefined')
                 _blob += this.createButton("", "&nbsp;", "&nbsp;", "", "", 1, 1, 0);
             else {
@@ -375,10 +375,10 @@ class Menu {
             $btnClass = (typeof $functionCall[7] === 'undefined' ? $btnClass : $functionCall[7]);
             $functionCall = $functionCall[0];
         }
-        
+
         if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
             $functionCall = $functionCall + "()";
-        
+
         var _blob = "";
         _blob += '<div class="btn-group">';
             _blob += '<button class="btn ' + $btnClass + ' ' + ($invisible ? 'invisible' : '') + '" onClick="' + $functionCall + '" title="' + $hover + '" style="' + ($secret ? "opacity:0.0;" : "") + '" ' + ($disabled === true ? "disabled=disabled" : "") + '>';
@@ -394,50 +394,50 @@ class Minimap {
     static initialize() {
         this.mappedRooms = new Map();
         this.queuedMappedRooms = new Map();
-        
+
         this.mapElement = document.getElementById('map');
-        
+
         this.mapElement.setAttribute("width", mapContentDisplay.offsetWidth);
         this.mapElement.setAttribute("height", mapContentDisplay.offsetHeight);
         this.canvas = this.mapElement.getContext("2d");
         this.cWidth = this.mapElement.offsetWidth % 2 != 0 ? this.mapElement.offsetWidth - 1 : this.mapElement.offsetWidth;
         this.cHeight = this.mapElement.offsetHeight % 2 != 0 ? this.mapElement.offsetHeight - 1 : this.mapElement.offsetHeight;
         this.baseSize = Math.floor(this.cWidth/3.5);
-        
+
         if (this.baseSize % 2 !== 0)
             this.baseSize--;
     }
-    
+
     static clear() {
         this.canvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    
+
     static generateMapFromStartRoom(_room) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (typeof this.canvas === 'undefined')
             this.initialize();
-        
+
         this.mappedRooms.clear();
         this.queuedMappedRooms.clear();
-        
+
         this.queuedMappedRooms.set(_room.id, [0, 0]);
         this.canvas.beginPath();
         this.canvas.clearRect(0, 0, this.mapElement.width, this.mapElement.height);
         this.canvas.stroke();
         this.generateMapFromRoom(_room);
     }
-    
+
     static generateMapFromRoom(_room) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (typeof _room.cell.backgroundColor != 'undefined')
             document.getElementById('mapContentDisplay').style.backgroundColor = _room.cell.backgroundColor;
         else
             document.getElementById('mapContentDisplay').style.backgroundColor = "rgb(44, 44, 44)";
-        
+
         if (_room.attachedRooms.has(0)) {
             if (!this.mappedRooms.has(_room.attachedRooms.get(0).id) && !this.queuedMappedRooms.has(_room.attachedRooms.get(0).id)) {
                 var xPos = this.queuedMappedRooms.get(_room.id)[0];
@@ -450,7 +450,7 @@ class Minimap {
                 }
             }
         }
-        
+
         if (_room.attachedRooms.has(1)) {
             if (!this.mappedRooms.has(_room.attachedRooms.get(1).id) && !this.queuedMappedRooms.has(_room.attachedRooms.get(1).id)) {
                 var xPos = this.queuedMappedRooms.get(_room.id)[0] + 1;
@@ -463,7 +463,7 @@ class Minimap {
                 }
             }
         }
-        
+
         if (_room.attachedRooms.has(2)) {
             if (!this.mappedRooms.has(_room.attachedRooms.get(2).id) && !this.queuedMappedRooms.has(_room.attachedRooms.get(2).id)) {
                 var xPos = this.queuedMappedRooms.get(_room.id)[0];
@@ -476,7 +476,7 @@ class Minimap {
                 }
             }
         }
-        
+
         if (_room.attachedRooms.has(3)) {
             if (!this.mappedRooms.has(_room.attachedRooms.get(3).id) && !this.queuedMappedRooms.has(_room.attachedRooms.get(3).id)) {
                 var xPos = this.queuedMappedRooms.get(_room.id)[0] - 1;
@@ -489,47 +489,47 @@ class Minimap {
                 }
             }
         }
-        
+
         this.generateRoom(
-            this.queuedMappedRooms.get(_room.id)[0], 
-            this.queuedMappedRooms.get(_room.id)[1], 
-            _room.northSide, 
-            _room.eastSide, 
-            _room.southSide, 
+            this.queuedMappedRooms.get(_room.id)[0],
+            this.queuedMappedRooms.get(_room.id)[1],
+            _room.northSide,
+            _room.eastSide,
+            _room.southSide,
             _room.westSide,
             (this.queuedMappedRooms.get(_room.id)[0] == 0 && this.queuedMappedRooms.get(_room.id)[1] == 0),
             _room
         );
-        
+
         this.mappedRooms.set(_room.id, [this.queuedMappedRooms.get(_room.id)[0], this.queuedMappedRooms.get(_room.id)[1]]);
         this.queuedMappedRooms.delete(_room.id);
-        
+
         for (var i = 0; i < this.queuedMappedRooms.size; i++) {
             this.generateMapFromRoom(Array.from(this.queuedMappedRooms)[i][0]);
         }
     }
-    
+
     static generateRoom(xPos = 0, yPos = 0, north = 1, east = 1, south = 1, west = 1, currentRoom = false, _room) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         var originalX = this.cWidth/2 - this.baseSize/2 + (xPos * this.baseSize);
         var originalY = this.cHeight/2 - this.baseSize/2 + (yPos * this.baseSize);
         var currentX = originalX;
         var currentY = originalY;
         var _lineWidth = 1;
-        
+
         var _wallColour = "#000000";
         var _characterPortraitLinks = [];
         var _itemPortraitLinks = [];
-        
+
         // Modify room wall colour
         if (_room.location.owner.size > 0) {
             var _owner = _room.location.getOwner(0);
             if (typeof _owner.furColourAHex != 'undefined')
                 _wallColour = _owner.furColourAHex;
         }
-        
+
         // Add floor image
         var floorImage = undefined;
         if (typeof _room.floorImage != 'undefined')
@@ -540,16 +540,16 @@ class Minimap {
             floorImage = _room.cell.floorImage;
         else if (_room.cell.location instanceof Location && typeof _room.cell.location.floorImage != 'undefined')
             floorImage = _room.cell.location.floorImage;
-        
+
         if (typeof floorImage != 'undefined') {
             this.canvas.drawImage(floorImage, originalX, originalY, this.baseSize, this.baseSize);
         }
-        
+
         // add rug image
         if (typeof _room.rugImage != 'undefined') {
             this.canvas.drawImage(_room.rugImage, originalX, originalY, this.baseSize, this.baseSize);
         }
-        
+
         // Add current room overlay
         if (currentRoom) {
             this.canvas.beginPath();
@@ -557,16 +557,16 @@ class Minimap {
             this.canvas.setLineDash([2, 15]);
             this.canvas.strokeStyle = (typeof player.furColourAHex != 'undefined' ? player.furColourAHex : (player.hasFurColouration ? player.furColourA : "rgba(255, 255, 0, 0.5)"));
             this.canvas.stroke();
-            
+
             this.canvas.strokeStyle = "rgb(0, 0, 0)";
             this.canvas.setLineDash([]);
         }
-        
+
         // Add item icons to rooms
         /*_room.items.forEach(function(_item) {
             _itemPortraitLinks.push(_item.image);
         });*/
-        
+
         // Add character icons to rooms
         if (_room.hasCharacters()) {
             var _i = 0;
@@ -594,13 +594,13 @@ class Minimap {
                 _i++;
             }, this);
         }
-        
+
         this.canvas.beginPath();
         this.canvas.moveTo((this.cWidth - this.baseSize)/2 + (xPos * this.baseSize) + 1, (this.cHeight - this.baseSize)/2 + (yPos * this.baseSize) + 1);
-        
+
         // Add furniture icons to rooms
-        
-        
+
+
         if (west == 1) {
             this.canvas.lineTo(currentX + 1, currentY + this.baseSize/3);
             currentY += this.baseSize/3;
@@ -615,13 +615,13 @@ class Minimap {
             this.canvas.strokeStyle =_wallColour;
             this.canvas.lineWidth = _lineWidth;
             this.canvas.stroke();
-            
+
             this.canvas.beginPath();
             this.canvas.moveTo(currentX + 1, currentY);
             this.canvas.lineTo(currentX + 1, currentY + this.baseSize/3);
             this.canvas.strokeStyle = '#FF0000';
             this.canvas.stroke();
-            
+
             currentY += this.baseSize/3;
             this.canvas.beginPath();
             this.canvas.moveTo(currentX + 1, currentY);
@@ -636,9 +636,9 @@ class Minimap {
             currentY += this.baseSize;
             this.canvas.moveTo(currentX + 1, currentY);
         }
-        
+
         this.canvas.moveTo(currentX + 1, currentY - 1);
-        
+
         if (south == 1) {
             this.canvas.lineTo(currentX + this.baseSize/3, currentY - 1);
             currentX += this.baseSize/3;
@@ -653,13 +653,13 @@ class Minimap {
             this.canvas.strokeStyle =_wallColour;
             this.canvas.lineWidth = _lineWidth;
             this.canvas.stroke();
-            
+
             this.canvas.beginPath();
             this.canvas.moveTo(currentX, currentY - 1);
             this.canvas.lineTo(currentX + this.baseSize/3, currentY - 1);
             this.canvas.strokeStyle = '#FF0000';
             this.canvas.stroke();
-            
+
             currentX += this.baseSize/3;
             this.canvas.beginPath();
             this.canvas.moveTo(currentX, currentY - 1);
@@ -674,9 +674,9 @@ class Minimap {
             currentX += this.baseSize;
             this.canvas.moveTo(currentX, currentY - 1);
         }
-        
+
         this.canvas.moveTo(currentX - 1, currentY - 1);
-        
+
         if (east == 1) {
             this.canvas.lineTo(currentX - 1, currentY - this.baseSize/3);
             currentY -= this.baseSize/3;
@@ -691,13 +691,13 @@ class Minimap {
             this.canvas.strokeStyle =_wallColour;
             this.canvas.lineWidth = _lineWidth;
             this.canvas.stroke();
-            
+
             this.canvas.beginPath();
             this.canvas.moveTo(currentX - 1, currentY);
             this.canvas.lineTo(currentX - 1, currentY - this.baseSize/3);
             this.canvas.strokeStyle = '#FF0000';
             this.canvas.stroke();
-            
+
             currentY -= this.baseSize/3;
             this.canvas.beginPath();
             this.canvas.moveTo(currentX - 1, currentY);
@@ -712,9 +712,9 @@ class Minimap {
             currentY -= this.baseSize;
             this.canvas.moveTo(currentX - 1, currentY);
         }
-        
+
         this.canvas.moveTo(currentX - 1, currentY + 1);
-        
+
         if (north == 1) {
             this.canvas.lineTo(currentX - this.baseSize/3, currentY + 1);
             currentX -= this.baseSize/3;
@@ -750,10 +750,10 @@ class Minimap {
             currentX -= this.baseSize;
             this.canvas.moveTo(currentX, currentY + 1);
         }
-        
-        this.canvas.strokeStyle =_wallColour;        
+
+        this.canvas.strokeStyle =_wallColour;
         this.canvas.stroke();
-        
+
         // Add stairs
         /*
         // Draw stairs
@@ -784,7 +784,7 @@ class Minimap {
             this.canvas.lineTo(currentX, currentY);
             this.canvas.strokeStyle = '#0099FF';
             this.canvas.stroke();
-            
+
             this.canvas.beginPath();
             this.canvas.fillStyle = '#0099FF';
             if (_room.attachedRooms.has(5)) {
@@ -806,13 +806,13 @@ class Minimap {
         if (_room.attachedRooms.has(5) && _room.attachedRooms.has(4)) {
             var stairsUpImage = woodenStairsUpLeft01;
             var stairsDownImage = woodenStairsDownRight01;
-            
+
             if (typeof _room.stairsUpImage != 'undefined')
                 stairsUpImage = _room.stairsUpImage;
-            
+
             if (typeof _room.stairsDownImage != 'undefined')
                 stairsDownImage = _room.stairsDownImage;
-            
+
             this.canvas.drawImage(stairsUpImage, originalX, originalY, this.baseSize, this.baseSize);
             this.canvas.drawImage(stairsDownImage, originalX, originalY, this.baseSize, this.baseSize);
         }
@@ -830,18 +830,18 @@ class Minimap {
                 this.canvas.drawImage(stairsDownImage, originalX, originalY, this.baseSize, this.baseSize);
             }
         }
-        
+
         if (debug) {
             this.canvas.fillStyle = "yellow";
             this.canvas.textAlign = "center";
             this.canvas.fillText("<{0}, {1}>".format(_room.x, _room.y), originalX + this.baseSize / 2, originalY + this.baseSize / 2);
         }
     }
-    
+
     static drawFacade(xPos, yPos, facade) {
         var originalX = (this.cWidth - this.baseSize)/2 + (xPos * this.baseSize);
         var originalY = (this.cHeight - this.baseSize)/2 + (yPos * this.baseSize);
-        
+
         var facadeLink = new Image();
         facadeLink.src = facade;
         facadeLink.canvas = this.canvas;
@@ -860,66 +860,71 @@ class Entity {
         this.id = _id;
         this.name = _name;
         this.description = _description;
-        
+
         this.owner = new Set();
         this.availableActions = new Set();
-        
+
         this.addOwner(_owner);
         this.addAction(_actions);
         this.addAction("look");
-        
+
         if (!(_room instanceof Room)) {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
             if (!(_room instanceof Room))
                 _room = undefined;
         }
         this.room = _room;
-        
+
         if (typeof this.room != 'undefined')
             this.cell = this.room.cell;
         else
             this.cell = undefined;
-        
+
         this.items = new Set();
     }
-    
+
     addItem(_item) {
         if (!(_item instanceof Item))
             _item = itemsIndexes.get(_item);
-        
+
         this.items.add(_item);
         _item.moveToEntity(this);
     }
     removeItem(_item) {
         if (!(_item instanceof Item))
             _item = itemsIndexes.get(_item);
-        
+
         this.items.delete(_item);
         _item.moveToEntity(undefined);
     }
-    
+
     containsItem(_item) {
         if (!(_item instanceof Item))
             _item = itemsIndexes.get(_item);
-        
+
         return this.items.has(_item);
     }
     hasItem(_item) {
         return this.containsItem(_item);
     }
-    
+
     isOwner(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character)
             return this.owner.has(_character);
         else
             return false;
     }
+    getOwner(_index) {
+        if (isNaN(_index) || _index < 0 || _index > this.owner.size)
+            _index = 0;
+        return Array.from(this.owner)[_index];
+    }
     addOwner(_character) {
         if (typeof _character == 'undefined')
-            return 1;
+            return true;
         else if (_character instanceof Character)
             this.owner.add(_character);
         else if (_character instanceof Set || _character instanceof Array) {
@@ -933,9 +938,9 @@ class Entity {
             if (_character instanceof Character)
                 this.owner.add(_character);
             else
-                return 1;
+                return true;
         }
-        return 0;
+        return false;
     }
     setOwner(_character) {
         if (!(_character instanceof Character))
@@ -946,10 +951,10 @@ class Entity {
     clearOwner() {
         this.owner.clear();
     }
-    
+
     addAction(_actions) {
         if (typeof _actions == 'undefined')
-            return 1;
+            return true;
         else if (_actions instanceof Array) {
             _actions.forEach(function(_action) {
                 if (isNaN(_action) && ActionsNameIds.has(_action))
@@ -957,16 +962,16 @@ class Entity {
                 else if (ActionsIdNames.has(_action))
                     this.availableActions.add(_action);
                 else
-                    return 2;
+                    return false;
             }, this);
         }
         else if (ActionsNameIds.has(_actions))
             this.availableActions.add(ActionsNameIds.get(_actions));
         else if (ActionsIdNames.has(_actions))
             this.availableActions.add(_actions);
-        return 0;
+        return false;
     }
-    
+
     toString() {
         var _blob = "";
         if (typeof this.image !== 'undefined') {
@@ -975,7 +980,7 @@ class Entity {
         _blob += "<div class='text-center'>" + this.name + "</div>";
         if (this.owner instanceof Set && this.owner.size > 0) {
             _blob += "Owned by ";
-            
+
             var _owners = Array.from(this.owner);
             if (this.owner.size == 1)
                 _blob += _owners[0].name;
@@ -988,13 +993,13 @@ class Entity {
                 _blob += " and " + _owners[_owners.length - 1].name + ".";
             }
         }
-        
+
         if (typeof this.description != 'undefined')
             _blob += "<p>" + this.description + "</p>";
         else if (this instanceof Character) {
             _blob += "<p>" + this.age + " year old " + (this.gender ? "female" : "male") + " " + this.speciesName() + ".</p>";
         }
-        
+
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"" + _blob.replace(/\"/g, '\\"') + "\">" + this.name + "</a>";
     }
 }
@@ -1012,7 +1017,7 @@ class Disposition {
         if (debug) console.log("Creating a new instance of Disposition");
         this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
     }
-    
+
     set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         _eros = isNaN(_eros) ? 0 : _eros;
         _philia = isNaN(_philia) ? 0 : _philia;
@@ -1020,21 +1025,21 @@ class Disposition {
         _pragma = isNaN(_pragma) ? 0 : _pragma;
         _storge = isNaN(_storge) ? 0 : _storge;
         _manic = isNaN(_manic) ? 0 : _manic;
-        
+
         _eros = _eros < 0 ? 0 : _eros;
         _philia = _philia < 0 ? 0 : _philia;
         _lodus = _lodus < 0 ? 0 : _lodus;
         _pragma = _pragma < 0 ? 0 : _pragma;
         _storge = _storge < 0 ? 0 : _storge;
         _manic = _manic < 0 ? 0 : _manic;
-        
+
         _eros = _eros > 100 ? 100 : _eros;
         _philia = _philia > 100 ? 100 : _philia;
         _lodus = _lodus > 100 ? 100 : _lodus;
         _pragma = _pragma > 100 ? 100 : _pragma;
         _storge = _storge > 100 ? 100 : _storge;
         _manic = _manic > 100 ? 100 : _manic;
-        
+
         this.eros = _eros;
         this.philia = _philia;
         this.lodus = _lodus;
@@ -1042,7 +1047,7 @@ class Disposition {
         this.storge = _storge;
         this.manic = _manic;
     }
-    
+
     offset(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         _eros = isNaN(_eros) ? 0 : _eros;
         _philia = isNaN(_philia) ? 0 : _philia;
@@ -1050,14 +1055,14 @@ class Disposition {
         _pragma = isNaN(_pragma) ? 0 : _pragma;
         _storge = isNaN(_storge) ? 0 : _storge;
         _manic = isNaN(_manic) ? 0 : _manic;
-        
+
         this.set(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic);
     }
-    
+
     toString() {
         var _blob = "";
         _blob += ("Passion(" + this.eros + "), Friendship(" + this.philia + "), Playfulness(" + this.lodus + "), Soulmate(" + this.pragma + "), Familial(" + this.storge + "), Obsession(" + this.manic + ")");
-        
+
         return _blob;
     }
 }
@@ -1065,7 +1070,7 @@ class Disposition {
 class Character extends Entity {
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
-        
+
         super(_id, _name, undefined, undefined);
         this.surname = "";
         if (this.name.split(", ").length > 1) {
@@ -1082,7 +1087,7 @@ class Character extends Entity {
         this.age = _age;
         this.appearance = "";
         this.image = "images/characters/avatar.svg"; // base64 image, or url
-        
+
         this.addAction("talk");
         this.addAction("sex");
         this.addAction("attack");
@@ -1094,9 +1099,9 @@ class Character extends Entity {
         this.addAction("remove");
         this.addAction("take");
         this.addAction("wear");
-        
+
         this.currentActions = new Set();
-        
+
         this.defaultDisposition = new Disposition(0,0,0,0,0);
         this.agape = 50;         // self
         this.philautia = 50;     // others
@@ -1108,15 +1113,15 @@ class Character extends Entity {
         this.annoyed = 0;
         this.living = true;
         this.sleeping = false;
-        
+
         this.setSex(_sex);
         this.gender = _sex;
-        
+
         this.furColourA = undefined; // Body
         this.furColourAHex = undefined;
         this.furColourB = undefined; // Middle
         this.furColourBHex = undefined;
-        
+
         // Handled by setSpecies
         this.predator = false;
         this.handType = 1;
@@ -1127,11 +1132,11 @@ class Character extends Entity {
         this.furType = 0;
         this.furTrimmed = 50;
         this.furSoftness = 50;
-        
+
         this.setSpecies(_species);
-        
+
         this.hadSex = false;
-        
+
         this.sexCount = 0;
         this.vaginalReceiveCount = 0;
         this.vaginalGiveCount = 0;
@@ -1145,7 +1150,7 @@ class Character extends Entity {
         this.fellatioGiveCount = 0;
         this.masturbateCount = 0;
         this.handjobCount = 0;
-        
+
         /*
             0 - none/flat
             1 - petite
@@ -1153,7 +1158,7 @@ class Character extends Entity {
             3 - large
         */
         this.breastSize = 0;
-        
+
         /*
             0, 0 - none
             3, 2 - marty
@@ -1164,7 +1169,7 @@ class Character extends Entity {
         */
         this.penisSize = 0;
         this.penisGirth = 0;
-        
+
         /*
             0, 0 - none
             3, 1 - martina
@@ -1177,7 +1182,7 @@ class Character extends Entity {
         */
         this.vaginaSize = 0;
         this.vaginaGirth = 0;
-        
+
         /*
             0 - none
             1 - stubble
@@ -1185,12 +1190,12 @@ class Character extends Entity {
             3 - 70s
         */
         this.pubicHairSize = 0;
-        
+
         this.following = undefined; // Character
         this.followers = new Set();
-        
+
         this.furniture = undefined;
-        
+
         this.clothingHead = undefined;
         this.clothingEyes = undefined;
         this.clothingLeftEar = undefined;
@@ -1205,43 +1210,43 @@ class Character extends Entity {
         this.clothingGroin = undefined;
         this.clothingLegs = undefined;
         this.clothingFeet = undefined;
-        
+
         this.disposition = new Map();
         this.hadSexWith = new Set();
-        
+
         this.prefersSpecies = new Set();
         this.avoidsSpecies = new Set();
-        
+
         this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
         this.avoidedSex = undefined; // "
         this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
-        
+
         this.preferredPenisSize = undefined; // int
         this.preferredPenisGirth = undefined; // int
         this.preferredBreastSize = undefined; // int
         this.preferredSexCount = undefined; // int
-        
+
         this.prefersPredators = undefined;
         this.avoidsPredators = undefined;
         this.prefersPrey = undefined;
         this.avoidsPrey = undefined;
-        
+
         this.exhibitionism = 0; // 0-100, preference for public sex
         this.somnophilia = 0; // 0-100, preference for sleep sex
         this.intoxicated = 0; // 0-100, drunkness
         this.incestual = 0; // 0-100, preference for incest
-        
+
         this.previousRoom = undefined;
         this.room = undefined;
         this.cell = undefined;
         this.location = undefined;
-        
+
         charactersIndexes.set(_id, this);
-        
+
         this.stand();
         this.sleep();
     }
-    
+
     setSex(_sex) {
         if (isNaN(_sex)) {
             switch (_sex.slice(0, 1)) {
@@ -1268,19 +1273,19 @@ class Character extends Entity {
     getSex() {
         return this.sexName();
     }
-    
-    
+
+
     setDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
         if (debug) console.log("Running setDisposition");
-        
+
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (!(_character instanceof Character)) {
             if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
             return false;
         }
-        
+
         if (_eros instanceof Disposition)
             this.disposition.set(_character, _eros);
         else if (this.disposition.has(_character)) {
@@ -1290,7 +1295,7 @@ class Character extends Entity {
             _pragma = isNaN(_pragma) ? this.disposition.get(_character).pragma : _pragma;
             _storge = isNaN(_storge) ? this.disposition.get(_character).storge : _storge;
             _manic = isNaN(_manic) ? this.disposition.get(_character).manic : _manic;
-            
+
             this.disposition.set(_character, this.disposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
         }
         else {
@@ -1300,23 +1305,23 @@ class Character extends Entity {
             _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
             _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
             _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
-            
+
             this.disposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic));
         }
-        
+
         return this.disposition.get(_character);
     }
     getDisposition(_character, _disposition = undefined) {
         if (debug) console.log("Running getDisposition");
-        
+
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (!(_character instanceof Character)) {
             if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
             return false;
         }
-        
+
         if (this.disposition.has(_character)) {
             if (this.disposition.get(_character).hasOwnProperty(_disposition))
                 return this.disposition.get(_character)[_disposition];
@@ -1326,51 +1331,69 @@ class Character extends Entity {
         else
             return false;
     }
-    
+
     hasColouration() {
         return typeof this.furColourA != 'undefined';
     }
-    
+
     hasBreasts() {
         return this.breastSize > 0;
     }
-    
+
     hasVagina() {
         return this.vaginaSize > 0;
     }
-    
+
     hasPenis() {
         return this.penisSize > 0;
     }
-    
+
     hasPublicHair() {
         return this.pubicHairSize > 0;
     }
-    
+
     hasHat() {
         return this.clothingHead instanceof Clothing;
     }
-    
+    getHat() {
+        return this.clothingHead;
+    }
+
     hasShirt() {
         return this.clothingTorso instanceof Clothing;
     }
-    
+    getShirt() {
+        return this.clothingTorso;
+    }
+
     hasBra() {
         return this.clothingChest instanceof Clothing;
     }
-    
+    getBra() {
+        return this.clothingChest;
+    }
+
     hasBelt() {
         return this.clothingWaist instanceof Clothing;
     }
-    
+    getBelt() {
+        return this.clothingWaist;
+    }
+
     hasUnderwear() {
         return this.clothingGroin instanceof Clothing;
     }
-    
+    getUnderwear() {
+        return this.clothingGroin;
+    }
+
     hasPants() {
         return this.clothingLegs instanceof Clothing;
     }
-    
+    getPants() {
+        this.clothingLegs;
+    }
+
     addCurrentAction(_actionType) {
         if (isNaN(_actionType)) {
             if (ActionsNameIds.has(_actionType))
@@ -1401,44 +1424,44 @@ class Character extends Entity {
                 this.currentActions.has(_actionType);
         }
     }
-    
+
     sit(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-        
+
         this.addCurrentAction("sit");
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
-        
+
         this.furniture = _furniture
-        
+
         return _furniture;
     }
     lay(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-        
+
         this.addCurrentAction("lay");
         this.removeCurrentAction("sit");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
-        
+
         this.furniture = _furniture
-        
+
         return _furniture;
     }
     sleep(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-        
+
         this.addCurrentAction("sleep");
         this.removeCurrentAction("walk");
-        
+
         this.furniture = _furniture
-        
+
         return _furniture;
     }
     stand() {
@@ -1447,7 +1470,7 @@ class Character extends Entity {
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("walk");
-        
+
         this.furniture = undefined;
     }
     walk() {
@@ -1456,17 +1479,17 @@ class Character extends Entity {
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
-        
+
         this.furniture = undefined;
     }
-    
+
     wear(_clothing) {
         this.putOn(_clothing);
     }
     wearing(_clothing) {
         if (!(_clothing instanceof Clothing))
             _clothing = itemsIndexes.get(_clothing);
-        
+
         if (_clothing instanceof Clothing) {
             switch (_clothing.bodyPart) {
                 case 0 : return this.clothingHead == _clothing; break;
@@ -1489,7 +1512,7 @@ class Character extends Entity {
     putOn(_clothing) {
         if (!(_clothing instanceof Clothing))
             _clothing = itemsIndexes.get(_clothing);
-        
+
         if (_clothing instanceof Clothing) {
             switch (_clothing.bodyPart) {
                 case 0 : this.clothingHead = _clothing; break;
@@ -1507,14 +1530,14 @@ class Character extends Entity {
                 case 12 : this.clothingLegs = _clothing; break;
                 case 13 : this.clothingFeet = _clothing; break;
             }
-            
+
             this.items.add(_clothing);
         }
     }
     takeOff(_clothing) {
         if (!(_clothing instanceof Clothing))
             _clothing = itemsIndexes.get(_clothing);
-        
+
         if (_clothing instanceof Clothing) {
             switch (_clothing.bodyPart) {
                 case 0 : this.clothingHead = undefined; break;
@@ -1534,11 +1557,11 @@ class Character extends Entity {
             }
         }
     }
-    
+
     hasKey(_room) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (_room instanceof Room) {
             if (this.containsItem(_room.sid + "Key") || this.containsItem(_room.location.id + "Key") || this.containsItem(_room.cell.location.id + "Key") || this.containsItem("masterKey"))
                 return true;
@@ -1547,7 +1570,7 @@ class Character extends Entity {
         else
             return false;
     }
-    
+
     subjectPronoun() {
         return this.gender == 0 ? "he" : "she";
     }
@@ -1588,11 +1611,11 @@ class Character extends Entity {
                 return this.gender == 0 ? "jack" : "jill";
             }
             case 6 :
-            case 7 : 
+            case 7 :
             case 11 : {
                 return this.gender == 0 ? "buck" : "doe";
             }
-            case 8 : 
+            case 8 :
             case 9 : {
                 return this.gender == 0 ? "dog" : "bitch";
             }
@@ -1607,7 +1630,7 @@ class Character extends Entity {
             }
         }
     }
-    
+
     setHand(_type) {
         if (isNaN(_type))
             this.handType = HandTypeNameIds.has(_type) ? HandTypeNameIds.get(_type) : 0;
@@ -1619,7 +1642,7 @@ class Character extends Entity {
     handName() {
         return HandTypeIdNames.get(this.handType);
     }
-    
+
     setFeet(_type) {
         if (isNaN(_type))
             this.feetType = FeetTypeNameIds.has(_type) ? FeetTypeNameIds.get(_type) : 0;
@@ -1631,7 +1654,7 @@ class Character extends Entity {
     feetName() {
         return FeetTypeIdNames.get(this.feetType);
     }
-    
+
     setEyes(_type) {
         if (isNaN(_type))
             this.eyeType = EyeTypeNameIds.has(_type) ? EyeTypeNameIds.get(_type) : 0;
@@ -1643,7 +1666,7 @@ class Character extends Entity {
     eyeName() {
         return EyeTypeIdNames.get(this.eyeType);
     }
-    
+
     setFur(_type) {
         if (isNaN(_type))
             this.furType = FurTypeNameIds.has(_type) ? FurTypeNameIds.get(_type) : 0;
@@ -1655,7 +1678,7 @@ class Character extends Entity {
     furName() {
         return FurTypeIdNames.get(this.furType);
     }
-    
+
     setSpecies(_species) {
         if (isNaN(_species))
             this.species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
@@ -1663,7 +1686,7 @@ class Character extends Entity {
             this.species = _species;
         else
             this.species = 0;
-        
+
         switch (this.species) {
             case 0 : {// fox
                 this.setEyes("slit");
@@ -1728,11 +1751,11 @@ class Character extends Entity {
     speciesName() {
         return SpeciesIdNames.get(this.species);
     }
-    
+
     setFollowing(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character)
             this.following = _character;
     }
@@ -1742,22 +1765,22 @@ class Character extends Entity {
     follow(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character)
             this.following = _character;
     }
-    
+
     addFollower(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character)
             this.followers.add(_character);
     }
     removeFollower(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character) {
             if (this.followers.has(_character))
                 this.followers.delete(_character);
@@ -1769,33 +1792,33 @@ class Character extends Entity {
     hasFollowers() {
         return this.followers.size > 0;
     }
-    
+
     addSexWith(_character, _updateChild = false) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character) {
             this.hadSexWith.add(_character);
             this.hadSex = true;
             this.sexCount++;
-            
+
             if (_updateChild)
                 _character.addSexWith(this, false);
         }
     }
-    
+
     addRelative(_character, _updateChild = false) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character) {
             this.relatives.add(_character);
-            
+
             if (_updateChild)
                 _character.addRelative(this, false);
         }
     }
-    
+
     addPreferredSpecies(_species) {
         if (isNaN(_species))
             _species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
@@ -1803,13 +1826,13 @@ class Character extends Entity {
             _species = _species;
         else
             _species = 0;
-        
+
         this.prefersSpecies.add(_species);
     }
     likesSpecies(_species) {
-        this.addprefersSpecies(_species);
+        this.addPreferredSpecies(_species);
     }
-    
+
     addAvoidedSpecies(_species) {
         if (isNaN(_species))
             _species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
@@ -1817,13 +1840,13 @@ class Character extends Entity {
             _species = _species;
         else
             _species = 0;
-        
+
         this.avoidsSpecies.add(_species);
     }
     dislikesSpecies(_species) {
-        this.addavoidsSpecies(_species);
+        this.addAvoidedSpecies(_species);
     }
-    
+
     addNewCharacterDispositionFor(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
         if (this.prefersSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {
@@ -1844,38 +1867,38 @@ class Character extends Entity {
                             erosOffset++;
                         erosOffset += 2;
                     }
-                    
+
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                         erosOffset += 2;
                         manicOffset++;
                     }
-                    
+
                     erosOffset++;
                 }
             }
-            
+
             if (this.age >= _character.age + (this.age/10)) {
                 if (this.agape > 74)
                     manicOffset++;
-                
+
                 if (this.philautia > 74)
                     storgeOffset += 3;
                 else if (this.philautia > 49)
                     storgeOffset += 2;
-                
+
                 storgeOffset++;
             }
-            
+
             if (this.agape > 74 && this.philautia > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                     philiaOffset++;
                     lodusOffset++;
                 }
-                
+
                 philiaOffset++;
                 lodusOffset += 2;
             }
-            
+
             lodusOffset += 2;
         }
         else if (this.avoidsSpecies.has(_character.species)) {
@@ -1889,14 +1912,14 @@ class Character extends Entity {
                         if (this.philautia > 74)
                             erosOffset++;
                     }
-                    
+
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                         erosOffset++;
                         manicOffset++;
                     }
                 }
             }
-            
+
             if (this.age >= _character.age + (this.age/10)) {
                 if (this.agape > 74) {
                     if (this.philautia > 74)
@@ -1908,13 +1931,13 @@ class Character extends Entity {
                 }
                 storgeOffset++;
             }
-            
+
             if (this.agape > 74 && this.philautia > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                     philiaOffset++;
                     lodusOffset++;
                 }
-                
+
                 philiaOffset++;
                 lodusOffset += 2;
             }
@@ -1929,7 +1952,7 @@ class Character extends Entity {
                             erosOffset++;
                         else
                             manicOffset++;
-                        
+
                         erosOffset++;
                     }
                     else {
@@ -1937,17 +1960,17 @@ class Character extends Entity {
                             erosOffset++;
                         erosOffset++;
                     }
-                    
+
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                         erosOffset++;
                         manicOffset++;
                     }
-                    
+
                     erosOffset++;
                 }
             }
         }
-        
+
         this.disposition.set(
             _character,
             new Disposition(
@@ -1960,46 +1983,46 @@ class Character extends Entity {
             )
         );
     }
-    
-    willFuck(_character) {
+
+    chanceToFuck(_character) {
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
-        
+
         var chance = 0;
-        
+
         // Past Relations
         if (this.hadSexWith.has(_character))
             chance += 3;
-        
+
         if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
-        
+
         // Disposition
         chance += this.disposition.get(_character).eros / 3;
         chance += this.disposition.get(_character).manic / 2;
-        
+
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
-        
+
         // Species Preferences
         if (this.prefersSpecies.has(_character.species))
             chance += 5
         else if (this.avoidsSpecies.has(_character.species))
             chance -= 5;
-        
+
         if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true)
             chance += 5;
-        
+
         if (this.avoidsPrey && _character.predator == false || this.avoidsPredators && _character.predator == true)
             chance -= 5;
-        
+
         if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
-        
+
         // Sexual Orientation
         if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2)
             chance += 10;
         else
             chance -= 50;
-        
+
         if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
-        
+
         // Rut and Lust
         if (this.rut && this.lust > 98)
             chance += 100;
@@ -2013,9 +2036,9 @@ class Character extends Entity {
             chance += (this.rut ? this.lust/3 : this.lust/4);
         else
             chance += (this.rut ? this.lust/4 : this.lust/5);
-        
+
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
-        
+
         // Exhibitionism
         if (player.room.characters.size > 2){
             if (this.exhibitionism > 0)
@@ -2027,9 +2050,9 @@ class Character extends Entity {
                 }, this);
             }
         }
-        
+
         if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
-        
+
         // Incest
         if (this.relatives.has(_character)) {
             if (this.incestual > 0)
@@ -2037,14 +2060,14 @@ class Character extends Entity {
             else
                 chance -= 50;
         }
-        
+
         if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
-        
+
         // Intoxication
         chance += this.intoxicated/2.5;
-        
+
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
-        
+
         // Somnophilia
         if (this.sleeping) {
             if (enableRape)
@@ -2052,41 +2075,40 @@ class Character extends Entity {
             else if (this.somnophilia > 50 && this.hadSexWith.has(_character) && this.disposition.get(_character).eros > 75)
                 chance += 10;
         }
-        
+
         if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
-        
-        if (debug) console.log("\tChecking if {0} is greater than 50: {1}".format(Math.ceil(chance), Math.ceil(chance) >= 50));
-        return (Math.ceil(chance) >= 50);
+
+        return Math.ceil(chance);
     }
-    
+
     moveToRoom(_room, _checkLocked = false) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (!(_room instanceof Room))
             return false;
-        
+
         if (_checkLocked && this.room.isLocked(_room))
             return false;
-        
+
         if (this.room instanceof Room)
             this.room.removeCharacter(this);
-        
+
         this.previousRoom = this.room;
         this.room = _room;
-        
+
         if (this.room.cell instanceof Cell)
             this.cell = this.room.cell;
-        
+
         if (typeof this.room.location != 'undefined')
             this.location = this.room.location;
         else if (this.cell instanceof Cell && typeof this.cell.location != 'undefined')
             this.location = this.cell.location;
         else
             this.location = undefined;
-        
+
         _room.addCharacter(this);
-        
+
         return true;
     }
     moveTo(_room, _checkLocked = false) {
@@ -2094,19 +2116,17 @@ class Character extends Entity {
     }
 }
 
-class Location {
+class Location extends Entity {
     constructor(_id = undefined, _name = undefined) {
-        this.id = _id;
-        this.name = _name;
+        super(_id, _name);
         this.cells = new Set();
         this.rooms = new Set();
-        this.owner = new Set();
-        
+
         this.floorImage = undefined;
-        
+
         locationsIndexes.set(_id, this);
     }
-    
+
     addCell(_cell) {
         this.cells.add(_cell);
     }
@@ -2114,7 +2134,7 @@ class Location {
         if (this.cells.has(_cell))
             this.cells.remove(_cell);
     }
-    
+
     addRoom(_room) {
         this.rooms.add(_room);
     }
@@ -2122,161 +2142,118 @@ class Location {
         if (this.rooms.has(_room))
             this.rooms.remove(_room);
     }
-    
-    isOwner(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character instanceof Character)
-            return this.owner.has(_character);
-        return false;
-    }
-    addOwner(_character) {
-        if (typeof _character == 'undefined')
-            return 1;
-        else if (_character instanceof Character)
-            this.owner.add(_character);
-        else if (_character instanceof Set || _character instanceof Array) {
-            _character.forEach(function(__character) {
-                this.addOwner(__character);
-            }, this);
-        }
-        else {
-            if (!(_character instanceof Character))
-                _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-            if (_character instanceof Character)
-                this.owner.add(_character);
-            else
-                return 1;
-        }
-        return 0;
-    }
-    setOwner(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character instanceof Character)
-            this.owner.add(_character);
-    }
-    getOwner(_index) {
-        if (isNaN(_index) || _index < 0 || _index > this.owner.size)
-            _index = 0;
-        return Array.from(this.owner)[_index];
-    }
-    clearOwner() {
-        this.owner.clear();
-    }
-    
+
     containsCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         var _containsCharacter = false;
-        
+
         if (this.rooms.size > 0) {
             Array.from(this.rooms).some(function(_room) {
                 if (_room.containsCharacter(_character))
                     _containsCharacter = true;
             }, this);
         }
-        
+
         if (this.cells.size > 0) {
             Array.from(this.cells).some(function(_cell) {
                 if (_cell.containsCharacter(_character))
                     _containsCharacter = true;
             }, this);
         }
-        
+
         return _containsCharacter;
     }
 }
-class Cell {
+class Cell extends Entity {
     constructor(_id = undefined, _name = undefined, _location = undefined) {
-        this.id = _id;
-        this.name = _name;
+        super(_id, _name);
         this.location = undefined;
         this.setLocation(_location);
         this.grid = []; // <X,Y> = Room
         this.rooms = new Set();
         this.cells = new Set();
         this.gateways = new Set();
-        
+
         this.floorImage = undefined; // for minimap
         this.backgroundImage = undefined; // for minimap
         this.backgroundColor = undefined; // for minimap
-        
+
         cellsIndexes.set(_id, this);
     }
-    
+
     addRoom(_room, x, y) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         this.rooms.add(_room);
-        
+
         if (typeof x != 'undefined' && typeof y != 'undefined')
             this.setRoom(_room, x, y);
     }
     setRoom(_room, x, y) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (debug) console.log("\tSetting " + _room.id + " to <" + x + "," + y + ">");
-        
+
         if (this.grid[x] === undefined)
             this.grid[x] = [];
-        
+
         this.grid[x][y] = _room;
     }
-    
+
     setLocation(_location) {
         if (!(_location instanceof Location))
             _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
-        
+
         this.location = _location;
-        
+
         if (this.location instanceof Location)
             this.location.addCell(this);
     }
-    
+
     containsCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         var _containsCharacter = false;
-        
+
         this.rooms.forEach(function(_room) {
             if (_room.containsCharacter(_character))
                 _containsCharacter = true;
         }, this);
-        
+
         return _containsCharacter;
     }
     hasCharacter(_character) {
         return this.containsCharacter(_character);
     }
-    
+
     containsCharacters() {
         var _containsCharacters = false;
-        
+
         this.rooms.forEach(function(_room) {
             if (_room.containsCharacters())
                 _containsCharacters = true;
         }, this);
-        
+
         return _containsCharacters;
     }
     hasCharacters() {
         return this.containsCharacters();
     }
-    
+
     getCharacters() {
         var _characters = Set();
-        
+
         this.rooms.forEach(function(_room) {
             _room.characters.forEach(function(_character) {
                 _characters.add(_character);
             }, this);
         }, this);
-        
+
         return _characters;
     }
 }
@@ -2293,83 +2270,83 @@ class Room extends Entity {
      *
      */
     constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
-        super(_id, _name, "", _location);
-        
+        super(_id, _name);
+
         /*
             Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
         */
         if (typeof _sid == 'undefined')
             _sid = _id;
         this.sid = _sid;
-        
+
         /*
             attachedRooms is a Map of an int and an array;
                 the int represents one of the six cardinal directions, starting at north: 0, down: 4, up: 5
                 the array represents the Room of the attached room, and a boolean of whether or not the room is locked
-            
+
             Map<int, [Room, boolean]>
         */
         this.attachedRooms = new Map();
         this.roomsOptions = new Map();
-        
+
         /*
             For adding facades to the minimap
             Map<int, blob>
         */
         this.directionsFacades = new Map();
-        
+
         this.characters = new Set();
-        
+
         this.furniture = new Set();
-        
+
         this.x = undefined;
         this.y = undefined;
         this.mappedToGrid = false;
-        
-        
+
+
         this.setCell(_cell);
         this.setLocation(_location);
-        
+
         this.northSide = 3;
         this.eastSide = 3;
         this.southSide = 3;
         this.westSide = 3;
         this.setType(_type);
-        
+
         this.isSecret = false;
-        
+
         this.floorImage = undefined;
         this.rugImage = undefined;
         this.stairsUpImage = undefined;
         this.stairsDownImage = undefined;
-        
+
         roomsIndexes.set(_id, this);
     }
-    
+
     setLocation(_location) {
         if (!(_location instanceof Location))
             _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
-        
+
         if (typeof _location == 'undefined' && this.cell instanceof Cell && this.cell.location instanceof Location)
             _location = this.cell.location;
-        
+
         this.location = _location;
-        
+
         if (this.location instanceof Location)
             this.location.addRoom(this);
-        
+
     }
     setCell(_cell) {
         if (!(_cell instanceof Cell))
             _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
-        
-        
+
+
         this.cell = _cell;
-        
+
         if (this.cell instanceof Cell)
             this.cell.addRoom(this, this.x, this.y);
     }
-    
+
     setType(_type) {
         if (isNaN(_type))
             this.type = RoomTypeNameIds.has(_type) ? RoomTypeNameIds.get(_type) : 0;
@@ -2378,46 +2355,46 @@ class Room extends Entity {
         else
             this.type = 0;
     }
-    
+
     addCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         this.characters.add(_character);
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         this.characters.delete(_character);
     }
-    
+
     containsCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
         return this.containsCharacter(_character);
     }
-    
+
     containsCharacters() {
         return this.characters.size > 0;
     }
     hasCharacters() {
         return this.containsCharacters();
     }
-    
+
     lock(_room) {
         if (_room instanceof Room)
             _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
         else if (_room >= 0 && _room < 7)
             _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
-        
+
         if (typeof _room == 'undefined')
             return;
-        
+
         var _options = _room.roomsOptions.get(this);
         _options['isLocked'] = true;
         _room.roomsOptions.set(this, _options);
@@ -2427,23 +2404,23 @@ class Room extends Entity {
             _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
         else if (_room >= 0 && _room < 7)
             _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
-        
+
         if (typeof _room == 'undefined')
             return;
-        
+
         var _options = _room.roomsOptions.get(this);
         _options['isLocked'] = false;
         _room.roomsOptions.set(this, _options);
     }
-    
+
     setAttachedRoom(_direction, _room, _options = {}, _updateChild = false) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (debug) console.log("\tAttempting to attach " + _room.id + " to the " + (_direction == 0 ? "north" : (_direction == 1 ? "east" : (_direction == 2 ? "south" : "west"))) + " of " + this.id);
-        
+
         this.attachedRooms.set(_direction, _room);
-        
+
         // Formerly addRoom
         if (_options instanceof Object) {
             if (typeof _options['isLocked'] != 'undefined') {
@@ -2458,7 +2435,7 @@ class Room extends Entity {
         else
             _options['isLocked'] = _options === true;
         this.roomsOptions.set(_room, _options);
-        
+
         // If there's nothing on the grid yet, this will be 0,0
         if (this.cell.grid.length == 0) {
             this.x = 0;
@@ -2466,14 +2443,14 @@ class Room extends Entity {
             this.cell.setRoom(this, this.x, this.y);
             this.mappedToGrid = true;
         }
-        
+
         if (_room.cell != this.cell) {
             this.gateway = true;
             this.cell.gateways.add(this);
-            
+
             this.cell.cells.add(_room.cell);
         }
-        
+
         switch(_direction) {
             case 0 : {
                 if (this.roomsOptions.get(_room)['isLocked'])
@@ -2482,14 +2459,14 @@ class Room extends Entity {
                     this.northSide = 0;
                 else
                     this.northSide = 1;
-                
+
                 if (!_room.mappedToGrid && this.x !== undefined && this.y !== undefined) {
                     _room.x = this.x;
                     _room.y = this.y + 1;
                     _room.mappedToGrid = true;
                     this.cell.setRoom(_room, _room.x, _room.y)
                 }
-                
+
                 break;
             }
             case 1 : {
@@ -2499,14 +2476,14 @@ class Room extends Entity {
                     this.eastSide = 0;
                 else
                     this.eastSide = 1;
-                
+
                 if (!_room.mappedToGrid && this.x !== undefined && this.y !== undefined) {
                     _room.x = this.x + 1;
                     _room.y = this.y;
                     _room.mappedToGrid = true;
                     this.cell.setRoom(_room, _room.x, _room.y)
                 }
-                
+
                 break;
             }
             case 2 : {
@@ -2516,14 +2493,14 @@ class Room extends Entity {
                     this.southSide = 0;
                 else
                     this.southSide = 1;
-                
+
                 if (!_room.mappedToGrid && this.x !== undefined && this.y !== undefined) {
                     _room.x = this.x;
                     _room.y = this.y - 1;
                     _room.mappedToGrid = true;
                     this.cell.setRoom(_room, _room.x, _room.y)
                 }
-                
+
                 break;
             }
             case 3 : {
@@ -2533,22 +2510,22 @@ class Room extends Entity {
                     this.westSide = 0;
                 else
                     this.westSide = 1;
-                
+
                 if (!_room.mappedToGrid && this.x !== undefined && this.y !== undefined) {
                     _room.x = this.x - 1;
                     _room.y = this.y;
                     _room.mappedToGrid = true;
                     this.cell.setRoom(_room, _room.x, _room.y)
                 }
-                
+
                 break;
             }
         }
-        
+
         if (_updateChild) {
             var _inversedDirection = 6;
             var __options = {};
-            
+
             switch (_direction) {
                 case 0: {
                     _inversedDirection = 2;
@@ -2578,7 +2555,7 @@ class Room extends Entity {
                     _inversedDirection = 6;
                 }
             }
-            
+
             if (_inversedDirection < 6)
                 _room.setAttachedRoom(_inversedDirection, this, __options);
         }
@@ -2620,17 +2597,17 @@ class Room extends Entity {
                 break;
             }
         }
-        
+
         if (this.attachedRooms.get(_direction).cell != this.cell) {
             this.gateway = false;
             this.cell.gateways.delete(this);
-            
+
             this.cell.cells.delete(this.attachedRooms.get(_direction).cell);
         }
-        
+
         if (_updateChild) {
             var inversedDirection = 4;
-            
+
             switch (_direction) {
                 case 0: {
                     inversedDirection = 2;
@@ -2660,20 +2637,20 @@ class Room extends Entity {
                     inversedDirection = 6;
                 }
             }
-            
+
             if (this.attachedRooms.get(_direction).cell != this.cell) {
                 this.attachedRooms.get(_direction).gateway = false;
                 this.attachedRooms.get(_direction).cell.gateways.delete(this.attachedRooms.get(_direction));
-                
+
                 this.attachedRooms.get(_direction).cell.cells.delete(this.cell);
             }
-            
+
             if (inversedDirection < 6)
                 this.attachedRooms.get(_direction).unsetAttachedRoom(inversedDirection);
         }
-        
+
         this.attachedRooms.delete(_direction);
-        
+
         if (_unsetRoom)
             this.unsetRoom(this.attachedRooms.get(_direction));
     }
@@ -2698,21 +2675,21 @@ class Room extends Entity {
     clearAttachedRooms() {
         this.attachedRooms.clear();
     }
-    
+
     getDownRoom() {
         return this.attachedRooms.get(4);
     }
     getUpRoom() {
         return this.attachedRooms.get(5);
     }
-    
+
     hasDownRoom() {
         return this.attachedRooms.has(4);
     }
     hasUpRoom() {
         return this.attachedRooms.has(5);
     }
-    
+
     setNorthWall(wallType, updateChild = true) {
         this.northSide = wallType;
         if (updateChild && this.attachedRooms.has(0) && this.attachedRooms.get(0) instanceof Room)
@@ -2748,7 +2725,7 @@ class Room extends Entity {
         if (typeof _westWallType != 'undefined')
             this.setWestWall(_westWallType, updateChild);
     }
-    
+
     setFacade(_direction, _image) {
         this.directionsFacades.set(_direction, _image);
     }
@@ -2767,32 +2744,32 @@ class Room extends Entity {
     setWestFacade(_image) {
         this.setFacade(3, _image);
     }
-    
+
     addFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.get(_furniture);
-        
+
         _furniture.room = this;
         this.furniture.add(_furniture);
     }
     removeFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.get(_furniture);
-        
+
         _furniture.room = undefined;
         this.furniture.delete(_furniture);
     }
-    
+
     containsFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.get(_furniture);
-        
+
         return this.furniture.has(_furniture);
     }
     hasFurniture(_furniture) {
         return this.containsFurniture;
     }
-    
+
     hasFurnitureType(_type) {
         if (isNaN(_type)) {
             if (FurnitureTypeNameIds.has(_type))
@@ -2802,14 +2779,14 @@ class Room extends Entity {
         }
         else if (!FurnitureTypeIdNames.has(_type))
             return false;
-        
+
         this.furniture.forEach(function(_furniture) {
             if (_furniture.type == this._type) {
                 return true;
             }
         }, this);
     }
-    
+
     /**
      * Returns the first available instance of Furniture in the room that can fit the character. References their species against SpeciesSizeUnits.
      * @param Character _character The character to be referenced against
@@ -2822,11 +2799,11 @@ class Room extends Entity {
     getFurnitureToRestOn(_character, _considerCharacterPreferences = false, _lay = false, _furnitureTypePreferences = []) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character) {
             var _requiredSpaceMultiplier = _lay ? 2 : 1;
             var _placeToRest = undefined;
-            
+
             // Filter _furnitureTypePreferences for valid values; can be a number, a string, or array of numbers-and-or-string of furniture types
             /*if (typeof _furnitureTypePreferences == 'number') {
                 if (FurnitureTypeIdNames.has(_furnitureTypePreferences))
@@ -2850,15 +2827,15 @@ class Room extends Entity {
                 else
                     _furnitureTypePreferences = [];
             }*/
-            
+
             if (_considerCharacterPreferences && typeof _character.preferredSeatType != 'undefined') {
                 var _seats = [];
-            
+
                 this.furniture.forEach(function(_furniture) {
                     if (_furniture.availableSeatingSpace() >= (SpeciesSizeUnits.get(_character.species) * _requiredSpaceMultiplier))
                         _seats.push(_furniture);
                 }, this);
-                
+
                 if (_seats.length > 0) {
                     if (_seats.length == 1)
                         _placeToRest = _seats[0];
@@ -2869,7 +2846,7 @@ class Room extends Entity {
                                 return true;
                             }
                         }, this);
-                        
+
                         if (!(_placeToRest instanceof Furniture))
                             _placeToRest = _seats[0];
                     }
@@ -2883,18 +2860,18 @@ class Room extends Entity {
                     }
                 });
             }
-            
+
             return _placeToRest;
         }
     }
-    
+
     containsFurniture() {
         return this.furniture.size > 1;
     }
     hasFurniture() {
         return this.containsFurniture();
     }
-    
+
     updateItems() {
         this.items.clear();
         if (this.furniture.size > 0) {
@@ -2907,11 +2884,11 @@ class Room extends Entity {
             });
         }
     }
-    
+
     typeName() {
         return RoomTypeIdNames.get(this.type);
     }
-    
+
     isLocked(_direction = undefined) {
         if (_direction instanceof Room) {
             if (map_flip(this.attachedRooms).has(_direction)) {
@@ -2950,21 +2927,21 @@ class Room extends Entity {
 class Item extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false) {
         super(_id, _name, _description);
-        
+
         this.addAction("use");
         this.addAction("put");
         this.addAction("take");
         this.addAction("hold");
-        
+
         if (typeof _image == 'undefined')
             _image = "images/items/genericItem.svg";
         this.image = _image;
-        
+
         this.plural = _plural;
-        
+
         itemsIndexes.set(_id, this);
     }
-    
+
     moveToEntity(_entity) {
         if (_entity instanceof Character)
             return this.moveToCharacter(_entity);
@@ -2980,13 +2957,13 @@ class Item extends Entity {
     moveToFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.get(_furniture);
-        
+
         if (_furniture instanceof Furniture) {
             if (_furniture.room instanceof Room)
                 this.room = _furniture.room;
             else
                 this.room = undefined;
-            
+
             return true;
         }
         else
@@ -2995,13 +2972,13 @@ class Item extends Entity {
     moveToCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (_character instanceof Character) {
             if (_character.room instanceof Room)
                 this.room = _character.room;
             else
                 this.room = undefined;
-            
+
             return true;
         }
         else
@@ -3010,10 +2987,10 @@ class Item extends Entity {
     moveToRoom(_room) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         if (_room instanceof Room) {
             this.room = _room;
-            
+
             return true;
         }
         else
@@ -3026,21 +3003,21 @@ class Item extends Entity {
 class Key extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         super(_id, _name, _description, _image);
-        
+
         keysIndexes.set(_id, this);
     }
 }
 class Clothing extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined, _image = undefined, _plural = false) {
         super(_id, _name, _description, _image, _plural);
-        
+
         this.addAction("wear");
         this.addAction("remove");
-        
+
         if (isNaN(_bodyPart))
             _bodyPart = BodyPartNameIds.get(_bodyPart);
         this.bodyPart = _bodyPart;
-        
+
         clothingIndexes.set(_id, this);
     }
 }
@@ -3048,7 +3025,7 @@ class Clothing extends Item {
 class Furniture extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
         super(_id, _name, _description, undefined);
-        
+
         if (isNaN(_type)) {
             if (FurnitureTypeNameIds.has(_type))
                 this.type = FurnitureTypeNameIds.get(_type);
@@ -3061,17 +3038,17 @@ class Furniture extends Entity {
             else
                 this.type = 0;
         }
-        
+
         this.addAction("use");
         this.addAction("sit");
         this.addAction("lay");
         this.addAction("sleep");
         this.addAction("look");
-        
+
         this.seatingSpace = _seatingSpace;
         this.storageSpace = _storageSpace;
         this.characters = new Set(); // <Character, Action>
-        
+
         furnitureIndexes.set(_id, this);
     }
     isSeat() {
@@ -3080,56 +3057,56 @@ class Furniture extends Entity {
     isStorage() {
         return (typeof this.storageSpace != 'undefined' && this.storageSpace > 0);
     }
-    
+
     addCharacter(_character, _actionType = "sit") {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         this.characters.add(_character);
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         this.characters.delete(_character);
     }
-    
+
     containsCharacter(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
         return this.characters.has(_character);
     }
-    
+
     containsCharacters() {
         return this.characters.size > 0;
     }
     hasCharacters() {
         return containsCharacters();
     }
-    
+
     availableSeatingSpace() {
         var _charactersSeatingSpaceTotal = this.seatingSpace;
-        
+
         this.characters.forEach(function(_character) {
             var _baseMultiplier = 1;
-            
+
             // If they're laying or fucking, they're taking up double the space.
             // But then, if two people are fucking, then it takes double that... which makes no sense :v
             // So, only include laying. 2017/09/06
             //if (_actionType == 11 || _actionType == 3) {
             if (_character.hasCurrentAction("lay"))
                 _baseMultiplier = 2;
-            
+
             // but what if it's a stoat and a wolf :v
             // wat then :V 2017/09/06
-            
+
             _charactersSeatingSpaceTotal -= SpeciesSizeUnits.get(_character.species) * _baseMultiplier;
         }, this);
-        
+
         return _charactersSeatingSpaceTotal;
     }
 }
@@ -3142,13 +3119,13 @@ class WebPage {
     constructor(_id, _name = undefined, _webSite = undefined, _content = undefined) {
         this.id = _id;
         this.name = _name;
-        
+
         if (!(_webSite instanceof WebSite))
             _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
-        
+
         this.webSite = _webSite;
         this.content = _content;
-        
+
         webPageIndexes.set(this.id, this);
     }
 }
@@ -3158,14 +3135,14 @@ class WebSite {
         this.name = _name;
         this.description = _description;
         this.pages = new Set();
-        
+
         webSiteIndexes.set(this.id, this);
     }
-    
+
     _addPagePage(_page) {
         if (!(_page instanceof WebPage))
             _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
-        
+
         if (_page instanceof WebPage) {
             _page.webSite = this;
             this.pages.set(_page);
@@ -3173,13 +3150,13 @@ class WebSite {
     }
     _addPageRaw(_id, _name = undefined, _content = undefined) {
         var _page = new WebPage(_id, _name, this, _content);
-        
+
         this._addPagePage(_page);
     }
     addPage(_id, _name = undefined, _content = undefined) {
         if (!(_id instanceof WebPage) && webPageIndexes.has(_id))
             _id = webPageIndexes.get(_id);
-        
+
         if (_id instanceof WebPage)
             this._addPagePage(_id);
         else
@@ -3188,7 +3165,7 @@ class WebSite {
     getPage(_page) {
         if (!(_page instanceof WebPage))
             _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
-        
+
         if (_page instanceof WebPage && this.pages.contains(_page))
             return _page;
         else
@@ -3209,7 +3186,7 @@ class Cron {
             this.minutes = undefined;
         else
             this.minutes = minutes;
-        
+
         if (typeof hours == 'undefined')
             this.hours = undefined;
         else if (!Number.isInteger(hours)) {
@@ -3224,11 +3201,11 @@ class Cron {
             this.hours = undefined;
         else {
             this.hours = hours;
-            
+
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
-        
+
         if (typeof dom == 'undefined')
             this.dom = undefined;
         else if (!Number.isInteger(dom)) {
@@ -3241,14 +3218,14 @@ class Cron {
             this.dom = undefined;
         else {
             this.dom = dom;
-            
+
             if (typeof this.hours == 'undefined')
                 this.hours = 0;
-            
+
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
-        
+
         if (typeof month == 'undefined')
             this.month = undefined;
         else if (!Number.isInteger(month)) {
@@ -3277,17 +3254,17 @@ class Cron {
             this.month = undefined;
         else {
             this.month = month;
-            
+
             if (typeof this.dom == 'undefined')
                 this.dom = 1;
-            
+
             if (typeof this.hours == 'undefined')
                 this.hours = 0;
-            
+
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
-        
+
         if (typeof dow == 'undefined')
             this.dow = undefined;
         else if (!Number.isInteger(dow)) {
@@ -3303,37 +3280,37 @@ class Cron {
         else {
             if (dow == 7)
                 dow = 0;
-            
+
             this.dow = dow;
         }
-        
+
         if (typeof this.dow != 'undefined') {
             if (typeof this.hours == 'undefined')
                 this.hours = 0;
-            
+
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
-        
+
         if (typeof year == 'undefined' || !Number.isInteger(year))
             this.year = undefined;
         else {
             this.year = year;
-            
+
             if (typeof this.month == 'undefined')
                 this.month = 1;
-            
+
             if (typeof this.dom == 'undefined')
                 this.dom = 1;
-            
+
             if (typeof this.hours == 'undefined')
                 this.hours = 0;
-            
+
             if (typeof this.minutes == 'undefined')
                 this.minutes = 0;
         }
     }
-    
+
     parseDOWString(_dow) {
         switch(_dow.toUpperCase()) {
             case "SUN" : return 0; break;
@@ -3346,10 +3323,10 @@ class Cron {
             default : return undefined;
         }
     }
-    
+
     containsMinutes(_date) {
         var _number = undefined;
-        
+
         if (this.minutes == undefined)
             return true;
         else if (_date instanceof Date)
@@ -3358,10 +3335,10 @@ class Cron {
             _number = _date;
         else if (!Number.isInteger(_date))
             _number = Number.parseInt(_date);
-        
+
         if (isNaN(_number))
             return undefined;
-        
+
         if (Number.isInteger(this.minutes))
             return this.minutes == _number;
         else
@@ -3369,7 +3346,7 @@ class Cron {
     }
     containsHours(_date) {
         var _number = undefined;
-        
+
         if (this.hours == undefined)
             return true;
         else if (_date instanceof Date)
@@ -3378,10 +3355,10 @@ class Cron {
             _number = _date;
         else if (!Number.isInteger(_date))
             _number = Number.parseInt(_date);
-        
+
         if (isNaN(_number))
             return undefined;
-        
+
         if (Number.isInteger(this.hours))
             return this.hours == _number;
         else
@@ -3389,7 +3366,7 @@ class Cron {
     }
     containsDOW(_date = undefined) {
         var _number = undefined;
-        
+
         if (this.dow == undefined)
             return true;
         else if (_date instanceof Date)
@@ -3398,10 +3375,10 @@ class Cron {
             _number = _date;
         else if (!Number.isInteger(_date))
             _number = Number.parseInt(_date);
-        
+
         if (isNaN(_number))
             return undefined;
-        
+
         if (Number.isInteger(this.dow))
             return this.dow == _number;
         else
@@ -3421,22 +3398,22 @@ class GameEvent {
     constructor(_id, _action = undefined, _characterA = undefined, _characterB = undefined, _item = undefined, _location = undefined, _cell = undefined, _room = undefined, _cron = undefined, _nextFunction = undefined, _runOnce = true) {
         if (!(_characterA instanceof Character))
             _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-        
+
         if (!(_characterB instanceof Character))
             _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-        
+
         if (!(_item instanceof Item))
             _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-        
+
         if (!(_location instanceof Location))
             _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
-        
+
         if (!(_cell instanceof Cell))
             _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
-        
+
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-        
+
         this.id = _id;
         this.action = _action;
         this.characterA = _characterA;
@@ -3447,31 +3424,31 @@ class GameEvent {
         this.room = _room;
         this.cron = _cron;
         this.runOnce = _runOnce;
-        
+
         if (_nextFunction.slice(-1) != ')')
             _nextFunction += "(" + this.id + ")";
-        
+
         this.nextFunction = _nextFunction;
-        
+
         eventsIndexes.set(this.id, this);
     }
-    
+
     execute() {
         if (eventsExecutedThisTick.has(this))
             return;
-        
+
         if (debug) console.log("Executing " + this.id);
-        
+
         var fn = new Function(this.nextFunction);
         try {fn();}catch (err) {}
-        
+
         if (this.runOnce) {
             this.delete();
         }
-        
+
         eventsExecutedThisTick.add(this);
     }
-    
+
     delete() {
         eventsIndexes.delete(this.id);
     }
