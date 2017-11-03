@@ -260,12 +260,14 @@ alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
                                 <h3 class="panel-title text-center">tl;dr</h3>
                             </div>
                             <div class="panel-body">
-                                <p>Locations contain Cells which contain Rooms.</p>
-                                <p>Rooms contain Characters and Furniture.</p>
-                                <p>Characters and Furniture can contain Items.</p>
-                                <p>Characters can wear Clothing, which are extended Items.</p>
-                                <p>Rooms, Characters, Items(, Clothing), and Furniture are all Entities.</p>
-                                <p>An entity has an ID, Name, Description, and Owner.<blockquote class='small'>Yes, a Character can be owned by another Character, but there's no functionality there.</blockquote></p>
+                                <p>Location(s) may contain Cell(s) and-or Room(s).</p>
+                                <p>Cell(s) will always contain Room(s), and will always belong to a Location.</p>
+                                <p>Romm(s) will always belong to a Cell, and may have their own Location, but they will always have the Location of their Cell.</p>
+                                <p>Room(s) may contain Character(s) and-or Furniture.</p>
+                                <p>Character(s) and Furniture may contain Item(s).</p>
+                                <p>Character(s) may wear Clothing, which are extended Item(s), and will contain the Clothing when worn.</p>
+                                <p>Location(s), Cell(s), Room(s), Character(s), Item(s), and Furniture are all instances of Entity.</p>
+                                <p>An Entity has an ID (its variable name,) a Name (a readable name that may be displayed,) a Description (a readable, descriptive sentence that may be displayed,) and Owner (Yes, a Character can be owned by another Character, but there's no functionality for that.)</p>
                                 <p>
 <pre>
 //[js/data/Locations.js]
