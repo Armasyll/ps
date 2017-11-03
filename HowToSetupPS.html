@@ -268,23 +268,26 @@ alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
                                 <p>Character(s) may wear Clothing, which are extended Item(s), and will contain the Clothing when worn.</p>
                                 <p>Location(s), Cell(s), Room(s), Character(s), Item(s), and Furniture are all instances of Entity.</p>
                                 <p>An Entity has an ID (its variable name,) a Name (a readable name that may be displayed,) a Description (a readable, descriptive sentence that may be displayed,) and Owner (Yes, a Character can be owned by another Character, but there's no functionality for that.)</p>
-                                <p>
+                                <h4>Creating Locations</h4>
+                                
 <pre>
 //[js/data/Locations.js]
 eg: variableNameLocation = new Location("variableNameLocation", "Displayed Name");
 
 bunnyburrowLocation = new Location("bunnyburrowLocation", "Bunnyburrow");
 hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Household");
-
-
+</pre>
+                                <h4>Creating Cells</h4>
+<pre>
 //[js/data/Cells.js]
 eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
 
 bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation);
 hoppsHouseholdFirstFloorCell = new Cell("hoppsHouseholdFirstFloorCell", "First Floor", hoppsHouseholdLocation);
 hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Second Floor", hoppsHouseholdLocation);
-
-
+</pre>
+                                <h4>Creating Rooms</h4>
+<pre>
 //[js/data/Rooms.js]
 eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
 eg: variableNameRoom02 = new Room("variableNameRoom02", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
@@ -297,22 +300,25 @@ hoppsHouseholdHallwayD = new Room("hoppsHouseholdHallwayD", "hoppsHouseholdHallw
 judyRoom = new Room("judyRoom", undefined, "Judy's Room", "bedroom", hoppsHouseholdFirstFloorCell);
 violetRoom = new Room("violetRoom", undefined, "Violet's Bedroom", "bedroom", hoppsHousehold, "bedroom", hoppsHouseholdFirstFloorCell);
 hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest Room", "bedroom", hoppsHousehold, hoppsHouseholdFirstFloorCell);
-
-
+</pre>
+                                <h4>Creating Characters</h4>
+<pre>
 //[js/data/Characters.js]
 eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
 
 judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
 violet = new Character("violet", "Violet Hopps", 28, "f", "rabbit");
 nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
-
-
+</pre>
+                                <h4>Creating Furniture</h4>
+<pre>
 //[js/data/Furniture.js]
 eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
 
 guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
-
-
+</pre>
+                                <h4>Creating various Items</h4>
+<pre>
 //[js/data/Items.js]
 // Items
 eg: variableNameItem = new Item("variableNameItem", "Display Name", "Description", "path/to/picture.ext");
@@ -340,8 +346,9 @@ eg: variableNameRoomKey = new Key("variableNameRoomKey", "Display Name", "Descri
 hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
 hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "images/items/hoppsHouseholdLocationKey.svg");
 hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
-
-
+</pre>
+                                <h4>Assigning Rooms</h4>
+<pre>
 //[js/data/RoomsAssignments.js]
 hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
 hoppsHouseholdHallwayA.setEastRoom(judyRoom);
@@ -349,8 +356,9 @@ hoppsHouseholdHallwayB.setNorthRoom(hoppsHouseholdHallwayC);
 hoppsHouseholdHallwayB.setEastRoom(hoppsHouseholdGuestRoom);
 hoppsHouseholdHallwayC.setEastRoom(violetRoom);
 hoppsHouseholdGuestRoom.addFurniture(guestBed);
-
-
+</pre>
+                                <h4>Assigning Characters</h4>
+<pre>
 //[js/data/CharactersAssignments.js]
 judy.wear(clothingPoliceVest);
 judy.wear(clothingPolicePants);
@@ -366,15 +374,30 @@ judy.addItem(hoppsHouseholdFakeGuestRoomKey);
 judy.moveToLocation(judyRoom);
 violet.moveTo(violetRoom);
 nick.moveTo(hoppsHouseholdGuestRoom);
-
-
+</pre>
+                                <h4>Assigning Furniture</h4>
+<pre>
 //[js/data/FurnitureAssignments.js]
 guestBed.addItem(playBuck942);
 guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
 guestBed.addItem(sluttyPictureOfViolet);
-
-
+</pre>
+                                <h4>Creating Room Interactions</h4>
+<pre>
 //[js/data/RoomsInteractions.js]
+eg: ...
+function variableNameRoom01Interact(_showContent = true) {
+    lastMenu = "roomInteract(variableNameRoom01Interact, false, false, true, false)";
+    
+    if (_showContent) {
+        Content.add("<p>This section is displayed when first Moving into the room.</p>");
+    }
+    
+    if (!Menu.isExploring) {
+        Content.add("<p>While this section is displayed when Exploring the room.</p>");
+    }
+}
+
 function hoppsHouseholdHallwayInteract(_showBaseMenu = false, _clearContent = true) {    
     if (_clearContent) {
         Content.clear();
@@ -399,8 +422,9 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
         Content.add("&lt;p&gt;A small guest room with two tiny, almost impercetible, holes drilled into the walls adjacent to the door.&lt;/p&gt;");
     }
 }
-
-
+</pre>
+                                <h4>Creating Character Interactions</h4>
+<pre>
 //[js/data/CharacterInteractions.js]
 function judyTalk() {
     _character = judy;
@@ -423,9 +447,10 @@ function judyFollow() {
     try {fn();}catch (err) {}
     Menu.generate();
 }
-
-
-//[js/data/LocationSpecificCharacterInteractions.js]
+</pre>
+                                <h4>Creating Room-Specific Character Interactions</h4>
+<pre>
+//[js/data/RoomCharacterInteractions.js]
 // location + character name + action [ + optional action ]
 function judyRoomJudyTalk() {
 }
@@ -445,8 +470,9 @@ function judyRoomVioletSex() {
 function judyRoomJudyVioletNickThreeway() {
     Content.add("&lt;p&gt;They both grin as they grab both of your arms. " + (!player.wearingShirt &amp;&amp; !player.wearingPants &amp;&amp; !player.wearingUnderwear ? " You're already naked, so they get to work." : " They tear your clothes off and get to work.") + "&lt;/p&gt;");
 }
-
-
+</pre>
+                            <h4>Assigning the player to a Character</h4>
+<pre>
 //[js/data/Start.js]
 ...
 player = nick;
