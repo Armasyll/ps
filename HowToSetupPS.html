@@ -269,37 +269,77 @@ alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
                                 <p>
 <pre>
 //[Locations.js]
-hoppsHousehold = new Location("hoppsHousehold", "Hopps' Household", bunnyburrow, "extBuilding");
+eg: variableNameLocation = new Location("variableNameLocation", "Displayed Name");
 
-hoppsHouseholdHallwayA = new Location("hoppsHouseholdHallwayA", "Hallway", hoppsHousehold, "hallway");
-hoppsHouseholdHallwayA.sid = "hoppsHouseholdHallway";
-hoppsHouseholdHallwayB = new Location("hoppsHouseholdHallwayB", "Hallway", hoppsHousehold, "hallway");
-hoppsHouseholdHallwayB.sid = "hoppsHouseholdHallway";
-hoppsHouseholdHallwayC = new Location("hoppsHouseholdHallwayC", "Hallway", hoppsHousehold, "hallway");
-hoppsHouseholdHallwayC.sid = "hoppsHouseholdHallway";
-hoppsHouseholdHallwayD = new Location("hoppsHouseholdHallwayD", "Hallway", hoppsHousehold, "hallway");
-hoppsHouseholdHallwayD.sid = "hoppsHouseholdHallway";
+bunnyburrowLocation = new Location("bunnyburrowLocation", "Bunnyburrow");
+hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Household");
 
-judyRoom = new Location("judyRoom", "Judy's Room", "A small stuffy room, hoppsHousehold, "bedroom");
-violetRoom = new Location("violetRoom", "Violet's Room", hoppsHousehold, "bedroom");
-hoppsHouseholdGuestRoom = new Location("hoppsHouseholdGuestRoom", hoppsHousehold, "bedroom");
+
+//[Cells.js]
+eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
+
+bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation);
+hoppsHouseholdFirstFloorCell = new Cell("hoppsHouseholdFirstFloorCell", "First Floor", hoppsHouseholdLocation);
+hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Second Floor", hoppsHouseholdLocation);
+
+
+//[Rooms.js]
+eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
+eg: variableNameRoom02 = new Room("variableNameRoom02", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
+eg: variableNameOtherRoom01 = new Room("variableNameOtherRoom01", undefined, "Display Name", "roomType", variableNameCell, variableNameLocation);
+
+hoppsHouseholdHallwayA = new Room("hoppsHouseholdHallwayA", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayB = new Room("hoppsHouseholdHallwayB", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayC = new Room("hoppsHouseholdHallwayC", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayD = new Room("hoppsHouseholdHallwayD", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+judyRoom = new Room("judyRoom", undefined, "Judy's Room", "bedroom", hoppsHouseholdFirstFloorCell);
+violetRoom = new Room("violetRoom", undefined, "Violet's Bedroom", "bedroom", hoppsHousehold, "bedroom", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest Room", "bedroom", hoppsHousehold, hoppsHouseholdFirstFloorCell);
+
 
 //[Characters.js]
-judy = new Character("judy", "Judy Hopps", 24, 1, "rabbit");
-violet = new Character("violet", "Violet Hopps", 28, 1, "rabbit");
-nick = new Character("nick", "Nick Wilde", 32, 0, "fox");
+eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
+
+judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
+violet = new Character("violet", "Violet Hopps", 28, "f", "rabbit");
+nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
+
 
 //[Furniture.js]
-guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", undefined, ["sit", "lay", "sleep", "sex"], "bed", 2, 1]);
+eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
+
+guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
+
 
 //[Items.js]
-clothingPoliceVest = new Clothing("clothingPoliceVest", "ZPD-issued Vest", "A black, lightly-plated police vest.", judy, "torso");
-clothingPolicePants = new Clothing("clothingPolicePants", "ZPD-issued Pants", "A pair of blue, body-hugging dress pants.", judy, "legs");
-clothingFoxPanties = new Clothing("clothingFoxPanties", "Panties", "Orange panties with the picture of a winking fox on the front.", judy, "groin");
-clothingBlackTurtleneck = new Clothing("clothingBlackTurtleneck", "Turtleneck Shirt", "A black turtleneck shirt.", violet, "torso");
-clothingGreenSkirt = new Clothing("clothingGreenSkirt", "Skirt", "A modest green skirt.", violet, "legs");
-playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", undefined);
-doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.", undefined);
+// Items
+eg: variableNameItem = new Item("variableNameItem", "Display Name", "Description", "path/to/picture.ext");
+
+playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "images/items/playBuck942.svg");
+doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.");
+sluttyPictureOfViolet = new Item("sluttyPictureOfViolet", "Lewd picture of Violet", "A picture of Violet Hopps in lingerie, laying on a small bed, spreading her legs for the camera.");
+sluttyPictureOfJudy = new Item("sluttyPictureOfJudy", "Lewd picture of Judy", "A picture of Judy Hopps wearing a form-fitting fox costume, with the crotch exposed.");
+
+
+// Clothing
+eg: variableNameClothing = new Clothing("variableNameClothing", "Display Name", "Description", "bodyPartType", "path/to/picture.ext");
+
+clothingPoliceVest = new Clothing("clothingPoliceVest", "ZPD-issued Vest", "A black, lightly-plated police vest.", "torso");
+clothingPolicePants = new Clothing("clothingPolicePants", "ZPD-issued Pants", "A pair of blue, body-hugging dress pants.", "legs");
+clothingFoxPanties = new Clothing("clothingFoxPanties", "Panties", "Orange panties with the picture of a winking fox on the front.", "groin");
+clothingBlackTurtleneck = new Clothing("clothingBlackTurtleneck", "Turtleneck Shirt", "A black turtleneck shirt.", "torso");
+clothingGreenSkirt = new Clothing("clothingGreenSkirt", "Skirt", "A modest green skirt.", "legs");
+
+// Keys
+// For a key to work, it has to have the variable name of the Location, Cell, or Room it is to be used with, suffixed by 'Key'
+eg: variableNameLocationKey = new Key("variableNameLocationKey", "Display Name", "Description", "path/to/picture.ext");
+eg: variableNameCellKey = new Key("variableNameCellKey", "Display Name", "Description", "path/to/picture.ext");
+eg: variableNameRoomKey = new Key("variableNameRoomKey", "Display Name", "Description", "path/to/picture.ext");
+
+hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
+hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "images/items/hoppsHouseholdLocationKey.svg");
+hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
+
 
 //[LocationsAssignments.js]
 hoppsHouseholdHallwayA.setNorthLocation(hoppsHouseholdHallwayB);
@@ -309,6 +349,7 @@ hoppsHouseholdHallwayB.setEastLocation(hoppsHouseholdGuestRoom);
 hoppsHouseholdHallwayC.setEastLocation(violetRoom);
 hoppsHouseholdGuestRoom.addFurniture(guestBed);
 
+
 //[CharactersAssignments.js]
 judy.wear(clothingPoliceVest);
 judy.wear(clothingPolicePants);
@@ -316,13 +357,21 @@ judy.wear(clothingFoxPanties);
 violet.wear(clothingBlackTurtleneck);
 violet.wear(clothingGreenSkirt);
 
+nick.addItem(hoppsHouseholdGuestRoomKey);
+nick.addItem(sluttyPictureOfJudy);
+violet.addItem(hoppsHouseholdLocationKey);
+judy.addItem(hoppsHouseholdFakeGuestRoomKey);
+
 judy.moveToLocation(judyRoom);
 violet.moveTo(violetRoom);
 nick.moveTo(hoppsHouseholdGuestRoom);
 
+
 //[FurnitureAssignments.js]
 guestBed.addItem(playBuck942);
 guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
+guestBed.addItem(sluttyPictureOfViolet);
+
 
 //[LocationsInteractions.js]
 function locationInteract(_location, _showBaseMenu = false, _clearContent = true, _checkLocked = true) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
@@ -396,6 +445,7 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
     }
 }
 
+
 //[CharacterInteractions.js]
 function characterInteract(_character, _clearContent = true) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
     Menu.isExploring = false;
@@ -467,6 +517,7 @@ function judyFollow() {
     try {fn();}catch (err) {}
     Menu.generate();
 }
+
 
 //[LocationSpecificCharacterInteractions.js]
 // location + character name + action [ + optional action ]
