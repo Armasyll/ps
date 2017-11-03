@@ -268,14 +268,14 @@ alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
                                 <p>An entity has an ID, Name, Description, and Owner.<blockquote class='small'>Yes, a Character can be owned by another Character.</blockquote></p>
                                 <p>
 <pre>
-//[Locations.js]
+//[js/data/Locations.js]
 eg: variableNameLocation = new Location("variableNameLocation", "Displayed Name");
 
 bunnyburrowLocation = new Location("bunnyburrowLocation", "Bunnyburrow");
 hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Household");
 
 
-//[Cells.js]
+//[js/data/Cells.js]
 eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
 
 bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation);
@@ -283,7 +283,7 @@ hoppsHouseholdFirstFloorCell = new Cell("hoppsHouseholdFirstFloorCell", "First F
 hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Second Floor", hoppsHouseholdLocation);
 
 
-//[Rooms.js]
+//[js/data/Rooms.js]
 eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
 eg: variableNameRoom02 = new Room("variableNameRoom02", "variableNameRoom", "Display Name", "roomType", variableNameCell, variableNameLocation);
 eg: variableNameOtherRoom01 = new Room("variableNameOtherRoom01", undefined, "Display Name", "roomType", variableNameCell, variableNameLocation);
@@ -297,7 +297,7 @@ violetRoom = new Room("violetRoom", undefined, "Violet's Bedroom", "bedroom", ho
 hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest Room", "bedroom", hoppsHousehold, hoppsHouseholdFirstFloorCell);
 
 
-//[Characters.js]
+//[js/data/Characters.js]
 eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
 
 judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
@@ -305,13 +305,13 @@ violet = new Character("violet", "Violet Hopps", 28, "f", "rabbit");
 nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
 
 
-//[Furniture.js]
+//[js/data/Furniture.js]
 eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
 
 guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
 
 
-//[Items.js]
+//[js/data/Items.js]
 // Items
 eg: variableNameItem = new Item("variableNameItem", "Display Name", "Description", "path/to/picture.ext");
 
@@ -340,7 +340,7 @@ hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Househo
 hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
 
 
-//[RoomsAssignments.js]
+//[js/data/RoomsAssignments.js]
 hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
 hoppsHouseholdHallwayA.setEastRoom(judyRoom);
 hoppsHouseholdHallwayB.setNorthRoom(hoppsHouseholdHallwayC);
@@ -349,7 +349,7 @@ hoppsHouseholdHallwayC.setEastRoom(violetRoom);
 hoppsHouseholdGuestRoom.addFurniture(guestBed);
 
 
-//[CharactersAssignments.js]
+//[js/data/CharactersAssignments.js]
 judy.wear(clothingPoliceVest);
 judy.wear(clothingPolicePants);
 judy.wear(clothingFoxPanties);
@@ -366,13 +366,13 @@ violet.moveTo(violetRoom);
 nick.moveTo(hoppsHouseholdGuestRoom);
 
 
-//[FurnitureAssignments.js]
+//[js/data/FurnitureAssignments.js]
 guestBed.addItem(playBuck942);
 guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
 guestBed.addItem(sluttyPictureOfViolet);
 
 
-//[RoomsInteractions.js]
+//[js/data/RoomsInteractions.js]
 function hoppsHouseholdHallwayInteract(_showBaseMenu = false, _clearContent = true) {    
     if (_clearContent) {
         Content.clear();
@@ -399,7 +399,7 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
 }
 
 
-//[CharacterInteractions.js]
+//[js/data/CharacterInteractions.js]
 function judyTalk() {
     _character = judy;
     
@@ -423,7 +423,7 @@ function judyFollow() {
 }
 
 
-//[LocationSpecificCharacterInteractions.js]
+//[js/data/LocationSpecificCharacterInteractions.js]
 // location + character name + action [ + optional action ]
 function judyRoomJudyTalk() {
 }
@@ -444,7 +444,8 @@ function judyRoomJudyVioletNickThreeway() {
     Content.add("&lt;p&gt;They both grin as they grab both of your arms. " + (!player.wearingShirt &amp;&amp; !player.wearingPants &amp;&amp; !player.wearingUnderwear ? " You're already naked, so they get to work." : " They tear your clothes off and get to work.") + "&lt;/p&gt;");
 }
 
-//[Start.js]
+
+//[js/data/Start.js]
 ...
 player = nick;
 ...
