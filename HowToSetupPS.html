@@ -340,12 +340,12 @@ hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Househo
 hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
 
 
-//[LocationsAssignments.js]
-hoppsHouseholdHallwayA.setNorthLocation(hoppsHouseholdHallwayB);
-hoppsHouseholdHallwayA.setEastLocation(judyRoom);
-hoppsHouseholdHallwayB.setNorthLocation(hoppsHouseholdHallwayC);
-hoppsHouseholdHallwayB.setEastLocation(hoppsHouseholdGuestRoom);
-hoppsHouseholdHallwayC.setEastLocation(violetRoom);
+//[RoomsAssignments.js]
+hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
+hoppsHouseholdHallwayA.setEastRoom(judyRoom);
+hoppsHouseholdHallwayB.setNorthRoom(hoppsHouseholdHallwayC);
+hoppsHouseholdHallwayB.setEastRoom(hoppsHouseholdGuestRoom);
+hoppsHouseholdHallwayC.setEastRoom(violetRoom);
 hoppsHouseholdGuestRoom.addFurniture(guestBed);
 
 
@@ -372,53 +372,7 @@ guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
 guestBed.addItem(sluttyPictureOfViolet);
 
 
-//[LocationsInteractions.js]
-function locationInteract(_location, _showBaseMenu = false, _clearContent = true, _checkLocked = true) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
-    if (!(_location instanceof Location))
-        _location = locationsIndexes.get(_location);
-    
-    if (player.location.isLocked(_location) &amp;&amp; _checkLocked &amp;&amp; !player.hasKey(_location)) {
-        Content.add("&lt;p&gt;" + _location.name + " is locked from this side.&lt;/p&gt;");
-    }
-    else {
-        if (player.location !== _location) {
-            console.log("Previous Location: " + player.location.id);
-            movePlayerToLocation(_location);
-            console.log("Current Location: " + player.location.id);
-        }
-        
-        Title.set(
-            (player.location.isOwner(player) ? "Your "  + (player.location.type !== 'undefined' ? RoomTypeIdNames.get(player.location.type) : "room").capitalize() : player.location.name), 
-            undefined, 
-            (typeof player.location.parentLocation !== 'undefined' ? player.location.parentLocation.name : ""), 
-            (typeof player.location.parentLocation !== 'undefined' ? (typeof player.location.parentLocation.parentLocation !== 'undefined' ? player.location.parentLocation.parentLocation.name : "") : "")
-        );
-        
-        if (_showBaseMenu) {
-            console.log("\tBase Menu and Location for " + _location.sid);
-            fn = new Function(_location.sid + "Interact(" + _showBaseMenu + "," + (!(player.previousLocation instanceof Location) || !(player.previousLocation.sid == player.location.sid)) + ")");
-            try {fn();}catch (err) {}
-            
-            baseMenu(0, 1);
-        }
-        else {
-            Menu.isExploring = false;
-            
-            Menu.clear();
-            Menu.setOption(11, "baseMenu(" + (!(player.previousLocation instanceof Location) || !(player.previousLocation.sid == player.location.sid)) + ")", "&lt;span class='hidden-md hidden-sm hidden-xs'&gt;Back to &lt;/span&gt;Menu");
-            
-            console.log("\tLocation for " + _location.sid);
-            fn = new Function(_location.sid + "Interact(" + _showBaseMenu + "," + (!(player.previousLocation instanceof Location) || !(player.previousLocation.sid == player.location.sid)) + ")");
-            try {fn();}catch (err) {}
-            
-            _location.furniture.forEach(function(_furniture) {
-                Menu.addOption("furnitureInteract(" + _furniture.id + ", 0, 1)", "Look at " + _furniture.name, _furniture.description);
-            });
-            
-            Menu.generate();
-        }
-    }
-}
+//[RoomsInteractions.js]
 function hoppsHouseholdHallwayInteract(_showBaseMenu = false, _clearContent = true) {    
     if (_clearContent) {
         Content.clear();
@@ -446,55 +400,6 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
 
 
 //[CharacterInteractions.js]
-function characterInteract(_character, _clearContent = true) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
-    Menu.isExploring = false;
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
-    
-    Title.set(
-        _character.name + " in " + player.location.name, 
-        _character.avatar, 
-        (typeof player.location.parentLocation !== 'undefined' ? player.location.parentLocation.name : ""), 
-        (typeof player.location.parentLocation !== 'undefined' ? (typeof player.location.parentLocation.parentLocation !== 'undefined' ? player.location.parentLocation.parentLocation.name : "") : "")
-    );
-    
-    if (_clearContent) {
-        Content.clear();
-        
-        fn = new Function(player.location.sid + _character.name + "()");
-        try {fn();}catch (err) {}
-    }
-    
-    Menu.clear();
-    Menu.addOption(_character.id + "Talk()", "Talk");
-    if ((player.age &gt; 18 &amp;&amp; _character.age &gt; 18))
-        Menu.addOption(_character.id + "Sex()", "Sex");
-    if (_character.following != player)
-        Menu.setOption(3, _character.id + "Follow()", "Ask " + (_character.objectPronoun()) + " to follow you");
-    else
-        Menu.setOption(3, _character.id + "Stay()", "Ask " + (_character.objectPronoun()) + " to stay here");
-    Menu.setOption(7, "localCharactersMenu()", "&lt;span class='hidden-md hidden-sm hidden-xs'&gt;Back to &lt;/span&gt;those nearby");
-    Menu.setOption(11, "baseMenu(1)", "&lt;span class='hidden-md hidden-sm hidden-xs'&gt;Back to &lt;/span&gt;Menu");
-    Menu.addOption("getAppearance(" + _character.id + ")", "Appearance");
-    
-    Menu.generate();
-}
-function characterTalk(_character) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
-    fn = new Function(_character.id + "Talk()");
-    try {fn();}catch (err) {}
-    Menu.generate();
-}
-function characterSex(_character) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
-    fn = new Function(_character.id + "Sex()");
-    try {fn();}catch (err) {}
-    Menu.generate();
-}
-function characterFollow(_character) { // ALWAYS INCLUDE THIS AT TOP, DO NOT BREAK :V
-    fn = new Function(_character.id + "Follow()");
-    try {fn();}catch (err) {}
-    Menu.generate();
-}
-
 function judyTalk() {
     _character = judy;
     
