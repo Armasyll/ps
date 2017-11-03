@@ -209,8 +209,14 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
 
         Menu.clear();
         Menu.isExploring = false;
-        Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        if (_characterA != _characterB) {
+            Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
+            if (_characterB != player)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        }
+        else
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "personalCharacterMenu()".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
+        
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_item) {
