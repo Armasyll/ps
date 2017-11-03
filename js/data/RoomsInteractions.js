@@ -25,10 +25,6 @@ function alApartmentBedroomInteract(_showContent = true) {
 function alBuildingMaintenanceInteract(_showContent = true) {
     lastMenu = "roomInteract(alBuildingMaintenanceInteract, false, false, true, false)";
     
-    if (_clearContent) {
-        if (!(player.previousRoom.sid == player.room.sid))
-            Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>You're standing in the maintenance room of your Pack's apartment.</p>");
     }
@@ -192,30 +188,18 @@ function twinsApartmentBedroomWolterInteract(_showContent = true) {
     }
 }
 function alBuildingFirstFloorHallwayInteract(_showContent = true) {
-    if (_clearContent) {
-        if (!(player.previousRoom.sid == player.room.sid))
-            Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>You're standing in the first floor lobby of your Pack's apartment.</p>");
     }
 }
 function alBuildingSecondFloorHallwayInteract(_showContent = true) {
-    if (_clearContent) {
-        if (!(player.previousRoom.sid == player.room.sid))
-            Content.clear();
-    }
     if (_showContent) {
         Content.add("<p>You're standing in the second floor hallway of your Pack's apartment.</p>");
     }
 }
 function alBuildingThirdFloorHallwayInteract(_showContent = true) {
-    if (_clearContent) {
-        if (!(player.previousRoom.sid == player.room.sid))
-            Content.clear();
-    }
     if (_showContent) {
-            Content.add("<p>You're standing in the third floor hallway of your Pack's apartment.</p>");
+        Content.add("<p>You're standing in the third floor hallway of your Pack's apartment.</p>");
     }
 }
 function weaverApartmentLivingroomInteract(_showContent = true) {
