@@ -30,28 +30,30 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
 
         if (typeof _showContent != "boolean")
             _showContent = _previousRoomDifferent;
-
+        
         if (_showBaseMenu) {
             if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
             fn = new Function("{0}Interact({1})".format(_room.sid, _showContent));
             try {fn();}catch (err) {}
-
+            
             baseMenu(0, 1);
         }
         else {
             Menu.showingBaseMenu = false;
 
             Menu.clear();
-            Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu({0})".format(_previousRoomDifferent ? "true" : "false"), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
             if (debug) console.log("\tRoom for " + _room.sid);
+            lastMenu = "roomInteract({0}, false, false, true, false)".format(_room.sid);
+            
             fn = new Function("{0}Interact({1})".format(_room.sid, _showContent));
             try {fn();}catch (err) {}
 
             _room.furniture.forEach(function(_furniture) {
                 Menu.addOption("furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
             });
-
+            
             Menu.generate();
         }
 
@@ -307,7 +309,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
         else {
             Menu.clear();
-            Menu.setOption((Menu.useWideMenu ? 9 : 7), "roomInteract({0}, false, true, false)".format(player.room.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "roomInteract({0}, false, false, false)".format(player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
 

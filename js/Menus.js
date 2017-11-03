@@ -19,7 +19,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (_clearMenu) {
         Menu.clear();
         exploreMenu();
-        Menu.setOption(0, "roomInteract({0})".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
+        Menu.setOption(0, "roomInteract({0}, false, false, false)".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
         if (player.room.characters.size == 2) {
             _character = undefined;
