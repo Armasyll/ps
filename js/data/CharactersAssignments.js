@@ -139,7 +139,7 @@ pandora.addPreferredSpecies("tiger");
 pandora.addPreferredSpecies("wolf");
 pandora.preferredSex = 0;
 
-remmy.image = "images/characters/Remmy.svg";
+remmy.image = "images/characters/RemmySheared.svg";
 remmy.eyeType = 2;
 remmy.eyeColour = "orange";
 remmy.furColourA = "white";
