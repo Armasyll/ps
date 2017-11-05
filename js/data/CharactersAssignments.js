@@ -5,7 +5,7 @@ al.eyeColour = "blue";
 al.furColourAHex = "#8d909a";
 al.image = "images/characters/Al.png";
 al.moveTo(alApartmentBedroom);
-al.agepe = 75;
+al.agape = 75;
 al.philautia = 50;
 al.addPreferredSpecies("wolf");
 al.addPreferredSpecies("deer");

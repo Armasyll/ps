@@ -1796,7 +1796,7 @@ class Character extends Entity {
         return this.followers.size > 0;
     }
 
-    addSexWith(_character, _updateChild = false) {
+    addSexWith(_character, _updateChild = true) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 

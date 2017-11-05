@@ -20,244 +20,25 @@
                 <div class='row'>
                     <nav class="col-sm-2">
                         <ul class="nav nav-pills nav-stacked affix-top" data-spy="affix">
-                            <!--<li><a href="#initialize">Initialize Entities</a></li>
-                            <li><a href="#assign">Assign Properties</a></li>
-                            <li><a href="#interact">General Interactions</a></li>
-                            <li><a href="#specificInteract">Specific Interactions</a></li>-->
-                            <li><a href="#tldr">tl;dr</a></li>
+                            <li><a href="#tldr">Brief Summary</a></li>
+                            <li><a href="#creatingLocations">Creating Locations</a></li>
+                            <li><a href="#creatingCells">Creating Cells</a></li>
+                            <li><a href="#creatingRooms">Creating Rooms</a></li>
+                            <li><a href="#creatingCharacters">Creating Characters</a></li>
+                            <li><a href="#creatingFurniture">Creating Furniture</a></li>
+                            <li><a href="#assigningRooms">Assigning Rooms</a></li>
+                            <li><a href="#assigningCharacters">Assigning Characters</a></li>
+                            <li><a href="#assigningFurniture">Assigning Furniture</a></li>
+                            <li><a href="#interactRooms">Interacting with Rooms</a></li>
+                            <li><a href="#interactCharacters">Interacting with Characters</a></li>
+                            <li><a href="#interactCharactersRooms">Interacting with Characters in Rooms</a></li>
+                            <li><a href="#assigningPlayer">Assigning the Player</a></li>
                         </ul>
                     </nav>
                     <div class='col-sm-10'>
-                        <!--<h2 class='text-center'>How to setup PS stuff :v</h2>
-                        <div id="initialize" class="panel panel-default autocollapse">
-                            <div class="panel-heading clickable">
-                                <h3 class="panel-title text-center">Initialize an entity</h3>
-                            </div>
-                            <div class="panel-body">
-                                <p>Locations.js, Characters.js, Items.js, Furniture.js</p>
-                                
-                                <p>A new entity will be a function. Camel-case only, you fucks.</p>
-                                
-                                <table class="table">
-                                    <tr><td colspan=3>Entity</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required, must match the function name</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required, Friendly name of the entity</td></tr>
-                                        <tr><td>String</td><td>Description</td><td>Optional, default is undefined</td></tr>
-                                        <tr><td>Character</td><td>Owner</td><td>Optional, owner of the entity,<br/>
-                                                                                can be passed as either a String (Character ID) or a Character<br/>
-                                                                                default is undefined</td></tr>
-                                        <tr><td>Int, String, Array</td><td>Actions</td><td>Optional, review GameVariables.js:ActionsIdNames, default is undefined</td></tr>
-                                        <tr><td>Location</td><td>Location</td><td>Optional, where the entity resides, must be an instance of Location,<br/>
-                                                                                can be passed as either a String (Location ID) or a Location<br/>
-                                                                                default is undefined</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Location, extends Entity</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required</td></tr>
-                                        <tr><td>Location</td><td>Parent Location</td><td>Optional, the location where this location resides; usually for rooms within buildings, default us undefined</td></tr>
-                                        <tr><td>Int, String</td><td>Type</td><td>Required, review GameVariables.js:RoomTypeIdNames;<br/>
-                                                                                can be passed as either an Int or a String; <br/>
-                                                                                the string will be parsed as an int according to RoomTypeNameIds (RoomTypeIdNames with the int and name swapped,)<br/>
-                                                                                default is 0 (hallway)</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Character, extends Entity</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required,<br/>
-                                                                                One or two words;<br/>
-                                                                                If there's a space between them, the first word is the first name, and the last word is the surname<br/>
-                                                                                If there's a comma between them, the first word is the surname, and the last word is the first name</td></tr>
-                                        <tr><td>Int</td><td>Age</td><td>Optional, defaults to 18</td></tr>
-                                        <tr><td>Bool</td><td>Sex</td><td>Optional, defaults to 0<br/>
-                                                                                0 - male, 1 - female</td></tr>
-                                        <tr><td>Int</td><td>Species</td><td>Optional, review GameVariables.js:SpeciesIdNames<br/>
-                                                                                can be passed as either an Int or a String;<br/>
-                                                                                the string will be parsed as an int according to SpeciesNameIds (SpeciesIdNames with the int and name swapped,)<br/>
-                                                                                default is 0 (fox)</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Furniture, extends Entity</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Description</td><td>Optional</td></tr>
-                                        <tr><td>Character</td><td>Owner</td><td>Optional, Owner of this item.</td></tr>
-                                        <tr><td>Int, String, Array</td><td>Actions</td><td>Optional, review GameVariables.js:ActionsIdNames, default is undefined</td></tr>
-                                        <tr><td>Int</td><td>Type</td><td>Required, review GameVariables.js:FurnitureTypeIdNames<br/>
-                                                                                can be passed as either an Int or a String;<br/>
-                                                                                the string will be parsed as an int according to FurnitureTypeNameIds (FurnitureTypeIdNames with the int and name swapped,)<br/>
-                                                                                default is 0 (chair)</td></tr>
-                                        <tr><td>Int</td><td>Seating Space</td><td>Number of Characters that can be seated, default is 1</td></tr>
-                                        <tr><td>Int</td><td>Storage Space</td><td>Number of Items that can be stored, default is 1</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Items, extends Entity</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Description</td><td>Optional</td></tr>
-                                        <tr><td>Character</td><td>Owner</td><td>Optional, Owner of this item.</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Clothing, extends Items</td></tr>
-                                        <tr><td>String</td><td>ID</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Name</td><td>Required</td></tr>
-                                        <tr><td>String</td><td>Description</td><td>Optional</td></tr>
-                                        <tr><td>Character</td><td>Owner</td><td>Optional, Owner of this item.</td></tr>
-                                        <tr><td>Int, String</td><td>Body Part</td><td>Required, review GameVariables.js:BodyPartIdNames<br/>
-                                                                                can be passed as either an Int or a String;<br/>
-                                                                                the string will be parsed as an int according to BodyPartNameIds (BodyPartIdNames with the int and name swapped,)<br/>
-                                                                                default is undefined</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Location Examples:</td></tr>
-                                    <tr><td>var universe</td><td>=</td><td>new Location("universe", "Universe", "A space.");</td></tr>
-                                    <tr><td>var limbo</td><td>=</td><td>new Location("limbo", "Limbo", "A space between spaces.", universe);</td></tr>
-                                    <tr><td colspan=3>&nbsp;</td></tr>
-                                    <tr><td>var bunnyBurrow</td><td>=</td><td>new Location("bunnyBurrow", "Bunnyburrow", "Bunnyburrow.", universe);</td></tr>
-                                    <tr><td colspan=3>&nbsp;</td></tr>
-                                    <tr><td>var hoppsHome</td><td>=</td><td>new Location("hoppsHome", "Hopps Home", "Home of the Hopps' family.", bunnyBurrow);</td></tr>
-                                    <tr><td>var hoppsHomeHallwayA</td><td>=</td><td>new Location("hoppsHomeHallwayA", "Hallway", "A simple hallway.", hoppsHome);</td></tr>
-                                    <tr><td>var hoppsHomeHallwayB</td><td>=</td><td>new Location("hoppsHomeHallwayB", "Hallway", "A simple hallway.", hoppsHome);</td></tr>
-                                    <tr><td colspan=3>&nbsp;</td></tr>
-                                    <tr><td>var judyRoom</td><td>=</td><td>new Location("judyRoom", "Judy's Room", "Judy's Room somewhere in Limbo.", hoppsHome, "bedroom");</td></tr>
-                                    <tr><td>var judyRoomCloset</td><td>=</td><td>new Location("judyRoomCloset", "Judy's Closet", "Judy's Closet.", judyRoom, "closet");</td></tr>
-                                    <tr><td>var judyRoomBathroom</td><td>=</td><td>new Location("judyRoomBathroom", "Judy's Bathroom", "Judy's Bathroom.", judyRoom, "bathroom");</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Character Examples:</td></tr>
-                                    <tr><td>var cotton</td><td>=</td><td>new Character("cotton", "Cotton Hopps", 12, 1, "rabbit");</td></tr>
-                                    <tr><td>var judy</td><td>=</td><td>new Character("judy", "Judy Hopps", 24, 1, 7);</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Furniture Examples:</td></tr>
-                                    <tr><td>var judyRoomClosetTrunk</td><td>=</td><td>new Furniture("judyRoomClosetTrunk", "Judy's Trunk", "Judy's large trunk.", judy, ["open", "put", "take", "fuck"], 1, 20);</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Item Examples:</td></tr>
-                                    <tr><td>var bat</td><td>=</td><td>new Item("bat", "Bat", "A wooden bat.", undefined, undefined);</td></tr>
-                                    <tr><td>var metalBat</td><td>=</td><td>new Item("metalBat", "Bat", "A metal bat.", cotton, undefined);</td></tr>
-                                    <tr><td>var wiffleBat</td><td>=</td><td>new Item("wiffleBat", "Bat", "A plastic bat.", judy, judyRoomClosetTrunk);</td></tr>
-                                </table>
-                                <table class="table">
-                                    <tr><td colspan=3>Clothing Examples:</td></tr>
-                                    <tr><td>var nickShirt</td><td>=</td><td>new Clothing("nickShirt", "Nick's Shirt", "Nick's green hawaiian shirt.", judy, "torso");</td></tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div id="assign" class="panel panel-default autocollapse">
-                            <div class="panel-heading clickable">
-                                <h3 class="panel-title text-center">Assign additional properties to entities</h3>
-                            </div>
-                            <div class="panel-body">
-                                <p>LocationsAssignments.js, CharactersAssignemtns.js, ItemsAssignments.js, FurnitureAssignments.js</p>
-                                
-                                <p>Location Examples:</p>
-                                <p>From Judy's room, we'll set the east room to the closet, the north room to the bathroom, and the west room to Hallway B with a lock coming into the room</p>
-                                <blockquote>
-                                    judyRoom.setEastLocation(judyRoomCloset);<br/>
-                                    judyRoom.setNorthLocation(judyRoomBathroom);<br/>
-                                    judyRoom.setWestLocation(hoppsHomeHallwayB, 1); // Locks the room from its own side<br/>
-                                </blockquote>
-                                    
-                                <p>From Hallway B, we'll set the north room to Hallway A, and clear the wall on the minimap</p>
-                                <blockquote>
-                                    hoppsHomeHallwayB.setNorthLocation(hoppsHomeHallwayA);<br/>
-                                    hoppsHomeHallwayB.setNorthWall(0); // Removed the north wall on the minimap<br/>
-                                </blockquote>
-                                    
-                                <p>Then, we'll set Judy as the owner of her room, her bathroom, and her closet</p>
-                                <blockquote>
-                                    judyRoom.setOwner(judy);<br/>
-                                    judyRoomCloset.setOwner(judy);<br/>
-                                    judyRoomBathroom.setOwner(judy)<br/>
-                                </blockquote>
-                                
-                                <p>Character Examples:</p>
-                                <blockquote>
-                                    judy.avatar = "images/avatars/Judy.png";            // avatar you see on top left<br/>
-                                    judy.avatar_32 = "images/avatars/32x32/Judy.png";   // avatar you see on minimap<br/>
-                                    judy.furColourA = "gray";                           //body<br/>
-                                    judy.furColourB = "white";                          //belly<br/>
-                                    judy.eyeType = 0;<br/>
-                                    judy.eyeColour = "violet";<br/>
-                                    judy.moveTo(judyRoom);<br/>
-                                    judy.agape = 25;<br/>
-                                    judy.philautia = 25;<br/>
-                                    judy.defaultCharacterDisposition.update(10, 0, 15, 0, 0); // default disposition character feels for new characters<br/>
-                                    judy.characterDispositions.set(cotton, new Disposition(5, 100, 100, 5, 75)); // disposition character feels for specified character<br/>
-                                    judy.likesSpecies("rabbit");        // likes rabbit<br/>
-                                    judy.likesSpecies("fox");           // likes foxes<br/>
-                                    judy.dislikesSpecies("sheep");      // dislikes sheep<br/>
-                                    judy.preferredSex = 0;              // prefers males<br/>
-                                    judy.wear(nickShirt);               // wears Nick's shirt<br/>
-                                </blockquote>
-                            </div>
-                        </div>
-                        <div id="interact" class="panel panel-default autocollapse">
-                            <div class="panel-heading clickable">
-                                <h3 class="panel-title text-center">Add interactions to entities (Skip CharactersInteractions, as that falls under the next section)</h3>
-                            </div>
-                            <div class="panel-body">
-                                LocationsInteractions.js, CharactersInteractions.js, ItemsInteractions.js, FurnitureInteractions.js
-                            </div>
-                        </div>
-                        <div id="specificInteract" class="panel panel-default autocollapse">
-                            <div class="panel-heading clickable">
-                                <h3 class="panel-title text-center">Location-Specific Character Interactions</h3>
-                            </div>
-                            <div class="panel-body">
-                                <p>LocationSpecificCharacterInteractions.js</p>
-                                <p>every function must follow the design of location ID, followed by the target character with their first name capitalized, followed by the action
-                                    <blockquote>
-                                        <p>remmyApartmentLivingroomCharlieTalk</p>
-                                        <p>remmyApartmentBedroomCharlieSex</p>
-                                    </blockquote>
-                                </p>
-                                <p>Whatever you add after that are optional sub actions; their naming scheme doesn't really matter, as long as it followed after their primary action
-                                    <blockquote>
-                                        <p>remmyApartmentLivingroomCharlieSexAnal</p>
-                                        <p>remmyApartmentLivingroomCharlieSexJackhammerBigblackdildo</p>
-                                    </blockquote>
-                                </p>
-                                <pre>
-function alBuildingSecondFloorHallwayCharlieSex() {
-    _character = charlie;
-    
-    Content.add("Before you even ask about fucking, Charlie leans over the corner of the stair post, then looks up and down the flights of stairs. You peer over with her, and can't see anyone coming or going.&lt;/p&gt;");
-    if (charlie.hasPants &amp;&amp; charlie.hasPanties)
-        Content.add("&lt;p&gt;Undoing her pants, she tugs them down, along with her panties, and lifts her tail up. Widening her stance, she exposes her bare ass and pussy to you.");
-    else if (charlie.hasPants &amp;&amp; !charlie.hasPanties)
-        Content.add("&lt;p&gt;Undoing her pants, she tugs them down, revealing that she wasn't wearing panties, and lifts her tail up. Widening her stance, she exposes her bare ass and pussy to you.");
-    else if (!charlie.hasPants &amp;&amp; charlie.hasPanties)
-        Content.add("&lt;p&gt;Reaching a paw down, she slips her panties down to her ankles and hikes her tail up. Widening her stance, she exposes her bare ass and pussy to you.");
-    else
-        Content.add("&lt;p&gt;Hiking her tail up and widening her stance, she exposes her bare ass and pussy to you.");
-    
-    if (player.sex == 0) {
-        Content.add("&lt;p&gt;Since you're male, you could start fucking her right now.&lt;/p&gt;");
-        Menu.addOption("alBuildingSecondFloorHallwayCharlieSexVaginalDick", "Fuck her", "");
-        Menu.addOption("alBuildingSecondFloorHallwayCharlieSexAnalDick", "Fuck her ass", "");
-    }
-    else {
-        Content.add("&lt;p&gt;Since you're female, and you lack a strapon, your options are limited.&lt;/p&gt;");
-        Menu.addOption("alBuildingSecondFloorHallwayCharlieSexVaginalStrapon", "Fuck her", "With a strapon");
-        Menu.addOption("alBuildingSecondFloorHallwayCharlieSexAnalStrapon", "Fuck her ass", "With a strapon");
-    }
-    
-    Menu.addOption("alBuildingSecondFloorHallwayCharlieSexCunnilingusGive", "Eat her pussy", "");
-    Menu.addOption("alBuildingSecondFloorHallwayCharlieSexAnalingusGive", "Eat her ass", "");
-}
-                                </pre>
-                                <pre>
-alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
-    ...
-}
-                                </pre>
-                            </div>
-                        </div>-->
                         <div id="tldr" class="panel panel-default autocollapse">
                             <div class="panel-heading clickable">
-                                <h3 class="panel-title text-center">tl;dr</h3>
+                                <h3 class="panel-title text-center">Brief Summary</h3>
                             </div>
                             <div class="panel-body">
                                 <p>Location(s) may contain Cell(s) and-or Room(s).</p>
@@ -268,7 +49,13 @@ alBuildingSecondFloorHallwayCharlieSexVaginalDick() {
                                 <p>Character(s) may wear Clothing, which are extended Item(s), and will contain the Clothing when worn.</p>
                                 <p>Location(s), Cell(s), Room(s), Character(s), Item(s), and Furniture are all instances of Entity.</p>
                                 <p>An Entity has an ID (its variable name,) a Name (a readable name that may be displayed,) a Description (a readable, descriptive sentence that may be displayed,) and Owner (Yes, a Character can be owned by another Character, but there's no functionality for that.)</p>
-                                <h4>Creating Locations</h4>
+                            </div>
+                        </div>
+                        <div id="creatingLocations" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Locations</h3>
+                            </div>
+                            <div class="panel-body">
                                 
 <pre>
 //[js/data/Locations.js]
@@ -278,7 +65,13 @@ eg: variableNameOtherLocation = new Location("variableNameOtherLocation", "Displ
 bunnyburrowLocation = new Location("bunnyburrowLocation", "Bunnyburrow");
 hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Household");
 </pre>
-                                <h4>Creating Cells</h4>
+                            </div>
+                        </div>
+                        <div id="creatingCells" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Cells</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Cells.js]
 eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
@@ -287,7 +80,13 @@ bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation)
 hoppsHouseholdFirstFloorCell = new Cell("hoppsHouseholdFirstFloorCell", "First Floor", hoppsHouseholdLocation);
 hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Second Floor", hoppsHouseholdLocation);
 </pre>
-                                <h4>Creating Rooms</h4>
+                            </div>
+                        </div>
+                        <div id="creatingRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Rooms</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Rooms.js]
 eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell);
@@ -302,7 +101,13 @@ judyRoom = new Room("judyRoom", undefined, "Judy's Room", "bedroom", hoppsHouseh
 violetRoom = new Room("violetRoom", undefined, "Violet's Bedroom", "bedroom", hoppsHousehold, "bedroom", hoppsHouseholdFirstFloorCell);
 hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest Room", "bedroom", hoppsHousehold, hoppsHouseholdFirstFloorCell);
 </pre>
-                                <h4>Creating Characters</h4>
+                            </div>
+                        </div>
+                        <div id="creatingCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Characters</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Characters.js]
 eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
@@ -311,14 +116,26 @@ judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
 violet = new Character("violet", "Violet Hopps", 28, "f", "rabbit");
 nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
 </pre>
-                                <h4>Creating Furniture</h4>
+                            </div>
+                        </div>
+                        <div id="creatingFurniture" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Furniture</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Furniture.js]
 eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
 
 guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
 </pre>
-                                <h4>Creating various Items</h4>
+                            </div>
+                        </div>
+                        <div id="creatingItems" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Items</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Items.js]
 // Items
@@ -348,7 +165,13 @@ hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room K
 hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "images/items/hoppsHouseholdLocationKey.svg");
 hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
 </pre>
-                                <h4>Assigning Rooms</h4>
+                            </div>
+                        </div>
+                        <div id="assigningRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Rooms</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/RoomsAssignments.js]
 hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
@@ -358,9 +181,21 @@ hoppsHouseholdHallwayB.setEastRoom(hoppsHouseholdGuestRoom);
 hoppsHouseholdHallwayC.setEastRoom(violetRoom);
 hoppsHouseholdGuestRoom.addFurniture(guestBed);
 </pre>
-                                <h4>Assigning Characters</h4>
+                            </div>
+                        </div>
+                        <div id="assigningCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Characters</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/CharactersAssignments.js]
+judy.eyeColour = "violet";      // Assigns Judy's eye colour
+judy.furColourA = "gray";       // Assigns Judy's primary fur colour
+judy.furColourB = "white";      // Assigns Judy's secondary fur colour
+judy.image = "images/characters/judy.svg"; // Assigns Judy's Minimap and Avatar icons
+judy.addSexWith(nick);          // Pops both their cherries, and lists each other as having had sex with the other
+
 judy.wear(clothingPoliceVest);
 judy.wear(clothingPolicePants);
 judy.wear(clothingFoxPanties);
@@ -376,14 +211,26 @@ judy.moveToLocation(judyRoom);
 violet.moveTo(violetRoom);
 nick.moveTo(hoppsHouseholdGuestRoom);
 </pre>
-                                <h4>Assigning Furniture</h4>
+                            </div>
+                        </div>
+                        <div id="assigningFurniture" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Furniture</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/FurnitureAssignments.js]
 guestBed.addItem(playBuck942);
 guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
 guestBed.addItem(sluttyPictureOfViolet);
 </pre>
-                                <h4>Creating Room Interactions</h4>
+                            </div>
+                        </div>
+                        <div id="interactRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Rooms</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/RoomsInteractions.js]
 eg: ...
@@ -422,7 +269,13 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
     }
 }
 </pre>
-                                <h4>Creating Character Interactions</h4>
+                            </div>
+                        </div>
+                        <div id="interactCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Characters</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/CharacterInteractions.js]
 function judyTalk() {
@@ -447,7 +300,13 @@ function judyFollow() {
     Menu.generate();
 }
 </pre>
-                                <h4>Creating Room-Specific Character Interactions</h4>
+                            </div>
+                        </div>
+                        <div id="interactCharactersRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Characters in Rooms</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/RoomCharacterInteractions.js]
 // location + character name + action [ + optional action ]
@@ -470,7 +329,13 @@ function judyRoomJudyVioletNickThreeway() {
     Content.add("&lt;p&gt;They both grin as they grab both of your arms. " + (!player.wearingShirt &amp;&amp; !player.wearingPants &amp;&amp; !player.wearingUnderwear ? " You're already naked, so they get to work." : " They tear your clothes off and get to work.") + "&lt;/p&gt;");
 }
 </pre>
-                            <h4>Assigning the player to a Character</h4>
+                            </div>
+                        </div>
+                        <div id="assigningPlayer" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning the Player to a Character</h3>
+                            </div>
+                            <div class="panel-body">
 <pre>
 //[js/data/Start.js]
 ...
