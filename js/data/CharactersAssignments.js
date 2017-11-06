@@ -233,3 +233,8 @@ pandora.addItem(pandorasBoxLocationKey);
 remmy.addItem(remmyApartmentLocationKey);
 velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
+
+characterSleep(wolter, remmyApartmentLivingroomCouch);
+characterSit(charlie, remmyApartmentLivingroomCouch);
+characterLay(pandora, pandorasBoxBasementHiddenBed);
+characterSex(al, velvet, alApartmentBedroomBed);
