@@ -879,6 +879,59 @@ function characterStay(_character) {
     
     return true;
 }
+/**
+ * Makes the Character have Sex with another Character on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
+ *
+ * @param Character _character
+ * @param Furniture _furniture Can be undefined
+ *
+ * @return True.
+ */
+function characterSex(_characterA, _characterB = undefined, _furniture = undefined) {
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    
+    if (typeof _characterA == 'undefined')
+        return undefined;
+    
+    if (furnitureIndexes.has(_characterB) {
+        _furniture = furnitureIndexes.get(_characterB);
+    }
+    else if (_characterB instanceof Furniture) {
+        _furniture = _characterB;
+        _characterB = undefined;
+    }
+    else if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    
+    if (_characterA.furniture instanceof Furniture && _characterA.furniture != _furniture)
+        _furniture.removeCharacter(_characterA);
+    
+    if (_furniture instanceof Furniture) {
+        var _largestCharacter = (SpeciesSizeUnits.get(characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(characterA.species) : SpeciesSizeUnits.get(_characterB.species));
+        if (_furniture.seatingSpace >= _largestCharacter * 2) {
+            _furniture.addCharacter(_characterA);
+            _furniture.addCharacter(_characterB);
+            _characterA.lay(_furniture);
+            _characterB.lay(_furniture);
+        }
+        else if (_furniture.availableSeatingSpace() >= _largestCharacter) {
+            _furniture.addCharacter(_characterA);
+            _furniture.addCharacter(_characterB);
+            _characterA.sit(_furniture);
+            _characterB.sit(_furniture);
+        }
+        else {
+            _characterA.lay();
+            _characterB.lay();
+        }
+    }
+    
+    return _characterA.sex(_characterB, _furniture);
+}
+function characterMasturbate(_character, _furniture = undefined) {
+    return characterSex(_character, undefined, _furniture);
+}
 
 /**
  * Returns to (runs again) the last-used menu.

@@ -1437,6 +1437,8 @@ class Character extends Entity {
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
 
         this.furniture = _furniture
 
@@ -1445,12 +1447,14 @@ class Character extends Entity {
     lay(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-
+        
         this.addCurrentAction("lay");
         this.removeCurrentAction("sit");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
 
         this.furniture = _furniture
 
@@ -1462,6 +1466,8 @@ class Character extends Entity {
 
         this.addCurrentAction("sleep");
         this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
 
         this.furniture = _furniture
 
@@ -1473,6 +1479,8 @@ class Character extends Entity {
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
 
         this.furniture = undefined;
     }
@@ -1482,8 +1490,50 @@ class Character extends Entity {
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
 
         this.furniture = undefined;
+    }
+    sex(_character = undefined, _furniture = undefined) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        
+        if (_character == this || !(_character instanceof Character))
+            return this.masturbate(_furniture);
+        else {
+            return this._sexWithAnother(_character, _furniture);
+        }
+    }
+    masturbate(_furniture = undefined) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        
+        this.furniture = _furniture;
+        
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("walk");
+        this.removeCurrentAction("sex");
+        
+        this.addCurrentAction("masturbate");
+        
+        return true;
+    }
+    _sexWithAnother(_character, _furniture = undefined) {
+        if(_character.willFuck(this) > 50) {
+            this.removeCurrentAction("masturbate");
+            this.addCurrentAction("sex");
+            _character.addCurrentAction("sex");
+            
+            this.addSexWith(_character, true);
+            
+            return true;
+        }
+        else
+            return false;
     }
 
     wear(_clothing) {
