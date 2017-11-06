@@ -1,5 +1,7 @@
 if (debug) console.log("Initializing Furniture");
 
+alApartmentBedroomBed = new Furniture("alApartmentBedroomBed", "Bed", "A large, soft, white bed.", "bed", 4, 4);
+
 remmyApartmentLivingroomCouch = new Furniture("remmyApartmentLivingroomCouch", "Couch", "A green couch.", "couch", 4, 4);
 remmyApartmentLivingroomTV = new Furniture("remmyApartmentLivingroomTV", "TV", "A 28 inch TV.", "tv", 0, 1);
 

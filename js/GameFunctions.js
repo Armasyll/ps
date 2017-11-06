@@ -885,7 +885,7 @@ function characterStay(_character) {
  * @param Character _character
  * @param Furniture _furniture Can be undefined
  *
- * @return True.
+ * @return Whether or not sex happens.
  */
 function characterSex(_characterA, _characterB = undefined, _furniture = undefined) {
     if (!(_characterA instanceof Character))
@@ -894,7 +894,7 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     if (typeof _characterA == 'undefined')
         return undefined;
     
-    if (furnitureIndexes.has(_characterB) {
+    if (furnitureIndexes.has(_characterB)) {
         _furniture = furnitureIndexes.get(_characterB);
     }
     else if (_characterB instanceof Furniture) {
@@ -908,7 +908,7 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
         _furniture.removeCharacter(_characterA);
     
     if (_furniture instanceof Furniture) {
-        var _largestCharacter = (SpeciesSizeUnits.get(characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(characterA.species) : SpeciesSizeUnits.get(_characterB.species));
+        var _largestCharacter = (SpeciesSizeUnits.get(_characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(_characterA.species) : SpeciesSizeUnits.get(_characterB.species));
         if (_furniture.seatingSpace >= _largestCharacter * 2) {
             _furniture.addCharacter(_characterA);
             _furniture.addCharacter(_characterB);
@@ -927,7 +927,7 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
         }
     }
     
-    return _characterA.sex(_characterB, _furniture);
+    return _characterA.fuck(_characterB, _furniture);
 }
 function characterMasturbate(_character, _furniture = undefined) {
     return characterSex(_character, undefined, _furniture);

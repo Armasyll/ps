@@ -9,3 +9,4 @@ remmyApartmentBedroomBed.addItem(pandorasBoxLocationKey);
 characterSleep(wolter, remmyApartmentLivingroomCouch);
 characterSit(charlie, remmyApartmentLivingroomCouch);
 characterLay(pandora, pandorasBoxBasementHiddenBed);
+characterSex(al, velvet, alApartmentBedroomBed);

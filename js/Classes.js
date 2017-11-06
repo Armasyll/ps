@@ -1495,7 +1495,7 @@ class Character extends Entity {
 
         this.furniture = undefined;
     }
-    sex(_character = undefined, _furniture = undefined) {
+    fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
@@ -1523,7 +1523,7 @@ class Character extends Entity {
         return true;
     }
     _sexWithAnother(_character, _furniture = undefined) {
-        if(_character.willFuck(this) > 50) {
+        if(_character.chanceToFuck(this) > 50) {
             this.removeCurrentAction("masturbate");
             this.addCurrentAction("sex");
             _character.addCurrentAction("sex");
@@ -1534,6 +1534,14 @@ class Character extends Entity {
         }
         else
             return false;
+    }
+    
+    getCurrentActions() {
+        var _tmpSet = new Set();
+        this.currentActions.forEach(function(_action) {
+            _tmpSet.add(ActionsIdNames.get(_action));
+        }, this);
+        return _tmpSet;
     }
 
     wear(_clothing) {
@@ -2038,6 +2046,18 @@ class Character extends Entity {
     }
 
     chanceToFuck(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        if (typeof _character == 'undefined')
+            return 0;
+        
+        if (!this.disposition.has(_character))
+            this.addNewCharacterDispositionFor(_character);
+        
+        if (!_character.disposition.has(this))
+            _character.addNewCharacterDispositionFor(this);
+        
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
 
         var chance = 0;
@@ -2093,12 +2113,12 @@ class Character extends Entity {
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
 
         // Exhibitionism
-        if (player.room.characters.size > 2){
+        if (_character.room.characters.size > 2){
             if (this.exhibitionism > 0)
-                chance += ((this.exhibitionism / 5) * (player.room.characters.size - 2));
+                chance += ((this.exhibitionism / 5) * (_character.room.characters.size - 2));
             else {
                 _character.room.characters.forEach(function(__character) {
-                    if (__character != this._character && __character != player)
+                    if (__character != this._character && __character != _character)
                         chance += this.hadSexWith.has(__character) ? 5 : -5;
                 }, this);
             }
