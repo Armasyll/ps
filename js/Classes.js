@@ -2190,10 +2190,12 @@ class Character extends Entity {
 }
 
 class Location extends Entity {
-    constructor(_id = undefined, _name = undefined) {
-        super(_id, _name);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+        super(_id, _name, _description);
         this.cells = new Set();
         this.rooms = new Set();
+
+        this.image = _image;
 
         this.floorImage = undefined;
 

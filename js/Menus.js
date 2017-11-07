@@ -142,22 +142,50 @@ function debugMenu() {
     Menu.generate();
 }
 function debugRoomInformation() {
-    $contentBody = "";
-    $contentBody += ("<h4>Current Room:</h4> <ul><li>" + player.room.name + "</li></ul>");
+    _contentBody = "";
+    _contentBody += ("<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(player.room.toString()));
     
-    $contentBody += ("<h4>Characters in Current Room (" + player.room.characters.size + "):</h4> <ul>");
-    for (var [$characterID, $character] of player.room.characters.entries()) {
-        $contentBody += ("<li>" + $character.name + "</li>");
+    
+    _contentBody += ("<h4>Attached Rooms ({0}):</h4> <ul>".format(player.room.attachedRooms.size));
+    for (var [_roomID, _room] of player.room.attachedRooms.entries()) {
+        _contentBody += ("<li>{0}</li>".format(_room.toString()));
     }
-    $contentBody += ("</ul>");
+    _contentBody += ("</ul>");
     
-    $contentBody += ("<h4>Attached Rooms (" + player.room.attachedRooms.size + "):</h4> <ul>");
-    for (var [$roomID, $room] of player.room.attachedRooms.entries()) {
-        $contentBody += ("<li>" + $room.name + "</li>");
+    
+    _contentBody += ("<h4>Characters in Current Room ({0}):</h4> <ul>".format(player.room.characters.size));
+    for (var [_characterID, _character] of player.room.characters.entries()) {
+        _contentBody += ("<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.getCurrentActions())));
     }
-    $contentBody += ("</ul>");
+    _contentBody += ("</ul>");
     
-    Content.set($contentBody);
+    
+    _contentBody += ("<h4>Furniture in Current Room ({0}):</h4> <ul>".format(player.room.characters.size));
+    for (var [_furnitureID, _furniture] of player.room.furniture.entries()) {
+        _contentBody += ("<li>{0}".format(_furniture.toString()));
+            _contentBody += ("<ul>");
+                _contentBody += ("<li>Seating ({0}/{1})".format(_furniture.availableSeatingSpace(), _furniture.seatingSpace));
+                    _contentBody += ("<ul>");
+        _furniture.characters.forEach(function(_character) {
+            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.getCurrentActions()));
+        }, this);
+                    _contentBody += ("</ul>");
+                _contentBody += ("</li>");
+                _contentBody += ("<li>Storage ({0}/{1})".format(_furniture.items.size, _furniture.storageSpace));
+                    _contentBody += ("<ul>");
+        _furniture.items.forEach(function(_item) {
+            _contentBody += "<li>{0}</li>".format(_item.toString());
+        }, this);
+                    _contentBody += ("</ul>");
+                _contentBody += ("</li>");
+
+            _contentBody += ("</ul>");
+        _contentBody += ("</li>");
+    }
+    _contentBody += ("</ul>");
+    
+    
+    Content.set(_contentBody);
 }
 function debugSwitchRoom() {
     clearContentAndMenu();

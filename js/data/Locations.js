@@ -15,7 +15,7 @@ zootopiaFangStreetLocation = new Location("zootopiaFangStreetLocation", "Fang St
 zootopiaExchangeStreetLocation = new Location("zootopiaExchangeStreetLocation", "Exchange Street");
 
 alBuildingBasementLocation = new Location("alBuildingBasementLocation", "Basement");
-alBuildingLocation = new Location("alBuildingLocation", "Al's Building");
+alBuildingLocation = new Location("alBuildingLocation", "Al's Building", "", "images/locations/alBuilding.svg");
 alBuildingLobbyLocation = new Location("alBuildingLobbyLocation", "Pack Lobby");
 alBuildingMaintenanceLocation = new Location("alBuildingMaintenanceLocation", "Maintenance Room");
 
@@ -28,26 +28,26 @@ twinsApartmentLocation = new Location("twinsApartmentLocation", "Anneke and Wolt
 weaverApartmentLocation = new Location("weaverApartmentLocation", "Weaver's Apartment");
 
 
-bettyBuildingLocation = new Location("bettyBuildingLocation", "Betty's Building");
+bettyBuildingLocation = new Location("bettyBuildingLocation", "Betty's Building", "", "images/locations/bettyBuilding.svg");
 
 
-pandorasBoxLocation = new Location("pandorasBoxLocation", "Pandora's Box");
+pandorasBoxLocation = new Location("pandorasBoxLocation", "Pandora's Box", "", "images/locations/pandorasBox.svg");
 pandorasBoxStorefrontLocation = new Location("pandorasBoxStorefrontLocation", "Pandora's Box");
 pandorasBoxGarageLocation = new Location("pandorasBoxGarageLocation", "Pandora's Box");
 pandorasBoxBasementLocation = new Location("pandorasBoxBasementLocation", "Pandora's Box");
 pandorasBoxBasementHiddenLocation = new Location("pandorasBoxBasementHiddenLocation", "Pandora's Box");
 
 
-bugBurga42ndLocation = new Location("bugBurga42ndLocation", "Bug Burga");
+bugBurga42ndLocation = new Location("bugBurga42ndLocation", "Bug Burga", "", "images/locations/bugBurga42nd.svg");
 bugBurga42ndDiningLocation = new Location("bugBurga42ndDiningLocation", "Dining Area");
 bugBurga42ndOrderingCounterLocation = new Location("bugBurga42ndOrderingCounterLocation", "Checkout Counter");
 bugBurga42ndKitchenLocation = new Location("bugBurga42ndKitchenLocation", "Kitchen");
 bugBurga42ndBreakRoomLocation = new Location("bugBurga42ndBreakRoomLocation", "Break Room");
 
 
-packStreetPublicLibraryLocation = new Location("packStreetPublicLibraryLocation", "Pack Street Public Library");
+packStreetPublicLibraryLocation = new Location("packStreetPublicLibraryLocation", "Pack Street Public Library", "", "images/locations/packStreetPublicLibrary.svg");
 
 
-happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happytown Locksmiths");
+happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happytown Locksmiths", "", "images/locations/happytownLocksmiths.svg");
 
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");
