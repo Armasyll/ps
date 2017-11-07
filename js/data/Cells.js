@@ -22,4 +22,6 @@ bugBurga42ndCell = new Cell("bugBurga42ndCell", "Bug Burga", bugBurga42ndLocatio
 
 packStreetPublicLibraryCell = new Cell("packStreetPublicLibraryCell", "Pack Street Library", packStreetPublicLibraryLocation);
 
+packStreetHappytownLocksmithsCell = new Cell("packStreetHappytownLocksmithsCell", "Happytown Locksmiths, Packstreet", happytownLocksmithsLocation);
+
 if (debug) console.log("\tInitialized " + cellsIndexes.size + " Cells.");

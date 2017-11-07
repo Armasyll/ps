@@ -48,4 +48,6 @@ bugBurga42ndBreakRoomLocation = new Location("bugBurga42ndBreakRoomLocation", "B
 packStreetPublicLibraryLocation = new Location("packStreetPublicLibraryLocation", "Pack Street Public Library");
 
 
+happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happytown Locksmiths");
+
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");

@@ -177,4 +177,7 @@ bugBurga42ndBreakRoomB = new Room("bugBurga42ndBreakRoomB", "bugBurga42ndBreakRo
 // packStreetPublicLibrary
 packStreetPublicLibraryEntrance = new Room("packStreetPublicLibraryEntrance", undefined, "Entrance", "hallway", packStreetPublicLibraryCell);
 
+// packStreeyHappytownLocksmiths
+packStreetHappytownLocksmithsEntrance = new Room("packStreetHappytownLocksmithsEntrance", undefined, "Entrance", "hallway", packStreetHappytownLocksmithsCell);
+
 if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");

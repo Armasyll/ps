@@ -50,6 +50,7 @@ zootopia44thStreet06.setWestRoom(zootopiaExchangeStreet01);
 zootopia44thStreet06.setSouthRoom(zootopia44thStreet07);
 zootopia44thStreet07.setSouthRoom(zootopia44thStreet08);
 zootopia44thStreet08.setSouthRoom(zootopia44thStreet09);
+zootopia44thStreet09.setEastRoom(packStreetHappytownLocksmithsEntrance);
 zootopia44thStreet09.setSouthRoom(zootopia44thStreet10);
 zootopia44thStreet04.floorImage = streetUpDownCLeft01;
 zootopia44thStreet06.floorImage = streetCUpCRightCDownCLeft01;
