@@ -3,6 +3,7 @@ bettyBuildingLocation.image = 'images/locations/bettyBuilding.svg';
 pandorasBoxLocation.image = 'images/locations/pandorasBox.svg';
 bugBurga42ndLocation.image = 'images/locations/bugBurga42nd.svg';
 packStreetPublicLibraryLocation.image = 'images/locations/packStreetPublicLibrary.svg';
+happytownLocksmithsLocation.image = 'images/locations/happytownLocksmiths.svg';
 
 zootopia42ndStreetLocation.floorImage = streetUpDown01;
 zootopiaHarryStreetLocation.floorImage = streetRightLeft01;
