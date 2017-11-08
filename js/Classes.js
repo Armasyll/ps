@@ -1394,7 +1394,14 @@ class Character extends Entity {
         return this.clothingLegs instanceof Clothing;
     }
     getPants() {
-        this.clothingLegs;
+        return this.clothingLegs;
+    }
+    
+    hasShoes() {
+        return this.clothingFeet instanceof Clothing;
+    }
+    getShoes() {
+        return this.clothingFeet;
     }
 
     addCurrentAction(_actionType) {
