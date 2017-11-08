@@ -361,11 +361,11 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
     else {
         if (_switch) {
             var _characterB = player;
-            var _characterA = _character;
+            var _characterA = _furniture;
         }
         else {
             var _characterA = player;
-            var _characterB = _character;
+            var _characterB = _furniture;
         }
 
         if (_clearContent) {
@@ -402,7 +402,7 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
 
         Menu.clear();
         Menu.showingBaseMenu = false;
-        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, false, {1})".format(_furniture.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
