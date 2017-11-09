@@ -23,7 +23,7 @@ tanktopWhite = new Clothing("tanktopWhite", "White tank-top", "A white tank-top.
 cargopantsTan = new Clothing("cargopantsTan", "Tan Cargo Pants", "A pair of tan cargo pants.", "legs", undefined, true);
 shirtPatchy = new Clothing("shirtPatchy", "Patchy Shirt", "A torn, patched up cloth shirt.", "torso");
 pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", "legs", undefined, true);
-tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles T-Shirt", "A Meles Meles band t-shirt.", "torso", "images/items/tshirtWhiteMelesMeles.svg", false);
+tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles Tank Top", "A Meles Meles band tank top.", "torso", "images/items/tshirtWhiteMelesMeles.svg", false);
 
 // Keys
 masterKey = new Key("masterKey", "Simple Key", "A simple key.", "images/items/masterKey.svg");
