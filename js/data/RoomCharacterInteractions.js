@@ -269,7 +269,7 @@ function remmyApartmentLivingroomCharlieSex() {
     
     if (player.room.containsCharacter(wolter)) {
         if (wolter.sleeping)
-            Content.add("<p>Gently sitting on " + (player.room.owner == player ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. {0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name));
+            Content.add("<p>Gently sitting on " + (player.room.isOwner(player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. {0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name));
         else
             Content.add("");
     }

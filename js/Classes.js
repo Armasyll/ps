@@ -2423,6 +2423,10 @@ class Room extends Entity {
 
         roomsIndexes.set(_id, this);
     }
+    
+    isOwner(_character) {
+        return this.location.isOwner(_character) || this.cell.location.isOwner(_character);
+    }
 
     setLocation(_location) {
         if (!(_location instanceof Location))
