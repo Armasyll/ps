@@ -1734,6 +1734,10 @@ class Character extends Entity {
     eyeName() {
         return EyeTypeIdNames.get(this.eyeType);
     }
+    setEyeColour(_colour) {
+        this.eyeColour = _colour
+        this.eyeColourHex = colourNameToHex(_colour.replace(/[^a-z]/g, ""));
+    }
 
     setFur(_type) {
         if (isNaN(_type))
@@ -1745,6 +1749,21 @@ class Character extends Entity {
     }
     furName() {
         return FurTypeIdNames.get(this.furType);
+    }
+    setFurColourA(_colour) {
+        this.furColourA = _colour;
+        this.furColourAHex = colourNameToHex(_colour.replace(/[^a-z]/g, ""));
+    }
+    setFurColourB(_colour) {
+        this.furColourB = _colour;
+        this.furColourBHex = colourNameToHex(_colour.replace(/[^a-z]/g, ""));
+    }
+    setFurColour(_colourA, _colourB = undefined) {
+        if (typeof _colourB == 'undefined')
+            _colourB = _colourA;
+        
+        this.setFurColourA(_colourA);
+        this.setFurColourB(_colourB);
     }
 
     setSpecies(_species) {

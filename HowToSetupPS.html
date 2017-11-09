@@ -190,11 +190,10 @@ hoppsHouseholdGuestRoom.addFurniture(guestBed);
                             <div class="panel-body">
 <pre>
 //[js/data/CharactersAssignments.js]
-judy.eyeColour = "violet";      // Assigns Judy's eye colour
-judy.furColourA = "gray";       // Assigns Judy's primary fur colour
-judy.furColourB = "white";      // Assigns Judy's secondary fur colour
-judy.image = "images/characters/judy.svg"; // Assigns Judy's Minimap and Avatar icons
-judy.addSexWith(nick);          // Pops both their cherries, and lists each other as having had sex with the other
+judy.setEyeColour("violet");                // Assigns Judy's eye colour
+judy.setFurColour("gray", white);           // Assigns Judy's primary and secondary fur colours
+judy.image = "images/characters/judy.svg";  // Assigns Judy's Minimap and Avatar icons
+judy.addSexWith(nick);                      // Pops both their cherries, and lists each other as having had sex with the other
 
 judy.wear(clothingPoliceVest);
 judy.wear(clothingPolicePants);
