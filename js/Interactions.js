@@ -301,7 +301,8 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
 
     lastMenu = "furnitureInteract({0},false,true)".format(_furniture.id);
 
-    Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(FurnitureTypeIdNames.get(_furniture.type), (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items"))));
+    if (player.furniture != _furniture)
+        Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(FurnitureTypeIdNames.get(_furniture.type), (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items"))));
 
     if (_clearMenu) {
         if (_furniture.availableActions.size == 0) {
@@ -457,6 +458,8 @@ function furnitureInteractSleep(_furniture, _character = player) {
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
+
+    if (debug) console.log("Attempting to sleep in {0}".format(_furniture.id));
 
     fn = new Function(_furniture.id + "Sleep({0})".format(_character.id));
     try {fn();}catch (err) {}

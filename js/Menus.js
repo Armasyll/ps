@@ -396,6 +396,8 @@ function start() {
     
     Menu.addOption("roomInteract({0}, true)".format(player.room.id), "Get a move on.");
     Menu.generate();
+    
+    updateTimeDisplay();
 }
 function quit() {
     clearContentAndMenu();
