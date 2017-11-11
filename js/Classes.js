@@ -859,15 +859,13 @@ class Minimap {
 
 /* Classes */
 class Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined, _actions = undefined, _room = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _room = undefined) {
         this.id = _id;
         this.name = _name;
         this.description = _description;
 
-        this.owner = new Set();
         this.availableActions = new Set();
 
-        this.addOwner(_owner);
         this.addAction(_actions);
         this.addAction("look");
 
@@ -911,50 +909,6 @@ class Entity {
         return this.containsItem(_item);
     }
 
-    isOwner(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character)
-            return this.owner.has(_character);
-        else
-            return false;
-    }
-    getOwner(_index) {
-        if (isNaN(_index) || _index < 0 || _index > this.owner.size)
-            _index = 0;
-        return Array.from(this.owner)[_index];
-    }
-    addOwner(_character) {
-        if (typeof _character == 'undefined')
-            return true;
-        else if (_character instanceof Character)
-            this.owner.add(_character);
-        else if (_character instanceof Set || _character instanceof Array) {
-            _character.forEach(function(__character) {
-                this.addOwner(__character);
-            }, this);
-        }
-        else {
-            if (!(_character instanceof Character))
-                _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-            if (_character instanceof Character)
-                this.owner.add(_character);
-            else
-                return true;
-        }
-        return false;
-    }
-    setOwner(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character instanceof Character)
-            this.owner.add(_character);
-    }
-    clearOwner() {
-        this.owner.clear();
-    }
-
     addAction(_actions) {
         if (typeof _actions == 'undefined')
             return true;
@@ -978,32 +932,17 @@ class Entity {
     toString() {
         var _blob = "";
         if (typeof this.image !== 'undefined') {
-            _blob += "<img class='text-center' style='border:0.1em solid white; background-color:white; border-radius:0.5em;' src='" + this.image + "' alt=''/><br/>";
+            _blob += "<img class='text-center' style='border:0.1em solid white; background-color:white; border-radius:0.5em;' src='{0}' alt=''/><br/>".format(this.image);
         }
-        _blob += "<div class='text-center'>" + this.name + "</div>";
-        if (this.owner instanceof Set && this.owner.size > 0) {
-            _blob += "Owned by ";
-
-            var _owners = Array.from(this.owner);
-            if (this.owner.size == 1)
-                _blob += _owners[0].name;
-            else {
-                for (i = 0; i < _owners.length - 1; i++) {
-                    _blob += _owners[i].name;
-                    if (_owners.length > 2)
-                        _blob += ", ";
-                }
-                _blob += " and " + _owners[_owners.length - 1].name + ".";
-            }
-        }
+        _blob += "<div class='text-center'>{0}</div>".format(this.name);
 
         if (typeof this.description != 'undefined')
             _blob += "<p>" + this.description + "</p>";
         else if (this instanceof Character) {
-            _blob += "<p>" + this.age + " year old " + (this.gender ? "female" : "male") + " " + this.speciesName() + ".</p>";
+            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.getSpeciesName());
         }
 
-        return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"" + _blob.replace(/\"/g, '\\"') + "\">" + this.name + "</a>";
+        return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
     }
 }
 
@@ -1074,7 +1013,7 @@ class Character extends Entity {
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
-        super(_id, _name, undefined, undefined);
+        super(_id, _name);
         this.surname = "";
         if (this.name.split(", ").length > 1) {
             var tempName = this.name.split(", ");
@@ -1089,7 +1028,7 @@ class Character extends Entity {
         this.nickname = "";
         this.age = _age;
         this.appearance = "";
-        this.image = "images/characters/avatar.svg"; // base64 image, or url
+        this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
         this.addAction("talk");
         this.addAction("sex");
@@ -1105,7 +1044,7 @@ class Character extends Entity {
 
         this.currentActions = new Set();
 
-        this.defaultDisposition = new Disposition(0,0,0,0,0);
+        this.defaultDisposition = new Disposition(0,0,0,0,0,0);
         this.agape = 50;         // self
         this.philautia = 50;     // others
         this.stamina = 100;
@@ -1276,7 +1215,6 @@ class Character extends Entity {
     getSex() {
         return this.sexName();
     }
-
 
     setDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
         if (debug) console.log("Running setDisposition");
@@ -1835,7 +1773,7 @@ class Character extends Entity {
             }
         }
     }
-    speciesName() {
+    getSpeciesName() {
         return SpeciesIdNames.get(this.species);
     }
 
@@ -2218,6 +2156,7 @@ class Character extends Entity {
 class Location extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         super(_id, _name, _description);
+        this.owner = new Set();
         this.cells = new Set();
         this.rooms = new Set();
 
@@ -2226,6 +2165,50 @@ class Location extends Entity {
         this.floorImage = undefined;
 
         locationsIndexes.set(_id, this);
+    }
+
+    isOwner(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+        if (_character instanceof Character)
+            return this.owner.has(_character);
+        else
+            return false;
+    }
+    getOwner(_index) {
+        if (isNaN(_index) || _index < 0 || _index > this.owner.size)
+            _index = 0;
+        return Array.from(this.owner)[_index];
+    }
+    addOwner(_character) {
+        if (typeof _character == 'undefined')
+            return true;
+        else if (_character instanceof Character)
+            this.owner.add(_character);
+        else if (_character instanceof Set || _character instanceof Array) {
+            _character.forEach(function(__character) {
+                this.addOwner(__character);
+            }, this);
+        }
+        else {
+            if (!(_character instanceof Character))
+                _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            if (_character instanceof Character)
+                this.owner.add(_character);
+            else
+                return true;
+        }
+        return false;
+    }
+    setOwner(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character instanceof Character)
+            this.owner.add(_character);
+    }
+    clearOwner() {
+        this.owner.clear();
     }
 
     addCell(_cell) {
@@ -2379,6 +2362,7 @@ class Room extends Entity {
         if (typeof _sid == 'undefined')
             _sid = _id;
         this.sid = _sid;
+        this.owner = new Set();
 
         /*
             attachedRooms is a Map of an int and an array;
@@ -2427,6 +2411,41 @@ class Room extends Entity {
     isOwner(_character) {
         return this.location.isOwner(_character) || this.cell.location.isOwner(_character);
     }
+    getOwner(_index) {
+        if (isNaN(_index) || _index < 0 || _index > this.owner.size)
+            _index = 0;
+        return Array.from(this.owner)[_index];
+    }
+    addOwner(_character) {
+        if (typeof _character == 'undefined')
+            return true;
+        else if (_character instanceof Character)
+            this.owner.add(_character);
+        else if (_character instanceof Set || _character instanceof Array) {
+            _character.forEach(function(__character) {
+                this.addOwner(__character);
+            }, this);
+        }
+        else {
+            if (!(_character instanceof Character))
+                _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            if (_character instanceof Character)
+                this.owner.add(_character);
+            else
+                return true;
+        }
+        return false;
+    }
+    setOwner(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character instanceof Character)
+            this.owner.add(_character);
+    }
+    clearOwner() {
+        this.owner.clear();
+    }
+
 
     setLocation(_location) {
         if (!(_location instanceof Location))
@@ -3129,7 +3148,7 @@ class Clothing extends Item {
 
 class Furniture extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
-        super(_id, _name, _description, undefined);
+        super(_id, _name, _description);
 
         if (isNaN(_type)) {
             if (FurnitureTypeNameIds.has(_type))
