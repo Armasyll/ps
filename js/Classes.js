@@ -937,7 +937,7 @@ class Entity {
         _blob += "<div class='text-center'>{0}</div>".format(this.name);
 
         if (typeof this.description != 'undefined')
-            _blob += "<p>" + this.description + "</p>";
+            _blob += "<p>{0}</p>".format(this.description);
         else if (this instanceof Character) {
             _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.getSpeciesName());
         }
