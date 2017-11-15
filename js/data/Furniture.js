@@ -17,11 +17,11 @@ remmyApartmentBedroomHamper = new Furniture("remmyApartmentBedroomHamper", "Hamp
 
 pandorasBoxBasementHiddenBed = new Furniture("pandorasBoxBasementHiddenBed", "Bed", "A large, soft bed.", "bed", 4, 8);
 pandorasBoxCheckoutDesk = new Furniture("pandorasBoxCheckoutDesk", "Checkout Counter", "A checkout counter.", "desk", 2, 4);
-pandorasBoxIsleA1LeftShelf = new Furniture("pandorasBoxIsleA1LeftShelf", "'A' Shelf", "A shelf containing large amounts of anal pornography.", "shelf", 0, 6);
-pandorasBoxIsleA2LeftShelf = new Furniture("pandorasBoxIsleA2LeftShelf", "'B' Shelf", "A shelf containing blow-up dolls, and ball gags.", "shelf", 0, 6);
-pandorasBoxIsleA3LeftShelf = new Furniture("pandorasBoxIsleA3LeftShelf", "'C' Shelf", "A shelf containing condoms and cock-rings.", "shelf", 0, 6);
-pandorasBoxIsleA1RightShelf = new Furniture("pandorasBoxIsleA1RightShelf", "'D' Shelf", "A shelf containing dildos large and small, and douching accessories.", "shelf", 0, 6);
-pandorasBoxIsleA2RightShelf = new Furniture("pandorasBoxIsleA2RightShelf", "'E-F' Shelf", "A shelf containing enemas and fleshlights.", "shelf", 0, 6);
-pandorasBoxIsleA3RightShelf = new Furniture("pandorasBoxIsleA3RightShelf", "'G-H' Shelf", "A shelf containing gag balls and harnesses.", "shelf", 0, 6);
+pandorasBoxAisleA1LeftShelf = new Furniture("pandorasBoxAisleA1LeftShelf", "'A' Shelf", "A shelf containing large amounts of anal pornography.", "shelf", 0, 6);
+pandorasBoxAisleA2LeftShelf = new Furniture("pandorasBoxAisleA2LeftShelf", "'B' Shelf", "A shelf containing blow-up dolls, and ball gags.", "shelf", 0, 6);
+pandorasBoxAisleA3LeftShelf = new Furniture("pandorasBoxAisleA3LeftShelf", "'C' Shelf", "A shelf containing condoms and cock-rings.", "shelf", 0, 6);
+pandorasBoxAisleA1RightShelf = new Furniture("pandorasBoxAisleA1RightShelf", "'D' Shelf", "A shelf containing dildos large and small, and douching accessories.", "shelf", 0, 6);
+pandorasBoxAisleA2RightShelf = new Furniture("pandorasBoxAisleA2RightShelf", "'E-F' Shelf", "A shelf containing enemas and fleshlights.", "shelf", 0, 6);
+pandorasBoxAisleA3RightShelf = new Furniture("pandorasBoxAisleA3RightShelf", "'G-H' Shelf", "A shelf containing gag balls and harnesses.", "shelf", 0, 6);
 
 if (debug) console.log("\tInitialized " + furnitureIndexes.size + " Furniture.");

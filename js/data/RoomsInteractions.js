@@ -187,15 +187,15 @@ function pandorasBoxBack(_showContent = true) {
     if (_showContent) {
     }
 }
-function pandorasBoxIsleA(_showContent = true) {
+function pandorasBoxAisleA(_showContent = true) {
     if (_showContent) {
     }
 }
-function pandorasBoxIsleB(_showContent = true) {
+function pandorasBoxAisleB(_showContent = true) {
     if (_showContent) {
     }
 }
-function pandorasBoxIsleC(_showContent = true) {
+function pandorasBoxAisleC(_showContent = true) {
     if (_showContent) {
     }
 }
