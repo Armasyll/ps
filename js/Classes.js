@@ -860,28 +860,37 @@ class Minimap {
 /* Classes */
 class Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _room = undefined) {
-        this.id = _id;
-        this.name = _name;
-        this.description = _description;
-
-        this.availableActions = new Set();
-
-        this.addAction(_actions);
-        this.addAction("look");
-
-        if (!(_room instanceof Room)) {
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-            if (!(_room instanceof Room))
-                _room = undefined;
+        if (_id instanceof Entity) {
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
         }
-        this.room = _room;
+        else {
+            this.id = _id;
+            this.name = _name;
+            this.description = _description;
 
-        if (typeof this.room != 'undefined')
-            this.cell = this.room.cell;
-        else
-            this.cell = undefined;
+            this.availableActions = new Set();
 
-        this.items = new Set();
+            this.addAction(_actions);
+            this.addAction("look");
+
+            if (!(_room instanceof Room)) {
+                _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+                if (!(_room instanceof Room))
+                    _room = undefined;
+            }
+            this.room = _room;
+
+            if (typeof this.room != 'undefined')
+                this.cell = this.room.cell;
+            else
+                this.cell = undefined;
+
+            this.items = new Set();
+        }
     }
 
     addItem(_item) {
@@ -956,8 +965,17 @@ class Disposition {
      * param int _manic, obsession
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
-        if (debug) console.log("Creating a new instance of Disposition");
-        this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
+        if (_eros instanceof Disposition) {
+            for (var property in _eros) {
+                if (_eros.hasOwnProperty(property)) {
+                    this[property] = _eros[property];
+                }
+            }
+        }
+        else {
+            if (debug) console.log("Creating a new instance of Disposition");
+            this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
+        }
     }
 
     set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
@@ -1011,182 +1029,193 @@ class Disposition {
 
 class Character extends Entity {
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
-        if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
+        if (_id instanceof Character) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
 
-        super(_id, _name);
-        this.surname = "";
-        if (this.name.split(", ").length > 1) {
-            var tempName = this.name.split(", ");
-            this.name = tempName[1];
-            this.surname = tempName[0];
         }
-        else if (this.name.split(" ").length > 1) {
-            var tempName = this.name.split(" ");
-            this.name = tempName[0];
-            this.surname = tempName[1];
+        else {
+            if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
+
+            super(_id, _name);
+            this.surname = "";
+            if (this.name.split(", ").length > 1) {
+                var tempName = this.name.split(", ");
+                this.name = tempName[1];
+                this.surname = tempName[0];
+            }
+            else if (this.name.split(" ").length > 1) {
+                var tempName = this.name.split(" ");
+                this.name = tempName[0];
+                this.surname = tempName[1];
+            }
+            this.nickname = "";
+            this.age = _age;
+            this.appearance = "";
+            this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
+
+            this.addAction("talk");
+            this.addAction("sex");
+            this.addAction("attack");
+            this.addAction("follow");
+            this.addAction("stay");
+            this.addAction("hold");
+            this.addAction("open"); // inventory... maybe :v
+            this.addAction("give");
+            this.addAction("remove");
+            this.addAction("take");
+            this.addAction("wear");
+
+            this.currentActions = new Set();
+
+            this.defaultDisposition = new Disposition(0,0,0,0,0,0);
+            this.agape = 50;         // self
+            this.philautia = 50;     // others
+            this.stamina = 100;
+            this.staminMax = 100;
+            this.lust = 25;
+            this.rut = false;
+            this.clean = 100;
+            this.annoyed = 0;
+            this.living = true;
+            this.sleeping = false;
+
+            this.setSex(_sex);
+            this.gender = _sex;
+
+            this.furColourA = undefined; // Body
+            this.furColourAHex = undefined;
+            this.furColourB = undefined; // Middle
+            this.furColourBHex = undefined;
+
+            // Handled by setSpecies
+            this.predator = false;
+            this.handType = 1;
+            this.feetType = 1;
+            this.relatives = new Set();
+            this.eyeType = 0;
+            this.eyeColour = undefined;
+            this.furType = 0;
+            this.furTrimmed = 50;
+            this.furSoftness = 50;
+
+            this.setSpecies(_species);
+
+            this.hadSex = false;
+
+            this.sexCount = 0;
+            this.vaginalReceiveCount = 0;
+            this.vaginalGiveCount = 0;
+            this.analReceiveCount = 0;
+            this.analGiveCount = 0;
+            this.cunnilingusReceiveCount = 0;
+            this.cunnilingusGiveCount = 0;
+            this.analingusReceiveCount = 0;
+            this.analingusGiveCount = 0;
+            this.fellatioReceiveCount = 0;
+            this.fellatioGiveCount = 0;
+            this.masturbateCount = 0;
+            this.handjobCount = 0;
+
+            /*
+                0 - none/flat
+                1 - petite
+                2 - average
+                3 - large
+            */
+            this.breastSize = 0;
+
+            /*
+                0, 0 - none
+                3, 2 - marty
+                6, 4.5 - wolter
+                9.5, 5 - remmy
+                10, 6 - al
+                12, 6 - rex
+            */
+            this.penisSize = 0;
+            this.penisGirth = 0;
+
+            /*
+                0, 0 - none
+                3, 1 - martina
+                7, 4.7 - anneke
+                7, 4.5 - charlie
+                7, 4.9 - avo
+                8, 5.5 - betty
+                9, 6 - dora
+                7, 5 - velvet
+            */
+            this.vaginaSize = 0;
+            this.vaginaGirth = 0;
+
+            /*
+                0 - none
+                1 - stubble
+                2 - prairy
+                3 - 70s
+            */
+            this.pubicHairSize = 0;
+
+            this.following = undefined; // Character
+            this.followers = new Set();
+
+            this.furniture = undefined;
+
+            this.clothingHead = undefined;
+            this.clothingEyes = undefined;
+            this.clothingLeftEar = undefined;
+            this.clothingRightEar = undefined;
+            this.clothingNose = undefined;
+            this.clothingLips = undefined;
+            this.clothingTongue = undefined;
+            this.clothingNeck = undefined;
+            this.clothingChest = undefined;
+            this.clothingTorso = undefined;
+            this.clothingWaist = undefined;
+            this.clothingGroin = undefined;
+            this.clothingLegs = undefined;
+            this.clothingFeet = undefined;
+
+            this.disposition = new Map();
+            this.hadSexWith = new Set();
+
+            this.prefersSpecies = new Set();
+            this.avoidsSpecies = new Set();
+
+            this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
+            this.avoidedSex = undefined; // "
+            this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
+
+            this.preferredPenisSize = undefined; // int
+            this.preferredPenisGirth = undefined; // int
+            this.preferredBreastSize = undefined; // int
+            this.preferredSexCount = undefined; // int
+
+            this.prefersPredators = undefined;
+            this.avoidsPredators = undefined;
+            this.prefersPrey = undefined;
+            this.avoidsPrey = undefined;
+
+            this.exhibitionism = 0; // 0-100, preference for public sex
+            this.somnophilia = 0; // 0-100, preference for sleep sex
+            this.intoxicated = 0; // 0-100, drunkness
+            this.incestual = 0; // 0-100, preference for incest
+
+            this.previousRoom = undefined;
+            this.room = undefined;
+            this.cell = undefined;
+            this.location = undefined;
+
+            charactersIndexes.set(_id, this);
+
+            this.stand();
+            this.sleep();
         }
-        this.nickname = "";
-        this.age = _age;
-        this.appearance = "";
-        this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
-
-        this.addAction("talk");
-        this.addAction("sex");
-        this.addAction("attack");
-        this.addAction("follow");
-        this.addAction("stay");
-        this.addAction("hold");
-        this.addAction("open"); // inventory... maybe :v
-        this.addAction("give");
-        this.addAction("remove");
-        this.addAction("take");
-        this.addAction("wear");
-
-        this.currentActions = new Set();
-
-        this.defaultDisposition = new Disposition(0,0,0,0,0,0);
-        this.agape = 50;         // self
-        this.philautia = 50;     // others
-        this.stamina = 100;
-        this.staminMax = 100;
-        this.lust = 25;
-        this.rut = false;
-        this.clean = 100;
-        this.annoyed = 0;
-        this.living = true;
-        this.sleeping = false;
-
-        this.setSex(_sex);
-        this.gender = _sex;
-
-        this.furColourA = undefined; // Body
-        this.furColourAHex = undefined;
-        this.furColourB = undefined; // Middle
-        this.furColourBHex = undefined;
-
-        // Handled by setSpecies
-        this.predator = false;
-        this.handType = 1;
-        this.feetType = 1;
-        this.relatives = new Set();
-        this.eyeType = 0;
-        this.eyeColour = undefined;
-        this.furType = 0;
-        this.furTrimmed = 50;
-        this.furSoftness = 50;
-
-        this.setSpecies(_species);
-
-        this.hadSex = false;
-
-        this.sexCount = 0;
-        this.vaginalReceiveCount = 0;
-        this.vaginalGiveCount = 0;
-        this.analReceiveCount = 0;
-        this.analGiveCount = 0;
-        this.cunnilingusReceiveCount = 0;
-        this.cunnilingusGiveCount = 0;
-        this.analingusReceiveCount = 0;
-        this.analingusGiveCount = 0;
-        this.fellatioReceiveCount = 0;
-        this.fellatioGiveCount = 0;
-        this.masturbateCount = 0;
-        this.handjobCount = 0;
-
-        /*
-            0 - none/flat
-            1 - petite
-            2 - average
-            3 - large
-        */
-        this.breastSize = 0;
-
-        /*
-            0, 0 - none
-            3, 2 - marty
-            6, 4.5 - wolter
-            9.5, 5 - remmy
-            10, 6 - al
-            12, 6 - rex
-        */
-        this.penisSize = 0;
-        this.penisGirth = 0;
-
-        /*
-            0, 0 - none
-            3, 1 - martina
-            7, 4.7 - anneke
-            7, 4.5 - charlie
-            7, 4.9 - avo
-            8, 5.5 - betty
-            9, 6 - dora
-            7, 5 - velvet
-        */
-        this.vaginaSize = 0;
-        this.vaginaGirth = 0;
-
-        /*
-            0 - none
-            1 - stubble
-            2 - prairy
-            3 - 70s
-        */
-        this.pubicHairSize = 0;
-
-        this.following = undefined; // Character
-        this.followers = new Set();
-
-        this.furniture = undefined;
-
-        this.clothingHead = undefined;
-        this.clothingEyes = undefined;
-        this.clothingLeftEar = undefined;
-        this.clothingRightEar = undefined;
-        this.clothingNose = undefined;
-        this.clothingLips = undefined;
-        this.clothingTongue = undefined;
-        this.clothingNeck = undefined;
-        this.clothingChest = undefined;
-        this.clothingTorso = undefined;
-        this.clothingWaist = undefined;
-        this.clothingGroin = undefined;
-        this.clothingLegs = undefined;
-        this.clothingFeet = undefined;
-
-        this.disposition = new Map();
-        this.hadSexWith = new Set();
-
-        this.prefersSpecies = new Set();
-        this.avoidsSpecies = new Set();
-
-        this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
-        this.avoidedSex = undefined; // "
-        this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
-
-        this.preferredPenisSize = undefined; // int
-        this.preferredPenisGirth = undefined; // int
-        this.preferredBreastSize = undefined; // int
-        this.preferredSexCount = undefined; // int
-
-        this.prefersPredators = undefined;
-        this.avoidsPredators = undefined;
-        this.prefersPrey = undefined;
-        this.avoidsPrey = undefined;
-
-        this.exhibitionism = 0; // 0-100, preference for public sex
-        this.somnophilia = 0; // 0-100, preference for sleep sex
-        this.intoxicated = 0; // 0-100, drunkness
-        this.incestual = 0; // 0-100, preference for incest
-
-        this.previousRoom = undefined;
-        this.room = undefined;
-        this.cell = undefined;
-        this.location = undefined;
-
-        charactersIndexes.set(_id, this);
-
-        this.stand();
-        this.sleep();
     }
 
     setSex(_sex) {
@@ -2155,16 +2184,26 @@ class Character extends Entity {
 
 class Location extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
-        super(_id, _name, _description);
-        this.owner = new Set();
-        this.cells = new Set();
-        this.rooms = new Set();
+        if (_id instanceof Location) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            super(_id, _name, _description);
+            this.owner = new Set();
+            this.cells = new Set();
+            this.rooms = new Set();
 
-        this.image = _image;
+            this.image = _image;
 
-        this.floorImage = undefined;
+            this.floorImage = undefined;
 
-        locationsIndexes.set(_id, this);
+            locationsIndexes.set(_id, this);
+        }
     }
 
     isOwner(_character) {
@@ -2252,19 +2291,29 @@ class Location extends Entity {
 }
 class Cell extends Entity {
     constructor(_id = undefined, _name = undefined, _location = undefined) {
-        super(_id, _name);
-        this.location = undefined;
-        this.setLocation(_location);
-        this.grid = []; // <X,Y> = Room
-        this.rooms = new Set();
-        this.cells = new Set();
-        this.gateways = new Set();
+        if (_id instanceof Cell) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            super(_id, _name);
+            this.location = undefined;
+            this.setLocation(_location);
+            this.grid = []; // <X,Y> = Room
+            this.rooms = new Set();
+            this.cells = new Set();
+            this.gateways = new Set();
 
-        this.floorImage = undefined; // for minimap
-        this.backgroundImage = undefined; // for minimap
-        this.backgroundColor = undefined; // for minimap
+            this.floorImage = undefined; // for minimap
+            this.backgroundImage = undefined; // for minimap
+            this.backgroundColor = undefined; // for minimap
 
-        cellsIndexes.set(_id, this);
+            cellsIndexes.set(_id, this);
+        }
     }
 
     addRoom(_room, x, y) {
@@ -2354,58 +2403,68 @@ class Room extends Entity {
      *
      */
     constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
-        super(_id, _name);
+        if (_id instanceof Room) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            super(_id, _name);
 
-        /*
-            Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
-        */
-        if (typeof _sid == 'undefined')
-            _sid = _id;
-        this.sid = _sid;
-        this.owner = new Set();
+            /*
+                Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
+            */
+            if (typeof _sid == 'undefined')
+                _sid = _id;
+            this.sid = _sid;
+            this.owner = new Set();
 
-        /*
-            attachedRooms is a Map of an int and an array;
-                the int represents one of the six cardinal directions, starting at north: 0, down: 4, up: 5
-                the array represents the Room of the attached room, and a boolean of whether or not the room is locked
+            /*
+                attachedRooms is a Map of an int and an array;
+                    the int represents one of the six cardinal directions, starting at north: 0, down: 4, up: 5
+                    the array represents the Room of the attached room, and a boolean of whether or not the room is locked
 
-            Map<int, [Room, boolean]>
-        */
-        this.attachedRooms = new Map();
-        this.roomsOptions = new Map();
+                Map<int, [Room, boolean]>
+            */
+            this.attachedRooms = new Map();
+            this.roomsOptions = new Map();
 
-        /*
-            For adding facades to the minimap
-            Map<int, blob>
-        */
-        this.directionsFacades = new Map();
+            /*
+                For adding facades to the minimap
+                Map<int, blob>
+            */
+            this.directionsFacades = new Map();
 
-        this.characters = new Set();
+            this.characters = new Set();
 
-        this.furniture = new Set();
+            this.furniture = new Set();
 
-        this.x = undefined;
-        this.y = undefined;
-        this.mappedToGrid = false;
+            this.x = undefined;
+            this.y = undefined;
+            this.mappedToGrid = false;
 
 
-        this.setCell(_cell);
-        this.setLocation(_location);
+            this.setCell(_cell);
+            this.setLocation(_location);
 
-        this.northSide = 3;
-        this.eastSide = 3;
-        this.southSide = 3;
-        this.westSide = 3;
-        this.setType(_type);
+            this.northSide = 3;
+            this.eastSide = 3;
+            this.southSide = 3;
+            this.westSide = 3;
+            this.setType(_type);
 
-        this.isSecret = false;
+            this.isSecret = false;
 
-        this.floorImage = undefined;
-        this.rugImage = undefined;
-        this.stairsUpImage = undefined;
-        this.stairsDownImage = undefined;
+            this.floorImage = undefined;
+            this.rugImage = undefined;
+            this.stairsUpImage = undefined;
+            this.stairsDownImage = undefined;
 
-        roomsIndexes.set(_id, this);
+            roomsIndexes.set(_id, this);
+        }
     }
     
     isOwner(_character) {
@@ -3050,22 +3109,33 @@ class Room extends Entity {
 
 class Item extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false) {
-        super(_id, _name, _description);
+        if (_id instanceof Item) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
 
-        this.addAction("use");
-        this.addAction("put");
-        this.addAction("take");
-        this.addAction("hold");
+        }
+        else {
+            super(_id, _name, _description);
 
-        if (typeof _image == 'undefined')
-            _image = "images/items/genericItem.svg";
-        this.image = _image;
+            this.addAction("use");
+            this.addAction("put");
+            this.addAction("take");
+            this.addAction("hold");
 
-        this.plural = _plural;
+            if (typeof _image == 'undefined')
+                _image = "images/items/genericItem.svg";
+            this.image = _image;
 
-        itemsIndexes.set(_id, this);
+            this.plural = _plural;
+
+            itemsIndexes.set(_id, this);
+        }
     }
-
+    
     moveToEntity(_entity) {
         if (_entity instanceof Character)
             return this.moveToCharacter(_entity);
@@ -3126,55 +3196,86 @@ class Item extends Entity {
 }
 class Key extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
-        super(_id, _name, _description, _image);
+        if (_id instanceof Key) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            super(_id, _name, _description, _image);
 
-        keysIndexes.set(_id, this);
+            keysIndexes.set(_id, this);
+        }
     }
 }
 class Clothing extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined, _image = undefined, _plural = false) {
-        super(_id, _name, _description, _image, _plural);
+        if (_id instanceof Clothing) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            super(_id, _name, _description, _image, _plural);
 
-        this.addAction("wear");
-        this.addAction("remove");
+            this.addAction("wear");
+            this.addAction("remove");
 
-        if (isNaN(_bodyPart))
-            _bodyPart = BodyPartNameIds.get(_bodyPart);
-        this.bodyPart = _bodyPart;
+            if (isNaN(_bodyPart))
+                _bodyPart = BodyPartNameIds.get(_bodyPart);
+            this.bodyPart = _bodyPart;
 
-        clothingIndexes.set(_id, this);
+            clothingIndexes.set(_id, this);
+        }
     }
 }
 
 class Furniture extends Entity {
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
-        super(_id, _name, _description);
-
-        if (isNaN(_type)) {
-            if (FurnitureTypeNameIds.has(_type))
-                this.type = FurnitureTypeNameIds.get(_type);
-            else
-                this.type = 0;
+        if (_id instanceof Furniture) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
         }
         else {
-            if (FurnitureTypeIdNames.has(_type))
-                this.type = _type;
-            else
-                this.type = 0;
+            super(_id, _name, _description);
+
+            if (isNaN(_type)) {
+                if (FurnitureTypeNameIds.has(_type))
+                    this.type = FurnitureTypeNameIds.get(_type);
+                else
+                    this.type = 0;
+            }
+            else {
+                if (FurnitureTypeIdNames.has(_type))
+                    this.type = _type;
+                else
+                    this.type = 0;
+            }
+
+            this.addAction("use");
+            this.addAction("sit");
+            this.addAction("lay");
+            this.addAction("sleep");
+            this.addAction("look");
+
+            this.seatingSpace = _seatingSpace;
+            this.storageSpace = _storageSpace;
+            this.characters = new Set(); // <Character, Action>
+
+            furnitureIndexes.set(_id, this);
         }
-
-        this.addAction("use");
-        this.addAction("sit");
-        this.addAction("lay");
-        this.addAction("sleep");
-        this.addAction("look");
-
-        this.seatingSpace = _seatingSpace;
-        this.storageSpace = _storageSpace;
-        this.characters = new Set(); // <Character, Action>
-
-        furnitureIndexes.set(_id, this);
     }
+    
     isSeat() {
         return (typeof this.seatingSpace != 'undefined' && this.seatingSpace > 0);
     }
@@ -3298,140 +3399,149 @@ class WebSite {
 }
 class Cron {
     constructor(minutes = undefined, hours = undefined, dom = undefined, month = undefined, dow = undefined, year = undefined) {
-        if (typeof minutes == 'undefined')
-            this.minutes = undefined;
-        else if (!Number.isInteger(minutes)) {
-            if (minutes.indexOf('-') != -1 || minutes.indexOf(',') != -1)
-                this.minutes = minutes;
-            else
-                this.minutes = undefined;
-        }
-        else if (minutes < 0 || minutes > 59)
-            this.minutes = undefined;
-        else
-            this.minutes = minutes;
-
-        if (typeof hours == 'undefined')
-            this.hours = undefined;
-        else if (!Number.isInteger(hours)) {
-            if (hours.indexOf('-') != -1 && hours.match(/[0-23]+-[0-23]+/) != null || hours.indexOf(',') != -1 && hours.match(/[0-23]+,[0-23]+/) != null)
-                this.hours = hours;
-            else if (hours.indexOf('-') != -1 && hours.indexOf(',') != -1 && hours.match(/(([0-23]-)?[0-23]\,)?([0-23]\-[0-23])(\,[0-23](-[0-23])?)?/))
-                this.hours = hours;
-            else
-                this.hours = undefined;
-        }
-        else if (hours < 0 || hours > 23)
-            this.hours = undefined;
-        else {
-            this.hours = hours;
-
-            if (typeof this.minutes == 'undefined')
-                this.minutes = 0;
-        }
-
-        if (typeof dom == 'undefined')
-            this.dom = undefined;
-        else if (!Number.isInteger(dom)) {
-            if (dom.indexOf('-') != -1 || dom.indexOf(',') != -1)
-                this.dom = dom;
-            else
-                this.dom = undefined;
-        }
-        else if (dom < 1 || dom > 31)
-            this.dom = undefined;
-        else {
-            this.dom = dom;
-
-            if (typeof this.hours == 'undefined')
-                this.hours = 0;
-
-            if (typeof this.minutes == 'undefined')
-                this.minutes = 0;
-        }
-
-        if (typeof month == 'undefined')
-            this.month = undefined;
-        else if (!Number.isInteger(month)) {
-            switch (month.toUpperCase()) {
-                case "JAN" : this.month = 1; break;
-                case "FEB" : this.month = 2; break;
-                case "MAR" : this.month = 3; break;
-                case "APR" : this.month = 4; break;
-                case "MAY" : this.month = 5; break;
-                case "JUN" : this.month = 6; break;
-                case "JUL" : this.month = 7; break;
-                case "AUG" : this.month = 8; break;
-                case "SEP" : this.month = 9; break;
-                case "OCT" : this.month = 10; break;
-                case "NOV" : this.month = 11; break;
-                case "DEC" : this.month = 12; break;
-                default : {
-                    if (month.indexOf('-') != -1 || month.indexOf(',') != -1)
-                        this.month = month;
-                    else
-                        this.month = undefined;
-                };
+        if (minutes instanceof Cron) {
+            for (var property in minutes) {
+                if (minutes.hasOwnProperty(property)) {
+                    this[property] = minutes[property];
+                }
             }
         }
-        else if (month < 1 || month > 12)
-            this.month = undefined;
         else {
-            this.month = month;
-
-            if (typeof this.dom == 'undefined')
-                this.dom = 1;
-
-            if (typeof this.hours == 'undefined')
-                this.hours = 0;
-
-            if (typeof this.minutes == 'undefined')
-                this.minutes = 0;
-        }
-
-        if (typeof dow == 'undefined')
-            this.dow = undefined;
-        else if (!Number.isInteger(dow)) {
-            if (dow.indexOf('-') != -1 && dow.match(/\d+-\d+/) != null || dow.indexOf(',') != -1 && dow.match(/\d+,\d+/) != null)
-                this.dow = dow;
-            else if (dow.indexOf('-') != -1 && dow.indexOf(',') != -1 && dow.match(/(([1-7]-)?[1-7]\,)?([1-7]\-[1-7])(\,[1-7](-[1-7])?)?/))
-                this.dow = dow;
+            if (typeof minutes == 'undefined')
+                this.minutes = undefined;
+            else if (!Number.isInteger(minutes)) {
+                if (minutes.indexOf('-') != -1 || minutes.indexOf(',') != -1)
+                    this.minutes = minutes;
+                else
+                    this.minutes = undefined;
+            }
+            else if (minutes < 0 || minutes > 59)
+                this.minutes = undefined;
             else
-                this.dow = parseDOWString(dow);
-        }
-        else if (dow < 0 || dow > 7)
-            this.dow = undefined;
-        else {
-            if (dow == 7)
-                dow = 0;
+                this.minutes = minutes;
 
-            this.dow = dow;
-        }
+            if (typeof hours == 'undefined')
+                this.hours = undefined;
+            else if (!Number.isInteger(hours)) {
+                if (hours.indexOf('-') != -1 && hours.match(/[0-23]+-[0-23]+/) != null || hours.indexOf(',') != -1 && hours.match(/[0-23]+,[0-23]+/) != null)
+                    this.hours = hours;
+                else if (hours.indexOf('-') != -1 && hours.indexOf(',') != -1 && hours.match(/(([0-23]-)?[0-23]\,)?([0-23]\-[0-23])(\,[0-23](-[0-23])?)?/))
+                    this.hours = hours;
+                else
+                    this.hours = undefined;
+            }
+            else if (hours < 0 || hours > 23)
+                this.hours = undefined;
+            else {
+                this.hours = hours;
 
-        if (typeof this.dow != 'undefined') {
-            if (typeof this.hours == 'undefined')
-                this.hours = 0;
+                if (typeof this.minutes == 'undefined')
+                    this.minutes = 0;
+            }
 
-            if (typeof this.minutes == 'undefined')
-                this.minutes = 0;
-        }
+            if (typeof dom == 'undefined')
+                this.dom = undefined;
+            else if (!Number.isInteger(dom)) {
+                if (dom.indexOf('-') != -1 || dom.indexOf(',') != -1)
+                    this.dom = dom;
+                else
+                    this.dom = undefined;
+            }
+            else if (dom < 1 || dom > 31)
+                this.dom = undefined;
+            else {
+                this.dom = dom;
 
-        if (typeof year == 'undefined' || !Number.isInteger(year))
-            this.year = undefined;
-        else {
-            this.year = year;
+                if (typeof this.hours == 'undefined')
+                    this.hours = 0;
 
-            if (typeof this.month == 'undefined')
-                this.month = 1;
+                if (typeof this.minutes == 'undefined')
+                    this.minutes = 0;
+            }
 
-            if (typeof this.dom == 'undefined')
-                this.dom = 1;
+            if (typeof month == 'undefined')
+                this.month = undefined;
+            else if (!Number.isInteger(month)) {
+                switch (month.toUpperCase()) {
+                    case "JAN" : this.month = 1; break;
+                    case "FEB" : this.month = 2; break;
+                    case "MAR" : this.month = 3; break;
+                    case "APR" : this.month = 4; break;
+                    case "MAY" : this.month = 5; break;
+                    case "JUN" : this.month = 6; break;
+                    case "JUL" : this.month = 7; break;
+                    case "AUG" : this.month = 8; break;
+                    case "SEP" : this.month = 9; break;
+                    case "OCT" : this.month = 10; break;
+                    case "NOV" : this.month = 11; break;
+                    case "DEC" : this.month = 12; break;
+                    default : {
+                        if (month.indexOf('-') != -1 || month.indexOf(',') != -1)
+                            this.month = month;
+                        else
+                            this.month = undefined;
+                    };
+                }
+            }
+            else if (month < 1 || month > 12)
+                this.month = undefined;
+            else {
+                this.month = month;
 
-            if (typeof this.hours == 'undefined')
-                this.hours = 0;
+                if (typeof this.dom == 'undefined')
+                    this.dom = 1;
 
-            if (typeof this.minutes == 'undefined')
-                this.minutes = 0;
+                if (typeof this.hours == 'undefined')
+                    this.hours = 0;
+
+                if (typeof this.minutes == 'undefined')
+                    this.minutes = 0;
+            }
+
+            if (typeof dow == 'undefined')
+                this.dow = undefined;
+            else if (!Number.isInteger(dow)) {
+                if (dow.indexOf('-') != -1 && dow.match(/\d+-\d+/) != null || dow.indexOf(',') != -1 && dow.match(/\d+,\d+/) != null)
+                    this.dow = dow;
+                else if (dow.indexOf('-') != -1 && dow.indexOf(',') != -1 && dow.match(/(([1-7]-)?[1-7]\,)?([1-7]\-[1-7])(\,[1-7](-[1-7])?)?/))
+                    this.dow = dow;
+                else
+                    this.dow = parseDOWString(dow);
+            }
+            else if (dow < 0 || dow > 7)
+                this.dow = undefined;
+            else {
+                if (dow == 7)
+                    dow = 0;
+
+                this.dow = dow;
+            }
+
+            if (typeof this.dow != 'undefined') {
+                if (typeof this.hours == 'undefined')
+                    this.hours = 0;
+
+                if (typeof this.minutes == 'undefined')
+                    this.minutes = 0;
+            }
+
+            if (typeof year == 'undefined' || !Number.isInteger(year))
+                this.year = undefined;
+            else {
+                this.year = year;
+
+                if (typeof this.month == 'undefined')
+                    this.month = 1;
+
+                if (typeof this.dom == 'undefined')
+                    this.dom = 1;
+
+                if (typeof this.hours == 'undefined')
+                    this.hours = 0;
+
+                if (typeof this.minutes == 'undefined')
+                    this.minutes = 0;
+            }
         }
     }
 
@@ -3520,41 +3630,50 @@ class Cron {
 }
 class GameEvent {
     constructor(_id, _action = undefined, _characterA = undefined, _characterB = undefined, _item = undefined, _location = undefined, _cell = undefined, _room = undefined, _cron = undefined, _nextFunction = undefined, _runOnce = true) {
-        if (!(_characterA instanceof Character))
-            _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        if (_id instanceof GameEvent) {
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+        }
+        else {
+            if (!(_characterA instanceof Character))
+                _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
 
-        if (!(_characterB instanceof Character))
-            _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+            if (!(_characterB instanceof Character))
+                _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
 
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+            if (!(_item instanceof Item))
+                _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
 
-        if (!(_location instanceof Location))
-            _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+            if (!(_location instanceof Location))
+                _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
 
-        if (!(_cell instanceof Cell))
-            _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
+            if (!(_cell instanceof Cell))
+                _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
 
-        if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            if (!(_room instanceof Room))
+                _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
-        this.id = _id;
-        this.action = _action;
-        this.characterA = _characterA;
-        this.characterB = _characterB;
-        this.item = _item;
-        this.location = _location;
-        this.cell = _cell;
-        this.room = _room;
-        this.cron = _cron;
-        this.runOnce = _runOnce;
+            this.id = _id;
+            this.action = _action;
+            this.characterA = _characterA;
+            this.characterB = _characterB;
+            this.item = _item;
+            this.location = _location;
+            this.cell = _cell;
+            this.room = _room;
+            this.cron = _cron;
+            this.runOnce = _runOnce;
 
-        if (_nextFunction.slice(-1) != ')')
-            _nextFunction += "(" + this.id + ")";
+            if (_nextFunction.slice(-1) != ')')
+                _nextFunction += "(" + this.id + ")";
 
-        this.nextFunction = _nextFunction;
+            this.nextFunction = _nextFunction;
 
-        eventsIndexes.set(this.id, this);
+            eventsIndexes.set(this.id, this);
+        }
     }
 
     execute() {

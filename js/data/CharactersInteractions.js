@@ -1,3 +1,60 @@
+function avoInteract() {
+    _character = avo;
+    
+    if (player.hasItem(avoBeatingHeart)) {
+        avoInteractWhenPlayerHasHeart();
+    }
+    
+    if (enableGore && enableRape)
+        Menu.addOption("avoEatAvo()", "Murder and eat Avo");
+}
+function avoTalk() {
+    _character = avo;
+    
+    fn = new Function(player.room.sid + _character.id.capitalize() + "Talk()");
+    try {fn();}catch (err) {}
+}
+function avoRape() {
+    _character = avo;
+    
+    fn = new Function(player.room.sid + _character.id.capitalize() + "Rape()");
+    try {fn();}catch (err) {}
+}
+function avoSex() {
+    _character = avo;
+    
+    if (_character.chanceToFuck(player) > 50 || player.hasItem(avoBeatingHeart)) {
+        fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
+        try {fn();}catch (err) {}
+    }
+    else {
+        Content.add("No thank you.");
+    }
+}
+function avoFollow() {
+    _character = avo;
+    
+    if (_character.sleeping) {
+        Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
+    }
+    else {
+        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
+        
+        characterFollow(player, _character);
+    }
+    
+    characterInteract(_character, false);
+}
+function avoStay() {
+    _character = avo;
+    
+    Content.add("<p>You ask Avo to wait here, and she nods her head.</p>");
+    
+    characterStay(_character);
+    
+    characterInteract(_character, false);
+}
+
 function charlieInteract() {
     _character = charlie;
     
