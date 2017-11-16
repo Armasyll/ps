@@ -922,6 +922,17 @@ class Entity {
                     _blob[property] = JSON.stringify(_arr);
                     _arr = [];
                 }
+                else if (this[property] instanceof Array) {
+                    if (property == 'grid') {
+                        this[property].forEach(function(_xValue, _xKey) {
+                            _xValue.forEach(function(_yValue, _yKey) {
+                                _arr.push([_yValue.id, _xKey, _yKey]);
+                            }, this);
+                        }, this);
+                        _blob[property] = JSON.stringify(_arr);
+                        _arr = [];
+                    }
+                }
                 else if (this[property] instanceof Disposition) {
                     _blob[property] = this[property].toJSON();
                 }
@@ -930,7 +941,7 @@ class Entity {
                 _blob[property] = this[property];
         }
         
-        return JSON.stringify(_blob);
+        return _blob;
     }
     
     addItem(_item) {
