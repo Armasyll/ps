@@ -930,7 +930,7 @@ class Entity {
                 _blob[property] = this[property];
         }
         
-        return _blob;
+        return JSON.stringify(_blob);
     }
     
     addItem(_item) {
