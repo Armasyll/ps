@@ -893,6 +893,46 @@ class Entity {
         }
     }
 
+    toJSON() {
+        var _blob = {};
+        var _arr = new Array();
+        
+        for (var property in this) {
+            if (this[property] instanceof Entity) {
+                _blob[property] = this[property].id;
+            }
+            else if (this[property] instanceof Object) {
+                if (this[property] instanceof Set) {
+                    this[property].forEach(function(_entity) {
+                        if (_entity instanceof Entity)
+                            _arr.push(_entity.id);
+                        else
+                            _arr.push(_entity);
+                    }, this);
+                    _blob[property] = JSON.stringify(_arr);
+                    _arr = [];
+                }
+                else if (this[property] instanceof Map) {
+                    this[property].forEach(function(_value, _key) {
+                        if (_value instanceof Entity)
+                            _arr.push([_key, _value.id]);
+                        else if (_value instanceof Disposition)
+                            _arr.push([_key.id, _value.toJSON()]);
+                    }, this);
+                    _blob[property] = JSON.stringify(_arr);
+                    _arr = [];
+                }
+                else if (this[property] instanceof Disposition) {
+                    _blob[property] = this[property].toJSON();
+                }
+            }
+            else
+                _blob[property] = this[property];
+        }
+        
+        return _blob;
+    }
+    
     addItem(_item) {
         if (!(_item instanceof Item))
             _item = itemsIndexes.get(_item);
@@ -1189,7 +1229,7 @@ class Character extends Entity {
             this.clothingLegs = undefined;
             this.clothingFeet = undefined;
 
-            this.disposition = new Map();
+            this.characterDisposition = new Map();
             this.hadSexWith = new Set();
 
             this.prefersSpecies = new Set();
@@ -1226,65 +1266,6 @@ class Character extends Entity {
         }
     }
 
-    toJSON() {
-        console.log("Testing toJSON");
-        var _blob = {};
-        var _arr = new Array();
-        
-        for (var property in this) {
-            if (this.hasOwnProperty(property)) {
-                if (this[property] instanceof Entity) {
-                    _blob[property] = this[property].id;
-                }
-                else if (this[property] instanceof Object) {
-                    switch (property) {
-                        case "followers" :
-                        case "hadSexWith" :
-                        case "relatives" : 
-                        case "items" : { // Set<Entity> to [Entity, Entity, ...]
-                            this[property].forEach(function(_entity) {
-                                _arr.push(_entity.id);
-                            }, this);
-                            _blob[property] = JSON.stringify(_arr);
-                            _arr = [];
-                            
-                            break;
-                        }
-                        case "defaultDisposition" : { // Disposition to Disposition.toJSON()
-                            _blob[property] = this[property].toJSON();
-                            break;
-                        }
-                        case "avoidsSpecies" :
-                        case "prefersSpecies" :
-                        case "currentActions" :
-                        case "availableActions" : { // Set<Int> to [0, 1, ...]
-                            this[property].forEach(function(_int) {
-                                _arr.push(_int);
-                            }, this);
-                            _blob[property] = JSON.stringify(_arr);
-                            _arr = [];
-                            
-                            break;
-                        }
-                        case "disposition" : { // Map<Character, Disposition> to [Character.id, Disposition.toJSON()]
-                            this[property].forEach(function(_disposition, _character) {
-                                _arr.push([_character.id, _disposition.toJSON()]);
-                            }, this);
-                            _blob[property] = JSON.stringify(_arr);
-                            _arr = [];
-                            
-                            break;
-                        }
-                    }
-                }
-                else
-                    _blob[property] = this[property];
-            }
-        }
-        
-        return JSON.stringify(_blob);
-    }
-    
     setSex(_sex) {
         if (isNaN(_sex)) {
             switch (_sex.slice(0, 1)) {
@@ -1324,16 +1305,16 @@ class Character extends Entity {
         }
 
         if (_eros instanceof Disposition)
-            this.disposition.set(_character, _eros);
-        else if (this.disposition.has(_character)) {
-            _eros = isNaN(_eros) ? this.disposition.get(_character).eros : _eros;
-            _philia = isNaN(_philia) ? this.disposition.get(_character).philia : _philia;
-            _lodus = isNaN(_lodus) ? this.disposition.get(_character).lodus : _lodus;
-            _pragma = isNaN(_pragma) ? this.disposition.get(_character).pragma : _pragma;
-            _storge = isNaN(_storge) ? this.disposition.get(_character).storge : _storge;
-            _manic = isNaN(_manic) ? this.disposition.get(_character).manic : _manic;
+            this.characterDisposition.set(_character, _eros);
+        else if (this.characterDisposition.has(_character)) {
+            _eros = isNaN(_eros) ? this.characterDisposition.get(_character).eros : _eros;
+            _philia = isNaN(_philia) ? this.characterDisposition.get(_character).philia : _philia;
+            _lodus = isNaN(_lodus) ? this.characterDisposition.get(_character).lodus : _lodus;
+            _pragma = isNaN(_pragma) ? this.characterDisposition.get(_character).pragma : _pragma;
+            _storge = isNaN(_storge) ? this.characterDisposition.get(_character).storge : _storge;
+            _manic = isNaN(_manic) ? this.characterDisposition.get(_character).manic : _manic;
 
-            this.disposition.set(_character, this.disposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
+            this.characterDisposition.set(_character, this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
         }
         else {
             _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
@@ -1343,10 +1324,10 @@ class Character extends Entity {
             _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
             _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
 
-            this.disposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic));
+            this.characterDisposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic));
         }
 
-        return this.disposition.get(_character);
+        return this.characterDisposition.get(_character);
     }
     getDisposition(_character, _disposition = undefined) {
         if (debug) console.log("Running getDisposition");
@@ -1359,11 +1340,11 @@ class Character extends Entity {
             return false;
         }
 
-        if (this.disposition.has(_character)) {
-            if (this.disposition.get(_character).hasOwnProperty(_disposition))
-                return this.disposition.get(_character)[_disposition];
+        if (this.characterDisposition.has(_character)) {
+            if (this.characterDisposition.get(_character).hasOwnProperty(_disposition))
+                return this.characterDisposition.get(_character)[_disposition];
             else
-                return this.disposition.get(_character);
+                return this.characterDisposition.get(_character);
         }
         else
             return false;
@@ -2092,7 +2073,7 @@ class Character extends Entity {
             }
         }
 
-        this.disposition.set(
+        this.characterDisposition.set(
             _character,
             new Disposition(
                 this.defaultDisposition.eros + erosOffset,
@@ -2112,10 +2093,10 @@ class Character extends Entity {
         if (typeof _character == 'undefined')
             return 0;
         
-        if (!this.disposition.has(_character))
+        if (!this.characterDisposition.has(_character))
             this.addNewCharacterDispositionFor(_character);
         
-        if (!_character.disposition.has(this))
+        if (!_character.characterDisposition.has(this))
             _character.addNewCharacterDispositionFor(this);
         
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
@@ -2129,8 +2110,8 @@ class Character extends Entity {
         if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
 
         // Disposition
-        chance += this.disposition.get(_character).eros / 3;
-        chance += this.disposition.get(_character).manic / 2;
+        chance += this.characterDisposition.get(_character).eros / 3;
+        chance += this.characterDisposition.get(_character).manic / 2;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
@@ -2205,7 +2186,7 @@ class Character extends Entity {
         if (this.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (this.somnophilia > 50 && this.hadSexWith.has(_character) && this.disposition.get(_character).eros > 75)
+            else if (this.somnophilia > 50 && this.hadSexWith.has(_character) && this.characterDisposition.get(_character).eros > 75)
                 chance += 10;
         }
 
