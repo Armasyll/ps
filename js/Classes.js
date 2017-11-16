@@ -977,6 +977,15 @@ class Disposition {
             this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
         }
     }
+    
+    toJSON() {
+        var _blob = {};
+        for (var property in this) {
+            _blob[property] = this[property];
+        }
+        
+        return JSON.stringify(_blob);
+    }
 
     set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         _eros = isNaN(_eros) ? 0 : _eros;
@@ -1036,7 +1045,6 @@ class Character extends Entity {
                     this[property] = _id[property];
                 }
             }
-
         }
         else {
             if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
@@ -1218,6 +1226,65 @@ class Character extends Entity {
         }
     }
 
+    toJSON() {
+        console.log("Testing toJSON");
+        var _blob = {};
+        var _arr = new Array();
+        
+        for (var property in this) {
+            if (this.hasOwnProperty(property)) {
+                if (this[property] instanceof Entity) {
+                    _blob[property] = this[property].id;
+                }
+                else if (this[property] instanceof Object) {
+                    switch (property) {
+                        case "followers" :
+                        case "hadSexWith" :
+                        case "relatives" : 
+                        case "items" : { // Set<Entity> to [Entity, Entity, ...]
+                            this[property].forEach(function(_entity) {
+                                _arr.push(_entity.id);
+                            }, this);
+                            _blob[property] = JSON.stringify(_arr);
+                            _arr = [];
+                            
+                            break;
+                        }
+                        case "defaultDisposition" : { // Disposition to Disposition.toJSON()
+                            _blob[property] = this[property].toJSON();
+                            break;
+                        }
+                        case "avoidsSpecies" :
+                        case "prefersSpecies" :
+                        case "currentActions" :
+                        case "availableActions" : { // Set<Int> to [0, 1, ...]
+                            this[property].forEach(function(_int) {
+                                _arr.push(_int);
+                            }, this);
+                            _blob[property] = JSON.stringify(_arr);
+                            _arr = [];
+                            
+                            break;
+                        }
+                        case "disposition" : { // Map<Character, Disposition> to [Character.id, Disposition.toJSON()]
+                            this[property].forEach(function(_disposition, _character) {
+                                _arr.push([_character.id, _disposition.toJSON()]);
+                            }, this);
+                            _blob[property] = JSON.stringify(_arr);
+                            _arr = [];
+                            
+                            break;
+                        }
+                    }
+                }
+                else
+                    _blob[property] = this[property];
+            }
+        }
+        
+        return JSON.stringify(_blob);
+    }
+    
     setSex(_sex) {
         if (isNaN(_sex)) {
             switch (_sex.slice(0, 1)) {
