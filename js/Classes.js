@@ -1926,7 +1926,7 @@ class Character extends Entity {
         }
     }
 
-    addRelative(_character, _updateChild = false) {
+    addRelative(_character, _updateChild = true) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
