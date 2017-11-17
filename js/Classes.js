@@ -1101,7 +1101,7 @@ class Character extends Entity {
             if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
             super(_id, _name);
-            this.surname = "";
+            this.surname = undefined;
             if (this.name.split(", ").length > 1) {
                 var tempName = this.name.split(", ");
                 this.name = tempName[1];
@@ -1112,7 +1112,7 @@ class Character extends Entity {
                 this.name = tempName[0];
                 this.surname = tempName[1];
             }
-            this.nickname = "";
+            this.nickname = undefined;
             this.age = _age;
             this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
@@ -1189,11 +1189,11 @@ class Character extends Entity {
 
             /*
                 0, 0 - none
-                3, 2 - marty
-                6, 4.5 - wolter
-                9.5, 5 - remmy
-                10, 6 - al
-                12, 6 - rex
+                8, 7 - marty
+                16, 11 - wolter
+                24, 13 - remmy
+                25, 16 - al
+                30, 16 - rex
             */
             this.penisSize = 0;
             this.penisGirth = 0;

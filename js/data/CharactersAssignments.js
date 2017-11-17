@@ -152,6 +152,8 @@ remmy.setDisposition(charlie,   new Disposition(15, 75, 50, 15, 0));
 remmy.addPreferredSpecies("sheep");
 remmy.addPreferredSpecies("wolf");
 remmy.addPreferredSpecies("fox");
+remmy.penisSize = 24;
+remmy.penisGirth = 16;
 remmy.preferredSex = 1;
 remmy.prefersPredators = true;
 
