@@ -941,13 +941,7 @@ class Entity {
                 _blob[property] = this[property];
         }
         
-        return JSON.stringify(_blob);
-    }
-    
-    fromJSON() {
-        
-        
-        return undefined;
+        return JSON.stringify(_blob, function(k, v) { return (v === undefined ? null : v)});
     }
     
     addItem(_item) {
@@ -1022,7 +1016,7 @@ class Disposition {
      * param int _manic, obsession
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
-        if (_eros instanceof Disposition) {
+        if (_eros instanceof Object) {
             for (var property in _eros) {
                 if (_eros.hasOwnProperty(property)) {
                     this[property] = _eros[property];
@@ -1095,7 +1089,7 @@ class Disposition {
 
 class Character extends Entity {
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
-        if (_id instanceof Character) {
+        if (_id instanceof Object) {
             super(_id.id, _id._name);
             for (var property in _id) {
                 if (_id.hasOwnProperty(property)) {
@@ -1120,7 +1114,6 @@ class Character extends Entity {
             }
             this.nickname = "";
             this.age = _age;
-            this.appearance = "";
             this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
             this.addAction("talk");
@@ -1280,6 +1273,188 @@ class Character extends Entity {
 
             this.stand();
             this.sleep();
+        }
+    }
+    
+    fromJSON(jsonString = "") {
+        if (debug) console.log("Running fromJSON");
+        
+        if (typeof jsonString != "string") {
+            if (debug) console.log("Parameter `jsonString` is not a string.");
+            return undefined;
+        }
+        
+        try {
+            var json = JSON.parse(jsonString);
+        }
+        catch (e) {
+            if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+            return undefined;
+        }
+        
+        if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
+            if (debug) console.log("ID or Name are undefined.");
+            return undefined;
+        }
+        
+        var _tmpArr = [];
+        
+        // Sets
+        //  availableActions
+        try {
+            _tmpArr = JSON.parse(json["availableActions"]);
+            _tmpArr.forEach(function(_int) {
+                this.addAction(_int);
+            });
+        } catch (e) {}
+        delete json["availableActions"];
+        //  avoidsSpecies
+        try {
+            _tmpArr = JSON.parse(json["avoidsSpecies"]);
+            _tmpArr.forEach(function(_int) {
+                this.addPreferredSpecies(_int);
+            });
+        } catch (e) {}
+        delete json["avoidsSpecies"];
+        //  currentActions
+        try {
+            _tmpArr = JSON.parse(json["currentActions"]);
+            _tmpArr.forEach(function(_int) {
+                this.addCurrentAction(_int);
+            });
+        } catch (e) {}
+        delete json["currentActions"];
+        //  followers
+        try {
+            _tmpArr = JSON.parse(json["followers"]);
+            _tmpArr.forEach(function(_character) {
+                if (charactersIndexes.has(_character))
+                    this.addFollower(charactersIndexes.get(_character));
+            });
+        } catch (e) {}
+        delete json["followers"];
+        //  hadSexWith
+        try {
+            _tmpArr = JSON.parse(json["hadSexWith"]);
+            _tmpArr.forEach(function(_character) {
+                if (charactersIndexes.has(_character))
+                    this.addSexWith(charactersIndexes.get(_character), false);
+            });
+        } catch (e) {}
+        delete json["hadSexWith"];
+        //  items
+        try {
+            _tmpArr = JSON.parse(json["items"]);
+            _tmpArr.forEach(function(_item) {
+                if (itemsIndexes.has(_item))
+                    this.addItem(itemsIndexes.get(_item));
+            });
+        } catch (e) {}
+        delete json["items"];
+        //  prefersSpecies
+        try {
+            _tmpArr = JSON.parse(json["prefersSpecies"]);
+            _tmpArr.forEach(function(_int) {
+                this.addPreferredSpecies(_int);
+            });
+        } catch (e) {}
+        delete json["prefersSpecies"];
+        //  relatives
+        try {
+            _tmpArr = JSON.parse(json["relatives"]);
+            _tmpArr.forEach(function(_character) {
+                if (charactersIndexes.has(_character))
+                    this.addRelative(charactersIndexes.get(_character), false);
+            });
+        } catch (e) {}
+        delete json["relatives"];
+        
+        // Maps
+        //  characterDisposition
+        try {
+            _tmpArr = JSON.parse(json["characterDisposition"]);
+            _tmpArr.forEach(function(_character) {
+                if (charactersIndexes.has(_character[0])) {
+                    this.setDisposition(charactersIndexes.get(_character[0]), new Disposition(JSON.parse(_character[1])));
+                }
+                else
+                    return undefined;
+            });
+        } catch (e) {}
+        delete json["characterDisposition"];
+        
+        // Entities
+        this.clothingChest = clothingIndexes.has(json["clothingChest"]) ? clothingIndexes.get(json["clothingChest"]) : undefined;
+        delete json["clothingChest"];
+        
+        this.clothingEyes = clothingIndexes.has(json["clothingEyes"]) ? clothingIndexes.get(json["clothingEyes"]) : undefined;
+        delete json["clothingEyes"];
+        
+        this.clothingFeet = clothingIndexes.has(json["clothingFeet"]) ? clothingIndexes.get(json["clothingFeet"]) : undefined;
+        delete json["clothingFeet"];
+        
+        this.clothingGroin = clothingIndexes.has(json["clothingGroin"]) ? clothingIndexes.get(json["clothingGroin"]) : undefined;
+        delete json["clothingGroin"];
+        
+        this.clothingHead = clothingIndexes.has(json["clothingHead"]) ? clothingIndexes.get(json["clothingHead"]) : undefined;
+        delete json["clothingHead"];
+        
+        this.clothingLeftEar = clothingIndexes.has(json["clothingLeftEar"]) ? clothingIndexes.get(json["clothingLeftEar"]) : undefined;
+        delete json["clothingLeftEar"];
+        
+        this.clothingLegs = clothingIndexes.has(json["clothingLegs"]) ? clothingIndexes.get(json["clothingLegs"]) : undefined;
+        delete json["clothingLegs"];
+        
+        this.clothingLips = clothingIndexes.has(json["clothingLips"]) ? clothingIndexes.get(json["clothingLips"]) : undefined;
+        delete json["clothingLips"];
+        
+        this.clothingNeck = clothingIndexes.has(json["clothingNeck"]) ? clothingIndexes.get(json["clothingNeck"]) : undefined;
+        delete json["clothingNeck"];
+        
+        this.clothingNose = clothingIndexes.has(json["clothingNose"]) ? clothingIndexes.get(json["clothingNose"]) : undefined;
+        delete json["clothingNose"];
+        
+        this.clothingRighEar = clothingIndexes.has(json["clothingRightEar"]) ? clothingIndexes.get(json["clothingRightEar"]) : undefined;
+        delete json["clothingRightEar"];
+        
+        this.clothingTongue = clothingIndexes.has(json["clothingTongue"]) ? clothingIndexes.get(json["clothingTongue"]) : undefined;
+        delete json["clothingTongue"];
+        
+        this.clothingTorso = clothingIndexes.has(json["clothingTorso"]) ? clothingIndexes.get(json["clothingTorso"]) : undefined;
+        delete json["clothingTorso"];
+        
+        this.clothingWaist = clothingIndexes.has(json["clothingWaist"]) ? clothingIndexes.get(json["clothingWaist"]) : undefined;
+        delete json["clothingWaist"];
+        
+        this.defaultDisposition.set(JSON.parse(json["defaultDisposition"]));
+        delete json["defaultDisposition"];
+        
+        if (charactersIndexes.has(json["following"]))
+            this.follow(charactersIndexes.get(json["following"]));
+        delete json["following"];
+        
+        if (furnitureIndexes.has(json["furniture"]))
+            this.furniture = furnitureIndexes.get(json["furniture"]);
+        delete json["furniture"];
+        
+        if (roomsIndexes.has(json["previousRoom"]))
+            this.previousRoom = roomsIndexes.get(json["previousRoom"]);
+        delete json["previousRoom"];
+        
+        if (roomsIndexes.has(json["room"]))
+            this.room = roomsIndexes.get(json["room"]);
+        delete json["room"];
+        delete json["cell"];
+        delete json["location"];
+        
+        // Primitives
+        for (var property in json) {
+            if (this.hasOwnProperty(property)) {
+                if (json[property] == null)
+                    this[property] = undefined;
+                else
+                    this[property] = json[property];
+            }
         }
     }
 
@@ -3181,7 +3356,8 @@ class Item extends Entity {
                     this[property] = _id[property];
                 }
             }
-
+            
+            itemsIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description);
@@ -3268,6 +3444,8 @@ class Key extends Item {
                     this[property] = _id[property];
                 }
             }
+            
+            keysIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description, _image);
@@ -3285,6 +3463,8 @@ class Clothing extends Item {
                     this[property] = _id[property];
                 }
             }
+            
+            clothingIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description, _image, _plural);
