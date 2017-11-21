@@ -375,11 +375,11 @@ function getAppearance(_character, _self = false) {
     Content.add("<p>" + _blob + "</p>");
     
     Content.add("<p>Their disposition for themself: " + "Self(" + _character.philautia + "), Others(" + _character.agape + ")</p>");
-    if (!_self && _character.disposition.has(player)) {
-        Content.add("<p>Their disposition for you: " + _character.disposition.get(player).toString() + "</p>");
+    if (!_self && _character.characterDisposition.has(player)) {
+        Content.add("<p>Their disposition for you: " + _character.characterDisposition.get(player).toString() + "</p>");
     }
-    if (!_self && player.disposition.has(_character))
-        Content.add("<p>Your disposition for them: " + player.disposition.get(_character).toString() + "</p>");
+    if (!_self && player.characterDisposition.has(_character))
+        Content.add("<p>Your disposition for them: " + player.characterDisposition.get(_character).toString() + "</p>");
 }
 function start() {
     agreeTOS = true;

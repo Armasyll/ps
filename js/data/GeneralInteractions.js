@@ -114,11 +114,11 @@ function rosieGiveCharlieHeart() {
         Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
         Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
         var _blob = "<p>Rosie wakes with a snort as her head lifts, lazily, from her tail. Blue eyes stare blearily in your direction as she opens her mouth in a wide yawn. ";
-        if (rosie.disposition.get(remmy)['philia'] > 50 || rosie.disposition.get(remmy)['storge'] > 50)
+        if (rosie.characterDisposition.get(remmy)['philia'] > 50 || rosie.characterDisposition.get(remmy)['storge'] > 50)
             _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(player.sex == 0 ? "dad" : "mom");
-        else if (rosie.disposition.get(remmy)['philia'] > 20 || rosie.disposition.get(remmy)['storge'] > 20)
+        else if (rosie.characterDisposition.get(remmy)['philia'] > 20 || rosie.characterDisposition.get(remmy)['storge'] > 20)
             _blob += "In a chipper but tired voice she asks, \"Ugh, is it morning yet, {0}?\"".format(player.name);
-        else if (rosie.disposition.get(remmy)['philia'] > 0 || rosie.disposition.get(remmy)['storge'] > 0)
+        else if (rosie.characterDisposition.get(remmy)['philia'] > 0 || rosie.characterDisposition.get(remmy)['storge'] > 0)
             _blob += "In a tired, irritated voice she asks, \"What?\"";
         else
             _blob += "In a tired mumble, she asks, \"Who are you?\"";
@@ -128,9 +128,9 @@ function rosieGiveCharlieHeart() {
     else {
         Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched hoof. Turning her head to the side, she glares at the object in your paw. Without you moving, the heart rolls out of your {0}, and falls to the ground with a soft thud as it stops beating.</p>");
         var _blob = "<p>Her blue eyes follow it, she takes a step back and looks back up to you. ";
-        if (rosie.disposition.get(remmy)['philia'] > 25 || rosie.disposition.get(remmy)['storge'] > 25)
+        if (rosie.characterDisposition.get(remmy)['philia'] > 25 || rosie.characterDisposition.get(remmy)['storge'] > 25)
             _blob += "Confused, she asks, \"{0}, what's that?\"".format(player.name);
-        else if (rosie.disposition.get(remmy)['philia'] > 0 || rosie.disposition.get(remmy)['storge'] > 0)
+        else if (rosie.characterDisposition.get(remmy)['philia'] > 0 || rosie.characterDisposition.get(remmy)['storge'] > 0)
             _blob += "Fearful, she asks, \"What the fuck is that?\"";
         else
             _blob += "Fearful, she yells, \"Get that away from me!\" and bares her teeth.";
@@ -138,7 +138,7 @@ function rosieGiveCharlieHeart() {
         Content.add("<p>The heart near her beats, and she falls to her knees as though she were a puppet with its strings cut. Her head and eyes lazily turn in its direction as she lets out a ragged breath.</p>");
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
-    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.disposition.get(rosie)['storge'] > 25 || player.disposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
     charlieHeartbeatRosieCellEvent.delete();
     charlieHeartbeatRosieRoomEvent.delete();

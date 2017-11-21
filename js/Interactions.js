@@ -98,9 +98,9 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
 }
 
 function characterInteract(_character, _clearContent = true) {
-    if (!_character.disposition.has(player))
+    if (!_character.characterDisposition.has(player))
         _character.addNewCharacterDispositionFor(player);
-    if (!player.disposition.has(_character))
+    if (!player.characterDisposition.has(_character))
         player.addNewCharacterDispositionFor(_character);
 
     Menu.showingBaseMenu = false;

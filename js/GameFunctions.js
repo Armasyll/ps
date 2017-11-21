@@ -956,7 +956,7 @@ function characterTakeOver(_characterA, _characterB) {
     var arr = new Map();
     
     arr.set('id', _characterA.id);
-    arr.set('disposition', _characterA.disposition);
+    arr.set('disposition', _characterA.characterDisposition);
     arr.set('defaultDisposition', _characterA.defaultDisposition);
     arr.set('agape', _characterA.agape);
     arr.set('philautia', _characterA.philautia);
@@ -1013,7 +1013,7 @@ function characterTakeOver(_characterA, _characterB) {
     
     charactersIndexes.forEach(function(_character) {
         if (_character != player && _character != _characterA && _character != _characterB) {
-            _character.disposition.set(_characterA, _character.disposition.get(_characterB));
+            _character.characterDisposition.set(_characterA, _character.characterDisposition.get(_characterB));
         }
     }, this);
 }

@@ -1096,184 +1096,198 @@ class Character extends Entity {
                     this[property] = _id[property];
                 }
             }
+            
+            return this;
         }
-        else {
-            if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
-
-            super(_id, _name);
-            this.surname = undefined;
-            if (this.name.split(", ").length > 1) {
-                var tempName = this.name.split(", ");
-                this.name = tempName[1];
-                this.surname = tempName[0];
-            }
-            else if (this.name.split(" ").length > 1) {
-                var tempName = this.name.split(" ");
-                this.name = tempName[0];
-                this.surname = tempName[1];
-            }
-            this.nickname = undefined;
-            this.age = _age;
-            this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
-
-            this.addAction("talk");
-            this.addAction("sex");
-            this.addAction("attack");
-            this.addAction("follow");
-            this.addAction("stay");
-            this.addAction("hold");
-            this.addAction("open"); // inventory... maybe :v
-            this.addAction("give");
-            this.addAction("remove");
-            this.addAction("take");
-            this.addAction("wear");
-
-            this.currentActions = new Set();
-
-            this.defaultDisposition = new Disposition(0,0,0,0,0,0);
-            this.agape = 50;         // self
-            this.philautia = 50;     // others
-            this.stamina = 100;
-            this.staminMax = 100;
-            this.lust = 25;
-            this.rut = false;
-            this.clean = 100;
-            this.annoyed = 0;
-            this.living = true;
-            this.sleeping = false;
-
-            this.setSex(_sex);
-            this.gender = _sex;
-
-            this.furColourA = undefined; // Body
-            this.furColourAHex = undefined;
-            this.furColourB = undefined; // Middle
-            this.furColourBHex = undefined;
-
-            // Handled by setSpecies
-            this.predator = false;
-            this.handType = 1;
-            this.feetType = 1;
-            this.relatives = new Set();
-            this.eyeType = 0;
-            this.eyeColour = undefined;
-            this.furType = 0;
-            this.furTrimmed = 50;
-            this.furSoftness = 50;
-
-            this.setSpecies(_species);
-
-            this.hadSex = false;
-
-            this.sexCount = 0;
-            this.vaginalReceiveCount = 0;
-            this.vaginalGiveCount = 0;
-            this.analReceiveCount = 0;
-            this.analGiveCount = 0;
-            this.cunnilingusReceiveCount = 0;
-            this.cunnilingusGiveCount = 0;
-            this.analingusReceiveCount = 0;
-            this.analingusGiveCount = 0;
-            this.fellatioReceiveCount = 0;
-            this.fellatioGiveCount = 0;
-            this.masturbateCount = 0;
-            this.handjobCount = 0;
-
-            /*
-                0 - none/flat
-                1 - petite
-                2 - average
-                3 - large
-            */
-            this.breastSize = 0;
-
-            /*
-                0, 0 - none
-                8, 7 - marty
-                16, 11 - wolter
-                24, 13 - remmy
-                25, 16 - al
-                30, 16 - rex
-            */
-            this.penisSize = 0;
-            this.penisGirth = 0;
-
-            /*
-                0, 0 - none
-                3, 1 - martina
-                7, 4.7 - anneke
-                7, 4.5 - charlie
-                7, 4.9 - avo
-                8, 5.5 - betty
-                9, 6 - dora
-                7, 5 - velvet
-            */
-            this.vaginaSize = 0;
-            this.vaginaGirth = 0;
-
-            /*
-                0 - none
-                1 - stubble
-                2 - prairy
-                3 - 70s
-            */
-            this.pubicHairSize = 0;
-
-            this.following = undefined; // Character
-            this.followers = new Set();
-
-            this.furniture = undefined;
-
-            this.clothingHead = undefined;
-            this.clothingEyes = undefined;
-            this.clothingLeftEar = undefined;
-            this.clothingRightEar = undefined;
-            this.clothingNose = undefined;
-            this.clothingLips = undefined;
-            this.clothingTongue = undefined;
-            this.clothingNeck = undefined;
-            this.clothingChest = undefined;
-            this.clothingTorso = undefined;
-            this.clothingWaist = undefined;
-            this.clothingGroin = undefined;
-            this.clothingLegs = undefined;
-            this.clothingFeet = undefined;
-
-            this.characterDisposition = new Map();
-            this.hadSexWith = new Set();
-
-            this.prefersSpecies = new Set();
-            this.avoidsSpecies = new Set();
-
-            this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
-            this.avoidedSex = undefined; // "
-            this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
-
-            this.preferredPenisSize = undefined; // int
-            this.preferredPenisGirth = undefined; // int
-            this.preferredBreastSize = undefined; // int
-            this.preferredSexCount = undefined; // int
-
-            this.prefersPredators = undefined;
-            this.avoidsPredators = undefined;
-            this.prefersPrey = undefined;
-            this.avoidsPrey = undefined;
-
-            this.exhibitionism = 0; // 0-100, preference for public sex
-            this.somnophilia = 0; // 0-100, preference for sleep sex
-            this.intoxicated = 0; // 0-100, drunkness
-            this.incestual = 0; // 0-100, preference for incest
-
-            this.previousRoom = undefined;
-            this.room = undefined;
-            this.cell = undefined;
-            this.location = undefined;
-
-            charactersIndexes.set(_id, this);
-
-            this.stand();
-            this.sleep();
+        
+        try {
+            var _json = JSON.parse(_id);
         }
+        catch (e) {}
+        
+        if (_json instanceof Object) {
+            this.fromJSON(this._json);
+            
+            delete this._json;
+            
+            return this;
+        }
+        
+        if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
+
+        super(_id, _name);
+        this.surname = undefined;
+        if (this.name.split(", ").length > 1) {
+            var tempName = this.name.split(", ");
+            this.name = tempName[1];
+            this.surname = tempName[0];
+        }
+        else if (this.name.split(" ").length > 1) {
+            var tempName = this.name.split(" ");
+            this.name = tempName[0];
+            this.surname = tempName[1];
+        }
+        this.nickname = undefined;
+        this.age = _age;
+        this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
+
+        this.addAction("talk");
+        this.addAction("sex");
+        this.addAction("attack");
+        this.addAction("follow");
+        this.addAction("stay");
+        this.addAction("hold");
+        this.addAction("open"); // inventory... maybe :v
+        this.addAction("give");
+        this.addAction("remove");
+        this.addAction("take");
+        this.addAction("wear");
+
+        this.currentActions = new Set();
+
+        this.defaultDisposition = new Disposition(0,0,0,0,0,0);
+        this.agape = 50;         // self
+        this.philautia = 50;     // others
+        this.stamina = 100;
+        this.staminMax = 100;
+        this.lust = 25;
+        this.rut = false;
+        this.clean = 100;
+        this.annoyed = 0;
+        this.living = true;
+        this.sleeping = false;
+
+        this.setSex(_sex);
+        this.gender = _sex;
+
+        this.furColourA = undefined; // Body
+        this.furColourAHex = undefined;
+        this.furColourB = undefined; // Middle
+        this.furColourBHex = undefined;
+
+        // Handled by setSpecies
+        this.predator = false;
+        this.handType = 1;
+        this.feetType = 1;
+        this.relatives = new Set();
+        this.eyeType = 0;
+        this.eyeColour = undefined;
+        this.furType = 0;
+        this.furTrimmed = 50;
+        this.furSoftness = 50;
+
+        this.setSpecies(_species);
+
+        this.hadSex = false;
+
+        this.sexCount = 0;
+        this.vaginalReceiveCount = 0;
+        this.vaginalGiveCount = 0;
+        this.analReceiveCount = 0;
+        this.analGiveCount = 0;
+        this.cunnilingusReceiveCount = 0;
+        this.cunnilingusGiveCount = 0;
+        this.analingusReceiveCount = 0;
+        this.analingusGiveCount = 0;
+        this.fellatioReceiveCount = 0;
+        this.fellatioGiveCount = 0;
+        this.masturbateCount = 0;
+        this.handjobCount = 0;
+
+        /*
+            0 - none/flat
+            1 - petite
+            2 - average
+            3 - large
+        */
+        this.breastSize = 0;
+
+        /*
+            0, 0 - none
+            8, 7 - marty
+            16, 11 - wolter
+            24, 13 - remmy
+            25, 16 - al
+            30, 16 - rex
+        */
+        this.penisSize = 0;
+        this.penisGirth = 0;
+
+        /*
+            0, 0 - none
+            3, 1 - martina
+            7, 4.7 - anneke
+            7, 4.5 - charlie
+            7, 4.9 - avo
+            8, 5.5 - betty
+            9, 6 - dora
+            7, 5 - velvet
+        */
+        this.vaginaSize = 0;
+        this.vaginaGirth = 0;
+
+        /*
+            0 - none
+            1 - stubble
+            2 - prairy
+            3 - 70s
+        */
+        this.pubicHairSize = 0;
+
+        this.following = undefined; // Character
+        this.followers = new Set();
+
+        this.furniture = undefined;
+
+        this.clothingHead = undefined;
+        this.clothingEyes = undefined;
+        this.clothingLeftEar = undefined;
+        this.clothingRightEar = undefined;
+        this.clothingNose = undefined;
+        this.clothingLips = undefined;
+        this.clothingTongue = undefined;
+        this.clothingNeck = undefined;
+        this.clothingChest = undefined;
+        this.clothingTorso = undefined;
+        this.clothingWaist = undefined;
+        this.clothingGroin = undefined;
+        this.clothingLegs = undefined;
+        this.clothingFeet = undefined;
+
+        this.characterDisposition = new Map();
+        this.hadSexWith = new Set();
+
+        this.prefersSpecies = new Set();
+        this.avoidsSpecies = new Set();
+
+        this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
+        this.avoidedSex = undefined; // "
+        this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
+
+        this.preferredPenisSize = undefined; // int
+        this.preferredPenisGirth = undefined; // int
+        this.preferredBreastSize = undefined; // int
+        this.preferredSexCount = undefined; // int
+
+        this.prefersPredators = undefined;
+        this.avoidsPredators = undefined;
+        this.prefersPrey = undefined;
+        this.avoidsPrey = undefined;
+
+        this.exhibitionism = 0; // 0-100, preference for public sex
+        this.somnophilia = 0; // 0-100, preference for sleep sex
+        this.intoxicated = 0; // 0-100, drunkness
+        this.incestual = 0; // 0-100, preference for incest
+
+        this.previousRoom = undefined;
+        this.room = undefined;
+        this.cell = undefined;
+        this.location = undefined;
+
+        charactersIndexes.set(_id, this);
+
+        this.stand();
+        this.sleep();
     }
     
     fromJSON(jsonString = "") {
@@ -1284,12 +1298,14 @@ class Character extends Entity {
             return undefined;
         }
         
-        try {
-            var json = JSON.parse(jsonString);
-        }
-        catch (e) {
-            if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
-            return undefined;
+        if (typeof jsonString == "string") {
+            try {
+                var json = JSON.parse(jsonString);
+            }
+            catch (e) {
+                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                return undefined;
+            }
         }
         
         if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
