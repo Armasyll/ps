@@ -1,17 +1,32 @@
 function limboInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function alApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function alApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function alApartmentBedroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function alBuildingMaintenanceInteract(_showContent = true) {
@@ -33,45 +48,78 @@ function alBuildingBasementInteract(_showContent = true) {
 function avoApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function avoApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function avoApartmentBedroomAInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function avoApartmentBedroomBInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function chartyApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function chartyApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function chartyApartmentBedroomCharlieInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function chartyApartmentBedroomMartyInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function ozzyApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function ozzyApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function ozzyApartmentBedroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function remmyApartmentLivingroomInteract(_showContent = true) {
@@ -123,24 +171,35 @@ function remmyApartmentBathroomInteract(_showContent = true) {
     }
     
     if (!Menu.showingBaseMenu) {
-        
     }
 }
 
 function twinsApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function twinsApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function twinsApartmentBedroomAnnekeInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function twinsApartmentBedroomWolterInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function alBuildingFirstFloorHallwayInteract(_showContent = true) {
@@ -161,53 +220,92 @@ function alBuildingThirdFloorHallwayInteract(_showContent = true) {
 function weaverApartmentLivingroomInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function weaverApartmentBathroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function weaverApartmentBedroomAInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function weaverApartmentBedroomBInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 
 function pandorasBoxCheckoutInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function pandorasBoxFront(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function pandorasBoxBack(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function pandorasBoxAisleA(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function pandorasBoxAisleB(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function pandorasBoxAisleC(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }
 function pandorasBoxGarageInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function pandorasBoxGarageAInteract(_showContent = true) {
     if (_showContent) {
     }
+    
+    if (!Menu.showingBaseMenu) {
+    }
 }
 function pandorasBoxBasementHiddenBedroomInteract(_showContent = true) {
     if (_showContent) {
+    }
+    
+    if (!Menu.showingBaseMenu) {
     }
 }

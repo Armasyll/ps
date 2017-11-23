@@ -1146,8 +1146,8 @@ class Character extends Entity {
         this.currentActions = new Set();
 
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
-        this.agape = 50;         // self
-        this.philautia = 50;     // others
+        this.philautia = 50;     // self
+        this.agape = 50;         // others
         this.stamina = 100;
         this.staminMax = 100;
         this.lust = 25;
@@ -2161,10 +2161,10 @@ class Character extends Entity {
         if (this.prefersSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
-                    if (this.agape > 74) {
-                        if (this.philautia > 74)
+                    if (this.philautia > 74) {
+                        if (this.agape > 74)
                             erosOffset += 3;
-                        else if (this.philautia > 49)
+                        else if (this.agape > 49)
                             erosOffset += 2;
                         else {
                             erosOffset++;
@@ -2173,7 +2173,7 @@ class Character extends Entity {
                         erosOffset++;
                     }
                     else {
-                        if (this.philautia > 74)
+                        if (this.agape > 74)
                             erosOffset++;
                         erosOffset += 2;
                     }
@@ -2188,18 +2188,18 @@ class Character extends Entity {
             }
 
             if (this.age >= _character.age + (this.age/10)) {
-                if (this.agape > 74)
+                if (this.philautia > 74)
                     manicOffset++;
 
-                if (this.philautia > 74)
+                if (this.agape > 74)
                     storgeOffset += 3;
-                else if (this.philautia > 49)
+                else if (this.agape > 49)
                     storgeOffset += 2;
 
                 storgeOffset++;
             }
 
-            if (this.agape > 74 && this.philautia > 50) {
+            if (this.philautia > 74 && this.agape > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                     philiaOffset++;
                     lodusOffset++;
@@ -2214,12 +2214,12 @@ class Character extends Entity {
         else if (this.avoidsSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
-                    if (this.agape > 74) {
-                        if (this.philautia > 74)
+                    if (this.philautia > 74) {
+                        if (this.agape > 74)
                             erosOffset += 2;
                     }
                     else {
-                        if (this.philautia > 74)
+                        if (this.agape > 74)
                             erosOffset++;
                     }
 
@@ -2231,18 +2231,18 @@ class Character extends Entity {
             }
 
             if (this.age >= _character.age + (this.age/10)) {
-                if (this.agape > 74) {
-                    if (this.philautia > 74)
+                if (this.philautia > 74) {
+                    if (this.agape > 74)
                         storgeOffset++;
                 }
                 else {
-                    if (this.philautia > 74)
+                    if (this.agape > 74)
                         storgeOffset++;
                 }
                 storgeOffset++;
             }
 
-            if (this.agape > 74 && this.philautia > 50) {
+            if (this.philautia > 74 && this.agape > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
                     philiaOffset++;
                     lodusOffset++;
@@ -2255,10 +2255,10 @@ class Character extends Entity {
         else {
             if (this.prefersSex == _character.sex) {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
-                    if (this.agape > 74) {
-                        if (this.philautia > 74)
+                    if (this.philautia > 74) {
+                        if (this.agape > 74)
                             erosOffset += 2;
-                        else if (this.philautia > 49)
+                        else if (this.agape > 49)
                             erosOffset++;
                         else
                             manicOffset++;
@@ -2266,7 +2266,7 @@ class Character extends Entity {
                         erosOffset++;
                     }
                     else {
-                        if (this.philautia > 74)
+                        if (this.agape > 74)
                             erosOffset++;
                         erosOffset++;
                     }
