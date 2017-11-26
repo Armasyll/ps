@@ -568,7 +568,7 @@ class Minimap {
         // Add item icons to rooms
         /*_room.items.forEach(function(_item) {
             _itemPortraitLinks.push(_item.image);
-        });*/
+        }, this);*/
 
         // Add character icons to rooms
         if (_room.hasCharacters()) {
@@ -917,7 +917,7 @@ class Entity {
                         if (_value instanceof Entity)
                             _arr.push([_key, _value.id]);
                         else if (_value instanceof Disposition)
-                            _arr.push([_key.id, _value.toJSON()]);
+                            _arr.push([_key.id, _value.toObject()]);
                     }, this);
                     _blob[property] = JSON.stringify(_arr);
                     _arr = [];
@@ -934,7 +934,7 @@ class Entity {
                     }
                 }
                 else if (this[property] instanceof Disposition) {
-                    _blob[property] = this[property].toJSON();
+                    _blob[property] = this[property].toObject();
                 }
             }
             else
@@ -1029,11 +1029,7 @@ class Disposition {
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         if (_eros instanceof Object) {
-            for (var property in _eros) {
-                if (_eros.hasOwnProperty(property)) {
-                    this[property] = _eros[property];
-                }
-            }
+            this.fromObject(_eros);
         }
         else {
             if (debug) console.log("Creating a new instance of Disposition");
@@ -1061,6 +1057,28 @@ class Disposition {
     
     toJSON() {
         return JSON.stringify(this.toObject());
+    }
+    
+    fromObject(_object) {
+        for (var property in _object) {
+            if (_object.hasOwnProperty(property)) {
+                this[property] = _object[property];
+            }
+        }
+        
+        return true;
+    }
+    
+    fromJSON(_json) {
+        var _return = false;
+        try {
+            _return = this.fromObject(JSON.parse(_json));
+        }
+        catch (err) {
+            var _return = undefined;
+        }
+        
+        return _return;
     }
     
     setEros(_int) {
@@ -1383,6 +1401,9 @@ class Character extends Entity {
             if (debug) console.log("ID or Name are undefined.");
             return undefined;
         }
+        else
+            this.id = json["id"];
+        delete json["id"];
         
         var _tmpArr = [];
         
@@ -1392,7 +1413,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["availableActions"]);
             _tmpArr.forEach(function(_int) {
                 this.addAction(_int);
-            });
+            }, this);
         } catch (e) {}
         delete json["availableActions"];
         //  avoidsSpecies
@@ -1400,7 +1421,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["avoidsSpecies"]);
             _tmpArr.forEach(function(_int) {
                 this.addPreferredSpecies(_int);
-            });
+            }, this);
         } catch (e) {}
         delete json["avoidsSpecies"];
         //  currentActions
@@ -1408,7 +1429,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["currentActions"]);
             _tmpArr.forEach(function(_int) {
                 this.addCurrentAction(_int);
-            });
+            }, this);
         } catch (e) {}
         delete json["currentActions"];
         //  followers
@@ -1417,7 +1438,7 @@ class Character extends Entity {
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
                     this.addFollower(charactersIndexes.get(_character));
-            });
+            }, this);
         } catch (e) {}
         delete json["followers"];
         //  hadSexWith
@@ -1426,7 +1447,7 @@ class Character extends Entity {
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
                     this.addSexWith(charactersIndexes.get(_character), false);
-            });
+            }, this);
         } catch (e) {}
         delete json["hadSexWith"];
         //  items
@@ -1435,7 +1456,7 @@ class Character extends Entity {
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
                     this.addItem(itemsIndexes.get(_item));
-            });
+            }, this);
         } catch (e) {}
         delete json["items"];
         //  prefersSpecies
@@ -1443,7 +1464,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["prefersSpecies"]);
             _tmpArr.forEach(function(_int) {
                 this.addPreferredSpecies(_int);
-            });
+            }, this);
         } catch (e) {}
         delete json["prefersSpecies"];
         //  relatives
@@ -1452,7 +1473,7 @@ class Character extends Entity {
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
                     this.addRelative(charactersIndexes.get(_character), false);
-            });
+            }, this);
         } catch (e) {}
         delete json["relatives"];
         
@@ -1461,13 +1482,14 @@ class Character extends Entity {
         try {
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character[0])) {
-                    this.setDisposition(charactersIndexes.get(_character[0]), new Disposition(JSON.parse(_character[1])));
-                }
+                if (charactersIndexes.has(_character[0]))
+                    this.setCharacterDisposition(_character[0], new Disposition(_character[1]));
                 else
                     return undefined;
-            });
-        } catch (e) {}
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
         delete json["characterDisposition"];
         
         // Entities
@@ -1528,7 +1550,7 @@ class Character extends Entity {
         this.bra = clothingIndexes.has(json["bra"]) ? clothingIndexes.get(json["bra"]) : undefined;
         delete json["bra"];
         
-        this.defaultDisposition.set(JSON.parse(json["defaultDisposition"]));
+        this.defaultDisposition.fromObject(json["defaultDisposition"]);
         delete json["defaultDisposition"];
         
         if (charactersIndexes.has(json["following"]))
@@ -3416,9 +3438,9 @@ class Room extends Entity {
                 if (_furniture.items.size > 0) {
                     _furniture.items.forEach(function(_item) {
                         this.addItem(_item);
-                    });
+                    }, this);
                 }
-            });
+            }, this);
         }
     }
 
