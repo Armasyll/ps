@@ -1305,20 +1305,25 @@ class Character extends Entity {
 
         this.furniture = undefined;
 
-        this.clothingHead = undefined;
-        this.clothingEyes = undefined;
-        this.clothingLeftEar = undefined;
-        this.clothingRightEar = undefined;
-        this.clothingNose = undefined;
-        this.clothingLips = undefined;
-        this.clothingTongue = undefined;
-        this.clothingNeck = undefined;
-        this.clothingChest = undefined;
-        this.clothingTorso = undefined;
-        this.clothingWaist = undefined;
-        this.clothingGroin = undefined;
-        this.clothingLegs = undefined;
-        this.clothingFeet = undefined;
+        this.hat = undefined;
+        this.mask = undefined;
+        this.glasses = undefined;
+        this.earPiercingLeft = undefined;
+        this.earPiercingRight = undefined;
+        this.nosePiercing = undefined;
+        this.lipPiercing = undefined;
+        this.tonguePiercing = undefined;
+        this.collar = undefined;
+        this.scarf = undefined;
+        this.shirt = undefined;
+        this.jacket = undefined;
+        this.belt = undefined;
+        this.gloves = undefined;
+        this.underwear = undefined;
+        this.pants = undefined;
+        this.socks = undefined;
+        this.shoes = undefined;
+        this.bra = undefined;
 
         this.characterDisposition = new Map();
         this.hadSexWith = new Set();
@@ -1466,47 +1471,62 @@ class Character extends Entity {
         delete json["characterDisposition"];
         
         // Entities
-        this.clothingChest = clothingIndexes.has(json["clothingChest"]) ? clothingIndexes.get(json["clothingChest"]) : undefined;
-        delete json["clothingChest"];
+        this.hat = clothingIndexes.has(json["hat"]) ? clothingIndexes.get(json["hat"]) : undefined;
+        delete json["hat"];
         
-        this.clothingEyes = clothingIndexes.has(json["clothingEyes"]) ? clothingIndexes.get(json["clothingEyes"]) : undefined;
-        delete json["clothingEyes"];
+        this.mask = clothingIndexes.has(json["mask"]) ? clothingIndexes.get(json["mask"]) : undefined;
+        delete json["mask"];
         
-        this.clothingFeet = clothingIndexes.has(json["clothingFeet"]) ? clothingIndexes.get(json["clothingFeet"]) : undefined;
-        delete json["clothingFeet"];
+        this.glasses = clothingIndexes.has(json["glasses"]) ? clothingIndexes.get(json["glasses"]) : undefined;
+        delete json["glasses"];
         
-        this.clothingGroin = clothingIndexes.has(json["clothingGroin"]) ? clothingIndexes.get(json["clothingGroin"]) : undefined;
-        delete json["clothingGroin"];
+        this.piercingLeftEar = clothingIndexes.has(json["piercingLeftEar"]) ? clothingIndexes.get(json["piercingLeftEar"]) : undefined;
+        delete json["piercingLeftEar"];
         
-        this.clothingHead = clothingIndexes.has(json["clothingHead"]) ? clothingIndexes.get(json["clothingHead"]) : undefined;
-        delete json["clothingHead"];
+        this.piercingRightEar = clothingIndexes.has(json["piercingRightEar"]) ? clothingIndexes.get(json["piercingRightEar"]) : undefined;
+        delete json["piercingRightEar"];
         
-        this.clothingLeftEar = clothingIndexes.has(json["clothingLeftEar"]) ? clothingIndexes.get(json["clothingLeftEar"]) : undefined;
-        delete json["clothingLeftEar"];
+        this.piercingNose = clothingIndexes.has(json["piercingNose"]) ? clothingIndexes.get(json["piercingNose"]) : undefined;
+        delete json["piercingNose"];
         
-        this.clothingLegs = clothingIndexes.has(json["clothingLegs"]) ? clothingIndexes.get(json["clothingLegs"]) : undefined;
-        delete json["clothingLegs"];
+        this.piercingLip = clothingIndexes.has(json["piercingLip"]) ? clothingIndexes.get(json["piercingLip"]) : undefined;
+        delete json["piercingLip"];
         
-        this.clothingLips = clothingIndexes.has(json["clothingLips"]) ? clothingIndexes.get(json["clothingLips"]) : undefined;
-        delete json["clothingLips"];
+        this.piercingTongue = clothingIndexes.has(json["piercingTongue"]) ? clothingIndexes.get(json["piercingTongue"]) : undefined;
+        delete json["piercingTongue"];
         
-        this.clothingNeck = clothingIndexes.has(json["clothingNeck"]) ? clothingIndexes.get(json["clothingNeck"]) : undefined;
-        delete json["clothingNeck"];
+        this.collar = clothingIndexes.has(json["collar"]) ? clothingIndexes.get(json["collar"]) : undefined;
+        delete json["collar"];
         
-        this.clothingNose = clothingIndexes.has(json["clothingNose"]) ? clothingIndexes.get(json["clothingNose"]) : undefined;
-        delete json["clothingNose"];
+        this.scarf = clothingIndexes.has(json["scarf"]) ? clothingIndexes.get(json["scarf"]) : undefined;
+        delete json["scarf"];
         
-        this.clothingRighEar = clothingIndexes.has(json["clothingRightEar"]) ? clothingIndexes.get(json["clothingRightEar"]) : undefined;
-        delete json["clothingRightEar"];
+        this.shirt = clothingIndexes.has(json["shirt"]) ? clothingIndexes.get(json["shirt"]) : undefined;
+        delete json["shirt"];
         
-        this.clothingTongue = clothingIndexes.has(json["clothingTongue"]) ? clothingIndexes.get(json["clothingTongue"]) : undefined;
-        delete json["clothingTongue"];
+        this.jacket = clothingIndexes.has(json["jacket"]) ? clothingIndexes.get(json["jacket"]) : undefined;
+        delete json["jacket"];
         
-        this.clothingTorso = clothingIndexes.has(json["clothingTorso"]) ? clothingIndexes.get(json["clothingTorso"]) : undefined;
-        delete json["clothingTorso"];
+        this.belt = clothingIndexes.has(json["belt"]) ? clothingIndexes.get(json["belt"]) : undefined;
+        delete json["belt"];
         
-        this.clothingWaist = clothingIndexes.has(json["clothingWaist"]) ? clothingIndexes.get(json["clothingWaist"]) : undefined;
-        delete json["clothingWaist"];
+        this.gloves = clothingIndexes.has(json["gloves"]) ? clothingIndexes.get(json["gloves"]) : undefined;
+        delete json["gloves"];
+        
+        this.underwear = clothingIndexes.has(json["underwear"]) ? clothingIndexes.get(json["underwear"]) : undefined;
+        delete json["underwear"];
+        
+        this.pants = clothingIndexes.has(json["pants"]) ? clothingIndexes.get(json["pants"]) : undefined;
+        delete json["pants"];
+        
+        this.socks = clothingIndexes.has(json["socks"]) ? clothingIndexes.get(json["socks"]) : undefined;
+        delete json["socks"];
+        
+        this.shoes = clothingIndexes.has(json["shoes"]) ? clothingIndexes.get(json["shoes"]) : undefined;
+        delete json["shoes"];
+        
+        this.bra = clothingIndexes.has(json["bra"]) ? clothingIndexes.get(json["bra"]) : undefined;
+        delete json["bra"];
         
         this.defaultDisposition.set(JSON.parse(json["defaultDisposition"]));
         delete json["defaultDisposition"];
@@ -1662,52 +1682,68 @@ class Character extends Entity {
     }
 
     hasHat() {
-        return this.clothingHead instanceof Clothing;
+        return this.hat instanceof Clothing;
     }
     getHat() {
-        return this.clothingHead;
+        return this.hat;
     }
 
     hasShirt() {
-        return this.clothingTorso instanceof Clothing;
+        return this.shirt instanceof Clothing;
     }
     getShirt() {
-        return this.clothingTorso;
+        return this.shirt;
+    }
+
+    hasJacket() {
+        return this.jacket instanceof Clothing;
+    }
+    getJacket() {
+        return this.jacket;
     }
 
     hasBra() {
-        return this.clothingChest instanceof Clothing;
+        return this.bra instanceof Clothing;
     }
     getBra() {
-        return this.clothingChest;
+        return this.bra;
     }
 
     hasBelt() {
-        return this.clothingWaist instanceof Clothing;
+        return this.belt instanceof Clothing;
     }
     getBelt() {
-        return this.clothingWaist;
+        return this.belt;
     }
 
     hasUnderwear() {
-        return this.clothingGroin instanceof Clothing;
+        return this.underwear instanceof Clothing;
     }
     getUnderwear() {
-        return this.clothingGroin;
+        return this.underwear;
     }
 
     hasPants() {
-        return this.clothingLegs instanceof Clothing;
+        return this.pants instanceof Clothing;
     }
     getPants() {
-        return this.clothingLegs;
+        return this.pants;
     }
     
     hasShoes() {
-        return this.clothingFeet instanceof Clothing;
+        return this.shoe instanceof Clothing;
     }
     getShoes() {
-        return this.clothingFeet;
+        return this.shoes;
+    }
+    getClothing(_type) {
+        if (ClothingTypeIdNames.has(_type))
+            return this[ClothingTypeIdNames.get(_clothing.type)];
+        else
+            return undefined;
+    }
+    setClothing(_clothing) {
+        this.putOn(_clothing);
     }
 
     addCurrentAction(_actionType) {
@@ -1857,78 +1893,48 @@ class Character extends Entity {
         return _tmpSet;
     }
 
-    wear(_clothing) {
-        this.putOn(_clothing);
+    wear(_clothing, _type = undefined) {
+        this.putOn(_clothing, _type);
     }
     wearing(_clothing) {
         if (!(_clothing instanceof Clothing))
-            _clothing = itemsIndexes.get(_clothing);
+            _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-            switch (_clothing.bodyPart) {
-                case 0 : return this.clothingHead == _clothing; break;
-                case 1 : return this.clothingEyes == _clothing; break;
-                case 2 : return this.clothingLeftEar == _clothing; break;
-                case 3 : return this.clothingRightEar == _clothing; break;
-                case 4 : return this.clothingNose == _clothing; break;
-                case 5 : return this.clothingLips == _clothing; break;
-                case 6 : return this.clothingTongue == _clothing; break;
-                case 7 : return this.clothingNeck == _clothing; break;
-                case 8 : return this.clothingChest == _clothing; break;
-                case 9 : return this.clothingTorso == _clothing; break;
-                case 10 : return this.clothingWaist == _clothing; break;
-                case 11 : return this.clothingGroin == _clothing; break;
-                case 12 : return this.clothingLegs == _clothing; break;
-                case 13 : return this.clothingFeet == _clothing; break;
-            }
+            if (ClothingTypeIdNames.has(_clothing.type))
+                return this[ClothingTypeIdNames.get(_clothing.type)] == _clothing;
+            else
+                return undefined;
         }
     }
-    putOn(_clothing) {
+    putOn(_clothing, _type = undefined) {
         if (!(_clothing instanceof Clothing))
-            _clothing = itemsIndexes.get(_clothing);
+            _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
             this.items.add(_clothing);
 
-            switch (_clothing.bodyPart) {
-                case 0 : this.clothingHead = _clothing; break;
-                case 1 : this.clothingEyes = _clothing; break;
-                case 2 : this.clothingLeftEar = _clothing; break;
-                case 3 : this.clothingRightEar = _clothing; break;
-                case 4 : this.clothingNose = _clothing; break;
-                case 5 : this.clothingLips = _clothing; break;
-                case 6 : this.clothingTongue = _clothing; break;
-                case 7 : this.clothingNeck = _clothing; break;
-                case 8 : this.clothingChest = _clothing; break;
-                case 9 : this.clothingTorso = _clothing; break;
-                case 10 : this.clothingWaist = _clothing; break;
-                case 11 : this.clothingGroin = _clothing; break;
-                case 12 : this.clothingLegs = _clothing; break;
-                case 13 : this.clothingFeet = _clothing; break;
-            }
+            if (ClothingTypeIdNames.has(_clothing.type))
+                this[ClothingTypeIdNames.get(_clothing.type)] = _clothing;
         }
+        else if (typeof _type != 'undefined') {
+            this.takeOff(_type);
+        }
+            
     }
     takeOff(_clothing) {
         if (!(_clothing instanceof Clothing))
-            _clothing = itemsIndexes.get(_clothing);
+            _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
 
         if (_clothing instanceof Clothing) {
-            switch (_clothing.bodyPart) {
-                case 0 : this.clothingHead = undefined; break;
-                case 1 : this.clothingEyes = undefined; break;
-                case 2 : this.clothingLeftEar = undefined; break;
-                case 3 : this.clothingRightEar = undefined; break;
-                case 4 : this.clothingNose = undefined; break;
-                case 5 : this.clothingLips = undefined; break;
-                case 6 : this.clothingTongue = undefined; break;
-                case 7 : this.clothingNeck = undefined; break;
-                case 8 : this.clothingChest = undefined; break;
-                case 9 : this.clothingTorso = undefined; break;
-                case 10 : this.clothingWaist = undefined; break;
-                case 11 : this.clothingGroin = undefined; break;
-                case 12 : this.clothingLegs = undefined; break;
-                case 13 : this.clothingFeet = undefined; break;
-            }
+            if (ClothingTypeIdNames.has(_clothing.type))
+                this[ClothingTypeIdNames.get(_clothing.type)] = undefined;
+        }
+        else {
+            if (isNaN(_clothing) && ClothingTypeNameIds.has(_clothing))
+                this[_clothing] = undefined;
+            else if (ClothingTypeIdNames.has(_clothing))
+                this[ClothingTypeIdNames.get(_clothing)] = undefined;
         }
     }
 
@@ -3563,7 +3569,7 @@ class Key extends Item {
     }
 }
 class Clothing extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _bodyPart = undefined, _image = undefined, _plural = false) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = undefined, _image = undefined, _plural = false) {
         if (_id instanceof Clothing) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -3580,9 +3586,9 @@ class Clothing extends Item {
             this.addAction("wear");
             this.addAction("remove");
 
-            if (isNaN(_bodyPart))
-                _bodyPart = BodyPartNameIds.get(_bodyPart);
-            this.bodyPart = _bodyPart;
+            if (isNaN(_type))
+                _type = ClothingTypeNameIds.get(_type);
+            this.type = _type;
 
             clothingIndexes.set(_id, this);
         }

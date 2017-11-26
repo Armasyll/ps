@@ -212,7 +212,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingHatOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("head")) {
+        if (_clothing.type == ClothingTypeNameIds.get("hat")) {
             _clothingHatOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasHat() && _character.getHat().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -220,7 +220,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingBraOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("chest")) {
+        if (_clothing.type == ClothingTypeNameIds.get("bra")) {
             _clothingBraOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBra() && _character.getBra().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -228,15 +228,23 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingShirtOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("torso")) {
+        if (_clothing.type == ClothingTypeNameIds.get("shirt")) {
             _clothingShirtOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShirt() && _character.getShirt().id == _clothing.id ? "selected" : ""));
+            _clothingIndexes.delete(_clothing.id);
+        }
+    }, this);
+    
+    var _clothingJacketOptionsBlob = "";
+    _clothingIndexes.forEach(function(_clothing) {
+        if (_clothing.type == ClothingTypeNameIds.get("jacket")) {
+            _clothingJacketOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasJacket() && _character.getJacket().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
     }, this);
     
     var _clothingBeltOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("waist")) {
+        if (_clothing.type == ClothingTypeNameIds.get("belt")) {
             _clothingBeltOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBelt() && _character.getBelt().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -244,7 +252,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingUnderwearOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("groin")) {
+        if (_clothing.type == ClothingTypeNameIds.get("underwear")) {
             _clothingUnderwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasUnderwear() && _character.getUnderwear().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -252,7 +260,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingPantsOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("legs")) {
+        if (_clothing.type == ClothingTypeNameIds.get("pants")) {
             _clothingPantsOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasPants() && _character.getPants().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -260,20 +268,20 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingShoesOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.bodyPart == BodyPartNameIds.get("feet")) {
+        if (_clothing.type == ClothingTypeNameIds.get("shoes")) {
             _clothingShoesOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShoes() && _character.getShoes().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
     }, this);
     
     _blob += "<table class='table'>";
-    _blob += "<tr><td>Hat</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='head' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), (_clothingHatOptionsBlob));
-    _blob += "<tr><td>Bra</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='chest' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBra() ? player.getBra().id : "undefined"), (_clothingBraOptionsBlob));
-    _blob += "<tr><td>Shirt</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='torso' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShirt() ? player.getShirt().id : "undefined"), (_clothingShirtOptionsBlob));
-    _blob += "<tr><td>Belt</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='waist' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBelt() ? player.getBelt().id : "undefined"), (_clothingBeltOptionsBlob));
-    _blob += "<tr><td>Underwear</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='groin' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasUnderwear() ? player.getUnderwear().id : "undefined"), (_clothingUnderwearOptionsBlob));
-    _blob += "<tr><td>Pants</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='legs' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasPants() ? player.getPants().id : "undefined"), (_clothingPantsOptionsBlob));
-    _blob += "<tr><td>Shoes</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='feet' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShoes() ? player.getShoes().id : "undefined"), (_clothingShoesOptionsBlob));
+    _blob += "<tr><td>Hat</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"hat\")' data-character='{0}' data-clothingSlot='hat' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), (_clothingHatOptionsBlob));
+    _blob += "<tr><td>Bra</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"bra\")' data-character='{0}' data-clothingSlot='bra' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBra() ? player.getBra().id : "undefined"), (_clothingBraOptionsBlob));
+    _blob += "<tr><td>Shirt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"shirt\")' data-character='{0}' data-clothingSlot='shirt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShirt() ? player.getShirt().id : "undefined"), (_clothingShirtOptionsBlob));
+    _blob += "<tr><td>Belt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"belt\")' data-character='{0}' data-clothingSlot='belt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBelt() ? player.getBelt().id : "undefined"), (_clothingBeltOptionsBlob));
+    _blob += "<tr><td>Underwear</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"underwear\")' data-character='{0}' data-clothingSlot='underwear' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasUnderwear() ? player.getUnderwear().id : "undefined"), (_clothingUnderwearOptionsBlob));
+    _blob += "<tr><td>Pants</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"pants\")' data-character='{0}' data-clothingSlot='pants' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasPants() ? player.getPants().id : "undefined"), (_clothingPantsOptionsBlob));
+    _blob += "<tr><td>Shoes</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"shoes\")' data-character='{0}' data-clothingSlot='shoes' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShoes() ? player.getShoes().id : "undefined"), (_clothingShoesOptionsBlob));
     _blob += "</table>";
     Content.add(_blob);
     

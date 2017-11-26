@@ -73,6 +73,28 @@ const BodyPartIdNames = new Map();
     BodyPartIdNames.set(13, "feet");
 const BodyPartNameIds = map_flip(BodyPartIdNames);
 
+const ClothingTypeIdNames = new Map();
+    ClothingTypeIdNames.set(0, "hat");
+    ClothingTypeIdNames.set(1, "mask");
+    ClothingTypeIdNames.set(2, "glasses");
+    ClothingTypeIdNames.set(3, "earPiercingLeft");
+    ClothingTypeIdNames.set(4, "earPiercingRight");
+    ClothingTypeIdNames.set(5, "nosePiercing");
+    ClothingTypeIdNames.set(6, "lipPiercing");
+    ClothingTypeIdNames.set(7, "tonguePiercing");
+    ClothingTypeIdNames.set(8, "collar");
+    ClothingTypeIdNames.set(9, "scarf");
+    ClothingTypeIdNames.set(10, "shirt");
+    ClothingTypeIdNames.set(11, "jacket");
+    ClothingTypeIdNames.set(12, "belt");
+    ClothingTypeIdNames.set(13, "gloves");
+    ClothingTypeIdNames.set(14, "underwear");
+    ClothingTypeIdNames.set(15, "pants");
+    ClothingTypeIdNames.set(16, "socks");
+    ClothingTypeIdNames.set(17, "shoes");
+    ClothingTypeIdNames.set(18, "bra");
+const ClothingTypeNameIds = map_flip(ClothingTypeIdNames);
+
 const HandTypeIdNames = new Map();
     HandTypeIdNames.set(0, "fur");
     HandTypeIdNames.set(1, "pad");
