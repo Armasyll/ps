@@ -961,7 +961,7 @@ class Entity {
         if (!(_item instanceof Item))
             return undefined;
 
-        if (this.wearing(_item))
+        if (this instanceof Character && this.wearing(_item))
             this.takeOff(_item);
 
         this.items.delete(_item);
