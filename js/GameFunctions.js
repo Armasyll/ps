@@ -266,7 +266,7 @@ function movePlayerToRoom(_room) {
     characterMovements.delete(player);
     var _moved = moveCharacterToRoom(player, _room);
     if (_moved) {
-        tick("1m", false);
+        tick("1m", false, true);
         
         if (enableMinimap)
             Minimap.generateMapFromStartRoom(player.room);
@@ -376,8 +376,13 @@ function moveItemToPlayer(_item, _fromEntity) {
  *
  * @return Date The current time, in-game.
  */
-function tick(time, _updateMinimap = false, _runLastMenu = true) {
+function tick(time, _updateMinimap = true, _runLastMenu = false) {
     var _newTime = new Date(currentTime);
+    
+    if (typeof _updateMinimap != "boolean")
+        _updateMinimap = true;
+    if (typeof _runLastMenu != "boolean")
+        _runLastMenu = false;
     
     if (Number.isInteger(time))
         _newTime.addSeconds(time);

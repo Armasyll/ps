@@ -329,11 +329,15 @@ function remmyApartmentLivingroomCharlieSexWolter() {
         Content.add("<p>Wolter leans in for a quick peck on your lips.</p>");
     }
     
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterSpitroast()", "Spitroast Charlie", "You both spitroast Charlie");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoubleblowjob()", "Double Blowjob", "Charlie blows the both of you");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoublestuffAnal()", "Stuff her ass");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoublestuffVaginal()", "Stuff her pussy");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterOneforeachhole()", "Fuck both her holes");
+    Menu.generate();
     
     tick("5m");
 }
@@ -356,6 +360,7 @@ function remmyApartmentLivingroomCharlieSexRapeSleepingWolter() {
     player.addSexWith(charlie);
     player.addSexWith(wolter);
     
+    Menu.clear();
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle()", "Doggystyle", "There are no canines involved");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionary()", "Flip him over", "Look into his eyes as you have your way");
@@ -368,6 +373,7 @@ function remmyApartmentLivingroomCharlieSexRapeWolter() {
     player.addSexWith(charlie);
     player.addSexWith(wolter);
     
+    Menu.clear();
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle()", "Doggystyle", "There are no canines involved");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionary()", "Flip him over", "Look into his eyes as you have your way");
@@ -376,11 +382,14 @@ function remmyApartmentLivingroomCharlieSexRapeWolter() {
     tick("5m");
 }
 function remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle() {
+    Menu.clear();
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyleAnalCreampie()", "Cum inside him");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterBackbaste()", "Pull out");
+    Menu.generate();
 }
 function remmyApartmentLivingroomCharlieSexRapeWolterMissionary() {
+    Menu.clear();
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionaryAnalCreampie()", "Cum inside him");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterBellybutter()", "Pull out");
@@ -389,6 +398,7 @@ function remmyApartmentLivingroomCharlieSexRapeWolterMissionary() {
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexRapeWolterFacefuck() {
+    Menu.clear();
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterFacefuckMouthful()", "Blow in his mouth");
     Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterFacefuckFacial()", "Glaze his face");
     Menu.generate();
