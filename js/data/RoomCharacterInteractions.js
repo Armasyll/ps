@@ -316,11 +316,108 @@ function remmyApartmentLivingroomCharlieSex() {
     Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceive()", "Let her jerk you off", "Pawpads are better than hooves.");
     
     tick("2m", true, false);
+    
+    if (player.room.containsCharacter(wolter) && (!wolter.sleeping))
+        moveCharacterAlongPath(wolter, twinsApartmentLivingroomA);
+}
+function remmyApartmentLivingroomCharlieSexWolter() {
+    characterMovements.delete(wolter);
+    player.addSexWith(charlie);
+    player.addSexWith(wolter);
+    
+    if (wolter.chanceToFuck(player) > 70) {
+        Content.add("<p>Wolter leans in for a quick peck on your lips.</p>");
+    }
+    
+    Menu.addOption("remmyApartmentLivingroomCharlieSexWolterSpitroast()", "Spitroast Charlie", "You both spitroast Charlie");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoubleblowjob()", "Double Blowjob", "Charlie blows the both of you");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoublestuffAnal()", "Stuff her ass");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoublestuffVaginal()", "Stuff her pussy");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexWolterOneforeachhole()", "Fuck both her holes");
+    
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexWolterSpitroast() {
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexWolterDoubleblowjob() {
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexWolterDoublestuffAnal() {
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexWolterDoublestuffVaginal() {
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexWolterOneforeachhole() {
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexRapeSleepingWolter() {
+    player.addSexWith(charlie);
+    player.addSexWith(wolter);
+    
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle()", "Doggystyle", "There are no canines involved");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionary()", "Flip him over", "Look into his eyes as you have your way");
+    Menu.generate();
+    
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolter() {
+    characterMovements.delete(wolter);
+    player.addSexWith(charlie);
+    player.addSexWith(wolter);
+    
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle()", "Doggystyle", "There are no canines involved");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionary()", "Flip him over", "Look into his eyes as you have your way");
+    Menu.generate();
+    
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterDoggystyle() {
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterDoggystyleAnalCreampie()", "Cum inside him");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterBackbaste()", "Pull out");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterMissionary() {
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck()", "Fuck his face");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterMissionaryAnalCreampie()", "Cum inside him");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterBellybutter()", "Pull out");
+    Menu.generate();
+    
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterFacefuck() {
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterFacefuckMouthful()", "Blow in his mouth");
+    Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolterFacefuckFacial()", "Glaze his face");
+    Menu.generate();
+    
+    tick("15m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterFacefuckMouthful() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterFacefuckFacial() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterATMFacefuck() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterDoggystyleAnalCreampie() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterBackbaste() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterMissionaryAnalCreampie() {
+    tick("5m");
+}
+function remmyApartmentLivingroomCharlieSexRapeWolterBellybutter() {
+    tick("5m");
 }
 function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
-    _character = charlie;
-    
-    player.addSexWith(_character);
+    player.addSexWith(charlie);
     clearContentAndMenu();
     
     Content.set("You tongue-fuck that vixen bitch like no tomorrow.");

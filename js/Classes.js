@@ -946,14 +946,23 @@ class Entity {
     
     addItem(_item) {
         if (!(_item instanceof Item))
-            _item = itemsIndexes.get(_item);
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
 
         this.items.add(_item);
         _item.moveToEntity(this);
     }
     removeItem(_item) {
         if (!(_item instanceof Item))
-            _item = itemsIndexes.get(_item);
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
+
+        if (this.wearing(_item))
+            this.takeOff(_item);
 
         this.items.delete(_item);
         _item.moveToEntity(undefined);
@@ -961,7 +970,10 @@ class Entity {
 
     containsItem(_item) {
         if (!(_item instanceof Item))
-            _item = itemsIndexes.get(_item);
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
 
         return this.items.has(_item);
     }
@@ -1554,8 +1566,11 @@ class Character extends Entity {
     getSex() {
         return this.sexName();
     }
-
+    
     setDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
+        return this.setCharacterDisposition(_character, _eros, _philia, _lodus, _pragma, _storge, _manic);
+    }
+    setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
         if (debug) console.log("Running setDisposition");
 
         if (!(_character instanceof Character))
@@ -1592,6 +1607,9 @@ class Character extends Entity {
         return this.characterDisposition.get(_character);
     }
     getDisposition(_character, _dispositionType = undefined) {
+        return this.getCharacterDisposition(_character, _dispositionType);
+    }
+    getCharacterDisposition(_character, _dispositionType = undefined) {
         if (debug) console.log("Running getDisposition");
 
         if (!(_character instanceof Character))
@@ -1612,6 +1630,9 @@ class Character extends Entity {
             return false;
     }
     hasDisposition(_character) {
+        return this.hasCharacterDisposition(_character);
+    }
+    hasCharacterDisposition(_character) {
         if (debug) console.log("Running hasDisposition");
         
         if (!(_character instanceof Character))
@@ -1867,6 +1888,8 @@ class Character extends Entity {
             _clothing = itemsIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
+            this.items.add(_clothing);
+
             switch (_clothing.bodyPart) {
                 case 0 : this.clothingHead = _clothing; break;
                 case 1 : this.clothingEyes = _clothing; break;
@@ -1883,8 +1906,6 @@ class Character extends Entity {
                 case 12 : this.clothingLegs = _clothing; break;
                 case 13 : this.clothingFeet = _clothing; break;
             }
-
-            this.items.add(_clothing);
         }
     }
     takeOff(_clothing) {
