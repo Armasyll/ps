@@ -3,7 +3,7 @@ function alBuildingBasementRosie() {
     
     Content.clear();
     
-    if (_character.sleeping) {
+    if (_character.isSleeping()) {
         Content.add("<p>You see Rosie huddled up by a water heater, with a wool blanket wrapped around her. With the rise and fall of her chest, you can tell she's sleeping.</p>");
     }
     else {
@@ -16,7 +16,7 @@ function alBuildingBasementRosieTalk() {
     
     Content.clear();
     
-    if (_character.sleeping) {
+    if (_character.isSleeping()) {
         Content.add("<p>The small vixen is sleeping, and you don't want to wake her.</p>");
     }
     else {
@@ -250,9 +250,9 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     moveCharacterToRoom(charlie, chartyApartmentBedroomCharlie);
     
     
-    if (player.room.containsCharacter(wolter) && wolter.sleeping) {
+    if (player.room.containsCharacter(wolter) && wolter.isSleeping()) {
         Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(wolter.name, wolter.subjectPronoun(), wolter.possessivePronoun(), player.name, charlie.name, charlie.objectPronoun()));
-        wolter.sleeping = false;
+        wolter.isSleeping() = false;
     }
     
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -268,7 +268,7 @@ function remmyApartmentLivingroomCharlieSex() {
     Content.clear();
     
     if (player.room.containsCharacter(wolter)) {
-        if (wolter.sleeping)
+        if (wolter.isSleeping())
             Content.add("<p>Gently sitting on " + (player.room.isOwner(player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. {0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name));
         else
             Content.add("");
@@ -290,12 +290,12 @@ function remmyApartmentLivingroomCharlieSex() {
     Content.add(_blob);
     
     if (player.room.containsCharacter(wolter)) {
-        if (wolter.sleeping) {
+        if (wolter.isSleeping()) {
             if (enableRape) {
                 Menu.addOption("remmyApartmentLivingroomCharlieSexRapeSleepingWolter()", "Rape Sleeping Wolter", "{0} will hold him down".format(_character.name));
             }
         }
-        else if (!wolter.sleeping) {
+        else if (!wolter.isSleeping()) {
             Content.add("<p>Wolter looks over at you, and sees {0} spread eagle. Grinning at you, he gets up to leave. \"Yeah, I'm not gonna be a third wheel on this, you two have fun,\" he says with a wave of a paw.".format(_character.name));
             
             Menu.addOption("remmyApartmentLivingroomCharlieSexWolter()", "Ask him to join", "Three ways are fun");
@@ -317,7 +317,7 @@ function remmyApartmentLivingroomCharlieSex() {
     
     tick("2m", true, false);
     
-    if (player.room.containsCharacter(wolter) && (!wolter.sleeping))
+    if (player.room.containsCharacter(wolter) && (!wolter.isSleeping()))
         moveCharacterAlongPath(wolter, twinsApartmentLivingroomA);
 }
 function remmyApartmentLivingroomCharlieSexWolter() {
@@ -432,6 +432,10 @@ function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
     
     Content.set("You tongue-fuck that vixen bitch like no tomorrow.");
     
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.generate();
+    
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexFellatioGive() {
@@ -492,7 +496,7 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     if (player.room.containsCharacter(wolter))
-        if (wolter.sleeping && enableRape)
+        if (wolter.isSleeping() && enableRape)
             Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter()", "Jizz on sleeping Wolter");
     Menu.generate();
     
@@ -502,7 +506,7 @@ function remmyApartmentLivingroomWolter() {
     _character = wolter;
     
     _blob = "";
-    _blob += ("Wolter is " + (wolter.sleeping ? "sleeping" : "laying") + " on the couch");
+    _blob += ("Wolter is " + (wolter.isSleeping() ? "sleeping" : "laying") + " on the couch");
     if (wolter.hasShirt() && wolter.hasPants()) {
         if (wolter.bra.owner == anneke)
             _blob += (" in his sister's " + wolter.bra.toString() + " and " + wolter.pants.toString());

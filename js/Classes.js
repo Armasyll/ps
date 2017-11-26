@@ -1239,7 +1239,6 @@ class Character extends Entity {
         this.clean = 100;
         this.annoyed = 0;
         this.living = true;
-        this.sleeping = false;
 
         this.setSex(_sex);
         this.gender = _sex;
@@ -1845,11 +1844,11 @@ class Character extends Entity {
     hasCurrentAction(_actionType) {
         if (isNaN(_actionType)) {
             if (ActionsNameIds.has(_actionType))
-                this.currentActions.has(ActionsNameIds.get(_actionType));
+                return this.currentActions.has(ActionsNameIds.get(_actionType));
         }
         else {
             if (ActionsIdNames.has(_actionType))
-                this.currentActions.has(_actionType);
+                return this.currentActions.has(_actionType);
         }
     }
 
@@ -1960,6 +1959,16 @@ class Character extends Entity {
         else
             return false;
     }
+    isSleeping() {
+        return this.hasCurrentAction("sleep");
+    }
+    isAsleeping() {
+        return this.isSleeping();
+    }
+    asleep() {
+        return this.isSleeping();
+    }
+    
     
     getCurrentActions() {
         var _tmpSet = new Set();
