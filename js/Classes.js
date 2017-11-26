@@ -3943,8 +3943,7 @@ class GameEvent {
 
         if (debug) console.log("Executing " + this.id);
 
-        var fn = new Function(this.nextFunction);
-        try {fn();}catch (err) {}
+        unsafeExec(this.nextFunction);
 
         if (this.runOnce) {
             this.delete();

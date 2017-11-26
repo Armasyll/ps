@@ -193,8 +193,7 @@ function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity 
         return false;
     
     if (_useLastMenu) {
-        fn = new Function(lastMenu);
-        try {fn();}catch (err) {}
+        unsafeExec(lastMenu);
     }
     
     return true;
@@ -1164,7 +1163,7 @@ window.addEventListener(
             }
             case "`": {
                 if (agreeTOS)
-                    fn = debugMenu;
+                    fn = new Function(debugMenu());
                 break;
             }
         }

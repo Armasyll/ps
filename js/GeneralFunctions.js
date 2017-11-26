@@ -141,6 +141,21 @@ function isHidden(el) {
     return (style.display === 'none')
 }
 
+function unsafeExec(_executableString = undefined) {
+    var _return = undefined;
+    
+    fn = new Function(_executableString);
+    try {
+        _return = fn();
+    }
+    catch (err) {
+        if (debug)
+            console.log(err);
+    }
+    
+    return _return;
+}
+
 if(!jQuery) {
     include_jQuery();
     var $ = jQuery.noConflict();

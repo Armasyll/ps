@@ -11,21 +11,18 @@ function avoInteract() {
 function avoTalk() {
     _character = avo;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Talk()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
 }
 function avoRape() {
     _character = avo;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Rape()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Rape()");
 }
 function avoSex() {
     _character = avo;
     
     if (_character.chanceToFuck(player) > 50 || player.hasItem(avoBeatingHeart)) {
-        fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
-        try {fn();}catch (err) {}
+        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
         Content.add("No thank you.");
@@ -68,21 +65,18 @@ function charlieInteract() {
 function charlieTalk() {
     _character = charlie;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Talk()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
 }
 function charlieRape() {
     _character = charlie;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Rape()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Rape()");
 }
 function charlieSex() {
     _character = charlie;
     
     if (_character.chanceToFuck(player) > 50 || player.hasItem(charlieBeatingHeart)) {
-        fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
-        try {fn();}catch (err) {}
+        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
         Content.add("No thank you.");
@@ -115,14 +109,12 @@ function charlieStay() {
 function remmyTalk() {
     _character = remmy;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Talk()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
 }
 function remmySex() {
     _character = remmy;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
 }
 function remmyFollow() {
     _character = remmy;
@@ -149,8 +141,7 @@ function rosieTalk() {
         else
             Content.add("<p>Rosie looks up at you with her sad, blue eyes, as you ask her, \"Hey kid, wanna /ll/?\"");
     }
-    fn = new Function(player.room.sid + "RosieTalk()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + "RosieTalk()");
 }
 function rosieSex() {
     _character = rosie;
@@ -175,15 +166,13 @@ function rosieFollow() {
 function wolterTalk() {
     _character = wolter;
     
-    fn = new Function(player.room.sid + _character.id.capitalize() + "Talk()");
-    try {fn();}catch (err) {}
+    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
 }
 function wolterSex() {
     _character = wolter;
     
     if (_character.chanceToFuck(player) > 50) {
-        fn = new Function(player.room.sid + _character.id.capitalize() + "Sex()");
-        try {fn();}catch (err) {}
+        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
         Content.add("No thank you.");
