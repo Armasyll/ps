@@ -190,6 +190,7 @@ wolter.philautia = 50;
 wolter.agape = 50;
 wolter.setDisposition(anneke,   new Disposition(40, 75, 75, 25, 100, 10));
 wolter.setDisposition(charlie,  new Disposition(35, 60, 60, 0, 15, 0));
+wolter.setDisposition(remmy,    new Disposition(20, 55, 55,  0,  0, 0));
 wolter.defaultDisposition.set(20, 0, 25, 0, 0);
 wolter.addPreferredSpecies("aardwolf");
 wolter.addPreferredSpecies("fox");

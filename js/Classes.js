@@ -1023,7 +1023,7 @@ class Disposition {
      * param int _eros, passion
      * param int _philia, friendship
      * param int _lodus, playfulness
-     * param int _pragama, souldmate
+     * param int _pragma, souldmate
      * param int _storge, familial
      * param int _manic, obsession
      */
@@ -1625,6 +1625,9 @@ class Character extends Entity {
 
         if (_eros instanceof Disposition)
             this.characterDisposition.set(_character, _eros);
+        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && !isNaN(Number.parseInt(_philia))) {
+            this.getCharacterDisposition(_character).set(_eros, Number.parseInt(_philia));
+        }
         else if (this.characterDisposition.has(_character)) {
             _eros = isNaN(_eros) ? this.characterDisposition.get(_character).eros : _eros;
             _philia = isNaN(_philia) ? this.characterDisposition.get(_character).philia : _philia;
@@ -1648,11 +1651,62 @@ class Character extends Entity {
 
         return this.characterDisposition.get(_character);
     }
-    getDisposition(_character, _dispositionType = undefined) {
-        return this.getCharacterDisposition(_character, _dispositionType);
+    setCharacterEros(_character, _eros) {
+        this.setCharacterDisposition(_character, "eros", _eros);
+    }
+    addCharacterEros(_character, _eros) {
+        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + _eros);
+    }
+    incrementCharacterEros(_character) {
+        this.addCharacterEros(_character, 1);
+    }
+    setCharacterPhilia(_character, _philia) {
+        this.setCharacterDisposition(_character, "philia", _philia);
+    }
+    addCharacterPhilia(_character, _philia) {
+        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + _philia);
+    }
+    incrementCharacterPhilia(_character) {
+        this.addCharacterPhilia(_character, 1);
+    }
+    setCharacterLodus(_character, _lodus) {
+        this.setCharacterDisposition(_character, "lodus", _lodus);
+    }
+    addCharacterLodus(_character, _lodus) {
+        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + _lodus);
+    }
+    incrementCharacterLodus(_character) {
+        this.addCharacterLodus(_character, 1);
+    }
+    setCharacterPragma(_character, _pragma) {
+        this.setCharacterDisposition(_character, "pragma", _pragma);
+    }
+    addCharacterPragma(_character, _pragma) {
+        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + _pragma);
+    }
+    incrementCharacterPragma(_character) {
+        this.addCharacterPragma(_character, 1);
+    }
+    setCharacterStorge(_character, _storge) {
+        this.setCharacterDisposition(_character, "storge", _storge);
+    }
+    addCharacterStorge(_character, _storge) {
+        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + _storge);
+    }
+    incrementCharacterStorge(_character) {
+        this.addCharacterStorge(_character, 1);
+    }
+    setCharacterManic(_character, _manic) {
+        this.setCharacterDisposition(_character, "manic", _manic);
+    }
+    addCharacterManic(_character, _manic) {
+        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + _manic);
+    }
+    incrementCharacterManic(_character) {
+        this.addCharacterManic(_character, 1);
     }
     getCharacterDisposition(_character, _dispositionType = undefined) {
-        if (debug) console.log("Running getDisposition");
+        if (debug) console.log("Running getCharacterDisposition");
 
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -2433,13 +2487,14 @@ class Character extends Entity {
 
         // Past Relations
         if (this.hadSexWith.has(_character))
-            chance += 3;
+            chance += 10;
 
         if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
 
         // Disposition
-        chance += this.characterDisposition.get(_character).eros / 3;
-        chance += this.characterDisposition.get(_character).manic / 2;
+        chance += this.characterDisposition.get(_character).eros /  1.5;
+        chance += this.characterDisposition.get(_character).pragma;
+        chance += this.characterDisposition.get(_character).manic / 0.5;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
