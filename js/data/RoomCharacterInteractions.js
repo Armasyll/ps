@@ -144,7 +144,7 @@ function remmyApartmentLivingroomCharlie() {
     else if (charlie.hasShirt && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += (", bottomless, peering over the end opposite you. Her fluffy tail is in the way of anything good. You're suddenly feeling very thirsty. Also, you don't know why she's in your apartment in just a turtleneck.");
     else
-        _blob += (" in a " + _character.clothingTorso.toString() + " and " + _character.clothingLegs.toString() + ". You invited her over for something, but you can't remember what.");
+        _blob += (" in a " + _character.bra.toString() + " and " + _character.pants.toString() + ". You invited her over for something, but you can't remember what.");
     
     Content.add("<p>" + _blob + "</p>");
 }
@@ -494,20 +494,20 @@ function remmyApartmentLivingroomWolter() {
     _blob = "";
     _blob += ("Wolter is " + (wolter.sleeping ? "sleeping" : "laying") + " on the couch");
     if (wolter.hasShirt() && wolter.hasPants()) {
-        if (wolter.clothingTorso.owner == anneke)
-            _blob += (" in his sister's " + wolter.clothingTorso.toString() + " and " + wolter.clothingLegs.toString());
+        if (wolter.bra.owner == anneke)
+            _blob += (" in his sister's " + wolter.bra.toString() + " and " + wolter.pants.toString());
         else
-            _blob += (" in " + wolter.clothingTorso.toString() + " and " + wolter.clothingLegs.toString());
+            _blob += (" in " + wolter.bra.toString() + " and " + wolter.pants.toString());
     }
     else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear()) {
-        if (wolter.clothingTorso.owner == anneke)
-            _blob += (" in his sister's " + wolter.clothingTorso.toString() + " and " + wolter.clothingGroin.toString());
+        if (wolter.bra.owner == anneke)
+            _blob += (" in his sister's " + wolter.bra.toString() + " and " + wolter.underwear.toString());
         else
-            _blob += (" in " + wolter.clothingTorso.toString() + " and " + wolter.clothingGroin.toString());
+            _blob += (" in " + wolter.bra.toString() + " and " + wolter.underwear.toString());
     }
     else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear()) {
-        if (wolter.clothingTorso.owner == anneke)
-            _blob += (" wearing his sister's " + wolter.clothingTorso.toString() + ", ");
+        if (wolter.bra.owner == anneke)
+            _blob += (" wearing his sister's " + wolter.bra.toString() + ", ");
         else
             _blob += (" wearing only a shirt, ");
         _blob += ("and nothing else");
@@ -516,10 +516,10 @@ function remmyApartmentLivingroomWolter() {
         _blob += (" shirtless");
     }
     else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear()) {
-        if (wolter.clothingGroin.owner == anneke)
-            _blob += (" in his sister's " + wolter.cothingGroin.toString());
+        if (wolter.underwear.owner == anneke)
+            _blob += (" in his sister's " + wolter.underwear.toString());
         else
-            _blob += (" in his " + wolter.cothingGroin.toString());
+            _blob += (" in his " + wolter.underwear.toString());
     }
     else {
         _blob += (", naked");
