@@ -7,13 +7,13 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
     }
     else {
         if (player.room !== _room) {
-            if (debug) console.log("Previous Room: " + player.room.id);
+            if (debug) console.log("Previous Room: {0}".format(player.room.id));
             movePlayerToRoom(_room);
-            if (debug) console.log("Current Room: " + player.room.id);
+            if (debug) console.log("Current Room: {0}".format(player.room.id));
         }
 
         Title.set(
-            (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize() : player.room.name),
+            (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize()) : player.room.name),
             undefined,
             (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"),
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
@@ -43,7 +43,7 @@ function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _
             Menu.clear();
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-            if (debug) console.log("\tRoom for " + _room.sid);
+            if (debug) console.log("\tRoom for {0}".format(_room.sid));
             lastMenu = "roomInteract({0}, false, false, true, false)".format(_room.sid);
             
             unsafeExec("{0}Interact({1})".format(_room.sid, _showContent));
@@ -116,7 +116,7 @@ function characterInteract(_character, _clearContent = true) {
     if (_clearContent) {
         Content.clear();
 
-        unsafeExec("{0}()".format(player.room.sid + _character.id.capitalize()));
+        unsafeExec("{0}{1}()".format(player.room.sid, _character.id.capitalize()));
     }
 
     Menu.clear();
@@ -138,7 +138,7 @@ function characterInteract(_character, _clearContent = true) {
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Interact()");
+    unsafeExec("{0}Interact()".format(_character.id));
 
     Menu.generate();
 }
@@ -232,7 +232,7 @@ function characterInteractTalk(_character) {
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Talk()");
+    unsafeExec("{0}Talk()".format(_character.id));
 
 
     Menu.generate();
@@ -245,7 +245,7 @@ function characterInteractSex(_character) {
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Sex()");
+    unsafeExec("{0}Sex()".format(_character.id));
 
     Menu.generate();
 }
@@ -257,7 +257,7 @@ function characterInteractFollow(_character) {
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Follow()");
+    unsafeExec("{0}Follow()".format(_character.id));
 
     Menu.generate();
 }
@@ -269,7 +269,7 @@ function characterInteractAttack(_character) {
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Attack()");
+    unsafeExec("{0}Attack()".format(_character.id));
 
     Menu.generate();
 }
@@ -281,7 +281,7 @@ function characterInteractStay(_character) {
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    unsafeExec(_character.id + "Stay()");
+    unsafeExec("{0}Stay()".format(_character.id));
 
     Menu.generate();
 }
@@ -414,7 +414,7 @@ function furnitureInteractUse(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec(_furniture.id + "Use({0})".format(_character.id));
+    unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -425,7 +425,7 @@ function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec(_furniture.id + "Sit({0})".format(_character.id));
+    unsafeExec("{0}Sit({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -436,7 +436,7 @@ function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec(_furniture.id + "Lay({0})".format(_character.id));
+    unsafeExec("{0}Lay({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractSleep(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -449,7 +449,7 @@ function furnitureInteractSleep(_furniture, _character = player) {
 
     if (debug) console.log("Attempting to sleep in {0}".format(_furniture.id));
 
-    unsafeExec(_furniture.id + "Sleep({0})".format(_character.id));
+    unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -460,7 +460,7 @@ function furnitureInteractLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec(_furniture.id + "Look({0})".format(_character.id));
+    unsafeExec("{0}Look({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractSex(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -471,7 +471,7 @@ function furnitureInteractSex(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec(_furniture.id + "Sex({0})".format(_character.id));
+    unsafeExec("{0}Sex({1})".format(_furniture.id, _character.id));
 }
 
 function itemInteract(_item, _clearContent = false, _clearMenu = true) {
