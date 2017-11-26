@@ -206,6 +206,7 @@ function debugCharactersInformation(_character = player) {
     
     Content.add("<h4>Current Clothes:</h4>");
     var _blob = "";
+    var _arr = [];
     
     var _clothingIndexes = new Map(clothingIndexes);
     
@@ -274,6 +275,62 @@ function debugCharactersInformation(_character = player) {
     _blob += "<tr><td>Pants</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='legs' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasPants() ? player.getPants().id : "undefined"), (_clothingPantsOptionsBlob));
     _blob += "<tr><td>Shoes</td><td><select class='changeClothing' onchange='{0}.wear(this.value)' data-character='{0}' data-clothingSlot='feet' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShoes() ? player.getShoes().id : "undefined"), (_clothingShoesOptionsBlob));
     _blob += "</table>";
+    Content.add(_blob);
+    
+    _blob = "<form class='form-inline'><table class='table'>";
+    
+    _map = _character.defaultDisposition.toMap();
+    
+    // Header
+    _blob += "<tr><th>Name</th>";
+    for (var _property in _character.defaultDisposition) {
+        _blob += "<th>{0}</th>".format(_property.capitalize());
+    }
+    _blob += "</tr>";
+    
+    // Defaults
+    _blob += "<tr><td>Default</td>";
+    for (var _property in _character.defaultDisposition) {
+        _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property));
+    }
+    _blob += "</tr>";
+    
+    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size);
+    charactersIndexes.forEach(function(__character) {
+        if (_character == __character)
+            return undefined;
+        
+        if (!_character.hasDisposition(__character))
+            _character.addNewDisposition(__character);
+        
+        _map = _character.getDisposition(__character).toMap();
+        
+        _blob += "<tr><td>{0}</td>".format(__character.id);
+        for (var _property in _character.characterDisposition.get(__character)) {
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id);
+        }
+        _blob += "</tr>";
+    }, this);
+    
+    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size);
+    charactersIndexes.forEach(function(__character) {
+        if (__character == _character)
+            return undefined;
+        
+        if (!__character.hasDisposition(_character))
+            __character.addNewDisposition(_character);
+        
+        _map = __character.getDisposition(_character).toMap();
+        
+        _blob += "<tr><td>{0}</td>".format(__character.id);
+        for (var _property in __character.characterDisposition.get(_character)) {
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id);
+        }
+        _blob += "</tr>";
+    }, this);
+    
+    _blob += "</table></form>";
+    
     Content.add(_blob);
 }
 function debugModifyCharacter() {

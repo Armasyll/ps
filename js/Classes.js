@@ -1025,20 +1025,74 @@ class Disposition {
         }
         else {
             if (debug) console.log("Creating a new instance of Disposition");
-            this.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
+            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic);
         }
     }
     
-    toJSON() {
+    toObject() {
         var _blob = {};
         for (var property in this) {
             _blob[property] = this[property];
         }
         
-        return JSON.stringify(_blob);
+        return _blob;
+    }
+    
+    toMap() {
+        var _map = new Map();
+        for (var property in this) {
+            _map.set(property, this[property])
+        }
+        
+        return _map;
+    }
+    
+    toJSON() {
+        return JSON.stringify(this.toObject());
+    }
+    
+    setEros(_int) {
+        this.eros = _int;
+    }
+    getEros() {
+        return this.eros;
+    }
+    setPhilia(_int) {
+        this.philia = int;
+    }
+    getPhilia() {
+        return this.philia;
+    }
+    
+    set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+        if (isNaN(_eros))
+            this._setDispositionType(_eros, _philia);
+        else
+            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic);
+    }
+    
+    _setDispositionType(_type, _int = 0) {
+        if (!this.hasOwnProperty(_type))
+            return undefined;
+        
+        this[_type] = Number.parseInt(_int);
+    }
+    
+    get(_type) {
+        if (!this.hasOwnProperty(_type))
+            return undefined;
+        
+        return this[_type];
     }
 
-    set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+    _setAll(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+        _eros = Number.parseInt(_eros);
+        _philia = Number.parseInt(_philia);
+        _lodus = Number.parseInt(_lodus);
+        _pragma = Number.parseInt(_pragma);
+        _storge = Number.parseInt(_storge);
+        _manic = Number.parseInt(_manic);
+        
         _eros = isNaN(_eros) ? 0 : _eros;
         _philia = isNaN(_philia) ? 0 : _philia;
         _lodus = isNaN(_lodus) ? 0 : _lodus;
@@ -1076,7 +1130,7 @@ class Disposition {
         _storge = isNaN(_storge) ? 0 : _storge;
         _manic = isNaN(_manic) ? 0 : _manic;
 
-        this.set(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic);
+        this._setAll(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic);
     }
 
     toString() {
@@ -1537,7 +1591,7 @@ class Character extends Entity {
 
         return this.characterDisposition.get(_character);
     }
-    getDisposition(_character, _disposition = undefined) {
+    getDisposition(_character, _dispositionType = undefined) {
         if (debug) console.log("Running getDisposition");
 
         if (!(_character instanceof Character))
@@ -1549,13 +1603,21 @@ class Character extends Entity {
         }
 
         if (this.characterDisposition.has(_character)) {
-            if (this.characterDisposition.get(_character).hasOwnProperty(_disposition))
-                return this.characterDisposition.get(_character)[_disposition];
+            if (this.characterDisposition.get(_character).hasOwnProperty(_dispositionType))
+                return this.characterDisposition.get(_character)[_dispositionType];
             else
                 return this.characterDisposition.get(_character);
         }
         else
             return false;
+    }
+    hasDisposition(_character) {
+        if (debug) console.log("Running hasDisposition");
+        
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        
+        return this.characterDisposition.has(_character);
     }
 
     hasColouration() {
@@ -2157,7 +2219,16 @@ class Character extends Entity {
         this.addAvoidedSpecies(_species);
     }
 
+    addNewDisposition(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
+        return this.addNewCharacterDispositionFor(_character, erosOffset, philiaOffset, lodusOffset, pragmaOffset, storgeOffset, manicOffset);
+    }
     addNewCharacterDispositionFor(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+        if (!(_character instanceof Character))
+            return undefined;
+
         if (this.prefersSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
