@@ -321,6 +321,13 @@
             toggleRape = function() {
                 document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Enable" : "Disable") + " Non-Con";
                 enableRape = !enableRape;
+                
+                charactersIndexes.forEach(function(_character) {
+                    if (enableRape)
+                        _character.addAction("rape");
+                    else
+                        _character.removeAction("rape");
+                }, this);
             };
             toggleGore = function() {
                 document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Enable" : "Disable") + " Violence";

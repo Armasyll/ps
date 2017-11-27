@@ -1212,11 +1212,12 @@ class Character extends Entity {
             this.surname = tempName[1];
         }
         this.nickname = undefined;
-        this.age = _age;
+        this.age = Number.parseInt(_age);
         this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
         this.addAction("talk");
         this.addAction("sex");
+        this.addAction("masturbate");
         this.addAction("attack");
         this.addAction("follow");
         this.addAction("stay");
@@ -1927,9 +1928,9 @@ class Character extends Entity {
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
         if (_character == this || !(_character instanceof Character))
-            return this.masturbate(_furniture);
+            return this.masturbate(_furniture); // fuckYourself :D
         else {
-            return this._sexWithAnother(_character, _furniture);
+            return this._fuckAnother(_character, _furniture);
         }
     }
     masturbate(_furniture = undefined) {
@@ -1946,7 +1947,7 @@ class Character extends Entity {
         
         return true;
     }
-    _sexWithAnother(_character, _furniture = undefined) {
+    _fuckAnother(_character, _furniture = undefined) {
         if(_character.chanceToFuck(this) > 50) {
             this.removeCurrentAction("masturbate");
             this.addCurrentAction("sex");
