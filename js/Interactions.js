@@ -425,7 +425,8 @@ function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec("{0}Sit({1})".format(_furniture.id, _character.id));
+    if (characterSit(_character, _furniture))
+        unsafeExec("{0}Sit({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -436,20 +437,24 @@ function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec("{0}Lay({1})".format(_furniture.id, _character.id));
+    if (characterLay(_character, _furniture))
+        unsafeExec("{0}Lay({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractSleep(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
+
     if (debug) console.log("Attempting to sleep in {0}".format(_furniture.id));
 
-    unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
+    if (characterSleep(_character, _furniture))
+        unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
 }
 function furnitureInteractLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
@@ -457,21 +462,40 @@ function furnitureInteractLook(_furniture, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
+
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
+
     unsafeExec("{0}Look({1})".format(_furniture.id, _character.id));
 }
-function furnitureInteractSex(_furniture, _character = player) {
+function furnitureInteractSex(_furniture, _characterA = player, _characterB = undefined) {
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.get(_furniture);
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+
+
+    if (!(_furniture instanceof Furniture) || !(_characterA instanceof Character))
+        return;
+
+    if (characterSex(_characterA, _characterB, _furniture))
+        unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefiend)));
+}
+function furnitureInteractMasturbate(_furniture, _character) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
+
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec("{0}Sex({1})".format(_furniture.id, _character.id));
+    if (characterSex(_character, _furniture))
+        unsafeExec("{0}Masturbate({1})".format(_furniture.id, _character.id));
 }
 
 function itemInteract(_item, _clearContent = false, _clearMenu = true) {

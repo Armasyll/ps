@@ -886,55 +886,125 @@ function characterStay(_character) {
 /**
  * Makes the Character have Sex with another Character on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
  *
- * @param Character _character
- * @param Furniture _furniture Can be undefined
+ * @param Character _characterA
+ * @param Character _characterB
+ * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
+ * @param int or String _action Can be undefined; defaults to "lay"
  *
  * @return Whether or not sex happens.
  */
-function characterSex(_characterA, _characterB = undefined, _furniture = undefined) {
+function characterSex(_characterA, _characterB = undefined, _furniture = undefined, _action = "lay") {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     
     if (typeof _characterA == 'undefined')
         return undefined;
     
-    if (furnitureIndexes.has(_characterB)) {
-        _furniture = furnitureIndexes.get(_characterB);
-    }
-    else if (_characterB instanceof Furniture) {
-        _furniture = _characterB;
-        _characterB = undefined;
-    }
-    else if (!(_characterB instanceof Character))
+    if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
     
-    if (_characterA.furniture instanceof Furniture && _characterA.furniture != _furniture)
-        _furniture.removeCharacter(_characterA);
+    if (typeof _characterB == 'undefined')
+        return undefined;
+    
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+    
+    if (typeof _action != "undefined") {
+        if (isNaN(_action))
+            _action = ActionsNameIds.has(_action) ? ActionsNameIds.get(_action) : ActionsNameIds.get("lay");
+        else
+            _action = ActionsIdNames.has(_action) ? ActionsIdNames.get(_action) : ActionsNameIds.get("lay");
+    }
+    
+    if (_characterA.furniture instanceof Furniture) {
+        if (_characterA.furniture != _furniture && _furniture instanceof Furniture)
+            _characterA.furniture.removeCharacter(_characterA);
+        else if (!(_furniture instanceof Furniture))
+            _furniture = _characterA.furniture;
+    }
+    
+    if (_characterB.furniture instanceof Furniture) {
+        if (_characterB.furniture != _furniture && _furniture instanceof Furniture)
+            _characterB.furniture.removeCharacter(_characterB);
+        else if (!(_furniture instanceof Furniture))
+            _furniture = _characterB.furniture;
+    }
     
     if (_furniture instanceof Furniture) {
         var _largestCharacter = (SpeciesSizeUnits.get(_characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(_characterA.species) : SpeciesSizeUnits.get(_characterB.species));
-        if (_furniture.seatingSpace >= _largestCharacter * 2) {
+        
+        if (_furniture.seatingSpace >= _largestCharacter * 2 && _action == ActionsNameIds.get("lay")) {
             _furniture.addCharacter(_characterA);
             _furniture.addCharacter(_characterB);
             _characterA.lay(_furniture);
             _characterB.lay(_furniture);
         }
-        else if (_furniture.availableSeatingSpace() >= _largestCharacter) {
+        else if (_furniture.availableSeatingSpace() >= _largestCharacter && _action == ActionsNameIds.get("sit")) {
             _furniture.addCharacter(_characterA);
             _furniture.addCharacter(_characterB);
             _characterA.sit(_furniture);
             _characterB.sit(_furniture);
         }
         else {
-            _characterA.lay();
-            _characterB.lay();
+            _characterA.stand();
+            _characterB.stand();
+            
+            _furniture = undefined;
         }
     }
     
     return _characterA.fuck(_characterB, _furniture);
 }
-function characterMasturbate(_character, _furniture = undefined) {
-    return characterSex(_character, undefined, _furniture);
+/**
+ * Makes the Character masturbate on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
+ *
+ * @param Character _character
+ * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
+ * @param int or String _action Can be undefined; defaults to "lay"
+ *
+ * @return Whether or not sex happens.
+ */
+function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (typeof _character == 'undefined')
+        return undefined;
+    
+    if (!(_furniture instanceof Furniture))
+        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+    
+    if (typeof _action != "undefined") {
+        if (isNaN(_action))
+            _action = ActionsNameIds.has(_action) ? ActionsNameIds.get(_action) : ActionsNameIds.get("lay");
+        else
+            _action = ActionsIdNames.has(_action) ? ActionsIdNames.get(_action) : ActionsNameIds.get("lay");
+    }
+    
+    if (_character.furniture instanceof Furniture) {
+        if (_character.furniture != _furniture && _furniture instanceof Furniture)
+            _character.furniture.removeCharacter(_character);
+        else if (!(_furniture instanceof Furniture))
+            _furniture = _character.furniture;
+    }
+    
+    if (_furniture instanceof Furniture && _furniture != _character.furniture) {
+        if (_furniture.seatingSpace >= SpeciesSizeUnits.get(_character.species) * 2 && _action == ActionsNameIds.get("lay")) {
+            _furniture.addCharacter(_character);
+            _character.lay(_furniture);
+        }
+        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) && _action == ActionsNameIds.get("sit")) {
+            _furniture.addCharacter(_character);
+            _character.sit(_furniture);
+        }
+        else {
+            _character.lay();
+            
+            _furniture = undefined;
+        }
+    }
+    
+    return _character.masturbate(_furniture);
 }
 
 /**
