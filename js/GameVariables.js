@@ -85,7 +85,7 @@ const ClothingTypeIdNames = new Map();
     ClothingTypeIdNames.set(6, "lipPiercing");
     ClothingTypeIdNames.set(7, "tonguePiercing");
     ClothingTypeIdNames.set(8, "collar");
-    ClothingTypeIdNames.set(9, "scarf");
+    ClothingTypeIdNames.set(9, "neckwear");
     ClothingTypeIdNames.set(10, "shirt");
     ClothingTypeIdNames.set(11, "jacket");
     ClothingTypeIdNames.set(12, "belt");

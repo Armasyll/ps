@@ -954,7 +954,8 @@ class Entity {
             return undefined;
 
         this.items.add(_item);
-        _item.moveToEntity(this);
+        
+        return true;
     }
     removeItem(_item) {
         if (!(_item instanceof Item))
@@ -967,7 +968,6 @@ class Entity {
             this.takeOff(_item);
 
         this.items.delete(_item);
-        _item.moveToEntity(undefined);
     }
 
     containsItem(_item) {
@@ -1334,7 +1334,7 @@ class Character extends Entity {
         this.lipPiercing = undefined;
         this.tonguePiercing = undefined;
         this.collar = undefined;
-        this.scarf = undefined;
+        this.neckwear = undefined;
         this.shirt = undefined;
         this.jacket = undefined;
         this.belt = undefined;
@@ -1522,8 +1522,8 @@ class Character extends Entity {
         this.collar = clothingIndexes.has(json["collar"]) ? clothingIndexes.get(json["collar"]) : undefined;
         delete json["collar"];
         
-        this.scarf = clothingIndexes.has(json["scarf"]) ? clothingIndexes.get(json["scarf"]) : undefined;
-        delete json["scarf"];
+        this.neckwear = clothingIndexes.has(json["neckwear"]) ? clothingIndexes.get(json["neckwear"]) : undefined;
+        delete json["neckwear"];
         
         this.shirt = clothingIndexes.has(json["shirt"]) ? clothingIndexes.get(json["shirt"]) : undefined;
         delete json["shirt"];
