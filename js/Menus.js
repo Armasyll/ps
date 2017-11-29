@@ -290,11 +290,11 @@ function debugCharactersInformation(_character = player) {
     _map = _character.defaultDisposition.toMap();
     
     // Header
-    _blob += "<tr><th>Name</th>";
+    _blob += "<thead><tr><th>Name</th>";
     for (var _property in _character.defaultDisposition) {
         _blob += "<th>{0}</th>".format(_property.capitalize());
     }
-    _blob += "</tr>";
+    _blob += "</tr></thead><tbody>";
     
     // Defaults
     _blob += "<tr><td>Default</td>";
@@ -303,7 +303,8 @@ function debugCharactersInformation(_character = player) {
     }
     _blob += "</tr>";
     
-    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size);
+    // You->Them
+    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 1);
     charactersIndexes.forEach(function(__character) {
         if (_character == __character)
             return undefined;
@@ -311,7 +312,7 @@ function debugCharactersInformation(_character = player) {
         if (!_character.hasDisposition(__character))
             _character.addNewDisposition(__character);
         
-        _map = _character.getDisposition(__character).toMap();
+        _map = _character.getCharacterDisposition(__character).toMap();
         
         _blob += "<tr><td>{0}</td>".format(__character.id);
         for (var _property in _character.characterDisposition.get(__character)) {
@@ -320,7 +321,8 @@ function debugCharactersInformation(_character = player) {
         _blob += "</tr>";
     }, this);
     
-    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size);
+    // Them->You
+    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 1);
     charactersIndexes.forEach(function(__character) {
         if (__character == _character)
             return undefined;
@@ -328,7 +330,7 @@ function debugCharactersInformation(_character = player) {
         if (!__character.hasDisposition(_character))
             __character.addNewDisposition(_character);
         
-        _map = __character.getDisposition(_character).toMap();
+        _map = __character.getCharacterDisposition(_character).toMap();
         
         _blob += "<tr><td>{0}</td>".format(__character.id);
         for (var _property in __character.characterDisposition.get(_character)) {
@@ -337,9 +339,10 @@ function debugCharactersInformation(_character = player) {
         _blob += "</tr>";
     }, this);
     
-    _blob += "</table></form>";
+    _blob += "</tbody></table></form>";
     
     Content.add(_blob);
+    _blob = "";
 }
 function debugModifyCharacter() {
     clearContentAndMenu();
