@@ -14,11 +14,35 @@
         <link rel="stylesheet" type="text/css" href="css/ps.css">
     </head>
     <body>
+        <div class="modal" id="webModal" tabindex="-1">
+            <div class="modal-dialog modal-lg" style="height:94%;">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                        <h4 id="webModalTitle" class="modal-title"></h4>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Bookmarks
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="webModalBookmarks" class="dropdown-menu">
+                                <li><a onclick="webSiteInteract('eweTube')">EweTube</a></li>
+                                <li><a onclick="webSiteInteract('zoogle')">Zoogle</a></li>
+                                <li><a onclick="webSiteInteract('muzzleBook')">MuzzleBook</a></li>
+                                <li class="divider"></li>
+                                <li><a onclick="webSiteInteract('gekroulette')">Gekroulette</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="webModalBody" class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal" id="optionsModal" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                         <h4 class="modal-title">Game Options</h4>
                     </div>
                     <div class="modal-body">
@@ -33,7 +57,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                         <h4 class="modal-title">Help</h4>
                     </div>
                     <div class="modal-body">
@@ -53,7 +77,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                         <h4 class="modal-title">About</h4>
                     </div>
                     <div class="modal-body">
@@ -74,7 +98,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 id="personalInventoryModal-title" class="modal-title"></h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div id="personalInventoryModal-body" class="modal-body" style='background-color: rgb(44, 44, 44);'>
                     </div>
@@ -86,7 +110,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 id="deviceInterfaceModal-title" class="modal-title"></h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div id="deviceInterfaceModal-body" class="modal-body" style='background-color: rgb(44, 44, 44);'>
                     </div>
@@ -101,7 +125,7 @@
                             <li><a id="dualInventoryTab-characterA" data-toggle="tab" href="#dualInventoryContent-characterA">characterA's Inventory</a></li>
                             <li class="active"><a id="dualInventoryTab-characterB" data-toggle="tab" href="#dualInventoryContent-characterB">characterB's Inventory</a></li>
                         </ul>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body" style='background-color: rgb(44, 44, 44);'>
                         <div class="tab-content">
@@ -200,6 +224,8 @@
         <script data-description="Characters" src="js/data/Characters.js"></script>
         <script data-description="Furniture" src="js/data/Furniture.js"></script>
         <script data-description="Items" src="js/data/Items.js"></script>
+        <script data-description="WebSites" src="js/data/WebSites.js"></script>
+        <script data-description="WebPages" src="js/data/WebPages.js"></script>
         <script data-description="Interactions" src="js/Interactions.js"></script>
         
         <script data-description="Locations Assignments" src="js/data/LocationsAssignments.js"></script>

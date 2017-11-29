@@ -608,3 +608,12 @@ function itemInteractSex(_item, _character = player) {
 
 
 }
+function webSiteInteract(_webSite = undefined) {
+    if (!(_webSite instanceof WebSite))
+        _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
+    
+    if (typeof _webSite == "undefined")
+        document.getElementById("webModalBody").innerHTML = "404 Page Not Found.";
+    else
+        document.getElementById("webModalBody").innerHTML = _webSite.id;
+}
