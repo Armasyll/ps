@@ -413,13 +413,13 @@ function getAppearance(_character, _self = false) {
     _blob += (" wearing a ");
     
     if (_character.hasShirt() && _character.hasPants()) {
-        _blob += (_character.bra.toString() + ", and " + _character.pants.toString() + ".");
+        _blob += (_character.shirt.toString() + ", and " + _character.pants.toString() + ".");
     }
     else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
-        _blob += (_character.bra.toString() + ", no pants, and " + _character.underwear.toString() + ".");
+        _blob += (_character.shirt.toString() + ", no pants, and " + _character.underwear.toString() + ".");
     }
     else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear()) {
-        _blob += (_character.bra.toString() + ", and nothing below the waste.");
+        _blob += (_character.shirt.toString() + ", and nothing below the waste.");
     }
     else if (!_character.hasShirt() && _character.hasPants()) {
         if (_character.pants.plural)
@@ -438,13 +438,6 @@ function getAppearance(_character, _self = false) {
     }
     
     Content.add("<p>" + _blob + "</p>");
-    
-    Content.add("<p>Their disposition for themself: " + "Self(" + _character.philautia + "), Others(" + _character.agape + ")</p>");
-    if (!_self && _character.characterDisposition.has(player)) {
-        Content.add("<p>Their disposition for you: " + _character.characterDisposition.get(player).toString() + "</p>");
-    }
-    if (!_self && player.characterDisposition.has(_character))
-        Content.add("<p>Your disposition for them: " + player.characterDisposition.get(_character).toString() + "</p>");
 }
 function start() {
     agreeTOS = true;
