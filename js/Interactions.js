@@ -482,7 +482,7 @@ function furnitureInteractSex(_furniture, _characterA = player, _characterB = un
         return;
 
     if (characterSex(_characterA, _characterB, _furniture))
-        unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefiend)));
+        unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefined)));
 }
 function furnitureInteractMasturbate(_furniture, _character) {
     if (!(_furniture instanceof Furniture))
