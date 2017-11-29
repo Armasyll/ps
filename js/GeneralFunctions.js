@@ -77,12 +77,12 @@ Array.prototype.flip = function() {
     
     return tmpArr;
 }
-
-function array_compare(a1, a2) {
-    if (a1.length != a2.length) return false;
-    var length = a2.length;
+Array.prototype.compare = function() {
+    var args = arguments;
+    if (this.length != args[0].length) return false;
+    var length = args[0].length;
     for (var i = 0; i < length; i++) {
-        if (a1[i] !== a2[i]) return false;
+        if (this[i] !== args[0][i]) return false;
     }
     return true;
 }
