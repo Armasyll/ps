@@ -3012,7 +3012,7 @@ class Room extends Entity {
 
     lock(_room) {
         if (_room instanceof Room)
-            _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
+            _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
         else if (_room >= 0 && _room < 7)
             _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
 
@@ -3025,7 +3025,7 @@ class Room extends Entity {
     }
     unlock(_room) {
         if (_room instanceof Room)
-            _room = map_flip(this.attachedRooms).has(_room) ? _room : undefined;
+            _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
         else if (_room >= 0 && _room < 7)
             _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
 
@@ -3515,7 +3515,7 @@ class Room extends Entity {
 
     isLocked(_direction = undefined) {
         if (_direction instanceof Room) {
-            if (map_flip(this.attachedRooms).has(_direction)) {
+            if (this.attachedRooms.flip().has(_direction)) {
                 if (this.roomsOptions.get(_direction)['isLocked'])
                     return true;
                 // Why I bothered to check if the direction coming IN from the outside is locked, when you're already inside, is beyond me.
@@ -3530,7 +3530,7 @@ class Room extends Entity {
         else {
             if (this.attachedRooms.has(_direction) && this.attachedRooms.get(_direction) instanceof Room) {
                 _direction = this.attachedRooms.get(_direction);
-                if (map_flip(this.attachedRooms).has(_direction)) {
+                if (this.attachedRooms.flip().has(_direction)) {
                     if (this.roomsOptions.get(_direction)['isLocked'])
                         return true;
                     // See previous note

@@ -50,28 +50,32 @@ Date.prototype.addDate = function() {
         this.setDate(this.getDate() + args[0]);
     return this;
 }
-
-function array_flip(trans) {
-    var key;
-    var tmpArr = {};
+Map.prototype.flip = function() {
+    if (!(this instanceof Map))
+        return undefined;
     
-    for (key in trans) {
-        if (!trans.hasOwnProperty(key)) {
-            continue;
-        }
-        tmpArr[trans[parseInt(key)]-1] = (key);
-    }
-    return tmpArr;
-}
-
-function map_flip(trans) {
     var tmpMap = new Map();
     
-    trans.forEach(function(val, key) {
+    this.forEach(function(val, key) {
         tmpMap.set(val, key);
     });
     
     return tmpMap;
+}
+Array.prototype.flip = function() {
+    if (!(this instanceof Array))
+        return undefined;
+    
+    var tmpArr = {};
+    
+    for (key in this) {
+        if (!this.hasOwnProperty(key)) {
+            continue;
+        }
+        tmpArr[this[parseInt(key)]-1] = (key);
+    }
+    
+    return tmpArr;
 }
 
 function array_compare(a1, a2) {
@@ -81,14 +85,6 @@ function array_compare(a1, a2) {
         if (a1[i] !== a2[i]) return false;
     }
     return true;
-}
-
-function in_array(needle, haystack) {
-    var length = haystack.length;
-    for(var i = 0; i < length; i++) {
-        if(haystack[i] == needle) return true;
-    }
-    return false;
 }
 
 function unixTimeToDate(_unixTimestamp = currentTime) {

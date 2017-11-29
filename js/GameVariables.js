@@ -41,7 +41,7 @@ const SpeciesIdNames = new Map();
     SpeciesIdNames.set(11, "antelope");
     SpeciesIdNames.set(12, "pig");
     SpeciesIdNames.set(13, "horse");
-const SpeciesNameIds = map_flip(SpeciesIdNames);
+const SpeciesNameIds = SpeciesIdNames.flip();
 
 const SpeciesSizeUnits = new Map();
     SpeciesSizeUnits.set(0, 0.5);
@@ -71,7 +71,7 @@ const BodyPartIdNames = new Map();
     BodyPartIdNames.set(11, "groin");
     BodyPartIdNames.set(12, "legs");
     BodyPartIdNames.set(13, "feet");
-const BodyPartNameIds = map_flip(BodyPartIdNames);
+const BodyPartNameIds = BodyPartIdNames.flip();
 
 const ClothingTypeIdNames = new Map();
     ClothingTypeIdNames.set(0, "hat");
@@ -93,7 +93,7 @@ const ClothingTypeIdNames = new Map();
     ClothingTypeIdNames.set(16, "socks");
     ClothingTypeIdNames.set(17, "shoes");
     ClothingTypeIdNames.set(18, "bra");
-const ClothingTypeNameIds = map_flip(ClothingTypeIdNames);
+const ClothingTypeNameIds = ClothingTypeIdNames.flip();
 
 const HandTypeIdNames = new Map();
     HandTypeIdNames.set(0, "fur");
@@ -101,7 +101,7 @@ const HandTypeIdNames = new Map();
     HandTypeIdNames.set(2, "hoof");
     HandTypeIdNames.set(4, "clovenhoof");
     HandTypeIdNames.set(5, "skin");
-const HandTypeNameIds = map_flip(HandTypeIdNames);
+const HandTypeNameIds = HandTypeIdNames.flip();
 
 const FeetTypeIdNames = HandTypeIdNames;
 const FeetTypeNameIds = HandTypeNameIds;
@@ -110,14 +110,14 @@ const EyeTypeIdNames = new Map();
     EyeTypeIdNames.set(0, "circle");
     EyeTypeIdNames.set(1, "slit");
     EyeTypeIdNames.set(2, "rectangle");
-const EyeTypeNameIds = map_flip(EyeTypeIdNames);
+const EyeTypeNameIds = EyeTypeIdNames.flip();
 
 const FurTypeIdNames = new Map();
     FurTypeIdNames.set(0, "skin");
     FurTypeIdNames.set(1, "fur");
     FurTypeIdNames.set(2, "wool");
     FurTypeIdNames.set(3, "hair"); // Not as thick as fur
-const FurTypeNameIds = map_flip(FurTypeIdNames);
+const FurTypeNameIds = FurTypeIdNames.flip();
 
 const RoomTypeIdNames = new Map();
     RoomTypeIdNames.set(0, "hallway");
@@ -133,7 +133,7 @@ const RoomTypeIdNames = new Map();
     RoomTypeIdNames.set(10, "street");
     RoomTypeIdNames.set(11, "walkway");
     RoomTypeIdNames.set(12, "lot");
-const RoomTypeNameIds = map_flip(RoomTypeIdNames);
+const RoomTypeNameIds = RoomTypeIdNames.flip();
 
 const FurnitureTypeIdNames = new Map();
     FurnitureTypeIdNames.set(0, "chair");
@@ -159,7 +159,7 @@ const FurnitureTypeIdNames = new Map();
     FurnitureTypeIdNames.set(20, "toilet");
     FurnitureTypeIdNames.set(21, "mirror");
     FurnitureTypeIdNames.set(22, "basket");
-const FurnitureTypeNameIds = map_flip(FurnitureTypeIdNames);
+const FurnitureTypeNameIds = FurnitureTypeIdNames.flip();
 
 const ActionsIdNames = new Map();
     ActionsIdNames.set(0, "move");
@@ -184,4 +184,4 @@ const ActionsIdNames = new Map();
     ActionsIdNames.set(19, "follow");
     ActionsIdNames.set(20, "stay");
     ActionsIdNames.set(21, "masturbate");
-const ActionsNameIds = map_flip(ActionsIdNames);
+const ActionsNameIds = ActionsIdNames.flip();
