@@ -891,6 +891,8 @@ class Entity {
 
             this.items = new Set();
         }
+        
+        entityIndexes.set(this.id, this);
     }
 
     toJSON() {

@@ -22,7 +22,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (_clearMenu) {
         Menu.clear();
         exploreMenu();
-        Menu.setOption(0, "roomInteract({0}, false, false, false)".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
+        Menu.setOption(0, "roomInteract({0}, false, false)".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
         if (player.room.characters.size == 2) {
             _character = undefined;
@@ -192,7 +192,7 @@ function debugSwitchRoom() {
     
     roomsIndexes.forEach(function (_key, _val) {
         if (typeof window[_key.id + "Interact"] === 'function')
-            Content.add(Menu.createButton("roomInteract(" + _key.id + ", true, true, true)", _key.name, _key.id, false));
+            Content.add(Menu.createButton("roomInteract(" + _key.id + ", true)", _key.name, _key.id, false));
     });
     
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");

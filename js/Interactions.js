@@ -1,98 +1,97 @@
-function roomInteract(_room, _showBaseMenu = false, _clearContent = undefined, _showContent = undefined, _checkLocked = true) {
+function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
 
-    if (player.room.isLocked(_room) && _checkLocked && !player.hasKey(_room)) {
+    if (player.room.isLocked(_room) && !player.hasKey(_room)) {
         Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
+        return undefined;
+    }
+
+    if (player.room !== _room) {
+        if (debug) console.log("Previous Room: {0}".format(player.room.id));
+        movePlayerToRoom(_room);
+        if (debug) console.log("Current Room: {0}".format(player.room.id));
+    }
+
+    Title.set(
+        (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize()) : player.room.name),
+        undefined,
+        (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"),
+        (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
+    );
+
+    var _previousRoomDifferent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
+
+    if (_clearContent != false && _previousRoomDifferent)
+        Content.clear();
+    
+    Menu.showingBaseMenu = _showBaseMenu == true;
+
+    if (Menu.showingBaseMenu) {
+        if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
+        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !scenesViewedThisWindow.has(player.previousRoom)));
+
+        scenesViewedThisWindow.add(player.previousRoom);
+
+        baseMenu(0, 1);
+        
+        scenesViewedThisWindow.clear();
     }
     else {
-        if (player.room !== _room) {
-            if (debug) console.log("Previous Room: {0}".format(player.room.id));
-            movePlayerToRoom(_room);
-            if (debug) console.log("Current Room: {0}".format(player.room.id));
-        }
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-        Title.set(
-            (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize()) : player.room.name),
-            undefined,
-            (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"),
-            (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
-        );
+        scenesViewedThisWindow.add(player.previousRoom);
 
-        var _previousRoomDifferent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
-
-        if (typeof _clearContent != "boolean") {
-            if (_previousRoomDifferent)
-                Content.clear();
-        }
-        else if (_clearContent === true)
-            Content.clear();
-
-        if (typeof _showContent != "boolean")
-            _showContent = _previousRoomDifferent;
+        if (debug) console.log("\tRoom for {0}".format(_room.sid));
+        lastMenu = "roomInteract({0}, false)".format(_room.sid);
         
-        if (_showBaseMenu) {
-            if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
-            unsafeExec("{0}Interact({1})".format(_room.sid, _showContent));
-            
-            baseMenu(0, 1);
-        }
-        else {
-            Menu.showingBaseMenu = false;
+        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !scenesViewedThisWindow.has(player.previousRoom)));
 
-            Menu.clear();
-            Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        _room.furniture.forEach(function(_furniture) {
+            Menu.addOption("furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
+        });
+        
+        Menu.generate();
+    }
 
-            if (debug) console.log("\tRoom for {0}".format(_room.sid));
-            lastMenu = "roomInteract({0}, false, false, true, false)".format(_room.sid);
-            
-            unsafeExec("{0}Interact({1})".format(_room.sid, _showContent));
-
-            _room.furniture.forEach(function(_furniture) {
-                Menu.addOption("furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
-            });
-            
-            Menu.generate();
+    eventsIndexes.forEach(function(_event) {
+        if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
+            return undefined;
         }
 
-        eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
-                return undefined;
-            }
-
-            if (
-                typeof _event.characterA == 'undefined' ||
+        if (
+            typeof _event.characterA == 'undefined' ||
+            (
+                (_event.characterA instanceof Character && _event.characterA == player) &&
+                (typeof _event.item == 'undefined' || _event.characterA.containsItem(_event.item))
+            )
+        ) {
+            if (typeof _event.location == 'undefined' ||
                 (
-                    (_event.characterA instanceof Character && _event.characterA == player) &&
-                    (typeof _event.item == 'undefined' || _event.characterA.containsItem(_event.item))
+                    (_event.location instanceof Location && (_event.location == _room.location || _event.location == _room.cell.location)) &&
+                    (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
                 )
             ) {
-                if (typeof _event.location == 'undefined' ||
+                if (typeof _event.cell == 'undefined' ||
                     (
-                        (_event.location instanceof Location && (_event.location == _room.location || _event.location == _room.cell.location)) &&
-                        (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
+                        (_event.cell instanceof Cell && _event.cell == _room.cell) &&
+                        (typeof _event.characterB == 'undefined' || _event.characterB.room.cell == _event.cell) &&
+                        (_event.characterA.previousRoom.cell != _event.characterA.room.cell)
                     )
                 ) {
-                    if (typeof _event.cell == 'undefined' ||
+                    if (typeof _event.room == 'undefined' ||
                         (
-                            (_event.cell instanceof Cell && _event.cell == _room.cell) &&
-                            (typeof _event.characterB == 'undefined' || _event.characterB.room.cell == _event.cell) &&
-                            (_event.characterA.previousRoom.cell != _event.characterA.room.cell)
+                            (_event.room instanceof Room && _event.room == _room) &&
+                            (typeof _event.characterB == 'undefined' || _event.characterB.room == _event.room)
                         )
                     ) {
-                        if (typeof _event.room == 'undefined' ||
-                            (
-                                (_event.room instanceof Room && _event.room == _room) &&
-                                (typeof _event.characterB == 'undefined' || _event.characterB.room == _event.room)
-                            )
-                        ) {
-                            _event.execute();
-                        }
+                        _event.execute();
                     }
                 }
             }
-        }, this);
-    }
+        }
+    }, this);
 }
 
 function characterInteract(_character, _clearContent = true) {
@@ -301,7 +300,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
         else {
             Menu.clear();
-            Menu.setOption((Menu.useWideMenu ? 9 : 7), "roomInteract({0}, false, false, false)".format(player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "roomInteract({0}, false, false)".format(player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
 
