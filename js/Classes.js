@@ -3,10 +3,10 @@ class Title {
     /**
      * Sets the titles
      *
-     * param _titleTopString
-     * param _titleTopImg
-     * param _titleMidString
-     * param _titleBotString
+     * @param _titleTopString
+     * @param _titleTopImg
+     * @param _titleMidString
+     * @param _titleBotString
      *
      */
     static set(_titleTopString = "&nbsp;", _titleTopImg = undefined, _titleMidString = "&nbsp;", _titleBotString = "&nbsp;") {
@@ -1022,12 +1022,12 @@ class Entity {
 
 class Disposition {
     /**
-     * param int _eros, passion
-     * param int _philia, friendship
-     * param int _lodus, playfulness
-     * param int _pragma, souldmate
-     * param int _storge, familial
-     * param int _manic, obsession
+     * @param int _eros, passion
+     * @param int _philia, friendship
+     * @param int _lodus, playfulness
+     * @param int _pragma, souldmate
+     * @param int _storge, familial
+     * @param int _manic, obsession
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         if (_eros instanceof Object) {
@@ -1262,24 +1262,6 @@ class Character extends Entity {
         this.furTrimmed = 50;
         this.furSoftness = 50;
 
-        this.setSpecies(_species);
-
-        this.hadSex = false;
-
-        this.sexCount = 0;
-        this.vaginalReceiveCount = 0;
-        this.vaginalGiveCount = 0;
-        this.analReceiveCount = 0;
-        this.analGiveCount = 0;
-        this.cunnilingusReceiveCount = 0;
-        this.cunnilingusGiveCount = 0;
-        this.analingusReceiveCount = 0;
-        this.analingusGiveCount = 0;
-        this.fellatioReceiveCount = 0;
-        this.fellatioGiveCount = 0;
-        this.masturbateCount = 0;
-        this.handjobCount = 0;
-
         /*
             0 - none/flat
             1 - petite
@@ -1319,6 +1301,25 @@ class Character extends Entity {
             3 - 70s
         */
         this.pubicHairSize = 0;
+
+
+        this.setSpecies(_species);
+
+        this.hadSex = false;
+
+        this.sexCount = 0;
+        this.vaginalReceiveCount = 0;
+        this.vaginalGiveCount = 0;
+        this.analReceiveCount = 0;
+        this.analGiveCount = 0;
+        this.cunnilingusReceiveCount = 0;
+        this.cunnilingusGiveCount = 0;
+        this.analingusReceiveCount = 0;
+        this.analingusGiveCount = 0;
+        this.fellatioReceiveCount = 0;
+        this.fellatioGiveCount = 0;
+        this.masturbateCount = 0;
+        this.handjobCount = 0;
 
         this.following = undefined; // Character
         this.followers = new Set();
@@ -2183,15 +2184,85 @@ class Character extends Entity {
 
         switch (this.species) {
             case 0 : {// fox
-                this.setEyes("slit");
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 15;
+                    if (this.penisGirth == 0) this.penisGirth = 10;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 15;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
+                }
             }
-            case 1 : // wolf
-            case 2 : // aardwolf
-            case 3 : // heyna
-            case 5 : // stoat
-            case 8 : // jackal
-            case 9 : // coyote
+            case 1 : { // wolf
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 25;
+                    if (this.penisGirth == 0) this.penisGirth = 16;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 25;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 16;
+                }
+            }
+            case 2 : { // aardwolf
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 15;
+                    if (this.penisGirth == 0) this.penisGirth = 10;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 15;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
+                }
+            }
+            case 3 : { // heyna
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 25;
+                    if (this.penisGirth == 0) this.penisGirth = 16;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 25;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 16;
+                }
+            }
+            case 5 : { // stoat
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 8;
+                    if (this.penisGirth == 0) this.penisGirth = 7;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 8;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 7;
+                }
+            }
+            case 8 : { // jackal
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 18;
+                    if (this.penisGirth == 0) this.penisGirth = 12;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 18;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
+                }
+            }
+            case 9 : { // coyote
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 15;
+                    if (this.penisGirth == 0) this.penisGirth = 10;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 15;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
+                }
+            }
             case 10 : { // tiger
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 28;
+                    if (this.penisGirth == 0) this.penisGirth = 15;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 28;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 15;
+                }
+                
                 this.predator = true;
                 this.setFeet("pad");
                 this.setHand("pad");
@@ -2199,6 +2270,15 @@ class Character extends Entity {
                 break;
             }
             case 4 : { // sheep
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 19;
+                    if (this.penisGirth == 0) this.penisGirth = 11;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 19;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 11;
+                }
+                
                 this.predator = false;
                 this.setFeet("clovenhoof");
                 this.setHand("clovenhoof");
@@ -2207,8 +2287,26 @@ class Character extends Entity {
                 this.furSoftness = 75;
                 break;
             }
-            case 6 : // deer
+            case 6 : { // deer
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 22;
+                    if (this.penisGirth == 0) this.penisGirth = 12;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 22;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
+                }
+            }
             case 11 : { // antelope
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 22;
+                    if (this.penisGirth == 0) this.penisGirth = 12;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 22;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
+                }
+                
                 this.predator = false;
                 this.setFeet("clovenhoof");
                 this.setHand("clovenhoof");
@@ -2217,6 +2315,15 @@ class Character extends Entity {
                 break;
             }
             case 7 : { // rabbit
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 12;
+                    if (this.penisGirth == 0) this.penisGirth = 8;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 12;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 8;
+                }
+                
                 this.predator = false;
                 this.setFeet("fur");
                 this.setHand("fur");
@@ -2225,6 +2332,15 @@ class Character extends Entity {
                 break;
             }
             case 12 : { // pig
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 15;
+                    if (this.penisGirth == 0) this.penisGirth = 10;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 15;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
+                }
+                
                 this.predator = false;
                 this.setFeet("clovenhoof");
                 this.setHand("clovenhoof");
@@ -2233,6 +2349,15 @@ class Character extends Entity {
                 break;
             }
             case 13 : { // horse
+                if (this.sex == 0) {
+                    if (this.penisSize == 0) this.penisSize = 45;
+                    if (this.penisGirth == 0) this.penisGirth = 25;
+                }
+                else {
+                    if (this.vaginaSize == 0) this.vaginaSize = 45;
+                    if (this.vaginaGirth == 0) this.vaginaGirth = 25;
+                }
+                
                 this.predator = false;
                 this.setFeet("hoof");
                 this.setHand("hoof");
@@ -2244,6 +2369,54 @@ class Character extends Entity {
     }
     getSpeciesName() {
         return SpeciesIdNames.get(this.species);
+    }
+
+    setPenisSize(_blob) {
+        if (isNaN(_blob))
+            _blob = toCM(_blob);
+        
+        this.penisSize = _blob;
+        
+        return _blob;
+    }
+    getPenisSize() {
+        return this.penisSize;
+    }
+
+    setPenisGirth(_blob) {
+        if (isNaN(_blob))
+            _blob = toCM(_blob);
+        
+        this.penisGirth = _blob;
+        
+        return _blob;
+    }
+    getPenisGirth() {
+        return this.penisGirth;
+    }
+
+    setVaginaSize(_blob) {
+        if (isNaN(_blob))
+            _blob = toCM(_blob);
+        
+        this.vaginaSize = _blob;
+        
+        return _blob;
+    }
+    getVaginaSize() {
+        return this.vaginaSize;
+    }
+
+    setVaginaGirth(_blob) {
+        if (isNaN(_blob))
+            _blob = toCM(_blob);
+        
+        this.vaginaGirth = _blob;
+        
+        return _blob;
+    }
+    getVaginaGirth() {
+        return this.vaginaGirth;
     }
 
     setFollowing(_character) {
@@ -2844,12 +3017,12 @@ class Room extends Entity {
     /**
      * Creates a new room
      *
-     * param string _id, ID
-     * param string _sid, Super ID
-     * param string _name, Display name
-     * param int _type Integer representing the type of room; review RoomTypeIdNames in GameVariables.js
-     * param Cell _cell, Cell
-     * param Location _location, Sub location
+     * @param string _id, ID
+     * @param string _sid, Super ID
+     * @param string _name, Display name
+     * @param int _type Integer representing the type of room; review RoomTypeIdNames in GameVariables.js
+     * @param Cell _cell, Cell
+     * @param Location _location, Sub location
      *
      */
     constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {

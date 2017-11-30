@@ -152,6 +152,39 @@ function unsafeExec(_executableString = undefined) {
     return _return;
 }
 
+/**
+ * Returns centimeters from strings ending in 'cm' or 'in'
+ *
+ * @param string _blob Takes "12cm" or "8in" or 12
+ *
+ * @return float
+ *
+ */
+function toCM(_blob) {
+    if (isNaN(_blob)) {
+        var _unit = _blob.slice(-2);
+        if (_unit == "cm") {
+            _blob = Number.parseFloat(_blob.slice(0, -2));
+            if (isNaN(_blob))
+                _blob = 0;
+        }
+        else if (_unit == "in") {
+            _blob = Number.parseFloat(_blob.slice(0, -2));
+            if (isNaN(_blob))
+                _blob = 0;
+            else
+                _blob *= 2.54;
+        }
+        else {
+            _blob = Number.parseFloat(_blob);
+            if (isNaN(_blob))
+                _blob = 0;
+        }
+    }
+    
+    return _blob;
+}
+
 if(!jQuery) {
     include_jQuery();
     var $ = jQuery.noConflict();
