@@ -25,6 +25,7 @@ cargopantsTan = new Clothing("cargopantsTan", "Tan Cargo Pants", "A pair of tan 
 shirtPatchy = new Clothing("shirtPatchy", "Patchy Shirt", "A torn, patched up cloth shirt.", "shirt");
 pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", "pants", undefined, true);
 tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles Tank Top", "A Meles Meles band tank top.", "shirt", "images/items/tshirtWhiteMelesMeles.svg", false);
+shockCollar = new Clothing("shockCollar", "Shock Collar", "A shock collar from the 80s.", "neckwear", "images/items/shockCollar.svg", false);
 
 // Keys
 masterKey = new Key("masterKey", "Simple Key", "A simple key.", "images/items/masterKey.svg");
