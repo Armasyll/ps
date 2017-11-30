@@ -218,6 +218,14 @@ function debugCharactersInformation(_character = player) {
         }
     }, this);
     
+    var _clothingNeckwearOptionsBlob = "";
+    _clothingIndexes.forEach(function(_clothing) {
+        if (_clothing.type == ClothingTypeNameIds.get("neckwear")) {
+            _clothingNeckwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasNeckwear() && _character.getNeckwear().id == _clothing.id ? "selected" : ""));
+            _clothingIndexes.delete(_clothing.id);
+        }
+    }, this);
+    
     var _clothingBraOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
         if (_clothing.type == ClothingTypeNameIds.get("bra")) {
@@ -276,6 +284,7 @@ function debugCharactersInformation(_character = player) {
     
     _blob += "<table class='table'>";
     _blob += "<tr><td>Hat</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"hat\")' data-character='{0}' data-clothingSlot='hat' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), (_clothingHatOptionsBlob));
+    _blob += "<tr><td>Neckwear</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"neckwear\")' data-character='{0}' data-clothingSlot='neckwear' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasNeckwear() ? player.getNeckwear().id : "undefined"), (_clothingNeckwearOptionsBlob));
     _blob += "<tr><td>Bra</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"bra\")' data-character='{0}' data-clothingSlot='bra' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBra() ? player.getBra().id : "undefined"), (_clothingBraOptionsBlob));
     _blob += "<tr><td>Shirt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"shirt\")' data-character='{0}' data-clothingSlot='shirt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShirt() ? player.getShirt().id : "undefined"), (_clothingShirtOptionsBlob));
     _blob += "<tr><td>Belt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"belt\")' data-character='{0}' data-clothingSlot='belt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBelt() ? player.getBelt().id : "undefined"), (_clothingBeltOptionsBlob));

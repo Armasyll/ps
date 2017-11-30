@@ -1780,6 +1780,13 @@ class Character extends Entity {
         return this.jacket;
     }
 
+    hasNeckwear() {
+        return this.neckwear instanceof Clothing;
+    }
+    getNeckwear() {
+        return this.neckwear;
+    }
+
     hasBra() {
         return this.bra instanceof Clothing;
     }
