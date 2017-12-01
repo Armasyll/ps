@@ -50,6 +50,10 @@ img {
 	display:block;
 	vertical-align:top;
 }
+.btn-info.locked {
+	background-color: #446068;
+	border-color: #446068;
+}
 
 #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
 	max-height: 162px;

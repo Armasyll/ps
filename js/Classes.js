@@ -235,67 +235,75 @@ class Menu {
 
         var _metaName = "";
         var _secret = false;
+        var _room = undefined;
 
         if (downRoom instanceof Room) {
-            if (player.room.cell.location != downRoom.cell.location)
-                _metaName = downRoom.cell.location.name;
-            else if (player.room.location === downRoom.location || typeof downRoom.location === 'undefined')
-                _metaName = downRoom.name;
+            _room = downRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = downRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + downRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, downRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (northRoom instanceof Room) {
-            if (player.room.cell.location != northRoom.cell.location)
-                _metaName = northRoom.cell.location.name;
-            else if (player.room.location === northRoom.location || typeof northRoom.location === 'undefined')
-                _metaName = northRoom.name;
+            _room = northRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = northRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + northRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, northRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (upRoom instanceof Room) {
-            if (player.room.cell.location != upRoom.cell.location)
-                _metaName = upRoom.cell.location.name;
-            else if (player.room.location === upRoom.location || typeof upRoom.location === 'undefined')
-                _metaName = upRoom.name;
+            _room = upRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = upRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + upRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, upRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (westRoom instanceof Room) {
-            if (player.room.cell.location != westRoom.cell.location)
-                _metaName = westRoom.cell.location.name;
-            else if (player.room.location === westRoom.location || typeof westRoom.location === 'undefined')
-                _metaName = westRoom.name;
+            _room = westRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = westRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + westRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, westRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (southRoom instanceof Room) {
-            if (player.room.cell.location != southRoom.cell.location)
-                _metaName = southRoom.cell.location.name;
-            else if (player.room.location === southRoom.location || typeof southRoom.location === 'undefined')
-                _metaName = southRoom.name;
+            _room = southRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = southRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + southRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, southRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (eastRoom instanceof Room) {
-            if (player.room.cell.location != eastRoom.cell.location)
-                _metaName = eastRoom.cell.location.name;
-            else if (player.room.location === eastRoom.location || typeof eastRoom.location === 'undefined')
-                _metaName = eastRoom.name;
+            _room = eastRoom;
+            if (player.room.cell.location != _room.cell.location)
+                _metaName = _room.cell.location.name;
+            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+                _metaName = _room.name;
             else
-                _metaName = eastRoom.location.name;
+                _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + eastRoom.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, eastRoom.isSecret, "btn-info"];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
+        _room = undefined;
     }
     static generate(_page = 1) {
         if (!isNaN(_page) && !Menu.showingBaseMenu)
