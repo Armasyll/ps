@@ -4,6 +4,9 @@ alApartmentBedroomBed = new Furniture("alApartmentBedroomBed", "Bed", "A large, 
 
 remmyApartmentLivingroomCouch = new Furniture("remmyApartmentLivingroomCouch", "Couch", "A green couch.", "couch", 4, 4);
 remmyApartmentLivingroomTV = new Furniture("remmyApartmentLivingroomTV", "TV", "A 28 inch TV.", "tv", 0, 1);
+remmyApartmentLivingroomFridge = new Furniture("remmyApartmentLivingroomFridge", "Refridgerator", "A beige fridge.", "fridge", 2, 16);
+remmyApartmentLivingroomOven = new Furniture("remmyApartmentLivingroomOven", "Oven", "A beige oven.", "oven", 1, 4);
+remmyApartmentLivingroomTable = new Furniture("remmyApartmentLivingroomTable", "Coffee Table", "A coffee table, with claw marks on the sides.", "table", 4, 4);
 
 remmyApartmentBathroomTub = new Furniture("remmyApartmentBathroomTub", "Bathtub", "A beige bathtub.", "tub", 2, 8);
 remmyApartmentBathroomSink = new Furniture("remmyApartmentBathroomSink", "Sink", "A beige sink.", "sink", 1, 2);
