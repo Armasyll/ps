@@ -25,7 +25,7 @@ var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
 var eventsExecutedThisTick = new Set(); // Set of Events executed during the current Tick
-var scenesViewedThisWindow = new Set();
+var scenesViewedThisWindow = new Set(); // Set of Events executed during the current Room visit
 var usePopups = true;
 
 const SpeciesIdNames = new Map();

@@ -190,10 +190,19 @@ function debugRoomInformation() {
 function debugSwitchRoom() {
     clearContentAndMenu();
     
+    Content.add("<p>You are currently in " + player.room.id + "</p>");
+    i = 1;
+    _blob = "";
+    _blob += '<div class="btn-group btn-group-justified">';
     roomsIndexes.forEach(function (_key, _val) {
-        if (typeof window[_key.id + "Interact"] === 'function')
-            Content.add(Menu.createButton("roomInteract(" + _key.id + ", true)", _key.name, _key.id, false));
+        _blob += Menu.createButton("roomInteract(" + _key.id + ", true)", _key.name, _key.id, false);
+        if (i % 4 == 0)
+            _blob += '</div><div class="btn-group btn-group-justified">';
+        i++;
     });
+    _blob += '</div>';
+    
+    Content.add(_blob);
     
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
