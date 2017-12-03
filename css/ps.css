@@ -51,8 +51,10 @@ img {
 	vertical-align:top;
 }
 .btn-info.locked {
-	background-color: #446068;
-	border-color: #446068;
+    background-image: url('../images/misc/keyhole.svg');
+	background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left center; 
 }
 
 #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {

@@ -10,7 +10,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         movePlayerToRoom(limbo);
     
     if (_clearContent) {
-    Title.clear();
+        Title.clear();
         Title.set(
             (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize() : player.room.name), 
             undefined, 
@@ -205,7 +205,7 @@ function debugSwitchRoom() {
     Content.add(_blob);
     
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(true, true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugCharactersInformation(_character = player) {
