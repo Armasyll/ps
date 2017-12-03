@@ -210,10 +210,10 @@ function debugSwitchRoom() {
 }
 function debugCharactersInformation(_character = player) {
     Content.clear();
-    Content.add("<h4>Current Character:</h4> <ul><li>" + player.name + "</li></ul>");
+    Content.add("<h4>Character:</h4> <ul><li>" + player.name + "</li></ul>");
     
     
-    Content.add("<h4>Current Clothes:</h4>");
+    Content.add("<h4>Clothes:</h4>");
     var _blob = "";
     var _arr = [];
     
@@ -303,6 +303,7 @@ function debugCharactersInformation(_character = player) {
     _blob += "</table>";
     Content.add(_blob);
     
+    Content.add("<h4>Disposition:</h4>");
     _blob = "<form class='form-inline'><table class='table'>";
     
     _map = _character.defaultDisposition.toMap();
