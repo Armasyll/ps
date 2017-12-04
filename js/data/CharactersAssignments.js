@@ -233,4 +233,5 @@ wolter.addItem(twinsApartmentLocationKey);
 characterSleep(wolter, remmyApartmentLivingroomCouch);
 characterSit(charlie, remmyApartmentLivingroomCouch);
 characterLay(pandora, pandorasBoxBasementHiddenBed);
+characterLay(remmy, remmyApartmentBedroomBed);
 characterSex(al, velvet, alApartmentBedroomBed);
