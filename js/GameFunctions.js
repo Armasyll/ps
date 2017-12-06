@@ -909,12 +909,8 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
-    if (typeof _action != "undefined") {
-        if (isNaN(_action))
-            _action = ActionsNameIds.has(_action) ? ActionsNameIds.get(_action) : ActionsNameIds.get("lay");
-        else
-            _action = ActionsIdNames.has(_action) ? ActionsIdNames.get(_action) : ActionsNameIds.get("lay");
-    }
+    if (typeof _action != "undefined")
+        _action = actionTypes.has(_action) ? _action : "lay";
     
     if (_characterA.furniture instanceof Furniture) {
         if (_characterA.furniture != _furniture && _furniture instanceof Furniture)
@@ -933,13 +929,13 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     if (_furniture instanceof Furniture) {
         var _largestCharacter = (SpeciesSizeUnits.get(_characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(_characterA.species) : SpeciesSizeUnits.get(_characterB.species));
         
-        if (_furniture.seatingSpace >= _largestCharacter * 2 && _action == ActionsNameIds.get("lay")) {
+        if (_furniture.seatingSpace >= _largestCharacter * 2 && _action == "lay") {
             _furniture.addCharacter(_characterA);
             _furniture.addCharacter(_characterB);
             _characterA.lay(_furniture);
             _characterB.lay(_furniture);
         }
-        else if (_furniture.availableSeatingSpace() >= _largestCharacter && _action == ActionsNameIds.get("sit")) {
+        else if (_furniture.availableSeatingSpace() >= _largestCharacter && _action == "sit") {
             _furniture.addCharacter(_characterA);
             _furniture.addCharacter(_characterB);
             _characterA.sit(_furniture);
@@ -974,12 +970,8 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
-    if (typeof _action != "undefined") {
-        if (isNaN(_action))
-            _action = ActionsNameIds.has(_action) ? ActionsNameIds.get(_action) : ActionsNameIds.get("lay");
-        else
-            _action = ActionsIdNames.has(_action) ? ActionsIdNames.get(_action) : ActionsNameIds.get("lay");
-    }
+    if (typeof _action != "undefined")
+        _action = actionTypes.has(_action) ? _action : "lay";
     
     if (_character.furniture instanceof Furniture) {
         if (_character.furniture != _furniture && _furniture instanceof Furniture)
@@ -989,11 +981,11 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     }
     
     if (_furniture instanceof Furniture && _furniture != _character.furniture) {
-        if (_furniture.seatingSpace >= SpeciesSizeUnits.get(_character.species) * 2 && _action == ActionsNameIds.get("lay")) {
+        if (_furniture.seatingSpace >= SpeciesSizeUnits.get(_character.species) * 2 && _action == "lay") {
             _furniture.addCharacter(_character);
             _character.lay(_furniture);
         }
-        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) && _action == ActionsNameIds.get("sit")) {
+        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) && _action == "sit") {
             _furniture.addCharacter(_character);
             _character.sit(_furniture);
         }
@@ -1107,6 +1099,33 @@ function useNormalMenu() {
     runLastMenu();
 }
 
+function saveGame() {
+}
+function loadGame() {
+    // Locations, Cells, Rooms
+    var _unassignedLocationOwner = new Array();
+    _locations.forEach(function(_location) {
+        var _locationJSON = JSON.parse(_location);
+        window[_locationJSON.id] = new Location();
+        window[_locationJSON.id].fromJSON(_location);
+        window[_locationJSON.id].owner.forEach(function(_character) {
+            if (!(_character instanceof Character))
+                _unassignedLocationOwner.push([window[_locationJSON.id], _character]);
+        }, this);
+    }, this);
+    _cells.forEach(function(_cell) {
+        
+    });
+    // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
+    // WebSites, WebPages
+    // Cron, GameEvents, 
+    
+    _unassignedLocationOwner.forEach(function(_arr) {
+        if (_arr[0] instanceof Location && charactersIndexes.has(_arr[1]))
+            _arr[0].owner.add(charactersIndexes.get(_arr[1]));
+    });
+    delete _unassignedLocationOwner;
+}
 
 window.addEventListener(
     "resize", 

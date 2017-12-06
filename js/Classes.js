@@ -993,21 +993,17 @@ class Entity {
 
     addAction(_actions) {
         if (typeof _actions == 'undefined')
-            return true;
+            return false;
         else if (_actions instanceof Array) {
             _actions.forEach(function(_action) {
-                if (isNaN(_action) && ActionsNameIds.has(_action))
-                    this.availableActions.add(ActionsNameIds.get(_action));
-                else if (ActionsIdNames.has(_action))
-                    this.availableActions.add(_action);
-                else
-                    return false;
+                actionTypes.has(_action) && this.availableActions.add(_action);
             }, this);
+            return true;
         }
-        else if (ActionsNameIds.has(_actions))
-            this.availableActions.add(ActionsNameIds.get(_actions));
-        else if (ActionsIdNames.has(_actions))
+        else if (actionTypes.has(_actions)) {
             this.availableActions.add(_actions);
+            return true;
+        }
         return false;
     }
 
@@ -1568,8 +1564,10 @@ class Character extends Entity {
             this.follow(charactersIndexes.get(json["following"]));
         delete json["following"];
         
-        if (furnitureIndexes.has(json["furniture"]))
+        if (furnitureIndexes.has(json["furniture"])) {
+            furnitureIndexes.get(json["furniture"]).addCharacter(_character);
             this.furniture = furnitureIndexes.get(json["furniture"]);
+        }
         delete json["furniture"];
         
         if (roomsIndexes.has(json["previousRoom"]))
@@ -1841,34 +1839,13 @@ class Character extends Entity {
     }
 
     addCurrentAction(_actionType) {
-        if (isNaN(_actionType)) {
-            if (ActionsNameIds.has(_actionType))
-                this.currentActions.add(ActionsNameIds.get(_actionType));
-        }
-        else {
-            if (ActionsIdNames.has(_actionType))
-                this.currentActions.add(_actionType);
-        }
+        actionTypes.has(_actionType) && this.currentActions.add(_actionType);
     }
     removeCurrentAction(_actionType) {
-        if (isNaN(_actionType)) {
-            if (ActionsNameIds.has(_actionType))
-                this.currentActions.delete(ActionsNameIds.get(_actionType));
-        }
-        else {
-            if (ActionsIdNames.has(_actionType))
-                this.currentActions.delete(_actionType);
-        }
+        actionTypes.has(_actionType) && this.currentActions.delete(_actionType);
     }
     hasCurrentAction(_actionType) {
-        if (isNaN(_actionType)) {
-            if (ActionsNameIds.has(_actionType))
-                return this.currentActions.has(ActionsNameIds.get(_actionType));
-        }
-        else {
-            if (ActionsIdNames.has(_actionType))
-                return this.currentActions.has(_actionType);
-        }
+        return this.currentActions.has(_actionType);
     }
 
     sit(_furniture = undefined) {
@@ -1988,15 +1965,6 @@ class Character extends Entity {
         return this.isSleeping();
     }
     
-    
-    getCurrentActions() {
-        var _tmpSet = new Set();
-        this.currentActions.forEach(function(_action) {
-            _tmpSet.add(ActionsIdNames.get(_action));
-        }, this);
-        return _tmpSet;
-    }
-
     wear(_clothing, _type = undefined) {
         this.putOn(_clothing, _type);
     }
@@ -2813,10 +2781,14 @@ class Character extends Entity {
     }
 }
 
-class Location extends Entity {
+class Location {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         if (_id instanceof Location) {
-            super(_id.id, _id._name);
+            this.id = _id.id;
+            delete _id["id"];
+            this.name = _id.name;
+            delete _id["name"];
+            
             for (var property in _id) {
                 if (_id.hasOwnProperty(property)) {
                     this[property] = _id[property];
@@ -2824,7 +2796,10 @@ class Location extends Entity {
             }
         }
         else {
-            super(_id, _name, _description);
+            this.id = _id;
+            this.name = _name;
+            this.description = _description;
+            
             this.owner = new Set();
             this.cells = new Set();
             this.rooms = new Set();
@@ -2834,6 +2809,62 @@ class Location extends Entity {
             this.floorImage = undefined;
 
             locationsIndexes.set(_id, this);
+        }
+    }
+    
+    fromJSON(jsonString = "") {
+        if (debug) console.log("Running fromJSON");
+        
+        if (typeof jsonString != "string") {
+            if (debug) console.log("Parameter `jsonString` is not a string.");
+            return undefined;
+        }
+        
+        if (typeof jsonString == "string") {
+            try {
+                var json = JSON.parse(jsonString);
+            }
+            catch (e) {
+                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                return undefined;
+            }
+        }
+        
+        if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
+            if (debug) console.log("ID or Name are undefined.");
+            return undefined;
+        }
+        else
+            this.id = json["id"];
+        delete json["id"];
+        
+        var _tmpArr = [];
+        
+        // Sets
+        //  owner
+        try {
+            var _tmpSet = new Set(JSON.parse(json["owner"]));
+            _owner.forEach(function(_character) {
+                if (charactersIndexes.has(_character)) {
+                    _tmSet.delete(_character);
+                    this.owner.add(charactersIndexes.get(_character));
+                }
+            }, this);
+        } catch (e) {}
+        delete json["owner"];
+        
+        // Entities
+        delete json["rooms"];
+        delete json["cells"];
+        
+        // Primitives
+        for (var property in json) {
+            if (this.hasOwnProperty(property)) {
+                if (json[property] == null)
+                    this[property] = undefined;
+                else
+                    this[property] = json[property];
+            }
         }
     }
 
@@ -2920,10 +2951,14 @@ class Location extends Entity {
         return _containsCharacter;
     }
 }
-class Cell extends Entity {
+class Cell {
     constructor(_id = undefined, _name = undefined, _location = undefined) {
         if (_id instanceof Cell) {
-            super(_id.id, _id._name);
+            this.id = _id.id;
+            delete _id["id"];
+            this.name = _id.name;
+            delete _id["name"];
+            
             for (var property in _id) {
                 if (_id.hasOwnProperty(property)) {
                     this[property] = _id[property];
@@ -2931,7 +2966,9 @@ class Cell extends Entity {
             }
         }
         else {
-            super(_id, _name);
+            this.id = _id;
+            this.name = _name;
+            
             this.location = undefined;
             this.setLocation(_location);
             this.grid = []; // <X,Y> = Room
@@ -3021,7 +3058,7 @@ class Cell extends Entity {
         return _characters;
     }
 }
-class Room extends Entity {
+class Room {
     /**
      * Creates a new room
      *
@@ -3035,7 +3072,11 @@ class Room extends Entity {
      */
     constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
         if (_id instanceof Room) {
-            super(_id.id, _id._name);
+            this.id = _id.id;
+            delete _id["id"];
+            this.name = _id.name;
+            delete _id["name"];
+            
             for (var property in _id) {
                 if (_id.hasOwnProperty(property)) {
                     this[property] = _id[property];
@@ -3043,8 +3084,9 @@ class Room extends Entity {
             }
         }
         else {
-            super(_id, _name);
-
+            this.id = _id;
+            this.name = _name;
+            
             /*
                 Super ID; to be modified when there's conjoined Rooms that make up a single 'Room' and I don't want to create character interactions for each part.
             */
@@ -3585,20 +3627,27 @@ class Room extends Entity {
     }
 
     hasFurnitureType(_type) {
-        if (isNaN(_type)) {
-            if (FurnitureTypeNameIds.has(_type))
-                _type = FurnitureTypeNameIds.get(_type);
-            else
-                return false;
-        }
-        else if (!FurnitureTypeIdNames.has(_type))
+        if (!furnitureType.has(_type))
             return false;
-
-        this.furniture.forEach(function(_furniture) {
-            if (_furniture.type == this._type) {
-                return true;
-            }
-        }, this);
+        
+        var _hasFurniture = false;
+        
+        if (this.furniture.size > 3) {
+            Array.from(this.furniture).some(function(_furniture) {
+                if (_furniture.type == _type) {
+                    _hasFurniture = true;
+                    return true;
+                }
+            }, this);
+        }
+        else {
+            this.furniture.forEach(function(_furniture) {
+                if (_furniture.type == _type)
+                    _hasFurniture = true;
+            }, this);
+        }
+        
+        return _hasFurniture;
     }
 
     /**
@@ -3617,30 +3666,6 @@ class Room extends Entity {
         if (_character instanceof Character) {
             var _requiredSpaceMultiplier = _lay ? 2 : 1;
             var _placeToRest = undefined;
-
-            // Filter _furnitureTypePreferences for valid values; can be a number, a string, or array of numbers-and-or-string of furniture types
-            /*if (typeof _furnitureTypePreferences == 'number') {
-                if (FurnitureTypeIdNames.has(_furnitureTypePreferences))
-                    _furnitureTypePreferences = [_furnitureTypePreferences];
-                else
-                    _furnitureTypePreferences = [];
-            }
-            else if (_furnitureTypePreferences instanceof Array || _furnitureTypePreferences instanceof Set) {
-                var _furnitureTypes = [];
-                _furnitureTypePreferences.forEach(function(_type) {
-                    if (isNaN(_type) && FurnitureTypeNameIds.has(_type))
-                            _furnitureTypes.push(FurnitureTypeNameIds.get(_type));
-                    else if (FurnitureTypeIdNames.has(_type))
-                        _furnitureTypes.push(_type);
-                });
-                _furnitureTypePreferences = _furnitureTypes;
-            }
-            else if (isNaN(_furnitureTypePreferences)) {
-                if (FurnitureTypeNameIds.has(_furnitureTypePreferences))
-                    _furnitureTypePreferences = [FurnitureTypeNameIds.get(_furnitureTypePreferences)];
-                else
-                    _furnitureTypePreferences = [];
-            }*/
 
             if (_considerCharacterPreferences && typeof _character.preferredSeatType != 'undefined') {
                 var _seats = [];
@@ -3885,20 +3910,8 @@ class Furniture extends Entity {
         else {
             super(_id, _name, _description);
 
-            if (isNaN(_type)) {
-                if (FurnitureTypeNameIds.has(_type))
-                    this.type = FurnitureTypeNameIds.get(_type);
-                else
-                    this.type = 0;
-            }
-            else {
-                if (FurnitureTypeIdNames.has(_type))
-                    this.type = _type;
-                else
-                    this.type = 0;
-            }
+            this.type = furnitureTypes.has(_type) ? _type : furnitureTypes.values().next()["value"];
 
-            this.addAction("use");
             this.addAction("sit");
             this.addAction("lay");
             this.addAction("sleep");
@@ -3909,6 +3922,72 @@ class Furniture extends Entity {
             this.characters = new Set(); // <Character, Action>
 
             furnitureIndexes.set(_id, this);
+        }
+    }
+    
+    fromJSON(jsonString = "") {
+        if (debug) console.log("Running fromJSON");
+        
+        if (typeof jsonString != "string") {
+            if (debug) console.log("Parameter `jsonString` is not a string.");
+            return undefined;
+        }
+        
+        if (typeof jsonString == "string") {
+            try {
+                var json = JSON.parse(jsonString);
+            }
+            catch (e) {
+                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                return undefined;
+            }
+        }
+        
+        if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
+            if (debug) console.log("ID or Name are undefined.");
+            return undefined;
+        }
+        else
+            this.id = json["id"];
+        delete json["id"];
+        
+        var _tmpArr = [];
+        
+        // Sets
+        //  availableActions
+        try {
+            _tmpArr = JSON.parse(json["availableActions"]);
+            _tmpArr.forEach(function(_int) {
+                this.addAction(_int);
+            }, this);
+        } catch (e) {}
+        delete json["availableActions"];
+        //  items
+        try {
+            _tmpArr = JSON.parse(json["items"]);
+            _tmpArr.forEach(function(_item) {
+                if (itemsIndexes.has(_item))
+                    this.addItem(itemsIndexes.get(_item));
+            }, this);
+        } catch (e) {}
+        delete json["items"];
+        
+        // Entities
+        if (json.hasOwnProperty("characters"))
+            delete(json["characters"]);
+        if (roomsIndexes.has(json["room"]))
+            roomsIndexes.get(json["room"]).addFurniture(this);
+        delete json["room"];
+        delete json["cell"];
+        
+        // Primitives
+        for (var property in json) {
+            if (this.hasOwnProperty(property)) {
+                if (json[property] == null)
+                    this[property] = undefined;
+                else
+                    this[property] = json[property];
+            }
         }
     }
     
