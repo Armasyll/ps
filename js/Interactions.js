@@ -510,36 +510,54 @@ function furnitureInteractMasturbate(_furniture, _character) {
         unsafeExec("{0}Masturbate({1})".format(_furniture.id, _character.id));
 }
 
-function itemInteract(_item, _character = player, _clearContent = false, _clearMenu = true) {
+function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu = true) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_entity instanceof Entity)) {
+        if (charactersIndexes.has(_entity))
+            _entity = charactersIndexes.get(_entity);
+        else if (furnitureIndexes.has(_entity))
+            _entity = furnitureIndexes.get(_entity);
+        else if (itemsIndexes.has(_entity))
+            _entity = itemsIndexes.get(_entity);
+        else
+            _entity = undefined;
+    }
+    
+    if (!(_item instanceof Item) || !(_entity instanceof Entity))
         return;
 
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), lastMenu, "Back");
+    if (_entity instanceof Character)
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossesiveName()));
+    else if (_entity instanceof Furniture)
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
+    else if (_entity instanceof Item)
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
+    
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     _item.availableActions.forEach(function(_action) {
         if (actionTypes.has(_action)) {
             switch(_action) {
                 case "use" : {
-                    Menu.addOption("itemInteractUse({0}, {1})".format(this.id, _character.id), "Use {0}".format(this.name));
+                    !(_item instanceof Clothing) && Menu.addOption("itemInteractUse({0}, {1})".format(this.id, _entity.id), "Use {0}".format(this.name));
+                    break;
+                }
+                case "put" : {
+                    !(_entity instanceof Character) && Menu.addOption("itemInteractPut({0}, {1})".format(this.id, _entity.id), "Put {0}".format(this.name));
                     break;
                 }
                 case "hold" : {
-                    Menu.addOption("itemInteractHold({0}, {1})".format(this.id, _character.id), "Hold {0}".format(this.name));
+                    _entity instanceof Character && Menu.addOption("itemInteractHold({0}, {1})".format(this.id, _entity.id), "Hold {0}".format(this.name));
                     break;
                 }
                 case "wear" : {
-                    Menu.addOption("itemInteractWear({0}, {1})".format(this.id, _character.id), "{0} {1}".format((_character.wearing(_item) ? "Take off" : "Wear"), this.name));
+                    _item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear({0}, {1})".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_item) ? "Take off" : "Wear"), this.name));
                     break;
                 }
                 case "masturbate" : {
-                    Menu.addOption("itemInteractMasturbate({0}, {1})".format(this.id, _character.id), "Masturbate with {0}".format(this.name));
+                    _entity instanceof Character && Menu.addOption("itemInteractMasturbate({0}, {1})".format(this.id, _entity.id), "Masturbate with {0}".format(this.name));
                     break;
                 }
             }
