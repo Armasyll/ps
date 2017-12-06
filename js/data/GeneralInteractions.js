@@ -174,7 +174,7 @@ function rosieGiveCharlieHeartFlee() {
     tick("1m", true, false);
 }
 function rosieGiveCharlieHeartStay() {
-    moveCharacterToRoom(charlie, rosie.room);
+    setCharacterRoom(charlie, rosie.room);
 
     var _blob = "";
 
@@ -271,7 +271,7 @@ function charlieInteractWhenPlayerHasEye() {
     return;
 }
 function avoWorkRoutineStart(_event = undefined) {
-    moveCharacterAlongPath(avo, pandorasBoxCheckout);
+    setCharacterPath(avo, pandorasBoxCheckout);
     return;
 }
 function avoWorkRoutineStartSit(_event = undefined) {
@@ -279,6 +279,6 @@ function avoWorkRoutineStartSit(_event = undefined) {
     return;
 }
 function avoWorkRoutineEnd(_event = undefined) {
-    moveCharacterAlongPath(avo, avoApartmentBedroomAvo);
+    setCharacterPath(avo, avoApartmentBedroomAvo);
     return;
 }

@@ -1236,6 +1236,8 @@ class Character extends Entity {
 
         this.currentActions = new Set();
 
+        this.heldItems = new Set();
+
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
         this.philautia = 50;     // self
         this.agape = 50;         // others
@@ -1589,6 +1591,40 @@ class Character extends Entity {
                     this[property] = json[property];
             }
         }
+    }
+
+    addHeldItem(_item) {
+        if (!(_item instanceof Item)) {
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+	        if (!(_item instanceof Item))
+	        	return undefined;
+	    }
+
+    	if (this.heldItems.size > 1)
+    		return false;
+		else {
+    		this.heldItems.add(_item);
+    		return true;
+		}
+    }
+    hold(_item) {
+    	return this.addHeldItem(_item);
+    }
+    removeHeldItem(_item) {
+        if (!(_item instanceof Item)) {
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+	        if (!(_item instanceof Item))
+	        	return undefined;
+	    }
+
+    	if (this.heldItems.contains(_item)) {
+    		this.heldItems.delete(_item);
+    		return true;
+    	}
+    	else
+    		return false;
     }
 
     setSex(_sex) {

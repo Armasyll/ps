@@ -1,6 +1,6 @@
-characterMovements.set(martina, findPathToRoom(martina.room, chartyApartmentBathroom));
-martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, findPathToRoom(martina.room, chartyApartmentBathroom))", false);
-martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, findPathToRoom(martina.room, chartyApartmentBedroomMarty))", false);
+characterMovements.set(martina, _findPathToRoom(martina.room, chartyApartmentBathroom));
+martinaToBathroomEvent = new GameEvent("martinaToBathroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBedroomMarty, undefined, "characterMovements.set(martina, _findPathToRoom(martina.room, chartyApartmentBathroom))", false);
+martinaToBedroomEvent = new GameEvent("martinaToBedroomEvent", "move", martina, undefined, undefined, undefined, undefined, chartyApartmentBathroom, undefined, "characterMovements.set(martina, _findPathToRoom(martina.room, chartyApartmentBedroomMarty))", false);
 
 /*
     constructor(_id, _action, _characterA, _characterB, _item, _location, _cell, _room, _cron, _nextFunction, _runOnce)

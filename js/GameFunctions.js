@@ -1,5 +1,7 @@
 // Game functions
 function resizeGui() {
+    if (debug) console.log("Resizing GUI");
+
     document.getElementById("rowMid").style.height = (document.body.offsetHeight - document.getElementById("rowBot").offsetHeight) + "px";
     document.getElementById("rowBot").style.height = document.getElementById("rowBot").offsetHeight + "px";
     document.getElementById("mapContentDisplay").style.height = document.getElementById("rowMid").offsetHeight - document.getElementById("locationContentDisplay").offsetHeight - 15 + "px";
@@ -22,7 +24,7 @@ function updateTimeDisplay() {
     }
 }
 
-function generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false) {
+function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false) {
     var _body = "";
     _fromEntity.items.forEach(function(_item) {
         var _ownerString = '';
@@ -57,23 +59,23 @@ function generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _m
                 _item.name,
                 (typeof _item.owner != 'undefined' ? _ownerString : ''),
                 _item.description,
-                (_modify === true ? (_fromEntity == player ? ("<button onclick='generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_item.id, _fromEntity.id, _toEntity.id) : ("<button onclick='generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_item.id, _fromEntity.id, _toEntity.id)) : '')
+                (_modify === true ? (_fromEntity == player ? ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_item.id, _fromEntity.id, _toEntity.id) : ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_item.id, _fromEntity.id, _toEntity.id)) : '')
             )
     }, this);
     
     return _body;
 }
-function generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
-    if (moveItemToEntity(_item, _fromEntity, _toEntity)) {
+function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
+    if (giveEntityItem(_item, _fromEntity, _toEntity)) {
         var _lazyEntity = _fromEntity;
         if (_lazyEntity == player)
             _lazyEntity = _toEntity;
-        $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _lazyEntity, true));
-        $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_lazyEntity, player, true));
+        $('#dualInventoryContent-characterA').html(_generateEntityItemsGraphicalList(player, _lazyEntity, true));
+        $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false) {
-    if (moveItemToEntity(_item, _fromEntity, _toEntity, _useLastMenu)) {
+function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false) {
+    if (giveEntityItem(_item, _fromEntity, _toEntity, _useLastMenu)) {
         if (_switch) {
             if (_fromEntity instanceof Character)
                 characterInteractOpen(_toEntity, false, _switch);
@@ -102,7 +104,7 @@ function generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity =
  *
  * @return Boolean
  */
-function moveItemToEntity(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (typeof _item == 'undefined' || typeof _toEntity == 'undefined')
         return undefined;
     
@@ -215,7 +217,7 @@ function clearContentAndMenu() {
  *
  * @return Boolean Whether or not the Character was moved to the Room.
  */
-function moveCharacterToRoom(_character = player, _room) {
+function setCharacterRoom(_character = player, _room) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
@@ -232,9 +234,9 @@ function moveCharacterToRoom(_character = player, _room) {
         if (_character.hasFollowers) {
             _character.followers.forEach(function(_follower) {
                 if (_follower.room == _character.previousRoom || _follower.room == _character.room)
-                    moveCharacterToRoom(_follower, _room);
+                    setCharacterRoom(_follower, _room);
                 else
-                    characterMovements.set(_follower, findPathToRoom(_follower.room, _room));
+                    characterMovements.set(_follower, _findPathToRoom(_follower.room, _room));
             }, this);
         }
         
@@ -262,9 +264,9 @@ function moveCharacterToRoom(_character = player, _room) {
  *
  * @return Boolean
  */
-function movePlayerToRoom(_room) {
+function setPlayerRoom(_room) {
     characterMovements.delete(player);
-    var _moved = moveCharacterToRoom(player, _room);
+    var _moved = setCharacterRoom(player, _room);
     if (_moved) {
         tick("1m", false, true);
         
@@ -274,89 +276,6 @@ function movePlayerToRoom(_room) {
     return _moved;
 }
 /**
- * Moves a Character to the Room in a specific direction.
- *
- * @param Character _character
- * @param String _direction 0, "north"; 1, "east"; 2, "south"; 3, "west"
- *
- * @return Undefined if the Character or direction are invalid. True or False whether or not the Character was moved.
- */
-function moveCharacterInDirection(_character, _direction) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
-    
-    var _moved = undefined;
-    
-    if (_character instanceof Character) {
-        var _room = undefined;
-        switch (_direction) {
-            case "north" :
-            case "n" :
-            case 0 : {
-                if (_character.room.attachedRooms.has(0)) {
-                    _room = _character.room.attachedRooms.get(0);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-            case "east" :
-            case "e" :
-            case 1 : {
-                if (_character.room.attachedRooms.has(1)) {
-                    _room = _character.room.attachedRooms.get(1);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-            case "south" :
-            case "s" :
-            case 2 : {
-                if (_character.room.attachedRooms.has(2)) {
-                    _room = _character.room.attachedRooms.get(2);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-            case "west" :
-            case "w" :
-            case 3 : {
-                if (_character.room.attachedRooms.has(3)) {
-                    _room = _character.room.attachedRooms.get(3);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-            case "down" :
-            case "d" :
-            case 4 : {
-                if (_character.room.attachedRooms.has(4)) {
-                    _room = _character.room.attachedRooms.get(4);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-            case "up" :
-            case "u" :
-            case 5 : {
-                if (_character.room.attachedRooms.has(5)) {
-                    _room = _character.room.attachedRooms.get(5);
-                    if (!_character.room.isLocked(_room) || _character.hasKey(_room))
-                        _moved = moveCharacterToRoom(_character, _room);
-                }
-                break;
-            }
-        }
-    }
-    
-    return _moved;
-}
-
-/**
  * Moves an Item from an Entity to the Player.
  *
  * @param Item _item
@@ -364,8 +283,8 @@ function moveCharacterInDirection(_character, _direction) {
  *
  * @return Boolean
  */
-function moveItemToPlayer(_item, _fromEntity) {
-    return moveItemToEntity(_item, _fromEntity, player, true);
+function givePlayerItem(_item, _fromEntity) {
+    return giveEntityItem(_item, _fromEntity, player, true);
 }
 /**
  * Passes time.
@@ -421,7 +340,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
                         if (_rooms.size > 0) {
                             var _room = _rooms.values().next().value;
                             if (!_character.room.isLocked(_room) || _character.hasKey(_room)) {
-                                moveCharacterToRoom(_character, _room);
+                                setCharacterRoom(_character, _room);
                                 _rooms.delete(_room);
                             }
                             else
@@ -469,7 +388,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
     eventsExecutedThisTick.clear();
     return currentTime;
 }
-function findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
+function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
     if (!(_startCell instanceof Cell))
         _startCell = cellsIndexes.get(_startCell);
     
@@ -531,7 +450,7 @@ function findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set
     
     return undefined;
 }
-function findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
+function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
     
@@ -592,7 +511,7 @@ function findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set
     
     return undefined;
 }
-function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
+function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
     
@@ -603,7 +522,7 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
         return;
     
     if (_startRoom.cell != _targetRoom.cell) {
-        var _cellPath = findPathFromCellToCell(_startRoom.cell, _targetRoom.cell);
+        var _cellPath = _findPathFromCellToCell(_startRoom.cell, _targetRoom.cell);
         var _roomPath = new Array();
         var _cTargetRoom = undefined;
         var _cRoom = _startRoom;
@@ -629,7 +548,7 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
         }, this);
         
         if (_cRoom != _cTargetRoom)
-            _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+            _roomPath = _roomPath.concat(Array.from(_findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
         
         _roomPath = _roomPath.concat(_nRoom);
         _cRoom = _nRoom;
@@ -647,14 +566,14 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
                     }, this);
                 }, this);
                 
-                _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+                _roomPath = _roomPath.concat(Array.from(_findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
                 _roomPath = _roomPath.concat(_nRoom);
                 _cRoom = _nRoom;
                 
                 _i++;
             }
             else {
-                _roomPath = _roomPath.concat(Array.from(findPathFromRoomToRoom(_cRoom, _targetRoom)));
+                _roomPath = _roomPath.concat(Array.from(_findPathFromRoomToRoom(_cRoom, _targetRoom)));
                 _cRoom = _targetRoom;
             }
         }
@@ -662,7 +581,7 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
         return new Set(_roomPath);
     }
     else
-        return findPathFromRoomToRoom(_startRoom, _targetRoom);
+        return _findPathFromRoomToRoom(_startRoom, _targetRoom);
 }
 /**
  * Moves character in a path from their current room to target room.
@@ -672,17 +591,28 @@ function findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _exc
  *
  * @return undefined is the Character, their Room, or the target Room are invalid; otherwise, True or False whether or not the path is available.
  */
-function moveCharacterAlongPath(_character, _targetRoom) {
+function setCharacterPath(_character, _targetRoom) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
-    if (!(_targetRoom instanceof Room))
-        _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
+    if (!(_targetRoom instanceof Room)) {
+        if (typeof _target == "string" && roomsIndexes.has(_targetRoom))
+            _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
+        else if (_targetRoom instanceof Character) {
+            _targetRoom = _targetRoom.room instanceof Room ? _targetRoom.room : undefined;
+        }
+        else if (charactersIndexes.has(_targetRoom)) {
+            var _character = charactersIndexes.get(_targetRoom);
+            _targetRoom = _character.room instanceof Room ? _character.room : undefined;
+        }
+        else
+            _targetRoom = undefined;
+    }
     
     if (typeof _character == 'undefined' || typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
         return undefined;
     
-    return characterMovements.set(_character, findPathToRoom(_character.room, _targetRoom));
+    return characterMovements.set(_character, _findPathToRoom(_character.room, _targetRoom));
 }
 /**
  * Makes the Character Sit on Furniture or the ground.
@@ -849,7 +779,7 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
     _characterA.addFollower(_characterB);
     
     if (typeof _preGeneratedPath == 'undefined')
-        _preGeneratedPath = findPathToRoom(_characterB.room, _characterA.room);
+        _preGeneratedPath = _findPathToRoom(_characterB.room, _characterA.room);
     characterMovements.set(_characterB, _preGeneratedPath);
     
     if (_characterB.hasFollowers) {
@@ -1008,6 +938,10 @@ function runLastMenu() {
 }
 
 function hideModals() {
+    $("#webModal").modal("hide");
+    $("#optionsModal").modal("hide");
+    $("#helpModal").modal("hide");
+    $("#aboutModal").modal("hide");
     $("#personalInventoryModal").modal("hide");
     $("#dualInventoryModal").modal("hide");
 }
@@ -1086,7 +1020,7 @@ function characterTakeOver(_characterA, _characterB) {
 
 function addAllItems() {
     itemsIndexes.forEach(function(_item) {
-        moveItemToEntity(_item, undefined, player, false);
+        giveEntityItem(_item, undefined, player, false);
     }, this);
 }
 
@@ -1104,8 +1038,9 @@ function saveGame() {
 function loadGame() {
     // Locations, Cells, Rooms
     var _unassignedLocationOwner = new Array();
+    var _locationJSON = undefined;
     _locations.forEach(function(_location) {
-        var _locationJSON = JSON.parse(_location);
+        _locationJSON = JSON.parse(_location);
         window[_locationJSON.id] = new Location();
         window[_locationJSON.id].fromJSON(_location);
         window[_locationJSON.id].owner.forEach(function(_character) {

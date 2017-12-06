@@ -9,7 +9,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
 
     if (player.room !== _room) {
         if (debug) console.log("Previous Room: {0}".format(player.room.id));
-        movePlayerToRoom(_room);
+        setPlayerRoom(_room);
         if (debug) console.log("Current Room: {0}".format(player.room.id));
     }
 
@@ -149,13 +149,13 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
         if (_character != player) {
             $("#dualInventoryTab-characterA").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
             $("#dualInventoryTab-characterB").html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
-            $("#dualInventoryContent-characterA").html(generateEntityItemsGraphicalList(player, _character, true));
-            $("#dualInventoryContent-characterB").html(generateEntityItemsGraphicalList(_character, player, true));
+            $("#dualInventoryContent-characterA").html(_generateEntityItemsGraphicalList(player, _character, true));
+            $("#dualInventoryContent-characterB").html(_generateEntityItemsGraphicalList(_character, player, true));
             $("#dualInventoryModal").modal("show");
         }
         else {
             $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
-            $("#personalInventoryModal-body").html(generateEntityItemsGraphicalList(_character, undefined, false));
+            $("#personalInventoryModal-body").html(_generateEntityItemsGraphicalList(_character, undefined, false));
             $("#personalInventoryModal").modal("show");
         }
     }
@@ -218,7 +218,7 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
         
         if (_character != player) {
             _characterB.items.forEach(function(_item) {
-                Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
@@ -352,8 +352,8 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
     if (usePopups) {
         $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
         $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
-        $('#dualInventoryContent-characterA').html(generateEntityItemsGraphicalList(player, _furniture, true));
-        $('#dualInventoryContent-characterB').html(generateEntityItemsGraphicalList(_furniture, player, true));
+        $('#dualInventoryContent-characterA').html(_generateEntityItemsGraphicalList(player, _furniture, true));
+        $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_furniture, player, true));
         $("#dualInventoryModal").modal("show");
     }
     else {
@@ -405,7 +405,7 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_item) {
-            Menu.addOption("generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -465,6 +465,9 @@ function furnitureInteractSleep(_furniture, _character = player) {
 
     if (characterSleep(_character, _furniture))
         unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
+
+    if (_character == player)
+        _character.removeCurrentAction("sleep");
     
     runLastMenu();
 }
@@ -584,8 +587,6 @@ function itemInteractPut(_item, _character = player) { // Rewrite this later for
 
     if (!(_item instanceof Item) || !(_character instanceof Character))
         return;
-
-
 }
 function itemInteractGive(_item, _character = player) {
     if (!(_item instanceof Item))
@@ -595,8 +596,6 @@ function itemInteractGive(_item, _character = player) {
 
     if (!(_item instanceof Item) || !(_character instanceof Character))
         return;
-
-
 }
 function itemInteractTake(_item, _character = player) {
     if (!(_item instanceof Item))
@@ -606,8 +605,6 @@ function itemInteractTake(_item, _character = player) {
 
     if (!(_item instanceof Item) || !(_character instanceof Character))
         return;
-
-
 }
 function itemInteractHold(_item, _character = player) {
     if (!(_item instanceof Item))
@@ -652,8 +649,6 @@ function itemInteractAttack(_item, _character = player) {
 
     if (!(_item instanceof Item) || !(_character instanceof Character))
         return;
-
-
 }
 function itemInteractSex(_item, _character = player) {
     if (!(_item instanceof Item))
@@ -678,6 +673,7 @@ function itemInteractMasturbate(_item, _character = player) {
     _character.wearing(_item) && _character.takeOff(_item);
     itemInteract(_item, _character);
 }
+
 function webSiteInteract(_webSite = undefined) {
     if (!(_webSite instanceof WebSite))
         _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;

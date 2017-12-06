@@ -7,7 +7,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     Menu.showingBaseMenu = true;
     
     if (!(player.room instanceof Room))
-        movePlayerToRoom(limbo);
+        setPlayerRoom(limbo);
     
     if (_clearContent) {
         Title.clear();
@@ -492,7 +492,7 @@ function switchCharacter(_character) {
         _pcPreviousRoom = player.room
         player = _character;
         if (!(player.room instanceof Room))
-            movePlayerToRoom(limbo);
+            setPlayerRoom(limbo);
         player.sleeping = false;
         
         if (enableMinimap && player.room != _pcPreviousRoom) {

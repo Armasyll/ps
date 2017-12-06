@@ -90,7 +90,7 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
         Content.add("{0} leaps from her window, and falls to her death two stories down.".format(_character.name));
         Content.add("You somehow obtain " + charlieBeatingHeart.toString() + " and " + charlieLeftEye.toString() + ".");
         charlie.living = false;
-        moveCharacterToRoom(charlie, limbo);
+        setCharacterRoom(charlie, limbo);
     }
     
     tick("3m");
@@ -247,7 +247,7 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     Content.set("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
     
     
-    moveCharacterToRoom(charlie, chartyApartmentBedroomCharlie);
+    setCharacterRoom(charlie, chartyApartmentBedroomCharlie);
     
     
     if (player.room.containsCharacter(wolter) && wolter.isSleeping()) {
@@ -318,7 +318,7 @@ function remmyApartmentLivingroomCharlieSex() {
     tick("2m", true, false);
     
     if (player.room.containsCharacter(wolter) && (!wolter.isSleeping()))
-        moveCharacterAlongPath(wolter, twinsApartmentLivingroomA);
+        setCharacterPath(wolter, twinsApartmentLivingroomA);
 }
 function remmyApartmentLivingroomCharlieSexWolter() {
     characterMovements.delete(wolter);
