@@ -3278,6 +3278,14 @@ class Room {
         return this.containsCharacters();
     }
 
+    /**
+     * Lock this room from the room specified.
+     *
+     * @param Room _room
+     *
+     *
+     * Modifies the specified Room's directional side (northSide, eastSide, ...,) and its roomsOptions
+     */
     lock(_room) {
         if (_room instanceof Room)
             _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
@@ -3287,10 +3295,40 @@ class Room {
         if (typeof _room == 'undefined')
             return;
 
+        var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
+        if (typeof _roomDirectionNumber == 'number') {
+        	switch (_roomDirectionNumber) {
+        		case 0: {
+        			_room.northSide = 2;
+        			break;
+        		}
+        		case 1: {
+        			_room.eastSide = 2;
+        			break;
+        		}
+        		case 2: {
+        			_room.southSide = 2;
+        			break;
+        		}
+        		case 3: {
+        			_room.westSide = 2;
+        			break;
+        		}
+        	}
+        }
+
         var _options = _room.roomsOptions.get(this);
         _options['isLocked'] = true;
         _room.roomsOptions.set(this, _options);
     }
+    /**
+     * Unlock this room from the room specified.
+     *
+     * @param Room _room
+     *
+     *
+     * Modifies the specified Room's directional side (northSide, eastSide, ...,) and its roomsOptions
+     */
     unlock(_room) {
         if (_room instanceof Room)
             _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
@@ -3299,6 +3337,28 @@ class Room {
 
         if (typeof _room == 'undefined')
             return;
+
+        var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
+        if (typeof _roomDirectionNumber == 'number') {
+        	switch (_roomDirectionNumber) {
+        		case 0: {
+        			_room.northSide = 1;
+        			break;
+        		}
+        		case 1: {
+        			_room.eastSide = 1;
+        			break;
+        		}
+        		case 2: {
+        			_room.southSide = 1;
+        			break;
+        		}
+        		case 3: {
+        			_room.westSide = 1;
+        			break;
+        		}
+        	}
+        }
 
         var _options = _room.roomsOptions.get(this);
         _options['isLocked'] = false;

@@ -1018,6 +1018,75 @@ function characterTakeOver(_characterA, _characterB) {
     }, this);
 }
 
+/**
+ * Lock access to the second Room from the first Room.
+ *
+ * @param Room _roomA
+ * @param Room _roomB
+ *
+ *
+ *
+ */
+function _lockRoom(_roomA, _roomB = player) {
+    if (!(_roomA instanceof Room))
+        _roomA = roomsIndexes.has(_roomA) ? roomsIndexes.get(_roomA) : undefined;
+    if (!(_roomB instanceof Room)) {
+        if (roomsIndexes.has(_roomB)) {
+            _roomB = roomsIndexes.get(_roomB);
+        }
+        else if (_roomB instanceof Character) {
+            _roomB = (_roomB.room instanceof Room ? _roomB.room : undefined);
+        }
+        else if (charactersIndexes.has(_roomB)) {
+            _roomB = charactersIndexes.get(_roomB);
+            _roomB = (_roomB.room instanceof Room ? _roomB.room : undefined);
+        }
+    }
+
+    if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
+        return undefined;
+
+    if (!_roomA.attachedRooms.flip().has(_roomB))
+        return undefined;
+    else
+        _roomB.lock(_roomA);
+
+    Minimap.generateMapFromStartRoom(player.room);
+}
+/**
+ * Lock access to the first Room from the second Room.
+ *
+ * @param Room _roomA
+ * @param Room _roomB
+ *
+ *
+ *
+ */
+function lockRoomFromInside(_roomA, _roomB = player) {
+    return _lockRoom(_roomB, _roomA);
+}
+/**
+ * Lock access to the second Room from the first Room, if the player has the key to the second Room.
+ *
+ * @param Room _roomA
+ * @param Room _roomB
+ *
+ *
+ *
+ */
+function lockRoomFromOutside(_roomA, _roomB = player) {
+    if (!(_roomB instanceof Room))
+        _roomB = roomsIndexes.has(_roomB) ? roomsIndexes.get(_roomB) : undefined;
+    
+    if (!(_roomB instanceof Room))
+        return undefined;
+    
+    if (!player.hasKey(_roomB))
+        return false;
+
+    return _lockRoom(_roomA, _roomB);
+}
+
 function addAllItems() {
     itemsIndexes.forEach(function(_item) {
         giveEntityItem(_item, undefined, player, false);
