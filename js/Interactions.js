@@ -301,6 +301,13 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
     if (player.furniture != _furniture)
         Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(_furniture.type, (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items"))));
 
+    Title.set(
+        _furniture.name,
+        _furniture.image,
+        (typeof player.room.location !== 'undefined' ? player.room.location.name : "&nbsp;"),
+        (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
+    );
+
     if (_clearMenu) {
         if (_furniture.availableActions.size == 0) {
             Content.add("<p>There is little you can do with {0}.</p>".format(_furniture.name));

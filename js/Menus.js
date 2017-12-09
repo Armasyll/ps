@@ -9,7 +9,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (!(player.room instanceof Room))
         setPlayerRoom(limbo);
     
-    if (_clearContent) {
+    if (_clearMenu) {
         Title.clear();
         Title.set(
             (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize() : player.room.name), 
@@ -17,9 +17,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
             (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"), 
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
         );
-    }
-    
-    if (_clearMenu) {
+
         Menu.clear();
         exploreMenu();
         Menu.setOption(0, "roomInteract({0}, false, false)".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));

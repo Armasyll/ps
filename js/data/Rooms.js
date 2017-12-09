@@ -103,8 +103,8 @@ chartyApartmentBedroomCharlie = new Room("chartyApartmentBedroomCharlie", undefi
 chartyApartmentBedroomMarty = new Room("chartyApartmentBedroomMarty", undefined, "Marty's Bedroom", "bedroom", alBuildingSecondFloor, chartyApartmentLocation);
 
 remmyApartmentLivingroom = new Room("remmyApartmentLivingroom", undefined, "Livingroom", "livingroom", alBuildingSecondFloor, remmyApartmentLocation);
-remmyApartmentBathroom = new Room("remmyApartmentBathroom", undefined, "Bathroom", "bedroom", alBuildingSecondFloor, remmyApartmentLocation);
-remmyApartmentBedroom = new Room("remmyApartmentBedroom", undefined, "Bedroom", "bathroom", alBuildingSecondFloor, remmyApartmentLocation);
+remmyApartmentBathroom = new Room("remmyApartmentBathroom", undefined, "Bathroom", "bathroom", alBuildingSecondFloor, remmyApartmentLocation);
+remmyApartmentBedroom = new Room("remmyApartmentBedroom", undefined, "Bedroom", "bedroom", alBuildingSecondFloor, remmyApartmentLocation);
 
 twinsApartmentLivingroomA = new Room("twinsApartmentLivingroomA", "twinsApartmentLivingroom", "Livingroom", "livingroom", alBuildingSecondFloor, twinsApartmentLocation);
 twinsApartmentLivingroomB = new Room("twinsApartmentLivingroomB", "twinsApartmentLivingroom", "Livingroom", "livingroom", alBuildingSecondFloor, twinsApartmentLocation);
