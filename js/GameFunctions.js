@@ -1,4 +1,7 @@
 // Game functions
+/**
+ * Resizes the GUI. If the Minimap is hidden by Bootstrap constrains, it is disabled, otherwise it is enabled.
+ */
 function resizeGui() {
     if (debug) console.log("Resizing GUI");
 
@@ -18,6 +21,9 @@ function resizeGui() {
         enableMinimap = true;
 }
 
+/**
+ * Updates the in-game Time display
+ */
 function updateTimeDisplay() {
     for (var _i = 0; _i < document.getElementsByClassName('timeDisplay').length; _i++) {
         document.getElementsByClassName('timeDisplay')[_i].innerHTML = unixTimeToDateString(currentTime);
@@ -388,6 +394,15 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
     eventsExecutedThisTick.clear();
     return currentTime;
 }
+/**
+ * Creates path from Cell(1) to Cell(2), excluding an optional Set of Cell(s)
+ *
+ * @param Cell _startCell
+ * @param Cell _targetCell
+ * @param Set<Cell> _excludeCells
+ *
+ * @return Set<Cell> Set of Cell(s) that follow a linear path, or undefined
+ */
 function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
     if (!(_startCell instanceof Cell))
         _startCell = cellsIndexes.get(_startCell);
@@ -450,6 +465,15 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
     
     return undefined;
 }
+/**
+ * Creates path from Room(1) to Room(2), which share a Cell, excluding an optional Set of Room(s)
+ *
+ * @param Room _startRoom
+ * @param Room _targetRoom
+ * @param Set<Room> _excludeRooms
+ *
+ * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
+ */
 function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
@@ -511,6 +535,16 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
     
     return undefined;
 }
+/**
+ * Creates path from Room(1) to Room(2), which may or may no share a Cell, excluding an optional Set of Room(s) and an optional Set of Cell(s)
+ *
+ * @param Room _startRoom
+ * @param Room _targetRoom
+ * @param Set<Room> _excludeRooms
+ * @param Set<Cell> _excludeCells
+ *
+ * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
+ */
 function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
     if (!(_startRoom instanceof Room))
         _startRoom = roomsIndexes.get(_startRoom);
@@ -589,7 +623,7 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
  * @param Character _character
  * @param Room _targetRoom
  *
- * @return undefined is the Character, their Room, or the target Room are invalid; otherwise, True or False whether or not the path is available.
+ * @return Boolean Whether or not the path is available, or undefined if the Character or Room are invalid.
  */
 function setCharacterPath(_character, _targetRoom) {
     if (!(_character instanceof Character))
@@ -620,7 +654,7 @@ function setCharacterPath(_character, _targetRoom) {
  * @param Character _character
  * @param Furniture _furniture Can be undefined
  *
- * @return True or False whether or not the Character is seated on Furniture.
+ * @return Boolean Whether or not the Character is seated on Furniture, or undefined
  */
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -645,7 +679,7 @@ function characterSit(_character, _furniture = undefined) {
  * @param Character _character
  * @param Furniture _furniture Can be undefined
  *
- * @return True or False whether or not the Character is lying on Furniture.
+ * @return Boolean Whether or not the Character is lying on Furniture, or undefined
  */
 function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -670,7 +704,7 @@ function characterLay(_character, _furniture = undefined) {
  * @param Character _character
  * @param Furniture _furniture Can be undefined
  *
- * @return True or False whether or not the Character is sleeping on Furniture.
+ * @return Boolean Whether or not the Character is sleeping on Furniture, or undefined
  */
 function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -706,7 +740,7 @@ function characterSleep(_character, _furniture = undefined) {
  *
  * @param Character _character
  *
- * @return True.
+ * @return Boolean, or undefined
  */
 function characterStand(_character) {
     if (!(_character instanceof Character))
@@ -729,7 +763,7 @@ function characterStand(_character) {
  *
  * @param Character _character
  *
- * @return True.
+ * @return Boolean, or undefined
  */
 function characterWalk(_character) {
     if (!(_character instanceof Character))
@@ -753,7 +787,7 @@ function characterWalk(_character) {
  * @param Character _characterA The leader.
  * @param Character _characterB The follower.
  *
- * @return True.
+ * @return Boolean, or undefined
  */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character))
@@ -797,7 +831,7 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
  *
  * @param Character _character
  *
- * @return True.
+ * @return Boolean, or undefined
  */
 function characterStay(_character) {
     if (!(_character instanceof Character))
@@ -821,7 +855,7 @@ function characterStay(_character) {
  * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
  * @param int or String _action Can be undefined; defaults to "lay"
  *
- * @return Whether or not sex happens.
+ * @return Boolean Whether or not sex happens, or undefined
  */
 function characterSex(_characterA, _characterB = undefined, _furniture = undefined, _action = "lay") {
     if (!(_characterA instanceof Character))
@@ -882,13 +916,13 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     return _characterA.fuck(_characterB, _furniture);
 }
 /**
- * Makes the Character masturbate on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
+ * Makes the Character masturbate on Furniture (not literally on it) or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
  *
  * @param Character _character
  * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
  * @param int or String _action Can be undefined; defaults to "lay"
  *
- * @return Whether or not sex happens.
+ * @return Boolean Whether or not masturbation happens, or undefined
  */
 function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
     if (!(_character instanceof Character))
@@ -937,6 +971,9 @@ function runLastMenu() {
     try {return fn();}catch (err) {}
 }
 
+/**
+ * Hides all Bootstrap Modals
+ */
 function hideModals() {
     $("#webModal").modal("hide");
     $("#optionsModal").modal("hide");
@@ -1024,7 +1061,7 @@ function characterTakeOver(_characterA, _characterB) {
  * @param Room _roomA
  * @param Room _roomB
  *
- * @return Boolean Whether or not the Room was locked.
+ * @return Boolean Whether or not the Room was locked, or undefined
  */
 function _lockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
@@ -1048,7 +1085,7 @@ function _lockRoom(_roomA, _roomB) {
  * @param Room _roomA
  * @param Room _roomB
  *
- * @return Boolean Whether or not the Room was unlocked.
+ * @return Boolean Whether or not the Room was unlocked, or undefined
  */
 function _unlockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
@@ -1071,7 +1108,7 @@ function _unlockRoom(_roomA, _roomB) {
  *
  * @param Room _room
  *
- * @return Boolean Whether or not the Room was locked.
+ * @return Boolean Whether or not the Room was locked, or undefined
  */
 function lockRoomFromInside(_room) {
     if (!(_room instanceof Room))
@@ -1104,7 +1141,7 @@ function lockRoomFromInside(_room) {
  *
  * @param Room _room
  *
- * @return Boolean Whether or not the Room was unlocked.
+ * @return Boolean Whether or not the Room was unlocked, or undefined
  */
 function unlockRoomFromInside(_room) {
     if (!(_room instanceof Room))
@@ -1138,7 +1175,7 @@ function unlockRoomFromInside(_room) {
  * @param Room _room
  * @param Character _character
  *
- * @return Boolean Whether or not the Room was locked.
+ * @return Boolean Whether or not the Room was locked, or undefined
  */
 function lockRoomFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
@@ -1160,7 +1197,7 @@ function lockRoomFromOutside(_room, _character = player) {
  * @param Room _room
  * @param Character _character
  *
- * @return Boolean Whether or not the Room was unlocked.
+ * @return Boolean Whether or not the Room was unlocked, or undefined
  */
 function unlockRoomFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
@@ -1177,16 +1214,40 @@ function unlockRoomFromOutside(_room, _character = player) {
     return _unlockRoom(_character.room, _room);
 }
 
-function addAllItems() {
+/**
+ * Adds all Item(s) to the specified Character
+ *
+ * @param Character _character Character to add all Item(s) to, defaults to Player
+ * @param Boolean _execEvents Whether or not to execute Item-specified GameEvent(s), defaults to True
+ *
+ * @return Boolean
+ */
+function addAllItems(_character = player, _execEvents = true) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+    if (!(typeof _execEvents == 'boolean'))
+        _execEvents = true;
+
     itemsIndexes.forEach(function(_item) {
-        giveEntityItem(_item, undefined, player, false);
+        if (_execEvents)
+            giveEntityItem(_item, undefined, player, false);
+        else
+            player.addItem(_item);
     }, this);
+
+    return true;
 }
 
+/**
+ * Sets the Menu to 15 buttons, and runs the last menu.
+ */
 function useWideMenu() {
     Menu.useWideMenu = true;
     runLastMenu();
 }
+/**
+ * Sets the Menu to 12 buttons, and runs the last menu.
+ */
 function useNormalMenu() {
     Menu.useWideMenu = false;
     runLastMenu();
