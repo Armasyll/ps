@@ -1259,7 +1259,7 @@ function chanceToFuck(_characterA, _characterB) {
     if (typeof _characterB == 'undefined')
         return undefined;
     
-    return _characterB.chanceToFuck(_characterA);
+    return _characterA.chanceToFuck(_characterB);
 }
 
 /**

@@ -2676,45 +2676,45 @@ class Character extends Entity {
         if (typeof _character == 'undefined')
             return 0;
 
-        if (!this.characterDisposition.has(_character))
-            this.addNewCharacterDispositionFor(_character);
+        if (!_character.characterDisposition.has(this))
+            _character.addNewCharacterDispositionFor(this);
 
         if (!_character.characterDisposition.has(this))
             _character.addNewCharacterDispositionFor(this);
 
-        if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
+        if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
 
         var chance = 0;
 
         // Past Relations
-        if (this.hadSexWith.has(_character))
+        if (_character.hadSexWith.has(this))
             chance += 10;
 
         if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
 
         // Disposition
-        chance += this.characterDisposition.get(_character).eros /  1.5;
-        chance += this.characterDisposition.get(_character).pragma;
-        chance += this.characterDisposition.get(_character).manic / 0.5;
+        chance += _character.characterDisposition.get(this).eros /  1.5;
+        chance += _character.characterDisposition.get(this).pragma;
+        chance += _character.characterDisposition.get(this).manic / 0.5;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
         // Species Preferences
-        if (this.prefersSpecies.has(_character.species))
+        if (_character.prefersSpecies.has(this.species))
             chance += 5
-        else if (this.avoidsSpecies.has(_character.species))
+        else if (_character.avoidsSpecies.has(this.species))
             chance -= 5;
 
-        if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true)
+        if (_character.prefersPrey && this.predator == false || _character.prefersPredators && this.predator == true)
             chance += 5;
 
-        if (this.avoidsPrey && _character.predator == false || this.avoidsPredators && _character.predator == true)
+        if (_character.avoidsPrey && this.predator == false || _character.avoidsPredators && this.predator == true)
             chance -= 5;
 
         if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
 
         // Sexual Orientation
-        if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2)
+        if (_character.sexualOrientation == 0 && this.sex != _character.sex || _character.sexualOrientation == 1 && this.sex == _character.sex || _character.sexualOrientation == 2)
             chance += 10;
         else
             chance -= 50;
@@ -2722,29 +2722,29 @@ class Character extends Entity {
         if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
 
         // Rut and Lust
-        if (this.rut && this.lust > 98)
+        if (_character.rut && _character.lust > 98)
             chance += 100;
-        else if (this.lust > 79)
-            chance += (this.rut ? this.lust*2.5 : this.lust*1.5);
-        else if (this.lust > 59)
-            chance += (this.rut ? this.lust : this.lust/1.5);
-        else if (this.lust > 39)
-            chance += (this.rut ? this.lust/1.5 : this.lust/3);
-        else if (this.lust > 19)
-            chance += (this.rut ? this.lust/3 : this.lust/4);
+        else if (_character.lust > 79)
+            chance += (_character.rut ? _character.lust*2.5 : _character.lust*1.5);
+        else if (_character.lust > 59)
+            chance += (_character.rut ? _character.lust : _character.lust/1.5);
+        else if (_character.lust > 39)
+            chance += (_character.rut ? _character.lust/1.5 : _character.lust/3);
+        else if (_character.lust > 19)
+            chance += (_character.rut ? _character.lust/3 : _character.lust/4);
         else
-            chance += (this.rut ? this.lust/4 : this.lust/5);
+            chance += (_character.rut ? _character.lust/4 : _character.lust/5);
 
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
 
         // Exhibitionism
-        if (_character.room.characters.size > 2){
-            if (this.exhibitionism > 0)
-                chance += ((this.exhibitionism / 5) * (_character.room.characters.size - 2));
+        if (this.room.characters.size > 2){
+            if (_character.exhibitionism > 0)
+                chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
             else {
-                _character.room.characters.forEach(function(__character) {
-                    if (__character != this._character && __character != _character)
-                        chance += this.hadSexWith.has(__character) ? 5 : -5;
+                this.room.characters.forEach(function(_this) {
+                    if (_this != _character.this && _this != this)
+                        chance += _character.hadSexWith.has(_this) ? 5 : -5;
                 }, this);
             }
         }
@@ -2752,9 +2752,9 @@ class Character extends Entity {
         if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
 
         // Incest
-        if (this.relatives.has(_character)) {
-            if (this.incestual > 0)
-                chance += this.incestual/4;
+        if (_character.relatives.has(this)) {
+            if (_character.incestual > 0)
+                chance += _character.incestual/4;
             else
                 chance -= 50;
         }
@@ -2762,15 +2762,15 @@ class Character extends Entity {
         if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
 
         // Intoxication
-        chance += this.intoxicated/2.5;
+        chance += _character.intoxicated/2.5;
 
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 
         // Somnophilia
-        if (this.sleeping) {
+        if (_character.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (this.somnophilia > 50 && this.hadSexWith.has(_character) && this.characterDisposition.get(_character).eros > 75)
+            else if (_character.somnophilia > 50 && _character.hadSexWith.has(this) && _character.characterDisposition.get(this).eros > 75)
                 chance += 10;
         }
 
