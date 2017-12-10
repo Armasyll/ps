@@ -1024,24 +1024,13 @@ function characterTakeOver(_characterA, _characterB) {
  * @param Room _roomA
  * @param Room _roomB
  *
- *
- *
+ * @return Boolean Whether or not the Room was locked.
  */
-function _lockRoom(_roomA, _roomB = player) {
+function _lockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
         _roomA = roomsIndexes.has(_roomA) ? roomsIndexes.get(_roomA) : undefined;
-    if (!(_roomB instanceof Room)) {
-        if (roomsIndexes.has(_roomB)) {
-            _roomB = roomsIndexes.get(_roomB);
-        }
-        else if (_roomB instanceof Character) {
-            _roomB = (_roomB.room instanceof Room ? _roomB.room : undefined);
-        }
-        else if (charactersIndexes.has(_roomB)) {
-            _roomB = charactersIndexes.get(_roomB);
-            _roomB = (_roomB.room instanceof Room ? _roomB.room : undefined);
-        }
-    }
+    if (!(_roomB instanceof Room))
+        _roomB = roomsIndexes.has(_roomB) ? roomsIndexes.get(_roomB) : undefined;
 
     if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
         return undefined;
@@ -1054,37 +1043,138 @@ function _lockRoom(_roomA, _roomB = player) {
     Minimap.generateMapFromStartRoom(player.room);
 }
 /**
- * Lock access to the first Room from the second Room.
+ * Unlock access to the second Room from the first Room.
  *
  * @param Room _roomA
  * @param Room _roomB
  *
- *
- *
+ * @return Boolean Whether or not the Room was unlocked.
  */
-function lockRoomFromInside(_roomA, _roomB = player) {
-    return _lockRoom(_roomB, _roomA);
-}
-/**
- * Lock access to the second Room from the first Room, if the player has the key to the second Room.
- *
- * @param Room _roomA
- * @param Room _roomB
- *
- *
- *
- */
-function lockRoomFromOutside(_roomA, _roomB = player) {
+function _unlockRoom(_roomA, _roomB) {
+    if (!(_roomA instanceof Room))
+        _roomA = roomsIndexes.has(_roomA) ? roomsIndexes.get(_roomA) : undefined;
     if (!(_roomB instanceof Room))
         _roomB = roomsIndexes.has(_roomB) ? roomsIndexes.get(_roomB) : undefined;
+
+    if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
+        return undefined;
+
+    if (!_roomA.attachedRooms.flip().has(_roomB))
+        return undefined;
+    else
+        _roomB.unlock(_roomA);
+
+    Minimap.generateMapFromStartRoom(player.room);
+}
+/**
+ * Locks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
+ *
+ * @param Room _room
+ *
+ * @return Boolean Whether or not the Room was locked.
+ */
+function lockRoomFromInside(_room) {
+    if (!(_room instanceof Room))
+        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     
-    if (!(_roomB instanceof Room))
+    if (typeof _room == "undefined")
         return undefined;
     
-    if (!player.hasKey(_roomB))
+    var _wasLocked = false;
+    if (_room.attachedRooms.size > 1) {
+        _room.attachedRooms.forEach(function(__room) {
+            if (__room.type == 0) {
+                _wasLocked = true;
+                _lockRoom(__room, _room);
+            }
+        }, this);
+    }
+    else if (_room.attachedRooms.size == 1) {
+        var __room = Array.from(_room.attachedRooms.values())[0];
+        if (__room.type != 0) {
+            _wasLocked = true;
+            _lockRoom(__room, _room);
+        }
+    }
+    
+    return _wasLocked;
+}
+/**
+ * Unlocks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
+ *
+ * @param Room _room
+ *
+ * @return Boolean Whether or not the Room was unlocked.
+ */
+function unlockRoomFromInside(_room) {
+    if (!(_room instanceof Room))
+        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+    
+    if (typeof _room == "undefined")
+        return undefined;
+    
+    var _wasUnlocked = false;
+    if (_room.attachedRooms.size > 1) {
+        _room.attachedRooms.forEach(function(__room) {
+            if (__room.type == 0) {
+                _wasUnlocked = true;
+                _unlockRoom(__room, _room);
+            }
+        }, this);
+    }
+    else if (_room.attachedRooms.size == 1) {
+        var __room = Array.from(_room.attachedRooms.values())[0];
+        if (__room.type != 0) {
+            _wasUnlocked = true;
+            _unlockRoom(__room, _room);
+        }
+    }
+    
+    return _wasUnlocked;
+}
+/**
+ * Locks access to the Room from the Character's Room, if the Character has the key to the Room.
+ *
+ * @param Room _room
+ * @param Character _character
+ *
+ * @return Boolean Whether or not the Room was locked.
+ */
+function lockRoomFromOutside(_room, _character = player) {
+    if (!(_room instanceof Room))
+        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (typeof _room == "undefined" || typeof _character == "undefined")
+        return undefined;
+    
+    if (!_character.hasKey(_room))
         return false;
 
-    return _lockRoom(_roomA, _roomB);
+    return _lockRoom(_character.room, _room);
+}
+/**
+ * Unlocks access to the Room from the Character's Room, if the Character has the key to the Room.
+ *
+ * @param Room _room
+ * @param Character _character
+ *
+ * @return Boolean Whether or not the Room was unlocked.
+ */
+function unlockRoomFromOutside(_room, _character = player) {
+    if (!(_room instanceof Room))
+        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (typeof _room == "undefined" || typeof _character == "undefined")
+        return undefined;
+    
+    if (!_character.hasKey(_room))
+        return false;
+
+    return _unlockRoom(_character.room, _room);
 }
 
 function addAllItems() {
