@@ -1979,17 +1979,13 @@ class Character extends Entity {
         return true;
     }
     _fuckAnother(_character, _furniture = undefined) {
-        if(_character.chanceToFuck(this) > 50) {
-            this.removeCurrentAction("masturbate");
-            this.addCurrentAction("sex");
-            _character.addCurrentAction("sex");
-            
-            this.addSexWith(_character, true);
-            
-            return true;
-        }
-        else
-            return false;
+        this.removeCurrentAction("masturbate");
+        this.addCurrentAction("sex");
+        _character.addCurrentAction("sex");
+        
+        this.addSexWith(_character, true);
+        
+        return true;
     }
     isSleeping() {
         return this.hasCurrentAction("sleep");
@@ -2676,10 +2672,10 @@ class Character extends Entity {
     chanceToFuck(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        
+
         if (typeof _character == 'undefined')
             return 0;
-        
+
         if (!this.characterDisposition.has(_character))
             this.addNewCharacterDispositionFor(_character);
 

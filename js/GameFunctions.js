@@ -1239,6 +1239,30 @@ function addAllItems(_character = player, _execEvents = true) {
 }
 
 /**
+ * Chance for Character(2) to have sex with Character(1)
+ *
+ * @param Character _characterA
+ * @param Character _characterB
+ *
+ * @return Integer, or undefined
+ */
+function chanceToFuck(_characterA, _characterB) {
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    
+    if (typeof _characterA == 'undefined')
+        return undefined;
+    
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    
+    if (typeof _characterB == 'undefined')
+        return undefined;
+    
+    return _characterB.chanceToFuck(_characterA);
+}
+
+/**
  * Sets the Menu to 15 buttons, and runs the last menu.
  */
 function useWideMenu() {
