@@ -14,7 +14,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     }
 
     Title.set(
-        (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize()) : player.room.name),
+        (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? player.room.type : "room").capitalize()) : player.room.name),
         undefined,
         (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"),
         (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")

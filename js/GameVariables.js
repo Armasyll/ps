@@ -75,28 +75,7 @@ const BodyPartIdNames = new Map();
     BodyPartIdNames.set(13, "feet");
 const BodyPartNameIds = BodyPartIdNames.flip();
 
-const ClothingTypeIdNames = new Map();
-    ClothingTypeIdNames.set(0, "hat");
-    ClothingTypeIdNames.set(1, "mask");
-    ClothingTypeIdNames.set(2, "glasses");
-    ClothingTypeIdNames.set(3, "earPiercingLeft");
-    ClothingTypeIdNames.set(4, "earPiercingRight");
-    ClothingTypeIdNames.set(5, "nosePiercing");
-    ClothingTypeIdNames.set(6, "lipPiercing");
-    ClothingTypeIdNames.set(7, "tonguePiercing");
-    ClothingTypeIdNames.set(8, "collar");
-    ClothingTypeIdNames.set(9, "neckwear");
-    ClothingTypeIdNames.set(10, "shirt");
-    ClothingTypeIdNames.set(11, "jacket");
-    ClothingTypeIdNames.set(12, "belt");
-    ClothingTypeIdNames.set(13, "gloves");
-    ClothingTypeIdNames.set(14, "underwear");
-    ClothingTypeIdNames.set(15, "pants");
-    ClothingTypeIdNames.set(16, "socks");
-    ClothingTypeIdNames.set(17, "shoes");
-    ClothingTypeIdNames.set(18, "bra");
-const ClothingTypeNameIds = ClothingTypeIdNames.flip();
-
+const clothingTypes = new Set(["hat" ,"mask" ,"glasses" ,"earPiercingLeft" ,"earPiercingRight" ,"nosePiercing" ,"lipPiercing" ,"tonguePiercing" ,"collar" ,"neckwear" ,"shirt" ,"jacket" ,"belt" ,"gloves" ,"underwear" ,"pants" ,"socks" ,"shoes" ,"bra"]);
 const HandTypeIdNames = new Map();
     HandTypeIdNames.set(0, "fur");
     HandTypeIdNames.set(1, "pad");
@@ -121,21 +100,6 @@ const FurTypeIdNames = new Map();
     FurTypeIdNames.set(3, "hair"); // Not as thick as fur
 const FurTypeNameIds = FurTypeIdNames.flip();
 
-const RoomTypeIdNames = new Map();
-    RoomTypeIdNames.set(0, "hallway");
-    RoomTypeIdNames.set(1, "lobby");
-    RoomTypeIdNames.set(2, "bedroom");
-    RoomTypeIdNames.set(3, "livingroom");
-    RoomTypeIdNames.set(4, "bathroom");
-    RoomTypeIdNames.set(5, "kitchen");
-    RoomTypeIdNames.set(6, "diningroom");
-    RoomTypeIdNames.set(7, "closet");
-    RoomTypeIdNames.set(8, "basement");
-    RoomTypeIdNames.set(9, "extBuilding");
-    RoomTypeIdNames.set(10, "street");
-    RoomTypeIdNames.set(11, "walkway");
-    RoomTypeIdNames.set(12, "lot");
-const RoomTypeNameIds = RoomTypeIdNames.flip();
-
+const roomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathroom", "kitchen", "diningroom", "closet", "basement", "extBuilding", "street", "walkway", "lot"]);
 const furnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","basket"]);
 const actionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","remove","hold","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate"]);

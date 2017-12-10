@@ -1865,8 +1865,8 @@ class Character extends Entity {
         return this.shoes;
     }
     getClothing(_type) {
-        if (ClothingTypeIdNames.has(_type))
-            return this[ClothingTypeIdNames.get(_clothing.type)];
+        if (clothingTypes.has(_type))
+            return this[_clothing.type];
         else
             return undefined;
     }
@@ -2009,10 +2009,8 @@ class Character extends Entity {
             _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-            if (ClothingTypeIdNames.has(_clothing.type))
-                return this[ClothingTypeIdNames.get(_clothing.type)] == _clothing;
-            else
-                return undefined;
+            if (clothingTypes.has(_clothing.type))
+                return this[_clothing.type] == _clothing;
         }
     }
     putOn(_clothing, _type = undefined) {
@@ -2020,30 +2018,33 @@ class Character extends Entity {
             _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-            this.items.add(_clothing);
+	        this.items.add(_clothing);
 
-            if (ClothingTypeIdNames.has(_clothing.type))
-                this[ClothingTypeIdNames.get(_clothing.type)] = _clothing;
+	        if (clothingTypes.has(_clothing.type)) {
+	            this[_clothing.type] = _clothing;
+	            return true;
+	        }
+	        return false;
         }
-        else if (typeof _type != 'undefined') {
-            this.takeOff(_type);
+        else {
+        	if (clothingTypes.has(_type)) {
+        		this.takeOff(_type);
+        		return true;
+        	}
+        	else
+        		return undefined;
         }
-            
     }
     takeOff(_clothing) {
         if (!(_clothing instanceof Clothing))
             _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
 
         if (_clothing instanceof Clothing) {
-            if (ClothingTypeIdNames.has(_clothing.type))
-                this[ClothingTypeIdNames.get(_clothing.type)] = undefined;
+            if (clothingTypes.has(_clothing.type))
+                this[_clothing.type] = undefined;
         }
-        else {
-            if (isNaN(_clothing) && ClothingTypeNameIds.has(_clothing))
-                this[_clothing] = undefined;
-            else if (ClothingTypeIdNames.has(_clothing))
-                this[ClothingTypeIdNames.get(_clothing)] = undefined;
-        }
+        else if (clothingTypes.has(_clothing))
+        	this[_clothing] = undefined;
     }
 
     hasKey(_room) {
@@ -2681,10 +2682,10 @@ class Character extends Entity {
         
         if (!this.characterDisposition.has(_character))
             this.addNewCharacterDispositionFor(_character);
-        
+
         if (!_character.characterDisposition.has(this))
             _character.addNewCharacterDispositionFor(this);
-        
+
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(this.name, _character.name));
 
         var chance = 0;
@@ -3101,12 +3102,12 @@ class Room {
      * @param string _id, ID
      * @param string _sid, Super ID
      * @param string _name, Display name
-     * @param int _type Integer representing the type of room; review RoomTypeIdNames in GameVariables.js
+     * @param string _type String representing the type of room; review roomType in GameVariables.js
      * @param Cell _cell, Cell
      * @param Location _location, Sub location
      *
      */
-    constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = 0, _cell = undefined, _location = undefined) {
+    constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = "hallway", _cell = undefined, _location = undefined) {
         if (_id instanceof Room) {
             this.id = _id.id;
             delete _id["id"];
@@ -3240,12 +3241,10 @@ class Room {
     }
 
     setType(_type) {
-        if (isNaN(_type))
-            this.type = RoomTypeNameIds.has(_type) ? RoomTypeNameIds.get(_type) : 0;
-        else if (RoomTypeIdNames.has(_type))
-            this.type = _type;
+        if (roomTypes.has(_type))
+        	this.type = _type;
         else
-            this.type = 0;
+        	this.type = "hallway";
     }
 
     addCharacter(_character) {
@@ -3820,10 +3819,6 @@ class Room {
         }
     }
 
-    typeName() {
-        return RoomTypeIdNames.get(this.type);
-    }
-
     isLocked(_direction = undefined) {
         if (_direction instanceof Room) {
             if (this.attachedRooms.flip().has(_direction)) {
@@ -3967,7 +3962,7 @@ class Key extends Item {
     }
 }
 class Clothing extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = undefined, _image = undefined, _plural = false) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "shirt", _image = undefined, _plural = false) {
         if (_id instanceof Clothing) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -3984,17 +3979,22 @@ class Clothing extends Item {
             this.addAction("wear");
             this.addAction("remove");
 
-            if (isNaN(_type))
-                _type = ClothingTypeNameIds.get(_type);
-            this.type = _type;
+            this.setType(_type);
 
             clothingIndexes.set(_id, this);
         }
     }
+
+    setType(_type) {
+        if (clothingTypes.has(_type))
+        	this.type = _type;
+        else
+        	this.type = "shirt";
+    }
 }
 
 class Furniture extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0, _seatingSpace = 1, _storageSpace = 1) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "chair", _seatingSpace = 1, _storageSpace = 1) {
         if (_id instanceof Furniture) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -4006,7 +4006,7 @@ class Furniture extends Entity {
         else {
             super(_id, _name, _description);
 
-            this.type = furnitureTypes.has(_type) ? _type : furnitureTypes.values().next()["value"];
+            this.setType(_type);
 
             this.addAction("sit");
             this.addAction("lay");
@@ -4020,7 +4020,7 @@ class Furniture extends Entity {
             furnitureIndexes.set(_id, this);
         }
     }
-    
+
     fromJSON(jsonString = "") {
         if (debug) console.log("Running fromJSON");
         
@@ -4086,7 +4086,14 @@ class Furniture extends Entity {
             }
         }
     }
-    
+
+    setType(_type) {
+        if (furnitureTypes.has(_type))
+        	this.type = _type;
+        else
+        	this.type = "chair";
+    }
+
     isSeat() {
         return (typeof this.seatingSpace != 'undefined' && this.seatingSpace > 0);
     }

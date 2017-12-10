@@ -12,7 +12,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (_clearMenu) {
         Title.clear();
         Title.set(
-            (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? RoomTypeIdNames.get(player.room.type) : "room").capitalize() : player.room.name), 
+            (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? player.room.type : "room").capitalize() : player.room.name), 
             undefined, 
             (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"), 
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
@@ -219,7 +219,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingHatOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("hat")) {
+        if (_clothing.type == "hat") {
             _clothingHatOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasHat() && _character.getHat().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -227,7 +227,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingNeckwearOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("neckwear")) {
+        if (_clothing.type == "neckwear") {
             _clothingNeckwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasNeckwear() && _character.getNeckwear().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -235,7 +235,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingBraOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("bra")) {
+        if (_clothing.type == "bra") {
             _clothingBraOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBra() && _character.getBra().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -243,7 +243,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingShirtOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("shirt")) {
+        if (_clothing.type == "shirt") {
             _clothingShirtOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShirt() && _character.getShirt().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -251,7 +251,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingJacketOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("jacket")) {
+        if (_clothing.type == "jacket") {
             _clothingJacketOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasJacket() && _character.getJacket().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -259,7 +259,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingBeltOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("belt")) {
+        if (_clothing.type == "belt") {
             _clothingBeltOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBelt() && _character.getBelt().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -267,7 +267,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingUnderwearOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("underwear")) {
+        if (_clothing.type == "underwear") {
             _clothingUnderwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasUnderwear() && _character.getUnderwear().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -275,7 +275,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingPantsOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("pants")) {
+        if (_clothing.type == "pants") {
             _clothingPantsOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasPants() && _character.getPants().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -283,7 +283,7 @@ function debugCharactersInformation(_character = player) {
     
     var _clothingShoesOptionsBlob = "";
     _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == ClothingTypeNameIds.get("shoes")) {
+        if (_clothing.type == "shoes") {
             _clothingShoesOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShoes() && _character.getShoes().id == _clothing.id ? "selected" : ""));
             _clothingIndexes.delete(_clothing.id);
         }
@@ -333,7 +333,7 @@ function debugCharactersInformation(_character = player) {
         
         _blob += "<tr><td>{0}</td>".format(__character.id);
         for (var _property in _character.characterDisposition.get(__character)) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id);
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id);
         }
         _blob += "</tr>";
     }, this);
@@ -351,7 +351,7 @@ function debugCharactersInformation(_character = player) {
         
         _blob += "<tr><td>{0}</td>".format(__character.id);
         for (var _property in __character.characterDisposition.get(_character)) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id);
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id);
         }
         _blob += "</tr>";
     }, this);
