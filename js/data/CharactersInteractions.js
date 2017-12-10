@@ -21,7 +21,7 @@ function avoRape() {
 function avoSex() {
     _character = avo;
     
-    if (_character.chanceToFuck(player) > 50 || player.hasItem(avoBeatingHeart)) {
+    if (player.chanceToFuck(_character) > 50 || player.hasItem(avoBeatingHeart)) {
         unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
@@ -75,7 +75,7 @@ function charlieRape() {
 function charlieSex() {
     _character = charlie;
     
-    if (_character.chanceToFuck(player) > 50 || player.hasItem(charlieBeatingHeart)) {
+    if (player.chanceToFuck(_character) > 50 || player.hasItem(charlieBeatingHeart)) {
         unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
@@ -171,7 +171,7 @@ function wolterTalk() {
 function wolterSex() {
     _character = wolter;
     
-    if (_character.chanceToFuck(player) > 50) {
+    if (player.chanceToFuck(_character) > 50) {
         unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
     }
     else {
