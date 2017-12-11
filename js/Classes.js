@@ -1358,14 +1358,12 @@ class Character extends Entity {
         this.prefersSpecies = new Set();
         this.avoidsSpecies = new Set();
 
-        this.preferredSex = (this.sex == 1 ? 0 : 1); // boolean (undefined either 0 male, 1 female)
         this.avoidedSex = undefined; // "
         this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
 
         this.preferredPenisSize = undefined; // int
         this.preferredPenisGirth = undefined; // int
         this.preferredBreastSize = undefined; // int
-        this.preferredSexCount = undefined; // int
 
         this.prefersPredators = undefined;
         this.avoidsPredators = undefined;
@@ -1654,11 +1652,8 @@ class Character extends Entity {
         return this.sexName();
     }
     
-    setDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
-        return this.setCharacterDisposition(_character, _eros, _philia, _lodus, _pragma, _storge, _manic);
-    }
     setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
-        if (debug) console.log("Running setDisposition");
+        if (debug) console.log("Running setCharacterDisposition");
 
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -3171,6 +3166,22 @@ class Room {
 
             roomsIndexes.set(_id, this);
         }
+    }
+    
+    toString() {
+        var _blob = "";
+        if (typeof this.image !== 'undefined') {
+            _blob += "<img class='text-center' style='border:0.1em solid white; background-color:white; border-radius:0.5em;' src='{0}' alt=''/><br/>".format(this.image);
+        }
+        _blob += "<div class='text-center'>{0}</div>".format(this.name);
+        
+        if (typeof this.description != 'undefined')
+            _blob += "<p>{0}</p>".format(this.description);
+        else if (this instanceof Character) {
+            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.getSpeciesName());
+        }
+        
+        return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
     }
     
     isOwner(_character) {

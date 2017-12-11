@@ -1016,13 +1016,11 @@ function characterTakeOver(_characterA, _characterB) {
     arr.set('handjobCount', _characterA.handjobCount + _characterB.handjobCount);
     arr.set('prefersSpecies', _characterA.prefersSpecies);
     arr.set('avoidsSpecies', _characterA.avoidsSpecies);
-    arr.set('preferredSex', _characterA.preferredSex);
     arr.set('avoidedSex', _characterA.avoidedSex);
     arr.set('sexualOrientation', _characterA.sexualOrientation);
     arr.set('preferredPenisSize', _characterA.preferredPenisSize);
     arr.set('preferredPenisGirth', _characterA.preferredPenisGirth);
     arr.set('preferredBreastSize', _characterA.preferredBreastSize);
-    arr.set('preferredSexCount', _characterA.preferredSexCount);
     arr.set('prefersPredators', _characterA.prefersPredators);
     arr.set('avoidsPredators', _characterA.avoidsPredators);
     arr.set('prefersPrey', _characterA.prefersPrey);

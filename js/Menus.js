@@ -141,46 +141,46 @@ function debugMenu() {
 }
 function debugRoomInformation() {
     _contentBody = "";
-    _contentBody += ("<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(player.room.toString()));
+    _contentBody += "<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(player.room.toString());
     
     
-    _contentBody += ("<h4>Attached Rooms ({0}):</h4> <ul>".format(player.room.attachedRooms.size));
+    _contentBody += "<h4>Attached Rooms ({0}):</h4> <ul>".format(player.room.attachedRooms.size);
     for (var [_roomID, _room] of player.room.attachedRooms.entries()) {
-        _contentBody += ("<li>{0}</li>".format(_room.toString()));
+        _contentBody += "<li>{0}</li>".format(_room.toString());
     }
-    _contentBody += ("</ul>");
+    _contentBody += "</ul>";
     
     
-    _contentBody += ("<h4>Characters in Current Room ({0}):</h4> <ul>".format(player.room.characters.size));
+    _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(player.room.characters.size);
     for (var [_characterID, _character] of player.room.characters.entries()) {
-        _contentBody += ("<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.getCurrentActions())));
+        _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.currentActions));
     }
-    _contentBody += ("</ul>");
+    _contentBody += "</ul>";
     
     
-    _contentBody += ("<h4>Furniture in Current Room ({0}):</h4> <ul>".format(player.room.characters.size));
+    _contentBody += "<h4>Furniture in Current Room ({0}):</h4> <ul>".format(player.room.characters.size);
     for (var [_furnitureID, _furniture] of player.room.furniture.entries()) {
-        _contentBody += ("<li>{0}".format(_furniture.toString()));
-            _contentBody += ("<ul>");
-                _contentBody += ("<li>Seating ({0}/{1})".format(_furniture.availableSeatingSpace(), _furniture.seatingSpace));
-                    _contentBody += ("<ul>");
+        _contentBody += "<li>{0}".format(_furniture.toString());
+            _contentBody += "<ul>";
+                _contentBody += "<li>Seating ({0}/{1})".format(_furniture.availableSeatingSpace(), _furniture.seatingSpace);
+                    _contentBody += "<ul>";
         _furniture.characters.forEach(function(_character) {
-            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.getCurrentActions()));
+            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.currentActions));
         }, this);
-                    _contentBody += ("</ul>");
-                _contentBody += ("</li>");
-                _contentBody += ("<li>Storage ({0}/{1})".format(_furniture.items.size, _furniture.storageSpace));
-                    _contentBody += ("<ul>");
+                    _contentBody += "</ul>";
+                _contentBody += "</li>";
+                _contentBody += "<li>Storage ({0}/{1})".format(_furniture.items.size, _furniture.storageSpace);
+                    _contentBody += "<ul>";
         _furniture.items.forEach(function(_item) {
             _contentBody += "<li>{0}</li>".format(_item.toString());
         }, this);
-                    _contentBody += ("</ul>");
-                _contentBody += ("</li>");
+                    _contentBody += "</ul>";
+                _contentBody += "</li>";
 
-            _contentBody += ("</ul>");
-        _contentBody += ("</li>");
+            _contentBody += "</ul>";
+        _contentBody += "</li>";
     }
-    _contentBody += ("</ul>");
+    _contentBody += "</ul>";
     
     
     Content.set(_contentBody);
@@ -207,14 +207,28 @@ function debugSwitchRoom() {
     Menu.generate();
 }
 function debugCharactersInformation(_character = player) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (typeof _character == 'undefined')
+        return undefined;
+    
     Content.clear();
-    Content.add("<h4>Character:</h4> <ul><li>" + player.name + "</li></ul>");
     
-    
-    Content.add("<h4>Clothes:</h4>");
     var _blob = "";
     var _arr = [];
     
+
+    // Character List
+    charactersIndexes.forEach(function(__character) {
+    	_blob += "<option value='{0}'' {2}>{1}</option>".format(__character.id, __character.name, (_character == __character ? "selected" : ""));
+    });
+    Content.add("<h4>Character:</h4> <select onchange='debugCharactersInformation(this.value)'>" + _blob + "</select>");
+    _blob = "";
+
+
+    // Clothes
+    Content.add("<h4>Clothes:</h4>");
     var _clothingIndexes = new Map(clothingIndexes);
     
     var _clothingHatOptionsBlob = "";
@@ -301,27 +315,29 @@ function debugCharactersInformation(_character = player) {
     _blob += "</table>";
     Content.add(_blob);
     
+
+    // Disposition
     Content.add("<h4>Disposition:</h4>");
     _blob = "<form class='form-inline'><table class='table'>";
     
     _map = _character.defaultDisposition.toMap();
     
-    // Header
     _blob += "<thead><tr><th>Name</th>";
     for (var _property in _character.defaultDisposition) {
         _blob += "<th>{0}</th>".format(_property.capitalize());
     }
+    _blob += "<th>Chance to Fuck</th>";
     _blob += "</tr></thead><tbody>";
     
-    // Defaults
+    //  Defaults
     _blob += "<tr><td>Default</td>";
     for (var _property in _character.defaultDisposition) {
         _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property));
     }
     _blob += "</tr>";
     
-    // You->Them
-    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 1);
+    //  You->Them
+    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 2);
     charactersIndexes.forEach(function(__character) {
         if (_character == __character)
             return undefined;
@@ -335,11 +351,12 @@ function debugCharactersInformation(_character = player) {
         for (var _property in _character.characterDisposition.get(__character)) {
             _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id);
         }
+        _blob += "<td></td>";
         _blob += "</tr>";
     }, this);
     
-    // Them->You
-    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 1);
+    //  Them->You
+    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 2);
     charactersIndexes.forEach(function(__character) {
         if (__character == _character)
             return undefined;
@@ -351,8 +368,9 @@ function debugCharactersInformation(_character = player) {
         
         _blob += "<tr><td>{0}</td>".format(__character.id);
         for (var _property in __character.characterDisposition.get(_character)) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id);
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuck{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.name);
         }
+        _blob += "<td id='chanceToFuck{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.name);
         _blob += "</tr>";
     }, this);
     
@@ -360,9 +378,6 @@ function debugCharactersInformation(_character = player) {
     
     Content.add(_blob);
     _blob = "";
-}
-function debugModifyCharacter() {
-    clearContentAndMenu();
 }
 function debugSwitchCharacter() {
     clearContentAndMenu();
