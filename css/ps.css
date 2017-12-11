@@ -113,3 +113,6 @@ img {
 #choiceContainerBottom > .btn-group:last-child > .btn-group:last-child > .btn{
 	border-top-right-radius: 0px;
 }
+#locationContentDisplay > div {
+	color: #c3c3c3;
+}
