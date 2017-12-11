@@ -137,6 +137,7 @@ function debugMenu() {
     Menu.addOption("debugSwitchCharacter()", "Switch Character");
     Menu.addOption("debugBrowserInformation()", "Browser Information");
     Menu.addOption("debugMenuPopulate()", "Populate Menu", "with useless boxes");
+    Menu.addOption("player.addItem('masterKey')", "Get Skeleton Key");
     Menu.generate();
 }
 function debugRoomInformation() {
