@@ -162,7 +162,7 @@ function debugRoomInformation() {
     for (var [_furnitureID, _furniture] of player.room.furniture.entries()) {
         _contentBody += "<li>{0}".format(_furniture.toString());
             _contentBody += "<ul>";
-                _contentBody += "<li>Seating ({0}/{1})".format(_furniture.availableSeatingSpace(), _furniture.seatingSpace);
+                _contentBody += "<li>Seating ({0}/{1})".format(_furniture.seatingSpace - _furniture.availableSeatingSpace(), _furniture.seatingSpace);
                     _contentBody += "<ul>";
         _furniture.characters.forEach(function(_character) {
             _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.currentActions));
