@@ -16,6 +16,7 @@ zootopiaPackStreet03.setNorthRoom(alBuildingFirstFloorHallwayA);
 zootopiaPackStreet04.setWestRoom(zootopiaPackStreet05);
 zootopiaPackStreet05.setWestRoom(zootopiaPackStreet06);
 zootopiaPackStreet05.setNorthRoom(bettyBuildingFirstFloorHallwayA);
+bettyBuildingFirstFloorHallwayA.lock(zootopiaPackStreet05);
 zootopiaPackStreet06.setWestRoom(zootopiaPackStreet07);
 zootopiaPackStreet07.setWestRoom(zootopiaPackStreet08);
 zootopiaPackStreet08.setWestRoom(zootopiaPackStreet09);
@@ -26,6 +27,7 @@ zootopiaPackStreet10.setWestRoom(zootopia44thStreet06);
 zootopia42ndStreet06.setNorthRoom(zootopia42ndStreet05);
 zootopia42ndStreet05.setNorthRoom(zootopia42ndStreet04);
 zootopia42ndStreet05.setEastRoom(bugBurga42ndDiningA);
+bugBurga42ndDiningA.lock(zootopia42ndStreet05);
 zootopia42ndStreet04.setNorthRoom(zootopia42ndStreet03);
 zootopia42ndStreet03.setNorthRoom(zootopia42ndStreet02);
 zootopia42ndStreet03.setWestRoom(zootopiaHarryStreet01);
@@ -62,6 +64,7 @@ zootopiaPandorasBoxParkingLot.setWalls(0);
 // Zootopia, Harry Street
 zootopiaHarryStreet01.setWestRoom(zootopiaHarryStreet02);
 zootopiaHarryStreet01.setSouthRoom(packStreetPublicLibraryEntrance);
+packStreetPublicLibraryEntrance.lock(zootopiaHarryStreet01);
 zootopiaHarryStreet02.setWestRoom(zootopiaHarryStreet03);
 zootopiaHarryStreet03.setWestRoom(zootopiaHarryStreet04);
 zootopiaHarryStreet04.setWestRoom(zootopiaHarryStreet05);
@@ -292,6 +295,7 @@ bugBurga42ndOrderingCounterA.setSouthRoom(bugBurga42ndOrderingCounterB);
 bugBurga42ndKitchenA.setEastRoom(bugBurga42ndKitchenB);
 bugBurga42ndKitchenB.setSouthRoom(bugBurga42ndBreakRoomA);
 bugBurga42ndBreakRoomA.setWestRoom(bugBurga42ndBreakRoomB);
+
 
 // Furniture to Room
 alApartmentBedroom.addFurniture(alApartmentBedroomBed);
