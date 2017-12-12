@@ -248,7 +248,7 @@ function debugCharactersInformation(_character = player) {
     Array.from(_character.clothing.keys()).forEach(function(_clothingType) {
     	_clothingIndexes.forEach(function(_clothing) {
     		if (_clothing.type == _clothingType) {
-	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBra() && _character.getBra().id == _clothing.id ? "selected" : ""));
+	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.clothing.has(_clothingType) && _character.clothing.get(_clothingType) == _clothing ? "selected" : ""));
 	            _clothingIndexes.delete(_clothing.id);
     		}
     	}, this);

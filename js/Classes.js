@@ -1341,7 +1341,6 @@ class Character extends Entity {
         this.clothing.set("nosePiercing", undefined);
         this.clothing.set("lipPiercing", undefined);
         this.clothing.set("tonguePiercing", undefined);
-        this.clothing.set("collar", undefined);
         this.clothing.set("neckwear", undefined);
         this.clothing.set("shirt", undefined);
         this.clothing.set("jacket", undefined);
