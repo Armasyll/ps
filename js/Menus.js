@@ -19,7 +19,38 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         );
 
         Menu.clear();
-        exploreMenu();
+	    
+	    if (player.room.attachedRooms.has(0) && player.room.attachedRooms.get(0) instanceof Room)
+	        roomNorth = player.room.attachedRooms.get(0);
+	    else
+	        roomNorth = undefined;
+	    
+	    if (player.room.attachedRooms.has(1) && player.room.attachedRooms.get(1) instanceof Room)
+	        roomEast = player.room.attachedRooms.get(1);
+	    else
+	        roomEast = undefined;
+	    
+	    if (player.room.attachedRooms.has(2) && player.room.attachedRooms.get(2) instanceof Room)
+	        roomSouth = player.room.attachedRooms.get(2);
+	    else
+	        roomSouth = undefined;
+	    
+	    if (player.room.attachedRooms.has(3) && player.room.attachedRooms.get(3) instanceof Room)
+	        roomWest = player.room.attachedRooms.get(3);
+	    else
+	        roomWest = undefined;
+	    
+	    if (player.room.attachedRooms.has(4) && player.room.attachedRooms.get(4) instanceof Room)
+	        roomDown = player.room.attachedRooms.get(4);
+	    else
+	        roomDown = undefined;
+	    
+	    if (player.room.attachedRooms.has(5) && player.room.attachedRooms.get(5) instanceof Room)
+	        roomUp = player.room.attachedRooms.get(5);
+	    else
+	        roomUp = undefined;
+	    
+	    Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
         Menu.setOption(0, "roomInteract({0}, false, false)".format(player.room.id), "Explore " + (player.room.owner == player ? "your " + player.room.typeName() : player.room.name));
         Menu.setOption(1, "personalCharacterMenu()", "Personal Menu");
         if (player.room.characters.size == 2) {
@@ -50,41 +81,6 @@ function personalCharacterMenu() {
     Menu.addOption("getAppearance(player, 1)", "Appearance");
     Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();
-}
-function exploreMenu() {
-    Menu.showingBaseMenu = true;
-    
-    if (player.room.attachedRooms.has(0) && player.room.attachedRooms.get(0) instanceof Room)
-        roomNorth = player.room.attachedRooms.get(0);
-    else
-        roomNorth = undefined;
-    
-    if (player.room.attachedRooms.has(1) && player.room.attachedRooms.get(1) instanceof Room)
-        roomEast = player.room.attachedRooms.get(1);
-    else
-        roomEast = undefined;
-    
-    if (player.room.attachedRooms.has(2) && player.room.attachedRooms.get(2) instanceof Room)
-        roomSouth = player.room.attachedRooms.get(2);
-    else
-        roomSouth = undefined;
-    
-    if (player.room.attachedRooms.has(3) && player.room.attachedRooms.get(3) instanceof Room)
-        roomWest = player.room.attachedRooms.get(3);
-    else
-        roomWest = undefined;
-    
-    if (player.room.attachedRooms.has(4) && player.room.attachedRooms.get(4) instanceof Room)
-        roomDown = player.room.attachedRooms.get(4);
-    else
-        roomDown = undefined;
-    
-    if (player.room.attachedRooms.has(5) && player.room.attachedRooms.get(5) instanceof Room)
-        roomUp = player.room.attachedRooms.get(5);
-    else
-        roomUp = undefined;
-    
-    Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
 }
 function localCharactersMenu() {
     lastMenu = "localCharactersMenu()";
@@ -224,105 +220,52 @@ function debugCharactersInformation(_character = player) {
     charactersIndexes.forEach(function(__character) {
     	_blob += "<option value='{0}'' {2}>{1}</option>".format(__character.id, __character.name, (_character == __character ? "selected" : ""));
     });
-    Content.add("<h4>Character:</h4> <select onchange='debugCharactersInformation(this.value)'>" + _blob + "</select>");
+    Content.add("<h4>Character:</h4> <select onchange='debugCharactersInformation(this.value)'>" + _blob + "</select><br/>");
+    Content.add("<hr/>");
+    _blob = "";
+
+
+    // Misc. Stats
+    _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugStatsPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Stats</a></h3></div><div id='debugStatsPanel' class='panel-collapse collapse'><div class='panel-body'>";
+    _blob += "<label class='col-sm-2'>Lust:</label><input onchange='{1}.setLust(this.value)' type='number' min='0' max='100' name='lust' value='{0}'/><br/>".format(_character.lust, _character.id);
+    _blob += "<label class='col-sm-2'>Exhibitionism:</label><input onchange='{1}.setExhibitionism(this.value)' type='number' min='0' max='100' name='exhibitionism' value='{0}'/><br/>".format(_character.exhibitionism, _character.id);
+    _blob += "<label class='col-sm-2'>Somnophilia:</label><input onchange='{1}.setSomnophilia(this.value)' type='number' min='0' max='100' name='somnophilia' value='{0}'/><br/>".format(_character.somnophilia, _character.id);
+    _blob += "<label class='col-sm-2'>Intoxication:</label><input onchange='{1}.setIntoxication(this.value)' type='number' min='0' max='100' name='intoxication' value='{0}'/><br/>".format(_character.intoxication, _character.id);
+    _blob += "<label class='col-sm-2'>Incestual:</label><input onchange='{1}.setIncestual(this.value)' type='number' min='0' max='100' name='incestual' value='{0}'/><br/>".format(_character.incestual, _character.id);
+    _blob += "<label class='col-sm-2'>Rut:</label><input onchange='{1}.setRut(this.checked)' type='checkbox' name='rut' {1}/><br/>".format((_character.rut ? 'checked' : ''), _character.id);
+    _blob += "<label class='col-sm-2'>Orientation:</label><select id='debugSetSexualOrientation' onchange='{0}.setSexualOrientation(this.value)'><option value='0' {1}>Straight</option><option value='1' {2}>Gay</option><option value='2' {3}>Bisexual</option></select><br/>".format(_character.id, (_character.sexualOrientation == 0 ? 'selected' : ''), (_character.sexualOrientation == 1 ? 'selected' : ''), (_character.sexualOrientation == 2 ? 'selected' : ''));
+    _blob += "</div></div></div>";
+    Content.add(_blob);
     _blob = "";
 
 
     // Clothes
-    Content.add("<h4>Clothes:</h4>");
+    _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugClothesPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Clothing</a></h3></div><div id='debugClothesPanel' class='panel-collapse collapse'><div class='panel-body'>";
     var _clothingIndexes = new Map(clothingIndexes);
-    
-    var _clothingHatOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "hat") {
-            _clothingHatOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasHat() && _character.getHat().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingNeckwearOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "neckwear") {
-            _clothingNeckwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasNeckwear() && _character.getNeckwear().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingBraOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "bra") {
-            _clothingBraOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBra() && _character.getBra().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingShirtOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "shirt") {
-            _clothingShirtOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShirt() && _character.getShirt().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingJacketOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "jacket") {
-            _clothingJacketOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasJacket() && _character.getJacket().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingBeltOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "belt") {
-            _clothingBeltOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBelt() && _character.getBelt().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingUnderwearOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "underwear") {
-            _clothingUnderwearOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasUnderwear() && _character.getUnderwear().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingPantsOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "pants") {
-            _clothingPantsOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasPants() && _character.getPants().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
-    
-    var _clothingShoesOptionsBlob = "";
-    _clothingIndexes.forEach(function(_clothing) {
-        if (_clothing.type == "shoes") {
-            _clothingShoesOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasShoes() && _character.getShoes().id == _clothing.id ? "selected" : ""));
-            _clothingIndexes.delete(_clothing.id);
-        }
-    }, this);
+    var _clothingOptionsBlob = "";
     
     _blob += "<table class='table'>";
-    _blob += "<tr><td>Hat</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"hat\")' data-character='{0}' data-clothingSlot='hat' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), (_clothingHatOptionsBlob));
-    _blob += "<tr><td>Neckwear</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"neckwear\")' data-character='{0}' data-clothingSlot='neckwear' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasNeckwear() ? player.getNeckwear().id : "undefined"), (_clothingNeckwearOptionsBlob));
-    _blob += "<tr><td>Bra</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"bra\")' data-character='{0}' data-clothingSlot='bra' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBra() ? player.getBra().id : "undefined"), (_clothingBraOptionsBlob));
-    _blob += "<tr><td>Shirt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"shirt\")' data-character='{0}' data-clothingSlot='shirt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShirt() ? player.getShirt().id : "undefined"), (_clothingShirtOptionsBlob));
-    _blob += "<tr><td>Belt</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"belt\")' data-character='{0}' data-clothingSlot='belt' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasBelt() ? player.getBelt().id : "undefined"), (_clothingBeltOptionsBlob));
-    _blob += "<tr><td>Underwear</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"underwear\")' data-character='{0}' data-clothingSlot='underwear' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasUnderwear() ? player.getUnderwear().id : "undefined"), (_clothingUnderwearOptionsBlob));
-    _blob += "<tr><td>Pants</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"pants\")' data-character='{0}' data-clothingSlot='pants' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasPants() ? player.getPants().id : "undefined"), (_clothingPantsOptionsBlob));
-    _blob += "<tr><td>Shoes</td><td><select class='changeClothing' onchange='{0}.wear(this.value, \"shoes\")' data-character='{0}' data-clothingSlot='shoes' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasShoes() ? player.getShoes().id : "undefined"), (_clothingShoesOptionsBlob));
-    _blob += "</table>";
+    Array.from(_character.clothing.keys()).forEach(function(_clothingType) {
+    	_clothingIndexes.forEach(function(_clothing) {
+    		if (_clothing.type == _clothingType) {
+	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.hasBra() && _character.getBra().id == _clothing.id ? "selected" : ""));
+	            _clothingIndexes.delete(_clothing.id);
+    		}
+    	}, this);
+    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), _clothingOptionsBlob, _clothingType);
+    	_clothingOptionsBlob = "";
+    }, this);
+	_blob += "</table>";
+	_blob += "</div></div></div>";
     Content.add(_blob);
+    _blob = "";
     
 
     // Disposition
-    Content.add("<h4>Disposition:</h4>");
-    _blob = "<form class='form-inline'><table class='table'>";
-    
     _map = _character.defaultDisposition.toMap();
     
+    _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugDispositionPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Disposition</a></h3></div><div id='debugDispositionPanel' class='panel-collapse collapse'><div class='panel-body'>";
+    _blob += "<form class='form-inline'><table class='table'>";
     _blob += "<thead><tr><th>Name</th>";
     for (var _property in _character.defaultDisposition) {
         _blob += "<th>{0}</th>".format(_property.capitalize());
@@ -343,17 +286,16 @@ function debugCharactersInformation(_character = player) {
         if (_character == __character)
             return undefined;
         
-        if (!_character.hasDisposition(__character))
-            _character.addNewDisposition(__character);
-        
-        _map = _character.getCharacterDisposition(__character).toMap();
-        
-        _blob += "<tr><td>{0}</td>".format(__character.id);
-        for (var _property in _character.characterDisposition.get(__character)) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id);
-        }
-        _blob += "<td></td>";
-        _blob += "</tr>";
+        if (_character.hasDisposition(__character)) {
+	        _map = _character.getCharacterDisposition(__character).toMap();
+	        
+	        _blob += "<tr><td>{0}</td>".format(__character.id);
+	        for (var _property in _character.characterDisposition.get(__character)) {
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckThem{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id, __character.name);
+	        }
+	        _blob += "<td id='chanceToFuckThem{1}'>{0}</td>".format(chanceToFuck(__character, _character), __character.name);
+	        _blob += "</tr>";
+	    }
     }, this);
     
     //  Them->You
@@ -362,21 +304,20 @@ function debugCharactersInformation(_character = player) {
         if (__character == _character)
             return undefined;
         
-        if (!__character.hasDisposition(_character))
-            __character.addNewDisposition(_character);
-        
-        _map = __character.getCharacterDisposition(_character).toMap();
-        
-        _blob += "<tr><td>{0}</td>".format(__character.id);
-        for (var _property in __character.characterDisposition.get(_character)) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuck{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.name);
-        }
-        _blob += "<td id='chanceToFuck{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.name);
-        _blob += "</tr>";
+        if (__character.hasDisposition(_character)) {
+	        _map = __character.getCharacterDisposition(_character).toMap();
+	        
+	        _blob += "<tr><td>{0}</td>".format(__character.id);
+	        for (var _property in __character.characterDisposition.get(_character)) {
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckYou{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.name);
+	        }
+	        _blob += "<td id='chanceToFuckYou{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.name);
+	        _blob += "</tr>";
+	    }
     }, this);
     
     _blob += "</tbody></table></form>";
-    
+    _blob += "</div></div></div>";
     Content.add(_blob);
     _blob = "";
 }

@@ -1332,25 +1332,26 @@ class Character extends Entity {
 
         this.furniture = undefined;
 
-        this.hat = undefined;
-        this.mask = undefined;
-        this.glasses = undefined;
-        this.earPiercingLeft = undefined;
-        this.earPiercingRight = undefined;
-        this.nosePiercing = undefined;
-        this.lipPiercing = undefined;
-        this.tonguePiercing = undefined;
-        this.collar = undefined;
-        this.neckwear = undefined;
-        this.shirt = undefined;
-        this.jacket = undefined;
-        this.belt = undefined;
-        this.gloves = undefined;
-        this.underwear = undefined;
-        this.pants = undefined;
-        this.socks = undefined;
-        this.shoes = undefined;
-        this.bra = undefined;
+        this.clothing = new Map();
+        this.clothing.set("hat", undefined);
+        this.clothing.set("mask", undefined);
+        this.clothing.set("glasses", undefined);
+        this.clothing.set("earPiercingLeft", undefined);
+        this.clothing.set("earPiercingRight", undefined);
+        this.clothing.set("nosePiercing", undefined);
+        this.clothing.set("lipPiercing", undefined);
+        this.clothing.set("tonguePiercing", undefined);
+        this.clothing.set("collar", undefined);
+        this.clothing.set("neckwear", undefined);
+        this.clothing.set("shirt", undefined);
+        this.clothing.set("jacket", undefined);
+        this.clothing.set("belt", undefined);
+        this.clothing.set("gloves", undefined);
+        this.clothing.set("underwear", undefined);
+        this.clothing.set("pants", undefined);
+        this.clothing.set("socks", undefined);
+        this.clothing.set("shoes", undefined);
+        this.clothing.set("bra", undefined);
 
         this.characterDisposition = new Map();
         this.hadSexWith = new Set();
@@ -1372,7 +1373,7 @@ class Character extends Entity {
 
         this.exhibitionism = 0; // 0-100, preference for public sex
         this.somnophilia = 0; // 0-100, preference for sleep sex
-        this.intoxicated = 0; // 0-100, drunkness
+        this.intoxication = 0; // 0-100, drunkness
         this.incestual = 0; // 0-100, preference for incest
 
         this.previousRoom = undefined;
@@ -1500,63 +1501,6 @@ class Character extends Entity {
         delete json["characterDisposition"];
         
         // Entities
-        this.hat = clothingIndexes.has(json["hat"]) ? clothingIndexes.get(json["hat"]) : undefined;
-        delete json["hat"];
-        
-        this.mask = clothingIndexes.has(json["mask"]) ? clothingIndexes.get(json["mask"]) : undefined;
-        delete json["mask"];
-        
-        this.glasses = clothingIndexes.has(json["glasses"]) ? clothingIndexes.get(json["glasses"]) : undefined;
-        delete json["glasses"];
-        
-        this.piercingLeftEar = clothingIndexes.has(json["piercingLeftEar"]) ? clothingIndexes.get(json["piercingLeftEar"]) : undefined;
-        delete json["piercingLeftEar"];
-        
-        this.piercingRightEar = clothingIndexes.has(json["piercingRightEar"]) ? clothingIndexes.get(json["piercingRightEar"]) : undefined;
-        delete json["piercingRightEar"];
-        
-        this.piercingNose = clothingIndexes.has(json["piercingNose"]) ? clothingIndexes.get(json["piercingNose"]) : undefined;
-        delete json["piercingNose"];
-        
-        this.piercingLip = clothingIndexes.has(json["piercingLip"]) ? clothingIndexes.get(json["piercingLip"]) : undefined;
-        delete json["piercingLip"];
-        
-        this.piercingTongue = clothingIndexes.has(json["piercingTongue"]) ? clothingIndexes.get(json["piercingTongue"]) : undefined;
-        delete json["piercingTongue"];
-        
-        this.collar = clothingIndexes.has(json["collar"]) ? clothingIndexes.get(json["collar"]) : undefined;
-        delete json["collar"];
-        
-        this.neckwear = clothingIndexes.has(json["neckwear"]) ? clothingIndexes.get(json["neckwear"]) : undefined;
-        delete json["neckwear"];
-        
-        this.shirt = clothingIndexes.has(json["shirt"]) ? clothingIndexes.get(json["shirt"]) : undefined;
-        delete json["shirt"];
-        
-        this.jacket = clothingIndexes.has(json["jacket"]) ? clothingIndexes.get(json["jacket"]) : undefined;
-        delete json["jacket"];
-        
-        this.belt = clothingIndexes.has(json["belt"]) ? clothingIndexes.get(json["belt"]) : undefined;
-        delete json["belt"];
-        
-        this.gloves = clothingIndexes.has(json["gloves"]) ? clothingIndexes.get(json["gloves"]) : undefined;
-        delete json["gloves"];
-        
-        this.underwear = clothingIndexes.has(json["underwear"]) ? clothingIndexes.get(json["underwear"]) : undefined;
-        delete json["underwear"];
-        
-        this.pants = clothingIndexes.has(json["pants"]) ? clothingIndexes.get(json["pants"]) : undefined;
-        delete json["pants"];
-        
-        this.socks = clothingIndexes.has(json["socks"]) ? clothingIndexes.get(json["socks"]) : undefined;
-        delete json["socks"];
-        
-        this.shoes = clothingIndexes.has(json["shoes"]) ? clothingIndexes.get(json["shoes"]) : undefined;
-        delete json["shoes"];
-        
-        this.bra = clothingIndexes.has(json["bra"]) ? clothingIndexes.get(json["bra"]) : undefined;
-        delete json["bra"];
-        
         this.defaultDisposition.fromObject(json["defaultDisposition"]);
         delete json["defaultDisposition"];
         
@@ -1623,6 +1567,64 @@ class Character extends Entity {
     	}
     	else
     		return false;
+    }
+
+    setLust(_int) {
+    	if (isNaN(_int))
+    		return;
+    	else if (_int < 0)
+    		_int = 0;
+    	else if (_int > 100)
+    		_int = 100;
+    	this.lust = _int;
+    }
+    setExhibitionism(_int) {
+    	if (isNaN(_int))
+    		return;
+    	else if (_int < 0)
+    		_int = 0;
+    	else if (_int > 100)
+    		_int = 100;
+    	this.exhibitionism = _int;
+    }
+    setSomnophilia(_int) {
+    	if (isNaN(_int))
+    		return;
+    	else if (_int < 0)
+    		_int = 0;
+    	else if (_int > 100)
+    		_int = 100;
+    	this.somnophilia = _int;
+    }
+    setIntoxication(_int) {
+    	if (isNaN(_int))
+    		return;
+    	else if (_int < 0)
+    		_int = 0;
+    	else if (_int > 100)
+    		_int = 100;
+    	this.intoxication = _int;
+    }
+    setIncestual(_int) {
+    	_int = Number.parseInt(_int);
+    	if (isNaN(_int))
+    		return;
+    	else if (_int < 0)
+    		_int = 0;
+    	else if (_int > 100)
+    		_int = 100;
+    	this.incestual = _int;
+    }
+    setRut(_bool) {
+    	if (_bool == true || _bool == 1 || _bool == "on")
+    		this.rut = true;
+    	else
+    		this.rut = false;
+    }
+    setSexualOrientation(_int) {
+    	_int = Number.parseInt(_int);
+    	if (_int >= 0 && _int < 3)
+    		this.sexualOrientation = _int;
     }
 
     setSex(_sex) {
@@ -1798,70 +1800,70 @@ class Character extends Entity {
     }
 
     hasHat() {
-        return this.hat instanceof Clothing;
+        return this.clothing.get("hat") instanceof Clothing;
     }
     getHat() {
-        return this.hat;
+        return this.clothing.get("hat");
     }
 
     hasShirt() {
-        return this.shirt instanceof Clothing;
+        return this.clothing.get("shirt") instanceof Clothing;
     }
     getShirt() {
-        return this.shirt;
+        return this.clothing.get("shirt");
     }
 
     hasJacket() {
-        return this.jacket instanceof Clothing;
+        return this.clothing.get("jacket") instanceof Clothing;
     }
     getJacket() {
-        return this.jacket;
+        return this.clothing.get("jacket");
     }
 
     hasNeckwear() {
-        return this.neckwear instanceof Clothing;
+        return this.clothing.get("neckwear") instanceof Clothing;
     }
     getNeckwear() {
-        return this.neckwear;
+        return this.clothing.get("neckwear");
     }
 
     hasBra() {
-        return this.bra instanceof Clothing;
+        return this.clothing.get("bra") instanceof Clothing;
     }
     getBra() {
-        return this.bra;
+        return this.clothing.get("bra");
     }
 
     hasBelt() {
-        return this.belt instanceof Clothing;
+        return this.clothing.get("belt") instanceof Clothing;
     }
     getBelt() {
-        return this.belt;
+        return this.clothing.get("belt");
     }
 
     hasUnderwear() {
-        return this.underwear instanceof Clothing;
+        return this.clothing.get("underwear") instanceof Clothing;
     }
     getUnderwear() {
-        return this.underwear;
+        return this.clothing.get("underwear");
     }
 
     hasPants() {
-        return this.pants instanceof Clothing;
+        return this.clothing.get("pants") instanceof Clothing;
     }
     getPants() {
-        return this.pants;
+        return this.clothing.get("pants");
     }
     
     hasShoes() {
-        return this.shoe instanceof Clothing;
+        return this.clothing.get("shoe") instanceof Clothing;
     }
     getShoes() {
-        return this.shoes;
+        return this.clothing.get("shoes");
     }
     getClothing(_type) {
         if (clothingTypes.has(_type))
-            return this[_clothing.type];
+            return this.clothing.get(_clothing.type);
         else
             return undefined;
     }
@@ -2001,7 +2003,7 @@ class Character extends Entity {
 
         if (_clothing instanceof Clothing) {
             if (clothingTypes.has(_clothing.type))
-                return this[_clothing.type] == _clothing;
+                return this.clothing.get(_clothing.type) == _clothing;
         }
     }
     putOn(_clothing, _type = undefined) {
@@ -2012,7 +2014,7 @@ class Character extends Entity {
 	        this.items.add(_clothing);
 
 	        if (clothingTypes.has(_clothing.type)) {
-	            this[_clothing.type] = _clothing;
+	            this.clothing.set(_clothing.type, _clothing);
 	            return true;
 	        }
 	        return false;
@@ -2032,10 +2034,10 @@ class Character extends Entity {
 
         if (_clothing instanceof Clothing) {
             if (clothingTypes.has(_clothing.type))
-                this[_clothing.type] = undefined;
+                this.clothing.set(_clothing.type, undefined);
         }
         else if (clothingTypes.has(_clothing))
-        	this[_clothing] = undefined;
+        	this.clothing.set(_clothing, undefined);
     }
 
     hasKey(_room) {
@@ -2672,10 +2674,7 @@ class Character extends Entity {
             return 0;
 
         if (!_character.characterDisposition.has(this))
-            _character.addNewCharacterDispositionFor(this);
-
-        if (!_character.characterDisposition.has(this))
-            _character.addNewCharacterDispositionFor(this);
+            return 0;
 
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
 
@@ -2733,16 +2732,18 @@ class Character extends Entity {
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
 
         // Exhibitionism
-        if (this.room.characters.size > 2){
-            if (_character.exhibitionism > 0)
-                chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
-            else {
-                this.room.characters.forEach(function(_this) {
-                    if (_this != _character.this && _this != this)
-                        chance += _character.hadSexWith.has(_this) ? 5 : -5;
-                }, this);
-            }
-        }
+        if (this.room instanceof Room) {
+	        if (this.room.characters.size > 2){
+	            if (_character.exhibitionism > 0)
+	                chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
+	            else {
+	                this.room.characters.forEach(function(_this) {
+	                    if (_this != _character.this && _this != this)
+	                        chance += _character.hadSexWith.has(_this) ? 5 : -5;
+	                }, this);
+	            }
+	        }
+	    }
 
         if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
 
@@ -2757,7 +2758,7 @@ class Character extends Entity {
         if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
 
         // Intoxication
-        chance += _character.intoxicated/2.5;
+        chance += _character.intoxication/2.5;
 
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 

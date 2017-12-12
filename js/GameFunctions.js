@@ -1320,6 +1320,8 @@ window.addEventListener(
 window.addEventListener(
     "keypress",
     function(event) {
+        if (document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')
+            return;
         var fn = undefined;
         var _placement = undefined;
         switch(event['key']) {
