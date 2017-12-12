@@ -1218,7 +1218,7 @@ class Character extends Entity {
             this.surname = tempName[1];
         }
         this.nickname = undefined;
-        this.age = Number.parseInt(_age);
+        this.age = this.setAge(_age);
         this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
         this.addAction("talk");
@@ -1242,7 +1242,7 @@ class Character extends Entity {
         this.philautia = 50;     // self
         this.agape = 50;         // others
         this.stamina = 100;
-        this.staminMax = 100;
+        this.staminaMax = 100;
         this.lust = 25;
         this.rut = false;
         this.clean = 100;
@@ -1311,7 +1311,7 @@ class Character extends Entity {
 
         this.setSpecies(_species);
 
-        this.hadSex = false;
+        this.virgin = true;
 
         this.sexCount = 0;
         this.vaginalReceiveCount = 0;
@@ -1358,17 +1358,16 @@ class Character extends Entity {
         this.prefersSpecies = new Set();
         this.avoidsSpecies = new Set();
 
-        this.avoidedSex = undefined; // "
         this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
 
         this.preferredPenisSize = undefined; // int
         this.preferredPenisGirth = undefined; // int
         this.preferredBreastSize = undefined; // int
 
-        this.prefersPredators = undefined;
-        this.avoidsPredators = undefined;
-        this.prefersPrey = undefined;
-        this.avoidsPrey = undefined;
+        this.prefersPredators = false;
+        this.avoidsPredators = false;
+        this.prefersPrey = false;
+        this.avoidsPrey = false;
 
         this.exhibitionism = 0; // 0-100, preference for public sex
         this.somnophilia = 0; // 0-100, preference for sleep sex
@@ -1568,83 +1567,339 @@ class Character extends Entity {
     		return false;
     }
 
+    setAge(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.age = _int;
+        return _int;
+    }
+    incAge(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setAge(this.age + _int);
+    }
+    addAge(_int) {
+        return this.incAge(_int);
+    }
+    setStamina(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.staminaMax)
+            _int = this.staminaMax;
+        this.stamina = _int;
+        return _int;
+    }
+    incStamina(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setStamina(this.stamina + _int);
+    }
+    addStamina(_int) {
+        return this.incStamina(_int);
+    }
+    decStamina(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setStamina(this.stamina - _int);
+    }
+    subStamina(_int) {
+        return this.decStamina(_int);
+    }
+    setStaminaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+
+        if (this.stamina > this.staminaMax)
+            this.stamina = this.staminaMax;
+
+        this.staminaMax = _int;
+        return _int;
+    }
+    incStaminaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setStaminaMax(this.staminaMax + _int);
+    }
+    addStaminaMax(_int) {
+        return this.incStaminaMax(_int);
+    }
+    decStaminaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setStaminaMax(this.staminaMax - _int);
+    }
+    subStaminaMax(_int) {
+        return this.decStaminaMax(_int);
+    }
     setLust(_int) {
-    	if (isNaN(_int))
-    		return;
-    	else if (_int < 0)
-    		_int = 0;
-    	else if (_int > 100)
-    		_int = 100;
-    	this.lust = _int;
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > 100)
+            _int = 100;
+        this.lust = _int;
+        return _int;
+    }
+    incLust(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLust(this.lust + _int);
+    }
+    addLust(_int) {
+        return this.incLust(_int);
+    }
+    decLust(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLust(this.lust - _int);
+    }
+    subLust(_int) {
+        return this.decLust(_int);
     }
     setExhibitionism(_int) {
     	if (isNaN(_int))
-    		return;
+    		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
     	this.exhibitionism = _int;
+        return _int;
+    }
+    incExhibitionism(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setExhibitionism(this.exhibitionism + _int);
+    }
+    addExhibitionism(_int) {
+        return this.incExhibitionism(_int);
+    }
+    decExhibitionism(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setExhibitionism(this.exhibitionism - _int);
+    }
+    subExhibitionism(_int) {
+        return this.decExhibitionism(_int);
     }
     setSomnophilia(_int) {
     	if (isNaN(_int))
-    		return;
+    		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
     	this.somnophilia = _int;
+        return _int;
+    }
+    incSomnophilia(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setSomnophilia(this.somnophilia + _int);
+    }
+    addSomnophilia(_int) {
+        return this.incSomnophilia(_int);
+    }
+    decSomnophilia(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setSomnophilia(this.somnophilia - _int);
+    }
+    subSomnophilia(_int) {
+        return this.decSomnophilia(_int);
     }
     setIntoxication(_int) {
     	if (isNaN(_int))
-    		return;
+    		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
     	this.intoxication = _int;
+        return _int;
+    }
+    incIntoxication(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setIntoxication(this.intoxication + _int);
+    }
+    addIntoxication(_int) {
+        return this.incIntoxication(_int);
+    }
+    decIntoxication(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setIntoxication(this.intoxication - _int);
+    }
+    subIntoxication(_int) {
+        return this.decIntoxication(_int);
     }
     setIncestual(_int) {
     	_int = Number.parseInt(_int);
     	if (isNaN(_int))
-    		return;
+    		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
     	this.incestual = _int;
+        return _int;
+    }
+    incIncestual(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setIncestual(this.incestual + _int);
+    }
+    addIncestual(_int) {
+        return this.incIncestual(_int);
+    }
+    decIncestual(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setIncestual(this.incestual - _int);
+    }
+    subIncestual(_int) {
+        return this.decIncestual(_int);
     }
     setRut(_bool) {
-    	if (_bool == true || _bool == 1 || _bool == "on")
-    		this.rut = true;
+    	if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+    		_bool = true;
     	else
-    		this.rut = false;
+    		_bool = false;
+        this.rut = _bool;
+        return _bool;
+    }
+    setLiving(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.living = _bool;
+        return _bool;
+    }
+    setVirgin(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.virgin = _bool;
+        return _bool;
+    }
+    setPrefersPredators(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.prefersPredators = _bool;
+        return _bool;
+    }
+    setAvoidsPredators(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.avoidsPredators = _bool;
+        return _bool;
+    }
+    setPrefersPrey(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.prefersPrey = _bool;
+        return _bool;
+    }
+    setAvoidsPrey(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
+        this.avoidsPrey = _bool;
+        return _bool;
     }
     setSexualOrientation(_int) {
     	_int = Number.parseInt(_int);
-    	if (_int >= 0 && _int < 3)
-    		this.sexualOrientation = _int;
+    	if (isNaN(_int) || _int < 0 || _int > 2)
+    		_int = 0;
+        this.sexualOrientation = _int;
+        return _int;
     }
 
     setSex(_sex) {
         if (isNaN(_sex)) {
             switch (_sex.slice(0, 1)) {
                 case "m" : {
-                    this.sex = 0;
+                    _sex = 0;
                 }
                 case "f" : {
-                    this.sex = 1;
+                    _sex = 1;
                 }
                 case "h" : {
-                    this.sex = 2;
+                    _sex = 2;
                 }
             }
         }
         else if (_sex >= 0 && _sex < 4) {
-            this.sex = Number.parseInt(_sex);
+            _sex = Number.parseInt(_sex);
         }
         else
-            this.sex = 0;
+            _sex = 0;
+        this.sex = _sex;
+        return _sex;
     }
     sexName() {
         return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
@@ -2471,7 +2726,7 @@ class Character extends Entity {
 
         if (_character instanceof Character) {
             this.hadSexWith.add(_character);
-            this.hadSex = true;
+            this.virgin = false;
             this.sexCount++;
 
             if (_updateChild)
