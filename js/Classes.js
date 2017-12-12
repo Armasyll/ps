@@ -1410,6 +1410,17 @@ class Character extends Entity {
         else
             this.id = json["id"];
         delete json["id"];
+        this.setAge(json.hasOwnProperty("age") ? json["age"] : this.age); delete json["age"];
+        this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : this.stamina); delete json["stamina"];
+        this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : this.staminaMax); delete json["staminaMax"];
+        this.setLust(json.hasOwnProperty("incestual") ? json["incestual"] : this.incestual); delete json["lust"];
+        this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : this.exhibitionism); delete json["exhibitionism"];
+        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : this.somnophilia); delete json["somnophilia"];
+        this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : this.intoxication); delete json["intoxication"];
+        this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : this.incestual); delete json["incestual"];
+        this.setRut(json.hasOwnProperty("rut") ? json["rut"] : this.rut); delete json["rut"];
+        this.setLiving(json.hasOwnProperty("living") ? json["living"] : this.living); delete json["living"];
+        this.setVirgin(json.hasOwnProperty("virgin") ? json["virgin"] : this.virgin); delete json["virgin"];
         
         var _tmpArr = [];
         
@@ -1497,6 +1508,20 @@ class Character extends Entity {
             console.log(e);
         }
         delete json["characterDisposition"];
+        //  clothing
+        try {
+            _tmpArr = JSON.parse(json["clothing"]);
+            _tmpArr.forEach(function(_clothing) {
+                if (!(_clothing instanceof Clothing))
+                    _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : undefined;
+
+                if (_clothing instanceof Clothing)
+                    this.wear(_clothing);
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["clothing"];
         
         // Entities
         this.defaultDisposition.fromObject(json["defaultDisposition"]);
