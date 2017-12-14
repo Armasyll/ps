@@ -329,7 +329,7 @@ function debugSwitchCharacter() {
     _blob = "";
     _blob += '<div class="btn-group btn-group-justified">';
     charactersIndexes.forEach(function (_key, _val) {
-        _blob += Menu.createButton("switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.sex ? "F" : "M") + "/" + _key.getSpeciesName().capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
+        _blob += Menu.createButton("switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.sex ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
         if (i % 4 == 0)
             _blob += '</div><div class="btn-group btn-group-justified">';
         i++;
@@ -426,7 +426,7 @@ function start() {
     
     clearContentAndMenu();
     
-    Content.add("Your name is " + player.toString() + ", a " + player.age + " year old " + (player.sex == 0 ? 'male' : 'female') + " " + player.getSpeciesName() + ".<br/>");
+    Content.add("Your name is " + player.toString() + ", a " + player.age + " year old " + (player.sex == 0 ? 'male' : 'female') + " " + player.species + ".<br/>");
     
     Menu.addOption("roomInteract({0}, true)".format(player.room.id), "Get a move on.");
     Menu.generate();

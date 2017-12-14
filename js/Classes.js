@@ -1017,7 +1017,7 @@ class Entity {
         if (typeof this.description != 'undefined')
             _blob += "<p>{0}</p>".format(this.description);
         else if (this instanceof Character) {
-            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.getSpeciesName());
+            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.species);
         }
 
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
@@ -1252,19 +1252,20 @@ class Character extends Entity {
         this.setSex(_sex);
         this.gender = _sex;
 
-        this.furColourA = undefined; // Body
+        this.furColourA = "orange"; // Body
         this.furColourAHex = undefined;
-        this.furColourB = undefined; // Middle
+        this.furColourB = "cream"; // Middle
         this.furColourBHex = undefined;
 
         // Handled by setSpecies
+        this.bodySize = 0.5;
         this.predator = false;
-        this.handType = 1;
-        this.feetType = 1;
+        this.handType = "pad";
+        this.feetType = "pad";
         this.relatives = new Set();
-        this.eyeType = 0;
-        this.eyeColour = undefined;
-        this.furType = 0;
+        this.eyeType = "circle";
+        this.eyeColour = "green";
+        this.peltType = "fur";
         this.furTrimmed = 50;
         this.furSoftness = 50;
 
@@ -1611,6 +1612,7 @@ class Character extends Entity {
     addAge(_int) {
         return this.incAge(_int);
     }
+
     setStamina(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -1643,6 +1645,7 @@ class Character extends Entity {
     subStamina(_int) {
         return this.decStamina(_int);
     }
+
     setStaminaMax(_int) {
         if (isNaN(_int))
             _int = 1;
@@ -1679,6 +1682,69 @@ class Character extends Entity {
     subStaminaMax(_int) {
         return this.decStaminaMax(_int);
     }
+
+    setPhilautia(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.philautia = _int;
+        return _int;
+    }
+    incPhilautia(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setPhilautia(this.philautia + _int);
+    }
+    addPhilautia(_int) {
+        return this.incPhilautia(_int);
+    }
+    decPhilautia(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setPhilautia(this.philautia - _int);
+    }
+    subPhilautia(_int) {
+        return this.decPhilautia(_int);
+    }
+
+    setAgape(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.agape = _int;
+        return _int;
+    }
+    incAgape(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setAgape(this.agape + _int);
+    }
+    addAgape(_int) {
+        return this.incAgape(_int);
+    }
+    decAgape(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setAgape(this.agape - _int);
+    }
+    subAgape(_int) {
+        return this.decAgape(_int);
+    }
+
     setLust(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -1711,6 +1777,7 @@ class Character extends Entity {
     subLust(_int) {
         return this.decLust(_int);
     }
+
     setExhibitionism(_int) {
     	if (isNaN(_int))
     		_int = 0;
@@ -1743,6 +1810,7 @@ class Character extends Entity {
     subExhibitionism(_int) {
         return this.decExhibitionism(_int);
     }
+
     setSomnophilia(_int) {
     	if (isNaN(_int))
     		_int = 0;
@@ -1775,6 +1843,7 @@ class Character extends Entity {
     subSomnophilia(_int) {
         return this.decSomnophilia(_int);
     }
+
     setIntoxication(_int) {
     	if (isNaN(_int))
     		_int = 0;
@@ -1807,6 +1876,7 @@ class Character extends Entity {
     subIntoxication(_int) {
         return this.decIntoxication(_int);
     }
+
     setIncestual(_int) {
     	_int = Number.parseInt(_int);
     	if (isNaN(_int))
@@ -1840,6 +1910,7 @@ class Character extends Entity {
     subIncestual(_int) {
         return this.decIncestual(_int);
     }
+
     setRut(_bool) {
     	if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
     		_bool = true;
@@ -1848,6 +1919,7 @@ class Character extends Entity {
         this.rut = _bool;
         return _bool;
     }
+
     setLiving(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1856,6 +1928,7 @@ class Character extends Entity {
         this.living = _bool;
         return _bool;
     }
+
     setVirgin(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1864,6 +1937,7 @@ class Character extends Entity {
         this.virgin = _bool;
         return _bool;
     }
+
     setPrefersPredators(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1872,6 +1946,7 @@ class Character extends Entity {
         this.prefersPredators = _bool;
         return _bool;
     }
+
     setAvoidsPredators(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1880,6 +1955,7 @@ class Character extends Entity {
         this.avoidsPredators = _bool;
         return _bool;
     }
+
     setPrefersPrey(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1888,6 +1964,7 @@ class Character extends Entity {
         this.prefersPrey = _bool;
         return _bool;
     }
+
     setAvoidsPrey(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
             _bool = true;
@@ -1896,6 +1973,7 @@ class Character extends Entity {
         this.avoidsPrey = _bool;
         return _bool;
     }
+
     setSexualOrientation(_int) {
     	_int = Number.parseInt(_int);
     	if (isNaN(_int) || _int < 0 || _int > 2)
@@ -2355,77 +2433,62 @@ class Character extends Entity {
     }
     grammaticalGender() {
         switch (this.species) {
-            case 0 : {
+            case "fox" : {
                 return this.gender == 0 ? "tod" : "vixen";
             }
-            case 1 : {
+            case "wolf" : {
                 return this.gender == 0 ? "wolf" : "wolfen";
             }
-            case 2 :
-            case 3 : {
+            case "aardwolf" :
+            case "hyena" : {
                 return this.gender == 0 ? "brute" : "fae";
             }
-            case 4 : {
+            case "sheep" : {
                 return this.gender == 0 ? "ram" : "ewe";
             }
-            case 5 : {
+            case "stoat" : {
                 return this.gender == 0 ? "jack" : "jill";
             }
-            case 6 :
-            case 7 :
-            case 11 : {
+            case "deer" :
+            case "rabbit" :
+            case "antelope" : {
                 return this.gender == 0 ? "buck" : "doe";
             }
-            case 8 :
-            case 9 : {
+            case "jackal" :
+            case "coyote" : {
                 return this.gender == 0 ? "dog" : "bitch";
             }
-            case 10 : {
+            case "tiger" : {
                 return this.gender == 0 ? "tiger" : "tigress";
             }
-            case 12 : {
+            case "pig" : {
                 return this.gender == 0 ? "boar" : "sow";
             }
-            case 13 : {
+            case "horse" : {
                 return this.gender == 0 ? "stallion" : "mare";
             }
         }
     }
 
     setHand(_type) {
-        if (isNaN(_type))
-            this.handType = HandTypeNameIds.has(_type) ? HandTypeNameIds.get(_type) : 0;
-        else if (HandTypeIdNames.has(_type))
+        if (handTypes.has(_type))
             this.handType = _type;
         else
-            this.handType = 0;
-    }
-    handName() {
-        return HandTypeIdNames.get(this.handType);
+            this.handType = "pad";
     }
 
     setFeet(_type) {
-        if (isNaN(_type))
-            this.feetType = FeetTypeNameIds.has(_type) ? FeetTypeNameIds.get(_type) : 0;
-        else if (FeetTypeIdNames.has(_type))
+        if (feetTypes.has(_type))
             this.feetType = _type;
         else
-            this.feetType = 0;
-    }
-    feetName() {
-        return FeetTypeIdNames.get(this.feetType);
+            this.feetType = "pad";
     }
 
     setEyes(_type) {
-        if (isNaN(_type))
-            this.eyeType = EyeTypeNameIds.has(_type) ? EyeTypeNameIds.get(_type) : 0;
-        else if (EyeTypeIdNames.has(_type))
+        if (eyeTypes.has(_type))
             this.eyeType = _type;
         else
-            this.eyeType = 0;
-    }
-    eyeName() {
-        return EyeTypeIdNames.get(this.eyeType);
+            this.eyeType = "circle";
     }
     setEyeColour(_colour) {
         this.eyeColour = _colour
@@ -2433,15 +2496,10 @@ class Character extends Entity {
     }
 
     setFur(_type) {
-        if (isNaN(_type))
-            this.furType = FurTypeNameIds.has(_type) ? FurTypeNameIds.get(_type) : 0;
-        else if (FurTypeIdNames.has(_type))
-            this.furType = _type;
+        if (peltTypes.has(_type))
+            this.peltType = _type;
         else
-            this.furType = 0;
-    }
-    furName() {
-        return FurTypeIdNames.get(this.furType);
+            this.peltType = "fur";
     }
     setFurColourA(_colour) {
         this.furColourA = _colour;
@@ -2460,200 +2518,251 @@ class Character extends Entity {
     }
 
     setSpecies(_species) {
-        if (isNaN(_species))
-            this.species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
-        else if (SpeciesIdNames.has(_species))
+        if (speciesTypes.has(_species))
             this.species = _species;
         else
-            this.species = 0;
+            this.species = "fox";
 
-        switch (this.species) {
-            case 0 : {// fox
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 15;
-                    if (this.penisGirth == 0) this.penisGirth = 10;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 15;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
-                }
+        if (_species == "fox") {
+            if (this.sex == 0) {
+                this.penisSize = 15;
+                this.penisGirth = 10;
             }
-            case 1 : { // wolf
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 25;
-                    if (this.penisGirth == 0) this.penisGirth = 16;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 25;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 16;
-                }
+            else {
+                this.vaginaSize = 15;
+                this.vaginaGirth = 10;
             }
-            case 2 : { // aardwolf
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 15;
-                    if (this.penisGirth == 0) this.penisGirth = 10;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 15;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
-                }
-            }
-            case 3 : { // heyna
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 25;
-                    if (this.penisGirth == 0) this.penisGirth = 16;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 25;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 16;
-                }
-            }
-            case 5 : { // stoat
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 8;
-                    if (this.penisGirth == 0) this.penisGirth = 7;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 8;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 7;
-                }
-            }
-            case 8 : { // jackal
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 18;
-                    if (this.penisGirth == 0) this.penisGirth = 12;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 18;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
-                }
-            }
-            case 9 : { // coyote
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 15;
-                    if (this.penisGirth == 0) this.penisGirth = 10;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 15;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
-                }
-            }
-            case 10 : { // tiger
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 28;
-                    if (this.penisGirth == 0) this.penisGirth = 15;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 28;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 15;
-                }
-                
-                this.predator = true;
-                this.setFeet("pad");
-                this.setHand("pad");
-                this.setFur("fur");
-                break;
-            }
-            case 4 : { // sheep
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 19;
-                    if (this.penisGirth == 0) this.penisGirth = 11;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 19;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 11;
-                }
-                
-                this.predator = false;
-                this.setFeet("clovenhoof");
-                this.setHand("clovenhoof");
-                this.setEyes("rectangle");
-                this.setFur("wool");
-                this.furSoftness = 75;
-                break;
-            }
-            case 6 : { // deer
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 22;
-                    if (this.penisGirth == 0) this.penisGirth = 12;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 22;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
-                }
-            }
-            case 11 : { // antelope
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 22;
-                    if (this.penisGirth == 0) this.penisGirth = 12;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 22;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 12;
-                }
-                
-                this.predator = false;
-                this.setFeet("clovenhoof");
-                this.setHand("clovenhoof");
-                this.setEyes("rectangle");
-                this.setFur("hair");
-                break;
-            }
-            case 7 : { // rabbit
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 12;
-                    if (this.penisGirth == 0) this.penisGirth = 8;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 12;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 8;
-                }
-                
-                this.predator = false;
-                this.setFeet("fur");
-                this.setHand("fur");
-                this.setFur("fur");
-                this.furSoftness =75;
-                break;
-            }
-            case 12 : { // pig
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 15;
-                    if (this.penisGirth == 0) this.penisGirth = 10;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 15;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 10;
-                }
-                
-                this.predator = false;
-                this.setFeet("clovenhoof");
-                this.setHand("clovenhoof");
-                this.setEyes("circle");
-                this.setFur("skin");
-                break;
-            }
-            case 13 : { // horse
-                if (this.sex == 0) {
-                    if (this.penisSize == 0) this.penisSize = 45;
-                    if (this.penisGirth == 0) this.penisGirth = 25;
-                }
-                else {
-                    if (this.vaginaSize == 0) this.vaginaSize = 45;
-                    if (this.vaginaGirth == 0) this.vaginaGirth = 25;
-                }
-                
-                this.predator = false;
-                this.setFeet("hoof");
-                this.setHand("hoof");
-                this.setEyes("rectangle");
-                this.setFur("hair");
-                break;
-            }
+
+            this.bodySize = 0.5;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
         }
-    }
-    getSpeciesName() {
-        return SpeciesIdNames.get(this.species);
+        else if (_species == "wolf") {
+            if (this.sex == 0) {
+                this.penisSize = 25;
+                this.penisGirth = 16;
+            }
+            else {
+                this.vaginaSize = 25;
+                this.vaginaGirth = 16;
+            }
+
+            this.bodySize = 1.0;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "aardwolf") {
+            if (this.sex == 0) {
+                this.penisSize = 15;
+                this.penisGirth = 10;
+            }
+            else {
+                this.vaginaSize = 15;
+                this.vaginaGirth = 10;
+            }
+
+            this.bodySize = 0.5;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "hyena") {
+            if (this.sex == 0) {
+                this.penisSize = 25;
+                this.penisGirth = 16;
+            }
+            else {
+                this.vaginaSize = 25;
+                this.vaginaGirth = 16;
+            }
+
+            this.bodySize = 0.85;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "sheep") {
+            if (this.sex == 0) {
+                this.penisSize = 19;
+                this.penisGirth = 11;
+            }
+            else {
+                this.vaginaSize = 19;
+                this.vaginaGirth = 11;
+            }
+            
+            this.bodySize = 0.5;
+            this.predator = false;
+            this.setFeet("clovenhoof");
+            this.setHand("clovenhoof");
+            this.setEyes("rectangle");
+            this.setFur("wool");
+            this.furSoftness = 75;
+        }
+        else if (_species == "stoat") {
+            if (this.sex == 0) {
+                this.penisSize = 8;
+                this.penisGirth = 7;
+            }
+            else {
+                this.vaginaSize = 8;
+                this.vaginaGirth = 7;
+            }
+
+            this.bodySize = 0.25;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "deer") {
+            if (this.sex == 0) {
+                this.penisSize = 22;
+                this.penisGirth = 12;
+            }
+            else {
+                this.vaginaSize = 22;
+                this.vaginaGirth = 12;
+            }
+            
+            this.bodySize = 0.65;
+            this.predator = false;
+            this.setFeet("clovenhoof");
+            this.setHand("clovenhoof");
+            this.setEyes("circle");
+            this.setFur("wool");
+            this.furSoftness = 75;
+        }
+        else if (_species == "rabbit") {
+            if (this.sex == 0) {
+                this.penisSize = 12;
+                this.penisGirth = 8;
+            }
+            else {
+                this.vaginaSize = 12;
+                this.vaginaGirth = 8;
+            }
+            
+            this.bodySize = 0.4;
+            this.predator = false;
+            this.setFeet("fur");
+            this.setHand("fur");
+            this.setEyes("circle");
+            this.setFur("fur");
+            this.furSoftness = 75;
+        }
+        else if (_species == "jackal") {
+            if (this.sex == 0) {
+                this.penisSize = 18;
+                this.penisGirth = 12;
+            }
+            else {
+                this.vaginaSize = 18;
+                this.vaginaGirth = 12;
+            }
+            
+            this.bodySize = 0.5;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "coyote") {
+            if (this.sex == 0) {
+                this.penisSize = 15;
+                this.penisGirth = 10;
+            }
+            else {
+                this.vaginaSize = 15;
+                this.vaginaGirth = 10;
+            }
+            
+            this.bodySize = 0.5;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setEyes("circle");
+            this.setFur("fur");
+        }
+        else if (_species == "tiger") {
+            if (this.sex == 0) {
+                this.penisSize = 28;
+                this.penisGirth = 15;
+            }
+            else {
+                this.vaginaSize = 28;
+                this.vaginaGirth = 15;
+            }
+            
+            this.bodySize = 1.2;
+            this.predator = true;
+            this.setFeet("pad");
+            this.setHand("pad");
+            this.setFur("fur");
+        }
+        else if (_species == "antelope") {
+            if (this.sex == 0) {
+                this.penisSize = 22;
+                this.penisGirth = 12;
+            }
+            else {
+                this.vaginaSize = 22;
+                this.vaginaGirth = 12;
+            }
+            
+            this.bodySize = 0.65;
+            this.predator = false;
+            this.setFeet("clovenhoof");
+            this.setHand("clovenhoof");
+            this.setEyes("rectangle");
+            this.setFur("hair");
+        }
+        else if (_species == "pig") {
+            if (this.sex == 0) {
+                this.penisSize = 15;
+                this.penisGirth = 10;
+            }
+            else {
+                this.vaginaSize = 15;
+                this.vaginaGirth = 10;
+            }
+            
+            this.bodySize = 0.6;
+            this.predator = false;
+            this.setFeet("clovenhoof");
+            this.setHand("clovenhoof");
+            this.setEyes("circle");
+            this.setFur("skin");
+        }
+        else if (_species == "horse") {
+            if (this.sex == 0) {
+                this.penisSize = 45;
+                this.penisGirth = 25;
+            }
+            else {
+                this.vaginaSize = 45;
+                this.vaginaGirth = 25;
+            }
+            
+            this.bodySize = 0.85;
+            this.predator = false;
+            this.setFeet("hoof");
+            this.setHand("hoof");
+            this.setEyes("rectangle");
+            this.setFur("hair");
+        }
     }
 
     setPenisSize(_blob) {
@@ -2772,28 +2881,20 @@ class Character extends Entity {
     }
 
     addPreferredSpecies(_species) {
-        if (isNaN(_species))
-            _species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
-        else if (SpeciesIdNames.has(_species))
+        if (speciesTypes.has(_species)) {
             _species = _species;
-        else
-            _species = 0;
-
-        this.prefersSpecies.add(_species);
+            this.prefersSpecies.add(_species);
+        }
     }
     likesSpecies(_species) {
         this.addPreferredSpecies(_species);
     }
 
     addAvoidedSpecies(_species) {
-        if (isNaN(_species))
-            _species = SpeciesNameIds.has(_species) ? SpeciesNameIds.get(_species) : 0;
-        else if (SpeciesIdNames.has(_species))
+        if (speciesTypes.has(_species)) {
             _species = _species;
-        else
-            _species = 0;
-
-        this.avoidsSpecies.add(_species);
+            this.avoidsSpecies.add(_species);
+        }
     }
     dislikesSpecies(_species) {
         this.addAvoidedSpecies(_species);
@@ -3458,7 +3559,7 @@ class Room {
         if (typeof this.description != 'undefined')
             _blob += "<p>{0}</p>".format(this.description);
         else if (this instanceof Character) {
-            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.getSpeciesName());
+            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.species);
         }
         
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
@@ -4033,10 +4134,10 @@ class Room {
     }
 
     /**
-     * Returns the first available instance of Furniture in the room that can fit the character. References their species against SpeciesSizeUnits.
+     * Returns the first available instance of Furniture in the room that can fit the character. References their bodySize.
      * @param Character _character The character to be referenced against
      * @param boolean _considerCharacterPreferences Considers a character's preferences for resting on furniture instead of choosing the first one available
-     * @param boolean _lay If true, the results of SpeciesSizeUnits are multiplied by two, as the Character would be taking up double the space.
+     * @param boolean _lay If true, the results of bodySize are multiplied by two, as the Character would be taking up double the space.
      * @param Array _furnitureTypePreferences I forgot. 2017/09/06
      *
      * @return An instance of Furniture in the room, or undefined if none available found.
@@ -4053,7 +4154,7 @@ class Room {
                 var _seats = [];
 
                 this.furniture.forEach(function(_furniture) {
-                    if (_furniture.availableSeatingSpace() >= (SpeciesSizeUnits.get(_character.species) * _requiredSpaceMultiplier))
+                    if (_furniture.availableSeatingSpace() >= (_character.bodySize * _requiredSpaceMultiplier))
                         _seats.push(_furniture);
                 }, this);
 
@@ -4075,7 +4176,7 @@ class Room {
             }
             else {
                 Array.from(this.furniture).some(function(_furniture) {
-                    if (_furniture.availableSeatingSpace() >= (SpeciesSizeUnits.get(_character.species) * _requiredSpaceMultiplier)) {
+                    if (_furniture.availableSeatingSpace() >= (_character.bodySize * _requiredSpaceMultiplier)) {
                         _placeToRest = _furniture;
                         return true;
                     }
@@ -4434,7 +4535,7 @@ class Furniture extends Entity {
             // but what if it's a stoat and a wolf :v
             // wat then :V 2017/09/06
 
-            _charactersSeatingSpaceTotal -= SpeciesSizeUnits.get(_character.species) * _baseMultiplier;
+            _charactersSeatingSpaceTotal -= _character.bodySize * _baseMultiplier;
         }, this);
 
         return _charactersSeatingSpaceTotal;

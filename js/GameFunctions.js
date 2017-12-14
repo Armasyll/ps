@@ -668,7 +668,7 @@ function characterSit(_character, _furniture = undefined) {
     
     _character.sit(_furniture);
     
-    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species))
+    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= _character.bodySize)
         _furniture.addCharacter(_character);
     
     return _character.furniture instanceof Furniture;
@@ -693,7 +693,7 @@ function characterLay(_character, _furniture = undefined) {
     
     _character.lay(_furniture);
     
-    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2)
+    if (_furniture instanceof Furniture && _furniture.availableSeatingSpace() >= _character.bodySize * 2)
         _furniture.addCharacter(_character);
     
     return _character.furniture instanceof Furniture;
@@ -719,13 +719,13 @@ function characterSleep(_character, _furniture = undefined) {
     _character.sleep(_furniture);
     
     if (_furniture instanceof Furniture) {
-        if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) * 2) {
+        if (_furniture.availableSeatingSpace() >= _character.bodySize * 2) {
             _character.lay(_furniture);
             _character.sleep(_furniture);
             
             _furniture.addCharacter(_character);
         }
-        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species)) {
+        else if (_furniture.availableSeatingSpace() >= _character.bodySize) {
             _character.sit(_furniture);
             _character.sleep(_furniture);
             
@@ -891,7 +891,7 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     }
     
     if (_furniture instanceof Furniture) {
-        var _largestCharacter = (SpeciesSizeUnits.get(_characterA.species) > SpeciesSizeUnits.get(_characterB.species) ? SpeciesSizeUnits.get(_characterA.species) : SpeciesSizeUnits.get(_characterB.species));
+        var _largestCharacter = (_characterA.bodySize > _characterB.bodySize ? _characterA.bodySize : _characterB.bodySize);
         
         if (_furniture.seatingSpace >= _largestCharacter * 2 && _action == "lay") {
             _furniture.addCharacter(_characterA);
@@ -945,11 +945,11 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     }
     
     if (_furniture instanceof Furniture && _furniture != _character.furniture) {
-        if (_furniture.seatingSpace >= SpeciesSizeUnits.get(_character.species) * 2 && _action == "lay") {
+        if (_furniture.seatingSpace >= _character.bodySize * 2 && _action == "lay") {
             _furniture.addCharacter(_character);
             _character.lay(_furniture);
         }
-        else if (_furniture.availableSeatingSpace() >= SpeciesSizeUnits.get(_character.species) && _action == "sit") {
+        else if (_furniture.availableSeatingSpace() >= _character.bodySize && _action == "sit") {
             _furniture.addCharacter(_character);
             _character.sit(_furniture);
         }
