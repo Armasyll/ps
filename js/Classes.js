@@ -1247,6 +1247,7 @@ class Character extends Entity {
         this.manaMax = 0;
         this.stamina = 100;
         this.staminaMax = 100;
+        this.sanity = 100;
         this.lust = 25;
         this.rut = false;
         this.clean = 100;
@@ -1831,6 +1832,39 @@ class Character extends Entity {
     }
     subStaminaMax(_int) {
         return this.decStaminaMax(_int);
+    }
+
+    setSanity(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.sanityMax)
+            _int = this.sanityMax;
+        this.sanity = _int;
+        return _int;
+    }
+    incSanity(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setSanity(this.sanity + _int);
+    }
+    addSanity(_int) {
+        return this.incSanity(_int);
+    }
+    decSanity(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setSanity(this.sanity - _int);
+    }
+    subSanity(_int) {
+        return this.decSanity(_int);
     }
 
     setPhilautia(_int) {
@@ -4717,11 +4751,6 @@ class Furniture extends Entity {
 
             this.setType(_type);
 
-            this.addAction("sit");
-            this.addAction("lay");
-            this.addAction("sleep");
-            this.addAction("look");
-
             this.seatingSpace = _seatingSpace;
             this.storageSpace = _storageSpace;
             this.characters = new Set(); // <Character, Action>
@@ -4801,6 +4830,127 @@ class Furniture extends Entity {
         	this.type = _type;
         else
         	this.type = "chair";
+
+        switch(this.type) {
+            case "bed" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("lay");
+                this.addAction("sit");
+                break;
+            }
+            case "chair" : {
+                this.addAction("sit");
+                this.addAction("sleep");
+                break;
+            }
+            case "recliner" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("lay");
+                this.addAction("sit");
+                break;
+            }
+            case "loveseat" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("lay");
+                this.addAction("sit");
+                break;
+            }
+            case "couch" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("lay");
+                this.addAction("sit");
+                break;
+            }
+            case "table" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("sit");
+                break;
+            }
+            case "desk" : {
+                this.addAction("open");
+                this.addAction("sleep");
+                this.addAction("sit");
+                break;
+            }
+            case "shelf" : {
+                this.addAction("open");
+                break;
+            }
+            case "cupboard" : {
+                this.addAction("open");
+                break;
+            }
+            case "cabinet" : {
+                this.addAction("open");
+                break;
+            }
+            case "bureau" : {
+                this.addAction("open");
+                break;
+            }
+            case "hook" : {
+                this.addAction("open");
+                break;
+            }
+            case "tv" : {
+                this.addAction("use");
+                this.addAction("look");
+                break;
+            }
+            case "fridge" : {
+                this.addAction("open");
+                break;
+            }
+            case "oven" : {
+                this.addAction("use");
+                this.addAction("open");
+                break;
+            }
+            case "microwave" : {
+                this.addAction("use");
+                this.addAction("open");
+                break;
+            }
+            case "toaster" : {
+                this.addAction("use");
+                this.addAction("open");
+                break;
+            }
+            case "tub" : {
+                this.addAction("use");
+                this.addAction("sleep");
+                this.addAction("lay");
+                this.addAction("sit");
+                break;
+            }
+            case "shower" : {
+                this.addAction("use");
+                this.addAction("sit");
+                break;
+            }
+            case "sink" : {
+                this.addAction("use");
+                break;
+            }
+            case "toilet" : {
+                this.addAction("use");
+                this.addAction("sit");
+                break;
+            }
+            case "mirror" : {
+                this.addAction("look");
+                break;
+            }
+            case "basket" : {
+                this.addAction("open");
+                break;
+            }
+        }
     }
 
     isSeat() {
