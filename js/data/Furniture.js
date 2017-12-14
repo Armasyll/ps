@@ -18,7 +18,11 @@ remmyApartmentBedroomBed = new Furniture("remmyApartmentBedroomBed", "Bed", "A w
 remmyApartmentBedroomBureau = new Furniture("remmyApartmentBedroomBureau", "Bureau", "A plywood bureau.", "bureau", 0, 16);
 remmyApartmentBedroomHamper = new Furniture("remmyApartmentBedroomHamper", "Hamper", "A plastic clothes basket.", "basket", 0, 10);
 
-pandorasBoxBasementHiddenBed = new Furniture("pandorasBoxBasementHiddenBed", "Bed", "A large, soft bed.", "bed", 4, 8);
+twinsApartmentLivingroomCouch = new Furniture("twinsApartmentLivingroomCouch", "Couch", "A worn couch.", "couch", 4, 4);
+twinsApartmentBedroomWolterBed = new Furniture("twinsApartmentBedroomWolterBed", "Bed", "A soft bed.", "bed", 2, 4);
+twinsApartmentBedroomAnnekeBed = new Furniture("twinsApartmentBedroomAnnekeBed", "Bed", "A soft bed.", "bed", 2, 4);
+
+pandorasBoxBasementHiddenBedroomBed = new Furniture("pandorasBoxBasementHiddenBedroomBed", "Bed", "A large, soft bed.", "bed", 4, 8);
 pandorasBoxCheckoutDesk = new Furniture("pandorasBoxCheckoutDesk", "Checkout Counter", "A checkout counter.", "desk", 2, 4);
 pandorasBoxAisleA1LeftShelf = new Furniture("pandorasBoxAisleA1LeftShelf", "'A' Shelf", "A shelf containing large amounts of anal pornography.", "shelf", 0, 6);
 pandorasBoxAisleA2LeftShelf = new Furniture("pandorasBoxAisleA2LeftShelf", "'B' Shelf", "A shelf containing blow-up dolls, and ball gags.", "shelf", 0, 6);

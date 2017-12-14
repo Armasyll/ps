@@ -246,7 +246,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (northRoom instanceof Room) {
             _room = northRoom;
@@ -257,7 +257,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (upRoom instanceof Room) {
             _room = upRoom;
@@ -268,7 +268,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (westRoom instanceof Room) {
             _room = westRoom;
@@ -279,7 +279,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (southRoom instanceof Room) {
             _room = southRoom;
@@ -290,7 +290,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         if (eastRoom instanceof Room) {
             _room = eastRoom;
@@ -301,7 +301,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, _room.isSecret, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         _room = undefined;
     }
@@ -3858,6 +3858,49 @@ class Room {
     }
 
     /**
+     * Hides this room from the room specified.
+     *
+     * @param Room _room
+     *
+     *
+     * Modifies the specified Room's directional side (northSide, eastSide, ...,) and its roomsOptions
+     */
+    hide(_room) {
+        if (_room instanceof Room)
+            _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
+        else if (_room >= 0 && _room < 7)
+            _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
+
+        if (typeof _room == 'undefined')
+            return;
+
+        var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
+        if (typeof _roomDirectionNumber == 'number') {
+            switch (_roomDirectionNumber) {
+                case 0: {
+                    _room.northSide = 2;
+                    break;
+                }
+                case 1: {
+                    _room.eastSide = 2;
+                    break;
+                }
+                case 2: {
+                    _room.southSide = 2;
+                    break;
+                }
+                case 3: {
+                    _room.westSide = 2;
+                    break;
+                }
+            }
+        }
+
+        var _options = _room.roomsOptions.get(this);
+        _options['isHidden'] = true;
+        _room.roomsOptions.set(this, _options);
+    }
+    /**
      * Lock this room from the room specified.
      *
      * @param Room _room
@@ -3919,28 +3962,71 @@ class Room {
 
         var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
         if (typeof _roomDirectionNumber == 'number') {
-        	switch (_roomDirectionNumber) {
-        		case 0: {
-        			_room.northSide = 1;
-        			break;
-        		}
-        		case 1: {
-        			_room.eastSide = 1;
-        			break;
-        		}
-        		case 2: {
-        			_room.southSide = 1;
-        			break;
-        		}
-        		case 3: {
-        			_room.westSide = 1;
-        			break;
-        		}
-        	}
+            switch (_roomDirectionNumber) {
+                case 0: {
+                    _room.northSide = 1;
+                    break;
+                }
+                case 1: {
+                    _room.eastSide = 1;
+                    break;
+                }
+                case 2: {
+                    _room.southSide = 1;
+                    break;
+                }
+                case 3: {
+                    _room.westSide = 1;
+                    break;
+                }
+            }
         }
 
         var _options = _room.roomsOptions.get(this);
         _options['isLocked'] = false;
+        _room.roomsOptions.set(this, _options);
+    }
+    /**
+     * Unlock this room from the room specified.
+     *
+     * @param Room _room
+     *
+     *
+     * Modifies the specified Room's directional side (northSide, eastSide, ...,) and its roomsOptions
+     */
+    unhide(_room) {
+        if (_room instanceof Room)
+            _room = this.attachedRooms.flip().has(_room) ? _room : undefined;
+        else if (_room >= 0 && _room < 7)
+            _room = this.attachedRooms.has(_room) ? this.attachedRooms.get(_room) : undefined;
+
+        if (typeof _room == 'undefined')
+            return;
+
+        var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
+        if (typeof _roomDirectionNumber == 'number') {
+            switch (_roomDirectionNumber) {
+                case 0: {
+                    _room.northSide = 1;
+                    break;
+                }
+                case 1: {
+                    _room.eastSide = 1;
+                    break;
+                }
+                case 2: {
+                    _room.southSide = 1;
+                    break;
+                }
+                case 3: {
+                    _room.westSide = 1;
+                    break;
+                }
+            }
+        }
+
+        var _options = _room.roomsOptions.get(this);
+        _options['isHidden'] = false;
         _room.roomsOptions.set(this, _options);
     }
 
@@ -4277,11 +4363,21 @@ class Room {
     }
 
     addFurniture(_furniture) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.get(_furniture);
+        var _addedFurniture = false;
+        if (!(_furniture instanceof Furniture)) {
+            if (_furniture instanceof Array) {
+                _furniture.forEach(function(__furniture) {
+                    this.addFurniture(__furniture);
+                }, this);
+                return _addedFurniture;
+            }
+            else
+                _furniture = furnitureIndexes.get(_furniture);
+        }
 
         _furniture.room = this;
         this.furniture.add(_furniture);
+        return _addedFurniture;
     }
     removeFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
@@ -4399,6 +4495,39 @@ class Room {
         }
     }
 
+    isHidden(_direction = undefined) {
+        if (_direction instanceof Room) {
+            if (this.attachedRooms.flip().has(_direction)) {
+                if (this.roomsOptions.get(_direction)['isHidden'])
+                    return true;
+                // Why I bothered to check if the direction coming IN from the outside is locked, when you're already inside, is beyond me.
+                //else if (typeof _direction.roomsOptions.get(this) !== 'undefined' && _direction.roomsOptions.get(this)['isLocked'])
+                //    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        else {
+            if (this.attachedRooms.has(_direction) && this.attachedRooms.get(_direction) instanceof Room) {
+                _direction = this.attachedRooms.get(_direction);
+                if (this.attachedRooms.flip().has(_direction)) {
+                    if (this.roomsOptions.get(_direction)['isHidden'])
+                        return true;
+                    // See previous note
+                    //else if  (_direction.roomsOptions.get(this)['isLocked'])
+                    //    return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+    }
     isLocked(_direction = undefined) {
         if (_direction instanceof Room) {
             if (this.attachedRooms.flip().has(_direction)) {
