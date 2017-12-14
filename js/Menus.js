@@ -226,7 +226,16 @@ function debugCharactersInformation(_character = player) {
 
 
     // Misc. Stats
-    _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugStatsPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Stats</a></h3></div><div id='debugStatsPanel' class='panel-collapse collapse'><div class='panel-body'>";
+    _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugStatsPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Stats</a></h3></div><div id='debugStatsPanel' class=''><div class='panel-body'>";
+    _blob += "<label class='col-sm-2'>Life:</label><input onchange='{1}.setLife(this.value)' type='number' min='0' max='4096' name='life' value='{0}'/><br/>".format(_character.life, _character.id);
+    _blob += "<label class='col-sm-2'>Max Life:</label><input onchange='{1}.setLifeMax(this.value)' type='number' min='1' max='4096' name='lifeMax' value='{0}'/><br/>".format(_character.lifeMax, _character.id);
+    if (_character.manaMax > 0) {
+    	_blob += "<label class='col-sm-2'>Mana:</label><input onchange='{1}.setMana(this.value)' type='number' min='0' max='4096' name='mana' value='{0}'/><br/>".format(_character.mana, _character.id);
+	    _blob += "<label class='col-sm-2'>Max Mana:</label><input onchange='{1}.setManaMax(this.value)' type='number' min='1' max='4096' name='manaMax' value='{0}'/><br/>".format(_character.manaMax, _character.id);
+	}
+    _blob += "<label class='col-sm-2'>Stamina:</label><input onchange='{1}.setStamina(this.value)' type='number' min='0' max='4096' name='stamina' value='{0}'/><br/>".format(_character.stamina, _character.id);
+    _blob += "<label class='col-sm-2'>Max Stamina:</label><input onchange='{1}.setStaminaMax(this.value)' type='number' min='1' max='4096' name='staminaMax' value='{0}'/><br/>".format(_character.staminaMax, _character.id);
+    _blob += "<hr/>";
     _blob += "<label class='col-sm-2'>Lust:</label><input onchange='{1}.setLust(this.value)' type='number' min='0' max='100' name='lust' value='{0}'/><br/>".format(_character.lust, _character.id);
     _blob += "<label class='col-sm-2'>Exhibitionism:</label><input onchange='{1}.setExhibitionism(this.value)' type='number' min='0' max='100' name='exhibitionism' value='{0}'/><br/>".format(_character.exhibitionism, _character.id);
     _blob += "<label class='col-sm-2'>Somnophilia:</label><input onchange='{1}.setSomnophilia(this.value)' type='number' min='0' max='100' name='somnophilia' value='{0}'/><br/>".format(_character.somnophilia, _character.id);

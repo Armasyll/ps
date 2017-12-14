@@ -1241,6 +1241,10 @@ class Character extends Entity {
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
         this.philautia = 50;     // self
         this.agape = 50;         // others
+        this.life = 100;
+        this.lifeMax = 100;
+        this.mana = 0;
+        this.manaMax = 0;
         this.stamina = 100;
         this.staminaMax = 100;
         this.lust = 25;
@@ -1412,9 +1416,15 @@ class Character extends Entity {
             this.id = json["id"];
         delete json["id"];
         this.setAge(json.hasOwnProperty("age") ? json["age"] : this.age); delete json["age"];
+        this.setLife(json.hasOwnProperty("life") ? json["life"] : this.life); delete json["life"];
+        this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : this.lifeMax); delete json["lifeMax"];
+        this.setMana(json.hasOwnProperty("mana") ? json["mana"] : this.mana); delete json["mana"];
+        this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : this.manaMax); delete json["manaMax"];
         this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : this.stamina); delete json["stamina"];
         this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : this.staminaMax); delete json["staminaMax"];
-        this.setLust(json.hasOwnProperty("incestual") ? json["incestual"] : this.incestual); delete json["lust"];
+        this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : this.philautia); delete json["philautia"];
+        this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : this.agape); delete json["agape"];
+        this.setLust(json.hasOwnProperty("lust") ? json["lust"] : this.lust); delete json["lust"];
         this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : this.exhibitionism); delete json["exhibitionism"];
         this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : this.somnophilia); delete json["somnophilia"];
         this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : this.intoxication); delete json["intoxication"];
@@ -1613,6 +1623,146 @@ class Character extends Entity {
         return this.incAge(_int);
     }
 
+    setLife(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.lifeMax)
+            _int = this.lifeMax;
+        this.life = _int;
+        return _int;
+    }
+    incLife(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLife(this.life + _int);
+    }
+    addLife(_int) {
+        return this.incLife(_int);
+    }
+    decLife(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLife(this.life - _int);
+    }
+    subLife(_int) {
+        return this.decLife(_int);
+    }
+
+    setLifeMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+
+        if (this.life > this.lifeMax)
+            this.life = this._int;
+
+        this.lifeMax = _int;
+        return _int;
+    }
+    incLifeMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLifeMax(this.lifeMax + _int);
+    }
+    addLifeMax(_int) {
+        return this.incLifeMax(_int);
+    }
+    decLifeMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setLifeMax(this.lifeMax - _int);
+    }
+    subLifeMax(_int) {
+        return this.decLifeMax(_int);
+    }
+
+    setMana(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.manaMax)
+            _int = this.manaMax;
+        this.mana = _int;
+        return _int;
+    }
+    incMana(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setMana(this.mana + _int);
+    }
+    addMana(_int) {
+        return this.incMana(_int);
+    }
+    decMana(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setMana(this.mana - _int);
+    }
+    subMana(_int) {
+        return this.decMana(_int);
+    }
+
+    setManaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+
+        if (this.mana > this.manaMax)
+            this.mana = this._int;
+
+        this.manaMax = _int;
+        return _int;
+    }
+    incManaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setManaMax(this.manaMax + _int);
+    }
+    addManaMax(_int) {
+        return this.incManaMax(_int);
+    }
+    decManaMax(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setManaMax(this.manaMax - _int);
+    }
+    subManaMax(_int) {
+        return this.decManaMax(_int);
+    }
+
     setStamina(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -1655,7 +1805,7 @@ class Character extends Entity {
             _int = 100;
 
         if (this.stamina > this.staminaMax)
-            this.stamina = this.staminaMax;
+            this.stamina = this._int;
 
         this.staminaMax = _int;
         return _int;
@@ -2011,6 +2161,35 @@ class Character extends Entity {
         return this.sexName();
     }
     
+    setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+        if (!(this.defaultDisposition instanceof Disposition))
+            this.defaultDisposition = new Disposition();
+
+        if (_eros instanceof Disposition)
+            this.defaultDisposition.set(_eros);
+        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && typeof Number.parseInt(_philia) == "number")
+            this.defaultDisposition.set(_eros, Number.parseInt(_philia));
+        else {
+            _eros = Number.parseInt(_eros);
+            _philia = Number.parseInt(_philia);
+            _lodus = Number.parseInt(_lodus);
+            _pragma = Number.parseInt(_pragma);
+            _storge = Number.parseInt(_storge);
+            _manic = Number.parseInt(_manic);
+
+            _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
+            _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
+            _lodus = isNaN(_lodus) ? this.defaultDisposition.lodus : _lodus;
+            _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
+            _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
+            _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
+
+            this.defaultDisposition.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
+        }
+
+        return this.defaultDisposition;
+
+    }
     setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
         if (debug) console.log("Running setCharacterDisposition");
 
@@ -2024,10 +2203,16 @@ class Character extends Entity {
 
         if (_eros instanceof Disposition)
             this.characterDisposition.set(_character, _eros);
-        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && !isNaN(Number.parseInt(_philia))) {
+        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && !isNaN(Number.parseInt(_philia)))
             this.getCharacterDisposition(_character).set(_eros, Number.parseInt(_philia));
-        }
         else if (this.characterDisposition.has(_character)) {
+            _eros = Number.parseInt(_eros);
+            _philia = Number.parseInt(_philia);
+            _lodus = Number.parseInt(_lodus);
+            _pragma = Number.parseInt(_pragma);
+            _storge = Number.parseInt(_storge);
+            _manic = Number.parseInt(_manic);
+            
             _eros = isNaN(_eros) ? this.characterDisposition.get(_character).eros : _eros;
             _philia = isNaN(_philia) ? this.characterDisposition.get(_character).philia : _philia;
             _lodus = isNaN(_lodus) ? this.characterDisposition.get(_character).lodus : _lodus;
@@ -2038,6 +2223,13 @@ class Character extends Entity {
             this.characterDisposition.set(_character, this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
         }
         else {
+            _eros = Number.parseInt(_eros);
+            _philia = Number.parseInt(_philia);
+            _lodus = Number.parseInt(_lodus);
+            _pragma = Number.parseInt(_pragma);
+            _storge = Number.parseInt(_storge);
+            _manic = Number.parseInt(_manic);
+            
             _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
             _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
             _lodus = isNaN(_lodus) ? this.defaultDisposition.lodus : _lodus;

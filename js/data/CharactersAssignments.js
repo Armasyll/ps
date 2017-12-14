@@ -70,6 +70,8 @@ charlie.setFurColour("cream");
 charlie.moveTo(remmyApartmentLivingroom);
 charlie.setPhilautia(25);
 charlie.setAgape(25);
+charlie.setManaMax(100);
+charlie.setMana(100);
 charlie.defaultDisposition.set(5, 0, 10, 0, 0);
 charlie.setCharacterDisposition(al,      new Disposition(10, 50, 25, 0, 0, 0));
 charlie.setCharacterDisposition(anneke,  new Disposition(0, 50, 75, 0, 0, 0));
