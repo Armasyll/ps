@@ -672,7 +672,7 @@ function setTimedMeetingEvent(_character, _targetRoom, _cron, _runOnce = true) {
     if (!(_character instanceof Character) || !(_targetRoom instanceof Room))
         return undefined;
     
-    return new GameEvent("{0}{1}TimedMeeting{2}Event".format(_character.id, _room.id.capitalize(), eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _room.id), _runOnce);
+    return new GameEvent("{0}{1}TimedMeeting{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _targetRoom.id), _runOnce);
 }
 /**
  * Triggers Function at the specific Cron time

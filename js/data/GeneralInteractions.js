@@ -270,16 +270,8 @@ function charlieInteractWhenPlayerHasHeart() {
 function charlieInteractWhenPlayerHasEye() {
     return;
 }
-function avoWorkRoutineStart(_event = undefined) {
-    setCharacterPath(avo, pandorasBoxCheckout);
-    return;
-}
 function avoWorkRoutineStartSit(_event = undefined) {
     characterSit(avo, pandorasBoxCheckoutDesk);
-    return;
-}
-function avoWorkRoutineEnd(_event = undefined) {
-    setCharacterPath(avo, avoApartmentBedroomAvo);
     return;
 }
 function wolterConsidersJumpingTheFence() {
