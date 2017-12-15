@@ -618,7 +618,7 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
         return _findPathFromRoomToRoom(_startRoom, _targetRoom);
 }
 /**
- * Moves character in a path from their current room to target room.
+ * Moves Character in a path from their current room to target Room.
  *
  * @param Character _character
  * @param Room _targetRoom
@@ -647,6 +647,48 @@ function setCharacterPath(_character, _targetRoom) {
         return undefined;
     
     return characterMovements.set(_character, _findPathToRoom(_character.room, _targetRoom));
+}
+/**
+ * Moves Character in a path from their current Room to the target Room at the specific Cron time.
+ *
+ * @param Character _character
+ * @param Room _targetRoom
+ * @param Cron _cron
+ * @param Boolean _runOnce
+ */
+function setTimedMeetingEvent(_character, _targetRoom, _cron, _runOnce = true) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    
+    if (!(_targetRoom instanceof Room))
+        _targetRoom = roomsIndexes.get(_targetRoom);
+    
+    if (!(_cron instanceof Cron))
+        return undefined;
+
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    if (!(_character instanceof Character) || !(_targetRoom instanceof Room))
+        return undefined;
+
+    new GameEvent("{0}{1}TimedMeetingEvent".format(_character.id, _room.id.capitalize()), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _room.id), _runOnce);
+}
+/**
+ * Triggers Function at the specific Cron time
+ *
+ * @param String _nextFunction
+ * @param Cron _cron
+ * @param Boolean _runOnce
+ */
+function setTimedFunctionEvent(_nextFunction, _cron, _runOnce = true) {
+    if (!(_cron instanceof Cron))
+        return undefined;
+    
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    new GameEvent("miscTimeFunctionEvent", undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
 }
 /**
  * Makes the Character Sit on Furniture or the ground.

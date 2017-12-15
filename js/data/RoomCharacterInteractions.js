@@ -14,8 +14,6 @@ function alBuildingBasementRosie() {
 function alBuildingBasementRosieTalk() {
     _character = rosie;
     
-    Content.clear();
-    
     if (_character.isSleeping()) {
         Content.add("<p>The small vixen is sleeping, and you don't want to wake her.</p>");
     }
@@ -31,14 +29,10 @@ function alBuildingSecondFloorHallwayCharlie() {
 function alBuildingSecondFloorHallwayCharlieTalk() {
     _character = charlie;
     
-    Content.clear();
-    
     Content.add("<p>You talk to {0} as you stand in {1}</p>".format(_character.name, player.room.name));
 }
 function alBuildingSecondFloorHallwayCharlieSex() {
     _character = charlie;
-    
-    Content.clear();
     
     _blob = "";
     _blob += ("Before you even ask about fucking, {0} leans over the corner of the stair post, then looks up and down the flights of stairs. You peer over with her, and can't see anyone coming or going.</p>".format(_character.name));
@@ -83,8 +77,6 @@ function alBuildingSecondFloorHallwayCharlieSexAnalingusReceive() {
 }
 function chartyApartmentBedroomCharlieCharlieTalk() {
     _character = charlie;
-    
-    Content.clear();
     
     if (charlie['annoyed'] >= 6) {
         Content.add("{0} leaps from her window, and falls to her death two stories down.".format(_character.name));
@@ -156,8 +148,6 @@ function remmyApartmentLivingroomCharlie() {
 function remmyApartmentLivingroomCharlieTalk() {
     _character = charlie;
     
-    Content.clear();
-    
     if (charlie['annoyed'] < 6)
         Menu.addOption("remmyApartmentLivingroomCharlieTalkHi()", "Say hello");
     else
@@ -166,8 +156,6 @@ function remmyApartmentLivingroomCharlieTalk() {
 }
 function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     _character = charlie;
-    
-    clearContentAndMenu();
     
     _blob = "";
     _blob += "Sitting down by {0} you ask, \"Hey, {0}, what's up?\" ".format(_character.name);
@@ -182,7 +170,8 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     
     Content.add("<p>" + _blob + "</p>");
     
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     Menu.generate();
@@ -193,13 +182,10 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
 function remmyApartmentLivingroomCharlieTalkHi() {
     _character = charlie;
     
-    clearContentAndMenu();
-    
-    
     Content.add("You sit beside {0} and say \"Hi,\"<br/>Her lips curl up just a smidgen, and she says \"Hello, Remmy.\"<br/>".format(_character.name));
     
-    
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
     
@@ -210,8 +196,6 @@ function remmyApartmentLivingroomCharlieTalkHi() {
 }
 function remmyApartmentLivingroomCharlieTalkHiCont() {
     _character = charlie;
-    
-    clearContentAndMenu();
     
     charlie['annoyed'] += 1;
     
@@ -232,8 +216,8 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
     else if (charlie['annoyed'] == 6)
         Content.add("<p>{0} gets up to leave, but then you call back to {1}; \"{0}, wait!\" {3} stops with {1} back turned to you.</p><p>Again, you say \"Hi.\"</p><p>{0} spins around to face you, grabs your shoulders, and gekkers loudly, moving {1} open mouth closer to yours with each 'gek'. Pushing you onto the other side of your couch, {2} turns back around and leaves.</p><p><i>How rude,</i> you think to yourself.<p/>".format(_character.name, _character.possessiveAdjective(), _character.subjectPronoun(), _character.subjectPronoun().capitalize()));
     
-    
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     if (charlie['annoyed'] < 6)
         Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
@@ -246,31 +230,23 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
 function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     _character = charlie;
     
-    clearContentAndMenu();
-    
-    
-    Content.set("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
-    
+    Content.add("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
     
     setCharacterRoom(charlie, chartyApartmentBedroomCharlie);
-    
-    
+
     if (player.room.containsCharacter(wolter) && wolter.isSleeping()) {
         Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(wolter.name, wolter.subjectPronoun(), wolter.possessivePronoun(), player.name, charlie.name, charlie.objectPronoun()));
         wolter.isSleeping() = false;
     }
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    
     Menu.generate();
-    
     
     tick("2m", true, false);
 }
 function remmyApartmentLivingroomCharlieSex() {
     _character = charlie;
-    
-    Content.clear();
     
     if (player.room.containsCharacter(wolter)) {
         if (wolter.isSleeping())
@@ -335,7 +311,7 @@ function remmyApartmentLivingroomCharlieSexWolter() {
     }
     
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterSpitroast()", "Spitroast Charlie", "You both spitroast Charlie");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoubleblowjob()", "Double Blowjob", "Charlie blows the both of you");
@@ -433,12 +409,12 @@ function remmyApartmentLivingroomCharlieSexRapeWolterBellybutter() {
 }
 function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
     player.addSexWith(charlie);
-    clearContentAndMenu();
+        
+    Content.add("You tongue-fuck that vixen bitch like no tomorrow.");
     
-    Content.set("You tongue-fuck that vixen bitch like no tomorrow.");
-    
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.generate();
     
     tick("15m");
@@ -446,49 +422,67 @@ function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
 function remmyApartmentLivingroomCharlieSexFellatioGive() {
     _character = charlie;
     player.addSexWith(_character);
-    clearContentAndMenu();
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingSwallow()", "Cum in her mouth");
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingFacial()", "Cum on her face");
     Menu.generate();
     
     tick("15m");
 }
+function remmyApartmentLivingroomCharlieSexOralGivingSwallow() {
+
+}
+function remmyApartmentLivingroomCharlieSexOralGivingFacial() {
+
+}
 function remmyApartmentLivingroomCharlieSexVaginalGive() {
     _character = charlie;
     player.addSexWith(_character);
-    clearContentAndMenu();
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalBellybutter()", "Pull out");
     Menu.generate();
     
     tick("15m");
 }
+function remmyApartmentLivingroomCharlieSexVaginalCreampie() {
+
+}
+function remmyApartmentLivingroomCharlieSexVaginalBellybutter() {
+
+}
 function remmyApartmentLivingroomCharlieSexAnalGive() {
     _character = charlie;
     player.addSexWith(_character);
-    clearContentAndMenu();
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalBackbaste()", "Pull out");
     Menu.generate();
     
     tick("15m");
 }
+function remmyApartmentLivingroomCharlieSexAnalCreampie() {
+
+}
+function remmyApartmentLivingroomCharlieSexAnalBackbaste() {
+
+}
 function remmyApartmentLivingroomCharlieSexMasturbateGive() {
     _character = charlie;
     player.addSexWith(_character);
-    clearContentAndMenu();
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.generate();
     
     tick("15m");
@@ -496,10 +490,10 @@ function remmyApartmentLivingroomCharlieSexMasturbateGive() {
 function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     _character = charlie;
     player.addSexWith(_character);
-    clearContentAndMenu();
     
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract(" + _character.id + ")", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     if (player.room.containsCharacter(wolter))
         if (wolter.isSleeping() && enableRape)
             Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter()", "Jizz on sleeping Wolter");
@@ -507,42 +501,26 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     
     tick("15m");
 }
+function remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter() {
+	
+}
 function remmyApartmentLivingroomWolter() {
     _character = wolter;
     
     _blob = "";
-    _blob += ("Wolter is " + (wolter.isSleeping() ? "sleeping" : "laying") + " on the couch");
-    if (wolter.hasShirt() && wolter.hasPants()) {
-        if (wolter.bra.owner == anneke)
-            _blob += (" in his sister's " + wolter.bra.toString() + " and " + wolter.pants.toString());
-        else
-            _blob += (" in " + wolter.bra.toString() + " and " + wolter.pants.toString());
-    }
-    else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear()) {
-        if (wolter.bra.owner == anneke)
-            _blob += (" in his sister's " + wolter.bra.toString() + " and " + wolter.underwear.toString());
-        else
-            _blob += (" in " + wolter.bra.toString() + " and " + wolter.underwear.toString());
-    }
-    else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear()) {
-        if (wolter.bra.owner == anneke)
-            _blob += (" wearing his sister's " + wolter.bra.toString() + ", ");
-        else
-            _blob += (" wearing only a shirt, ");
-        _blob += ("and nothing else");
-    }
-    else if (!wolter.hasShirt() && wolter.hasPants()) {
-        _blob += (" shirtless");
-    }
-    else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear()) {
-        if (wolter.underwear.owner == anneke)
-            _blob += (" in his sister's " + wolter.underwear.toString());
-        else
-            _blob += (" in his " + wolter.underwear.toString());
-    }
-    else {
-        _blob += (", naked");
-    }
+    _blob += ("Wolter is {0} on the couch".format(_character.currentActionPresentParticiplePosition()));
+    if (wolter.hasShirt() && wolter.hasPants())
+        _blob += " in a {0} and {1}".format(wolter.getShirt().toString(), wolter.getPants().toString());
+    else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
+        _blob += " in a {0} and {1}".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
+    else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear())
+        _blob += " in just a {0}".format(wolter.getShirt().toString());
+    else if (!wolter.hasShirt() && wolter.hasPants())
+        _blob += " shirtless, with just his {0}".format(wolter.hasPants().toString);
+    else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
+        _blob += " in just a {0}{1}".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
+    else
+        _blob += ", naked";
     _blob += (".");
     
     Content.add("<p>" + _blob + "</p>");

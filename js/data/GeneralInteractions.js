@@ -282,3 +282,8 @@ function avoWorkRoutineEnd(_event = undefined) {
     setCharacterPath(avo, avoApartmentBedroomAvo);
     return;
 }
+function wolterConsidersJumpingTheFence() {
+    wolter.setSexualOrientation(2);
+
+    setTimedMeetingEvent(wolter, new Cron(0, 6), remmyApartmentBedroom, true);
+}

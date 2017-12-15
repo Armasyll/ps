@@ -1320,6 +1320,8 @@ class Character extends Entity {
         this.virgin = true;
 
         this.sexCount = 0;
+        this.characterSexCount = new Map(); // Map<Character, integer>
+        this.characterSexRefusalCount = new Map(); // Map<Character, integer>
         this.vaginalReceiveCount = 0;
         this.vaginalGiveCount = 0;
         this.analReceiveCount = 0;
@@ -1334,11 +1336,11 @@ class Character extends Entity {
         this.handjobCount = 0;
 
         this.following = undefined; // Character
-        this.followers = new Set();
+        this.followers = new Set(); // Set<Character>
 
         this.furniture = undefined;
 
-        this.clothing = new Map();
+        this.clothing = new Map(); // Map<string, Clothing>
         this.clothing.set("hat", undefined);
         this.clothing.set("mask", undefined);
         this.clothing.set("glasses", undefined);
@@ -1358,11 +1360,11 @@ class Character extends Entity {
         this.clothing.set("shoes", undefined);
         this.clothing.set("bra", undefined);
 
-        this.characterDisposition = new Map();
-        this.hadSexWith = new Set();
+        this.characterDisposition = new Map(); // Map<Character, Disposition>
+        this.hadSexWith = new Set(); // Set<Character>
 
-        this.prefersSpecies = new Set();
-        this.avoidsSpecies = new Set();
+        this.prefersSpecies = new Set(); // Set<species>
+        this.avoidsSpecies = new Set(); // Set<species>
 
         this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
 
@@ -2561,11 +2563,14 @@ class Character extends Entity {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
-        if (_character == this || !(_character instanceof Character))
-            return this.masturbate(_furniture); // fuckYourself :D
-        else {
-            return this._fuckAnother(_character, _furniture);
-        }
+        this.removeCurrentAction("masturbate");
+        _character.removeCurrentAction("masturbate");
+        this.addCurrentAction("sex");
+        _character.addCurrentAction("sex");
+        
+        this.addSexWith(_character, true);
+        
+        return true;
     }
     masturbate(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
@@ -2581,23 +2586,34 @@ class Character extends Entity {
         
         return true;
     }
-    _fuckAnother(_character, _furniture = undefined) {
-        this.removeCurrentAction("masturbate");
-        this.addCurrentAction("sex");
-        _character.addCurrentAction("sex");
-        
-        this.addSexWith(_character, true);
-        
-        return true;
+
+    addSexRefusalCount(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character))
+            return undefined;
+
+        if (this.characterSexRefusalCount.has(_character))
+            this.characterSexRefusalCount.set(_character, this.characterSexRefusalCount.get(_character) + 1);
+        else
+            this.characterSexRefusalCount.set(_character, 1);
+
+        return this.characterSexRefusalCount.get(_character);
     }
+    getSexRefusalCount(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character))
+            return undefined;
+
+        if (this.characterSexRefusalCount.has(_character))
+            return this.characterSexRefusalCount.get(_character);
+        else
+            return 0;
+    }
+
     isSleeping() {
         return this.hasCurrentAction("sleep");
-    }
-    isAsleeping() {
-        return this.isSleeping();
-    }
-    asleep() {
-        return this.isSleeping();
     }
     
     wear(_clothing, _type = undefined) {
@@ -3103,6 +3119,15 @@ class Character extends Entity {
         return this.followers.size > 0;
     }
 
+    getSexCount(_character = undefined) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+        if (_character instanceof Character)
+            return this.characterSexCount.has(_character) ? this.characterSexCount(_character) : 0;
+        else
+            this.sexCount;
+    }
     addSexWith(_character, _updateChild = true) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -3111,6 +3136,10 @@ class Character extends Entity {
             this.hadSexWith.add(_character);
             this.virgin = false;
             this.sexCount++;
+            if (this.characterSexCount.has(_character))
+                this.characterSexCount.set(_character, Number.parseInt(this.characterSexCount.get(_character)) + 1);
+            else
+                this.characterSexCount.set(_character, 1);
 
             if (_updateChild)
                 _character.addSexWith(this, false);
@@ -3309,16 +3338,15 @@ class Character extends Entity {
 
         var chance = 0;
 
-        // Past Relations
-        if (_character.hadSexWith.has(this))
-            chance += 10;
-
-        if (debug) console.log("\tAfter past relations check: " + Math.ceil(chance));
-
         // Disposition
-        chance += _character.characterDisposition.get(this).eros /  1.5;
+        if (_character.hadSexWith.has(this)) {
+            chance += _character.characterDisposition.get(this).eros * 1.5;
+            chance += _character.characterDisposition.get(this).philia / 2.5;
+        }
+        else
+            chance += _character.characterDisposition.get(this).eros / 1.5;
         chance += _character.characterDisposition.get(this).pragma;
-        chance += _character.characterDisposition.get(this).manic / 0.5;
+        chance += _character.characterDisposition.get(this).manic * 2;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
@@ -3347,16 +3375,16 @@ class Character extends Entity {
         // Rut and Lust
         if (_character.rut && _character.lust > 98)
             chance += 100;
-        else if (_character.lust > 79)
-            chance += (_character.rut ? _character.lust*2.5 : _character.lust*1.5);
+        else if (_character.lust > 89)
+            chance += (_character.rut ? _character.lust/2 : _character.lust/4);
+        else if (_character.lust > 74)
+            chance += (_character.rut ? _character.lust/4 : _character.lust/8);
         else if (_character.lust > 59)
-            chance += (_character.rut ? _character.lust : _character.lust/1.5);
-        else if (_character.lust > 39)
-            chance += (_character.rut ? _character.lust/1.5 : _character.lust/3);
-        else if (_character.lust > 19)
-            chance += (_character.rut ? _character.lust/3 : _character.lust/4);
+            chance += (_character.rut ? _character.lust/8 : _character.lust/12);
+        else if (_character.lust > 49)
+            chance += (_character.rut ? _character.lust/12 : _character.lust/16);
         else
-            chance += (_character.rut ? _character.lust/4 : _character.lust/5);
+            chance += (_character.rut ? _character.lust/16 : _character.lust/20);
 
         if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
 

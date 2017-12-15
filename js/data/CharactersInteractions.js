@@ -113,6 +113,9 @@ function remmyTalk() {
 }
 function remmySex() {
     _character = remmy;
+
+    if (player == remmy)
+        Content.add("Now neither of you will be virgins!");
     
     unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
 }
@@ -171,11 +174,59 @@ function wolterTalk() {
 function wolterSex() {
     _character = wolter;
     
-    if (chanceToFuck(player, _character) > 50) {
-        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+    if (_character.isSleeping()) { // :v
     }
     else {
-        Content.add("No thank you.");
+        if (chanceToFuck(player, _character) > 49) {
+            unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+        }
+        else { // If character isn't interested
+            if (_character.getSexCount(player) > 1) { // and they've fucked more than once
+                Content.add("<p>NOT INTERESTED</p>");
+            }
+            else if (_character.getSexCount(player) > 0) { // and they've fucked once
+                Content.add("<p>ONE TIME THING</p>");
+            }
+            else { // and they've never fucked
+                if (_character.getSexRefusalCount(player) > 1) // but you're annoyingly persistent
+                    Content.add("<p>VERY STERN NOT INTERESTED</p>");
+                else if (_character.getSexRefusalCount(player) > 0) // but you're persistent
+                    Content.add("<p>STERN NOT INTERESTED</p>");
+                else { // but you're interested
+                    if (wolter.getCharacterDisposition(player, "eros") > 50) {
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0) { // but he's straight and you're gay
+                            Content.add("<p>Attracted, but conflicted. Give it some time.</p>");
+                            // Create event that executes 10+ days from now for Wolter to be set to 'bi' and approach the player
+                            //  If Anneke is close friends (storge or philia) with player, max days is 13
+                            //  If the player and Wolter don't hit it off before 3 days after the event starts, Wolter will be set back to 'straight'
+                            setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 19) - 10) + 10)), true);
+                        }
+                        else
+                            Content.add("<p>Attracted, but give it a little more time.</p>");
+                    }
+                    else if (wolter.getCharacterDisposition(player, "philia") > 50) {
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                            Content.add("<p>Good friends, but doesn't swing that way.</p>");
+                        else
+                            Content.add("<p>Good friends, but just that.</p>");
+                    }
+                    else if (wolter.getCharacterDisposition(player, "storge") > 50) {
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                            Content.add("<p>Like brother.</p>");
+                        else
+                            Content.add("<p>Like family.</p>");
+                    }
+                    else {
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                            Content.add("<p>Doesn't swing that way.</p>");
+                        else
+                            Content.add("<p>Not interested.</p>");
+                    }
+                }
+            }
+
+            _character.addSexRefusalCount(player); // The refusal is recorded
+        }
     }
 }
 function wolterFollow() {
