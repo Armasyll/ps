@@ -1,4 +1,3 @@
-/* Static Classes */
 class Title {
     /**
      * Sets the titles
@@ -865,7 +864,6 @@ class Minimap {
     }
 }
 
-/* Classes */
 /**
  * Class that represents all Entity
  */

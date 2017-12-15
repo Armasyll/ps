@@ -284,6 +284,8 @@ function debugCharactersInformation(_character = player) {
     for (var _property in _character.defaultDisposition) {
         _blob += "<th>{0}</th>".format(_property.capitalize());
     }
+    _blob += "<th>Rut</th>";
+    _blob += "<th>Lust</th>";
     _blob += "<th>Chance to Fuck</th>";
     _blob += "</tr></thead><tbody>";
     
@@ -295,7 +297,7 @@ function debugCharactersInformation(_character = player) {
     _blob += "</tr>";
     
     //  You->Them
-    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 2);
+    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 3);
     charactersIndexes.forEach(function(__character) {
         if (_character == __character)
             return undefined;
@@ -307,13 +309,15 @@ function debugCharactersInformation(_character = player) {
 	        for (var _property in _character.characterDisposition.get(__character)) {
 	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckThem{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id, __character.name);
 	        }
-	        _blob += "<td id='chanceToFuckThem{1}'>{0}</td>".format(chanceToFuck(__character, _character), __character.name);
+            _blob += "<td></td>";
+            _blob += "<td></td>";
+            _blob += "<td id='chanceToFuckThem{1}'>{0}</td>".format(chanceToFuck(__character, _character), __character.name);
 	        _blob += "</tr>";
 	    }
     }, this);
     
     //  Them->You
-    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 2);
+    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 3);
     charactersIndexes.forEach(function(__character) {
         if (__character == _character)
             return undefined;
@@ -325,7 +329,9 @@ function debugCharactersInformation(_character = player) {
 	        for (var _property in __character.characterDisposition.get(_character)) {
 	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckYou{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.name);
 	        }
-	        _blob += "<td id='chanceToFuckYou{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.name);
+            _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#chanceToFuckYou{3}\").text(chanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (_character.rut ? 'checked' : ''), _character.id, __character.name);
+            _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#chanceToFuckYou{3}\").text(chanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.name);
+            _blob += "<td id='chanceToFuckYou{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.name);
 	        _blob += "</tr>";
 	    }
     }, this);

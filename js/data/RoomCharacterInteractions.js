@@ -75,6 +75,7 @@ function alBuildingSecondFloorHallwayCharlieSexAnalingusReceive() {
     _character = charlie;
     player.addSexWith(_character);
 }
+
 function chartyApartmentBedroomCharlieCharlieTalk() {
     _character = charlie;
     
@@ -86,6 +87,19 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
     }
     
     tick("3m");
+}
+
+function remmyApartmentBedroomWolter() {
+}
+function remmyApartmentBedroomWolterTalk() {
+}
+function remmyApartmentBedroomWolterSex() {
+}
+function remmyApartmentBedroomWolterSexFrot() {
+}
+function remmyApartmentBedroomWolterSexFellatioReceive() {
+}
+function remmyApartmentBedroomWolterSexFellatioGive() {
 }
 function remmyApartmentLivingroomCouchMasturbate(_character = player) {
     if (!(_character instanceof Character))
@@ -114,14 +128,12 @@ function remmyApartmentLivingroomCouchMasturbateDildoVaginal(_character = player
         _character = charactersIndexes.get(_character);
     
     tick("15m");
-    
 }
 function remmyApartmentLivingroomCouchMasturbateFleshlight(_character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
     tick("15m");
-    
 }
 function remmyApartmentLivingroomCharlie() {
     _character = charlie;
@@ -433,10 +445,8 @@ function remmyApartmentLivingroomCharlieSexFellatioGive() {
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexOralGivingSwallow() {
-
 }
 function remmyApartmentLivingroomCharlieSexOralGivingFacial() {
-
 }
 function remmyApartmentLivingroomCharlieSexVaginalGive() {
     _character = charlie;
@@ -452,10 +462,8 @@ function remmyApartmentLivingroomCharlieSexVaginalGive() {
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexVaginalCreampie() {
-
 }
 function remmyApartmentLivingroomCharlieSexVaginalBellybutter() {
-
 }
 function remmyApartmentLivingroomCharlieSexAnalGive() {
     _character = charlie;
@@ -471,10 +479,8 @@ function remmyApartmentLivingroomCharlieSexAnalGive() {
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexAnalCreampie() {
-
 }
 function remmyApartmentLivingroomCharlieSexAnalBackbaste() {
-
 }
 function remmyApartmentLivingroomCharlieSexMasturbateGive() {
     _character = charlie;
@@ -502,7 +508,6 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     tick("15m");
 }
 function remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter() {
-	
 }
 function remmyApartmentLivingroomWolter() {
     _character = wolter;
