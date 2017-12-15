@@ -1498,7 +1498,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["heldItems"]);
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
-                    this.holdItem(itemsIndexes.get(_item));
+                    this.addHeldItem(itemsIndexes.get(_item));
             }, this);
         } catch (e) {}
         delete json["heldItems"];
