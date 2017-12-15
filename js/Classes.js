@@ -2098,11 +2098,23 @@ class Character extends Entity {
     }
 
     setRut(_bool) {
-    	if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
-    		_bool = true;
-    	else
-    		_bool = false;
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
+            _bool = true;
+        else
+            _bool = false;
         this.rut = _bool;
+        return _bool;
+    }
+
+    setSleep(_bool) {
+        if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true") {
+            this.sleep();
+            _bool = true;
+        }
+        else {
+            this.wake();
+            _bool = false;
+        }
         return _bool;
     }
 
@@ -2501,9 +2513,10 @@ class Character extends Entity {
         this.removeCurrentAction("masturbate");
         this.removeCurrentAction("sex");
 
-        this.furniture = _furniture
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture
 
-        return _furniture;
+        return this.furniture;
     }
     lay(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
@@ -2517,9 +2530,15 @@ class Character extends Entity {
         this.removeCurrentAction("masturbate");
         this.removeCurrentAction("sex");
 
-        this.furniture = _furniture
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
 
-        return _furniture;
+        return this.furniture;
+    }
+    wake() {
+        this.removeCurrentAction("sleep");
+
+        return this.furniture;
     }
     sleep(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
@@ -2530,9 +2549,10 @@ class Character extends Entity {
         this.removeCurrentAction("masturbate");
         this.removeCurrentAction("sex");
 
-        this.furniture = _furniture
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
 
-        return _furniture;
+        return this.furniture;
     }
     stand() {
         this.addCurrentAction("stand");
@@ -2544,6 +2564,8 @@ class Character extends Entity {
         this.removeCurrentAction("sex");
 
         this.furniture = undefined;
+
+        return this.furniture;
     }
     walk() {
         this.addCurrentAction("walk");
@@ -2555,6 +2577,8 @@ class Character extends Entity {
         this.removeCurrentAction("sex");
 
         this.furniture = undefined;
+
+        return this.furniture;
     }
     fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character))
@@ -2563,11 +2587,14 @@ class Character extends Entity {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
+        if (!(_character instanceof Character))
+            return undefined;
+
         this.removeCurrentAction("masturbate");
         _character.removeCurrentAction("masturbate");
         this.addCurrentAction("sex");
         _character.addCurrentAction("sex");
-        
+
         this.addSexWith(_character, true);
         
         return true;

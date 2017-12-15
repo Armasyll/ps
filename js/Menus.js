@@ -238,13 +238,14 @@ function debugCharactersInformation(_character = player) {
 	}
     _blob += "<label class='col-sm-2'>Stamina:</label><input onchange='{1}.setStamina(this.value)' type='number' min='0' max='4096' name='stamina' value='{0}'/><br/>".format(_character.stamina, _character.id);
     _blob += "<label class='col-sm-2'>Max Stamina:</label><input onchange='{1}.setStaminaMax(this.value)' type='number' min='1' max='4096' name='staminaMax' value='{0}'/><br/>".format(_character.staminaMax, _character.id);
+    _blob += "<label class='col-sm-2'>Sleeping:</label><input onchange='{1}.setSleep(this.checked)' type='checkbox' name='sleeping' {0}/><br/>".format((_character.isSleeping() ? 'checked' : ''), _character.id);
     _blob += "<hr/>";
     _blob += "<label class='col-sm-2'>Lust:</label><input onchange='{1}.setLust(this.value)' type='number' min='0' max='100' name='lust' value='{0}'/><br/>".format(_character.lust, _character.id);
     _blob += "<label class='col-sm-2'>Exhibitionism:</label><input onchange='{1}.setExhibitionism(this.value)' type='number' min='0' max='100' name='exhibitionism' value='{0}'/><br/>".format(_character.exhibitionism, _character.id);
     _blob += "<label class='col-sm-2'>Somnophilia:</label><input onchange='{1}.setSomnophilia(this.value)' type='number' min='0' max='100' name='somnophilia' value='{0}'/><br/>".format(_character.somnophilia, _character.id);
     _blob += "<label class='col-sm-2'>Intoxication:</label><input onchange='{1}.setIntoxication(this.value)' type='number' min='0' max='100' name='intoxication' value='{0}'/><br/>".format(_character.intoxication, _character.id);
     _blob += "<label class='col-sm-2'>Incestual:</label><input onchange='{1}.setIncestual(this.value)' type='number' min='0' max='100' name='incestual' value='{0}'/><br/>".format(_character.incestual, _character.id);
-    _blob += "<label class='col-sm-2'>Rut:</label><input onchange='{1}.setRut(this.checked)' type='checkbox' name='rut' {1}/><br/>".format((_character.rut ? 'checked' : ''), _character.id);
+    _blob += "<label class='col-sm-2'>Rut:</label><input onchange='{1}.setRut(this.checked)' type='checkbox' name='rut' {0}/><br/>".format((_character.rut ? 'checked' : ''), _character.id);
     _blob += "<label class='col-sm-2'>Orientation:</label><select id='debugSetSexualOrientation' onchange='{0}.setSexualOrientation(this.value)'><option value='0' {1}>Straight</option><option value='1' {2}>Gay</option><option value='2' {3}>Bisexual</option></select><br/>".format(_character.id, (_character.sexualOrientation == 0 ? 'selected' : ''), (_character.sexualOrientation == 1 ? 'selected' : ''), (_character.sexualOrientation == 2 ? 'selected' : ''));
     _blob += "</div></div></div>";
     Content.add(_blob);
