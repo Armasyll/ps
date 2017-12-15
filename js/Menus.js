@@ -238,6 +238,7 @@ function debugCharactersInformation(_character = player) {
 	}
     _blob += "<label class='col-sm-2'>Stamina:</label><input onchange='{1}.setStamina(this.value)' type='number' min='0' max='4096' name='stamina' value='{0}'/><br/>".format(_character.stamina, _character.id);
     _blob += "<label class='col-sm-2'>Max Stamina:</label><input onchange='{1}.setStaminaMax(this.value)' type='number' min='1' max='4096' name='staminaMax' value='{0}'/><br/>".format(_character.staminaMax, _character.id);
+    _blob += "<label class='col-sm-2'>Money:</label><input onchange='{1}.setMoney(this.value)' type='number' min='0' name='money' value='{0}'/><br/>".format(_character.money, _character.id);
     _blob += "<label class='col-sm-2'>Sleeping:</label><input onchange='{1}.setSleep(this.checked)' type='checkbox' name='sleeping' {0}/><br/>".format((_character.isSleeping() ? 'checked' : ''), _character.id);
     _blob += "<hr/>";
     _blob += "<label class='col-sm-2'>Lust:</label><input onchange='{1}.setLust(this.value)' type='number' min='0' max='100' name='lust' value='{0}'/><br/>".format(_character.lust, _character.id);

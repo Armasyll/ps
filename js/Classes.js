@@ -1247,6 +1247,7 @@ class Character extends Entity {
         this.manaMax = 0;
         this.stamina = 100;
         this.staminaMax = 100;
+        this.money = 0;
         this.sanity = 100;
         this.lust = 25;
         this.rut = false;
@@ -1415,9 +1416,8 @@ class Character extends Entity {
             if (debug) console.log("ID or Name are undefined.");
             return undefined;
         }
-        else
-            this.id = json["id"];
-        delete json["id"];
+
+        this.id = json["id"]; delete json["id"];
         this.setAge(json.hasOwnProperty("age") ? json["age"] : this.age); delete json["age"];
         this.setLife(json.hasOwnProperty("life") ? json["life"] : this.life); delete json["life"];
         this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : this.lifeMax); delete json["lifeMax"];
@@ -1425,6 +1425,7 @@ class Character extends Entity {
         this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : this.manaMax); delete json["manaMax"];
         this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : this.stamina); delete json["stamina"];
         this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : this.staminaMax); delete json["staminaMax"];
+        this.setMoney(json.hasOwnProperty("money") ? json["money"] : this.money); delete json["money"];
         this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : this.philautia); delete json["philautia"];
         this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : this.agape); delete json["agape"];
         this.setLust(json.hasOwnProperty("lust") ? json["lust"] : this.lust); delete json["lust"];
@@ -1435,6 +1436,8 @@ class Character extends Entity {
         this.setRut(json.hasOwnProperty("rut") ? json["rut"] : this.rut); delete json["rut"];
         this.setLiving(json.hasOwnProperty("living") ? json["living"] : this.living); delete json["living"];
         this.setVirgin(json.hasOwnProperty("virgin") ? json["virgin"] : this.virgin); delete json["virgin"];
+        this.setSexualOrientation(json.hasOwnProperty("sexualOrientation") ? json["sexualOrientation"] : this.sexualOrientation); delete json["sexualOrientation"];
+        this.setSex(json.hasOwnProperty("sex") ? json["sex"] : this.sex); delete json["sex"];
         
         var _tmpArr = [];
         
@@ -1490,6 +1493,15 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["items"];
+        //  heldItems
+        try {
+            _tmpArr = JSON.parse(json["heldItems"]);
+            _tmpArr.forEach(function(_item) {
+                if (itemsIndexes.has(_item))
+                    this.holdItem(itemsIndexes.get(_item));
+            }, this);
+        } catch (e) {}
+        delete json["heldItems"];
         //  prefersSpecies
         try {
             _tmpArr = JSON.parse(json["prefersSpecies"]);
@@ -1509,6 +1521,36 @@ class Character extends Entity {
         delete json["relatives"];
         
         // Maps
+        //  characterSexCount
+        try {
+            _tmpArr = JSON.parse(json["characterSexCount"]);
+            _tmpArr.forEach(function(_int, _character) {
+                if (charactersIndexes.has(_character)) {
+                    _int = Number.parseInt(_int);
+                    this.characterSexCount.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                }
+                else
+                    return undefined;
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["characterSexCount"];
+        //  characterSexRefusalCount
+        try {
+            _tmpArr = JSON.parse(json["characterSexRefusalCount"]);
+            _tmpArr.forEach(function(_int, _character) {
+                if (charactersIndexes.has(_character)) {
+                    _int = Number.parseInt(_int);
+                    this.characterSexRefusalCount.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                }
+                else
+                    return undefined;
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["characterSexRefusalCount"];
         //  characterDisposition
         try {
             _tmpArr = JSON.parse(json["characterDisposition"]);
@@ -1834,6 +1876,37 @@ class Character extends Entity {
     }
     subStaminaMax(_int) {
         return this.decStaminaMax(_int);
+    }
+
+    setMoney(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.money = _int;
+        return _int;
+    }
+    incMoney(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setMoney(this.money + _int);
+    }
+    addMoney(_int) {
+        return this.incMoney(_int);
+    }
+    decMoney(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+
+        return this.setMoney(this.money - _int);
+    }
+    subMoney(_int) {
+        return this.decMoney(_int);
     }
 
     setSanity(_int) {
