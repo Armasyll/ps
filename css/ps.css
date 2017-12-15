@@ -56,6 +56,16 @@ img {
     background-repeat: no-repeat;
     background-position: left center; 
 }
+.btn-mana {
+	background-color: #4b1e66;
+	background-border: #4b1e66;
+	color: white;
+}
+.btn-mana:hover {
+	background-color: #4d2863;
+	background-border: #4d2863;
+	color:white;
+}
 
 #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
 	max-height: 162px;

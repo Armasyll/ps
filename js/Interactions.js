@@ -322,7 +322,10 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
                 if (actionTypes.has(_action)) {
                     switch(_action) {
                         case "use" : {
-                            Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
+                            if (_furniture.type == "mirror" && player.mana > 0)
+                                Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, undefined, undefined, "btn-mana");
+                            else if (_furniture.type != "mirror")
+                                Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
                         }
                         case "sit" : {
@@ -427,7 +430,18 @@ function furnitureInteractUse(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
 
-    unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
+    if (_furniture.type == "mirror") {
+        if (_character.mana > 0) {
+            Content.add("<p>Pressing your {0} to the mirror, you feel its surface ripple. With {1} focus, your reflection quickly fades to black.</p>".format(_character.getHand(), (_character.mana > 75 ? "an effortless" : (_character.mana > 50 ? "a gentle" : (_character.mana > 25 ? "a strained" : "a headache-inducing")))));
+            unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
+        }
+        else {
+            Content.add("Pressing your {0} to the mirror, you feel its smooth and cold surface.".format(_character.getHand()));
+        }
+    }
+    else {
+        unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
+    }
 }
 function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))

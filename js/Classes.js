@@ -2827,6 +2827,18 @@ class Character extends Entity {
         }
     }
 
+    getHand() {
+        if (this.handType == "fur" || this.handType == "pad" || this.handType == "skin")
+            return "paw";
+        else
+            return "hoof";
+    }
+    getHands() {
+        if (this.handType == "fur" || this.handType == "pad" || this.handType == "skin")
+            return "paws";
+        else
+            return "hooves";
+    }
     setHand(_type) {
         if (handTypes.has(_type))
             this.handType = _type;
@@ -5103,6 +5115,7 @@ class Furniture extends Entity {
             }
             case "mirror" : {
                 this.addAction("look");
+                this.addAction("use");
                 break;
             }
             case "basket" : {
