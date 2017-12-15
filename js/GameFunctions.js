@@ -328,7 +328,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
                     break;
                 }
                 case "d" : {
-                    _newTime.addDays(number);
+                    _newTime.addDate(number);
                     break;
                 }
             }
