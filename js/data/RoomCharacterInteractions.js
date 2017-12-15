@@ -95,35 +95,36 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
     
     tick("3m");
 }
-function remmyApartmentLivingroomCouchSex(_character = player) {
+function remmyApartmentLivingroomCouchMasturbate(_character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), lastMenu, "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    if (player.hasItem("charlieBigBlackRemmyDildo"))
-        Menu.addOption("remmyApartmentLivingroomCouchSexDildoAnal()", "Ride " + (player == remmy ? "your" : "Remmy's") + " couch", "Anal, with " + (player == charlie ? "your" : "Charlie's") + " dildo");
-    if (player.hasItem("charlieBigBlackRemmyDildo") && player.sex == 1)
-        Menu.addOption("remmyApartmentLivingroomCouchSexDildoVaginal()", "Ride " + (player == remmy ? "your" : "Remmy's") + " couch", "Vaginal, with " + (player == charlie ? "your" : "Charlie's") + " dildo");
+    if (player.hasItem("charlieBigBlackRemmyDildo")) {
+        Menu.addOption("remmyApartmentLivingroomCouchMasturbateDildoAnal()", "Ride " + (player == remmy ? "your" : "Remmy's") + " couch", "Anal, with " + (player == charlie ? "your" : "Charlie's") + " dildo");
+	    if (player.sex == 1)
+	        Menu.addOption("remmyApartmentLivingroomCouchMasturbateDildoVaginal()", "Ride " + (player == remmy ? "your" : "Remmy's") + " couch", "Vaginal, with " + (player == charlie ? "your" : "Charlie's") + " dildo");
+	}
     if (player.hasItem("remmyMediumPinkRibbedFleshlight") && player.sex == 0)
-        Menu.addOption("remmyApartmentLivingroomCouchSexFleshlight()", "Fuck " + (player == remmy ? "your" : "Remmy's") + " couch", "With " + (player == remmy ? "your" : "Remmy's") + " fleshlight");
+        Menu.addOption("remmyApartmentLivingroomCouchMasturbateFleshlight()", "Fuck " + (player == remmy ? "your" : "Remmy's") + " couch", "With " + (player == remmy ? "your" : "Remmy's") + " fleshlight");
     Menu.generate();
 }
-function remmyApartmentLivingroomCouchSexDildoAnal(_character = player) {
+function remmyApartmentLivingroomCouchMasturbateDildoAnal(_character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
     tick("15m");
 }
-function remmyApartmentLivingroomCouchSexDildoVaginal(_character = player) {
+function remmyApartmentLivingroomCouchMasturbateDildoVaginal(_character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
     tick("15m");
     
 }
-function remmyApartmentLivingroomCouchSexFleshlight(_character = player) {
+function remmyApartmentLivingroomCouchMasturbateFleshlight(_character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
@@ -134,9 +135,13 @@ function remmyApartmentLivingroomCharlie() {
     _character = charlie;
     
     _blob = "";
-    _blob += ("{0} is on the couch".format(_character.name));
+    if (_character.furniture instanceof Furniture)
+    	_blob += "{0} is {1} on the {2}".format(_character.toString(), (_character.currentActions.contains("sleep") ? "sleeping" : (_character.currentActions.contains("lay") ? "laying" : "sitting")), _character.furniture.type);
+    else
+    	_blob += "{0} is leaning over the back of the couch".format(_character.toString());
+
     if (!charlie.hasShirt && !charlie.hasPants() && !charlie.hasUnderwear())
-        _blob += (", completely bare, and taking up all the space. Her fur is fluffed up along her chest and cheeks, and the room smells of violets. You don't know why she's in your apartment, naked, but you don't really care about the \"why\"s at the moment.");
+        _blob += ", completely bare. Her fur is fluffed up along her chest and cheeks, and the room smells of violets. You don't know why she's in your apartment, naked, but you don't really care about the \"why\"s at the moment.";
     else if (!charlie.hasShirt && !charlie.hasPants() && charlie.hasUnderwear())
         _blob += (" in just her panties, and taking up all the space. Why she's in a pair of carrot panties on your couch, you don't know. It's kind of hard to think right now.");
     else if (!charlie.hasShirt && charlie.hasPants())
