@@ -194,7 +194,7 @@ function wolterSex() {
                     Content.add("<p>STERN NOT INTERESTED</p>");
                 else { // but you're interested
                     if (wolter.getCharacterDisposition(player, "eros") > 50) {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0) { // but he's straight and you're gay
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0 && chanceToFuck(player, _character) > 35) { // but he's straight and you're gay
                             Content.add("<p>Attracted, but conflicted. Give it some time.</p>");
                             // Create event that executes 10+ days from now for Wolter to be set to 'bi' and approach the player
                             //  If Anneke is close friends (storge or philia) with player, max days is 13

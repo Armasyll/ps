@@ -3119,14 +3119,17 @@ class Character extends Entity {
         return this.followers.size > 0;
     }
 
-    getSexCount(_character = undefined) {
+    getCharacterSexCount(_character = undefined) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
         if (_character instanceof Character)
-            return this.characterSexCount.has(_character) ? this.characterSexCount(_character) : 0;
+            return this.characterSexCount.has(_character) ? this.characterSexCount.get(_character) : 0;
         else
             this.sexCount;
+    }
+    getSexCount(_character = undefined) {
+        return this.getCharacterSexCount;
     }
     addSexWith(_character, _updateChild = true) {
         if (!(_character instanceof Character))
@@ -3340,13 +3343,15 @@ class Character extends Entity {
 
         // Disposition
         if (_character.hadSexWith.has(this)) {
-            chance += _character.characterDisposition.get(this).eros * 1.5;
-            chance += _character.characterDisposition.get(this).philia / 2.5;
+            chance += _character.getCharacterDisposition(this, "eros") * 1.5 * _character.getCharacterSexCount(this);
+            chance += _character.getCharacterDisposition(this, "philia") / 2.5;
         }
-        else
-            chance += _character.characterDisposition.get(this).eros / 1.5;
-        chance += _character.characterDisposition.get(this).pragma;
-        chance += _character.characterDisposition.get(this).manic * 2;
+        else {
+            chance += _character.getCharacterDisposition(this, "eros") / 1.5;
+            chance += _character.getCharacterDisposition(this, "philia") / 4;
+        }
+        chance += _character.getCharacterDisposition(this, "pragma");
+        chance += _character.getCharacterDisposition(this, "manic") * 2;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
@@ -3423,7 +3428,7 @@ class Character extends Entity {
         if (_character.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (_character.somnophilia > 50 && _character.hadSexWith.has(this) && _character.characterDisposition.get(this).eros > 75)
+            else if (_character.somnophilia > 50 && _character.hadSexWith.has(this) && _character.getCharacterDisposition(this, "eros") > 75)
                 chance += 10;
         }
 
