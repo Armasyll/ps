@@ -3487,8 +3487,8 @@ class Character extends Entity {
             chance += _character.getCharacterDisposition(this, "philia") / 2.5;
         }
         else {
-            chance += _character.getCharacterDisposition(this, "eros") / 1.5;
-            chance += _character.getCharacterDisposition(this, "philia") / 4;
+            chance += _character.getCharacterDisposition(this, "eros") / 3.5;
+            chance += _character.getCharacterDisposition(this, "philia") / 6;
         }
         chance += _character.getCharacterDisposition(this, "pragma");
         chance += _character.getCharacterDisposition(this, "manic") * 2;

@@ -199,7 +199,7 @@ function wolterSex() {
                             // Create event that executes 10+ days from now for Wolter to be set to 'bi' and approach the player
                             //  If Anneke is close friends (storge or philia) with player, max days is 13
                             //  If the player and Wolter don't hit it off before 3 days after the event starts, Wolter will be set back to 'straight'
-                            setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 19) - 10) + 10)), true);
+                            setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 30) - 10) + 10)), true);
                         }
                         else
                             Content.add("<p>Attracted, but give it a little more time.</p>");
