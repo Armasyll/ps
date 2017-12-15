@@ -1336,6 +1336,7 @@ function loadGame() {
         
     });
     // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
+    // Initialize all first, then assign properties
     // WebSites, WebPages
     // Cron, GameEvents, 
     
