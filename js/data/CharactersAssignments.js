@@ -32,6 +32,7 @@ anneke.addRelative(wolter);
 anneke.addSexWith(charlie);
 anneke.addSexWith(ozzy);
 anneke.addSexWith(wolter);
+anneke.addSexWith(nick);
 
 avo.setEyeColour("dark blue");
 avo.setFurColour("black");
@@ -42,6 +43,7 @@ avo.setAgape(75);
 avo.addPreferredSpecies("wolf");
 avo.addSexWith(betty);
 avo.addSexWith(wolter);
+avo.addSexWith(nick);
 
 betty.image = "images/characters/Betty.png";
 betty.setEyeColour("yellow");
@@ -76,20 +78,24 @@ charlie.setDefaultDisposition(5, 0, 10, 0, 0);
 charlie.setCharacterDisposition(al,      new Disposition(10, 50, 25, 0, 0, 0));
 charlie.setCharacterDisposition(anneke,  new Disposition(0, 50, 75, 0, 0, 0));
 charlie.setCharacterDisposition(avo,     new Disposition(0, 50, 50, 0, 0, 0));
-charlie.setCharacterDisposition(betty,   new Disposition(15, 75, 75, 15, 25, 5));
-charlie.setCharacterDisposition(marty,   new Disposition(25, 50, 50, 0, 15, 5));
+charlie.setCharacterDisposition(betty,   new Disposition(15, 75, 75, 2, 25, 5));
+charlie.setCharacterDisposition(marty,   new Disposition(25, 50, 50, 0, 15, 0));
+charlie.setCharacterDisposition(nick,	 new Disposition(75, 25, 25, 10, 15, 5));
 charlie.setCharacterDisposition(ozzy,    new Disposition(0, 50, 75, 0, 25, 0));
-charlie.setCharacterDisposition(pandora, new Disposition(15, 75, 50, 15, 25, 5));
-charlie.setCharacterDisposition(remmy,   new Disposition(75, 50, 50, 25, 0, 50));
+charlie.setCharacterDisposition(pandora, new Disposition(15, 75, 50, 2, 25, 5));
+charlie.setCharacterDisposition(remmy,   new Disposition(50, 50, 50, 0, 0, 0));
 charlie.setCharacterDisposition(wolter,  new Disposition(25, 50, 50, 0, 15, 0));
 charlie.setCharacterDisposition(velvet,  new Disposition(0, 50, 75, 0, 0, 0));
 charlie.addAvoidedSpecies("fox");
 charlie.addSexWith(wolter);
+charlie.addSexWith(nick);
 
 cotton.image = "images/characters/Cotton.png";
 cotton.moveTo(limbo);
 cotton.addPreferredSpecies("fox");
 cotton.addPreferredSpecies("rabbit");
+
+judy.addSexWith(nick);
 
 martina.image = "images/characters/Martina.svg";
 martina.moveTo(chartyApartmentBedroomMarty);
@@ -126,6 +132,7 @@ pandora.setDefaultDisposition(25, 50, 40, 5, 0);
 pandora.setCharacterDisposition(charlie, 25, 50, 50, 0, 25, 0);
 pandora.addPreferredSpecies("tiger");
 pandora.addPreferredSpecies("wolf");
+pandora.addSexWith(nick);
 
 remmy.image = "images/characters/RemmySheared.svg";
 remmy.setEyes("rectangle");

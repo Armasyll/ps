@@ -866,7 +866,18 @@ class Minimap {
 }
 
 /* Classes */
+/**
+ * Class that represents all Entity
+ */
 class Entity {
+    /**
+     * Creates an Entity
+     * @param  {String} _id          Unique ID
+     * @param  {String} _name        Name
+     * @param  {String} _description Description
+     * @param  {Set} _actions        Set or String of actionType(s)
+     * @param  {Room} _room          Room
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _room = undefined) {
         if (_id instanceof Entity) {
             for (var property in _id) {
@@ -1024,14 +1035,18 @@ class Entity {
     }
 }
 
+/**
+ * Class that represents all Disposition(s)
+ */
 class Disposition {
     /**
-     * @param int _eros, passion
-     * @param int _philia, friendship
-     * @param int _lodus, playfulness
-     * @param int _pragma, souldmate
-     * @param int _storge, familial
-     * @param int _manic, obsession
+     * Creates a Disposition
+     * @param {Number} _eros   passion
+     * @param {Number} _philia friendship
+     * @param {Number} _lodus  playfulness
+     * @param {Number} _pragma souldmate
+     * @param {Number} _storge familial
+     * @param {Number} _manic  obsession
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
         if (_eros instanceof Object) {
@@ -1177,7 +1192,19 @@ class Disposition {
     }
 }
 
+/**
+ * Class that represents all Character(s)
+ * @extends {Entity}
+ */
 class Character extends Entity {
+    /**
+     * Creates a Character
+     * @param  {String} _id      Unique ID
+     * @param  {String} _name    Name
+     * @param  {Number} _age     Age
+     * @param  {Number} _sex     Sex (0 Male, 1 Female, 2 Herm)
+     * @param  {String} _species Species
+     */
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
         if (_id instanceof Object) {
             super(_id.id, _id._name);
@@ -3587,7 +3614,17 @@ class Character extends Entity {
     }
 }
 
+/**
+ * Class that represents all Location(s)
+ */
 class Location {
+    /**
+     * Creates a Location
+     * @param  {String} _id          Unique ID
+     * @param  {String} _name        Name
+     * @param  {String} _description Description
+     * @param  {String} _image       Image path or base64
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         if (_id instanceof Location) {
             this.id = _id.id;
@@ -3757,7 +3794,16 @@ class Location {
         return _containsCharacter;
     }
 }
+/**
+ * Class that represents all Cell(s)
+ */
 class Cell {
+    /**
+     * Creates a Cell
+     * @param  {String} _id       Unique ID
+     * @param  {String} _name     Name
+     * @param  {String} _location Location
+     */
     constructor(_id = undefined, _name = undefined, _location = undefined) {
         if (_id instanceof Cell) {
             this.id = _id.id;
@@ -3864,17 +3910,18 @@ class Cell {
         return _characters;
     }
 }
+/**
+ * Class that represents all Room(s)
+ */
 class Room {
     /**
      * Creates a new room
-     *
-     * @param string _id, ID
-     * @param string _sid, Super ID
-     * @param string _name, Display name
-     * @param string _type String representing the type of room; review roomType in GameVariables.js
-     * @param Cell _cell, Cell
-     * @param Location _location, Sub location
-     *
+     * @param {String} _id Unique ID
+     * @param {String} _sid Non-Unique ID (Optional)
+     * @param {String} _name Display name
+     * @param {String} _type roomType
+     * @param {Cell} _cell Cell
+     * @param {Location} _location Secondary Location
      */
     constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = "hallway", _cell = undefined, _location = undefined) {
         if (_id instanceof Room) {
@@ -4768,7 +4815,19 @@ class Room {
     }
 }
 
+/**
+ * Class that represents all Item(s)
+ * @extends {Entity}
+ */
 class Item extends Entity {
+    /**
+     * Creats an Item
+     * @param  {String}  _id          Unique ID
+     * @param  {String}  _name        Name
+     * @param  {String}  _description Description
+     * @param  {String}  _image       Image path of base64
+     * @param  {Boolean} _plural      Whether or not the item is plural
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false) {
         if (_id instanceof Item) {
             super(_id.id, _id._name);
@@ -4855,7 +4914,18 @@ class Item extends Entity {
         return this.moveToEntity(_entity);
     }
 }
+/**
+ * Class that represents all Key(s)
+ * @extends {Item}
+ */
 class Key extends Item {
+    /**
+     * Creats a Kay
+     * @param  {String}  _id          Unique ID
+     * @param  {String}  _name        Name
+     * @param  {String}  _description Description
+     * @param  {String}  _image       Image path of base64
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         if (_id instanceof Key) {
             super(_id.id, _id._name);
@@ -4874,7 +4944,20 @@ class Key extends Item {
         }
     }
 }
+/**
+ * Class that represents all Clothing
+ * @extends {Item}
+ */
 class Clothing extends Item {
+    /**
+     * Creats Clothing
+     * @param  {String}  _id          Unique ID
+     * @param  {String}  _name        Name
+     * @param  {String}  _description Description
+     * @param  {String}  _type        clothingType
+     * @param  {String}  _image       Image path of base64
+     * @param  {Boolean} _plural      Whether or not the item is plural
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = "shirt", _image = undefined, _plural = false) {
         if (_id instanceof Clothing) {
             super(_id.id, _id._name);
@@ -4905,7 +4988,20 @@ class Clothing extends Item {
         	this.type = "shirt";
     }
 }
+/**
+ * Class that represents all Consumable(s)
+ * @extends {Item}
+ */
 class Consumable extends Item {
+    /**
+     * Creats a Consumable
+     * @param  {String}  _id          Unique ID
+     * @param  {String}  _name        Name
+     * @param  {String}  _description Description
+     * @param  {String}  _type        consumableType
+     * @param  {String}  _image       Image path of base64
+     * @param  {Boolean} _plural      Whether or not the item is plural
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = "food", _image = undefined, _plural = false) {
         if (_id instanceof Consumable) {
             super(_id.id, _id._name);
@@ -4936,7 +5032,20 @@ class Consumable extends Item {
     }
 }
 
+/**
+ * Class that represents all Furniture
+ * @extends {Entity}
+ */
 class Furniture extends Entity {
+    /**
+     * Creats Furniture
+     * @param  {String}  _id            Unique ID
+     * @param  {String}  _name          Name
+     * @param  {String}  _description   Description
+     * @param  {String}  _type          furnitureType
+     * @param  {Number}  _seatingSpace  Seating Space
+     * @param  {Number}  _storageSpace  Storage Space
+     */
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = "chair", _seatingSpace = 1, _storageSpace = 1) {
         if (_id instanceof Furniture) {
             super(_id.id, _id._name);
@@ -5213,6 +5322,10 @@ class Furniture extends Entity {
         return _charactersSeatingSpaceTotal;
     }
 }
+/**
+ * Class that represents all Electronic Devices
+ * @extends {Item}
+ */
 class ElectronicDevice extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0) {
         super(_id, _name, _description, undefined);
@@ -5276,6 +5389,15 @@ class WebSite {
     }
 }
 class Cron {
+    /**
+     * Creats a schedule
+     * @param  {Number} minutes Minute of the day
+     * @param  {Number} hours   Hour of the day
+     * @param  {Number} dom     Day of the month
+     * @param  {Number} month   Month
+     * @param  {Number} dow     Day of the week
+     * @param  {Number} year    Year
+     */
     constructor(minutes = undefined, hours = undefined, dom = undefined, month = undefined, dow = undefined, year = undefined) {
         if (minutes instanceof Cron) {
             for (var property in minutes) {
@@ -5507,6 +5629,20 @@ class Cron {
     }
 }
 class GameEvent {
+    /**
+     * [constructor description]
+     * @param  {String}  _id           Unique ID
+     * @param  {String}  _action       actionType
+     * @param  {Character}  _characterA   Character that triggers the event
+     * @param  {Character}  _characterB   Secondary Character that triggers the event
+     * @param  {Item}  _item           Item that triggers the event
+     * @param  {Location}  _location   Location that triggers the event
+     * @param  {Cell}  _cell           Cell that triggers the event
+     * @param  {Room}  _room           Room that triggers the event
+     * @param  {Cron}  _cron           Cron, when to run
+     * @param  {String}  _nextFunction Function to run
+     * @param  {Boolean} _runOnce      Run once, then delete.
+     */
     constructor(_id, _action = undefined, _characterA = undefined, _characterB = undefined, _item = undefined, _location = undefined, _cell = undefined, _room = undefined, _cron = undefined, _nextFunction = undefined, _runOnce = true) {
         if (_id instanceof GameEvent) {
             for (var property in _id) {
