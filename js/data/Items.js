@@ -8,10 +8,10 @@ playBuck2017July = new Item("playBuck2017July", "Playbuck Magazine Issue 943", "
 doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.");
 charlieBeatingHeart = new Item("charlieBeatingHeart", "Charlie's Heart", "The vixen's still-beating heart thrums at a quick pace. It shifts around unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieBeatingHeart.svg");
 charlieLeftEye = new Item("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieLeftEye.svg");
-bugBurgaDelux = new Item("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.", "images/items/bugBurgaDelux.svg");
-bugBurga = new Item("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.", "images/items/bugBurga.svg");
-bugBurgaDrank = new Item("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.", "images/items/bugBurgaDrank.svg");
-tinOfGrease = new Item("tinOfGrease", "Tin of Grease", "A tin of food-safe grease.");
+bugBurgaDelux = new Consumable("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.", "food", "images/items/bugBurgaDelux.svg");
+bugBurga = new Consumable("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.", "food", "images/items/bugBurga.svg");
+bugBurgaDrank = new Consumable("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.", "drink", "images/items/bugBurgaDrank.svg");
+tinOfGrease = new Consumable("tinOfGrease", "Tin of Grease", "A tin of food-safe grease.", "food");
 
 // Clothing
 blouseBlue = new Clothing("blouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", "shirt");

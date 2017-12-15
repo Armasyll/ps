@@ -297,17 +297,21 @@ bugBurga42ndBreakRoomA.setWestRoom(bugBurga42ndBreakRoomB);
 
 
 // Furniture to Room
-alApartmentBedroom.addFurniture(alApartmentBedroomBed);
+alApartmentBedroom.addFurniture([alApartmentBedroomBed, alApartmentBedroomMirror]);
+alApartmentBathroom.addFurniture(alApartmentBathroomMirror);
+
+avoApartmentBedroomAvo.addFurniture(avoApartmentBedroomAvoMirror);
+avoApartmentBathroom.addFurniture(avoApartmentBathroomMirror);
 
 remmyApartmentBathroom.addFurniture([remmyApartmentBathroomTub, remmyApartmentBathroomSink, remmyApartmentBathroomToilet, remmyApartmentBathroomMirror, remmyApartmentBathroomCabinet]);
-
-remmyApartmentBedroom.addFurniture([remmyApartmentBedroomBed, remmyApartmentBedroomBureau, remmyApartmentBedroomHamper]);
-
+remmyApartmentBedroom.addFurniture([remmyApartmentBedroomBed, remmyApartmentBedroomBureau, remmyApartmentBedroomHamper, remmyApartmentBedroomMirror]);
 remmyApartmentLivingroom.addFurniture([remmyApartmentLivingroomCouch, remmyApartmentLivingroomTV, remmyApartmentLivingroomFridge, remmyApartmentLivingroomOven, remmyApartmentLivingroomTable]);
 
 twinsApartmentBedroomWolter.addFurniture(twinsApartmentBedroomWolterBed);
-
 twinsApartmentBedroomAnneke.addFurniture(twinsApartmentBedroomAnnekeBed);
+twinsApartmentBathroom.addFurniture(twinsApartmentBathroomMirror);
+
+ozzyApartmentBathroom.addFurniture(ozzyApartmentBathroomMirror);
 
 pandorasBoxCheckout.addFurniture(pandorasBoxCheckoutDesk);
 pandorasBoxAisleA1.addFurniture(pandorasBoxAisleA1LeftShelf);
@@ -316,4 +320,4 @@ pandorasBoxAisleA2.addFurniture(pandorasBoxAisleA2LeftShelf);
 pandorasBoxAisleA2.addFurniture(pandorasBoxAisleA2RightShelf);
 pandorasBoxAisleA3.addFurniture(pandorasBoxAisleA3LeftShelf);
 pandorasBoxAisleA3.addFurniture(pandorasBoxAisleA3RightShelf);
-pandorasBoxBasementHiddenBedroom.addFurniture(pandorasBoxBasementHiddenBedroomBed);
+pandorasBoxBasementHiddenBedroom.addFurniture([pandorasBoxBasementHiddenBedroomBed, pandorasBoxBasementHiddenBedroomMirror]);

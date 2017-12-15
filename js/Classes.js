@@ -4783,7 +4783,6 @@ class Item extends Entity {
         else {
             super(_id, _name, _description);
 
-            this.addAction("use");
             this.addAction("put");
             this.addAction("take");
             this.addAction("hold");
@@ -4904,6 +4903,36 @@ class Clothing extends Item {
         	this.type = _type;
         else
         	this.type = "shirt";
+    }
+}
+class Consumable extends Item {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "food", _image = undefined, _plural = false) {
+        if (_id instanceof Consumable) {
+            super(_id.id, _id._name);
+            for (var property in _id) {
+                if (_id.hasOwnProperty(property)) {
+                    this[property] = _id[property];
+                }
+            }
+            
+            consumableIndexes.set(_id, this);
+        }
+        else {
+            super(_id, _name, _description, _image, _plural);
+
+            this.addAction("consume");
+
+            this.setType(_type);
+
+            consumableIndexes.set(_id, this);
+        }
+    }
+
+    setType(_type) {
+        if (consumableTypes.has(_type))
+            this.type = _type;
+        else
+            this.type = "food";
     }
 }
 

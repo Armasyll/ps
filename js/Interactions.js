@@ -324,7 +324,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
                         case "use" : {
                             if (_furniture.type == "mirror" && player.mana > 0)
                                 Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, undefined, undefined, "btn-mana");
-                            else if (_furniture.type != "mirror")
+                            else
                                 Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
                         }
@@ -582,6 +582,10 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
                 }
                 case "masturbate" : {
                     _entity instanceof Character && Menu.addOption("itemInteractMasturbate({0}, {1})".format(this.id, _entity.id), "Masturbate with {0}".format(this.name));
+                    break;
+                }
+                case "consume" : {
+                    Menu.addOption("itemInteractConsume({0}, {1})".format(this.id, _entity.id), "{1} {0}".format(this.name, this.type == "food" ? "Eat" : this.type == "drink" ? "Drink" : "Apply"));
                     break;
                 }
             }
