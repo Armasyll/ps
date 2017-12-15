@@ -212,6 +212,7 @@ betty.addItem(straponHorseBlack);
 charlie.addItem(chartyApartmentLocationKey);
 charlie.addItem(charlieBeatingHeart);
 charlie.addItem(charlieLeftEye);
+charlie.addItem(charliePalmMirror);
 marty.addItem(chartyApartmentLocationKey);
 ozzy.addItem(ozzyApartmentLocationKey);
 pandora.addItem(pandorasBoxLocationKey);
