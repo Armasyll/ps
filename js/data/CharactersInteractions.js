@@ -181,10 +181,10 @@ function wolterSex() {
             unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
         }
         else { // If character isn't interested
-            if (_character.getSexCount(player) > 1) { // and they've fucked more than once
+            if (_character.getCharacterSexCount(player) > 1) { // and they've fucked more than once
                 Content.add("<p>NOT INTERESTED</p>");
             }
-            else if (_character.getSexCount(player) > 0) { // and they've fucked once
+            else if (_character.getCharacterSexCount(player) > 0) { // and they've fucked once
                 Content.add("<p>ONE TIME THING</p>");
             }
             else { // and they've never fucked

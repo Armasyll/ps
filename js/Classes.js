@@ -1362,8 +1362,7 @@ class Character extends Entity {
         this.clothing.set("bra", undefined);
 
         this.characterDisposition = new Map(); // Map<Character, Disposition>
-        this.hadSexWith = new Set(); // Set<Character>
-
+        
         this.prefersSpecies = new Set(); // Set<species>
         this.avoidsSpecies = new Set(); // Set<species>
 
@@ -1475,15 +1474,6 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["followers"];
-        //  hadSexWith
-        try {
-            _tmpArr = JSON.parse(json["hadSexWith"]);
-            _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character))
-                    this.addSexWith(charactersIndexes.get(_character), false);
-            }, this);
-        } catch (e) {}
-        delete json["hadSexWith"];
         //  items
         try {
             _tmpArr = JSON.parse(json["items"]);
@@ -1588,7 +1578,7 @@ class Character extends Entity {
         delete json["following"];
         
         if (furnitureIndexes.has(json["furniture"])) {
-            furnitureIndexes.get(json["furniture"]).addCharacter(_character);
+            furnitureIndexes.get(json["furniture"]).addCharacter(this);
             this.furniture = furnitureIndexes.get(json["furniture"]);
         }
         delete json["furniture"];
@@ -1610,6 +1600,8 @@ class Character extends Entity {
                     this[property] = undefined;
                 else
                     this[property] = json[property];
+
+                delete json[property];
             }
         }
     }
@@ -3226,17 +3218,19 @@ class Character extends Entity {
         if (_character instanceof Character)
             return this.characterSexCount.has(_character) ? this.characterSexCount.get(_character) : 0;
         else
-            this.sexCount;
+            return undefined;
     }
     getSexCount(_character = undefined) {
-        return this.getCharacterSexCount;
+        if (typeof _character != "undefined")
+            return this.getCharacterSexCount(_character);
+        else
+            return this.sexCount;
     }
     addSexWith(_character, _updateChild = true) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
         if (_character instanceof Character) {
-            this.hadSexWith.add(_character);
             this.virgin = false;
             this.sexCount++;
             if (this.characterSexCount.has(_character))
@@ -3427,6 +3421,15 @@ class Character extends Entity {
         );
     }
 
+    hadSexWith(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+        if (!(_character instanceof Character))
+            return undefined;
+
+        return this.getCharacterSexCount(_character) > 0;
+    }
     chanceToFuck(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -3442,7 +3445,7 @@ class Character extends Entity {
         var chance = 0;
 
         // Disposition
-        if (_character.hadSexWith.has(this)) {
+        if (_character.hadSexWith(this)) {
             chance += _character.getCharacterDisposition(this, "eros") * 1.5 * _character.getCharacterSexCount(this);
             chance += _character.getCharacterDisposition(this, "philia") / 2.5;
         }
@@ -3501,7 +3504,7 @@ class Character extends Entity {
 	            else {
 	                this.room.characters.forEach(function(_this) {
 	                    if (_this != _character.this && _this != this)
-	                        chance += _character.hadSexWith.has(_this) ? 5 : -5;
+	                        chance += _character.hadSexWith(_this) ? 5 : -5;
 	                }, this);
 	            }
 	        }
@@ -3528,7 +3531,7 @@ class Character extends Entity {
         if (_character.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (_character.somnophilia > 50 && _character.hadSexWith.has(this) && _character.getCharacterDisposition(this, "eros") > 75)
+            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _character.getCharacterDisposition(this, "eros") > 75)
                 chance += 10;
         }
 
