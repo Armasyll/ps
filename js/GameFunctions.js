@@ -665,14 +665,14 @@ function setTimedMeetingEvent(_character, _targetRoom, _cron, _runOnce = true) {
     
     if (!(_cron instanceof Cron))
         return undefined;
-
+    
     if (typeof _runOnce != "boolean")
         _runOnce = true;
-
+    
     if (!(_character instanceof Character) || !(_targetRoom instanceof Room))
         return undefined;
-
-    new GameEvent("{0}{1}TimedMeetingEvent".format(_character.id, _room.id.capitalize()), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _room.id), _runOnce);
+    
+    return new GameEvent("{0}{1}TimedMeeting{2}Event".format(_character.id, _room.id.capitalize(), eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _room.id), _runOnce);
 }
 /**
  * Triggers Function at the specific Cron time
@@ -687,8 +687,8 @@ function setTimedFunctionEvent(_nextFunction, _cron, _runOnce = true) {
     
     if (typeof _runOnce != "boolean")
         _runOnce = true;
-
-    new GameEvent("miscTimeFunctionEvent", undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
+    
+    return new GameEvent("miscTimeFunction{0}Event".format(eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
 }
 /**
  * Makes the Character Sit on Furniture or the ground.
