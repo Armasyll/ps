@@ -2464,13 +2464,13 @@ class Character extends Entity {
         return this.currentActions.has(_actionType);
     }
     currentActionPresentParticiplePosition() {
-        if (this.currentActions.contains("sleep"))
+        if (this.currentActions.has("sleep"))
             return "sleeping";
-        else if (this.currentActions.contains("lay"))
+        else if (this.currentActions.has("lay"))
             return "lying";
-        else if (this.currentActions.contains("sit"))
+        else if (this.currentActions.has("sit"))
             return "sitting";
-        else if (this.currentActions.contains("stand"))
+        else if (this.currentActions.has("stand"))
             return "standing";
     }
     currentActionPresentTensePosition() {
