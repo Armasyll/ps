@@ -2463,6 +2463,16 @@ class Character extends Entity {
     hasCurrentAction(_actionType) {
         return this.currentActions.has(_actionType);
     }
+    currentActionPosition() {
+        if (this.currentActions.has("sleep"))
+            return "sleep";
+        else if (this.currentActions.has("lay"))
+            return "lay";
+        else if (this.currentActions.has("sit"))
+            return "sit";
+        else if (this.currentActions.has("stand"))
+            return "stand";
+    }
     currentActionPresentParticiplePosition() {
         if (this.currentActions.has("sleep"))
             return "sleeping";

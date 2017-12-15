@@ -136,20 +136,20 @@ function remmyApartmentLivingroomCharlie() {
     
     _blob = "";
     if (_character.furniture instanceof Furniture)
-    	_blob += "{0} is {1} on the {2}".format(_character.toString(), (_character.currentActions.contains("sleep") ? "sleeping" : (_character.currentActions.contains("lay") ? "laying" : "sitting")), _character.furniture.type);
+    	_blob += "{0} is {1} on the {2}".format(_character.toString(), _character.currentActionPresentParticiplePosition(), _character.furniture.type);
     else
     	_blob += "{0} is leaning over the back of the couch".format(_character.toString());
 
-    if (!charlie.hasShirt && !charlie.hasPants() && !charlie.hasUnderwear())
+    if (!charlie.hasShirt() && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += ", completely bare. Her fur is fluffed up along her chest and cheeks, and the room smells of violets. You don't know why she's in your apartment, naked, but you don't really care about the \"why\"s at the moment.";
-    else if (!charlie.hasShirt && !charlie.hasPants() && charlie.hasUnderwear())
+    else if (!charlie.hasShirt() && !charlie.hasPants() && charlie.hasUnderwear())
         _blob += (" in just her panties, and taking up all the space. Why she's in a pair of carrot panties on your couch, you don't know. It's kind of hard to think right now.");
-    else if (!charlie.hasShirt && charlie.hasPants())
+    else if (!charlie.hasShirt() && charlie.hasPants())
         _blob += (", topless, with her arms over the back, looking at you. You can see the tip of her tail breifly shift back and forth.");
-    else if (charlie.hasShirt && !charlie.hasPants() && !charlie.hasUnderwear())
+    else if (charlie.hasShirt() && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += (", bottomless, peering over the end opposite you. Her fluffy tail is in the way of anything good. You're suddenly feeling very thirsty. Also, you don't know why she's in your apartment in just a turtleneck.");
     else
-        _blob += (" in a " + _character.bra.toString() + " and " + _character.pants.toString() + ". You invited her over for something, but you can't remember what.");
+        _blob += (" in a " + _character.getShirt().toString() + " and " + _character.getPants().toString() + ". You invited her over for something, but you can't remember what.");
     
     Content.add("<p>" + _blob + "</p>");
 }
