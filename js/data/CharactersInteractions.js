@@ -55,9 +55,8 @@ function avoStay() {
 function charlieInteract() {
     _character = charlie;
     
-    if (player.hasItem(charlieBeatingHeart)) {
-        charlieInteractWhenPlayerHasHeart();
-    }
+    if (player.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieBeatingHeart))
+        Content.add("<p>You see Charlie run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>");
     
     if (enableGore && enableRape)
         Menu.addOption("charlieEatCharlie()", "Murder and eat Charlie");

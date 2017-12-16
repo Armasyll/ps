@@ -260,53 +260,80 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
 function remmyApartmentLivingroomCharlieSex() {
     _character = charlie;
     
-    if (player.room.containsCharacter(wolter)) {
-        if (wolter.isSleeping())
-            Content.add("<p>Gently sitting on " + (player.room.isOwner(player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. {0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name));
-        else
-            Content.add("");
-    }
-    else
-        Content.add("<p>Hopping on the couch, you lean over towards {0} and nip at her ear. \"Let's have some fun, Charlie,\" you ask.</p>".format(_character.name));
-    
     _blob = "";
-    _blob += ("<p>With an imperceptable smile, she leans back against the couch");
-    if (charlie.hasPants() && charlie.hasUnderwear())
-        _blob += (" and undoes her pants, pulling them, along with her panties, down to her thighs. She opens her legs, revealing herself to you.");
-    else if (charlie.hasPants() && !charlie.hasUnderwear())
-        _blob += (" and undoes her pants, pulling them down to her thighs, showing you her pink slit. You're kind of turned on now, seeing that she was going commando.");
-    else if (!charlie.hasPants() && charlie.hasUnderwear())
-        _blob += (" and tugs her panties down to her thighs, showing you her pink slit.");
-    else
-        _blob += (" and, already bottomless, spreads her legs.");
-    _blob += ("</p>");
-    Content.add(_blob);
-    
+
     if (player.room.containsCharacter(wolter)) {
         if (wolter.isSleeping()) {
-            if (enableRape) {
-                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeSleepingWolter()", "Rape Sleeping Wolter", "{0} will hold him down".format(_character.name));
-            }
-        }
-        else if (!wolter.isSleeping()) {
-            Content.add("<p>Wolter looks over at you, and sees {0} spread eagle. Grinning at you, he gets up to leave. \"Yeah, I'm not gonna be a third wheel on this, you two have fun,\" he says with a wave of a paw.".format(_character.name));
-            
-            Menu.addOption("remmyApartmentLivingroomCharlieSexWolter()", "Ask him to join", "Three ways are fun");
-            if (enableRape) {
-                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolter()", "Force him to join", "Non-Consensual three ways are also fun");
-            }
-        }
+            _blob += "<p>Gently sitting on " + (player.room.isOwner(player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear.";
+        	if (player.hasItem(charlieBeatingHeart))
+        		_blob += "{0}'s head nods, her gaze never leaving your own.</p>".format(_character.name);
+    		else
+            	_blob += "{0}'s face turns slightly towards Wolter, and sees that he's still sleeping on the couch beside the two of you.</p>".format(_character.name);
+		}
     }
-    
-    Menu.addOption("remmyApartmentLivingroomCharlieSexCunnilingusGive()", "Eat her out");
-    if (player.sex == 0)
-        Menu.addOption("remmyApartmentLivingroomCharlieSexFellatioGive()", "Get a blowjob");
+    else {
+        _blob += "<p>Hopping on the couch, you lean over towards {0} and give her a peck on the cheek. You ask her, \"Let's have some fun, Charlie,\" as she gives you her usual expressionless face.</p>".format(_character.name);
+    }
+    Content.add(_blob); _blob = "";
+
+    if (_character.stamina < 15) {
+    	Content.add("<p>\"I'm exhausted, Remmy. Not now,\" she tells you in a tired. Though her eyes are usually shut, you can see she's struggling to keep herself awake.</p>");
+    	if (!player.hasItem(charlieBeatingHeart))
+    		return false;
+    }
+    else if (_character.lust < 15) {
+    	Content.add("<p>\"I'm not <i>in the mood</i>. Maybe later, if you give me a paw rub,\" she tells you, as she stretches one of her footpaws out.</p>");
+    	if (!player.hasItem(charlieBeatingHeart))
+    		return false;
+    }
+
+    _blob += "<p>Pressing your lips to her neck, you give it a soft bite. ";
+    if (player.hasItem(charlieBeatingHeart) && _character.lust < 15 && _character.stamina < 15)
+    	_blob += "You can feel her heart beat harder as she turns her head away from you.</p><p>\"I told you,\" she says, but trails off as you pat her heart in your pocket.</p><p>\"Are you sure you're not in the mood?\" you ask.</p><p>Her lips twitch into a snarl as the fur along her neck raises. With shaking paws, she leans back against the couch and ";
+	else
+    	_blob += "\"Harder,\" she hisses, and you oblige, leaning into her and biting harder. Pulling away from her neck, you wrap your arms around her shoulders and give her a brief kiss on the lips.</p><p>\"You know I don't like kissing, Remmy,\" she lets out, but leans back against the couch and ";
+
+    if (charlie.hasPants() && charlie.hasUnderwear())
+        _blob += "undoes her pants, pulling them, along with her panties, down to her thighs. She opens her legs, revealing herself to you.";
+    else if (charlie.hasPants() && !charlie.hasUnderwear())
+        _blob += "undoes her pants, pulling them down to her thighs, showing you her pink slit. You're kind of turned on now, seeing that she was going commando.";
+    else if (!charlie.hasPants() && charlie.hasUnderwear())
+        _blob += "tugs her panties down to her thighs, showing you her pink slit.";
     else
-        Menu.addOption("remmyApartmentLivingroomCharlieSexCunnilingusReceive()", "Get her to eat you out");
-    Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalGive()", "Vaginal");
-    Menu.addOption("remmyApartmentLivingroomCharlieSexAnalGive()", "Anal");
-    Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateGive()", "Finger her", "Hoof her, really.");
-    Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceive()", "Let her jerk you off", "Pawpads are better than hooves.");
+        _blob += ", already bottomless, spreads her legs.";
+    _blob += "</p>";
+    Content.add(_blob);
+    
+    if (player.hasItem(charlieBeatingHeart) && chanceToFuck(remmy, charlie) < 50) {
+
+    }
+    else {
+	    if (player.room.containsCharacter(wolter)) {
+	        if (wolter.isSleeping()) {
+	            if (enableRape) {
+	                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeSleepingWolter()", "Rape Sleeping Wolter", "{0} will hold him down".format(_character.name));
+	            }
+	        }
+	        else if (!wolter.isSleeping()) {
+	            Content.add("<p>Wolter looks over at you, and sees {0} spread eagle. Grinning at you, he gets up to leave. \"Yeah, I'm not gonna be a third wheel on this, you two have fun,\" he says with a wave of a paw.".format(_character.name));
+	            
+	            Menu.addOption("remmyApartmentLivingroomCharlieSexWolter()", "Ask him to join", "Three ways are fun");
+	            if (enableRape) {
+	                Menu.addOption("remmyApartmentLivingroomCharlieSexRapeWolter()", "Force him to join", "Non-Consensual three ways are also fun");
+	            }
+	        }
+	    }
+    
+	    Menu.addOption("remmyApartmentLivingroomCharlieSexCunnilingusGive()", "Eat her out");
+	    if (player.sex == 0)
+	        Menu.addOption("remmyApartmentLivingroomCharlieSexFellatioGive()", "Get a blowjob");
+	    else
+	        Menu.addOption("remmyApartmentLivingroomCharlieSexCunnilingusReceive()", "Get her to eat you out");
+	    Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalGive()", "Vaginal");
+	    Menu.addOption("remmyApartmentLivingroomCharlieSexAnalGive()", "Anal");
+	    Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateGive()", "Finger her", "Hoof her, really.");
+	    Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceive()", "Let her jerk you off", "Pawpads are better than hooves.");
+	}
     
     tick("2m", true, false);
     

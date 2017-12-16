@@ -1184,51 +1184,57 @@ function characterTakeOver(_characterA, _characterB) {
     
     var arr = new Map();
     
+    arr.set('items', Array.from(_characterA.items).concat(Array.from(_characterB.items)));
+    
     arr.set('id', _characterA.id);
-    arr.set('disposition', _characterA.characterDisposition);
+
+    arr.set('hasPhone', _characterA.hasPhone);
+    arr.set('phone', _characterA.phone);
+
     arr.set('defaultDisposition', _characterA.defaultDisposition);
     arr.set('agape', _characterA.agape);
     arr.set('philautia', _characterA.philautia);
-    arr.set('furColourAHex', _characterA.furColourAHex);
-    arr.set('furColourBHex', _characterA.furColourBHex);
-    arr.set('hadSexWith', _characterA.hadSexWith);
-    arr.set('hadSex', _characterA.hadSex || _characterB.hadSex);
-    arr.set('sexCount', _characterA.sexCount + _characterB.sexCount);
-    arr.set('vaginalReceiveCount', _characterA.vaginalReceiveCount + _characterB.vaginalReceiveCount);
-    arr.set('vaginalGiveCount', _characterA.vaginalGiveCount + _characterB.vaginalGiveCount);
-    arr.set('analReceiveCount', _characterA.analReceiveCount + _characterB.analReceiveCount);
-    arr.set('analGiveCount', _characterA.analGiveCount + _characterB.analGiveCount);
-    arr.set('cunnilingusReceiveCount', _characterA.cunnilingusReceiveCount + _characterB.cunnilingusReceiveCount);
-    arr.set('cunnilingusGiveCount', _characterA.cunnilingusGiveCount + _characterB.cunnilingusGiveCount);
-    arr.set('analingusReceiveCount', _characterA.analingusReceiveCount + _characterB.analingusReceiveCount);
-    arr.set('analingusGiveCount', _characterA.analingusGiveCount + _characterB.analingusGiveCount);
-    arr.set('fellatioReceiveCount', _characterA.fellatioReceiveCount + _characterB.fellatioReceiveCount);
-    arr.set('fellatioGiveCount', _characterA.fellatioGiveCount + _characterB.fellatioGiveCount);
-    arr.set('masturbateCount', _characterA.masturbateCount + _characterB.masturbateCount);
-    arr.set('handjobCount', _characterA.handjobCount + _characterB.handjobCount);
+    arr.set('mana', _characterB.mana);
+    arr.set('manaMax', _characterA.manaMax + _characterB.manaMax);
+    arr.set('sanity', _characterA.sanity);
+    arr.set('money', _characterA.money + _characterB.money);
+
+    arr.set('virgin', _characterA.virgin);
+    arr.set('sexWithMale', _characterA.sexWithMale);
+    arr.set('sexWithFemale', _characterA.sexWithFemale);
+
+    arr.set('sexCount', _characterA.sexCount);
+    arr.set('characterSexCount', _characterA.characterSexCount);
+    arr.set('characterSexRefusalCount', _characterA.characterSexRefusalCount);
+
+    arr.set('characterDisposition', _characterA.characterDisposition);
+
     arr.set('prefersSpecies', _characterA.prefersSpecies);
     arr.set('avoidsSpecies', _characterA.avoidsSpecies);
-    arr.set('avoidedSex', _characterA.avoidedSex);
+
     arr.set('sexualOrientation', _characterA.sexualOrientation);
+
     arr.set('preferredPenisSize', _characterA.preferredPenisSize);
     arr.set('preferredPenisGirth', _characterA.preferredPenisGirth);
     arr.set('preferredBreastSize', _characterA.preferredBreastSize);
+
     arr.set('prefersPredators', _characterA.prefersPredators);
     arr.set('avoidsPredators', _characterA.avoidsPredators);
     arr.set('prefersPrey', _characterA.prefersPrey);
     arr.set('avoidsPrey', _characterA.avoidsPrey);
+
     arr.set('exhibitionism', _characterA.exhibitionism);
-    arr.set('willExhibit', _characterA.willExhibit);
     arr.set('somnophilia', _characterA.somnophilia);
     arr.set('intoxicated', _characterA.intoxicated);
     arr.set('incestual', _characterA.incestual);
+
     arr.set('room', _characterA.room);
     arr.set('cell', _characterA.cell);
     arr.set('location', _characterA.location);
-    arr.set('items', Array.from(_characterA.items).concat(Array.from(_characterB.items)));
-    
+
     for (var key in _characterB) {
-        _characterA[key] = _characterB[key];
+        if (typeof key != "object")
+            _characterA[key] = _characterB[key];
     }
     
     arr.forEach(function(_value, _key) {
