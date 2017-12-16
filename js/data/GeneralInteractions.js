@@ -277,5 +277,8 @@ function avoWorkRoutineStartSit(_event = undefined) {
 function wolterConsidersJumpingTheFence() {
     wolter.setSexualOrientation(2);
 
-    setTimedMeetingEvent(wolter, new Cron(0, 6), remmyApartmentBedroom, true);
+    setTimedMeetingEvent(wolter, new Cron(0, 6), twinsApartmentBedroomWolter, true);
+}
+function wolterPlayerFirsttimeSameSexSpecial() {
+
 }

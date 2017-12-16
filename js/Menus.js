@@ -63,6 +63,12 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         }
         else if (player.room.characters.size > 1)
             Menu.setOption(2, "localCharactersMenu()", "Interact with those near you.");
+        if (player.hasPhone) {
+            if (player.phone.receivedMessages.size > 0)
+                Menu.setOption(3, "this.childNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker')", "Check Phone", "{0} Unread Messages".format(player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
+            else
+                Menu.setOption(3, "", "Check Phone");
+        }
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true)", "Wait");
         Menu.generate();
     }

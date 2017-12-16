@@ -2,19 +2,85 @@
 //var parser = new DOMParser();
 //var serializer = new XMLSerializer()
 
-var entityIndexes = new Map();          // <String, Entity>
-var locationsIndexes = new Map();       // <String, Location>
-var cellsIndexes = new Map();           // <String, Cell>
-var roomsIndexes = new Map();           // <String, Room>
-var charactersIndexes = new Map();      // <String, Character>
-var furnitureIndexes = new Map();       // <String, Furniture>
-var itemsIndexes = new Map();           // <String, Item>
-var keysIndexes = new Map();            // <String, Key>
-var clothingIndexes = new Map();        // <String, Clothing>
+/**
+ * Map of Entity(s)
+ * @type {Map<String, Entity}
+ */
+var entityIndexes = new Map();
+/**
+ * Map of Location(s)
+ * @type {Map<String, Location>}
+ */
+var locationsIndexes = new Map();
+/**
+ * Map of Cell(s)
+ * @type {Map<String, Cell}
+ */
+var cellsIndexes = new Map();
+/**
+ * Map of Room(s)
+ * @type {Map<String, Room>}
+ */
+var roomsIndexes = new Map();
+/**
+ * Map of Character(s)
+ * @type {Map<String, Character}
+ */
+var charactersIndexes = new Map();
+/**
+ * Map of Furniture
+ * @type {Map<String, Furniture>}
+ */
+var furnitureIndexes = new Map();
+/**
+ * Map of Item(s)
+ * @type {Map<String, Item>}
+ */
+var itemsIndexes = new Map();
+/**
+ * Map of Key(s)
+ * @type {Map<String, Key>}
+ */
+var keysIndexes = new Map();
+/**
+ * Map of Clothing
+ * @type {Map<String, Clothing>}
+ */
+var clothingIndexes = new Map();
+/**
+ * Map of Phone(s)
+ * @type {Map<String, Phone>}
+ */
+var phonesIndexes = new Map();
+/**
+ * Map of TextMessage(s)
+ * @type {Map<String, TextMessage>}
+ */
+var textMessageIndexes = new Map();
+/**
+ * Map of Consumable(s)
+ * @type {Map<String, Consumable>}
+ */
 var consumableIndexes = new Map();
-var eventsIndexes = new Map();          // <String, GameEvent>
-var characterMovements = new Map();     // <Character, Set<Room>>
+/**
+ * Map of GameEvent(s).
+ * @type {Map<String, GameEvent>}
+ */
+var eventsIndexes = new Map();
+/**
+ * Map of pathed Character movements from Room to Room
+ * @type {Map<Character, Set<Room>>}
+ */
+var characterMovements = new Map();
+/**
+ * Map of WebPage(s)
+ * @type {Map<String, WebPage}
+ */
 var webPageIndexes = new Map();
+/**
+ * Map of WebSite(s)
+ * @type {Map<String, WebSite>}
+ */
 var webSiteIndexes = new Map();
 var agreeTOS = false;
 var lastMenu = undefined;

@@ -971,6 +971,10 @@ class Entity {
             return undefined;
 
         this.items.add(_item);
+        if (_item instanceof Phone) {
+            this.hasPhone = true;
+            this.phone = _item;
+        }
         
         return true;
     }
@@ -983,6 +987,11 @@ class Entity {
 
         if (this instanceof Character && this.wearing(_item))
             this.takeOff(_item);
+
+        if (_item instanceof Phone) {
+            this.hasPhone = false;
+            this.phone = undefined;
+        }
 
         this.items.delete(_item);
     }
@@ -1262,6 +1271,8 @@ class Character extends Entity {
         this.currentActions = new Set();
 
         this.heldItems = new Set();
+        this.hasPhone = false;
+        this.phone = undefined;
 
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
         this.philautia = 50;     // self
@@ -1344,6 +1355,8 @@ class Character extends Entity {
         this.setSpecies(_species);
 
         this.virgin = true;
+        this.sexWithMale = false;
+        this.sexWithFemale = false;
 
         this.sexCount = 0;
         this.characterSexCount = new Map(); // Map<Character, integer>
@@ -2679,6 +2692,11 @@ class Character extends Entity {
         
         if (!(_character instanceof Character))
             return undefined;
+
+        if (_character.sex == 1)
+            this.sexWithFemale = true;
+        else if (_character.sex == 0)
+            this.sexWithMale = true;
 
         this.removeCurrentAction("masturbate");
         _character.removeCurrentAction("masturbate");
@@ -5325,8 +5343,95 @@ class Furniture extends Entity {
  * @extends {Item}
  */
 class ElectronicDevice extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = 0) {
-        super(_id, _name, _description, undefined);
+    constructor(_id = undefined, _name = undefined, _description = undefined) {
+        super(_id, _name, _description);
+    }
+}
+class Phone extends Item {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined) {
+        super(_id, _name, _description);
+        if (!(_owner instanceof Character))
+            _owner = charactersIndexes.has(_owner) ? charactersIndexes.get(_owner) : undefined;
+        this.owner = _owner;
+
+        this.receivedMessages = new Map();
+        this.readMessages = new Map();
+        this.sentMessages = new Map();
+
+        phonesIndexes.set(_id, this);
+    }
+
+    sendMessage(_toPhone, _message) {
+        if (!(_toPhone instanceof Phone)) {
+            if (phonesIndexes.has(_toPhone))
+                _toPhone = phonesIndexes.get(_toPhone);
+            else if (_toPhone instanceof Character) {
+                if (_toPhone.hasPhone)
+                    _toPhone = _toPhone.phone;
+                else
+                    return undefined;
+            }
+            else if (charactersIndexes.has(_toPhone)) {
+                _toPhone = charactersIndexes.get(_toPhone);
+                if (_toPhone.hasPhone)
+                    _toPhone = _toPhone.phone;
+                else
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        var _textMessage = new TextMessage(this, _toPhone, _message);
+        _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
+        this.sentMessages.set(_textMessage.id, _textMessage);
+
+        if (_toPhone == player.phone)
+            Content.add("<p>You've received a text message.</p>");
+    }
+
+    readMessage(_textMessage) {
+        if (!(_textMessage instanceof TextMessage))
+            _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
+        if (!(_textMessage instanceof TextMessage))
+            return undefined;
+
+        if (this.receivedMessages.has(_textMessage)) {
+            this.receivedMessages.delete(_textMessage.id);
+            this.readMessages.set(_textMessage.id, _textMessage);
+        }
+
+        if (this.readMessages.has(_textMessage)) {
+
+        }
+        else
+            return false;
+    }
+}
+class TextMessage {
+    /**
+     * Create new TextMessage
+     * @param  {Phone} _fromPhone Source
+     * @param  {Phone} _toPhone   Destination
+     * @param  {DateTime} _time      DateTime of message
+     * @param  {String} _message   Text message, can be HTML
+     */
+    constructor(_fromPhone, _toPhone, _message = "") {
+        if (!(_fromPhone instanceof Phone))
+            _fromPhone = phonesIndexes.has(_fromPhone) ? phonesIndexes.get(_fromPhone) : undefined;
+        if (!(_toPhone instanceof Phone))
+            _toPhone = phonesIndexes.has(_toPhone) ? phonesIndexes.get(_toPhone) : undefined;
+
+        if (_fromPhone == undefined || _toPhone == undefined)
+            return undefined;
+
+        this.id = "{0}{1}{2}".format(_fromPhone.id, _toPhone.id, textMessageIndexes.size);
+        this.from = _fromPhone;
+        this.to = _toPhone;
+        this.time = currentTime.toString();
+        this.message = _message;
+
+        textMessageIndexes.set(this.id, this);
     }
 }
 class WebPage {

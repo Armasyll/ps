@@ -178,14 +178,22 @@ function wolterSex() {
     }
     else {
         if (chanceToFuck(player, _character) > 49) {
-            unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+            if (_character.getCharacterSexCount(player) == 0 && !_character.sleptWithMale) {
+                unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
+            }
+            else {
+                unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+            }
         }
         else { // If character isn't interested
             if (_character.getCharacterSexCount(player) > 1) { // and they've fucked more than once
-                Content.add("<p>NOT INTERESTED</p>");
+                Content.add("<p>MISTAKE</p>");
             }
             else if (_character.getCharacterSexCount(player) > 0) { // and they've fucked once
-                Content.add("<p>ONE TIME THING</p>");
+                if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                    Content.add("<p>Just stay friends</p>");
+                else
+                    Content.add("<p>ONE TIME THING</p>");
             }
             else { // and they've never fucked
                 if (_character.getSexRefusalCount(player) > 1) // but you're annoyingly persistent
@@ -196,9 +204,6 @@ function wolterSex() {
                     if (wolter.getCharacterDisposition(player, "eros") > 50) {
                         if (wolter.sex == player.sex && wolter.sexualOrientation == 0 && chanceToFuck(player, _character) > 35) { // but he's straight and you're gay
                             Content.add("<p>Attracted, but conflicted. Give it some time.</p>");
-                            // Create event that executes 10+ days from now for Wolter to be set to 'bi' and approach the player
-                            //  If Anneke is close friends (storge or philia) with player, max days is 13
-                            //  If the player and Wolter don't hit it off before 3 days after the event starts, Wolter will be set back to 'straight'
                             setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 30) - 10) + 10)), true);
                         }
                         else

@@ -66,6 +66,40 @@ img {
 	background-border: #4d2863;
 	color:white;
 }
+.btn-info-flicker {
+	-webkit-animation: glowing 1500ms infinite;
+	-moz-animation: glowing 1500ms infinite;
+	-o-animation: glowing 1500ms infinite;
+	animation: glowing 1500ms infinite;
+}
+
+@-webkit-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
 
 #locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
 	max-height: 162px;
