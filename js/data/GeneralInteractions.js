@@ -276,9 +276,13 @@ function avoWorkRoutineStartSit(_event = undefined) {
 }
 function wolterConsidersJumpingTheFence() {
     wolter.setSexualOrientation(2);
-
-    setTimedMeetingEvent(wolter, new Cron(0, 6), twinsApartmentBedroomWolter, true);
+    wolter.incLust(25);
+    
+    setTimedMeetingEvent(wolter, twinsApartmentBedroomWolter, new Cron(0, 6), true);
+    setTimedFunctionEvent("unlockRoomFromInside(twinsApartmentLivingroomA)", new Cron(2, 6), true);
+    if (wolter.hasPhone)
+        setTimedFunctionEvent("wolter.phone.sendMessage(remmy, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
 }
 function wolterPlayerFirsttimeSameSexSpecial() {
-
+    
 }

@@ -1160,7 +1160,7 @@ function lockRoomFromInside(_room) {
     var _wasLocked = false;
     if (_room.attachedRooms.size > 1) {
         _room.attachedRooms.forEach(function(__room) {
-            if (__room.type == 0) {
+            if (__room.type == "hallway") {
                 _wasLocked = true;
                 _lockRoom(__room, _room);
             }
@@ -1168,7 +1168,7 @@ function lockRoomFromInside(_room) {
     }
     else if (_room.attachedRooms.size == 1) {
         var __room = Array.from(_room.attachedRooms.values())[0];
-        if (__room.type != 0) {
+        if (__room.type != "hallway") {
             _wasLocked = true;
             _lockRoom(__room, _room);
         }
@@ -1193,7 +1193,7 @@ function unlockRoomFromInside(_room) {
     var _wasUnlocked = false;
     if (_room.attachedRooms.size > 1) {
         _room.attachedRooms.forEach(function(__room) {
-            if (__room.type == 0) {
+            if (__room.type == "hallway") {
                 _wasUnlocked = true;
                 _unlockRoom(__room, _room);
             }
@@ -1201,7 +1201,7 @@ function unlockRoomFromInside(_room) {
     }
     else if (_room.attachedRooms.size == 1) {
         var __room = Array.from(_room.attachedRooms.values())[0];
-        if (__room.type != 0) {
+        if (__room.type != "hallway") {
             _wasUnlocked = true;
             _unlockRoom(__room, _room);
         }

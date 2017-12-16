@@ -227,6 +227,9 @@ remmy.addItem(remmyApartmentLocationKey);
 velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 
+remmy.addItem(remmyPhone);
+wolter.addItem(wolterPhone);
+
 characterSleep(anneke, twinsApartmentBedroomAnnekeBed);
 characterSleep(wolter, remmyApartmentLivingroomCouch);
 characterSit(charlie, remmyApartmentLivingroomCouch);

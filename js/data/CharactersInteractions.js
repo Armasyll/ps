@@ -196,16 +196,12 @@ function wolterSex() {
                     Content.add("<p>ONE TIME THING</p>");
             }
             else { // and they've never fucked
-                if (_character.getSexRefusalCount(player) > 1) // but you're annoyingly persistent
-                    Content.add("<p>VERY STERN NOT INTERESTED</p>");
-                else if (_character.getSexRefusalCount(player) > 0) // but you're persistent
+                if (_character.getSexRefusalCount(player) > 0) // but you're persistent
                     Content.add("<p>STERN NOT INTERESTED</p>");
                 else { // but you're interested
                     if (wolter.getCharacterDisposition(player, "eros") > 50) {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0 && chanceToFuck(player, _character) > 35) { // but he's straight and you're gay
+                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)// but he's straight and you're gay
                             Content.add("<p>Attracted, but conflicted. Give it some time.</p>");
-                            setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 30) - 10) + 10)), true);
-                        }
                         else
                             Content.add("<p>Attracted, but give it a little more time.</p>");
                     }
