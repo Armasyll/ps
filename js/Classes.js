@@ -5396,16 +5396,10 @@ class Phone extends Item {
         if (!(_textMessage instanceof TextMessage))
             return undefined;
 
-        if (this.receivedMessages.has(_textMessage)) {
+        if (this.receivedMessages.has(_textMessage.id)) {
             this.receivedMessages.delete(_textMessage.id);
             this.readMessages.set(_textMessage.id, _textMessage);
         }
-
-        if (this.readMessages.has(_textMessage)) {
-
-        }
-        else
-            return false;
     }
 }
 class TextMessage {
@@ -5426,9 +5420,9 @@ class TextMessage {
             return undefined;
 
         this.id = "{0}{1}{2}".format(_fromPhone.id, _toPhone.id, textMessageIndexes.size);
-        this.from = _fromPhone;
-        this.to = _toPhone;
-        this.time = currentTime.toString();
+        this.from = _fromPhone.owner.name;
+        this.to = _toPhone.owner.name;
+        this.time = currentTime.toUTCString();
         this.message = _message;
 
         textMessageIndexes.set(this.id, this);

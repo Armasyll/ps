@@ -49,7 +49,7 @@ bowlBeetleBreakfast = new Consumable("bowlBeetleBreakfast", "Bowl of Beetle Brea
 redRocketPopsicle = new Consumable("redRocketPopsicle", "Red Rocket Popsicle", "A rich, cherry-flavoured popsicle with a creamy center, that you can barely fit in your mouth.", "food");
 
 // Phones
-remmyCarrotPhone6S = new Phone("remmyCarrotPhone6S", "Carrot Phone 6S", "Carrot Phone 6S smartphone designed, developed, and marketed by Carrot Inc.");
-wolterSungsamU7 = new Phone("wolterSungsamU7", "Sungsam Universe 7", "Sungsam Universe 7 smartphone, developed by Sungsam.");
+remmyCarrotPhone6S = new Phone("remmyCarrotPhone6S", "Carrot Phone 6S", "Carrot Phone 6S smartphone designed, developed, and marketed by Carrot Inc.", remmy);
+wolterSungsamU7 = new Phone("wolterSungsamU7", "Sungsam Universe 7", "Sungsam Universe 7 smartphone, developed by Sungsam.", wolter);
 
 if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");

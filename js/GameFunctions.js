@@ -1301,6 +1301,63 @@ function chanceToFuck(_characterA, _characterB) {
     
     return _characterA.chanceToFuck(_characterB);
 }
+function menuCheckPhone(_phone) {
+    if (!(_phone instanceof Phone))
+        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
+    if (!(_phone instanceof Phone))
+        return undefined;
+
+    if (usePopups) {
+
+    }
+    else {
+        Menu.clear();
+        Menu.addOption("_menuCheckPhoneReceivedMessages({0})".format(_phone.id), "Received Messages");
+        Menu.addOption("_menuCheckPhoneReadMessages({0})".format(_phone.id), "Read Messages");
+        Menu.addOption("_menuCheckPhoneSentMessages({0})".format(_phone.id), "Sent Messages");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+}
+function _menuCheckPhoneReceivedMessages(_phone) {
+    lastMenu = "_menuCheckPhoneReceivedMessages({0})".format(_phone.id);
+
+    Menu.clear();
+    _phone.receivedMessages.forEach(function(_textMessage) {
+        Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
+    });
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "menuCheckPhone({0})".format(_phone.id), "Check Phone");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
+}
+function _menuCheckPhoneReadMessages(_phone) {
+    lastMenu = "_menuCheckPhoneReadMessages({0})".format(_phone.id);
+    
+    Menu.clear();
+    _phone.readMessages.forEach(function(_textMessage) {
+        Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
+    });
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "menuCheckPhone({0})".format(_phone.id), "Check Phone");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
+}
+function _menuCheckPhoneSentMessages(_phone) {
+    lastMenu = "_menuCheckPhoneSentMessages({0})".format(_phone.id);
+    
+}
+function _menuCheckPhoneDumpMessage(_phone, _textMessage) {
+    if (!(_phone instanceof Phone))
+        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
+    if (!(_textMessage instanceof TextMessage))
+        _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
+    if (!(_phone instanceof Phone) || !(_textMessage instanceof TextMessage))
+        return undefined;
+
+    _phone.readMessage(_textMessage);
+    Content.add("<blockquote class='small'><div class=''>{0} > {1}</div><p>{2}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.message));
+
+    runLastMenu();
+}
 
 /**
  * Sets the Menu to 15 buttons, and runs the last menu.
