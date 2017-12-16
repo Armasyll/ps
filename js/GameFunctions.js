@@ -1,4 +1,3 @@
-// Game functions
 /**
  * Resizes the GUI. If the Minimap is hidden by Bootstrap constrains, it is disabled, otherwise it is enabled.
  */
@@ -102,12 +101,10 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
 }
 /**
  * Moves an item from an Entity to another Entity.
- *
  * @param Item _item
  * @param Entity _fromEntity
  * @param Entity _toEntity
  * @param Boolean _useLastMenu
- *
  * @return Boolean
  */
 function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
@@ -217,10 +214,8 @@ function clearContentAndMenu() {
 }
 /**
  * Moves a Character to the specified Room.
- *
  * @param Character _character
  * @param Room _room
- *
  * @return Boolean Whether or not the Character was moved to the Room.
  */
 function setCharacterRoom(_character = player, _room) {
@@ -265,9 +260,7 @@ function setCharacterRoom(_character = player, _room) {
 }
 /**
  * Moves the Player to the specified Room.
- *
  * @param Room _room
- *
  * @return Boolean
  */
 function setPlayerRoom(_room) {
@@ -283,10 +276,8 @@ function setPlayerRoom(_room) {
 }
 /**
  * Moves an Item from an Entity to the Player.
- *
  * @param Item _item
  * @param Entity _fromEntity
- *
  * @return Boolean
  */
 function givePlayerItem(_item, _fromEntity) {
@@ -294,11 +285,9 @@ function givePlayerItem(_item, _fromEntity) {
 }
 /**
  * Passes time.
- *
  * @param String time Amount of time to pass. If passed an integer, will treat it as seconds. "30s" will pass 30 seconds, "30m" will pass 30 minutes, "24h" will pass 24 hours, and "2d" will pass 2 days, in-game time.
  * @param Boolean _updateMinimap Update the Minimap, if it's enabled.
  * @param Boolean _runLastMenu Return to (run again) the last-used menu.
- *
  * @return Date The current time, in-game.
  */
 function tick(time, _updateMinimap = true, _runLastMenu = false) {
@@ -396,11 +385,9 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
 }
 /**
  * Creates path from Cell(1) to Cell(2), excluding an optional Set of Cell(s)
- *
  * @param Cell _startCell
  * @param Cell _targetCell
  * @param Set<Cell> _excludeCells
- *
  * @return Set<Cell> Set of Cell(s) that follow a linear path, or undefined
  */
 function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
@@ -467,11 +454,9 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
 }
 /**
  * Creates path from Room(1) to Room(2), which share a Cell, excluding an optional Set of Room(s)
- *
  * @param Room _startRoom
  * @param Room _targetRoom
  * @param Set<Room> _excludeRooms
- *
  * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
  */
 function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
@@ -537,12 +522,10 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
 }
 /**
  * Creates path from Room(1) to Room(2), which may or may no share a Cell, excluding an optional Set of Room(s) and an optional Set of Cell(s)
- *
  * @param Room _startRoom
  * @param Room _targetRoom
  * @param Set<Room> _excludeRooms
  * @param Set<Cell> _excludeCells
- *
  * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
  */
 function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
@@ -619,10 +602,8 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
 }
 /**
  * Moves Character in a path from their current room to target Room.
- *
  * @param Character _character
  * @param Room _targetRoom
- *
  * @return Boolean Whether or not the path is available, or undefined if the Character or Room are invalid.
  */
 function setCharacterPath(_character, _targetRoom) {
@@ -630,7 +611,7 @@ function setCharacterPath(_character, _targetRoom) {
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
     
     if (!(_targetRoom instanceof Room)) {
-        if (typeof _target == "string" && roomsIndexes.has(_targetRoom))
+        if (typeof _targetRoom == "string" && roomsIndexes.has(_targetRoom))
             _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
         else if (_targetRoom instanceof Character) {
             _targetRoom = _targetRoom.room instanceof Room ? _targetRoom.room : undefined;
@@ -650,53 +631,226 @@ function setCharacterPath(_character, _targetRoom) {
 }
 /**
  * Moves Character in a path from their current Room to the target Room at the specific Cron time.
- *
- * @param Character _character
- * @param Room _targetRoom
- * @param Cron _cron
- * @param Boolean _runOnce
+ * @param {String} _id Unique ID
+ * @param {Character} _character
+ * @param {Room} _targetRoom
+ * @param {Cron} _cron
+ * @param {Boolean} _runOnce
  */
-function setTimedMeetingEvent(_character, _targetRoom, _cron, _runOnce = true) {
+function setCharacterScheduleEvent(_id = undefined, _character, _targetRoom, _cron, _runOnce = true) {
+    if (_id == undefined)
+        _id = "{0}{1}CharacterSchedule{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventsIndexes.size);
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
     if (!(_targetRoom instanceof Room))
         _targetRoom = roomsIndexes.get(_targetRoom);
-    
     if (!(_cron instanceof Cron))
         return undefined;
-    
     if (typeof _runOnce != "boolean")
         _runOnce = true;
     
     if (!(_character instanceof Character) || !(_targetRoom instanceof Room))
         return undefined;
     
-    return new GameEvent("{0}{1}TimedMeeting{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, "setCharacterPath({0}, {1})".format(_character.id, _targetRoom.id), _runOnce);
+    return new GameEvent(
+        _id,        // _id
+        undefined,  // _action
+        undefined,  // _characterA
+        undefined,  // _characterB
+        undefined,  // _item
+        undefined,  // _location
+        undefined,  // _cell
+        undefined,  // _room
+        _cron,      // _cron
+        "setCharacterPath({0}, {1})".format(_character.id, _targetRoom.id), // _nextFunction
+        _runOnce    // _runOnce
+    );
+}
+/**
+ * Event triggered when Character(1) meets Character(2) {somewhere} with Item
+ * @param {String} _id Unique ID
+ * @param {Character} _characterA Primary Character
+ * @param {Character} _characterB Secondary Character
+ * @param {Location, Cell, Room} _place      Location, Cell, or Room
+ * @param {Item} _item       Optional Item
+ * @param {Function} _function Function to run
+ * @param {Boolean} _runOnce Run once
+ */
+function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB, _place, _item, _function = undefined, _runOnce = true) {
+    if (_id == undefined)
+        _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    if (_characterA == undefined || _characterB == undefined || _function == undefined)
+        return undefined;
+
+    if (_room instanceof Room)
+        return setCharacterMeetinRoomEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+    else if (roomsIndexes.has(_place))
+        return setCharacterMeetinRoomEvent(_id, _characterA, _characterB, roomsIndexes.get(_place), _item, _function, _runOnce);
+    else if (_place instanceof Cell)
+        return setCharacterMeetinCellEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+    else if (cellsIndexes.has(_place))
+        return setCharacterMeetinCellEvent(_id, _characterA, _characterB, cellsIndexes.get(_place), _item, _function, _runOnce);
+    else if (_place instanceof Location)
+        return setCharacterMeetinLocationEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+    else if (locationsIndexes.has(_place))
+        return setCharacterMeetinLocationEvent(_id, _characterA, _characterB, locationsIndexes.get(_place), _item, _function, _runOnce);
+    else
+        return undefined;
+}
+/**
+ * Event triggered when Character(1) meets Character(2) in Room with Item
+ * @param {String} _id Unique ID
+ * @param {Character} _characterA Primary Character
+ * @param {Character} _characterB Secondary Character
+ * @param {Room} _room      Room
+ * @param {Item} _item       Optional Item
+ * @param {Function} _function Function to run
+ * @param {Boolean} _runOnce Run once
+ */
+function setCharacterMeetingRoomEvent(_id = undefined, _characterA, _characterB, _room, _item, _function, _runOnce = true) {
+    if (_id == undefined)
+        _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_room instanceof Room))
+        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    if (_characterA == undefined || _characterB == undefined || _room == undefined || _function == undefined)
+        return undefined;
+
+    return new GameEvent(
+        _id,
+        undefined,
+        _characterA,
+        _characterB,
+        _item,
+        undefined,
+        undefined,
+        _room,
+        undefined,
+        _function,
+        _runOnce
+    );
+}
+/**
+ * Event triggered when Character(1) meets Character(2) in Cell with Item
+ * @param {String} _id Unique ID
+ * @param {Character} _characterA Primary Character
+ * @param {Character} _characterB Secondary Character
+ * @param {Cell} _cell      Cell
+ * @param {Item} _item       Optional Item
+ * @param {Function} _function Function to run
+ * @param {Boolean} _runOnce Run once
+ */
+function setCharacterMeetingCellEvent(_id = undefined, _characterA, _characterB, _cell, _item, _function, _runOnce = true) {
+    if (_id == undefined)
+        _id = "{0}{1}{2}{3}CharacterMeetingCellEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_cell instanceof Cell))
+        _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    if (_characterA == undefined || _characterB == undefined || _cell == undefined || _function == undefined)
+        return undefined;
+
+    return new GameEvent(
+        _id,
+        undefined,
+        _characterA,
+        _characterB,
+        _item,
+        undefined,
+        _cell,
+        undefined,
+        undefined,
+        _function,
+        _runOnce
+    );
+}
+/**
+ * Event triggered when Character(1) meets Character(2) at Cell with Item
+ * @param {String} _id Unique ID
+ * @param {Character} _characterA Primary Character
+ * @param {Character} _characterB Secondary Character
+ * @param {Location} _location      Location
+ * @param {Item} _item       Optional Item
+ * @param {Function} _function Function to run
+ * @param {Boolean} _runOnce Run once
+ */
+function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _characterB, _location, _item, _function, _runOnce = true) {
+    if (_id == undefined)
+        _id = "{0}{1}{2}{3}CharacterMeetingLocationEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_characterB instanceof Character))
+        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_location instanceof Location))
+        _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+    if (typeof _runOnce != "boolean")
+        _runOnce = true;
+
+    if (_characterA == undefined || _characterB == undefined || _location == undefined || _function == undefined)
+        return undefined;
+
+    return new GameEvent(
+        _id,
+        undefined,
+        _characterA,
+        _characterB,
+        _item,
+        _location,
+        undefined,
+        undefined,
+        undefined,
+        _function,
+        _runOnce
+    );
 }
 /**
  * Triggers Function at the specific Cron time
- *
- * @param String _nextFunction
- * @param Cron _cron
- * @param Boolean _runOnce
+ * @param {String} _id Unique ID
+ * @param {String} _nextFunction
+ * @param {Cron} _cron
+ * @param {Boolean} _runOnce
  */
-function setTimedFunctionEvent(_nextFunction, _cron, _runOnce = true) {
+function setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce = true) {
+    if (_id == undefined)
+        _id = "miscTimeFunction{0}Event".format(eventsIndexes.size);
     if (!(_cron instanceof Cron))
         return undefined;
-    
     if (typeof _runOnce != "boolean")
         _runOnce = true;
     
-    return new GameEvent("miscTimeFunction{0}Event".format(eventsIndexes.size), undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
+    return new GameEvent(_id, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
 }
 /**
  * Makes the Character Sit on Furniture or the ground.
- *
- * @param Character _character
- * @param Furniture _furniture Can be undefined
- *
- * @return Boolean Whether or not the Character is seated on Furniture, or undefined
+ * @param {Character} _character
+ * @param {Furniture} _furniture Can be undefined
+ * @return {Boolean} Whether or not the Character is seated on Furniture, or undefined
  */
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -717,11 +871,9 @@ function characterSit(_character, _furniture = undefined) {
 }
 /**
  * Makes the Character Lay on Furniture or the ground.
- *
- * @param Character _character
- * @param Furniture _furniture Can be undefined
- *
- * @return Boolean Whether or not the Character is lying on Furniture, or undefined
+ * @param {Character} _character
+ * @param {Furniture} _furniture Can be undefined
+ * @return {Boolean} Whether or not the Character is lying on Furniture, or undefined
  */
 function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -742,11 +894,9 @@ function characterLay(_character, _furniture = undefined) {
 }
 /**
  * Makes the Character Sleep on Furniture or the ground; they may sit or lay while sleeping.
- *
- * @param Character _character
- * @param Furniture _furniture Can be undefined
- *
- * @return Boolean Whether or not the Character is sleeping on Furniture, or undefined
+ * @param {Character} _character
+ * @param {Furniture} _furniture Can be undefined
+ * @return {Boolean} Whether or not the Character is sleeping on Furniture, or undefined
  */
 function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character))
@@ -779,10 +929,8 @@ function characterSleep(_character, _furniture = undefined) {
 }
 /**
  * Makes the Character Stand.
- *
- * @param Character _character
- *
- * @return Boolean, or undefined
+ * @param {Character} _character
+ * @return {Boolean}, or undefined
  */
 function characterStand(_character) {
     if (!(_character instanceof Character))
@@ -802,10 +950,8 @@ function characterStand(_character) {
 }
 /**
  * Makes the Character Walk.
- *
- * @param Character _character
- *
- * @return Boolean, or undefined
+ * @param {Character} _character
+ * @return {Boolean}, or undefined
  */
 function characterWalk(_character) {
     if (!(_character instanceof Character))
@@ -825,11 +971,9 @@ function characterWalk(_character) {
 }
 /**
  * Makes the second Character Follow the first Character.
- *
- * @param Character _characterA The leader.
- * @param Character _characterB The follower.
- *
- * @return Boolean, or undefined
+ * @param {Character} _characterA The leader.
+ * @param {Character} _characterB The follower.
+ * @return {Boolean}, or undefined
  */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character))
@@ -870,10 +1014,8 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
 }
 /**
  * Makes the Character Stay, stopping them from following another Character.
- *
- * @param Character _character
- *
- * @return Boolean, or undefined
+ * @param {Character} _character
+ * @return {Boolean}, or undefined
  */
 function characterStay(_character) {
     if (!(_character instanceof Character))
@@ -891,13 +1033,11 @@ function characterStay(_character) {
 }
 /**
  * Makes the Character have Sex with another Character on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
- *
- * @param Character _characterA
- * @param Character _characterB
- * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
- * @param int or String _action Can be undefined; defaults to "lay"
- *
- * @return Boolean Whether or not sex happens, or undefined
+ * @param {Character} _characterA
+ * @param {Character} _characterB
+ * @param {Furniture} _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
+ * @param {Number or String} _action Can be undefined; defaults to "lay"
+ * @return {Boolean} Whether or not sex happens, or undefined
  */
 function characterSex(_characterA, _characterB = undefined, _furniture = undefined, _action = "lay") {
     if (!(_characterA instanceof Character))
@@ -959,12 +1099,10 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
 }
 /**
  * Makes the Character masturbate on Furniture (not literally on it) or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
- *
- * @param Character _character
- * @param Furniture _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
- * @param int or String _action Can be undefined; defaults to "lay"
- *
- * @return Boolean Whether or not masturbation happens, or undefined
+ * @param {Character} _character
+ * @param {Furniture} _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
+ * @param {Number or String} _action Can be undefined; defaults to "lay"
+ * @return {Boolean} Whether or not masturbation happens, or undefined
  */
 function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
     if (!(_character instanceof Character))
@@ -1097,11 +1235,9 @@ function characterTakeOver(_characterA, _characterB) {
 
 /**
  * Lock access to the second Room from the first Room.
- *
- * @param Room _roomA
- * @param Room _roomB
- *
- * @return Boolean Whether or not the Room was locked, or undefined
+ * @param {Room} _roomA
+ * @param {Room} _roomB
+ * @return {Boolean} Whether or not the Room was locked, or undefined
  */
 function _lockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
@@ -1121,11 +1257,9 @@ function _lockRoom(_roomA, _roomB) {
 }
 /**
  * Unlock access to the second Room from the first Room.
- *
- * @param Room _roomA
- * @param Room _roomB
- *
- * @return Boolean Whether or not the Room was unlocked, or undefined
+ * @param {Room} _roomA
+ * @param {Room} _roomB
+ * @return {Boolean} Whether or not the Room was unlocked, or undefined
  */
 function _unlockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
@@ -1145,10 +1279,8 @@ function _unlockRoom(_roomA, _roomB) {
 }
 /**
  * Locks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
- *
- * @param Room _room
- *
- * @return Boolean Whether or not the Room was locked, or undefined
+ * @param {Room} _room
+ * @return {Boolean} Whether or not the Room was locked, or undefined
  */
 function lockRoomFromInside(_room) {
     if (!(_room instanceof Room))
@@ -1178,10 +1310,8 @@ function lockRoomFromInside(_room) {
 }
 /**
  * Unlocks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
- *
- * @param Room _room
- *
- * @return Boolean Whether or not the Room was unlocked, or undefined
+ * @param {Room} _room
+ * @return {Boolean} Whether or not the Room was unlocked, or undefined
  */
 function unlockRoomFromInside(_room) {
     if (!(_room instanceof Room))
@@ -1211,11 +1341,9 @@ function unlockRoomFromInside(_room) {
 }
 /**
  * Locks access to the Room from the Character's Room, if the Character has the key to the Room.
- *
- * @param Room _room
- * @param Character _character
- *
- * @return Boolean Whether or not the Room was locked, or undefined
+ * @param {Room} _room
+ * @param {Character} _character
+ * @return {Boolean} Whether or not the Room was locked, or undefined
  */
 function lockRoomFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
@@ -1233,11 +1361,9 @@ function lockRoomFromOutside(_room, _character = player) {
 }
 /**
  * Unlocks access to the Room from the Character's Room, if the Character has the key to the Room.
- *
- * @param Room _room
- * @param Character _character
- *
- * @return Boolean Whether or not the Room was unlocked, or undefined
+ * @param {Room} _room
+ * @param {Character} _character
+ * @return {Boolean} Whether or not the Room was unlocked, or undefined
  */
 function unlockRoomFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
@@ -1256,11 +1382,9 @@ function unlockRoomFromOutside(_room, _character = player) {
 
 /**
  * Adds all Item(s) to the specified Character
- *
- * @param Character _character Character to add all Item(s) to, defaults to Player
- * @param Boolean _execEvents Whether or not to execute Item-specified GameEvent(s), defaults to True
- *
- * @return Boolean
+ * @param {Character} _character Character to add all Item(s) to, defaults to Player
+ * @param {Boolean} _execEvents Whether or not to execute Item-specified GameEvent(s), defaults to True
+ * @return {Boolean}
  */
 function addAllItems(_character = player, _execEvents = true) {
     if (!(_character instanceof Character))
@@ -1280,11 +1404,9 @@ function addAllItems(_character = player, _execEvents = true) {
 
 /**
  * Chance for Character(2) to have sex with Character(1)
- *
- * @param Character _characterA
- * @param Character _characterB
- *
- * @return Integer, or undefined
+ * @param {Character} _characterA
+ * @param {Character} _characterB
+ * @return {Number}, or undefined
  */
 function chanceToFuck(_characterA, _characterB) {
     if (!(_characterA instanceof Character))

@@ -5788,7 +5788,9 @@ class GameEvent {
 
         if (debug) console.log("Executing " + this.id);
 
+        lastGameEvent = this;
         unsafeExec(this.nextFunction);
+        lastGameEvent = undefined;
 
         if (this.runOnce) {
             this.delete();

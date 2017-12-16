@@ -84,6 +84,7 @@ var webPageIndexes = new Map();
 var webSiteIndexes = new Map();
 var agreeTOS = false;
 var lastMenu = undefined;
+var lastGameEvent = undefined;
 //var enableAudio = false;
 //var enableImages = true;
 //var enableVideo = true;

@@ -140,12 +140,12 @@ function rosieGiveCharlieHeart() {
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
     Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
-    charlieHeartbeatRosieCellEvent.delete();
-    charlieHeartbeatRosieRoomEvent.delete();
-    charlieTakeHeartEvent.delete();
-    charlieReceiveHeartEvent.delete();
-    charlieRemoveLeftEyeEvent.delete();
-    charlieReceiveLeftEyeEvent.delete();
+    eventsIndexes.get('charlieHeartbeatRosieCellEvent').delete();
+    eventsIndexes.get('charlieHeartbeatRosieRoomEvent').delete();
+    eventsIndexes.get('charlieTakeHeartEvent').delete();
+    eventsIndexes.get('charlieReceiveHeartEvent').delete();
+    eventsIndexes.get('charlieRemoveLeftEyeEvent').delete();
+    eventsIndexes.get('charlieReceiveLeftEyeEvent').delete();
 
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
@@ -236,9 +236,12 @@ function remmyApartmentBathroomWaterbucket(_event = undefined) {
     Content.add("<p>An empty water bucket falls from the top of the door on to your head.</p>");
 }
 function charlieHeartbeatRosie(_event = undefined) {
+    if (!(_event instanceof GameEvent))
+        _event = eventsIndexes.has(_event) ? eventsIndexes.get(_event) : undefined;
+
     if (_event.id == 'charlieHeartbeatRosieRoomEvent')
         Content.add("<p>You feel the heart tug towards the vixen before you.</p>");
-    else
+    else if (_event.id == 'charlieHeartbeatRosieCellEvent')
         Content.add("<p>Charlie's heart suddenly beats faster.</p>");
 }
 function updateCharlieBuse(_event = undefined) {
@@ -270,15 +273,11 @@ function charlieInteractWhenPlayerHasHeart() {
 function charlieInteractWhenPlayerHasEye() {
     return;
 }
-function avoWorkRoutineStartSit(_event = undefined) {
-    characterSit(avo, pandorasBoxCheckoutDesk);
-    return;
-}
-function wolterConsidersJumpingTheFence() {
+function wolterConsidersJumpingTheFence(_event = undefined) {
     wolter.setSexualOrientation(2);
     wolter.incLust(25);
     
-    setTimedMeetingEvent(wolter, twinsApartmentBedroomWolter, new Cron(0, 6), true);
+    setCharacterScheduleEvent("wolterCallsRemmyForSomFuk", wolter, twinsApartmentBedroomWolter, new Cron(0, 6), true);
     setTimedFunctionEvent("unlockRoomFromInside(twinsApartmentLivingroomA)", new Cron(2, 6), true);
     if (wolter.hasPhone)
         setTimedFunctionEvent("wolter.phone.sendMessage(remmy, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
