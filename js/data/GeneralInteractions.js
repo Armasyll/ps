@@ -256,8 +256,8 @@ function updateCharlieBuse(_event = undefined) {
         charlie.image = "images/characters/Charlie.svg";
 
     if (!charlie.hasItem(charlieBeatingHeart)) {
-        Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries in vain to grip her claws against your " + (player.hasPants() ? "pants" : "waist") + ".</p>");
-        Content.add("<p>Her gaze dulls as she lets out a sigh, letting her arms fall limp to her sides.</p>");
+        Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries to grab it from your " + player.getHands() + ", but you move it away from her.</p><p>Her struggle ceases once you utter the word, \"No.\"</p>");
+        Content.add("<p>Her gaze dulls as her arms fall limp at her sides.</p>");
         runLastMenu();
     }
 
