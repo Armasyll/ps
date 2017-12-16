@@ -987,11 +987,7 @@ class Entity {
 
         if (this instanceof Character && this.wearing(_item))
             this.takeOff(_item);
-
-        if (_item instanceof Phone) {
-            this.hasPhone = false;
-        }
-
+        
         this.items.delete(_item);
     }
 
