@@ -971,7 +971,7 @@ class Entity {
             return undefined;
 
         this.items.add(_item);
-        if (_item instanceof Phone) {
+        if (_item instanceof Phone && _item.owner == this) {
             this.hasPhone = true;
             this.phone = _item;
         }
@@ -990,7 +990,6 @@ class Entity {
 
         if (_item instanceof Phone) {
             this.hasPhone = false;
-            this.phone = undefined;
         }
 
         this.items.delete(_item);
