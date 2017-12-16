@@ -108,6 +108,7 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
  * @return Boolean
  */
 function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+    var _eventRun = false;
     if (typeof _item == 'undefined' || typeof _toEntity == 'undefined')
         return undefined;
     
@@ -163,8 +164,10 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
             if (debug) console.log("Checking for item removal events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
-                    if (_fromEntity == player || _toEntity == player)
+                    if (_fromEntity == player || _toEntity == player) {
                         hideModals();
+                        _eventRun = true;
+                    }
                     
                     _event.execute();
                 }
@@ -175,8 +178,10 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
             if (debug) console.log("Checking for item given events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
-                    if (_fromEntity == player || _toEntity == player)
+                    if (_fromEntity == player || _toEntity == player) {
                         hideModals();
+                        _eventRun = true;
+                    }
                     
                     _event.execute();
                 }
@@ -186,8 +191,10 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
             if (debug) console.log("Checking for item taken events");
             eventsIndexes.forEach(function(_event) {
                 if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
-                    if (_fromEntity == player || _toEntity == player)
+                    if (_fromEntity == player || _toEntity == player) {
                         hideModals();
+                        _eventRun = true;
+                    }
                     
                     _event.execute();
                 }
@@ -195,13 +202,18 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
         }
     }
     else
+        return undefined;
+    
+    if (lastGameEvent == undefined && !_eventRun) {
+        if (_useLastMenu) {
+            unsafeExec(lastMenu);
+        }
+
+        return true;
+    }
+    else
         return false;
     
-    if (_useLastMenu) {
-        unsafeExec(lastMenu);
-    }
-    
-    return true;
 }
 
 /**

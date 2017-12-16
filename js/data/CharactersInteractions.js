@@ -134,6 +134,9 @@ function remmyFollow() {
     characterInteract(_character, false);
 }
 
+function rosieInteract() {
+    _character = rosie;
+}
 function rosieTalk() {
     _character = rosie;
     

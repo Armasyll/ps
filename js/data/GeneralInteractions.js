@@ -109,7 +109,7 @@ function charlieEatCharlieCont() {
     Menu.generate();
 }
 function rosieGiveCharlieHeart() {
-    Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie. With her heart in your {0}</p>".format(player.handName()));
+    Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie.</p>");
     if (rosie.sleeping) {
         Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
         Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
@@ -123,10 +123,10 @@ function rosieGiveCharlieHeart() {
         else
             _blob += "In a tired mumble, she asks, \"Who are you?\"";
         Content.add(_blob + "</p>");
-        Content.add("<p>The heart near her beats, and both her head and eyes weakly turn in its direction as she lets out a ragged breath.</p>");
+        Content.add("<p>The heart near her beats, and both her head and eyes weakly turn in its direction as she lets out a ragged sigh.</p>");
     }
     else {
-        Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched hoof. Turning her head to the side, she glares at the object in your paw. Without you moving, the heart rolls out of your {0}, and falls to the ground with a soft thud as it stops beating.</p>");
+        Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched {0}. Turning her head to the side, she glares at the heart. You look between it and Rosie, wondering if something is suppose to happen. The heart, still slick, gives a strong beat and slips out of your {1}, and falls to the ground with a soft thud as it stops beating.</p><p>\"Oh, shit,\" you say loudly, and try to pick the heart up off of the ground.</p>".format(player.getHand(), player.getHands()));
         var _blob = "<p>Her blue eyes follow it, she takes a step back and looks back up to you. ";
         if (rosie.characterDisposition.get(remmy)['philia'] > 25 || rosie.characterDisposition.get(remmy)['storge'] > 25)
             _blob += "Confused, she asks, \"{0}, what's that?\"".format(player.name);
@@ -135,22 +135,21 @@ function rosieGiveCharlieHeart() {
         else
             _blob += "Fearful, she yells, \"Get that away from me!\" and bares her teeth.";
         Content.add(_blob + "</p>");
-        Content.add("<p>The heart near her beats, and she falls to her knees as though she were a puppet with its strings cut. Her head and eyes lazily turn in its direction as she lets out a ragged breath.</p>");
+        Content.add("<p>The heart near her beats, and she falls to her knees like a rag doll. Her head and eyes lazily turn in its direction as she lets out a ragged sigh.</p>");
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
-    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the prostrate vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
-    eventsIndexes.get('charlieHeartbeatRosieCellEvent').delete();
-    eventsIndexes.get('charlieHeartbeatRosieRoomEvent').delete();
-    eventsIndexes.get('charlieTakeHeartEvent').delete();
-    eventsIndexes.get('charlieReceiveHeartEvent').delete();
-    eventsIndexes.get('charlieRemoveLeftEyeEvent').delete();
-    eventsIndexes.get('charlieReceiveLeftEyeEvent').delete();
+    eventsIndexes.has('charlieHeartbeatRosieCellEvent') && eventsIndexes.get('charlieHeartbeatRosieCellEvent').delete();
+    eventsIndexes.has('charlieHeartbeatRosieRoomEvent') && eventsIndexes.get('charlieHeartbeatRosieRoomEvent').delete();
+    eventsIndexes.has('charlieTakeHeartEvent') && eventsIndexes.get('charlieTakeHeartEvent').delete();
+    eventsIndexes.has('charlieReceiveHeartEvent') && eventsIndexes.get('charlieReceiveHeartEvent').delete();
+    eventsIndexes.has('charlieRemoveLeftEyeEvent') && eventsIndexes.get('charlieRemoveLeftEyeEvent').delete();
+    eventsIndexes.has('charlieReceiveLeftEyeEvent') && eventsIndexes.get('charlieReceiveLeftEyeEvent').delete();
 
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
     Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "rosieGiveCharlieHeartStay()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function rosieGiveCharlieHeartFlee() {

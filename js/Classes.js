@@ -5800,6 +5800,7 @@ class GameEvent {
     }
 
     delete() {
+        if (debug) console.log("Deleting {0}".format(this.id));
         eventsIndexes.delete(this.id);
     }
 }
