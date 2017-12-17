@@ -1441,16 +1441,27 @@ function chanceToFuck(_characterA, _characterB) {
     
     return _characterA.chanceToFuck(_characterB);
 }
-function menuCheckPhone(_phone) {
+function menuCheckPhone(_phone, _clearContent = false, _clearMenu = true) {
     if (!(_phone instanceof Phone))
         _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
     if (!(_phone instanceof Phone))
         return undefined;
 
+    Title.clear();
+    Title.set(
+        "Text Messages", 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
     if (usePopups) {
 
     }
     else {
+        if (_clearContent)
+            Content.add("<p>You check your phone for text messages.</p>");
+
         Menu.clear();
         Menu.addOption("_menuCheckPhoneReceivedMessages({0})".format(_phone.id), "Received Messages");
         Menu.addOption("_menuCheckPhoneReadMessages({0})".format(_phone.id), "Read Messages");
@@ -1462,6 +1473,14 @@ function menuCheckPhone(_phone) {
 function _menuCheckPhoneReceivedMessages(_phone) {
     lastMenu = "_menuCheckPhoneReceivedMessages({0})".format(_phone.id);
 
+    Title.clear();
+    Title.set(
+        "Received Messages", 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
     Menu.clear();
     _phone.receivedMessages.forEach(function(_textMessage) {
         Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
@@ -1472,7 +1491,15 @@ function _menuCheckPhoneReceivedMessages(_phone) {
 }
 function _menuCheckPhoneReadMessages(_phone) {
     lastMenu = "_menuCheckPhoneReadMessages({0})".format(_phone.id);
-    
+
+    Title.clear();
+    Title.set(
+        "Read Messages", 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
     Menu.clear();
     _phone.readMessages.forEach(function(_textMessage) {
         Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
@@ -1483,7 +1510,15 @@ function _menuCheckPhoneReadMessages(_phone) {
 }
 function _menuCheckPhoneSentMessages(_phone) {
     lastMenu = "_menuCheckPhoneSentMessages({0})".format(_phone.id);
-    
+
+    Title.clear();
+    Title.set(
+        "Sent Messages", 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
     Menu.clear();
     _phone.sentMessages.forEach(function(_textMessage) {
         Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
