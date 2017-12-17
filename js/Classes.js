@@ -1798,9 +1798,9 @@ class Character extends Entity {
 
     setManaMax(_int) {
         if (isNaN(_int))
-            _int = 1;
-        else if (_int < 1)
-            _int = 1;
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
         else if (_int > 100)
             _int = 100;
 
@@ -5383,7 +5383,7 @@ class Phone extends Item {
         _fromPhone.sentMessages.set(_textMessage.id, _textMessage);
     }
 
-    sendMessage(_toPhone, _message) {
+    sendMessage(_toPhone, _message, _time = undefined) {
         if (!(_toPhone instanceof Phone)) {
             if (phonesIndexes.has(_toPhone))
                 _toPhone = phonesIndexes.get(_toPhone);
@@ -5404,7 +5404,7 @@ class Phone extends Item {
                 return undefined;
         }
 
-        var _textMessage = new TextMessage(this, _toPhone, _message);
+        var _textMessage = new TextMessage(this, _toPhone, _message, _time);
         _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
         this.sentMessages.set(_textMessage.id, _textMessage);
 
@@ -5429,10 +5429,10 @@ class TextMessage {
      * Create new TextMessage
      * @param  {Phone} _fromPhone Source
      * @param  {Phone} _toPhone   Destination
-     * @param  {DateTime} _time      DateTime of message
      * @param  {String} _message   Text message, can be HTML
+     * @param  {String} _time      Optional Time (YYYY-MM-DD HH:mm:SS)
      */
-    constructor(_fromPhone, _toPhone, _message = "") {
+    constructor(_fromPhone, _toPhone, _message = "", _time = undefined) {
         if (!(_fromPhone instanceof Phone))
             _fromPhone = phonesIndexes.has(_fromPhone) ? phonesIndexes.get(_fromPhone) : undefined;
         if (!(_toPhone instanceof Phone))
@@ -5444,7 +5444,7 @@ class TextMessage {
         this.id = "{0}{1}{2}".format(_fromPhone.id, _toPhone.id, textMessageIndexes.size);
         this.from = _fromPhone.owner.name;
         this.to = _toPhone.owner.name;
-        this.time = currentTime.toUTCString();
+        this.time = _time == undefined ? "{0}/{1}/{2} {3}:{4}:{5}".format(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds()) : _time;
         this.message = _message;
 
         textMessageIndexes.set(this.id, this);
