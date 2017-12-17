@@ -5356,6 +5356,33 @@ class Phone extends Item {
         phonesIndexes.set(_id, this);
     }
 
+    newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
+        if (!(_fromPhone instanceof Phone)) {
+            if (phonesIndexes.has(_fromPhone))
+                _fromPhone = phonesIndexes.get(_fromPhone);
+            else if (_fromPhone instanceof Character) {
+                if (_fromPhone.hasPhone)
+                    _fromPhone = _fromPhone.phone;
+                else
+                    return undefined;
+            }
+            else if (charactersIndexes.has(_fromPhone)) {
+                _fromPhone = charactersIndexes.get(_fromPhone);
+                if (_fromPhone.hasPhone)
+                    _fromPhone = _fromPhone.phone;
+                else
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        var _textMessage = new TextMessage(_fromPhone, this, _message);
+        _textMessage.time = _time;
+        this.readMessages.set(_textMessage.id, _textMessage);
+        _fromPhone.sentMessages.set(_textMessage.id, _textMessage);
+    }
+
     sendMessage(_toPhone, _message) {
         if (!(_toPhone instanceof Phone)) {
             if (phonesIndexes.has(_toPhone))

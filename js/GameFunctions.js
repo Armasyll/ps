@@ -1484,6 +1484,13 @@ function _menuCheckPhoneReadMessages(_phone) {
 function _menuCheckPhoneSentMessages(_phone) {
     lastMenu = "_menuCheckPhoneSentMessages({0})".format(_phone.id);
     
+    Menu.clear();
+    _phone.sentMessages.forEach(function(_textMessage) {
+        Menu.addOption("_menuCheckPhoneDumpMessage({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
+    });
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "menuCheckPhone({0})".format(_phone.id), "Check Phone");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
 }
 function _menuCheckPhoneDumpMessage(_phone, _textMessage) {
     if (!(_phone instanceof Phone))
@@ -1494,7 +1501,7 @@ function _menuCheckPhoneDumpMessage(_phone, _textMessage) {
         return undefined;
 
     _phone.readMessage(_textMessage);
-    Content.add("<blockquote class='small'><div class=''>{0} > {1}</div><p>{2}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.message));
+    Content.add("<blockquote class='small'><div>{0}</div><div>From: {1}</div><div>To: {2}</div><p>{3}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.to, _textMessage.message));
 
     runLastMenu();
 }
