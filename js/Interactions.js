@@ -319,7 +319,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
             Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
 
             _furniture.availableActions.forEach(function(_action) {
-                if (actionTypes.has(_action)) {
+                if (kActionTypes.has(_action)) {
                     switch(_action) {
                         case "use" : {
                             if (_furniture.type == "mirror" && player.mana > 0)
@@ -562,7 +562,7 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     _item.availableActions.forEach(function(_action) {
-        if (actionTypes.has(_action)) {
+        if (kActionTypes.has(_action)) {
             switch(_action) {
                 case "use" : {
                     !(_item instanceof Clothing) && Menu.addOption("itemInteractUse({0}, {1})".format(this.id, _entity.id), "Use {0}".format(this.name));

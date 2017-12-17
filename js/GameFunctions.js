@@ -1068,7 +1068,7 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
     if (typeof _action != "undefined")
-        _action = actionTypes.has(_action) ? _action : "lay";
+        _action = kActionTypes.has(_action) ? _action : "lay";
     
     if (_characterA.furniture instanceof Furniture) {
         if (_characterA.furniture != _furniture && _furniture instanceof Furniture)
@@ -1127,7 +1127,7 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
     if (typeof _action != "undefined")
-        _action = actionTypes.has(_action) ? _action : "lay";
+        _action = kActionTypes.has(_action) ? _action : "lay";
     
     if (_character.furniture instanceof Furniture) {
         if (_character.furniture != _furniture && _furniture instanceof Furniture)

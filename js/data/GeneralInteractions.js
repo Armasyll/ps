@@ -228,7 +228,7 @@ function rosieGiveCharlieHeartNightmare() {
 function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
 
-    if (player.sex == 0)
+    if (player.sex == 0 && player.lust > 75)
         Content.add("<div class='small'>Also, you have an erection.</div>");
 }
 function remmyApartmentBathroomWaterbucket(_event = undefined) {

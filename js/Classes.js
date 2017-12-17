@@ -890,6 +890,7 @@ class Entity {
             this.description = _description;
 
             this.availableActions = new Set();
+            this.specialTypes = new Set();
 
             this.addAction(_actions);
             this.addAction("look");
@@ -1009,15 +1010,40 @@ class Entity {
             return false;
         else if (_actions instanceof Array) {
             _actions.forEach(function(_action) {
-                actionTypes.has(_action) && this.availableActions.add(_action);
+                kActionTypes.has(_action) && this.availableActions.add(_action);
             }, this);
             return true;
         }
-        else if (actionTypes.has(_actions)) {
+        else if (kActionTypes.has(_actions)) {
             this.availableActions.add(_actions);
             return true;
         }
         return false;
+    }
+
+    addSpecialType(_specialTypes) {
+        if (typeof _specialTypes == 'undefined')
+            return false;
+        else if (_specialTypes instanceof Array) {
+            _specialTypes.forEach(function(_specialType) {
+                kSpecialTypes.has(_specialType) && this.specialTypes.add(_specialType);
+            }, this);
+            return true;
+        }
+        else if (kSpecialTypes.has(_specialTypes)) {
+            this.specialTypes.add(_specialTypes);
+            return true;
+        }
+        return false;
+    }
+    getSpecialTypes() {
+        return this._specialTypes;
+    }
+    hasSpecialType(_specialType) {
+        if (kSpecialTypes.has(_specialType))
+            return this.specialTypes.has(_specialType);
+        else
+            return false;
     }
 
     toString() {
@@ -2665,7 +2691,7 @@ class Character extends Entity {
         return this.clothing.get("shoes");
     }
     getClothing(_type) {
-        if (clothingTypes.has(_type))
+        if (kClothingTypes.has(_type))
             return this.clothing.get(_clothing.type);
         else
             return undefined;
@@ -2675,10 +2701,10 @@ class Character extends Entity {
     }
 
     addCurrentAction(_actionType) {
-        actionTypes.has(_actionType) && this.currentActions.add(_actionType);
+        kActionTypes.has(_actionType) && this.currentActions.add(_actionType);
     }
     removeCurrentAction(_actionType) {
-        actionTypes.has(_actionType) && this.currentActions.delete(_actionType);
+        kActionTypes.has(_actionType) && this.currentActions.delete(_actionType);
     }
     hasCurrentAction(_actionType) {
         return this.currentActions.has(_actionType);
@@ -2862,7 +2888,7 @@ class Character extends Entity {
             _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-            if (clothingTypes.has(_clothing.type))
+            if (kClothingTypes.has(_clothing.type))
                 return this.clothing.get(_clothing.type) == _clothing;
         }
     }
@@ -2873,14 +2899,14 @@ class Character extends Entity {
         if (_clothing instanceof Clothing) {
 	        this.items.add(_clothing);
 
-	        if (clothingTypes.has(_clothing.type)) {
+	        if (kClothingTypes.has(_clothing.type)) {
 	            this.clothing.set(_clothing.type, _clothing);
 	            return true;
 	        }
 	        return false;
         }
         else {
-        	if (clothingTypes.has(_type)) {
+        	if (kClothingTypes.has(_type)) {
         		this.takeOff(_type);
         		return true;
         	}
@@ -2893,10 +2919,10 @@ class Character extends Entity {
             _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
 
         if (_clothing instanceof Clothing) {
-            if (clothingTypes.has(_clothing.type))
+            if (kClothingTypes.has(_clothing.type))
                 this.clothing.set(_clothing.type, undefined);
         }
-        else if (clothingTypes.has(_clothing))
+        else if (kClothingTypes.has(_clothing))
         	this.clothing.set(_clothing, undefined);
     }
 
@@ -2986,21 +3012,21 @@ class Character extends Entity {
             return "hooves";
     }
     setHand(_type) {
-        if (handTypes.has(_type))
+        if (kHandTypes.has(_type))
             this.handType = _type;
         else
             this.handType = "pad";
     }
 
     setFeet(_type) {
-        if (feetTypes.has(_type))
+        if (kFeetTypes.has(_type))
             this.feetType = _type;
         else
             this.feetType = "pad";
     }
 
     setEyes(_type) {
-        if (eyeTypes.has(_type))
+        if (kEyeTypes.has(_type))
             this.eyeType = _type;
         else
             this.eyeType = "circle";
@@ -3011,7 +3037,7 @@ class Character extends Entity {
     }
 
     setFur(_type) {
-        if (peltTypes.has(_type))
+        if (kPeltTypes.has(_type))
             this.peltType = _type;
         else
             this.peltType = "fur";
@@ -3033,7 +3059,7 @@ class Character extends Entity {
     }
 
     setSpecies(_species) {
-        if (speciesTypes.has(_species))
+        if (kSpeciesTypes.has(_species))
             this.species = _species;
         else
             this.species = "fox";
@@ -3414,7 +3440,7 @@ class Character extends Entity {
     }
 
     addPreferredSpecies(_species) {
-        if (speciesTypes.has(_species)) {
+        if (kSpeciesTypes.has(_species)) {
             _species = _species;
             this.prefersSpecies.add(_species);
         }
@@ -3424,7 +3450,7 @@ class Character extends Entity {
     }
 
     addAvoidedSpecies(_species) {
-        if (speciesTypes.has(_species)) {
+        if (kSpeciesTypes.has(_species)) {
             _species = _species;
             this.avoidsSpecies.add(_species);
         }
@@ -4192,7 +4218,7 @@ class Room {
     }
 
     setType(_type) {
-        if (roomTypes.has(_type))
+        if (kRoomTypes.has(_type))
         	this.type = _type;
         else
         	this.type = "hallway";
@@ -5101,7 +5127,7 @@ class Clothing extends Item {
     }
 
     setType(_type) {
-        if (clothingTypes.has(_type))
+        if (kClothingTypes.has(_type))
         	this.type = _type;
         else
         	this.type = "shirt";
@@ -5144,7 +5170,7 @@ class Consumable extends Item {
     }
 
     setType(_type) {
-        if (consumableTypes.has(_type))
+        if (kConsumableTypes.has(_type))
             this.type = _type;
         else
             this.type = "food";
@@ -5254,7 +5280,7 @@ class Furniture extends Entity {
     }
 
     setType(_type) {
-        if (furnitureTypes.has(_type))
+        if (kFurnitureTypes.has(_type))
         	this.type = _type;
         else
         	this.type = "chair";
