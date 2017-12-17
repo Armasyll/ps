@@ -1049,6 +1049,12 @@ class Entity {
     hasItem(_item) {
         return this.containsItem(_item);
     }
+    getItems() {
+        return this.items;
+    }
+    getNumberOfItems() {
+        return this.items.length;
+    }
 
     toString() {
         var _blob = "";

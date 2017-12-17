@@ -176,21 +176,17 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
             else
                 _blob += ("Looking through {0}'s pockets, you find ".format(_characterB.name));
 
-            if (_characterB.items.size == 1) {
-                _blob += ("a " + Array.from(_characterB.items)[0].toString() + ".");
+            if (_characterB.getNumberOfItems() == 1) {
+                _blob += ("a " + _characterB.items[0].toString() + ".");
             }
-            else if (_characterB.items.size == 2) {
+            else if (_characterB.getNumberOfItems() == 2) {
                 _characterB.items.forEach(function(_item) {
                     _blob += (_item.toString() + ".");
                 });
             }
             else {
                 // Lazy
-                _arr = [];
-
-                _characterB.items.forEach(function(_item) {
-                    _arr.push(_item.toString());
-                });
+                var _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
                     _blob += (_arr[i]);
@@ -299,7 +295,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
     lastMenu = "furnitureInteract({0},false,true)".format(_furniture.id);
 
     if (player.furniture != _furniture)
-        Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(_furniture.type, (_furniture.items.size == 0 ? "no items" : (_furniture.items.size == 1 ? "an item" : "a few items"))));
+        Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(_furniture.type, (_furniture.getNumberOfItems() == 0 ? "no items" : (_furniture.getNumberOfItems() == 1 ? "an item" : "a few items"))));
 
     Title.set(
         _furniture.name,
@@ -316,7 +312,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
             Menu.clear();
             Menu.setOption((Menu.useWideMenu ? 9 : 7), "roomInteract({0}, false, false)".format(player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-            Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.items.size > 0 ? "There are items inside" : ""));
+            Menu.addOption("furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.getNumberOfItems() > 0 ? "There are items inside" : ""));
 
             _furniture.availableActions.forEach(function(_action) {
                 if (kActionTypes.has(_action)) {
@@ -380,21 +376,17 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
             var _blob = "";
             _blob += ("Looking through the {0}, you find ".format(_characterB.toString()));
 
-            if (_characterB.items.size == 1) {
-                _blob += ("a " + Array.from(_characterB.items)[0].toString() + ".");
+            if (_characterB.getNumberOfItems() == 1) {
+                _blob += ("a " + _characterB.items[0].toString() + ".");
             }
-            else if (_characterB.items.size == 2) {
+            else if (_characterB.getNumberOfItems() == 2) {
                 _characterB.items.forEach(function(_item) {
                     _blob += (_item.toString() + ".");
                 });
             }
             else {
                 // Lazy
-                _arr = [];
-
-                _characterB.items.forEach(function(_item) {
-                    _arr.push(_item.toString());
-                });
+                _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
                     _blob += (_arr[i]);
