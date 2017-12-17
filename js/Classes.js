@@ -907,7 +907,7 @@ class Entity {
             else
                 this.cell = undefined;
 
-            this.items = new Set();
+            this.items = new Array();
         }
         
         entityIndexes.set(this.id, this);
@@ -963,47 +963,6 @@ class Entity {
         
         return JSON.stringify(_blob, function(k, v) { return (v === undefined ? null : v)});
     }
-    
-    addItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
-        this.items.add(_item);
-        if (_item instanceof Phone && _item.owner == this) {
-            this.hasPhone = true;
-            this.phone = _item;
-        }
-        
-        return true;
-    }
-    removeItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
-        if (this instanceof Character && this.wearing(_item))
-            this.takeOff(_item);
-        
-        this.items.delete(_item);
-    }
-
-    containsItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
-        return this.items.has(_item);
-    }
-    hasItem(_item) {
-        return this.containsItem(_item);
-    }
 
     addAction(_actions) {
         if (typeof _actions == 'undefined')
@@ -1044,6 +1003,51 @@ class Entity {
             return this.specialTypes.has(_specialType);
         else
             return false;
+    }
+
+    addItem(_item) {
+        if (!(_item instanceof Item))
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
+
+        this.items.push(_item);
+        if (_item instanceof Phone && _item.owner == this) {
+            this.hasPhone = true;
+            this.phone = _item;
+        }
+        
+        return true;
+    }
+    removeItem(_item) {
+        if (!(_item instanceof Item))
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
+
+        if (!this.containsItem(_item))
+            return true;
+
+        if (this instanceof Character && this.wearing(_item))
+            this.takeOff(_item);
+        
+        this.items.splice(this.items.indexOf(_item), 1);
+        return true;
+    }
+
+    containsItem(_item) {
+        if (!(_item instanceof Item))
+            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+
+        if (!(_item instanceof Item))
+            return undefined;
+
+        return this.items.indexOf(_item) >= 0;
+    }
+    hasItem(_item) {
+        return this.containsItem(_item);
     }
 
     toString() {
@@ -2897,7 +2901,8 @@ class Character extends Entity {
             _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-	        this.items.add(_clothing);
+            if (!this.containsItem(_clothing))
+	           this.addItem(_clothing);
 
 	        if (kClothingTypes.has(_clothing.type)) {
 	            this.clothing.set(_clothing.type, _clothing);

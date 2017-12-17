@@ -159,47 +159,9 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
     }
     
     if (typeof _fromEntity == 'undefined' || _fromEntity.containsItem(_item)) {
-        if (typeof _fromEntity != 'undefined') {
-            _fromEntity.removeItem(_item);
-            if (debug) console.log("Checking for item removal events");
-            eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
-                    if (_fromEntity == player || _toEntity == player) {
-                        hideModals();
-                        _eventRun = true;
-                    }
-                    
-                    _event.execute();
-                }
-            }, this);
-        }
-        
-        if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
-            if (debug) console.log("Checking for item given events");
-            eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
-                    if (_fromEntity == player || _toEntity == player) {
-                        hideModals();
-                        _eventRun = true;
-                    }
-                    
-                    _event.execute();
-                }
-            }, this);
-            
-            _toEntity.addItem(_item);
-            if (debug) console.log("Checking for item taken events");
-            eventsIndexes.forEach(function(_event) {
-                if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
-                    if (_fromEntity == player || _toEntity == player) {
-                        hideModals();
-                        _eventRun = true;
-                    }
-                    
-                    _event.execute();
-                }
-            }, this);
-        }
+        _eventRun = _executeItemRemoveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
+        _eventRun = _executeItemGiveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
+        _eventRun = _executeItemTakeEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
     }
     else
         return undefined;
@@ -213,7 +175,59 @@ function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = 
     }
     else
         return false;
-    
+}
+function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
+    var _eventRun = false;
+    if (typeof _fromEntity != 'undefined') {
+        _fromEntity.removeItem(_item);
+        if (debug) console.log("Checking for item removal events");
+        eventsIndexes.forEach(function(_event) {
+            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
+                if (_fromEntity == player || _toEntity == player) {
+                    hideModals();
+                    _eventRun = true;
+                }
+                
+                _event.execute();
+            }
+        }, this);
+    }
+    return _eventRun;
+}
+function _executeItemGiveEvents(_item, _fromEntity, _toEntity) {
+    var _eventRun = false;
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
+        if (debug) console.log("Checking for item given events");
+        eventsIndexes.forEach(function(_event) {
+            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
+                if (_fromEntity == player || _toEntity == player) {
+                    hideModals();
+                    _eventRun = true;
+                }
+                
+                _event.execute();
+            }
+        }, this);
+    }
+    return _eventRun;
+}
+function _executeItemTakeEvents(_item, _fromEntity, _toEntity) {
+    var _eventRun = false;
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
+        _toEntity.addItem(_item);
+        if (debug) console.log("Checking for item taken events");
+        eventsIndexes.forEach(function(_event) {
+            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
+                if (_fromEntity == player || _toEntity == player) {
+                    hideModals();
+                    _eventRun = true;
+                }
+                
+                _event.execute();
+            }
+        }, this);
+    }
+    return _eventRun;
 }
 
 /**
@@ -1184,7 +1198,7 @@ function characterTakeOver(_characterA, _characterB) {
     
     var arr = new Map();
     
-    arr.set('items', Array.from(_characterA.items).concat(Array.from(_characterB.items)));
+    arr.set('items', _characterA.items.concat(_characterB.items));
     
     arr.set('id', _characterA.id);
 
@@ -1242,7 +1256,7 @@ function characterTakeOver(_characterA, _characterB) {
     }, this);
     
     _characterA.name = '<i>{0}</i>'.format(_characterB.name);
-    _characterA.items = new Set(arr.get('items'));
+    _characterA.items = arr.get('items');
     
     charactersIndexes.forEach(function(_character) {
         if (_character != player && _character != _characterA && _character != _characterB) {

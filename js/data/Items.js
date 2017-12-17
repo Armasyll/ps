@@ -7,9 +7,17 @@ playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "Lewdy Hopp
 playBuck2017July = new Item("playBuck2017July", "Playbuck Magazine Issue 943", "Becky Wilde goes wilde with these simple techniques!", "images/items/playBuck2017July.svg");
 doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.");
 charlieBeatingHeart = new Item("charlieBeatingHeart", "Charlie's Heart", "The vixen's still-beating heart thrums at a quick pace. It shifts around unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieBeatingHeart.svg");
+	charlieBeatingHeart.addSpecialType(["magic", "living"]);
 charlieLeftEye = new Item("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieLeftEye.svg");
+	charlieLeftEye.addSpecialType(["mirror", "magic", "living"]);
 charliePalmMirror = new Item("charliePalmMirror", "Small mirror", "A small palm mirror.");
-bowlEmpty = new Item("bowlEmpty", "Empty Bowl", "An empty bowl.");
+	charliePalmMirror.addSpecialType("mirror");
+woodenBowlEmpty = new Item("woodenBowlEmpty", "Empty Bowl", "An empty bowl.");
+	woodenBowlEmpty.addSpecialType(["wood", "container"]);
+roseLiving = new Item("roseLiving", "Rose", "A single rose.");
+	roseLiving.addSpecialType(["living", "water", "earth"]);
+roseDead = new Item("roseDead", "Dead Rose", "A dead rose.");
+	roseDead.addSpecialType(["dead", "earth"])
 
 // Clothing
 blouseBlue = new Clothing("blouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", "shirt");
@@ -40,13 +48,20 @@ pandorasBoxLocationKey = new Key("pandorasBoxLocationKey", "Key to Pandora's Box
 
 // Consumables
 bugBurgaDelux = new Consumable("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.", "food", "images/items/bugBurgaDelux.svg");
+	bugBurgaDelux.addSpecialType("dead");
 bugBurga = new Consumable("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.", "food", "images/items/bugBurga.svg");
+	bugBurga.addSpecialType("dead");
 bugBurgaDrank = new Consumable("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.", "drink", "images/items/bugBurgaDrank.svg");
+	bugBurgaDrank.addSpecialType(["container", "water", "mirror"]);
 tinOfGrease = new Consumable("tinOfGrease", "Tin of Grease", "A tin of food-safe grease.", "food");
-bowlWater = new Consumable("bowlWater", "Bowl of Water", "A bowl filled with water.", "drink");
-bowlRainbowRocks = new Consumable("bowlRainbowRocks", "Bowl of Cereal", "A bowl filled with cereal.", "food");
-bowlBeetleBreakfast = new Consumable("bowlBeetleBreakfast", "Bowl of Beetle Breakfast", "A bowl filled with juicy beetles.", "food");
+	tinOfGrease.addSpecialType(["metal"]);
+woodenBowlWater = new Consumable("woodenBowlWater", "Bowl of Water", "A bowl filled with water.", "drink");
+	woodenBowlWater.addSpecialType(["wood", "container", "water", "mirror"]);
+woodenBowlRainbowRocks = new Consumable("woodenBowlRainbowRocks", "Bowl of Cereal", "A bowl filled with cereal.", "food");
+woodenBowlBeetleBreakfast = new Consumable("woodenBowlBeetleBreakfast", "Bowl of Beetle Breakfast", "A bowl filled with juicy beetles.", "food");
+	woodenBowlBeetleBreakfast.addSpecialType(["wood", "container", "dead"]);
 redRocketPopsicle = new Consumable("redRocketPopsicle", "Red Rocket Popsicle", "A rich, cherry-flavoured popsicle with a creamy center, that you can barely fit in your mouth.", "food");
+	redRocketPopsicle.addSpecialType("water");
 
 // Phones
 remmyPhone = new Phone("remmyPhone", "Carrot Phone 6S", "Carrot Phone 6S smartphone designed, developed, and marketed by Carrot Inc.", remmy);
