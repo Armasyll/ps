@@ -33,6 +33,9 @@ anneke.addSexWith(charlie);
 anneke.addSexWith(ozzy);
 anneke.addSexWith(wolter);
 anneke.addSexWith(nick);
+anneke.dated(nick, 1);
+anneke.dated(ozzy, 1);
+anneke.dated(wolter, 1);
 
 avo.setEyeColour("dark blue");
 avo.setFurColour("black");
@@ -44,6 +47,10 @@ avo.addPreferredSpecies("wolf");
 avo.addSexWith(betty);
 avo.addSexWith(wolter);
 avo.addSexWith(nick);
+avo.dated(ozzy, 1);
+avo.dated(marty, 1);
+avo.dated(nick, 1);
+avo.dated(wolter, 3);
 
 betty.image = "images/characters/Betty.png";
 betty.setEyeColour("yellow");
@@ -64,6 +71,7 @@ betty.setCharacterDisposition(velvet,    new Disposition(20, 80, 95, 50, 0));
 betty.setCharacterDisposition(wolter,    new Disposition(10, 75, 75, 0, 50));
 betty.addPreferredSpecies("sheep");
 betty.addPreferredSpecies("wolf");
+betty.dated(velvet, 1);
 
 charlie.image = "images/characters/Charlie.svg";
 charlie.setEyes("slit");
@@ -89,6 +97,10 @@ charlie.setCharacterDisposition(velvet,  new Disposition(0, 50, 75, 0, 0, 0));
 charlie.addAvoidedSpecies("fox");
 charlie.addSexWith(wolter);
 charlie.addSexWith(nick);
+charlie.dated(ozzy, 1);
+charlie.dated(marty, 1);
+charlie.dated(nick, 1);
+charlie.dated(wolter, 2);
 
 cotton.image = "images/characters/Cotton.png";
 cotton.moveTo(limbo);
@@ -96,10 +108,12 @@ cotton.addPreferredSpecies("fox");
 cotton.addPreferredSpecies("rabbit");
 
 judy.addSexWith(nick);
+judy.date(nick);
 
 martina.image = "images/characters/Martina.svg";
 martina.moveTo(chartyApartmentBedroomMarty);
 martina.addSexWith(ozzy, true);
+martina.dated(ozzy, 1);
 
 marty.image = "images/characters/Marty.svg";
 marty.moveTo(chartyApartmentBedroomMarty);
@@ -133,6 +147,8 @@ pandora.setCharacterDisposition(charlie, 25, 50, 50, 0, 25, 0);
 pandora.addPreferredSpecies("tiger");
 pandora.addPreferredSpecies("wolf");
 pandora.addSexWith(nick);
+pandora.dated(nick, 1);
+pandora.dated(remmy, 1, false);
 
 remmy.image = "images/characters/RemmySheared.svg";
 remmy.setEyes("rectangle");
@@ -174,6 +190,7 @@ velvet.setCharacterDisposition(al,       new Disposition(100, 100, 100, 100, 100
 velvet.addPreferredSpecies("deer");
 velvet.addPreferredSpecies("hyena");
 velvet.addPreferredSpecies("wolf");
+velvet.dated(al, 2);
 
 weaver.setEyeColour("red");
 weaver.image = "images/characters/RedWeaver.png";
@@ -207,6 +224,7 @@ rosie.wear(pantsPatchy);
 wolter.wear(blouseBlue);
 wolter.wear(pantiesBlue);
 
+// Assign Items to Characters
 al.addItem(alApartmentLocationKey);
 anneke.addItem(twinsApartmentLocationKey);
 avo.addItem(pandorasBoxLocationKey);
@@ -227,9 +245,11 @@ remmy.addItem(remmyApartmentLocationKey);
 velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 
+// Assign Phones to Characters
 remmy.addItem(remmyPhone);
 wolter.addItem(wolterPhone);
 
+// Make the Characters do something
 characterSleep(anneke, twinsApartmentBedroomAnnekeBed);
 characterSleep(wolter, remmyApartmentLivingroomCouch);
 characterSit(charlie, remmyApartmentLivingroomCouch);

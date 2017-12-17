@@ -1396,6 +1396,9 @@ class Character extends Entity {
 
         this.characterDisposition = new Map(); // Map<Character, Disposition>
         
+        this._dating = new Set();
+        this._dated = new Map();
+
         this.prefersSpecies = new Set(); // Set<species>
         this.avoidsSpecies = new Set(); // Set<species>
 
@@ -1507,6 +1510,15 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["followers"];
+        //  dating
+        try {
+            _tmpArr = JSON.parse(json["dating"]);
+            _tmpArr.forEach(function(_character) {
+                if (charactersIndexes.has(_character))
+                    this.date(charactersIndexes.get(_character));
+            }, this);
+        } catch (e) {}
+        delete json["dating"];
         //  items
         try {
             _tmpArr = JSON.parse(json["items"]);
@@ -1601,6 +1613,21 @@ class Character extends Entity {
             console.log(e);
         }
         delete json["clothing"];
+        //  dated
+        try {
+            _tmpArr = JSON.parse(json["dated"]);
+            _tmpArr.forEach(function(_int, _character) {
+                if (charactersIndexes.has(_character)) {
+                    _int = Number.parseInt(_int);
+                    this._dated.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                }
+                else
+                    return undefined;
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["dated"];
         
         // Entities
         this.defaultDisposition.fromObject(json["defaultDisposition"]);
@@ -2472,6 +2499,87 @@ class Character extends Entity {
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
         return this.characterDisposition.has(_character);
+    }
+
+    date(_character, _updateChild = true) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character == undefined)
+            return undefined;
+
+        this._dating.add(_character);
+        if (this._dated.has(_character))
+            this._dated.set(_character, this._dated.get(_character) + 1);
+        else
+            this._dated.set(_character, 1);
+
+        if (_updateChild)
+            _character.date(this, false);
+
+        return true;
+    }
+    dated(_character, _int = 0, _updateChild = true) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _int = Number.parseInt(_int);
+        if (isNaN(_int) || _int < 0)
+            _int = 0;
+        if (_character == undefined)
+            return undefined;
+
+        this._dated.set(_character, _int);
+        if (_updateChild)
+            _character.dated(this, _int, false);
+    }
+    isDating(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character == undefined)
+            return undefined;
+
+        return this._dating.has(_character);
+    }
+    hasDated(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character == undefined)
+            return undefined;
+
+        return this._dated.has(_character);
+    }
+    getCurrentDates() {
+        return this._dating;
+    }
+    getPreviousDates() {
+        return this._dated;
+    }
+    getNumberOfDates(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character == undefined)
+            return undefined;
+
+        if (this.hasDated(_character))
+            return this._dated.get(_character);
+        else
+            return 0;
+    }
+    dump(_character, _updateChild = true) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (_character == undefined)
+            return undefined;
+
+        if (this.isDating(_character)) {
+            this._dating.remove(_character);
+            _character.dump(this, false);
+            return true;
+        }
+        else
+            return false;
+    }
+    breakUp(_character) {
+        return this.dump(_character);
     }
 
     hasColouration() {
