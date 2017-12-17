@@ -117,7 +117,7 @@ function localCharactersMenu() {
     Menu.clear();
     for (var [_characterID, _character] of player.room.characters.entries()) {
         if (_character != player)
-            Menu.addOption("characterInteract(" + _character.id + ")", _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
+            Menu.addOption("characterInteract({0})".format(_character.id), _character.name, "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()));
     }
     
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");

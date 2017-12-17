@@ -66,6 +66,14 @@ img {
 	background-border: #4d2863;
 	color:white;
 }
+.alert-mana {
+	color: #4d2863;
+	background-color: #dab7eb;
+	border-color: #dab7eb;
+}
+.text-mana {
+	color: #4d2863;
+}
 .btn-info-flicker {
 	-webkit-animation: glowing 1500ms infinite;
 	-moz-animation: glowing 1500ms infinite;
