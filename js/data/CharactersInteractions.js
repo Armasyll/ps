@@ -1,28 +1,23 @@
 function avoInteract() {
     _character = avo;
     
-    if (player.hasItem(avoBeatingHeart)) {
-        avoInteractWhenPlayerHasHeart();
-    }
-    
-    if (enableGore && enableRape)
-        Menu.addOption("avoEatAvo()", "Murder and eat Avo");
+    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
 }
 function avoTalk() {
     _character = avo;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
+    unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
 function avoRape() {
     _character = avo;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Rape()");
+    unsafeExec("{0}{1}Rape()".format(player.room.sid, _character.id.capitalize()));
 }
 function avoSex() {
     _character = avo;
     
     if (chanceToFuck(player, _character) > 50 || player.hasItem(avoBeatingHeart)) {
-        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+        unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
     }
     else {
         Content.add("No thank you.");
@@ -60,22 +55,24 @@ function charlieInteract() {
     
     if (enableGore && enableRape)
         Menu.addOption("charlieEatCharlie()", "Murder and eat Charlie");
+
+    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
 }
 function charlieTalk() {
     _character = charlie;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
+    unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
 function charlieRape() {
     _character = charlie;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Rape()");
+    unsafeExec("{0}{1}Rape()".format(player.room.sid, _character.id.capitalize()));
 }
 function charlieSex() {
     _character = charlie;
     
     if (chanceToFuck(player, _character) > 50 || player.hasItem(charlieBeatingHeart)) {
-        unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+        unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
     }
     else {
         Content.add("No thank you.");
@@ -105,10 +102,15 @@ function charlieStay() {
     characterInteract(_character, false);
 }
 
+function remmyInteract() {
+    _character = remmy;
+    
+    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+}
 function remmyTalk() {
     _character = remmy;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
+    unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
 function remmySex() {
     _character = remmy;
@@ -116,7 +118,7 @@ function remmySex() {
     if (player == remmy)
         Content.add("Now neither of you will be virgins!");
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+    unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
 }
 function remmyFollow() {
     _character = remmy;
@@ -135,6 +137,8 @@ function remmyFollow() {
 
 function rosieInteract() {
     _character = rosie;
+
+    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
 }
 function rosieTalk() {
     _character = rosie;
@@ -168,10 +172,20 @@ function rosieFollow() {
     characterInteract(_character, false);
 }
 
+function wolterInteract() {
+    _character = wolter;
+
+    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+}
 function wolterTalk() {
     _character = wolter;
     
-    unsafeExec(player.room.sid + _character.id.capitalize() + "Talk()");
+    unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
+}
+function wolterRape() {
+    _character = wolter;
+    
+    unsafeExec("{0}{1}Rape()".format(player.room.sid, _character.id.capitalize()));
 }
 function wolterSex() {
     _character = wolter;
@@ -184,7 +198,7 @@ function wolterSex() {
                 unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
             }
             else {
-                unsafeExec(player.room.sid + _character.id.capitalize() + "Sex()");
+                unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
             }
         }
         else { // If character isn't interested
@@ -251,4 +265,7 @@ function wolterFollow() {
     }
     
     characterInteract(_character, false);
+}
+function wolterHug() {
+    
 }

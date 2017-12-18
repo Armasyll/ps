@@ -377,12 +377,10 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
             _blob += ("Looking through the {0}, you find ".format(_characterB.toString()));
 
             if (_characterB.getNumberOfItems() == 1) {
-                _blob += ("a " + _characterB.items[0].toString() + ".");
+                _blob += "a {0} {1}.".format((_characterB.items[0].plural ? "set of" : ""), _characterB.items[0].toString());
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _characterB.items.forEach(function(_item) {
-                    _blob += (_item.toString() + ".");
-                });
+                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].plural ? "set of " : ""), _characterB.items[0].toString(), (_characterB.items[1].plural ? "" : "a "), _characterB.items[1].toString());
             }
             else {
                 // Lazy

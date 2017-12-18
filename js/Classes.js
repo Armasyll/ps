@@ -1,12 +1,10 @@
 class Title {
     /**
      * Sets the titles
-     *
-     * @param _titleTopString
-     * @param _titleTopImg
-     * @param _titleMidString
-     * @param _titleBotString
-     *
+     * @param {String} _titleTopString
+     * @param {String} _titleTopImg Path to Image, or base64
+     * @param {String} _titleMidString
+     * @param {String} _titleBotString
      */
     static set(_titleTopString = "&nbsp;", _titleTopImg = undefined, _titleMidString = "&nbsp;", _titleBotString = "&nbsp;") {
         for (var _i = 0; _i < document.getElementsByClassName("locationTitleTopText").length; _i++) {
@@ -52,20 +50,35 @@ class Title {
     }
 }
 class Content {
+    /**
+     * Set's the HTML of the content container's body
+     * @param {String} $string HTML to be displayed in the content container's body
+     */
     static set($string) {
         document.getElementById("contentContainerBody").innerHTML = $string;
         $('a[data-toggle=tooltip]').tooltip();
     }
+    /**
+     * Appends the HTML of the content container's body
+     * @param {String} $string HTML to be appended in the content container's body
+     */
     static add($string) {
         document.getElementById("contentContainerBody").innerHTML += $string;
         $('a[data-toggle=tooltip]').tooltip();
     }
+    /**
+     * Clears the HTML of hte content container's body
+     */
     static clear() {
         document.getElementById("contentContainerBody").innerHTML = "";
     }
 }
 class Menu {
+    constructor() {
+        this.initialized = false;
+    }
     static initialize() {
+        this.initialized = true;
         this.options = [];
         this.showingBaseMenu = false;
         this.page = 1;
@@ -75,6 +88,9 @@ class Menu {
     }
 
     static clear() {
+        if (this.initialized !== true)
+            this.initialize();
+
         this.options = [];
         document.getElementById("choiceContainerBottom").innerHTML = "";
         this.generate();
@@ -83,6 +99,9 @@ class Menu {
     }
 
     static resetNumberOfOptions() {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (this.useWideMenu)
             this.numberOfOptions = 15;
         else
@@ -90,6 +109,9 @@ class Menu {
     }
 
     static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _softSet = true) {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (typeof $disabled != 'boolean')
             $disabled = false;
         if (typeof $invisible != 'boolean')
@@ -206,6 +228,9 @@ class Menu {
             return false;
     }
     static addOption($functionCall, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0, _btnClass = "") {
+        if (this.initialized !== true)
+            this.initialize();
+
         var i = 0;
         var _runCond = 1;
 
@@ -229,6 +254,9 @@ class Menu {
         return i;
     }
     static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
+        if (this.initialized !== true)
+            this.initialize();
+
         Menu.showingBaseMenu = true;
         Menu.page = 1;
 
@@ -305,6 +333,9 @@ class Menu {
         _room = undefined;
     }
     static generate(_page = 1) {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (!isNaN(_page) && !Menu.showingBaseMenu)
             Menu.page = _page;
 
@@ -374,6 +405,9 @@ class Menu {
         document.getElementById("choiceContainerBottom").innerHTML = _blob;
     }
     static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "") {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (typeof $functionCall == 'object') {
             $key = $title;
             $title = (typeof $functionCall[1] === 'undefined' ? $title : $functionCall[1]);
@@ -401,7 +435,11 @@ class Menu {
     }
 }
 class Minimap {
+    constructor() {
+        this.initialized = false;
+    }
     static initialize() {
+        this.initialized = true;
         this.mappedRooms = new Map();
         this.queuedMappedRooms = new Map();
 
@@ -419,10 +457,16 @@ class Minimap {
     }
 
     static clear() {
+        if (this.initialized !== true)
+            this.initialize();
+
         this.canvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     static generateMapFromStartRoom(_room) {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
@@ -440,6 +484,9 @@ class Minimap {
     }
 
     static generateMapFromRoom(_room) {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
@@ -520,6 +567,9 @@ class Minimap {
     }
 
     static generateRoom(xPos = 0, yPos = 0, north = 1, east = 1, south = 1, west = 1, currentRoom = false, _room) {
+        if (this.initialized !== true)
+            this.initialize();
+
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
@@ -849,6 +899,9 @@ class Minimap {
     }
 
     static drawFacade(xPos, yPos, facade) {
+        if (this.initialized !== true)
+            this.initialize();
+
         var originalX = (this.cWidth - this.baseSize)/2 + (xPos * this.baseSize);
         var originalY = (this.cHeight - this.baseSize)/2 + (yPos * this.baseSize);
 
@@ -2730,13 +2783,13 @@ class Character extends Entity {
             return "stand";
     }
     currentActionPresentParticiplePosition() {
-        if (this.currentActions.has("sleep"))
+        if (this.isSleeping())
             return "sleeping";
-        else if (this.currentActions.has("lay"))
+        else if (this.isLying())
             return "lying";
-        else if (this.currentActions.has("sit"))
+        else if (this.isSitting())
             return "sitting";
-        else if (this.currentActions.has("stand"))
+        else if (this.isStanding())
             return "standing";
     }
     currentActionPresentTensePosition() {
@@ -2888,6 +2941,34 @@ class Character extends Entity {
 
     isSleeping() {
         return this.hasCurrentAction("sleep");
+    }
+    isStanding() {
+        return this.hasCurrentAction("stand");
+    }
+    isLying() {
+        return this.hasCurrentAction("lay");
+    }
+    isSitting() {
+        return this.hasCurrentAction("sit");
+    }
+    isFucking() {
+        return this.hasCurrentAction("sex");
+    }
+    isMasturbating() {
+        return this.hasCurrentAction("masturbate");
+    }
+
+    isClothed() {
+        if (this.sex == 0)
+            return this.getPants() instanceof Clothing;
+        else
+            return (this.getShirt() instanceof Clothing && this.getPants() instanceof Clothing);
+    }
+    isNaked() {
+        if (this.isClothed())
+            return false;
+
+        return !(this.getUnderwear() instanceof Clothing);
     }
     
     wear(_clothing, _type = undefined) {
