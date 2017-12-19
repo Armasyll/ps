@@ -267,7 +267,10 @@ function setCharacterRoom(_character = player, _room) {
             }, this);
         }
         
-        characterStand(_character);
+        if (characterMovements.has(_character))
+            characterWalk(_character);
+        else
+            characterStand(_character);
         
         if (debug) console.log("Checking for room events.");
         eventsIndexes.forEach(function(_event) {
@@ -1014,7 +1017,10 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
     if (_characterA == _characterB)
         return;
     
-    characterStand(_characterB);
+    if (characterMovements.has(_characterA))
+        characterWalk(_characterB);
+    else
+        characterStand(_characterB);
     
     if (_characterA.following == _characterB) {
         _characterA.following = undefined;
@@ -1214,8 +1220,8 @@ function characterTakeOver(_characterA, _characterB) {
     arr.set('money', _characterA.money + _characterB.money);
 
     arr.set('virgin', _characterA.virgin);
-    arr.set('sexWithMale', _characterA.sexWithMale);
-    arr.set('sexWithFemale', _characterA.sexWithFemale);
+    arr.set('hadSexWithMale', _characterA.hadSexWithMale);
+    arr.set('hadSexWithFemale', _characterA.hadSexWithFemale);
 
     arr.set('sexCount', _characterA.sexCount);
     arr.set('characterSexCount', _characterA.characterSexCount);
