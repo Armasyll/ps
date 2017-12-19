@@ -137,6 +137,8 @@ function characterInteract(_character, _clearContent = true) {
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
+    Menu.addOption("characterInteractHug({0})".format(_character.id), "Hug");
+
     unsafeExec("{0}Interact()".format(_character.id));
 
     Menu.generate();
@@ -148,7 +150,7 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
     if (usePopups) {
         if (_character != player) {
             $("#dualInventoryTab-characterA").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
-            $("#dualInventoryTab-characterB").html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.name + (_character.name.slice(-1) == 's' ? "'" : "'s")));
+            $("#dualInventoryTab-characterB").html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.singularPossesiveName()));
             $("#dualInventoryContent-characterA").html(_generateEntityItemsGraphicalList(player, _character, true));
             $("#dualInventoryContent-characterB").html(_generateEntityItemsGraphicalList(_character, player, true));
             $("#dualInventoryModal").modal("show");
@@ -284,6 +286,18 @@ function characterInteractStay(_character) {
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
     unsafeExec("{0}Stay()".format(_character.id));
+
+    Menu.generate();
+}
+function characterInteractHug(_character) {
+    if (!(_character instanceof Character))
+        _character = characterIndexes.get(_character);
+
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+    unsafeExec("{0}Hug()".format(_character.id));
 
     Menu.generate();
 }

@@ -1446,7 +1446,7 @@ function addAllItems(_character = player, _execEvents = true) {
  * @param {Character} _characterB
  * @return {Number}, or undefined
  */
-function chanceToFuck(_characterA, _characterB) {
+function calculateChanceToFuck(_characterA, _characterB) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     
@@ -1459,7 +1459,7 @@ function chanceToFuck(_characterA, _characterB) {
     if (typeof _characterB == 'undefined')
         return undefined;
     
-    return _characterA.chanceToFuck(_characterB);
+    return _characterA.calculateChanceToFuck(_characterB);
 }
 function menuCheckPhone(_phone, _clearContent = false, _clearMenu = true) {
     if (!(_phone instanceof Phone))

@@ -281,14 +281,14 @@ function remmyApartmentLivingroomCharlieSex() {
     	if (!player.hasItem(charlieBeatingHeart))
     		return false;
     }
-    else if (_character.lust < 15 || chanceToFuck(remmy, charlie) < 50) {
+    else if (_character.lust < 15 || calculateChanceToFuck(remmy, charlie) < 50) {
     	Content.add("<p>\"I'm not <i>in the mood</i>. Maybe later, if you give me a paw rub,\" she tells you, as she stretches one of her footpaws out.</p>");
     	if (!player.hasItem(charlieBeatingHeart))
     		return false;
     }
 
     _blob += "<p>Pressing your lips to her neck, you give it a soft bite. ";
-    if (player.hasItem(charlieBeatingHeart) && (_character.lust < 15 && _character.stamina < 15) || chanceToFuck(remmy, charlie) < 50)
+    if (player.hasItem(charlieBeatingHeart) && (_character.lust < 15 && _character.stamina < 15) || calculateChanceToFuck(remmy, charlie) < 50)
     	_blob += "You can feel her heart beat harder as she turns her head away from you.</p><p>\"I told you,\" she says, but trails off as you pat her heart in your pocket.</p><p>\"Are you sure you're not in the mood?\" you ask.</p><p>Her lips twitch into a snarl as the fur along her neck raises. With shaking paws, she leans back against the couch and ";
 	else
     	_blob += "\"Harder,\" she hisses, and you oblige, leaning into her and biting harder. Pulling away from her neck, you wrap your arms around her shoulders and give her a brief kiss on the lips.</p><p>\"You know I don't like kissing, Remmy,\" she lets out, but leans back against the couch and ";
@@ -304,7 +304,7 @@ function remmyApartmentLivingroomCharlieSex() {
     _blob += "</p>";
     Content.add(_blob);
     
-    if (player.hasItem(charlieBeatingHeart) && chanceToFuck(remmy, charlie) < 50) {
+    if (player.hasItem(charlieBeatingHeart) && calculateChanceToFuck(remmy, charlie) < 50) {
 
     }
     else {
@@ -345,7 +345,7 @@ function remmyApartmentLivingroomCharlieSexWolter() {
     player.addSexWith(charlie);
     player.addSexWith(wolter);
     
-    if (wolter.chanceToFuck(player) > 70) {
+    if (wolter.calculateChanceToFuck(player) > 70) {
         Content.add("<p>Wolter leans in for a quick peck on your lips.</p>");
     }
     

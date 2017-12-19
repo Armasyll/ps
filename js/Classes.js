@@ -1138,14 +1138,15 @@ class Disposition {
      * @param {Number} _pragma souldmate
      * @param {Number} _storge familial
      * @param {Number} _manic  obsession
+     * @param {Number} _miseo hate
      */
-    constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+    constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (_eros instanceof Object) {
             this.fromObject(_eros);
         }
         else {
             if (debug) console.log("Creating a new instance of Disposition");
-            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic);
+            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
         }
     }
     
@@ -1193,24 +1194,11 @@ class Disposition {
         return _return;
     }
     
-    setEros(_int) {
-        this.eros = _int;
-    }
-    getEros() {
-        return this.eros;
-    }
-    setPhilia(_int) {
-        this.philia = int;
-    }
-    getPhilia() {
-        return this.philia;
-    }
-    
-    set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+    set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (isNaN(_eros))
             this._setDispositionType(_eros, _philia);
         else
-            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic);
+            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
     }
     
     _setDispositionType(_type, _int = 0) {
@@ -1227,13 +1215,14 @@ class Disposition {
         return this[_type];
     }
 
-    _setAll(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+    _setAll(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         _eros = Number.parseInt(_eros);
         _philia = Number.parseInt(_philia);
         _lodus = Number.parseInt(_lodus);
         _pragma = Number.parseInt(_pragma);
         _storge = Number.parseInt(_storge);
         _manic = Number.parseInt(_manic);
+        _miseo = Number.parseInt(_miseo);
         
         _eros = isNaN(_eros) ? 0 : _eros;
         _philia = isNaN(_philia) ? 0 : _philia;
@@ -1241,6 +1230,7 @@ class Disposition {
         _pragma = isNaN(_pragma) ? 0 : _pragma;
         _storge = isNaN(_storge) ? 0 : _storge;
         _manic = isNaN(_manic) ? 0 : _manic;
+        _miseo = isNaN(_miseo) ? 0 : _miseo;
 
         _eros = _eros < 0 ? 0 : _eros;
         _philia = _philia < 0 ? 0 : _philia;
@@ -1248,6 +1238,7 @@ class Disposition {
         _pragma = _pragma < 0 ? 0 : _pragma;
         _storge = _storge < 0 ? 0 : _storge;
         _manic = _manic < 0 ? 0 : _manic;
+        _miseo = _miseo < 0 ? 0 : _miseo;
 
         _eros = _eros > 100 ? 100 : _eros;
         _philia = _philia > 100 ? 100 : _philia;
@@ -1255,6 +1246,7 @@ class Disposition {
         _pragma = _pragma > 100 ? 100 : _pragma;
         _storge = _storge > 100 ? 100 : _storge;
         _manic = _manic > 100 ? 100 : _manic;
+        _miseo = _miseo > 100 ? 100 : _miseo;
 
         this.eros = _eros;
         this.philia = _philia;
@@ -1262,6 +1254,7 @@ class Disposition {
         this.pragma = _pragma;
         this.storge = _storge;
         this.manic = _manic;
+        this.miseo = _miseo;
     }
 
     offset(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
@@ -1271,15 +1264,9 @@ class Disposition {
         _pragma = isNaN(_pragma) ? 0 : _pragma;
         _storge = isNaN(_storge) ? 0 : _storge;
         _manic = isNaN(_manic) ? 0 : _manic;
+        _miseo = isNaN(_miseo) ? 0 : _miseo;
 
-        this._setAll(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic);
-    }
-
-    toString() {
-        var _blob = "";
-        _blob += ("Passion(" + this.eros + "), Friendship(" + this.philia + "), Playfulness(" + this.lodus + "), Soulmate(" + this.pragma + "), Familial(" + this.storge + "), Obsession(" + this.manic + ")");
-
-        return _blob;
+        this._setAll(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic, this.miseo + _miseo);
     }
 }
 
@@ -1351,6 +1338,8 @@ class Character extends Entity {
         this.addAction("remove");
         this.addAction("take");
         this.addAction("wear");
+        this.addAction("hug");
+        this.addAction("kiss");
 
         this.currentActions = new Set();
 
@@ -1361,6 +1350,10 @@ class Character extends Entity {
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
         this.philautia = 50;     // self
         this.agape = 50;         // others
+        this.sanguine = 0;       // optimistic, carefree, pleasure-seeking, may compliment philautia
+        this.phlegmatic = 0;     // caring, preserving, helpful, compliments agape
+        this.choleric = 0;       // practical, logical, asocial
+        this.melancholic = 0;    // tradition, stability, order
         this.life = 100;
         this.lifeMax = 100;
         this.mana = 0;
@@ -1439,8 +1432,8 @@ class Character extends Entity {
         this.setSpecies(_species);
 
         this.virgin = true;
-        this.sexWithMale = false;
-        this.sexWithFemale = false;
+        this.hadSexWithMale = false;
+        this.hadSexWithFemale = false;
 
         this.sexCount = 0;
         this.characterSexCount = new Map(); // Map<Character, integer>
@@ -2387,11 +2380,29 @@ class Character extends Entity {
     }
 
     setSexualOrientation(_int) {
-    	_int = Number.parseInt(_int);
-    	if (isNaN(_int) || _int < 0 || _int > 2)
-    		_int = 0;
+        if (isNaN(_int)) {
+            switch (_int.slice(0, 1)) {
+                case "s" : {
+                    _int = 0;
+                }
+                case "g" : {
+                    _int = 1;
+                }
+                case "b" : {
+                    _int = 2;
+                }
+            }
+        }
+        else if (_int >= 0 && _int < 4) {
+            _int = Number.parseInt(_int);
+        }
+        else
+            _int = 0;
         this.sexualOrientation = _int;
         return _int;
+    }
+    getSexualOrientation() {
+        return this.sexualOrientation == 0 ? "straight" : (this.sexualOrientation == 1 ? "gay" : "bi");
     }
 
     setSex(_sex) {
@@ -2588,6 +2599,9 @@ class Character extends Entity {
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
         
         return this.characterDisposition.has(_character);
+    }
+    hasMet(_character) {
+        return this.hasCharacterDisposition(_character);
     }
 
     date(_character, _updateChild = true) {
@@ -2886,9 +2900,9 @@ class Character extends Entity {
             return undefined;
 
         if (_character.sex == 1)
-            this.sexWithFemale = true;
+            this.hadSexWithFemale = true;
         else if (_character.sex == 0)
-            this.sexWithMale = true;
+            this.hadSexWithMale = true;
 
         this.removeCurrentAction("masturbate");
         _character.removeCurrentAction("masturbate");
@@ -3706,7 +3720,7 @@ class Character extends Entity {
 
         return this.getCharacterSexCount(_character) > 0;
     }
-    chanceToFuck(_character) {
+    calculateChanceToFuck(_character) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
@@ -3719,18 +3733,20 @@ class Character extends Entity {
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
 
         var chance = 0;
+        var _disposition = _character.getCharacterDisposition(this);
 
         // Disposition
-        if (_character.hadSexWith(this)) {
-            chance += _character.getCharacterDisposition(this, "eros") / 1.5 / _character.getCharacterSexCount(this);
-            chance += _character.getCharacterDisposition(this, "philia") / 2.5;
+        if (_character.hadSexWith(this) && !_character.relatives.has(this)) {
+            chance += _disposition.eros / 2 + (_character.getCharacterSexCount(this) * 3);
+            chance += _disposition.philia / 4;
         }
         else {
-            chance += _character.getCharacterDisposition(this, "eros") / 2.5;
-            chance += _character.getCharacterDisposition(this, "philia") / 6;
+            chance += _disposition.eros / 3;
+            chance += _disposition.philia / 6;
         }
-        chance += _character.getCharacterDisposition(this, "pragma");
-        chance += _character.getCharacterDisposition(this, "manic") * 2;
+        chance += _disposition.pragma / 2;
+        chance += _disposition.manic;
+        chance -= _disposition.miseo;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
@@ -3758,7 +3774,7 @@ class Character extends Entity {
 
         // Rut and Lust
         if (_character.rut && _character.lust > 98)
-            chance += 100;
+            chance += (_character.rut ? _character.lust/1.5 : _character.lust/2);
         else if (_character.lust > 89)
             chance += (_character.rut ? _character.lust/2 : _character.lust/4);
         else if (_character.lust > 74)
@@ -3790,8 +3806,12 @@ class Character extends Entity {
 
         // Incest
         if (_character.relatives.has(this)) {
-            if (_character.incestual > 0)
-                chance += _character.incestual/4;
+            if (_character.incestual > 66)
+                chance += _character.incestual / 3 + (_character.getCharacterSexCount(this) * 2);
+            else if (_character.incestual > 33)
+                chance += _character.incestual / 4 + (_character.getCharacterSexCount(this));
+            else if (_character.incestual > 0)
+                chance += _character.incestual / 5 + (_character.getCharacterSexCount(this));
             else
                 chance -= 50;
         }
@@ -3807,7 +3827,7 @@ class Character extends Entity {
         if (_character.sleeping) {
             if (enableRape)
                 chance = 100;
-            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _character.getCharacterDisposition(this, "eros") > 75)
+            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.eros > 75)
                 chance += 10;
         }
 

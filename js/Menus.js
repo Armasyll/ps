@@ -313,11 +313,11 @@ function debugCharactersInformation(_character = player) {
 	        
 	        _blob += "<tr><td>{0}</td>".format(__character.id);
 	        for (var _property in _character.characterDisposition.get(__character)) {
-	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckThem{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id, __character.id.capitalize());
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id, __character.id.capitalize());
 	        }
             _blob += "<td></td>";
             _blob += "<td></td>";
-            _blob += "<td id='chanceToFuckThem{1}'>{0}</td>".format(chanceToFuck(__character, _character), __character.id.capitalize());
+            _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(calculateChanceToFuck(__character, _character), __character.id.capitalize());
 	        _blob += "</tr>";
 	    }
     }, this);
@@ -333,11 +333,11 @@ function debugCharactersInformation(_character = player) {
 	        
 	        _blob += "<tr><td>{0}</td>".format(__character.id);
 	        for (var _property in __character.characterDisposition.get(_character)) {
-	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#chanceToFuckYou{4}\").text(chanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.id.capitalize());
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.id.capitalize());
 	        }
-            _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#chanceToFuckYou{3}\").text(chanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (_character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
-            _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#chanceToFuckYou{3}\").text(chanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
-            _blob += "<td id='chanceToFuckYou{1}'>{0}</td>".format(chanceToFuck(_character, __character), __character.id.capitalize());
+            _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(calculateChanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (_character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
+            _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#calculateChanceToFuckYou{3}\").text(calculateChanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
+            _blob += "<td id='calculateChanceToFuckYou{1}'>{0}</td>".format(calculateChanceToFuck(_character, __character), __character.id.capitalize());
 	        _blob += "</tr>";
 	    }
     }, this);

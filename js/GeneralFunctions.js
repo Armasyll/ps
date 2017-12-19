@@ -25,6 +25,15 @@ Array.prototype.remove = function() {
     }
     return this;
 };
+Array.prototype.getRandom = function() {
+    if (this.length == 0)
+        return undefined;
+    else if (this.length == 1)
+        return this[0];
+    else {
+        return this[Math.floor(Math.random() * this.length)];
+    }
+}
 
 Date.prototype.addSeconds = function() {
     var args = arguments;
