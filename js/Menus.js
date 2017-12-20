@@ -416,25 +416,25 @@ function getAppearance(_character, _self = false) {
     _blob += (" wearing a ");
     
     if (_character.hasShirt() && _character.hasPants()) {
-        _blob += (_character.shirt.toString() + ", and " + _character.pants.toString() + ".");
+        _blob += (_character.getShirt().toString() + ", and " + _character.getPants().toString() + ".");
     }
     else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
-        _blob += (_character.shirt.toString() + ", no pants, and " + _character.underwear.toString() + ".");
+        _blob += (_character.getShirt().toString() + ", no pants, and " + _character.getUnderwear().toString() + ".");
     }
     else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear()) {
-        _blob += (_character.shirt.toString() + ", and nothing below the waste.");
+        _blob += (_character.getShirt().toString() + ", and nothing below the waste.");
     }
     else if (!_character.hasShirt() && _character.hasPants()) {
-        if (_character.pants.plural)
-            _blob += ("no shirt, but a pair of " + _character.pants.toString() + ".");
+        if (_character.getPants().plural)
+            _blob += ("no shirt, but a pair of " + _character.getPants().toString() + ".");
         else
-            _blob += ("no shirt, but a " + _character.pants.toString() + ".");
+            _blob += ("no shirt, but a " + _character.getPants().toString() + ".");
     }
     else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
-        if (_character.underwear.plural)
-            _blob += ("nothing but a pair of " + _character.underwear.toString() + ".");
+        if (_character.getUnderwear().plural)
+            _blob += ("nothing but a pair of " + _character.getUnderwear().toString() + ".");
         else
-            _blob += "nothing by a {0}.".format(_character.underwear.toString());
+            _blob += "nothing by a {0}.".format(_character.getUnderwear().toString());
     }
     else {
         _blob += ("absolutely nothing.");
