@@ -57,6 +57,9 @@ class Content {
     static set($string) {
         document.getElementById("contentContainerBody").innerHTML = $string;
         $('a[data-toggle=tooltip]').tooltip();
+
+        if (enableAutoscroll)
+            document.getElementById("contentContainerBody").scrollTop = document.getElementById("contentContainerBody").scrollHeight;
     }
     /**
      * Appends the HTML of the content container's body
@@ -65,6 +68,9 @@ class Content {
     static add($string) {
         document.getElementById("contentContainerBody").innerHTML += $string;
         $('a[data-toggle=tooltip]').tooltip();
+
+        if (enableAutoscroll)
+            document.getElementById("contentContainerBody").scrollTop = document.getElementById("contentContainerBody").scrollHeight;
     }
     /**
      * Clears the HTML of hte content container's body
@@ -3751,6 +3757,121 @@ class Character extends Entity {
             return undefined;
 
         return this.getCharacterSexCount(_character) > 0;
+    }
+    calculateChanceToFuck(_character) {
+        if (!(_character instanceof Character))
+            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+        if (typeof _character == 'undefined')
+            return 0;
+
+        if (!_character.characterDisposition.has(this))
+            return 0;
+
+        if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
+
+        var chance = 0;
+        var _disposition = _character.getCharacterDisposition(this);
+
+        // Disposition
+        if (_character.hadSexWith(this) && !_character.relatives.has(this)) {
+            chance += _disposition.eros / 2 + (_character.getCharacterSexCount(this) * 3);
+            chance += _disposition.philia / 4;
+        }
+        else {
+            chance += _disposition.eros / 3;
+            chance += _disposition.philia / 6;
+        }
+        chance += _disposition.pragma / 2;
+        chance += _disposition.manic;
+        chance -= _disposition.miseo;
+
+        if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
+
+        // Species Preferences
+        if (_character.prefersSpecies.has(this.species))
+            chance += 5
+        else if (_character.avoidsSpecies.has(this.species))
+            chance -= 5;
+
+        if (_character.prefersPrey && this.predator == false || _character.prefersPredators && this.predator == true)
+            chance += 5;
+
+        if (_character.avoidsPrey && this.predator == false || _character.avoidsPredators && this.predator == true)
+            chance -= 5;
+
+        if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
+
+        // Sexual Orientation
+        if (_character.sexualOrientation == 0 && this.sex != _character.sex || _character.sexualOrientation == 1 && this.sex == _character.sex || _character.sexualOrientation == 2)
+            chance += 10;
+        else
+            chance -= 50;
+
+        if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
+
+        // Rut and Lust
+        if (_character.rut && _character.lust > 98)
+            chance += (_character.rut ? _character.lust/1.5 : _character.lust/2);
+        else if (_character.lust > 89)
+            chance += (_character.rut ? _character.lust/2 : _character.lust/4);
+        else if (_character.lust > 74)
+            chance += (_character.rut ? _character.lust/4 : _character.lust/8);
+        else if (_character.lust > 59)
+            chance += (_character.rut ? _character.lust/8 : _character.lust/12);
+        else if (_character.lust > 49)
+            chance += (_character.rut ? _character.lust/12 : _character.lust/16);
+        else
+            chance += (_character.rut ? _character.lust/16 : _character.lust/20);
+
+        if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
+
+        // Exhibitionism
+        if (this.room instanceof Room) {
+	        if (this.room.characters.size > 2){
+	            if (_character.exhibitionism > 0)
+	                chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
+	            else {
+	                this.room.characters.forEach(function(_this) {
+	                    if (_this != _character.this && _this != this)
+	                        chance += _character.hadSexWith(_this) ? 5 : -5;
+	                }, this);
+	            }
+	        }
+	    }
+
+        if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
+
+        // Incest
+        if (_character.relatives.has(this)) {
+            if (_character.incestual > 66)
+                chance += _disposition.storge / 3 + (_character.getCharacterSexCount(this) * 2);
+            else if (_character.incestual > 33)
+                chance += _disposition.storge / 4 + (_character.getCharacterSexCount(this));
+            else if (_character.incestual > 0)
+                chance += _disposition.storge / 5 + (_character.getCharacterSexCount(this));
+            else
+                chance -= 50;
+        }
+
+        if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
+
+        // Intoxication
+        chance += _character.intoxication/2.5;
+
+        if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
+
+        // Somnophilia
+        if (_character.sleeping) {
+            if (enableRape)
+                chance = 100;
+            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.eros > 75)
+                chance += 10;
+        }
+
+        if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
+
+        return Math.ceil(chance);
     }
 
     moveToRoom(_room, _checkLocked = false) {

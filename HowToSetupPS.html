@@ -33,6 +33,7 @@
                             <li><a href="#interactCharacters">Interacting with Characters</a></li>
                             <li><a href="#interactCharactersRooms">Interacting with Characters in Rooms</a></li>
                             <li><a href="#assigningPlayer">Assigning the Player</a></li>
+                            <li><a href="#grammaticalFunctions">Grammatical Functions</a></li>
                         </ul>
                     </nav>
                     <div class='col-sm-10'>
@@ -342,6 +343,33 @@ player = nick;
 ...
 </pre>
                                 </p>
+                            </div>
+                        </div>
+                        <div id="grammaticalFunctions" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Grammatical Functions</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+nick.subjectPronoun()
+// would return "he"
+nick.objectPronoun()
+// would return "him"
+nick.possessivePronoun()
+// would return "his"
+nick.possessiveAdjective()
+// would return "his"
+nick.reflexivePronoun()
+// would return "himself"
+nick.singularPossesiveName()
+// would return "Nick's"
+nick.grammaticalGender()
+// would return "male"
+nick.getHand()
+// would return "paw"
+nick.getHands()
+// would return "paws"
+</pre>
                             </div>
                         </div>
                     </div>

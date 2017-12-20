@@ -89,6 +89,7 @@ var lastGameEvent = undefined;
 //var enableImages = true;
 //var enableVideo = true;
 var enableMinimap = true;
+var enableAutoscroll = true;
 //var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
