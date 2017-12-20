@@ -108,4 +108,4 @@ const kRoomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathro
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror", "basket"]);
 const kActionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","remove","hold","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate","consume", "hug", "kiss"]);
 const kConsumableTypes = new Set(["food", "drink", "medicine"]);
-const kSpecialTypes = new Set(["living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "container"]);
+const kSpecialTypes = new Set(["living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container"]);

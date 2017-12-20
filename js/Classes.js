@@ -1354,6 +1354,7 @@ class Character extends Entity {
         this.phlegmatic = 0;     // caring, preserving, helpful, compliments agape
         this.choleric = 0;       // practical, logical, asocial
         this.melancholic = 0;    // tradition, stability, order
+        this.fed = 100;
         this.life = 100;
         this.lifeMax = 100;
         this.mana = 0;
@@ -5143,6 +5144,8 @@ class Item extends Entity {
                 _image = "images/items/genericItem.svg";
             this.image = _image;
 
+            if (typeof _plural != "boolean")
+                _plural = false;
             this.plural = _plural;
 
             itemsIndexes.set(_id, this);
@@ -5294,17 +5297,15 @@ class Consumable extends Item {
      * @param  {String}  _type        consumableType
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
+     * @param  {Stromg}  _specialTypes  specialType
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "food", _image = undefined, _plural = false) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "food", _image = undefined, _plural = false, _specialTypes = undefined) {
         if (_id instanceof Consumable) {
             super(_id.id, _id._name);
             for (var property in _id) {
-                if (_id.hasOwnProperty(property)) {
+                if (_id.hasOwnProperty(property))
                     this[property] = _id[property];
-                }
             }
-            
-            consumableIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description, _image, _plural);
@@ -5313,8 +5314,11 @@ class Consumable extends Item {
 
             this.setType(_type);
 
-            consumableIndexes.set(_id, this);
+            if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
+                this.addSpecialType(_specialTypes);
         }
+
+        consumableIndexes.set(_id, this);
     }
 
     setType(_type) {
