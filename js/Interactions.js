@@ -703,6 +703,85 @@ function itemInteractMasturbate(_item, _character = player) {
     itemInteract(_item, _character);
 }
 
+function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
+    if (!(_phone instanceof Phone))
+        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
+    if (!(_phone instanceof Phone))
+        return undefined;
+
+    Title.clear();
+    Title.set(
+        "Text Messages", 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
+    if (usePopups) {
+
+    }
+    else {
+        if (_clearContent)
+            Content.add("<p>You check your phone for text messages.</p>");
+
+        Menu.clear();
+        Menu.addOption("phoneInteractRead({0}, 0)".format(_phone.id), "Received Messages");
+        Menu.addOption("phoneInteractRead({0}, 1)".format(_phone.id), "Read Messages");
+        Menu.addOption("phoneInteractRead({0}, 2)".format(_phone.id), "Sent Messages");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+}
+function phoneInteractRead(_phone, _messageCategory) {
+    var _title = "";
+    var _messageType = "";
+
+    if (_messageCategory == 1) {
+        _title = "Read Messages";
+        _messageType = _phone.readMessages;
+    }
+    else if (_messageCategory == 2) {
+        _title = "Sent Messages";
+        _messageType = _phone.sentMessages;
+    }
+    else {
+        _messageCategory = 0;
+        _title = "Received Messages";
+        _messageType = _phone.receivedMessages;
+    }
+
+    lastMenu = "phoneInteractRead({0}, {1})".format(_phone.id, _messageCategory);
+
+    Title.clear();
+    Title.set(
+        _title, 
+        undefined, 
+        player.phone.name, 
+        player.name
+    );
+
+    Menu.clear();
+    _messageType.forEach(function(_textMessage) {
+        Menu.addOption("textMessageInteractRead({0}, '{1}')".format(_phone.id, _textMessage.id), _textMessage.from, _textMessage.time);
+    });
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "menuCheckPhone({0})".format(_phone.id), "Check Phone");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
+}
+function textMessageInteractRead(_phone, _textMessage) {
+    if (!(_phone instanceof Phone))
+        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
+    if (!(_textMessage instanceof TextMessage))
+        _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
+    if (!(_phone instanceof Phone) || !(_textMessage instanceof TextMessage))
+        return undefined;
+
+    _phone.readMessage(_textMessage);
+    Content.add("<blockquote class='small'><div>{0}</div><div>From: {1}</div><div>To: {2}</div><p>{3}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.to, _textMessage.message));
+
+    runLastMenu();
+}
+
 function webSiteInteract(_webSite = undefined) {
     if (!(_webSite instanceof WebSite))
         _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
