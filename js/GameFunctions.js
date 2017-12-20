@@ -34,12 +34,12 @@ function updatePlayerInfoDisplay() {
 
     document.getElementById("playerLife").innerHTML = (player.life);
     document.getElementById("playerLifeMax").innerHTML = (player.lifeMax);
-    if (player.life < player.lifeMax / 10) {
+    if (player.life < player.lifeMax / 5) {
         document.getElementById("playerLife").classList.add("text-danger");
         document.getElementById("playerLife").classList.remove("text-warning");
         document.getElementById("playerLife").classList.remove("text-primary");
     }
-    else if (player.life < player.lifeMax / 4) {
+    else if (player.life < player.lifeMax / 2) {
         document.getElementById("playerLife").classList.remove("text-danger");
         document.getElementById("playerLife").classList.add("text-warning");
         document.getElementById("playerLife").classList.remove("text-primary");
@@ -52,12 +52,12 @@ function updatePlayerInfoDisplay() {
 
     document.getElementById("playerStamina").innerHTML = (player.stamina);
     document.getElementById("playerStaminaMax").innerHTML = (player.staminaMax);
-    if (player.stamina < player.staminaMax / 10) {
+    if (player.stamina < player.staminaMax / 5) {
         document.getElementById("playerStamina").classList.add("text-danger");
         document.getElementById("playerStamina").classList.remove("text-warning");
         document.getElementById("playerStamina").classList.remove("text-primary");
     }
-    else if (player.stamina < player.staminaMax / 4) {
+    else if (player.stamina < player.staminaMax / 2) {
         document.getElementById("playerStamina").classList.remove("text-danger");
         document.getElementById("playerStamina").classList.add("text-warning");
         document.getElementById("playerStamina").classList.remove("text-primary");
@@ -74,12 +74,12 @@ function updatePlayerInfoDisplay() {
         document.getElementById("playerManaDisplay").classList.remove("invisible");
     document.getElementById("playerMana").innerHTML = (player.mana);
     document.getElementById("playerManaMax").innerHTML = (player.manaMax);
-    if (player.mana < player.manaMax / 10) {
+    if (player.mana < player.manaMax / 5) {
         document.getElementById("playerMana").classList.add("text-danger");
         document.getElementById("playerMana").classList.remove("text-warning");
         document.getElementById("playerMana").classList.remove("text-primary");
     }
-    else if (player.mana < player.manaMax / 4) {
+    else if (player.mana < player.manaMax / 2) {
         document.getElementById("playerMana").classList.remove("text-danger");
         document.getElementById("playerMana").classList.add("text-warning");
         document.getElementById("playerMana").classList.remove("text-primary");
