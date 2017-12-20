@@ -1543,6 +1543,7 @@ class Character extends Entity {
 
         this.id = json["id"]; delete json["id"];
         this.setAge(json.hasOwnProperty("age") ? json["age"] : this.age); delete json["age"];
+        this.setHunger(json.hasOwnProperty("hunger") ? json["hunger"] : this.hunger); delete json["hunger"];
         this.setLife(json.hasOwnProperty("life") ? json["life"] : this.life); delete json["life"];
         this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : this.lifeMax); delete json["lifeMax"];
         this.setMana(json.hasOwnProperty("mana") ? json["mana"] : this.mana); delete json["mana"];
@@ -1552,6 +1553,10 @@ class Character extends Entity {
         this.setMoney(json.hasOwnProperty("money") ? json["money"] : this.money); delete json["money"];
         this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : this.philautia); delete json["philautia"];
         this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : this.agape); delete json["agape"];
+        this.setSanguine(json.hasOwnProperty("sanguine") ? json["sanguine"] : this.sanguine); delete["sanguine"];
+        this.setPhlegmatic(json.hasOwnProperty("phlegmatic") ? json["phlegmatic"] : this.phlegmatic); delete["phlegmatic"];
+        this.setCholeric(json.hasOwnProperty("choleric") ? json["choleric"] : this.choleric); delete["choleric"];
+        this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : this.melancholic); delete["melancholic"];
         this.setLust(json.hasOwnProperty("lust") ? json["lust"] : this.lust); delete json["lust"];
         this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : this.exhibitionism); delete json["exhibitionism"];
         this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : this.somnophilia); delete json["somnophilia"];
@@ -1797,7 +1802,7 @@ class Character extends Entity {
         this.age = _int;
         return _int;
     }
-    incAge(_int) {
+    incAge(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1819,7 +1824,7 @@ class Character extends Entity {
         this.hunger = _int;
         return _int;
     }
-    incHunger(_int) {
+    incHunger(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1829,7 +1834,7 @@ class Character extends Entity {
     addHunger(_int) {
         return this.incHunger(_int);
     }
-    decHunger(_int) {
+    decHunger(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1850,7 +1855,7 @@ class Character extends Entity {
         this.life = _int;
         return _int;
     }
-    incLife(_int) {
+    incLife(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1860,7 +1865,7 @@ class Character extends Entity {
     addLife(_int) {
         return this.incLife(_int);
     }
-    decLife(_int) {
+    decLife(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1883,7 +1888,7 @@ class Character extends Entity {
         this.lifeMax = _int;
         return _int;
     }
-    incLifeMax(_int) {
+    incLifeMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1893,7 +1898,7 @@ class Character extends Entity {
     addLifeMax(_int) {
         return this.incLifeMax(_int);
     }
-    decLifeMax(_int) {
+    decLifeMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1914,7 +1919,7 @@ class Character extends Entity {
         this.mana = _int;
         return _int;
     }
-    incMana(_int) {
+    incMana(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1924,7 +1929,7 @@ class Character extends Entity {
     addMana(_int) {
         return this.incMana(_int);
     }
-    decMana(_int) {
+    decMana(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1947,7 +1952,7 @@ class Character extends Entity {
         this.manaMax = _int;
         return _int;
     }
-    incManaMax(_int) {
+    incManaMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1957,7 +1962,7 @@ class Character extends Entity {
     addManaMax(_int) {
         return this.incManaMax(_int);
     }
-    decManaMax(_int) {
+    decManaMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1978,7 +1983,7 @@ class Character extends Entity {
         this.stamina = _int;
         return _int;
     }
-    incStamina(_int) {
+    incStamina(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -1988,7 +1993,7 @@ class Character extends Entity {
     addStamina(_int) {
         return this.incStamina(_int);
     }
-    decStamina(_int) {
+    decStamina(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2011,7 +2016,7 @@ class Character extends Entity {
         this.staminaMax = _int;
         return _int;
     }
-    incStaminaMax(_int) {
+    incStaminaMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2021,7 +2026,7 @@ class Character extends Entity {
     addStaminaMax(_int) {
         return this.incStaminaMax(_int);
     }
-    decStaminaMax(_int) {
+    decStaminaMax(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2040,7 +2045,7 @@ class Character extends Entity {
         this.money = _int;
         return _int;
     }
-    incMoney(_int) {
+    incMoney(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2050,7 +2055,7 @@ class Character extends Entity {
     addMoney(_int) {
         return this.incMoney(_int);
     }
-    decMoney(_int) {
+    decMoney(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2071,7 +2076,7 @@ class Character extends Entity {
         this.sanity = _int;
         return _int;
     }
-    incSanity(_int) {
+    incSanity(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2081,7 +2086,7 @@ class Character extends Entity {
     addSanity(_int) {
         return this.incSanity(_int);
     }
-    decSanity(_int) {
+    decSanity(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2100,7 +2105,7 @@ class Character extends Entity {
         this.philautia = _int;
         return _int;
     }
-    incPhilautia(_int) {
+    incPhilautia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2110,7 +2115,7 @@ class Character extends Entity {
     addPhilautia(_int) {
         return this.incPhilautia(_int);
     }
-    decPhilautia(_int) {
+    decPhilautia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2129,7 +2134,7 @@ class Character extends Entity {
         this.agape = _int;
         return _int;
     }
-    incAgape(_int) {
+    incAgape(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2139,7 +2144,7 @@ class Character extends Entity {
     addAgape(_int) {
         return this.incAgape(_int);
     }
-    decAgape(_int) {
+    decAgape(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2148,6 +2153,122 @@ class Character extends Entity {
     }
     subAgape(_int) {
         return this.decAgape(_int);
+    }
+
+    setSanguine(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.sanguine = _int;
+        return _int;
+    }
+    incSanguine(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setSanguine(this.sanguine + _int);
+    }
+    addSanguine(_int) {
+        return this.incSanguine(_int);
+    }
+    decSanguine(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setSanguine(this.sanguine - _int);
+    }
+    subSanguine(_int) {
+        return this.decSanguine(_int);
+    }
+
+    setPhlegmatic(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.phlegmatic = _int;
+        return _int;
+    }
+    incPhlegmatic(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setPhlegmatic(this.phlegmatic + _int);
+    }
+    addPhlegmatic(_int) {
+        return this.incPhlegmatic(_int);
+    }
+    decPhlegmatic(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setPhlegmatic(this.phlegmatic - _int);
+    }
+    subPhlegmatic(_int) {
+        return this.decPhlegmatic(_int);
+    }
+
+    setCholeric(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.choleric = _int;
+        return _int;
+    }
+    incCholeric(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setCholeric(this.choleric + _int);
+    }
+    addCholeric(_int) {
+        return this.incCholeric(_int);
+    }
+    decCholeric(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setCholeric(this.choleric - _int);
+    }
+    subCholeric(_int) {
+        return this.decCholeric(_int);
+    }
+
+    setMelancholic(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        this.melancholic = _int;
+        return _int;
+    }
+    incMelancholic(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setMelancholic(this.melancholic + _int);
+    }
+    addMelancholic(_int) {
+        return this.incMelancholic(_int);
+    }
+    decMelancholic(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setMelancholic(this.melancholic - _int);
+    }
+    subMelancholic(_int) {
+        return this.decMelancholic(_int);
     }
 
     setLust(_int) {
@@ -2160,7 +2281,7 @@ class Character extends Entity {
         this.lust = _int;
         return _int;
     }
-    incLust(_int) {
+    incLust(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2170,7 +2291,7 @@ class Character extends Entity {
     addLust(_int) {
         return this.incLust(_int);
     }
-    decLust(_int) {
+    decLust(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2191,7 +2312,7 @@ class Character extends Entity {
     	this.exhibitionism = _int;
         return _int;
     }
-    incExhibitionism(_int) {
+    incExhibitionism(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2201,7 +2322,7 @@ class Character extends Entity {
     addExhibitionism(_int) {
         return this.incExhibitionism(_int);
     }
-    decExhibitionism(_int) {
+    decExhibitionism(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2222,7 +2343,7 @@ class Character extends Entity {
     	this.somnophilia = _int;
         return _int;
     }
-    incSomnophilia(_int) {
+    incSomnophilia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2232,7 +2353,7 @@ class Character extends Entity {
     addSomnophilia(_int) {
         return this.incSomnophilia(_int);
     }
-    decSomnophilia(_int) {
+    decSomnophilia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2253,7 +2374,7 @@ class Character extends Entity {
     	this.intoxication = _int;
         return _int;
     }
-    incIntoxication(_int) {
+    incIntoxication(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2263,7 +2384,7 @@ class Character extends Entity {
     addIntoxication(_int) {
         return this.incIntoxication(_int);
     }
-    decIntoxication(_int) {
+    decIntoxication(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2285,7 +2406,7 @@ class Character extends Entity {
     	this.incestual = _int;
         return _int;
     }
-    incIncestual(_int) {
+    incIncestual(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2295,7 +2416,7 @@ class Character extends Entity {
     addIncestual(_int) {
         return this.incIncestual(_int);
     }
-    decIncestual(_int) {
+    decIncestual(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
@@ -2523,86 +2644,86 @@ class Character extends Entity {
 
         return this.characterDisposition.get(_character);
     }
-    setCharacterEros(_character, _eros) {
-        this.setCharacterDisposition(_character, "eros", _eros);
+    setCharacterEros(_character, _int) {
+        this.setCharacterDisposition(_character, "eros", _int);
     }
-    addCharacterEros(_character, _eros) {
-        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + _eros);
+    addCharacterEros(_character, _int) {
+        this.incCharacterEros(_character, _int);
     }
-    incCharacterEros(_character) {
-        this.addCharacterEros(_character, 1);
+    incCharacterEros(_character, _int = 1) {
+        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + _int);
     }
     getCharacterEros(_character) {
         return this.getCharacterDisposition(_character, "eros");
     }
-    setCharacterPhilia(_character, _philia) {
-        this.setCharacterDisposition(_character, "philia", _philia);
+    setCharacterPhilia(_character, _int) {
+        this.setCharacterDisposition(_character, "philia", _int);
     }
-    addCharacterPhilia(_character, _philia) {
-        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + _philia);
+    addCharacterPhilia(_character, _int) {
+        this.incCharacterPhilia(_character, _int);
     }
-    incCharacterPhilia(_character) {
-        this.addCharacterPhilia(_character, 1);
+    incCharacterPhilia(_character, _int = 1) {
+        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + _int);
     }
     getCharacterPhilia(_character) {
         return this.getCharacterDisposition(_character, "philia");
     }
-    setCharacterLodus(_character, _lodus) {
-        this.setCharacterDisposition(_character, "lodus", _lodus);
+    setCharacterLodus(_character, _int) {
+        this.setCharacterDisposition(_character, "lodus", _int);
     }
-    addCharacterLodus(_character, _lodus) {
-        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + _lodus);
+    addCharacterLodus(_character, _int) {
+        this.incCharacterLodus(_character, _int);
     }
-    incCharacterLodus(_character) {
-        this.addCharacterLodus(_character, 1);
+    incCharacterLodus(_character, _int = 1) {
+        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + _int);
     }
     getCharacterLodus(_character) {
         return this.getCharacterDisposition(_character, "lodus");
     }
-    setCharacterPragma(_character, _pragma) {
-        this.setCharacterDisposition(_character, "pragma", _pragma);
+    setCharacterPragma(_character, _int) {
+        this.setCharacterDisposition(_character, "pragma", _int);
     }
-    addCharacterPragma(_character, _pragma) {
-        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + _pragma);
+    addCharacterPragma(_character, _int) {
+        this.incCharacterPragma(_character, _int);
     }
-    incCharacterPragma(_character) {
-        this.addCharacterPragma(_character, 1);
+    incCharacterPragma(_character, _int = 1) {
+        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + _int);
     }
     getCharacterPragma(_character) {
         return this.getCharacterDisposition(_character, "pragma");
     }
-    setCharacterStorge(_character, _storge) {
-        this.setCharacterDisposition(_character, "storge", _storge);
+    setCharacterStorge(_character, _int) {
+        this.setCharacterDisposition(_character, "storge", _int);
     }
-    addCharacterStorge(_character, _storge) {
-        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + _storge);
+    addCharacterStorge(_character, _int) {
+        this.incCharacterStorge(_character, _int);
     }
-    incCharacterStorge(_character) {
-        this.addCharacterStorge(_character, 1);
+    incCharacterStorge(_character, _int = 1) {
+        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + _int);
     }
     getCharacterStorge(_character) {
         return this.getCharacterDisposition(_character, "storge");
     }
-    setCharacterManic(_character, _manic) {
-        this.setCharacterDisposition(_character, "manic", _manic);
+    setCharacterManic(_character, _int) {
+        this.setCharacterDisposition(_character, "manic", _int);
     }
-    addCharacterManic(_character, _manic) {
-        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + _manic);
+    addCharacterManic(_character, _int) {
+        this.incCharacterManic(_character, _int);
     }
-    incCharacterManic(_character) {
-        this.addCharacterManic(_character, 1);
+    incCharacterManic(_character, _int = 1) {
+        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + _int);
     }
     getCharacterManic(_character) {
         return this.getCharacterDisposition(_character, "manic");
     }
-    setCharacterMiseo(_character, _miseo) {
-        this.setCharacterDisposition(_character, "miseo", _miseo);
+    setCharacterMiseo(_character, _int) {
+        this.setCharacterDisposition(_character, "miseo", _int);
     }
-    addCharacterMiseo(_character, _miseo) {
-        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + _miseo);
+    addCharacterMiseo(_character, _int) {
+        this.incCharacterMiseo(_character, _int);
     }
-    incCharacterMiseo(_character) {
-        this.addCharacterMiseo(_character, 1);
+    incCharacterMiseo(_character, _int = 1) {
+        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + _int);
     }
     getCharacterMiseo(_character) {
         return this.getCharacterDisposition(_character, "miseo");
