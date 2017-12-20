@@ -28,6 +28,68 @@ function updateTimeDisplay() {
         document.getElementsByClassName('timeDisplay')[_i].innerHTML = unixTimeToDateString(currentTime);
     }
 }
+function updatePlayerInfoDisplay() {
+    document.getElementById("playerName").innerHTML = ("{0}{1}{2}".format(player.name, player.nickname != undefined ? ("(" + player.nickanem + ")") : "", player.surname != undefined ? (" " + player.surname) : ""));
+    document.getElementById("playerMoney").innerHTML = (player.money);
+
+    document.getElementById("playerLife").innerHTML = (player.life);
+    document.getElementById("playerLifeMax").innerHTML = (player.lifeMax);
+    if (player.life < player.lifeMax / 10) {
+        document.getElementById("playerLife").classList.add("text-danger");
+        document.getElementById("playerLife").classList.remove("text-warning");
+        document.getElementById("playerLife").classList.remove("text-primary");
+    }
+    else if (player.life < player.lifeMax / 4) {
+        document.getElementById("playerLife").classList.remove("text-danger");
+        document.getElementById("playerLife").classList.add("text-warning");
+        document.getElementById("playerLife").classList.remove("text-primary");
+    }
+    else {
+        document.getElementById("playerLife").classList.remove("text-danger");
+        document.getElementById("playerLife").classList.remove("text-warning");
+        document.getElementById("playerLife").classList.add("text-primary");
+    }
+
+    document.getElementById("playerStamina").innerHTML = (player.stamina);
+    document.getElementById("playerStaminaMax").innerHTML = (player.staminaMax);
+    if (player.stamina < player.staminaMax / 10) {
+        document.getElementById("playerStamina").classList.add("text-danger");
+        document.getElementById("playerStamina").classList.remove("text-warning");
+        document.getElementById("playerStamina").classList.remove("text-primary");
+    }
+    else if (player.stamina < player.staminaMax / 4) {
+        document.getElementById("playerStamina").classList.remove("text-danger");
+        document.getElementById("playerStamina").classList.add("text-warning");
+        document.getElementById("playerStamina").classList.remove("text-primary");
+    }
+    else {
+        document.getElementById("playerStamina").classList.remove("text-danger");
+        document.getElementById("playerStamina").classList.remove("text-warning");
+        document.getElementById("playerStamina").classList.add("text-primary");
+    }
+
+    if (player.manaMax == 0)
+        document.getElementById("playerManaDisplay").classList.add("invisible");
+    else
+        document.getElementById("playerManaDisplay").classList.remove("invisible");
+    document.getElementById("playerMana").innerHTML = (player.mana);
+    document.getElementById("playerManaMax").innerHTML = (player.manaMax);
+    if (player.mana < player.manaMax / 10) {
+        document.getElementById("playerMana").classList.add("text-danger");
+        document.getElementById("playerMana").classList.remove("text-warning");
+        document.getElementById("playerMana").classList.remove("text-primary");
+    }
+    else if (player.mana < player.manaMax / 4) {
+        document.getElementById("playerMana").classList.remove("text-danger");
+        document.getElementById("playerMana").classList.add("text-warning");
+        document.getElementById("playerMana").classList.remove("text-primary");
+    }
+    else {
+        document.getElementById("playerMana").classList.remove("text-danger");
+        document.getElementById("playerMana").classList.remove("text-warning");
+        document.getElementById("playerMana").classList.add("text-primary");
+    }
+}
 
 function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false) {
     var _body = "";

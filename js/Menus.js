@@ -458,6 +458,7 @@ function start() {
     Menu.generate();
     
     updateTimeDisplay();
+    updatePlayerInfoDisplay();
 }
 function quit() {
     clearContentAndMenu();
@@ -480,6 +481,7 @@ function switchCharacter(_character) {
             Minimap.generateMapFromStartRoom(player.room);
         }
         
+        updatePlayerInfoDisplay();
         debugSwitchCharacter();
     }
 }
