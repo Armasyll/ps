@@ -1354,7 +1354,7 @@ class Character extends Entity {
         this.phlegmatic = 0;     // caring, preserving, helpful, compliments agape
         this.choleric = 0;       // practical, logical, asocial
         this.melancholic = 0;    // tradition, stability, order
-        this.fed = 100;
+        this.hunger = 0;
         this.life = 100;
         this.lifeMax = 100;
         this.mana = 0;
@@ -1803,6 +1803,37 @@ class Character extends Entity {
         return this.incAge(_int);
     }
 
+    setHunger(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.hungerMax)
+            _int = this.hungerMax;
+        this.hunger = _int;
+        return _int;
+    }
+    incHunger(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setHunger(this.hunger + _int);
+    }
+    addHunger(_int) {
+        return this.incHunger(_int);
+    }
+    decHunger(_int) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setHunger(this.hunger - _int);
+    }
+    subHunger(_int) {
+        return this.decHunger(_int);
+    }
+
     setLife(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -1818,7 +1849,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLife(this.life + _int);
     }
     addLife(_int) {
@@ -1829,7 +1859,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLife(this.life - _int);
     }
     subLife(_int) {
@@ -1843,10 +1872,8 @@ class Character extends Entity {
             _int = 1;
         else if (_int > 100)
             _int = 100;
-
         if (this.life > this.lifeMax)
             this.life = this._int;
-
         this.lifeMax = _int;
         return _int;
     }
@@ -1855,7 +1882,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLifeMax(this.lifeMax + _int);
     }
     addLifeMax(_int) {
@@ -1866,7 +1892,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLifeMax(this.lifeMax - _int);
     }
     subLifeMax(_int) {
@@ -1888,7 +1913,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setMana(this.mana + _int);
     }
     addMana(_int) {
@@ -1899,7 +1923,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setMana(this.mana - _int);
     }
     subMana(_int) {
@@ -1913,10 +1936,8 @@ class Character extends Entity {
             _int = 0;
         else if (_int > 100)
             _int = 100;
-
         if (this.mana > this.manaMax)
             this.mana = this._int;
-
         this.manaMax = _int;
         return _int;
     }
@@ -1925,7 +1946,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setManaMax(this.manaMax + _int);
     }
     addManaMax(_int) {
@@ -1936,7 +1956,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setManaMax(this.manaMax - _int);
     }
     subManaMax(_int) {
@@ -1958,7 +1977,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setStamina(this.stamina + _int);
     }
     addStamina(_int) {
@@ -1969,7 +1987,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setStamina(this.stamina - _int);
     }
     subStamina(_int) {
@@ -1983,10 +2000,8 @@ class Character extends Entity {
             _int = 1;
         else if (_int > 100)
             _int = 100;
-
         if (this.stamina > this.staminaMax)
             this.stamina = this._int;
-
         this.staminaMax = _int;
         return _int;
     }
@@ -1995,7 +2010,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setStaminaMax(this.staminaMax + _int);
     }
     addStaminaMax(_int) {
@@ -2006,7 +2020,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setStaminaMax(this.staminaMax - _int);
     }
     subStaminaMax(_int) {
@@ -2026,7 +2039,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setMoney(this.money + _int);
     }
     addMoney(_int) {
@@ -2037,7 +2049,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setMoney(this.money - _int);
     }
     subMoney(_int) {
@@ -2059,7 +2070,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setSanity(this.sanity + _int);
     }
     addSanity(_int) {
@@ -2070,7 +2080,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setSanity(this.sanity - _int);
     }
     subSanity(_int) {
@@ -2090,7 +2099,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setPhilautia(this.philautia + _int);
     }
     addPhilautia(_int) {
@@ -2101,7 +2109,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setPhilautia(this.philautia - _int);
     }
     subPhilautia(_int) {
@@ -2121,7 +2128,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setAgape(this.agape + _int);
     }
     addAgape(_int) {
@@ -2132,7 +2138,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setAgape(this.agape - _int);
     }
     subAgape(_int) {
@@ -2154,7 +2159,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLust(this.lust + _int);
     }
     addLust(_int) {
@@ -2165,7 +2169,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setLust(this.lust - _int);
     }
     subLust(_int) {
@@ -2187,7 +2190,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setExhibitionism(this.exhibitionism + _int);
     }
     addExhibitionism(_int) {
@@ -2198,7 +2200,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setExhibitionism(this.exhibitionism - _int);
     }
     subExhibitionism(_int) {
@@ -2220,7 +2221,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setSomnophilia(this.somnophilia + _int);
     }
     addSomnophilia(_int) {
@@ -2231,7 +2231,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setSomnophilia(this.somnophilia - _int);
     }
     subSomnophilia(_int) {
@@ -2253,7 +2252,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setIntoxication(this.intoxication + _int);
     }
     addIntoxication(_int) {
@@ -2264,7 +2262,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setIntoxication(this.intoxication - _int);
     }
     subIntoxication(_int) {
@@ -2287,7 +2284,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setIncestual(this.incestual + _int);
     }
     addIncestual(_int) {
@@ -2298,7 +2294,6 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-
         return this.setIncestual(this.incestual - _int);
     }
     subIncestual(_int) {
