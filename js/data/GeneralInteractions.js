@@ -275,3 +275,76 @@ function wolterConsidersJumpingTheFence(_event = undefined) {
 function wolterPlayerFirsttimeSameSexSpecial() {
     
 }
+function bettyRemmySleepparalysisSpecial() {
+    _blob = "";
+    if (player.manaMax == 0) {
+        _blob += "<p>Your eyes opened.</p>";
+        _blob += "<p>All you could see, though, was a gray ceiling, a shaded window, and a door off to the side. As you try to move, you quickly come to the realization that you cannot. Your eyes, though, move around, and you take in your surroundings.</p>";
+        _blob += "<p>Dark, empty... 'Bleak' you manage to think, through a mental haze. Then, you see a shadow at the corner of the room, and your eyes quickly turn to see. But it moves with your eyes, avoiding your gaze. You can sense it, feel it, moving towards you as you try to focus on it.</p>";
+        _blob += "<p>There's a tightness growing in your chest as you try to shift your head away, to try to flee from the bed, but still you cannot move.</p>";
+        _blob += "<p>Then, a great black figure stretches from the darkness, and moves over your eyes, smothering your vision. Needles press against your brow, and your mind conjures thoughts of piercing and ripping. Only an unsettling warmth is felt. It lays across your head, and trails down your neck. The absence of the pains you imagined do nothing to slow your heart, though.</p>";
+        _blob += "<p>As the blackness retreats, you feel softness and warmth against your neck and face. From the short comfort, though, comes a roughness and needling at your jaw, and your mouth falls open. An object, long and white and tipped with a gleaming point, enters your vision. That gleaming tip points at your face, and moves towards your open mouth. You mind returns to ideas of piercing as a stabbing cold spreads where it prods.</p>";
+
+        if (enableRape && betty.lust > 25 && player.lust > 25 && (betty.getCharacterEros(player) > 40 || betty.getCharacterStorge(player) > 40)) {
+            _blob += "<p></p>";
+            betty.incCharacterEros(player, 5);
+            betty.incLust(25);
+            player.decLust(50);
+        }
+        else {
+            _blob += "<p>Again, there's an absence of pain. The coldness fades to a dull warmth as a feeling of softness returns to your face. You forget about the fear of the figure hiding beside you as your vision fades.</p>";
+            betty.incCharacterStorge(player, 2);
+            player.incCharacterStorge(betty, 1);
+        }
+    }
+    else {
+        _blob += "<p></p>";
+
+        if (enableRape && betty.lust > 25 && player.lust > 25 && (betty.getCharacterEros(player) > 40 || betty.getCharacterStorge(player) > 40)) {
+            _blob += "<p></p>";
+            betty.incCharacterEros(player, 5);
+            betty.incLust(25);
+            player.incCharacterEros(betty, 15);
+            player.decLust(25);
+        }
+        else {
+            _blob += "<p>You watch as Betty pulls the thermometer from your mouth and gives it a brief look. She lets out a huff, and puts it on the nightstand. Brushing a paw against your cheek, she leans back in her chair and grabs her book.</p>";
+            _blob += "<p>She eventually falls asleep at your bedside.</p>";
+            betty.incCharacterStorge(player, 2);
+            player.incCharacterEros(betty, 3);
+            player.incCharacterPhilia(betty, 5);
+            player.incCharacterStorge(betty, 5);
+            player.decCharacterMiseo(betty, 5);
+        }
+    }
+
+
+    // Betty taking care of sick Remmy while apartment being fixed
+    // Sits by her spare bed while he's out cold, reading
+    //  * reading glasses
+    //  * mirror in bedroom
+    // Remmy gets an erection, but Betty pays it no mind initially
+    // It gets large enough that she can't help but look at the tent it's pitching and laugh
+    // It doesn't go down after half an hour, and it's been on her mind since
+    // She takes a peak, but quickly puts the blanket back over it
+    // Another half hour goes by, and he's still hard as a rock, and groans in his sleep
+    // She decides to give his arm a little pinch
+    //   * nothing
+    // She then gives his dick a flick through the blanket
+    //   * precum starts staining through the blanket
+    // Pulling off the blanket, she sees him already leaking trails down his dick
+    // Decide to give his inner thigh a quick pinch, hard enough to leave a mark
+    //   * nothing
+    // Throwing caution to the wind, she grabs around the base of his shaft, and gives it a firm squeeze
+    //   * precum quickly gets on her paw
+    // Decides, fuck it, she'll finish him off and clean him up
+    // Licking, sucking, deepthroating, and then swallowing, while using a vibrator. Also sucks his balls in the heat of the moment.
+    // After licking him clean, she then cleans him up with a damp towel
+    // 
+    // replace any specific actions or descriptions of characters with vague, corner-of-the-eye pantom feelings, unless magic
+
+    Content.add(_blob);
+
+    Menu.clear();
+    Menu.generate();
+}

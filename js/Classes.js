@@ -2434,7 +2434,7 @@ class Character extends Entity {
         return this.sexName();
     }
     
-    setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
+    setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (!(this.defaultDisposition instanceof Disposition))
             this.defaultDisposition = new Disposition();
 
@@ -2449,6 +2449,7 @@ class Character extends Entity {
             _pragma = Number.parseInt(_pragma);
             _storge = Number.parseInt(_storge);
             _manic = Number.parseInt(_manic);
+            _miseo = Number.parseInt(_miseo);
 
             _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
             _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
@@ -2456,14 +2457,15 @@ class Character extends Entity {
             _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
             _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
             _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
+            _miseo = isNaN(_miseo) ? this.defaultDisposition.miseo : _miseo;
 
-            this.defaultDisposition.set(_eros, _philia, _lodus, _pragma, _storge, _manic);
+            this.defaultDisposition.set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
         }
 
         return this.defaultDisposition;
 
     }
-    setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined) {
+    setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined, _miseo = undefined) {
         if (debug) console.log("Running setCharacterDisposition");
 
         if (!(_character instanceof Character))
@@ -2485,6 +2487,7 @@ class Character extends Entity {
             _pragma = Number.parseInt(_pragma);
             _storge = Number.parseInt(_storge);
             _manic = Number.parseInt(_manic);
+            _miseo = Number.parseInt(_miseo);
             
             _eros = isNaN(_eros) ? this.characterDisposition.get(_character).eros : _eros;
             _philia = isNaN(_philia) ? this.characterDisposition.get(_character).philia : _philia;
@@ -2492,8 +2495,9 @@ class Character extends Entity {
             _pragma = isNaN(_pragma) ? this.characterDisposition.get(_character).pragma : _pragma;
             _storge = isNaN(_storge) ? this.characterDisposition.get(_character).storge : _storge;
             _manic = isNaN(_manic) ? this.characterDisposition.get(_character).manic : _manic;
+            _miseo = isNaN(_miseo) ? this.characterDisposition.get(_character)._miseo : _miseo;
 
-            this.characterDisposition.set(_character, this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic));
+            this.characterDisposition.set(_character, this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo));
         }
         else {
             _eros = Number.parseInt(_eros);
@@ -2502,6 +2506,7 @@ class Character extends Entity {
             _pragma = Number.parseInt(_pragma);
             _storge = Number.parseInt(_storge);
             _manic = Number.parseInt(_manic);
+            _miseo = Number.parseInt(_miseo);
             
             _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
             _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
@@ -2509,8 +2514,9 @@ class Character extends Entity {
             _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
             _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
             _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
+            _miseo = isNaN(_miseo) ? this.defaultDisposition.miseo : _miseo;
 
-            this.characterDisposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic));
+            this.characterDisposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo));
         }
 
         return this.characterDisposition.get(_character);
@@ -2521,8 +2527,11 @@ class Character extends Entity {
     addCharacterEros(_character, _eros) {
         this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + _eros);
     }
-    incrementCharacterEros(_character) {
+    incCharacterEros(_character) {
         this.addCharacterEros(_character, 1);
+    }
+    getCharacterEros(_character) {
+        return this.getCharacterDisposition(_character, "eros");
     }
     setCharacterPhilia(_character, _philia) {
         this.setCharacterDisposition(_character, "philia", _philia);
@@ -2530,8 +2539,11 @@ class Character extends Entity {
     addCharacterPhilia(_character, _philia) {
         this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + _philia);
     }
-    incrementCharacterPhilia(_character) {
+    incCharacterPhilia(_character) {
         this.addCharacterPhilia(_character, 1);
+    }
+    getCharacterPhilia(_character) {
+        return this.getCharacterDisposition(_character, "philia");
     }
     setCharacterLodus(_character, _lodus) {
         this.setCharacterDisposition(_character, "lodus", _lodus);
@@ -2539,8 +2551,11 @@ class Character extends Entity {
     addCharacterLodus(_character, _lodus) {
         this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + _lodus);
     }
-    incrementCharacterLodus(_character) {
+    incCharacterLodus(_character) {
         this.addCharacterLodus(_character, 1);
+    }
+    getCharacterLodus(_character) {
+        return this.getCharacterDisposition(_character, "lodus");
     }
     setCharacterPragma(_character, _pragma) {
         this.setCharacterDisposition(_character, "pragma", _pragma);
@@ -2548,8 +2563,11 @@ class Character extends Entity {
     addCharacterPragma(_character, _pragma) {
         this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + _pragma);
     }
-    incrementCharacterPragma(_character) {
+    incCharacterPragma(_character) {
         this.addCharacterPragma(_character, 1);
+    }
+    getCharacterPragma(_character) {
+        return this.getCharacterDisposition(_character, "pragma");
     }
     setCharacterStorge(_character, _storge) {
         this.setCharacterDisposition(_character, "storge", _storge);
@@ -2557,8 +2575,11 @@ class Character extends Entity {
     addCharacterStorge(_character, _storge) {
         this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + _storge);
     }
-    incrementCharacterStorge(_character) {
+    incCharacterStorge(_character) {
         this.addCharacterStorge(_character, 1);
+    }
+    getCharacterStorge(_character) {
+        return this.getCharacterDisposition(_character, "storge");
     }
     setCharacterManic(_character, _manic) {
         this.setCharacterDisposition(_character, "manic", _manic);
@@ -2566,8 +2587,23 @@ class Character extends Entity {
     addCharacterManic(_character, _manic) {
         this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + _manic);
     }
-    incrementCharacterManic(_character) {
+    incCharacterManic(_character) {
         this.addCharacterManic(_character, 1);
+    }
+    getCharacterManic(_character) {
+        return this.getCharacterDisposition(_character, "manic");
+    }
+    setCharacterMiseo(_character, _miseo) {
+        this.setCharacterDisposition(_character, "miseo", _miseo);
+    }
+    addCharacterMiseo(_character, _miseo) {
+        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + _miseo);
+    }
+    incCharacterMiseo(_character) {
+        this.addCharacterMiseo(_character, 1);
+    }
+    getCharacterMiseo(_character) {
+        return this.getCharacterDisposition(_character, "miseo");
     }
     getCharacterDisposition(_character, _dispositionType = undefined) {
         if (debug) console.log("Running getCharacterDisposition");
@@ -3807,11 +3843,11 @@ class Character extends Entity {
         // Incest
         if (_character.relatives.has(this)) {
             if (_character.incestual > 66)
-                chance += _character.incestual / 3 + (_character.getCharacterSexCount(this) * 2);
+                chance += _disposition.storge / 3 + (_character.getCharacterSexCount(this) * 2);
             else if (_character.incestual > 33)
-                chance += _character.incestual / 4 + (_character.getCharacterSexCount(this));
+                chance += _disposition.storge / 4 + (_character.getCharacterSexCount(this));
             else if (_character.incestual > 0)
-                chance += _character.incestual / 5 + (_character.getCharacterSexCount(this));
+                chance += _disposition.storge / 5 + (_character.getCharacterSexCount(this));
             else
                 chance -= 50;
         }
