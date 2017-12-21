@@ -4330,7 +4330,7 @@ class Room {
      * @param {Cell} _cell Cell
      * @param {Location} _location Secondary Location
      */
-    constructor(_id = undefinend, _sid = undefined, _name = undefined, _type = "hallway", _cell = undefined, _location = undefined) {
+    constructor(_id = undefined, _sid = undefined, _name = undefined, _type = "hallway", _cell = undefined, _location = undefined) {
         if (_id instanceof Room) {
             this.id = _id.id;
             delete _id["id"];
