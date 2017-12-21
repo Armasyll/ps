@@ -1513,7 +1513,7 @@ function calculateChanceToFuck(_characterA, _characterB) {
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_charactA instanceof Character) || !(_characterB instanceof Character))
+    if (!(_characterA instanceof Character) || !(_characterB instanceof Character))
         return 0;
     if (!_characterB.characterDisposition.has(_characterA))
         return 0;

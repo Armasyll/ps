@@ -7,6 +7,8 @@ alApartmentBathroomMirror = new Furniture("alApartmentBathroomMirror", "Mirror",
 avoApartmentBedroomAvoMirror = new Furniture("avoApartmentBedroomAvoMirror", "Mirror", "An elegant tall, black mirror.", undefined, "mirror", 0, 0);
 avoApartmentBathroomMirror = new Furniture("avoApartmentBathroomMirror", "Mirror", "An elegant tall, black mirror.", undefined, "mirror", 0, 0);
 
+chartyApartmentBedroomCharlieAltar = new Furniture("chartyApartmentBedroomCharlieAltar", "Marble Table", "An old marble table with cracks filled with copper.", undefined, "altar", 2.5, 2);
+
 remmyApartmentLivingroomCouch = new Furniture("remmyApartmentLivingroomCouch", "Couch", "A green couch.", undefined, "couch", 4, 4);
 remmyApartmentLivingroomTV = new Furniture("remmyApartmentLivingroomTV", "TV", "A 28 inch TV.", undefined, "tv", 0, 1);
 remmyApartmentLivingroomFridge = new Furniture("remmyApartmentLivingroomFridge", "Refridgerator", "A beige fridge.", undefined, "fridge", 2, 16);

@@ -303,6 +303,8 @@ alApartmentBathroom.addFurniture(alApartmentBathroomMirror);
 avoApartmentBedroomAvo.addFurniture(avoApartmentBedroomAvoMirror);
 avoApartmentBathroom.addFurniture(avoApartmentBathroomMirror);
 
+chartyApartmentBedroomCharlie.addFurniture(chartyApartmentBedroomCharlieAltar);
+
 remmyApartmentBathroom.addFurniture([remmyApartmentBathroomTub, remmyApartmentBathroomSink, remmyApartmentBathroomToilet, remmyApartmentBathroomMirror, remmyApartmentBathroomCabinet]);
 remmyApartmentBedroom.addFurniture([remmyApartmentBedroomBed, remmyApartmentBedroomBureau, remmyApartmentBedroomHamper, remmyApartmentBedroomMirror]);
 remmyApartmentLivingroom.addFurniture([remmyApartmentLivingroomCouch, remmyApartmentLivingroomTV, remmyApartmentLivingroomFridge, remmyApartmentLivingroomOven, remmyApartmentLivingroomTable]);
