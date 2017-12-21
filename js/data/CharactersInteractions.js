@@ -207,15 +207,26 @@ function wolterSex() {
             }
             else if (_character.getCharacterSexCount(player) > 0) { // and they've fucked once
                 if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
-                    Content.add("<p>Just stay friends</p>");
-                else
                     Content.add("<p>ONE TIME THING</p>");
+                else
+                    Content.add("<p>Just stay friends</p>");
             }
             else { // and they've never fucked
-                if (wolter.getCharacterDisposition(player, "eros") > 75 && wolter.getCharacterDisposition(player, "philia") > 55) {
-                    if (wolter.sex == player.sex && wolter.sexualOrientation == 0) { // but he's straight and you're gay
+                // If the Player has a chance at fucking a gay Wolter, add the gay event trigger
+                if (wolter.sex == player.sex && wolter.sexualOrientation == 0) {
+                    var _tmpLust = wolter.lust;
+                    var _tmpRut = wolter.rut;
+
+                    wolter.setSexualOrientation(2); // Sets sexuality to bisexual
+                    wolter.setLust(0); // Sets lust to 0
+                    wolter.setRut(false); // Sets rut to false
+
+                    if (calculateChanceToFuck(player, _character) > 49) // Checks if Wolter would be fuckable
                         setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 30) - 10) + 10)), true);
-                    }
+                    
+                    wolter.setSexualOrientation(0); // Sets sexuality back to straight
+                    wolter.setLust(_tmpLust); // Sets lust back to what it was before
+                    wolter.setRut(_tmpRut); // Sets rut back to what it was before
                 }
                         
                 if (_character.getSexRefusalCount(player) > 0) // but you're persistent
@@ -277,9 +288,6 @@ function wolterHug() {
                 if ((_character.sexualOrientation == 0 && _character.sex == player.sex) || (_character.sexualOrientaiton == 1 && _character.sex != player.sex)) {
                     if (_character.hadSexWith(player)) {
                         _arr = ["<p>As you wrap your arms around {0}, you feel him jump a bit. \"Oh, hey {1}.\" he says with a hint of strain, but he joins in your hug after a moment. You feel his breath against your neck briefly, before he pulls away.</p>".format(_character.name, player.name)];
-                        /*
-                            NOTE: limit the results from actions committed to the _character from the player within a day to prevent abuse
-                        */
                         _character.decPhilautia(1);
                     }
                     else {
