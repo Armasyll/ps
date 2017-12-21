@@ -1,8 +1,8 @@
 if (debug) console.log("Assigning Characters");
 
+al.image = "images/characters/Al.png";
 al.setEyeColour("blue");
 al.setFurColour("alabaster");
-al.image = "images/characters/Al.png";
 al.moveTo(alApartmentBedroom);
 al.setPhilautia(75);
 al.setAgape(50);
@@ -13,9 +13,9 @@ al.addPreferredSpecies("wolf");
 al.addPreferredSpecies("deer");
 al.addSexWith(velvet);
 
+anneke.image = "images/characters/Anneke.svg";
 anneke.setEyeColour("dark blue");
 anneke.setFurColour("brown");
-anneke.image = "images/characters/Anneke.svg";
 anneke.moveTo(twinsApartmentBedroomAnneke);
 anneke.setPhilautia(50);
 anneke.setAgape(40);
@@ -37,9 +37,9 @@ anneke.dated(nick, 1);
 anneke.dated(ozzy, 1);
 anneke.dated(wolter, 1);
 
+avo.image = "images/characters/Avo.png";
 avo.setEyeColour("dark blue");
 avo.setFurColour("black");
-avo.image = "images/characters/Avo.png";
 avo.moveTo(avoApartmentBedroomAvo);
 avo.setPhilautia(50);
 avo.setAgape(75);
@@ -82,6 +82,7 @@ charlie.setPhilautia(25);
 charlie.setAgape(25);
 charlie.setManaMax(100);
 charlie.setMana(100);
+charlie.setSanity(101);
 charlie.setDefaultDisposition(5, 0, 10, 0, 0);
 charlie.setCharacterDisposition(al,      new Disposition(10, 50, 25, 0, 0, 0));
 charlie.setCharacterDisposition(anneke,  new Disposition(0, 50, 75, 0, 0, 0));
@@ -107,6 +108,9 @@ cotton.moveTo(limbo);
 cotton.addPreferredSpecies("fox");
 cotton.addPreferredSpecies("rabbit");
 
+judy.moveTo(limbo);
+judy.addPreferredSpecies("fox");
+judy.addPreferredSpecies("rabbit");
 judy.addSexWith(nick);
 judy.date(nick);
 
@@ -118,6 +122,10 @@ martina.dated(ozzy, 1);
 marty.image = "images/characters/Marty.svg";
 marty.moveTo(chartyApartmentBedroomMarty);
 
+nick.moveTo(limbo);
+nick.addPreferredSpecies("fox");
+nick.addPreferredSpecies("rabbit");
+
 ozzy.image = "images/characters/Ozzy.png";
 ozzy.setEyes("circle");
 ozzy.setEyeColour("orange");
@@ -126,6 +134,8 @@ ozzy.furColourAHex = "#bb8517";
 ozzy.moveTo(ozzyApartmentBathroom);
 ozzy.setPhilautia(75);
 ozzy.setAgape(25);
+ozzy.setManaMax(15);
+ozzy.setSanity(60);
 ozzy.setDefaultDisposition(15, 25, 50, 15, 0);
 ozzy.addPreferredSpecies("aardwolf");
 ozzy.addPreferredSpecies("deer");
@@ -181,8 +191,8 @@ rosie.setDefaultDisposition(0, 25, 25, 0, 15, 0);  // no :v
 rosie.addPreferredSpecies("fox");
 rosie.addPreferredSpecies("wolf");
 
-velvet.setEyeColour("brown");
 velvet.image = "images/characters/Velvet.png";
+velvet.setEyeColour("brown");
 velvet.moveTo(alApartmentBedroom);
 velvet.setPhilautia(80);
 velvet.setAgape(50);
@@ -192,13 +202,13 @@ velvet.addPreferredSpecies("hyena");
 velvet.addPreferredSpecies("wolf");
 velvet.dated(al, 2);
 
-weaver.setEyeColour("red");
 weaver.image = "images/characters/RedWeaver.png";
+weaver.setEyeColour("red");
 weaver.moveTo(weaverApartmentLivingroom);
 
+wolter.image = "images/characters/Wolter.svg";
 wolter.setEyeColour("dark blue");
 wolter.setFurColour("brown");
-wolter.image = "images/characters/Wolter.svg";
 wolter.moveTo(remmyApartmentLivingroom);
 wolter.setPhilautia(50);
 wolter.setAgape(50);
