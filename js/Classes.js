@@ -932,10 +932,9 @@ class Entity {
      * @param  {String} _id          Unique ID
      * @param  {String} _name        Name
      * @param  {String} _description Description
-     * @param  {Set} _actions        Set or String of actionType(s)
-     * @param  {Room} _room          Room
+     * @param  {String}  _image      Image path of base64
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _actions = undefined, _room = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         if (_id instanceof Entity) {
             for (var property in _id) {
                 if (_id.hasOwnProperty(property)) {
@@ -948,23 +947,15 @@ class Entity {
             this.name = _name;
             this.description = _description;
 
+            if (typeof _image == 'undefined')
+                _image = "images/items/genericItem.svg";
+            this.image = _image;
+
             this.availableActions = new Set();
             this.specialTypes = new Set();
 
-            this.addAction(_actions);
             this.addAction("look");
-
-            if (!(_room instanceof Room)) {
-                _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
-                if (!(_room instanceof Room))
-                    _room = undefined;
-            }
-            this.room = _room;
-
-            if (typeof this.room != 'undefined')
-                this.cell = this.room.cell;
-            else
-                this.cell = undefined;
+            this.addSpecialType("exists");
 
             this.items = new Array();
         }
@@ -5244,7 +5235,7 @@ class Item extends Entity {
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialTypes = undefined) {
         if (_id instanceof Item) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -5256,19 +5247,20 @@ class Item extends Entity {
             itemsIndexes.set(_id, this);
         }
         else {
-            super(_id, _name, _description);
+            super(_id, _name, _description, _image);
 
             this.addAction("put");
             this.addAction("take");
             this.addAction("hold");
 
-            if (typeof _image == 'undefined')
-                _image = "images/items/genericItem.svg";
-            this.image = _image;
+            this.addSpecialType(_specialTypes);
 
             if (typeof _plural != "boolean")
                 _plural = false;
             this.plural = _plural;
+
+            if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
+                this.addSpecialType(_specialTypes);
 
             itemsIndexes.set(_id, this);
         }
@@ -5372,11 +5364,11 @@ class Clothing extends Item {
      * @param  {String}  _id          Unique ID
      * @param  {String}  _name        Name
      * @param  {String}  _description Description
-     * @param  {String}  _type        clothingType
      * @param  {String}  _image       Image path of base64
+     * @param  {String}  _type        clothingType
      * @param  {Boolean} _plural      Whether or not the item is plural
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "shirt", _image = undefined, _plural = false) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "shirt", _plural = false) {
         if (_id instanceof Clothing) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -5421,7 +5413,7 @@ class Consumable extends Item {
      * @param  {Boolean} _plural      Whether or not the item is plural
      * @param  {Stromg}  _specialTypes  specialType
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "food", _image = undefined, _plural = false, _specialTypes = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "food", _plural = false, _specialTypes = undefined) {
         if (_id instanceof Consumable) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -5430,14 +5422,11 @@ class Consumable extends Item {
             }
         }
         else {
-            super(_id, _name, _description, _image, _plural);
+            super(_id, _name, _description, _image, _plural, _specialTypes);
 
             this.addAction("consume");
 
             this.setType(_type);
-
-            if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
-                this.addSpecialType(_specialTypes);
         }
 
         consumableIndexes.set(_id, this);
@@ -5465,7 +5454,7 @@ class Furniture extends Entity {
      * @param  {Number}  _seatingSpace  Seating Space
      * @param  {Number}  _storageSpace  Storage Space
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _type = "chair", _seatingSpace = 1, _storageSpace = 1) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "chair", _seatingSpace = 1, _storageSpace = 1) {
         if (_id instanceof Furniture) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -5475,7 +5464,7 @@ class Furniture extends Entity {
             }
         }
         else {
-            super(_id, _name, _description);
+            super(_id, _name, _description, _image);
 
             this.setType(_type);
 
@@ -5746,13 +5735,13 @@ class Furniture extends Entity {
  * @extends {Item}
  */
 class ElectronicDevice extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined) {
-        super(_id, _name, _description);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+        super(_id, _name, _description, _image);
     }
 }
 class Phone extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _owner = undefined) {
-        super(_id, _name, _description);
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _owner = undefined) {
+        super(_id, _name, _description, _image);
         if (!(_owner instanceof Character))
             _owner = charactersIndexes.has(_owner) ? charactersIndexes.get(_owner) : undefined;
         this.owner = _owner;
