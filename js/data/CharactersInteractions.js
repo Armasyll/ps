@@ -193,65 +193,79 @@ function wolterSex() {
     if (_character.isSleeping()) { // :v
     }
     else {
-        if (calculateChanceToFuck(player, _character) > 49) {
-            if (_character.getCharacterSexCount(player) == 0 && !_character.sleptWithMale) {
-                unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
-            }
-            else {
-                unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
-            }
+        var _ctfLust = calculateChanceToFuck(player, _character);
+        var _ctfNoLust = calculateChanceToFuck(player, _character, true);
+
+        // If the Player has a chance to fuck the Character without lust, 
+        //  and they're both the same sex, 
+        //  and the Character isn't straight, 
+        //  and the Character hasn't had sex with the Player, 
+        //  and the Character hasn't slept with the same sex before
+        if (_ctfNoLust > 49 && _character.sex == player.sex && _character.getSexualOrientation() != 0 && _character.getCharacterSexCount(player) == 0 && ((_character.sex == 0 && !_character.sleptWithMale) || (_character.sex == 1 && !_character.sleptWithFemale))) {
+            unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
+        else if (_ctfLust > 49) { // Else if the Player has a chance to fuck the Character with Lust
+            unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
         }
-        else { // If character isn't interested
-            if (_character.getCharacterSexCount(player) > 1) { // and they've fucked more than once
-                Content.add("<p>MISTAKE</p>");
-            }
-            else if (_character.getCharacterSexCount(player) > 0) { // and they've fucked once
+        else { // Else Character isn't interested
+            if (_character.getCharacterSexCount(player) > 1) { // And they've fucked the Player more than once
                 if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
-                    Content.add("<p>ONE TIME THING</p>");
+                    Content.add("<p>&gt;You're poison running through my veins</p>");
+                else if (_ctfNoLust > 39)
+                    Content.add("<p>Take it slow</p>");
+                else
+                    Content.add("<p>It was a mistake</p>");
+            }
+            else if (_character.getCharacterSexCount(player) > 0) { // And they've fucked the Player once
+                if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                    Content.add("<p>One time thing</p>");
+                else if (_ctfNoLust > 39)
+                    Content.add("<p>Take it slow</p>");
                 else
                     Content.add("<p>Just stay friends</p>");
             }
-            else { // and they've never fucked
+            else { // And they've never fucked the Player
                 // If the Player has a chance at fucking a gay Wolter, add the gay event trigger
-                if (wolter.sex == player.sex && wolter.sexualOrientation == 0) {
-                    var _tmpLust = wolter.lust;
-                    var _tmpRut = wolter.rut;
+                if (_character.sex == player.sex && _character.sexualOrientation == 0) {
+                    var _tmpLust = _character.lust;
+                    var _tmpRut = _character.rut;
 
-                    wolter.setSexualOrientation(2); // Sets sexuality to bisexual
-                    wolter.setLust(0); // Sets lust to 0
-                    wolter.setRut(false); // Sets rut to false
+                    _character.setSexualOrientation(2); // Sets sexuality to bisexual
+                    _character.setLust(0); // Sets lust to 0
+                    _character.setRut(false); // Sets rut to false
 
-                    if (calculateChanceToFuck(player, _character) > 49) // Checks if Wolter would be fuckable
+                    if (_ctfNoLust > 49) // If the Player has a chance to fuck the Character without lust
                         setTimedFunctionEvent("wolterConsidersJumpingTheFence()", new Cron(undefined, undefined, Number.parseInt(currentTime.getDate() + (Math.random() * (anneke.getCharacterDisposition(player, "philia") > 50 ? 13 : 30) - 10) + 10)), true);
                     
-                    wolter.setSexualOrientation(0); // Sets sexuality back to straight
-                    wolter.setLust(_tmpLust); // Sets lust back to what it was before
-                    wolter.setRut(_tmpRut); // Sets rut back to what it was before
+                    _character.setSexualOrientation(0); // Sets sexuality back to straight
+                    _character.setLust(_tmpLust); // Sets lust back to what it was before
+                    _character.setRut(_tmpRut); // Sets rut back to what it was before
                 }
-                        
-                if (_character.getSexRefusalCount(player) > 0) // but you're persistent
-                    Content.add("<p>STERN NOT INTERESTED</p>");
-                else { // but you're interested
-                    if (wolter.getCharacterDisposition(player, "eros") > 50) {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)// but he's straight and you're gay
+                
+                if (_character.getSexRefusalCount(player) > 1) // But the Player is a little too persistent
+                    Content.add("<p>STERN UNINTEREST</p>");
+                else if (_character.getSexRefusalCount(player) > 0) // But the Player asked again
+                    Content.add("<p>Stern uninterest</p>");
+                else { // But the Player still asked
+                    if (_character.getCharacterDisposition(player, "eros") > 50) {
+                        if (_character.sex == player.sex && _character.sexualOrientation == 0)// And the Player is gay, but the Character is straight
                             Content.add("<p>Attracted, but conflicted. Give it some time.</p>");
                         else
                             Content.add("<p>Attracted, but give it a little more time.</p>");
                     }
-                    else if (wolter.getCharacterDisposition(player, "philia") > 50) {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                    else if (_character.getCharacterDisposition(player, "philia") > 50) {
+                        if (_character.sex == player.sex && _character.sexualOrientation == 0)
                             Content.add("<p>Good friends, but doesn't swing that way.</p>");
                         else
                             Content.add("<p>Good friends, but just that.</p>");
                     }
-                    else if (wolter.getCharacterDisposition(player, "storge") > 50) {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                    else if (_character.getCharacterDisposition(player, "storge") > 50) {
+                        if (_character.sex == player.sex && _character.sexualOrientation == 0)
                             Content.add("<p>Like brother.</p>");
                         else
                             Content.add("<p>Like family.</p>");
                     }
                     else {
-                        if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                        if (_character.sex == player.sex && _character.sexualOrientation == 0)
                             Content.add("<p>Doesn't swing that way.</p>");
                         else
                             Content.add("<p>Not interested.</p>");

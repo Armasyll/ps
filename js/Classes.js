@@ -3870,16 +3870,16 @@ class Character extends Entity {
 
         return this.getCharacterSexCount(_character) > 0;
     }
-    calculateChanceToFuck(_character) {
+    calculateChanceToFuck(_character, _ignoreLustAndRut = false) {
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
         if (typeof _character == 'undefined')
             return 0;
-
         if (!_character.characterDisposition.has(this))
             return 0;
-
+        if (typeof _ignoreLustAndRut != "boolean")
+            _ignoreLustAndRut = false;
+        
         if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
 
         var chance = 0;
@@ -3922,21 +3922,23 @@ class Character extends Entity {
 
         if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
 
-        // Rut and Lust
-        if (_character.rut && _character.lust > 98)
-            chance += (_character.rut ? _character.lust/1.5 : _character.lust/2);
-        else if (_character.lust > 89)
-            chance += (_character.rut ? _character.lust/2 : _character.lust/4);
-        else if (_character.lust > 74)
-            chance += (_character.rut ? _character.lust/4 : _character.lust/8);
-        else if (_character.lust > 59)
-            chance += (_character.rut ? _character.lust/8 : _character.lust/12);
-        else if (_character.lust > 49)
-            chance += (_character.rut ? _character.lust/12 : _character.lust/16);
-        else
-            chance += (_character.rut ? _character.lust/16 : _character.lust/20);
-
-        if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
+        if (_ignoreLustAndRut) {
+                // Rut and Lust
+                if (_character.rut && _character.lust > 98)
+                    chance += (_character.rut ? _character.lust/1.5 : _character.lust/2);
+                else if (_character.lust > 89)
+                    chance += (_character.rut ? _character.lust/2 : _character.lust/4);
+                else if (_character.lust > 74)
+                    chance += (_character.rut ? _character.lust/4 : _character.lust/8);
+                else if (_character.lust > 59)
+                    chance += (_character.rut ? _character.lust/8 : _character.lust/12);
+                else if (_character.lust > 49)
+                    chance += (_character.rut ? _character.lust/12 : _character.lust/16);
+                else
+                    chance += (_character.rut ? _character.lust/16 : _character.lust/20);
+        
+                if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
+        }
 
         // Exhibitionism
         if (this.room instanceof Room) {

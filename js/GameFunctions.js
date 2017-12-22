@@ -1508,120 +1508,20 @@ function addAllItems(_character = player, _execEvents = true) {
  * @param {Character} _characterB
  * @return {Number}, or undefined
  */
-function calculateChanceToFuck(_characterA, _characterB) {
+function calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    
+    if (typeof _characterA == 'undefined')
+        return undefined;
+    
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_characterA instanceof Character) || !(_characterB instanceof Character))
-        return 0;
-    if (!_characterB.characterDisposition.has(_characterA))
-        return 0;
-
-    if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_characterB.name, _characterA.name));
-
-    var chance = 0;
-    var _disposition = _characterB.getCharacterDisposition(_characterA);
-
-    // Disposition
-    if (_characterB.hadSexWith(_characterA) && !_characterB.relatives.has(_characterA)) {
-        chance += _disposition.eros / 2 + (_characterB.getCharacterSexCount(_characterA) * 3);
-        chance += _disposition.philia / 4;
-    }
-    else {
-        chance += _disposition.eros / 3;
-        chance += _disposition.philia / 6;
-    }
-    chance += _disposition.pragma / 2;
-    chance += _disposition.manic;
-    chance -= _disposition.miseo;
-
-    if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
-
-    // Species Preferences
-    if (_characterB.prefersSpecies.has(_characterA.species))
-        chance += 5
-    else if (_characterB.avoidsSpecies.has(_characterA.species))
-        chance -= 5;
-
-    if (_characterB.prefersPrey && _characterA.predator == false || _characterB.prefersPredators && _characterA.predator == true)
-        chance += 5;
-
-    if (_characterB.avoidsPrey && _characterA.predator == false || _characterB.avoidsPredators && _characterA.predator == true)
-        chance -= 5;
-
-    if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
-
-    // Sexual Orientation
-    if (_characterB.sexualOrientation == 0 && _characterA.sex != _characterB.sex || _characterB.sexualOrientation == 1 && _characterA.sex == _characterB.sex || _characterB.sexualOrientation == 2)
-        chance += 10;
-    else
-        chance -= 50;
-
-    if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
-
-    // Rut and Lust
-    if (_characterB.rut && _characterB.lust > 98)
-        chance += (_characterB.rut ? _characterB.lust/1.5 : _characterB.lust/2);
-    else if (_characterB.lust > 89)
-        chance += (_characterB.rut ? _characterB.lust/2 : _characterB.lust/4);
-    else if (_characterB.lust > 74)
-        chance += (_characterB.rut ? _characterB.lust/4 : _characterB.lust/8);
-    else if (_characterB.lust > 59)
-        chance += (_characterB.rut ? _characterB.lust/8 : _characterB.lust/12);
-    else if (_characterB.lust > 49)
-        chance += (_characterB.rut ? _characterB.lust/12 : _characterB.lust/16);
-    else
-        chance += (_characterB.rut ? _characterB.lust/16 : _characterB.lust/20);
-
-    if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
-
-    // Exhibitionism
-    if (_characterA.room instanceof Room) {
-        if (_characterA.room.characters.size > 2){
-            if (_characterB.exhibitionism > 0)
-                chance += ((_characterB.exhibitionism / 5) * (_characterA.room.characters.size - 2));
-            else {
-                _characterA.room.characters.forEach(function(__characterA) {
-                    if (__characterA != _characterB._characterA && __characterA != _characterA)
-                        chance += _characterB.hadSexWith(__characterA) ? 5 : -5;
-                }, _characterA);
-            }
-        }
-    }
-
-    if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
-
-    // Incest
-    if (_characterB.relatives.has(_characterA)) {
-        if (_characterB.incestual > 66)
-            chance += _disposition.storge / 3 + (_characterB.getCharacterSexCount(_characterA) * 2);
-        else if (_characterB.incestual > 33)
-            chance += _disposition.storge / 4 + (_characterB.getCharacterSexCount(_characterA));
-        else if (_characterB.incestual > 0)
-            chance += _disposition.storge / 5 + (_characterB.getCharacterSexCount(_characterA));
-        else
-            chance -= 50;
-    }
-
-    if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
-
-    // Intoxication
-    chance += _characterB.intoxication/2.5;
-
-    if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
-
-    // Somnophilia
-    if (_characterB.sleeping) {
-        if (enableRape)
-            chance = 100;
-        else if (_characterB.somnophilia > 50 && _characterB.hadSexWith(_characterA) && _disposition.eros > 75)
-            chance += 10;
-    }
-
-    if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
-
-    return Math.ceil(chance);
+    
+    if (typeof _characterB == 'undefined')
+        return undefined;
+    
+    return _characterA.calculateChanceToFuck(_characterB, _ignoreLustAndRut);
 }
 
 /**
