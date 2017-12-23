@@ -10,6 +10,8 @@ charliePalmMirror = new Item("charliePalmMirror", "Small mirror", "A small palm 
 woodenBowlEmpty = new Item("woodenBowlEmpty", "Empty Bowl", "An empty bowl.", undefined, undefined, ["wood", "container"]);
 roseLiving = new Item("roseLiving", "Rose", "A single rose.", undefined, undefined, ["living", "water", "earth"]);
 roseDead = new Item("roseDead", "Dead Rose", "A dead rose.", undefined, undefined, ["dead", "earth"])
+dildoCanineRed = new Item("dildoCanineRed", "Red Rocket Dildo", "A fox-sized canine-themed dildo.", undefined, undefined);
+magicFleshlight = new Item("magicFleshlight", "Life-like Wolf Fleshlight", "A black wolf fleshlight that feels warm to the touch. It moistens and becomes tighter during use, just like the real thing!", undefined, undefined, ["magic","living","container"]);
 
 // Clothing
 blouseBlue = new Clothing("blouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", undefined, "shirt");
@@ -22,6 +24,8 @@ tanktopWhite = new Clothing("tanktopWhite", "White tank-top", "A white tank-top.
 cargopantsTan = new Clothing("cargopantsTan", "Tan Cargo Pants", "A pair of tan cargo pants.", undefined, "pants", true);
 shirtPatchy = new Clothing("shirtPatchy", "Patchy Shirt", "A torn, patched up cloth shirt.", undefined, "shirt");
 pantsPatchy = new Clothing("pantsPatchy", "Patchy Pants", "A pair of torn, patched up cloth pants.", undefined, "pants", true);
+pantsDenimBlue = new Clothing("pantsDenimBlue", "Blue Denim Pants", "A pair of blue denim pants.", undefined, "pants", true);
+shirtGreen = new Clothing("shirtGreen", "Green Long-sleeved Shirt", "A green, long-sleeved shirt.", undefined, "shirt", false);
 tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles Tank Top", "A Meles Meles band tank top.", "images/items/tshirtWhiteMelesMeles.svg", "shirt", false);
 shockCollar = new Clothing("shockCollar", "Shock Collar", "A shock collar from the 80s.", "images/items/shockCollar.svg", "neckwear", false);
 
@@ -42,8 +46,8 @@ pandorasBoxLocationKey = new Key("pandorasBoxLocationKey", "Key to Pandora's Box
 bugBurgaDelux = new Consumable("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.", "images/items/bugBurgaDelux.svg", "food", undefined, "dead");
 bugBurga = new Consumable("bugBurga", "Bug Burga", "A Bug Burga; one Bug Burga patty, one slices of cheese, and two sesame seed buns.", "images/items/bugBurga.svg", "food", undefined, "dead");
 bugBurgaDrank = new Consumable("bugBurgaDrank", "Bug Burga Soda", "A fizzy fountain drink from Bug Burga.", "images/items/bugBurgaDrank.svg", "drink", undefined, ["container", "water", "mirror"]);
-charlieBeatingHeart = new Consumable("charlieBeatingHeart", "Charlie's Heart", "The vixen's still-beating heart thrums at a quick pace. It shifts around unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieBeatingHeart.svg", undefined, undefined, ["magic", "living"]);
-charlieLeftEye = new Consumable("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieLeftEye.svg", undefined, undefined, ["mirror", "magic", "living"]);
+charlieBeatingHeart = new Consumable("charlieBeatingHeart", "Charlie's Heart", "The vixen's still-beating heart thrums at a quick pace. It shifts around unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieBeatingHeart.svg", undefined, undefined, ["magic", "living", "charm"]);
+charlieLeftEye = new Consumable("charlieLeftEye", "Charlie's Left Eye", "The vixen's blue left eye. The strangely slitted pupil retracts when exposed to light. It shivers unnaturally, and feels as though it's pulling you in a specific direction.", "images/items/charlieLeftEye.svg", undefined, undefined, ["mirror", "magic", "living", "charm"]);
 tinOfGrease = new Consumable("tinOfGrease", "Tin of Grease", "A tin of food-safe grease.", undefined, "food", undefined, "metal");
 woodenBowlWater = new Consumable("woodenBowlWater", "Bowl of Water", "A bowl filled with water.", undefined, "drink", undefined, ["wood", "container", "water", "mirror"]);
 woodenBowlRainbowRocks = new Consumable("woodenBowlRainbowRocks", "Bowl of Cereal", "A bowl filled with cereal.", undefined, "food");

@@ -25,6 +25,12 @@ Array.prototype.remove = function() {
     }
     return this;
 };
+Array.prototype.contains = function() {
+    var a = arguments;
+    if (a.length == 0 || this.length == 0)
+        return false;
+    return (this.indexOf(a[0]) !== -1);
+}
 Array.prototype.getRandom = function() {
     if (this.length == 0)
         return undefined;

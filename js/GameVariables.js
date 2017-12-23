@@ -107,6 +107,23 @@ const kEyeTypes = new Set(["circle", "slit", "rectangle"]);
 const kPeltTypes = new Set(["skin", "fur", "wool", "hair"]);
 const kRoomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathroom", "kitchen", "diningroom", "closet", "basement", "extBuilding", "street", "walkway", "lot"]);
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
-const kActionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","remove","hold","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate","consume","hug","kiss","pray"]);
+const kActionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","remove","hold","release","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate","consume","hug","kiss","pray"]);
 const kConsumableTypes = new Set(["food", "drink", "medicine"]);
-const kSpecialTypes = new Set(["exists", "living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container"]);
+const kSpecialTypes = new Set(["exists", "living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container", "charm"]);
+
+// Mana Costs
+const kManaCostLevitate = 10;
+const kManaCostUnlock = 15;
+const kManaCostImbue = 50;
+const kManaCostMirrorUseOpen = 25; // Open the mirror's inventory
+const kManaCostMirrorUseWalk = 75; // Walk through the mirror
+const kManaCostMirrorUseLook = 50; // Peer through the mirror
+
+const kManaCostCharacterSummon = 100;
+const kManaCostCharacterLust = 25; // 1-time; +5 to Lust to Character
+const kManaCostCharacterRut = 50; // 1-time; enable Rut
+const kManaCostCharacterTempDisposition = 25; // 24h; +20 to a Disposition type to Character
+const kManaCostCharacterGradualDisposition = 50; // Channel; Initial cost of 50 to start, additional cost of 50 the next day, +2 Disposition type to Character
+const kManaCostCharacterCompel = 50; // 1-time; +100 to all Dispositions, +5 Miseo after Scene
+const kManaCostCharacterDominate = 100; // 24h; +100 to all Dispositions, practically disables all checks to Character
+const kManaCostCharacterPossess = 150; // 24h;

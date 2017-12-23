@@ -1340,7 +1340,7 @@ class Character extends Entity {
 
         this.currentActions = new Set();
 
-        this.heldItems = new Set();
+        this._heldItems = new Array();
         this.hasPhone = false;
         this.phone = undefined;
 
@@ -1356,6 +1356,7 @@ class Character extends Entity {
         this.lifeMax = 100;
         this.mana = 0;
         this.manaMax = 0;
+        this.manaCostOffsetPercent = 0;
         this.stamina = 100;
         this.staminaMax = 100;
         this.money = 0;
@@ -1539,6 +1540,7 @@ class Character extends Entity {
         this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : this.lifeMax); delete json["lifeMax"];
         this.setMana(json.hasOwnProperty("mana") ? json["mana"] : this.mana); delete json["mana"];
         this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : this.manaMax); delete json["manaMax"];
+        this.setManaCostOffsetPercent(json.hasOwnProperty("manaCostOffsetPercent") ? json["manaCostOffsetPercent"] : this.manaCostOffsetPercent); delete json["manaCostOffsetPercent"];
         this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : this.stamina); delete json["stamina"];
         this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : this.staminaMax); delete json["staminaMax"];
         this.setMoney(json.hasOwnProperty("money") ? json["money"] : this.money); delete json["money"];
@@ -1613,15 +1615,15 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["items"];
-        //  heldItems
+        //  _heldItems
         try {
-            _tmpArr = JSON.parse(json["heldItems"]);
+            _tmpArr = JSON.parse(json["_heldItems"]);
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
                     this.addHeldItem(itemsIndexes.get(_item));
             }, this);
         } catch (e) {}
-        delete json["heldItems"];
+        delete json["_heldItems"];
         //  prefersSpecies
         try {
             _tmpArr = JSON.parse(json["prefersSpecies"]);
@@ -1751,18 +1753,29 @@ class Character extends Entity {
         }
     }
 
-    addHeldItem(_item) {
-        if (!(_item instanceof Item)) {
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    calculateManaCost(_cost = 0) {
+        if (this.manaCostOffsetPercent == 0 || _cost == 0)
+            return _cost;
+        else if (_cost < 0)
+            return 0;
+        else
+            return _cost - (this.manaCostOffsetPercent / _cost);
+    }
 
-	        if (!(_item instanceof Item))
-	        	return undefined;
+    addHeldItem(_item, _hand = undefined) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
 	    }
 
-    	if (this.heldItems.size > 1)
-    		return false;
+    	if (this._heldItems.length > 1) {
+            return false;
+        }
 		else {
-    		this.heldItems.add(_item);
+    		this._heldItems.push(_item);
+            unsafeExec("{0}Hold({1})".format(_item.id, this.id));
     		return true;
 		}
     }
@@ -1771,18 +1784,46 @@ class Character extends Entity {
     }
     removeHeldItem(_item) {
         if (!(_item instanceof Item)) {
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-	        if (!(_item instanceof Item))
-	        	return undefined;
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
 	    }
 
-    	if (this.heldItems.contains(_item)) {
-    		this.heldItems.delete(_item);
+    	if (this._heldItems.contains(_item)) {
+    		this._heldItems.remove(_item);
+            unsafeExec("{0}Release({1})".format(_item.id, this.id));
     		return true;
     	}
     	else
     		return false;
+    }
+    release(_item) {
+        this.removeHeldItem(_item);
+    }
+    hasItemInRightHand() {
+        return this._heldItems.length > 0 && this._heldItems[0] instanceof Item;
+    }
+    hasItemInLeftHand() {
+        return this._heldItems.length > 1 && this._heldItems[1] instanceof Item;
+    }
+    getItemInRightHand() {
+        if (this.hasItemInRightHand())
+            return this._heldItems[0];
+        else
+            return undefined;
+    }
+    getItemInLeftHand() {
+        if (this.hasItemInLeftHand())
+            return this._heldItems[1];
+        else
+            return undefined;
+    }
+    removeItemInRightHand() {
+        return this.removeHeldItem(this.getItemInRightHand());
+    }
+    removeItemInLeftHand() {
+        return this.removeHeldItem(this.getItemInLeftHand());
     }
 
     setAge(_int) {
@@ -1962,6 +2003,39 @@ class Character extends Entity {
     }
     subManaMax(_int) {
         return this.decManaMax(_int);
+    }
+
+    setManaCostOffsetPercent(_int) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < -100)
+            _int = -100;
+        else if (_int > 100)
+            _int = 100;
+        if (this.mana > this.manaCostOffsetPercent)
+            this.mana = this._int;
+        this.manaCostOffsetPercent = _int;
+        return _int;
+    }
+    incManaCostOffsetPercent(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent + _int);
+    }
+    addManaCostOffsetPercent(_int) {
+        return this.incManaCostOffsetPercent(_int);
+    }
+    decManaCostOffsetPercent(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent - _int);
+    }
+    subManaCostOffsetPercent(_int) {
+        return this.decManaCostOffsetPercent(_int);
     }
 
     setStamina(_int) {

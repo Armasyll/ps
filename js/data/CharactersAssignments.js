@@ -224,6 +224,8 @@ wolter.addAvoidedSpecies("pig");
 wolter.setIncestual(25);
 
 // Assign Clothes to Characters
+anneke.wear(blouseBlue);
+anneke.wear(pantiesBlue);
 charlie.wear(tshirtWhiteMelesMeles);
 charlie.wear(pantiesPink);
 charlie.wear(pantsGrey);
@@ -231,8 +233,8 @@ remmy.wear(tanktopWhite);
 remmy.wear(cargopantsTan);
 rosie.wear(shirtPatchy);
 rosie.wear(pantsPatchy);
-wolter.wear(blouseBlue);
-wolter.wear(pantiesBlue);
+wolter.wear(shirtGreen);
+wolter.wear(pantsDenimBlue);
 
 // Assign Items to Characters
 al.addItem(alApartmentLocationKey);
@@ -255,12 +257,16 @@ remmy.addItem(remmyApartmentLocationKey);
 velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 
+// Assign held Items to Characters
+anneke.addHeldItem(dildoCanineRed);
+
 // Assign Phones to Characters
 remmy.addItem(remmyPhone);
 wolter.addItem(wolterPhone);
 
 // Make the Characters do something
-characterSleep(anneke, twinsApartmentBedroomAnnekeBed);
+characterLay(anneke, twinsApartmentBedroomAnnekeBed);
+characterMasturbate(anneke);
 characterSleep(wolter, remmyApartmentLivingroomCouch);
 characterSit(charlie, remmyApartmentLivingroomCouch);
 characterLay(pandora, pandorasBoxBasementHiddenBedroomBed);
