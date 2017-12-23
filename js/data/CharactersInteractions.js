@@ -203,7 +203,7 @@ function wolterSex() {
         //  and the Character hasn't slept with the same sex before
         if (_ctfNoLust > 49 && _character.sex == player.sex && _character.getSexualOrientation() != 0 && _character.getCharacterSexCount(player) == 0 && ((_character.sex == 0 && !_character.sleptWithMale) || (_character.sex == 1 && !_character.sleptWithFemale))) {
             unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
-        }}
+        }
         else if (_ctfLust > 49) { // Else if the Player has a chance to fuck the Character with Lust
             unsafeExec("{0}{1}Sex()".format(player.room.sid, _character.id.capitalize()));
         }
