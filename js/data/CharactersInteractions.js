@@ -308,12 +308,15 @@ function wolterHug() {
                         _arr = ["<p>Hooking an arm around {0}'s side, you pull him into a hug. His arms wrap around yours, and you feel them tighten up briefly.</p>".format(_character.name)];
                     }
                 }
-                else {
+                else if (_character.dating(player)) {
                     _arr = [
                         "<p>Bringing your arms around {0}, he leans into you and holds you in return. \"You're handsome,\" you say, before pressing your lips to his. His eyes close as his paws travel up your back, pulling you further into the kiss. After a few moments, you part, and he smiles at you with a half-lidded gaze. \"{1}\" he says, and leans in for another kiss.</p>".format(_character.name, player.sex == 0 ? "You're not too bad yourself, stud," : "And you're beautiful,"),
                         "<p>Slipping your {1} under {0}'s arms, you pull him against you. \"Love you,\" you say, looking up at his smile. He dips his head down, and presses his lips against the top of your muzzle. \"Love you too, {2}.\" he says, followed by another kiss to your cheek.</p>".format(_character.name, player.getHands(), player.name)
                     ];
                     _character.incLust(1);
+                }
+                else {
+                    "<p></p>".format(_character.name)
                 }
             }
             else if (_disposition.eros > 66 && _character.lust > 33) {
@@ -323,25 +326,32 @@ function wolterHug() {
                         "<p>{0} leans in as you wrap your arms around him. His body feels unusually warm, and you can feel his breath against your neck. \"Wolter, you're hot,\" you say, stepping away from him. He looks up at you, and you can see his unfocused gaze before he squeezes his eyes shut.</p><p>{1}</p><p>{0} takes in a deep breath and slowly lets it out, his nostrils flaring as his toes curl in. He looks away from you nervously and squeezes his legs together. \"Yeah, I think I might be catching ah, something,\" he says, and for a brief moment gives you a strange look.</p>".format(_character.name, player.sex == 0 ? "After a moment, you realize what you said, and quickly correct yourself, \"I mean, you're warm.\"" : "\"You're really warm,\" you correct yourself.")
                     ];
                 }
-                else {
+                else if (_character.dating(player)) {
                     _arr = [
                         "<p>You wrap your arms around {0} and pull him close to you. As his arms lock around you too, he leans his muzzle in and presses it gently against yours. In that slow drawl you've come to love, he says to you, \"That's not a flashlight pressing against your thighs.\"</p><p><i>{1} damnit, {0}.</i> you think as you let out a sigh. \"Way to ruin the mood,\" you mutter, pressing your lips to his again. He just lets out a muffled laugh, and holds onto you just a little big longer.</p>".format(_character.name, (player.manaMax > 0 ? "the gods" : "God")),
-                        "<p>Coming at {0} from behind, you snake your {1} around his waist as he tries to turn around. Pressing your body against his back, you refuse to give him any wiggle room.</p><p>\"Someone's feeling frisky,\" he says as he leans into you, giving up in his struggle. You slide a {2} down his stomach, and slow stroke it against his crotch. \"Frisking sounds fun,\" you say softly into his ear, groping at his dick.</p>".format(_character.name, player.getHands(), player.getHand())
+                        "<p>Coming at {0} from behind, you snake your {1} around his waist as he tries to turn around. Pressing your body against his back, you refuse to give him any wiggle room.</p><p>\"Someone's feeling frisky,\" he says as he leans into you, giving up in his struggle. You slide a {2} down his stomach, and slow stroke it against his crotch. \"Frisking sounds fun,\" you say softly into his ear, groping at his dick.</p>".format(_character.name, player.getHands(), player.getHand()),
+                        "<p>You give {0} a quick hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, and moves both of his paws down your back.</p>".format(_character.name, player.sex == 0 ? ", man" : "")
                     ];
+                    player.incLust(4);
+                    _character.incLust(15);
+                    _character.setRut(true);
                 }
-                player.incLust(4);
-                _character.incLust(15);
-                _character.setRut(true);
+                else {
+                    "<p></p>".format(_character.name)
+                }
             }
             else if (_disposition.eros > 33) {
                 if ((_character.sexualOrientation == 0 && _character.sex == player.sex) || (_character.sexualOrientaiton == 1 && _character.sex != player.sex))
                     _arr = ["<p>Spreading your arms wide, you take {0} into a warm hug that he returns. As you move apart, you feel one of his paws slip down your side, but move away at your waist.</p>".format(_character.name)];
                 else
-                    _arr = ["<p>You wrap your arms around {0} and he leans in to you. As you quickly part, his paws linger at your sides for a moment.</p>".format(_character.name)];
+                    _arr = ["<p>You wrap your arms around {0} and he leans in to you. As you quickly part, his paws linger at your sides for a moment longer.</p>".format(_character.name)];
                 _character.incLust(1);
             }
             else {
-                _arr = ["<p>Spreading your arms wide, you take {0} into a warm hug that he returns.</p>".format(_character.name)];
+                _arr = [
+                    "<p>Spreading your arms wide, you take {0} into a warm hug that he returns. You can almost hear what sounds like a purr coming from his throat.</p>".format(_character.name),
+                    "<p>You give {0} a quick bro hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, after finally letting you go.</p>".format(_character.name, player.sex == 0 ? ", man" : "")
+                ];
                 _character.incCharacterPhilia(player, 1);
             }
         }
