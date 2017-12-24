@@ -607,36 +607,78 @@ function itemInteractUse(_item, _character = player) {
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
     if (!(_item instanceof Item) || !(_character instanceof Character))
-        return;
+        return undefined;
 
-    itemInteract(_item, _character);
+    return unsafeExec("{0}Use({1})".format(_item.id, player.id));
 }
-function itemInteractPut(_item, _character = player) { // Rewrite this later for entities in general
+/**
+ * Item is taken from Character and Put into the Entity; addItem for non-Character(s)
+ * @param  {Item} _item       [description]
+ * @param  {Character} _characterA [description]
+ * @param  {Entity} _entityB    [description]
+ * @return {Boolean}             [description]
+ */
+function itemInteractPut(_item, _characterA = player, _entityB = undefined) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_entityB instanceof Entity))
+        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
-        return;
+    if (!(_item instanceof Item) || !(_characterA instanceof Character))
+        return undefined;
+
+    _characterA.removeItem(_item);
+    _entityB.addItem(_item);
+
+    return true;
 }
-function itemInteractGive(_item, _character = player) {
+/**
+ * Item is Taken from Character and Put into the Entity; addItem for Character(s)
+ * @param  {Item} _item       [description]
+ * @param  {Character} _characterA [description]
+ * @param  {Entity} _entityB    [description]
+ * @return {Boolean}             [description]
+ */
+function itemInteractGive(_item, _characterA = player, _entityB = undefined) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_entityB instanceof Entity))
+        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_item instanceof Item) || !(_characterA instanceof Character))
         return;
+
+    _characterA.removeItem(_item);
+    _entityB.addItem(_item);
+
+    return true;
 }
-function itemInteractTake(_item, _character = player) {
+/**
+ * Item is Given to Character after being Taken from Entity
+ * @param  {Item} _item       [description]
+ * @param  {Character} _characterA [description]
+ * @param  {Entity} _entityB    [description]
+ * @return {Boolean}             [description]
+ */
+function itemInteractTake(_item, _characterA = player, _entityB = undefined) {
     if (!(_item instanceof Item))
         _item = itemsIndexes.get(_item);
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    if (!(_characterA instanceof Character))
+        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+    if (!(_entityB instanceof Entity))
+        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_item instanceof Item) || !(_characterA instanceof Character))
         return;
+
+    _entityB.removeItem(_item);
+    _characterA.addItem(_item);
+
+    return true;
 }
 function itemInteractHold(_item, _character = player) {
     if (!(_item instanceof Item))
@@ -648,7 +690,20 @@ function itemInteractHold(_item, _character = player) {
         return;
 
     _character.wearing(_item) && _character.takeOff(_item);
-    itemInteract(_item, _character);
+    if (_character.addHeldItem(_item))
+        unsafeExec("{0}Hold({1})".format(_item.id, _character.id));
+}
+function itemInteractRelease(_item, _character = player) {
+    if (!(_item instanceof Item))
+        _item = itemsIndexes.get(_item);
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+    if (!(_item instanceof Item) || !(_character instanceof Character))
+        return;
+
+    if (_character.removeHeldItem(_item))
+        unsafeExec("{0}Release({1})".format(_item.id, _character.id));
 }
 function itemInteractWear(_item, _character = player) {
     if (!(_item instanceof Item))

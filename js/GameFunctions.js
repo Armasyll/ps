@@ -171,7 +171,7 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
  */
 function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     var _eventRun = false;
-    
+
     if (!(_item instanceof Item)) {
         if (itemsIndexes.has(_item))
             item = itemsIndexes.get(_item);
@@ -1214,6 +1214,42 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     }
     
     return _character.masturbate(_furniture);
+}
+function characterHold(_character, _item, _hand = undefined, _executeScene = false) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_item instanceof Item)){
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
+
+    _character.addHeldItem(_item, _hand);
+    if (_executeScene == true)
+        unsafeExec("{0}Hold({1})".format(_item.id, _character.id))
+}
+function characterRelease(_character, _item, _hand = undefined, _executeScene = false) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_item instanceof Item)){
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
+
+    _character.removeHeldItem(_item, _hand);
+    if (_executeScene == true)
+        unsafeExec("{0}Release({1})".format(_item.id, _character.id))
 }
 
 /**

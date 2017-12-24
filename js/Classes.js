@@ -1056,12 +1056,12 @@ class Entity {
     }
 
     addItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
         this.items.push(_item);
         if (_item instanceof Phone && _item.owner == this) {
             this.hasPhone = true;
@@ -1071,12 +1071,12 @@ class Entity {
         return true;
     }
     removeItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
         if (!this.containsItem(_item))
             return true;
 
@@ -1088,12 +1088,12 @@ class Entity {
     }
 
     containsItem(_item) {
-        if (!(_item instanceof Item))
-            _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
-
-        if (!(_item instanceof Item))
-            return undefined;
-
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
         return this.items.indexOf(_item) >= 0;
     }
     hasItem(_item) {
@@ -1762,33 +1762,53 @@ class Character extends Entity {
             return _cost - (this.manaCostOffsetPercent / _cost);
     }
 
-    addItem(_item) {
-        if (super.addItem(_item)) {
-            unsafeExec("{0}Take({1})".format(_item.id, this.id));
-        }
-    }
-    removeItem(_item) {
-        if (super.removeItem(_item)) {
-            unsafeExec("{0}Remove({1})".format(_item.id, this.id));
-        }
-    }
-
     addHeldItem(_item, _hand = undefined) {
         if (!(_item instanceof Item)) {
             if (itemsIndexes.has(_item))
                 _item = itemsIndexes.get(_item);
             else
                 return undefined;
-	    }
-
-    	if (this._heldItems.length > 1) {
-            return false;
         }
-		else {
-    		this._heldItems.push(_item);
-            unsafeExec("{0}Hold({1})".format(_item.id, this.id));
-    		return true;
-		}
+        if (_hand !== undefined) {
+            if (isNaN(_hand)) {
+                switch (_hand.slice(0, -1).toLowerCase()) {
+                    case 1 :
+                    case "l" : {
+                        _hand = 1;
+                        break;
+                    }
+                    case 0 :
+                    case "r" : {
+                        _hand = 0;
+                        break;
+                    }
+                }
+            }
+            else if (_hand > 1 || _hand < 0) {
+                _hand = 0;
+            }
+            else {
+                _hand = Number.parseInt(_hand);
+            }
+        }
+
+        if (typeof _hand == "number") {
+            if (this._heldItems[_hand] instanceof Item) {
+                var _item = this._heldItems[_hand];
+                if (!(this.removeHeldItem(_item)))
+                    return false;
+            }
+            this._heldItems[_hand] = _item;
+        }
+        else {
+        	if (this._heldItems.length > 1) {
+                return false;
+            }
+    		else {
+        		this._heldItems.push(_item);
+        		return true;
+    		}
+        }
     }
     hold(_item) {
     	return this.addHeldItem(_item);
@@ -1803,7 +1823,7 @@ class Character extends Entity {
 
     	if (this._heldItems.contains(_item)) {
     		this._heldItems.remove(_item);
-            unsafeExec("{0}Release({1})".format(_item.id, this.id));
+            this.addItem(_item);
     		return true;
     	}
     	else
@@ -3237,9 +3257,6 @@ class Character extends Entity {
             _clothing = clothingIndexes.get(_clothing);
 
         if (_clothing instanceof Clothing) {
-            if (!this.containsItem(_clothing))
-	           this.addItem(_clothing);
-
 	        if (kClothingTypes.has(_clothing.type)) {
 	            this.clothing.set(_clothing.type, _clothing);
 	            return true;
@@ -3262,6 +3279,7 @@ class Character extends Entity {
         if (_clothing instanceof Clothing) {
             if (kClothingTypes.has(_clothing.type))
                 this.clothing.set(_clothing.type, undefined);
+            this.addItem(_clothing);
         }
         else if (kClothingTypes.has(_clothing))
         	this.clothing.set(_clothing, undefined);
