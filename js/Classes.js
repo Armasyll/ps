@@ -1762,6 +1762,17 @@ class Character extends Entity {
             return _cost - (this.manaCostOffsetPercent / _cost);
     }
 
+    addItem(_item) {
+        if (super.addItem(_item)) {
+            unsafeExec("{0}Take({1})".format(_item.id, this.id));
+        }
+    }
+    removeItem(_item) {
+        if (super.removeItem(_item)) {
+            unsafeExec("{0}Remove({1})".format(_item.id, this.id));
+        }
+    }
+
     addHeldItem(_item, _hand = undefined) {
         if (!(_item instanceof Item)) {
             if (itemsIndexes.has(_item))

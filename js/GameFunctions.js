@@ -163,64 +163,43 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
 }
 /**
  * Moves an item from an Entity to another Entity.
- * @param Item _item
- * @param Entity _fromEntity
- * @param Entity _toEntity
- * @param Boolean _useLastMenu
- * @return Boolean
+ * @param {Item} _item
+ * @param {Entity} _fromEntity
+ * @param {Entity} _toEntity
+ * @param {Boolean} _useLastMenu
+ * @return {Boolean}
  */
 function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     var _eventRun = false;
-    if (typeof _item == 'undefined' || typeof _toEntity == 'undefined')
-        return undefined;
     
-    if (!(_item instanceof Entity)) {
-        if (clothingIndexes.has(_item))
-            _item = clothingIndexes.get(_item);
-        else if (itemsIndexes.has(_item))
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
             item = itemsIndexes.get(_item);
         else {
             if (debug) console.log(_item.id + " isn't indexed in Items or Clothing.");
             return undefined;
         }
     }
-    else if (!(_item instanceof Item)) {
-        if (debug) console.log(_item.id + " is an Entity, but isn't an Item.");
-        return undefined;
-    }
     
-    if (typeof _fromEntity == 'undefined') {}
-    else if (!(_fromEntity instanceof Entity)) {
-        if (charactersIndexes.has(_fromEntity))
-            _fromEntity = charactersIndexes.get(_fromEntity);
-        else if (furnitureIndexes.has(_fromEntity))
-            _fromEntity = furnitureIndexes.get(_fromEntity);
+    if (_fromEntity != undefined && !(_fromEntity instanceof Entity)) {
+        if (entityIndexes.has(_fromEntity))
+            _fromEntity = entityIndexes.get(_fromEntity);
         else {
-            if (debug) console.log(_fromEntity.id + " isn't indexed in Characters or Furniture.");
-            return undefined;
+            if (debug) console.log("_fromEntity {0} isn't an Entity.".format(_fromEntity));
+            _fromEntity = undefined;
         }
     }
-    else if (!(_fromEntity instanceof Character) && !(_fromEntity instanceof Furniture)) {
-        if (debug) console.log(_fromEntity.id + " is an Entity, but isn't a Character of Furniture.");
-        return undefined;
-    }
-    
+        
     if (!(_toEntity instanceof Entity)) {
-        if (charactersIndexes.has(_toEntity))
-            _toEntity = charactersIndexes.get(_toEntity);
-        else if (furnitureIndexes.has(_toEntity))
-            _toEntity = furnitureIndexes.get(_toEntity);
+        if (entityIndexes.has(_toEntity))
+            _toEntity = entityIndexes.get(_toEntity);
         else {
-            if (debug) console.log(_toEntity.id + " isn't indexed in Characters or Furniture.");
+            if (debug) console.log("_toEntity {0} isn't an Entity.".format(_toEntity));
             return undefined;
         }
     }
-    else if (!(_toEntity instanceof Character) && !(_toEntity instanceof Furniture)) {
-        if (debug) console.log(_toEntity.id + " is an Entity, but isn't a Character of Furniture.");
-        return undefined;
-    }
-    
-    if (typeof _fromEntity == 'undefined' || _fromEntity.containsItem(_item)) {
+
+    if (_fromEntity == undefined || _fromEntity.containsItem(_item)) {
         _eventRun = _executeItemRemoveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
         _eventRun = _executeItemGiveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
         _eventRun = _executeItemTakeEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
