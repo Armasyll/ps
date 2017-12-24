@@ -3,7 +3,10 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         _room = roomsIndexes.get(_room);
 
     if (player.room.isLocked(_room) && !player.hasKey(_room)) {
-        Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
+        if (_room.location != player.room.location)
+            Content.add("<p>{0} is locked from this side.</p>".format(_room.location.name));
+        else
+            Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
         return undefined;
     }
 
