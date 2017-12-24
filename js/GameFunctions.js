@@ -1215,6 +1215,56 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     
     return _character.masturbate(_furniture);
 }
+function characterGiveItem(_characterA, _characterB, _item, _executeScene = false) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    if (!(_item instanceof Item)){
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
+
+    if (_characterA.hasHeldItem(_item)) {}
+    else if (_characterA.containsItem(_item)) {
+        if (!(_characterA.addHeldItem(_item)))
+            return false;
+    }
+    else
+        return undefined;
+
+    /*
+        Think about this later.
+     */
+    if (_characterB.hasItemsInBothHands()) {
+        var __item = _characterB.getItemInRightHand();
+        
+        characterReleaseItem(_characterB, __item, 0, true);
+        
+        _characterB.addHeldItem(_item);
+        unsafeExec("{0}Hold({1})".format(_item.id, _characterB.id));
+        
+        characterReleaseItem(_characterB, _item, 0, true);
+        
+        _characterB.addHeldItem(__item);
+        unsafeExec("{0}Hold({1})".format(__item.id, _characterB.id));
+    }
+    else {
+        _characterB.addHeldItem(_item);
+        unsafeExec("{0}Hold({1})".format(_item.id, _characterB.id));
+    }
+
+}
 function characterHoldItem(_character, _item, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))

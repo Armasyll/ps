@@ -99,7 +99,7 @@ var usePopups = false;
 var interruptTick = false;
 
 const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse"]);
-//const kBodyPartTypes = new Set(["head","eyes","leftEar","rightEar","nose","lips","tongue","neck","chest","torso","waist","groin","legs","feet"]);
+const kBodyPartTypes = new Set(["head","leftEye","rightEye","eyes","ears","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","nipples","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","hands","leftHand","rightHand","feet","leftFoot","rightFoot","fingers","toes","rear","anus","vagina","clitoris","penis","knot","testicles"]);
 const kClothingTypes = new Set(["hat" ,"mask" ,"glasses" ,"earPiercingLeft" ,"earPiercingRight" ,"nosePiercing" ,"lipPiercing" ,"tonguePiercing" ,"collar" ,"neckwear" ,"shirt" ,"jacket" ,"belt" ,"gloves" ,"underwear" ,"pants" ,"socks" ,"shoes" ,"bra"]);
 const kHandTypes = new Set(["fur", "pad", "hoof", "clovenhoof", "skin"]);
 const kFeetTypes = kHandTypes;
@@ -107,7 +107,7 @@ const kEyeTypes = new Set(["circle", "slit", "rectangle"]);
 const kPeltTypes = new Set(["skin", "fur", "wool", "hair"]);
 const kRoomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathroom", "kitchen", "diningroom", "closet", "basement", "extBuilding", "street", "walkway", "lot"]);
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
-const kActionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","steal","remove","hold","release","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate","consume","hug","kiss","pray"]);
+const kActionTypes = new Set(["move","use","sit","lay","sleep","open","put","give","take","steal","remove","hold","release","wear","look","talk","sex","attack","rape","stand","walk","follow","stay","masturbate","consume","hug","kiss","pray","touch"]);
 const kConsumableTypes = new Set(["food", "drink", "medicine"]);
 const kSpecialTypes = new Set(["exists", "living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container", "charm"]);
 
