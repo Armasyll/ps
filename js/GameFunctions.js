@@ -1215,7 +1215,7 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     
     return _character.masturbate(_furniture);
 }
-function characterHold(_character, _item, _hand = undefined, _executeScene = false) {
+function characterHoldItem(_character, _item, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1231,9 +1231,11 @@ function characterHold(_character, _item, _hand = undefined, _executeScene = fal
 
     _character.addHeldItem(_item, _hand);
     if (_executeScene == true)
-        unsafeExec("{0}Hold({1})".format(_item.id, _character.id))
+        return unsafeExec("{0}Hold({1})".format(_item.id, _character.id))
+    else
+        return true;
 }
-function characterRelease(_character, _item, _hand = undefined, _executeScene = false) {
+function characterReleaseItem(_character, _item, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1249,7 +1251,32 @@ function characterRelease(_character, _item, _hand = undefined, _executeScene = 
 
     _character.removeHeldItem(_item, _hand);
     if (_executeScene == true)
-        unsafeExec("{0}Release({1})".format(_item.id, _character.id))
+        return unsafeExec("{0}Release({1})".format(_item.id, _character.id));
+    else
+        return true;
+}
+function characterAddItem(_character, _item, _executeScene = false) {
+    return characterTakeItem(_character, _item, _executeScene);
+}
+function characterTakeItem(_character, _item, _executeScene = false) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_item instanceof Item)){
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
+
+    _character.addItem(_item);
+    if (_executeScene == true)
+        return unsafeExec("{0}Take({1})".format(_item.id, _character.id));
+    else
+        return true;
 }
 
 /**

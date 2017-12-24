@@ -1795,7 +1795,11 @@ class Character extends Entity {
         if (typeof _hand == "number") {
             if (this._heldItems[_hand] instanceof Item) {
                 var _item = this._heldItems[_hand];
-                if (!(this.removeHeldItem(_item)))
+                if (this.removeHeldItem(_item)) {
+                    if (this.containsItem(_item))
+                        this.removeItem(_item);
+                }
+                else
                     return false;
             }
             this._heldItems[_hand] = _item;
@@ -1806,6 +1810,8 @@ class Character extends Entity {
             }
     		else {
         		this._heldItems.push(_item);
+                if (this.containsItem(_item))
+                    this.removeItem(_item);
         		return true;
     		}
         }

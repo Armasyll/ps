@@ -258,7 +258,8 @@ velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 
 // Assign held Items to Characters
-anneke.addHeldItem(dildoCanineRed);
+characterHoldItem(anneke, dildoCanineRed);
+characterHoldItem(charlie, charliePalmMirror);
 
 // Assign Phones to Characters
 remmy.addItem(remmyPhone);
