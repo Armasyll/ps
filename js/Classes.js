@@ -3584,7 +3584,7 @@ class Character extends Entity {
         this.setFurColourB(_colourB);
     }
 
-    hasBodyPart(_bodyPart) {
+    /*hasBodyPart(_bodyPart) {
         return this.bodyParts.has(_bodyPart);
     }
     removeBodyPart(_bodyPart) {
@@ -3614,7 +3614,7 @@ class Character extends Entity {
             _addedBodyPart = true;
         }
         return _addedBodyPart;
-    }
+    }*/
 
     setSpecies(_species) {
         if (kSpeciesTypes.has(_species))
@@ -3622,17 +3622,17 @@ class Character extends Entity {
         else
             this.species = "fox";
 
-        this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
+        //this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
         if (this.sex == 0)
-            this.addBodyPart(["penis","testicles"]);
+            //this.addBodyPart(["penis","testicles"]);
         else
-            this.addBodyPart(["vagina","clitoris"]);
+            //this.addBodyPart(["vagina","clitoris"]);
 
         if (_species == "fox") {
             if (this.sex == 0) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
-                this.addBodyPart("knot");
+                //this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 15;
@@ -3650,7 +3650,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
-                this.addBodyPart("knot");
+                //this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 25;
@@ -3773,7 +3773,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 18;
                 this.penisGirth = 12;
-                this.addBodyPart("knot");
+                //this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 18;
@@ -3791,7 +3791,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
-                this.addBodyPart("knot");
+                //this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 15;
