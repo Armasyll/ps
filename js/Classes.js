@@ -3622,11 +3622,11 @@ class Character extends Entity {
         else
             this.species = "fox";
 
-        //this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
+        /*this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
         if (this.sex == 0)
-            //this.addBodyPart(["penis","testicles"]);
+            this.addBodyPart(["penis","testicles"]);
         else
-            //this.addBodyPart(["vagina","clitoris"]);
+            this.addBodyPart(["vagina","clitoris"]);*/
 
         if (_species == "fox") {
             if (this.sex == 0) {
