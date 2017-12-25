@@ -1,7 +1,5 @@
 if (debug) console.log("Initializing Cells");
 
-limboCell = new Cell("limboCell", "Limbo", limboLocation);
-
 zootopiaCell = new Cell("zootopiaCell", "Zootopia", zootopiaLocation);
 
 alBuildingBasementCell = new Cell("alBuildingBasementCell", "Basement", alBuildingLocation);

@@ -145,6 +145,8 @@ function debugMenu() {
 function debugRoomInformation() {
     _contentBody = "";
     _contentBody += "<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(player.room.toString());
+    _blob = "";
+    _arr = [];
     
     
     _contentBody += "<h4>Attached Rooms ({0}):</h4> <ul>".format(player.room.attachedRooms.size);
@@ -156,7 +158,20 @@ function debugRoomInformation() {
     
     _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(player.room.characters.size);
     for (var [_characterID, _character] of player.room.characters.entries()) {
-        _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.currentActions));
+        _blob = "";
+        _character.currentActions.forEach(function(_val, _key) {
+            
+            if (_val instanceof Entity) {
+                _blob += _key + ":";
+                _arr.push(_val.toString());
+            }
+            else
+                _blob += _key;
+            _blob += _arr.toString() + ", ";
+            _arr = [];
+        }, this);
+        _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _blob);
+        _blob = "";
     }
     _contentBody += "</ul>";
     
@@ -169,7 +184,7 @@ function debugRoomInformation() {
                 _contentBody += "<li>Seating ({0}/{1})".format(_furniture.seatingSpace - _furniture.availableSeatingSpace(), _furniture.seatingSpace);
                     _contentBody += "<ul>";
                         _furniture.characters.forEach(function(_character) {
-                            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), Array.from(_character.currentActions));
+                            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _character.currentActionPresentParticiplePosition());
                         }, this);
                     _contentBody += "</ul>";
                 _contentBody += "</li>";

@@ -1,9 +1,6 @@
 if (debug) console.log("Initializing Locations");
 
 
-limboLocation = new Location("limbo", "Limbo");
-
-
 zootopiaLocation = new Location("zootopiaLocation", "Zootopia");
 
 

@@ -956,8 +956,6 @@ class Entity {
 
             this.addAction("look");
             this.addSpecialType("exists");
-
-            this.items = new Array();
         }
         
         entityIndexes.set(this.id, this);
@@ -1055,57 +1053,6 @@ class Entity {
             return false;
     }
 
-    addItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
-        }
-        this.items.push(_item);
-        if (_item instanceof Phone && _item.owner == this) {
-            this.hasPhone = true;
-            this.phone = _item;
-        }
-        
-        return true;
-    }
-    removeItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
-        }
-        if (!this.containsItem(_item))
-            return true;
-
-        if (this instanceof Character && this.wearing(_item))
-            this.takeOff(_item);
-        
-        this.items.splice(this.items.indexOf(_item), 1);
-        return true;
-    }
-
-    containsItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
-        }
-        return this.items.indexOf(_item) >= 0;
-    }
-    hasItem(_item) {
-        return this.containsItem(_item);
-    }
-    getItems() {
-        return this.items;
-    }
-    getNumberOfItems() {
-        return this.items.length;
-    }
-
     toString() {
         var _blob = "";
         if (typeof this.image !== 'undefined') {
@@ -1120,6 +1067,13 @@ class Entity {
         }
 
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
+    }
+}
+
+class BodyPart extends Entity {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+        super(_id, _name, _description, _image);
+        bodyPartsIndexes.set(_id, this);
     }
 }
 
@@ -1338,8 +1292,9 @@ class Character extends Entity {
         this.addAction("hug");
         this.addAction("kiss");
 
-        this.currentActions = new Set();
+        this.currentActions = new Map();
 
+        this.items = new Array();
         this._heldItems = new Array();
         this.hasPhone = false;
         this.phone = undefined;
@@ -1547,14 +1502,6 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["avoidsSpecies"];
-        //  currentActions
-        try {
-            _tmpArr = JSON.parse(json["currentActions"]);
-            _tmpArr.forEach(function(_int) {
-                this.addCurrentAction(_int);
-            }, this);
-        } catch (e) {}
-        delete json["currentActions"];
         //  followers
         try {
             _tmpArr = JSON.parse(json["followers"]);
@@ -1682,6 +1629,30 @@ class Character extends Entity {
             console.log(e);
         }
         delete json["dated"];
+        // Arrays
+        //  currentActions
+        try {
+            _tmpArr = JSON.parse(json["currentActions"]);
+            _tmpArr.forEach(function(_arr, _action) {
+                if (kActionTypes.has(_action) || _action === undefined) {
+                    if (_arr instanceof Array) {
+                        for (var i = 0; i < _arr.length; i++) {
+                            if (entityIndexes.has(_arr[i])) {
+                                this.addCurrentAction(_action, entityIndexes.get(_arr[i]));
+                            }
+                        }
+                    }
+                    else if (entityIndexes.has(_arr)) {
+                        this.addCurrentAction(_action, entityIndexes.get(_arr));
+                    }
+                }
+                else
+                    return undefined;
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["currentActions"];
         
         // Entities
         this.defaultDisposition.fromObject(json["defaultDisposition"]);
@@ -1729,87 +1700,62 @@ class Character extends Entity {
             return _cost - (this.manaCostOffsetPercent / _cost);
     }
 
-    addHeldItem(_item, _hand = undefined) {
+    addItem(_item) {
         if (!(_item instanceof Item)) {
             if (itemsIndexes.has(_item))
                 _item = itemsIndexes.get(_item);
             else
                 return undefined;
         }
-        if (_hand !== undefined) {
-            if (isNaN(_hand)) {
-                switch (_hand.slice(0, -1).toLowerCase()) {
-                    case 1 :
-                    case "l" : {
-                        _hand = 1;
-                        break;
-                    }
-                    case 0 :
-                    case "r" : {
-                        _hand = 0;
-                        break;
-                    }
-                }
-            }
-            else if (_hand > 1 || _hand < 0) {
-                _hand = 0;
-            }
-            else {
-                _hand = Number.parseInt(_hand);
-            }
+        this.items.push(_item);
+        if (_item instanceof Phone && _item.owner == this) {
+            this.hasPhone = true;
+            this.phone = _item;
         }
-
-        if (typeof _hand == "number") {
-            if (this._heldItems[_hand] instanceof Item) {
-                var _item = this._heldItems[_hand];
-                if (this.removeHeldItem(_item)) {
-                    if (this.containsItem(_item))
-                        this.removeItem(_item);
-                }
-                else
-                    return false;
-            }
-            this._heldItems[_hand] = _item;
-        }
-        else {
-        	if (this._heldItems.length > 1) {
-                var _item = this._heldItems[0];
-                if (this.removeHeldItem(_item)) {
-                    if (this.containsItem(_item))
-                        this.removeItem(_item);
-                }
-                else
-                    return false;
-            }
-    		else {
-        		this._heldItems.push(_item);
-                if (this.containsItem(_item))
-                    this.removeItem(_item);
-        		return true;
-    		}
-        }
+        
+        return true;
     }
-    hold(_item) {
-    	return this.addHeldItem(_item);
+    removeItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        if (!this.containsItem(_item))
+            return true;
+
+        if (this instanceof Character && this.wearing(_item))
+            this.takeOff(_item);
+        
+        this.items.splice(this.items.indexOf(_item), 1);
+        return true;
+    }
+
+    containsItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        return this.items.indexOf(_item) >= 0;
+    }
+    hasItem(_item) {
+        return this.containsItem(_item);
+    }
+    getItems() {
+        return this.items;
+    }
+    getNumberOfItems() {
+        return this.items.length;
+    }
+
+    addHeldItem(_item) {
+    	return this.hold(_item);
     }
     removeHeldItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
-	    }
-
-    	if (this._heldItems.contains(_item)) {
-    		this._heldItems.remove(_item);
-            this.addItem(_item);
-    		return true;
-    	}
-    	else
-    		return false;
-    }
-    release(_item) {
-        this.removeHeldItem(_item);
+        this.release(_item);
     }
     hasItemInRightHand() {
         return this._heldItems.length > 0 && this._heldItems[0] instanceof Item;
@@ -1822,6 +1768,9 @@ class Character extends Entity {
     }
     handsFull() {
         return this.hasItemsInBothHands();
+    }
+    hasItemInEitherHand() {
+        return this.hasItemInRightHand() || this.hasItemInLeftHand();
     }
     getItemInRightHand() {
         if (this.hasItemInRightHand())
@@ -3017,19 +2966,28 @@ class Character extends Entity {
         this.putOn(_clothing);
     }
 
-    addCurrentAction(_actionType) {
-        kActionTypes.has(_actionType) && this.currentActions.add(_actionType);
+    addCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
+        if (!kActionTypes.has(_actionType))
+            return undefined;
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+
+        this.currentActions.set(_actionType, _entity);
     }
-    removeCurrentAction(_actionType) {
-        kActionTypes.has(_actionType) && this.currentActions.delete(_actionType);
+    removeCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
+        if (!kActionTypes.has(_actionType) && _actionType !== undefined)
+            return undefined;
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+
+        this.currentActions.delete(_actionType);
+        return true;
     }
     hasCurrentAction(_actionType) {
         return this.currentActions.has(_actionType);
     }
     currentActionPosition() {
-        if (this.currentActions.has("sleep"))
-            return "sleep";
-        else if (this.currentActions.has("lay"))
+        if (this.currentActions.has("lay"))
             return "lay";
         else if (this.currentActions.has("sit"))
             return "sit";
@@ -3037,9 +2995,7 @@ class Character extends Entity {
             return "stand";
     }
     currentActionPresentParticiplePosition() {
-        if (this.isSleeping())
-            return "sleeping";
-        else if (this.isLying())
+        if (this.isLying())
             return "lying";
         else if (this.isSitting())
             return "sitting";
@@ -3050,84 +3006,35 @@ class Character extends Entity {
         return this.currentActionPresentParticiplePosition();
     }
 
-    sit(_furniture = undefined) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-
-        this.addCurrentAction("sit");
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
-
-        if (_furniture instanceof Furniture)
-            this.furniture = _furniture
-
-        return this.furniture;
+    attack(_entity) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        this.addCurrentAction("attack", _entity);
     }
-    lay(_furniture = undefined) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-        
-        this.addCurrentAction("lay");
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
-
-        if (_furniture instanceof Furniture)
-            this.furniture = _furniture;
-
-        return this.furniture;
+    consume(_entity) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        this.addCurrentAction("consume", _entity);
     }
-    wake() {
-        this.removeCurrentAction("sleep");
+    disrobe(_clothing) {
+        if (!(_clothing instanceof Clothing))
+            _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
 
-        return this.furniture;
-    }
-    sleep(_furniture = undefined) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-
-        this.addCurrentAction("sleep");
-        this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
-
-        if (_furniture instanceof Furniture)
-            this.furniture = _furniture;
-
-        return this.furniture;
-    }
-    stand() {
-        this.addCurrentAction("stand");
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
-
-        this.furniture = undefined;
-
-        return this.furniture;
-    }
-    walk() {
-        this.addCurrentAction("walk");
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
-
-        this.furniture = undefined;
-
-        return this.furniture;
+        if (_clothing instanceof Clothing) {
+            if (kClothingTypes.has(_clothing.type))
+                this.clothing.set(_clothing.type, undefined);
+            this.addItem(_clothing);
+        }
+        else if (kClothingTypes.has(_clothing))
+            this.clothing.set(_clothing, undefined);
     }
     fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character))
@@ -3153,12 +3060,133 @@ class Character extends Entity {
         
         return true;
     }
-    masturbate(_furniture = undefined) {
+    follow(_character) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character)
+            else
+                return undefined;
+        }
+        this.following = _character;
+        this.addCurrentAction("follow");
+    }
+    give(_entity, _item) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+    }
+    hold(_item, _hand = undefined) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        if (_hand !== undefined) {
+            if (isNaN(_hand)) {
+                switch (_hand.slice(0, -1).toLowerCase()) {
+                    case 1 :
+                    case "l" : {
+                        _hand = 1;
+                        break;
+                    }
+                    case 0 :
+                    case "r" : {
+                        _hand = 0;
+                        break;
+                    }
+                }
+            }
+            else if (_hand > 1 || _hand < 0) {
+                _hand = 0;
+            }
+            else {
+                _hand = Number.parseInt(_hand);
+            }
+        }
+
+        if (typeof _hand == "number") {
+            if (this._heldItems[_hand] instanceof Item) {
+                var __item = this._heldItems[_hand];
+                if (this.release(__item)) {
+                    if (this.containsItem(_item))
+                        this.removeItem(_item);
+                }
+                else
+                    return false;
+            }
+            this._heldItems[_hand] = _item;
+        }
+        else {
+            if (this._heldItems.length > 1) {
+                var __item = this._heldItems[0];
+                if (this.release(__item)) {
+                    if (this.containsItem(_item))
+                        this.removeItem(_item);
+                    this._heldItems[0] = _item;
+                }
+                else
+                    return false;
+            }
+            else {
+                if (this.containsItem(_item))
+                    this.removeItem(_item);
+                this._heldItems.push(_item);
+            }
+        }
+        this.addCurrentAction("hold", _item);
+        return true;
+    }
+    hug(_entity) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        this.addCurrentAction("hug", _entity);
+    }
+    kiss(_entity, _bodyPart = undefined) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        this.addCurrentAction("kiss", _entity, _bodyPart);
+    }
+    lay(_furniture = undefined) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
-        this.furniture = _furniture;
-        
+        this.addCurrentAction("lay", _furniture);
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
+
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
+
+        return this.furniture;
+    }
+    look(_entity) {
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        this.addCurrentAction("look", _entity);
+    }
+    masturbate() {
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("walk");
         this.removeCurrentAction("sex");
@@ -3166,6 +3194,189 @@ class Character extends Entity {
         this.addCurrentAction("masturbate");
         
         return true;
+    }
+    open(_entity) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+    }
+    pray(_entity) {
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        this.addCurrentAction("pray", _entity);
+    }
+    put(_entity, _item) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+    }
+    rape(_character) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character)
+            else
+                return undefined;
+        }
+    }
+    release(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+
+        if (this._heldItems.contains(_item)) {
+            this._heldItems.remove(_item);
+            this.addItem(_item);
+        }
+        else
+            return false;
+        if (!this.hasItemInEitherHand())
+            this.removeCurrentAction("hold");
+        return true;
+    }
+    remove(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+    }
+    /*sex(_character) {
+    
+    }*/
+    sit(_furniture = undefined) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+
+        this.addCurrentAction("sit", _furniture);
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
+
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture
+
+        return this.furniture;
+    }
+    sleep(_furniture = undefined) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+
+        this.addCurrentAction("sleep", _furniture);
+        this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
+
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
+
+        return this.furniture;
+    }
+    stand() {
+        this.addCurrentAction("stand");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("walk");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
+
+        this.furniture = undefined;
+
+        return this.furniture;
+    }
+    stay() {
+        this.following = undefined;
+        this.removeCurrentAction("follow");
+    }
+    steal(_entity, _item) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+    }
+    take(_entity, _item) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity)
+            else
+                return undefined;
+        }
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+    }
+    talk(_entity) {
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        this.addCurrentAction("talk", _entity);
+    }
+    wake() {
+        this.removeCurrentAction("sleep");
+
+        return this.furniture;
+    }
+    walk() {
+        this.addCurrentAction("walk");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sleep");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("masturbate");
+        this.removeCurrentAction("sex");
+
+        this.furniture = undefined;
+
+        return this.furniture;
+    }
+    wear(_clothing, _type = undefined) {
+        if (!(_clothing instanceof Clothing))
+            _clothing = clothingIndexes.get(_clothing);
+
+        if (_clothing instanceof Clothing) {
+            if (kClothingTypes.has(_clothing.type)) {
+                this.clothing.set(_clothing.type, _clothing);
+                return true;
+            }
+            return false;
+        }
+        else {
+            if (kClothingTypes.has(_type)) {
+                this.takeOff(_type);
+                return true;
+            }
+            else
+                return undefined;
+        }
     }
 
     addSexRefusalCount(_character) {
@@ -3225,8 +3436,11 @@ class Character extends Entity {
         return !(this.getUnderwear() instanceof Clothing);
     }
     
-    wear(_clothing, _type = undefined) {
-        this.putOn(_clothing, _type);
+    putOn(_clothing, _type = undefined) {
+        this.wear(_clothing, _type);
+    }
+    takeOff(_clothing) {
+        this.disrobe(_clothing);
     }
     wearing(_clothing) {
         if (!(_clothing instanceof Clothing))
@@ -3236,38 +3450,6 @@ class Character extends Entity {
             if (kClothingTypes.has(_clothing.type))
                 return this.clothing.get(_clothing.type) == _clothing;
         }
-    }
-    putOn(_clothing, _type = undefined) {
-        if (!(_clothing instanceof Clothing))
-            _clothing = clothingIndexes.get(_clothing);
-
-        if (_clothing instanceof Clothing) {
-	        if (kClothingTypes.has(_clothing.type)) {
-	            this.clothing.set(_clothing.type, _clothing);
-	            return true;
-	        }
-	        return false;
-        }
-        else {
-        	if (kClothingTypes.has(_type)) {
-        		this.takeOff(_type);
-        		return true;
-        	}
-        	else
-        		return undefined;
-        }
-    }
-    takeOff(_clothing) {
-        if (!(_clothing instanceof Clothing))
-            _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
-
-        if (_clothing instanceof Clothing) {
-            if (kClothingTypes.has(_clothing.type))
-                this.clothing.set(_clothing.type, undefined);
-            this.addItem(_clothing);
-        }
-        else if (kClothingTypes.has(_clothing))
-        	this.clothing.set(_clothing, undefined);
     }
 
     hasKey(_room) {
@@ -3741,21 +3923,10 @@ class Character extends Entity {
     }
 
     setFollowing(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character)
-            this.following = _character;
+        this.follow(_character);
     }
     clearFollowing() {
-        this.following = undefined;
-    }
-    follow(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character)
-            this.following = _character;
+        this.stay();
     }
 
     addFollower(_character) {
@@ -4106,7 +4277,7 @@ class Character extends Entity {
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 
         // Somnophilia
-        if (_character.sleeping) {
+        if (_character.isSleeping()) {
             if (enableRape)
                 chance = 100;
             else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.eros > 75)
@@ -5598,6 +5769,8 @@ class Furniture extends Entity {
         else {
             super(_id, _name, _description, _image);
 
+            this.items = new Array();
+
             this.setType(_type);
 
             this.seatingSpace = _seatingSpace;
@@ -5672,6 +5845,57 @@ class Furniture extends Entity {
                     this[property] = json[property];
             }
         }
+    }
+
+    addItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        this.items.push(_item);
+        if (_item instanceof Phone && _item.owner == this) {
+            this.hasPhone = true;
+            this.phone = _item;
+        }
+        
+        return true;
+    }
+    removeItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        if (!this.containsItem(_item))
+            return true;
+
+        if (this instanceof Character && this.wearing(_item))
+            this.takeOff(_item);
+        
+        this.items.splice(this.items.indexOf(_item), 1);
+        return true;
+    }
+
+    containsItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        return this.items.indexOf(_item) >= 0;
+    }
+    hasItem(_item) {
+        return this.containsItem(_item);
+    }
+    getItems() {
+        return this.items;
+    }
+    getNumberOfItems() {
+        return this.items.length;
     }
 
     setType(_type) {

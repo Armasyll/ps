@@ -1,7 +1,5 @@
 if (debug) console.log("Initializing Rooms");
 
-limbo = new Room("limbo", "limbo", "Limbo", 0, limboCell, limboLocation);
-
 // Zootopia
 zootopia42ndStreet01 = new Room("zootopia42ndStreet01", "zootopia42ndStreet", "1 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
 zootopia42ndStreet02 = new Room("zootopia42ndStreet02", "zootopia42ndStreet", "2 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);

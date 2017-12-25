@@ -342,22 +342,22 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
                             break;
                         }
                         case "sit" : {
-                            if (!(player.furniture == this) || (player.furniture == this && !player.currentActions.has("sit")))
+                            if (!(player.furniture == this) || (player.furniture == this && !player.isSitting()))
                                 Menu.addOption("furnitureInteractSit({0})".format(this.id), "Sit on {0}".format(this.name));
                             break;
                         }
                         case "lay" : {
-                            if (!(player.furniture == this) || (player.furniture == this && !player.currentActions.has("lay")))
+                            if (!(player.furniture == this) || (player.furniture == this && !player.isLying()))
                                 Menu.addOption("furnitureInteractLay({0})".format(this.id), "Lay in {0}".format(this.name));
                             break;
                         }
                         case "sleep" : {
-                            if (!(player.furniture == this) || (player.furniture == this && !player.currentActions.has("sleep")))
+                            if (!(player.furniture == this) || (player.furniture == this && !player.isSleeping()))
                                 Menu.addOption("furnitureInteractSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
                             break;
                         }
                         case "sex" : {
-                            if (!(player.furniture == this) || (player.furniture == this && !player.currentActions.has("sex")))
+                            if (!(player.furniture == this) || (player.furniture == this && !player.isFucking()))
                                 Menu.addOption("furnitureInteractSex({0})".format(this.id), "Fuck {0}".format(this.name));
                             break;
                         }
@@ -526,19 +526,6 @@ function furnitureInteractSex(_furniture, _characterA = player, _characterB = un
 
     if (characterSex(_characterA, _characterB, _furniture))
         unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefined)));
-}
-function furnitureInteractMasturbate(_furniture, _character) {
-    if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-
-    if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
-        return;
-
-    if (characterSex(_character, _furniture))
-        unsafeExec("{0}Masturbate({1})".format(_furniture.id, _character.id));
 }
 
 function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu = true) {

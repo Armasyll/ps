@@ -1,10 +1,5 @@
 if (debug) console.log("Assigning Rooms");
 
-limbo.setNorthRoom(limbo, undefined, false);
-limbo.setEastRoom(limbo, undefined, false);
-limbo.setSouthRoom(limbo, undefined, false);
-limbo.setWestRoom(limbo, undefined, false);
-limbo.setDownRoom(limbo, undefined, false);
 limbo.setUpRoom(alBuildingBasementF, undefined, false);
 
 // Zootopia, Pack Street
