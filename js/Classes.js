@@ -1387,45 +1387,11 @@ class Character extends Entity {
         this.peltType = "fur";
         this.furTrimmed = 50;
         this.furSoftness = 50;
-
-        /*
-            0 - none/flat
-            1 - petite
-            2 - average
-            3 - large
-        */
         this.breastSize = 0;
-
-        /*
-            0, 0 - none
-            8, 7 - marty
-            16, 11 - wolter
-            24, 13 - remmy
-            25, 16 - al
-            30, 16 - rex
-        */
         this.penisSize = 0;
         this.penisGirth = 0;
-
-        /*
-            0, 0 - none
-            3, 1 - martina
-            7, 4.7 - anneke
-            7, 4.5 - charlie
-            7, 4.9 - avo
-            8, 5.5 - betty
-            9, 6 - dora
-            7, 5 - velvet
-        */
         this.vaginaSize = 0;
         this.vaginaGirth = 0;
-
-        /*
-            0 - none
-            1 - stubble
-            2 - prairy
-            3 - 70s
-        */
         this.pubicHairSize = 0;
 
 
@@ -3436,6 +3402,9 @@ class Character extends Entity {
         this.setFurColourB(_colourB);
     }
 
+    hasBodyPart(_bodyPart) {
+        return this.bodyParts.has(_bodyPart);
+    }
     removeBodyPart(_bodyPart) {
         var _removedBodyPart = false;
         if (_bodyPart instanceof Array) {
