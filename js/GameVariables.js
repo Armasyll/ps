@@ -112,7 +112,9 @@ const kEyeTypes = new Set(["circle", "slit", "rectangle"]);
 const kPeltTypes = new Set(["skin", "fur", "wool", "hair"]);
 const kRoomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathroom", "kitchen", "diningroom", "closet", "basement", "extBuilding", "street", "walkway", "lot"]);
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
-const kActionTypes = new Set(["attack","bite","boop","choke","consume","disrobe","fist","follow","give","grope","hold","hug","kiss","lay","lick","look","massage","masturbate","open","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","sleep","stand","stay","steal","stroke","suck","take","talk","thrust","touch","use","walk","wear"]);
+const kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk"]);
+const kInteractionTypes = new Set(["attack","bite","boop","choke","consume","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);
+const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
 const kConsumableTypes = new Set(["food", "drink", "medicine"]);
 const kSpecialTypes = new Set(["exists", "living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container", "charm"]);
 
