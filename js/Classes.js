@@ -114,6 +114,29 @@ class Menu {
             this.numberOfOptions = 12;
     }
 
+    static hasOptionFunction(_functionName) {
+        for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i] instanceof Array && this.options[i][0].split(/\(/)[0] == _functionName)
+                return true;
+        }
+        return false;
+    }
+
+    static hasOptionTitle(_title) {
+        for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i] instanceof Array && this.options[i][1].toLowerCase() == String(_title).toLowerCase())
+                return true;
+        }
+        return false;
+    }
+    static hasOptionTitleLike(_title) {
+        for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i] instanceof Array && this.options[i][1].toLowerCase().indexOf(String(_title).toLowerCase()) !== -1)
+                return true;
+        }
+        return false;
+    }
+
     static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _softSet = true) {
         if (this.initialized !== true)
             this.initialize();
@@ -3584,7 +3607,7 @@ class Character extends Entity {
         this.setFurColourB(_colourB);
     }
 
-    /*hasBodyPart(_bodyPart) {
+    hasBodyPart(_bodyPart) {
         return this.bodyParts.has(_bodyPart);
     }
     removeBodyPart(_bodyPart) {
@@ -3614,7 +3637,7 @@ class Character extends Entity {
             _addedBodyPart = true;
         }
         return _addedBodyPart;
-    }*/
+    }
 
     setSpecies(_species) {
         if (kSpeciesTypes.has(_species))
@@ -3622,17 +3645,17 @@ class Character extends Entity {
         else
             this.species = "fox";
 
-        /*this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
+        this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
         if (this.sex == 0)
             this.addBodyPart(["penis","testicles"]);
         else
-            this.addBodyPart(["vagina","clitoris"]);*/
+            this.addBodyPart(["vagina","clitoris"]);
 
         if (_species == "fox") {
             if (this.sex == 0) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
-                //this.addBodyPart("knot");
+                this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 15;
@@ -3650,7 +3673,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
-                //this.addBodyPart("knot");
+                this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 25;
@@ -3773,7 +3796,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 18;
                 this.penisGirth = 12;
-                //this.addBodyPart("knot");
+                this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 18;
@@ -3791,7 +3814,7 @@ class Character extends Entity {
             if (this.sex == 0) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
-                //this.addBodyPart("knot");
+                this.addBodyPart("knot");
             }
             else {
                 this.vaginaSize = 15;

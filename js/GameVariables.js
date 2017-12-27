@@ -104,13 +104,13 @@ var usePopups = false;
 var interruptTick = false;
 
 const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse"]);
-//const kBodyPartTypes = new Set(["head","leftEye","rightEye","eyes","ears","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","nipples","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","hands","leftHand","rightHand","feet","leftFoot","rightFoot","fingers","toes","rear","anus","vagina","clitoris","penis","knot","testicles"]);
-const kClothingTypes = new Set(["hat" ,"mask" ,"glasses" ,"earPiercingLeft" ,"earPiercingRight" ,"nosePiercing" ,"lipPiercing" ,"tonguePiercing" ,"collar" ,"neckwear" ,"shirt" ,"jacket" ,"belt" ,"gloves" ,"underwear" ,"pants" ,"socks" ,"shoes" ,"bra"]);
+const kBodyPartTypes = new Set(["ankles","anus","arms","back","chest","clitoris","leftEar","rightEar","ears","leftEye","rightEye","eyes","leftFoot","rightFoot","feet","fingers","groin","leftHand","rightHand","hands","head","knot","legs","lips","mouth","neck","leftNipple","rightNipple","nipples","nose","penis","rear","shoulder","stomach","testicles","toes","tongue","vagina","waist"]);
+const kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
 const kHandTypes = new Set(["fur", "pad", "hoof", "clovenhoof", "skin"]);
 const kFeetTypes = kHandTypes;
 const kEyeTypes = new Set(["circle", "slit", "rectangle"]);
 const kPeltTypes = new Set(["skin", "fur", "wool", "hair"]);
-const kRoomTypes = new Set(["hallway", "lobby", "bedroom", "livingroom", "bathroom", "kitchen", "diningroom", "closet", "basement", "extBuilding", "street", "walkway", "lot"]);
+const kRoomTypes = new Set(["hallway","lobby","bedroom","livingroom","bathroom","kitchen","diningroom","closet","basement","extBuilding","street","walkway","lot"]);
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
 const kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk"]);
 const kInteractionTypes = new Set(["attack","bite","boop","choke","consume","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);

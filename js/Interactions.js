@@ -134,7 +134,10 @@ function characterInteract(_character, _clearContent = true) {
     else
         Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
 
-    Menu.setOption(4, "characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
+    if (debug)
+        Menu.setOption(4, "characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
+    else
+        Menu.setOption(4, "characterInteractOpen({0}, true, false, false)".format(_character.id), "Give", "Give them an item.")
 
     if (player.room.characters.size > 2)
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
@@ -146,12 +149,17 @@ function characterInteract(_character, _clearContent = true) {
 
     Menu.generate();
 }
-function characterInteractOpen(_character, _clearContent = true, _switch = false) {
+function characterInteractOpen(_character, _switch = false, _allowSwitch = true, _clearContent = true) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
 
     if (usePopups) {
-        if (_character != player) {
+        if (!_allowSwitch) {
+            $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
+            $("#personalInventoryModal-body").html(_generateEntityItemsGraphicalList(player, _character, false));
+            $("#personalInventoryModal").modal("show");
+        }
+        else if (_character != player) {
             $("#dualInventoryTab-characterA").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
             $("#dualInventoryTab-characterB").html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.singularPossesiveName()));
             $("#dualInventoryContent-characterA").html(_generateEntityItemsGraphicalList(player, _character, true));
@@ -207,19 +215,26 @@ function characterInteractOpen(_character, _clearContent = true, _switch = false
 
         Menu.clear();
         Menu.showingBaseMenu = false;
-        if (_characterA != _characterB) {
-            Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, false, {1})".format(_character.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
-            if (_characterB != player)
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        if (_allowSwitch) {
+            if (_characterA != _characterB) {
+                Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, {1}, {2}, false)".format(_character.id, !_switch, _allowSwitch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
+                if (_characterB != player)
+                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+            }
+            else
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "personalCharacterMenu()".format(player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
         }
-        else
-            Menu.setOption((Menu.useWideMenu ? 9 : 7), "personalCharacterMenu()".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
-        
+        else {
+            if (_character != player)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
+            else
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "personalCharacterMenu()".format(player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
+        }
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
         if (_character != player) {
             _characterB.items.forEach(function(_item) {
-                Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
@@ -368,7 +383,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
     }
 }
-function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false) {
+function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true, _clearContent = true) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
 
@@ -417,7 +432,7 @@ function furnitureInteractOpen(_furniture, _clearContent = true, _switch = false
 
         Menu.clear();
         Menu.showingBaseMenu = false;
-        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, false, {1})".format(_furniture.id, !_switch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, {1}, {2}, false)".format(_furniture.id, !_switch, _allowSwitch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
@@ -547,9 +562,9 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
 
     Menu.clear();
     if (_entity instanceof Character)
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossesiveName()));
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossesiveName()));
     else if (_entity instanceof Furniture)
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
     else if (_entity instanceof Item)
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
     
