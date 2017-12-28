@@ -5467,19 +5467,6 @@ class Room {
         return this.containsFurniture();
     }
 
-    updateItems() {
-        this.items.clear();
-        if (this.furniture.size > 0) {
-            this.furniture.forEach(function(_furniture) {
-                if (_furniture.items.size > 0) {
-                    _furniture.items.forEach(function(_item) {
-                        this.addItem(_item);
-                    }, this);
-                }
-            }, this);
-        }
-    }
-
     isHidden(_direction = undefined) {
         if (_direction instanceof Room) {
             if (this.attachedRooms.flip().has(_direction)) {

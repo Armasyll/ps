@@ -190,7 +190,7 @@ function debugRoomInformation() {
                 _contentBody += "</li>";
                 }
                 if (_furniture.isStorage()) {
-                    _contentBody += "<li>Storage ({0}/{1})".format(_furniture.items.size, _furniture.storageSpace);
+                    _contentBody += "<li>Storage ({0}/{1})".format(_furniture.items.length, _furniture.storageSpace);
                         _contentBody += "<ul>";
                             _furniture.items.forEach(function(_item) {
                                 _contentBody += "<li>{0}</li>".format(_item.toString());
