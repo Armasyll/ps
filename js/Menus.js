@@ -59,7 +59,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
                 if (character != player)
                     _character = character;
             });
-            Menu.setOption(2, "characterInteract(" + _character.id + ")", "Interact with " + _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
+            Menu.setOption(2, "characterInteract(" + _character.id + ", false)", "Interact with " + _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
         }
         else if (player.room.characters.size > 1)
             Menu.setOption(2, "localCharactersMenu()", "Interact with those near you.");
@@ -93,14 +93,14 @@ function localCharactersMenu() {
     
     Title.set("Interact with those near you.");
     
-    var _blob = ("You are currently in " + player.room.name);
+    var _blob = "You are currently in {0}".format(player.room.location.owner == player ? ("your " + player.room.type) : (player.room.location.ownerToString() + " " + player.room.type));
     
     if (player.room.characters.size > 1) {
-        _blob += (" along with ");
+        _blob += " along with ";
         
         tempArray = Array.from(player.room.characters).remove(player);
         if (tempArray.length == 1)
-            _blob += (tempArray[0].toString() + ".");
+            _blob += tempArray[0].toString() + ".";
         else {
             // Lazy
             for (i = 0; i < tempArray.length - 1; i++) {
@@ -108,7 +108,7 @@ function localCharactersMenu() {
                 if (tempArray.length > 2)
                     _blob += (", ");
             }
-            _blob += (" and " + tempArray[tempArray.length - 1] + ".");
+            _blob += " and " + tempArray[tempArray.length - 1] + ".";
         }
     }
     
@@ -117,7 +117,7 @@ function localCharactersMenu() {
     Menu.clear();
     for (var [_characterID, _character] of player.room.characters.entries()) {
         if (_character != player)
-            Menu.addOption("characterInteract({0})".format(_character.id), _character.name, "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()));
+            Menu.addOption("characterInteract({0}, false)".format(_character.id), _character.name, "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()));
     }
     
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
