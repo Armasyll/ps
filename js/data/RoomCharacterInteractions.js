@@ -538,24 +538,6 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter() {
 }
 function remmyApartmentLivingroomWolter() {
     _character = wolter;
-    
-    _blob = "";
-    _blob += ("Wolter is {0} on the couch".format(_character.currentActionPresentParticiplePosition()));
-    if (wolter.hasShirt() && wolter.hasPants())
-        _blob += " in a {0} and {1}".format(wolter.getShirt().toString(), wolter.getPants().toString());
-    else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in a {0} and {1}".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
-    else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear())
-        _blob += " in just a {0}".format(wolter.getShirt().toString());
-    else if (!wolter.hasShirt() && wolter.hasPants())
-        _blob += " shirtless, with just his {0}".format(wolter.hasPants().toString);
-    else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in just a {0}{1}".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
-    else
-        _blob += ", naked";
-    _blob += (".");
-    
-    Content.add("<p>" + _blob + "</p>");
 }
 
 function remmyApartmentBathroomCharlie() {

@@ -175,11 +175,55 @@ function rosieFollow() {
 function wolterInteract() {
     _character = wolter;
 
+    _blob = "";
+    if (_character.isLying()) {
+        if (_character.isSleeping())
+            _blob += "{0} is lying on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+        else
+            _blob += "{0} is lying on the {1},".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+    }
+    else if (_character.isSitting()) {
+        if (_character.isSleeping())
+            _blob += "{0} is sitting on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+        else
+            _blob += "{0} is sitting on the {1}".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+    }
+    else if (_character.isStanding()) {
+        if (_character.isSleeping())
+            _blob += "{0} is sleeping, while standing,".format(_character.name);
+        else
+            _blob += "{0} is standing around".format(_character.name);
+    }
+
+    if (wolter.hasShirt() && wolter.hasPants())
+        _blob += " in a {0} and {1}.".format(wolter.getShirt().toString(), wolter.getPants().toString());
+    else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
+        _blob += " in a {0} and {1}.".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
+    else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear())
+        _blob += " in just a {0}.".format(wolter.getShirt().toString());
+    else if (!wolter.hasShirt() && wolter.hasPants())
+        _blob += " shirtless, with just his {0}.".format(wolter.hasPants().toString);
+    else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
+        _blob += " in just a {0}{1}.".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
+    else
+        _blob += " completely naked.";
+
+    if (_character.lust > 66) {
+        if (_character.hasPants())
+            _blob += " And he's pitching a tent in his pants.";
+        else if (_character.hasUnderwear())
+            _blob += " And he's pitching a tent in his {0}.".format(_character.getUnderwear());
+        else
+            _blob += " And his dick is out. Great.";
+    }
+
+    Content.add("<p>" + _blob + "</p>");
+
     unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
 }
 function wolterTalk() {
     _character = wolter;
-    
+
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
 function wolterRape() {
