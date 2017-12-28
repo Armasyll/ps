@@ -93,10 +93,10 @@ function localCharactersMenu() {
     
     Title.set("Interact with those near you.");
     
-    var _blob = "You are currently in {0}".format(player.room.location.owner == player ? ("your " + player.room.type) : (player.room.location.ownerToString() + " " + player.room.type));
+    var _blob = "You are currently in {0}".format(player.room.location.isOwner(player) ? ("your " + player.room.type) : (player.room.location.ownerToString() + " " + player.room.type));
     
     if (player.room.characters.size > 1) {
-        _blob += " along with ";
+        _blob += " with ";
         
         tempArray = Array.from(player.room.characters).remove(player);
         if (tempArray.length == 1)
