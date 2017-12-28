@@ -196,25 +196,31 @@ function wolterInteract() {
     }
 
     if (wolter.hasShirt() && wolter.hasPants())
-        _blob += " in a {0} and {1}.".format(wolter.getShirt().toString(), wolter.getPants().toString());
+        _blob += " in a {0} and {1},".format(wolter.getShirt().toString(), wolter.getPants().toString());
     else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in a {0} and {1}.".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
+        _blob += " in a {0} and {1},".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
     else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear())
-        _blob += " in just a {0}.".format(wolter.getShirt().toString());
+        _blob += " in just a {0},".format(wolter.getShirt().toString());
     else if (!wolter.hasShirt() && wolter.hasPants())
-        _blob += " shirtless, with just his {0}.".format(wolter.hasPants().toString);
+        _blob += " shirtless, with just his {0},".format(wolter.hasPants().toString);
     else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in just a {0}{1}.".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
+        _blob += " in just a {0}{1},".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
     else
-        _blob += " completely naked.";
+        _blob += " completely naked,";
 
     if (_character.lust > 66) {
         if (_character.hasPants())
-            _blob += " And he's pitching a tent in his pants.";
+            _blob += " and he's pitching a tent in his pants.";
         else if (_character.hasUnderwear())
-            _blob += " And he's pitching a tent in his {0}.".format(_character.getUnderwear());
-        else
-            _blob += " And his dick is out. Great.";
+            _blob += " and he's pitching a tent in his {0}.".format(_character.getUnderwear());
+        else {
+            _blob += " and his dick is out.";
+            if (player.sexualOrientationCompatibility(_character))
+                _blob += " You pay a little too much ";
+            else
+                _blob += " You try not to pay ";
+            _blob += "attention to that <i>big</i> detail.";
+        }
     }
 
     Content.add("<p>" + _blob + "</p>");

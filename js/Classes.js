@@ -50,33 +50,66 @@ class Title {
     }
 }
 class Content {
+    constructor() {
+        this.initialized = false;
+    }
+    static initialize() {
+        this.initialized = true;
+        this.contentContainer = "contentContainerBody";
+    }
     /**
      * Set's the HTML of the content container's body
      * @param {String} $string HTML to be displayed in the content container's body
      */
     static set($string) {
-        document.getElementById("contentContainerBody").innerHTML = $string;
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.contentContainer).innerHTML = $string;
         $('a[data-toggle=tooltip]').tooltip();
 
         if (enableAutoscroll)
-            document.getElementById("contentContainerBody").scrollTop = document.getElementById("contentContainerBody").scrollHeight;
+            document.getElementById(this.contentContainer).scrollTop = document.getElementById(this.contentContainer).scrollHeight;
     }
     /**
      * Appends the HTML of the content container's body
      * @param {String} $string HTML to be appended in the content container's body
      */
     static add($string) {
-        document.getElementById("contentContainerBody").innerHTML += $string;
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.contentContainer).innerHTML += $string;
         $('a[data-toggle=tooltip]').tooltip();
 
         if (enableAutoscroll)
-            document.getElementById("contentContainerBody").scrollTop = document.getElementById("contentContainerBody").scrollHeight;
+            document.getElementById(this.contentContainer).scrollTop = document.getElementById(this.contentContainer).scrollHeight;
     }
     /**
      * Clears the HTML of hte content container's body
      */
     static clear() {
-        document.getElementById("contentContainerBody").innerHTML = "";
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.contentContainer).innerHTML = "";
+    }
+
+    static useDebugContent() {
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.contentContainer).classList.add("hidden");
+        this.contentContainer = "debugContentContainerBody";
+        document.getElementById(this.contentContainer).classList.remove("hidden");
+    }
+    static useNormalContent() {
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.contentContainer).classList.add("hidden");
+        this.contentContainer = "contentContainerBody";
+        document.getElementById(this.contentContainer).classList.remove("hidden");
     }
 }
 class Menu {
@@ -91,6 +124,7 @@ class Menu {
         this.numberOfOptions = 12;
         this.useWideMenu = false;
         this.resetNumberOfOptions();
+        this.choiceContainer = "choiceContainer";
     }
 
     static clear() {
@@ -98,7 +132,7 @@ class Menu {
             this.initialize();
 
         this.options = [];
-        document.getElementById("choiceContainerBottom").innerHTML = "";
+        document.getElementById(this.choiceContainer).innerHTML = "";
         this.generate();
         this.page = 1;
         this.resetNumberOfOptions();
@@ -368,7 +402,7 @@ class Menu {
         if (!isNaN(_page) && !Menu.showingBaseMenu)
             Menu.page = _page;
 
-        document.getElementById("choiceContainerBottom").innerHTML = "";
+        document.getElementById(this.choiceContainer).innerHTML = "";
 
         if (_page > 1 && parseInt(this.options.length / this.numberOfOptions) + 1 == _page) {
             this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous"];
@@ -431,7 +465,7 @@ class Menu {
             }
         }
         _blob += '</div>';
-        document.getElementById("choiceContainerBottom").innerHTML = _blob;
+        document.getElementById(this.choiceContainer).innerHTML = _blob;
     }
     static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "") {
         if (this.initialized !== true)
@@ -461,6 +495,30 @@ class Menu {
             _blob += '</button>';
         _blob += '</div>';
         return _blob;
+    }
+
+    /**
+     * Sets the target menu to debugChoiceContainer
+     */
+    static useDebugMenu() {
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.choiceContainer).classList.add("hidden");
+        this.choiceContainer = "debugChoiceContainer";
+        document.getElementById(this.choiceContainer).classList.remove("hidden");
+    }
+    /**
+     * Sets the target menu to choiceContainer
+     * Doesn't, yet, reset the options
+     */
+    static useNormalMenu() {
+        if (this.initialized !== true)
+            this.initialize();
+
+        document.getElementById(this.choiceContainer).classList.add("hidden");
+        this.choiceContainer = "choiceContainer";
+        document.getElementById(this.choiceContainer).classList.remove("hidden");
     }
 }
 class Minimap {
@@ -2557,12 +2615,18 @@ class Character extends Entity {
             switch (_int.slice(0, 1)) {
                 case "s" : {
                     _int = 0;
+                    break;
                 }
                 case "g" : {
                     _int = 1;
+                    break;
                 }
                 case "b" : {
                     _int = 2;
+                    break;
+                }
+                default : {
+                    _int = 0;
                 }
             }
         }
@@ -2606,7 +2670,27 @@ class Character extends Entity {
     getSex() {
         return this.sexName();
     }
-    
+
+    sexualOrientationCompatibility(_character) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        if (this.sexualOrientation == 2) // If you're bi
+            return true;
+        else if (this.sex != _character.sex && this.sexualOrientation == 0) // else if you're female, they're male, and you're straight
+            return true;
+        else if (this.sex == _character.sex && this.sexualOrientation == 1) // else if you're male, they're male, and you're gay
+            return true;
+        else // else no
+            return false;
+    }
+    sexualCompatibility(_character) {
+        return this.sexualOrientationCompatibility(_character);
+    }
+
     setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (!(this.defaultDisposition instanceof Disposition))
             this.defaultDisposition = new Disposition();
@@ -2814,10 +2898,12 @@ class Character extends Entity {
     }
 
     date(_character, _updateChild = true) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character == undefined)
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         this._dating.add(_character);
         if (this._dated.has(_character))
@@ -2831,31 +2917,37 @@ class Character extends Entity {
         return true;
     }
     dated(_character, _int = 0, _updateChild = true) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
         _int = Number.parseInt(_int);
         if (isNaN(_int) || _int < 0)
             _int = 0;
-        if (_character == undefined)
-            return undefined;
 
         this._dated.set(_character, _int);
         if (_updateChild)
             _character.dated(this, _int, false);
     }
     isDating(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character == undefined)
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         return this._dating.has(_character);
     }
     hasDated(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character == undefined)
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         return this._dated.has(_character);
     }
@@ -2866,10 +2958,12 @@ class Character extends Entity {
         return this._dated;
     }
     getNumberOfDates(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character == undefined)
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         if (this.hasDated(_character))
             return this._dated.get(_character);
@@ -2877,10 +2971,12 @@ class Character extends Entity {
             return 0;
     }
     dump(_character, _updateChild = true) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-        if (_character == undefined)
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         if (this.isDating(_character)) {
             this._dating.remove(_character);

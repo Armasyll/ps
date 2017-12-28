@@ -129,10 +129,12 @@ function localCharactersMenu() {
 */
 function debugMenu() {
     $('#gameOptionsModal').modal('hide');
+    Content.useDebugContent();
     
-    clearContentAndMenu();
+    Title.set(undefined, undefined, undefined, "Debug Menu");
     
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "debugMenuClose()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("debugRoomInformation()", "Room Information");
     Menu.addOption("debugSwitchRoom()", "Switch Room");
     Menu.addOption("debugCharactersInformation()", "Characters Information");
@@ -141,6 +143,11 @@ function debugMenu() {
     Menu.addOption("debugMenuPopulate()", "Populate Menu", "with useless boxes");
     Menu.addOption("player.addItem('masterKey')", "Get Skeleton Key");
     Menu.generate();
+}
+function debugMenuClose() {
+    clearContentAndMenu();
+    Content.useNormalContent();
+    baseMenu(true);
 }
 function debugRoomInformation() {
     _contentBody = "";
@@ -209,6 +216,8 @@ function debugRoomInformation() {
 function debugSwitchRoom() {
     clearContentAndMenu();
     
+    Title.set("Switch Room", undefined, undefined, "Debug Menu");
+
     Content.add("<p>You are currently in " + player.room.id + "</p>");
     i = 1;
     _blob = "";
@@ -365,6 +374,8 @@ function debugCharactersInformation(_character = player) {
 function debugSwitchCharacter() {
     clearContentAndMenu();
     
+    Title.set("Switch Character", undefined, undefined, "Debug Menu");
+
     Content.add("<p>You are currently " + player.name + "</p>");
     i = 1;
     _blob = "";
