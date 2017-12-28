@@ -1085,9 +1085,6 @@ class Entity {
 
         if (typeof this.description != 'undefined')
             _blob += "<p>{0}</p>".format(this.description);
-        else if (this instanceof Character) {
-            _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.species);
-        }
 
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
     }
@@ -4345,6 +4342,17 @@ class Character extends Entity {
     moveTo(_room, _checkLocked = false) {
         return this.moveToRoom(_room, _checkLocked);
     }
+
+    toString(_useSingularPossesiveName = false) {
+        var _blob = "";
+        if (typeof this.image !== 'undefined') {
+            _blob += "<img class='text-center' style='border:0.1em solid white; background-color:white; border-radius:0.5em;' src='{0}' alt=''/><br/>".format(this.image);
+        }
+        _blob += "<div class='text-center'>{0}</div>".format(this.name);
+        _blob += "<p>{0} year old {1} {2}.</p>".format(this.age, (this.gender ? "female" : "male"), this.species);
+
+        return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), _useSingularPossesiveName ? this.singularPossesiveName() : this.name);
+    }
 }
 
 /**
@@ -4486,6 +4494,37 @@ class Location {
     }
     clearOwner() {
         this.owner.clear();
+    }
+    ownerToString() {
+        if (this.owner.size == 0)
+            return "";
+        else if (this.owner.size == 1) {
+            if (this.owner.values().next().value instanceof Character)
+                return this.owner.values().next().value.toString(true);
+            else
+                return "";
+        }
+        else if (this.owner.size == 2) {
+            var _arr = Array.from(this.owner);
+
+            if (_arr[0] instanceof Character && _arr[1] instanceof Character)
+                return "{0} and {1}".format(_arr[0].toString(), _arr[1].toString(true));
+            else
+                return "";
+        }
+        else {
+            var _blob = "";
+            var _arr = Array.from(this.owner);
+
+            for (i = 0; i < _arr.length - 1; i++) {
+                _blob += _arr[i].toString();
+                if (_arr.length > 2)
+                    _blob += ", ";
+            }
+            _blob += " and " + _arr[_arr.length - 1].toString(true);
+
+            return _blob;
+        }
     }
 
     addCell(_cell) {
