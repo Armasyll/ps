@@ -30,7 +30,7 @@ function avoFollow() {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
     }
     else {
-        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
+        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.getHands() + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
         
         characterFollow(player, _character);
     }
@@ -50,7 +50,7 @@ function avoStay() {
 function charlieInteract() {
     _character = charlie;
     
-    if (player.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieBeatingHeart))
+    if (player.hasItem(charlieBeatingHeart) && _character.hasItem(charlieBeatingHeart))
         Content.add("<p>You see Charlie run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>");
     
     if (enableGore && enableRape)
@@ -85,7 +85,7 @@ function charlieFollow() {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
     }
     else {
-        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.grammaticalHand + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
+        Content.add("<p>\"" + _character.name + ",\" you call to " + _character.objectPronoun() + ", and " + _character.subjectPronoun() + " turns to face you. Motioning with a " + player.getHands() + ", you ask " + _character.objectPronoun() + ", \"Follow me.\" " + _character.subjectPronoun() + " looks at you for a moment, before walking to your side.</p>");
         
         characterFollow(player, _character);
     }
@@ -95,11 +95,9 @@ function charlieFollow() {
 function charlieStay() {
     _character = charlie;
     
-    Content.add("<p>You ask Charlie to wait here, and she nods her head.</p>");
+    Content.add("<p>You ask {0} to wait here, and {1} nods {2} head.</p>".format(_character.name, _character.subjectPronoun(), _character.possessiveAdjective()));
     
     characterStay(_character);
-    
-    characterInteract(_character, false);
 }
 
 function remmyInteract() {
@@ -127,7 +125,7 @@ function remmyFollow() {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
     }
     else {
-        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
+        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.getHands()));
         
         characterFollow(player, _character);
     }
@@ -164,7 +162,7 @@ function rosieFollow() {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
     }
     else {
-        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
+        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.getHands()));
         
         characterFollow(player, _character);
     }
@@ -195,16 +193,16 @@ function wolterInteract() {
             _blob += "{0} is standing around".format(_character.name);
     }
 
-    if (wolter.hasShirt() && wolter.hasPants())
-        _blob += " in a {0} and {1},".format(wolter.getShirt().toString(), wolter.getPants().toString());
-    else if (wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in a {0} and {1},".format(wolter.getShirt().toString(), wolter.getUnderwear().toString());
-    else if (wolter.hasShirt() && !wolter.hasPants() && !wolter.hasUnderwear())
-        _blob += " in just a {0},".format(wolter.getShirt().toString());
-    else if (!wolter.hasShirt() && wolter.hasPants())
-        _blob += " shirtless, with just his {0},".format(wolter.hasPants().toString);
-    else if (!wolter.hasShirt() && !wolter.hasPants() && wolter.hasUnderwear())
-        _blob += " in just a {0}{1},".format((wolter.getUnderwear().plural ? "pair of " : ""), wolter.hasUnderwear());
+    if (_character.hasShirt() && _character.hasPants())
+        _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getPants().toString());
+    else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
+        _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getUnderwear().toString());
+    else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear())
+        _blob += " in just a {0},".format(_character.getShirt().toString());
+    else if (!_character.hasShirt() && _character.hasPants())
+        _blob += " shirtless, with just his {0},".format(_character.hasPants().toString);
+    else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
+        _blob += " in just a {0}{1},".format((_character.getUnderwear().plural ? "pair of " : ""), _character.hasUnderwear());
     else
         _blob += " completely naked,";
 
@@ -259,7 +257,7 @@ function wolterSex() {
         }
         else { // Else Character isn't interested
             if (_character.getCharacterSexCount(player) > 1) { // And they've fucked the Player more than once
-                if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                if (_character.sex == player.sex && _character.sexualOrientation == 0)
                     Content.add("<p>&gt;You're poison running through my veins</p>");
                 else if (_ctfNoLust > 39)
                     Content.add("<p>Take it slow</p>");
@@ -267,7 +265,7 @@ function wolterSex() {
                     Content.add("<p>It was a mistake</p>");
             }
             else if (_character.getCharacterSexCount(player) > 0) { // And they've fucked the Player once
-                if (wolter.sex == player.sex && wolter.sexualOrientation == 0)
+                if (_character.sex == player.sex && _character.sexualOrientation == 0)
                     Content.add("<p>One time thing</p>");
                 else if (_ctfNoLust > 39)
                     Content.add("<p>Take it slow</p>");
@@ -335,12 +333,17 @@ function wolterFollow() {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
     }
     else {
-        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you ask {1}, \"Follow me,\"<br/>{2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.grammaticalHand()));
+        Content.add(String("<p>\"{0},\" you call to {1}, and {2} turns to face you. Motioning with a {3}, you tell {1}, \"Follow me.\" {2} looks at you for a moment, before walking to your side.</p>").format(_character.name, _character.objectPronoun(), _character.subjectPronoun(), player.getHand()));
         
         characterFollow(player, _character);
     }
+}
+function wolterStay() {
+    _character = wolter;
     
-    characterInteract(_character, false);
+    Content.add("<p>You ask {0} to wait here, and {1} nods {2} head.</p>".format(_character.name, _character.subjectPronoun(), _character.possessiveAdjective()));
+    
+    characterStay(_character);
 }
 function wolterHug() {
     _character = wolter;

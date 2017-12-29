@@ -93,27 +93,6 @@ function localCharactersMenu() {
     
     Title.set("Interact with those near you.");
     
-    var _blob = "You are currently in {0}".format(player.room.location.isOwner(player) ? ("your " + player.room.type) : (player.room.location.ownerToString() + " " + player.room.type));
-    
-    if (player.room.characters.size > 1) {
-        _blob += " with ";
-        
-        tempArray = Array.from(player.room.characters).remove(player);
-        if (tempArray.length == 1)
-            _blob += tempArray[0].toString() + ".";
-        else {
-            // Lazy
-            for (i = 0; i < tempArray.length - 1; i++) {
-                _blob += (tempArray[i]);
-                if (tempArray.length > 2)
-                    _blob += (", ");
-            }
-            _blob += " and " + tempArray[tempArray.length - 1] + ".";
-        }
-    }
-    
-    Content.add("<p>" + _blob + "</p>");
-    
     Menu.clear();
     for (var [_characterID, _character] of player.room.characters.entries()) {
         if (_character != player)

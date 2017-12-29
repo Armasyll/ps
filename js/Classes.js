@@ -1170,12 +1170,28 @@ class Disposition {
      * @param {Number} _miseo hate
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
-        if (_eros instanceof Object) {
-            this.fromObject(_eros);
-        }
-        else {
+        if (typeof _eros == "number") {
             if (debug) console.log("Creating a new instance of Disposition");
             this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
+        }
+        else if (_eros instanceof Object) {
+            this.fromObject(_eros);
+
+            return this;
+        }
+        else if (typeof _eros == "string" && _eros.slice(0,1) == '{') {
+            try {
+                var _json = JSON.parse(_eros);
+            }
+            catch (e) {
+                console.log(e);
+            }
+            
+            if (_json instanceof Object) {
+                this.fromJSON(_json);
+                
+                return this;
+            }
         }
     }
     
@@ -1212,15 +1228,24 @@ class Disposition {
     }
     
     fromJSON(_json) {
-        var _return = false;
-        try {
-            _return = this.fromObject(JSON.parse(_json));
-        }
-        catch (err) {
-            var _return = undefined;
+        if (typeof json == "string") {
+            try {
+                var json = JSON.parse(jsonString);
+            }
+            catch (e) {
+                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                return undefined;
+            }
         }
         
-        return _return;
+        try {
+            this.fromObject(_json);
+        }
+        catch (e) {
+            console.log(e);
+        }
+        
+        return this;
     }
     
     set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
@@ -1324,17 +1349,20 @@ class Character extends Entity {
             return this;
         }
         
-        try {
-            var _json = JSON.parse(_id);
-        }
-        catch (e) {}
-        
-        if (_json instanceof Object) {
-            this.fromJSON(this._json);
+        if (_id.slice(0,1) == '{') {
+            try {
+                var _json = JSON.parse(_id);
+            }
+            catch (e) {
+                console.log(e);
+            }
             
-            delete this._json;
-            
-            return this;
+            if (_json instanceof Object) {
+                super(_json["id"], _json["name"]);
+                this.fromJSON(_json);
+                
+                return this;
+            }
         }
         
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
@@ -1510,15 +1538,10 @@ class Character extends Entity {
         this.sleep();
     }
     
-    fromJSON(jsonString = "") {
+    fromJSON(json = "") {
         if (debug) console.log("Running fromJSON");
         
-        if (typeof jsonString != "string") {
-            if (debug) console.log("Parameter `jsonString` is not a string.");
-            return undefined;
-        }
-        
-        if (typeof jsonString == "string") {
+        if (typeof json == "string") {
             try {
                 var json = JSON.parse(jsonString);
             }
@@ -1534,32 +1557,39 @@ class Character extends Entity {
         }
 
         this.id = json["id"]; delete json["id"];
-        this.setAge(json.hasOwnProperty("age") ? json["age"] : this.age); delete json["age"];
-        this.setHunger(json.hasOwnProperty("hunger") ? json["hunger"] : this.hunger); delete json["hunger"];
-        this.setLife(json.hasOwnProperty("life") ? json["life"] : this.life); delete json["life"];
-        this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : this.lifeMax); delete json["lifeMax"];
-        this.setMana(json.hasOwnProperty("mana") ? json["mana"] : this.mana); delete json["mana"];
-        this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : this.manaMax); delete json["manaMax"];
-        this.setManaCostOffsetPercent(json.hasOwnProperty("manaCostOffsetPercent") ? json["manaCostOffsetPercent"] : this.manaCostOffsetPercent); delete json["manaCostOffsetPercent"];
-        this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : this.stamina); delete json["stamina"];
-        this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : this.staminaMax); delete json["staminaMax"];
-        this.setMoney(json.hasOwnProperty("money") ? json["money"] : this.money); delete json["money"];
-        this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : this.philautia); delete json["philautia"];
-        this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : this.agape); delete json["agape"];
-        this.setSanguine(json.hasOwnProperty("sanguine") ? json["sanguine"] : this.sanguine); delete["sanguine"];
-        this.setPhlegmatic(json.hasOwnProperty("phlegmatic") ? json["phlegmatic"] : this.phlegmatic); delete["phlegmatic"];
-        this.setCholeric(json.hasOwnProperty("choleric") ? json["choleric"] : this.choleric); delete["choleric"];
-        this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : this.melancholic); delete["melancholic"];
-        this.setLust(json.hasOwnProperty("lust") ? json["lust"] : this.lust); delete json["lust"];
-        this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : this.exhibitionism); delete json["exhibitionism"];
-        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : this.somnophilia); delete json["somnophilia"];
-        this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : this.intoxication); delete json["intoxication"];
-        this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : this.incestual); delete json["incestual"];
-        this.setRut(json.hasOwnProperty("rut") ? json["rut"] : this.rut); delete json["rut"];
-        this.setLiving(json.hasOwnProperty("living") ? json["living"] : this.living); delete json["living"];
-        this.setVirgin(json.hasOwnProperty("virgin") ? json["virgin"] : this.virgin); delete json["virgin"];
-        this.setSexualOrientation(json.hasOwnProperty("sexualOrientation") ? json["sexualOrientation"] : this.sexualOrientation); delete json["sexualOrientation"];
-        this.setSex(json.hasOwnProperty("sex") ? json["sex"] : this.sex); delete json["sex"];
+        this.setAge(json.hasOwnProperty("age") ? json["age"] : 21); delete json["age"];
+        this.setHunger(json.hasOwnProperty("hunger") ? json["hunger"] : 0); delete json["hunger"];
+        this.setLife(json.hasOwnProperty("life") ? json["life"] : 100); delete json["life"];
+        this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : 100); delete json["lifeMax"];
+        this.setMana(json.hasOwnProperty("mana") ? json["mana"] : 0); delete json["mana"];
+        this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : 0); delete json["manaMax"];
+        this.setManaCostOffsetPercent(json.hasOwnProperty("manaCostOffsetPercent") ? json["manaCostOffsetPercent"] : 0); delete json["manaCostOffsetPercent"];
+        this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : 100); delete json["stamina"];
+        this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : 100); delete json["staminaMax"];
+        this.setMoney(json.hasOwnProperty("money") ? json["money"] : t0); delete json["money"];
+        this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : t0); delete json["philautia"];
+        this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : t0); delete json["agape"];
+        this.setSanguine(json.hasOwnProperty("sanguine") ? json["sanguine"] : 0); delete["sanguine"];
+        this.setPhlegmatic(json.hasOwnProperty("phlegmatic") ? json["phlegmatic"] : 0); delete["phlegmatic"];
+        this.setCholeric(json.hasOwnProperty("choleric") ? json["choleric"] : 0); delete["choleric"];
+        this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : 0); delete["melancholic"];
+        this.setLust(json.hasOwnProperty("lust") ? json["lust"] : 0); delete json["lust"];
+        this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : 0); delete json["exhibitionism"];
+        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : 0); delete json["somnophilia"];
+        this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : 0); delete json["intoxication"];
+        this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : 0); delete json["incestual"];
+        this.setRut(json.hasOwnProperty("rut") ? json["rut"] : false); delete json["rut"];
+        this.setLiving(json.hasOwnProperty("living") ? json["living"] : true); delete json["living"];
+        this.setVirgin(json.hasOwnProperty("virgin") ? json["virgin"] : true); delete json["virgin"];
+        this.setSexualOrientation(json.hasOwnProperty("sexualOrientation") ? json["sexualOrientation"] : 0); delete json["sexualOrientation"];
+        this.setSex(json.hasOwnProperty("sex") ? json["sex"] : 0); delete json["sex"];
+        this.setSpecies(json.hasOwnProperty("species") ? json["species"] : "fox"); delete json["species"];
+        this.setFurColourA(json.hasOwnProperty("furColourA") ? json["furColourA"] : "orange"); delete json["furColourA"];
+        this.setFurColourB(json.hasOwnProperty("furColourB") ? json["furColourB"] : "cream"); delete json["furColourB"];
+        this.setFurColourAHex(json.hasOwnProperty("furColourAHex") ? json["furColourAHex"] : "#b5421f"); delete json["furColourAHex"];
+        this.setFurColourBHex(json.hasOwnProperty("furColourBHex") ? json["furColourBHex"] : "#cea971"); delete json["furColourBHex"];
+        this.setEyeColour(json.hasOwnProperty("eyeColour") ? json["eyeColour"] : "green"); delete json["eyeColour"];
+        this.setEyeColourHex(json.hasOwnProperty("eyeColourHex") ? json["eyeColourHex"] : "#466603"); delete json["eyeColourHex"];
         
         var _tmpArr = [];
         
@@ -1580,6 +1610,15 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["avoidsSpecies"];
+        //  bodyParts
+        try {
+            _tmpArr = JSON.parse(json["bodyParts"]);
+            _tmpArr.forEach(function(_bodyPart) {
+                if (kBodyPartTypes.has(_bodyPart))
+                    this.addBodyPart(_bodyPart);
+            }, this);
+        } catch (e) {}
+        delete json["bodyParts"];
         //  followers
         try {
             _tmpArr = JSON.parse(json["followers"]);
@@ -1589,15 +1628,15 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["followers"];
-        //  dating
+        // _dating
         try {
-            _tmpArr = JSON.parse(json["dating"]);
+            _tmpArr = JSON.parse(json["_dating"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
                     this.date(charactersIndexes.get(_character));
             }, this);
         } catch (e) {}
-        delete json["dating"];
+        delete json["_dating"];
         //  items
         try {
             _tmpArr = JSON.parse(json["items"]);
@@ -1633,10 +1672,20 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["relatives"];
+        //  specialTypes
+        try {
+            _tmpArr = JSON.parse(json["specialTypes"]);
+            _tmpArr.forEach(function(_specialType) {
+                if (kSpecialTypes.has(_specialType))
+                    this.addSpecialType(_specialType);
+            }, this);
+        } catch (e) {}
+        delete json["specialTypes"];
         
         // Maps
         //  characterSexCount
         try {
+            this.characterSexCount = new Map();
             _tmpArr = JSON.parse(json["characterSexCount"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
@@ -1652,6 +1701,7 @@ class Character extends Entity {
         delete json["characterSexCount"];
         //  characterSexRefusalCount
         try {
+            this.characterSexRefusalCount = new Map();
             _tmpArr = JSON.parse(json["characterSexRefusalCount"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
@@ -1667,6 +1717,7 @@ class Character extends Entity {
         delete json["characterSexRefusalCount"];
         //  characterDisposition
         try {
+            this.characterDisposition = new Map();
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character[0]))
@@ -1678,8 +1729,79 @@ class Character extends Entity {
             console.log(e);
         }
         delete json["characterDisposition"];
+        //  currentActions
+        try {
+            this.currentActions = new Map();
+            _tmpArr = JSON.parse(json["currentActions"]);
+            _tmpArr.forEach(function(_arr) {
+                if (!(_arr instanceof Array)) {
+                    console.log("  Error assigning currentActions, they're mangled.");
+                    return undefined;
+                }
+
+                var _actionType = _arr[0];
+                var _entity = _arr[1];
+
+                if (entityIndexes.has(_entity))
+                    _entity = entityIndexes.get(_entity);
+                if (_entity instanceof Furniture) {
+                    switch (_actionType) {
+                        case "lay" : {
+                            this.lay(_entity, ["sleep"]);
+                            break;
+                        }
+                        case "sit" : {
+                            this.sit(_entity, ["sleep"]);
+                            break;
+                        }
+                        case "sleep" : {
+                            this.sleep(_entity);
+                            break;
+                        }
+                    }
+                }
+                else if (_entity instanceof Character) {
+                    switch (_actionType) {
+                        case "follow" : {
+                            this.follow(_character);
+                            break;
+                        }
+                        case "sex" : {
+                            this.fuck(_entity)
+                            break;
+                        }
+                    }
+                }
+                else if (_entity instanceof Item) {
+                    switch (_actionType) {
+                        case "hold" : {
+                            this.hold(_entity);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    if (!(typeof _entity == "undefined")) {
+                        console.log("    Error assigning {0}, it was unaccounted for.".format(_entity instanceof Entity ? _entity.id : _entity));
+                    }
+                    switch (_actionType) {
+                        case "sleep" : {
+                            this.sleep();
+                            break;
+                        }
+                        case "stand" : {
+                            this.stand();
+                        }
+                    }
+                }
+            }, this);
+        } catch (e) {
+            console.log(e);
+        }
+        delete json["currentActions"];
         //  clothing
         try {
+            this.clothing = new Map();
             _tmpArr = JSON.parse(json["clothing"]);
             _tmpArr.forEach(function(_clothing) {
                 if (!(_clothing instanceof Clothing))
@@ -1692,9 +1814,10 @@ class Character extends Entity {
             console.log(e);
         }
         delete json["clothing"];
-        //  dated
+        //  _dated
         try {
-            _tmpArr = JSON.parse(json["dated"]);
+            this._dated = new Map();
+            _tmpArr = JSON.parse(json["_dated"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
                     _int = Number.parseInt(_int);
@@ -1706,56 +1829,48 @@ class Character extends Entity {
         } catch (e) {
             console.log(e);
         }
-        delete json["dated"];
+        delete json["_dated"];
         // Arrays
-        //  currentActions
-        try {
-            _tmpArr = JSON.parse(json["currentActions"]);
-            _tmpArr.forEach(function(_arr, _action) {
-                if (kActionTypes.has(_action) || _action === undefined) {
-                    if (_arr instanceof Array) {
-                        for (var i = 0; i < _arr.length; i++) {
-                            if (entityIndexes.has(_arr[i])) {
-                                this.addCurrentAction(_action, entityIndexes.get(_arr[i]));
-                            }
-                        }
-                    }
-                    else if (entityIndexes.has(_arr)) {
-                        this.addCurrentAction(_action, entityIndexes.get(_arr));
-                    }
-                }
-                else
-                    return undefined;
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["currentActions"];
         
         // Entities
-        this.defaultDisposition.fromObject(json["defaultDisposition"]);
+        //  defaultDiposition
+        this.defaultDisposition = new Disposition(json["defaultDisposition"]);
         delete json["defaultDisposition"];
-        
+        //  following
+        this.following = undefined;
         if (charactersIndexes.has(json["following"]))
             this.follow(charactersIndexes.get(json["following"]));
         delete json["following"];
-        
+        //  furniture
+        this.furniture = undefined;
         if (furnitureIndexes.has(json["furniture"])) {
             furnitureIndexes.get(json["furniture"]).addCharacter(this);
             this.furniture = furnitureIndexes.get(json["furniture"]);
         }
         delete json["furniture"];
-        
+        //  phone
+        this.phone = undefined;
+        if (phonesIndexes.has(json["phone"])) {
+            this.phone = phonesIndexes.get(json["phone"]);
+        }
+        delete json["phone"];
+        //  previousRoom
+        this.previousRoom = undefined;
         if (roomsIndexes.has(json["previousRoom"]))
             this.previousRoom = roomsIndexes.get(json["previousRoom"]);
         delete json["previousRoom"];
-        
+        //  room
+        this.room = undefined;
         if (roomsIndexes.has(json["room"]))
             this.room = roomsIndexes.get(json["room"]);
         delete json["room"];
         delete json["cell"];
         delete json["location"];
-        
+
+        if (kHandTypes.has(json["handType"]))
+            this.setHand(json["handType"])
+        delete json["handType"];
+
         // Primitives
         for (var property in json) {
             if (this.hasOwnProperty(property)) {
@@ -1778,6 +1893,9 @@ class Character extends Entity {
             return _cost - (this.manaCostOffsetPercent / _cost);
     }
 
+    getItems() {
+        return this.items;
+    }
     addItem(_item) {
         if (!(_item instanceof Item)) {
             if (itemsIndexes.has(_item))
@@ -3184,7 +3302,7 @@ class Character extends Entity {
                 return undefined;
         }
         this.following = _character;
-        this.addCurrentAction("follow");
+        this.addCurrentAction("follow", _character);
     }
     give(_entity, _item) {
         if (!(_entity instanceof Entity)) {
@@ -3207,6 +3325,8 @@ class Character extends Entity {
             else
                 return undefined;
         }
+        if (!this.containsItem(_item))
+            return false;
         if (_hand !== undefined) {
             if (isNaN(_hand)) {
                 switch (_hand.slice(0, -1).toLowerCase()) {
@@ -3233,11 +3353,7 @@ class Character extends Entity {
         if (typeof _hand == "number") {
             if (this._heldItems[_hand] instanceof Item) {
                 var __item = this._heldItems[_hand];
-                if (this.release(__item)) {
-                    if (this.containsItem(_item))
-                        this.removeItem(_item);
-                }
-                else
+                if (!this.release(__item))
                     return false;
             }
             this._heldItems[_hand] = _item;
@@ -3245,19 +3361,13 @@ class Character extends Entity {
         else {
             if (this._heldItems.length > 1) {
                 var __item = this._heldItems[0];
-                if (this.release(__item)) {
-                    if (this.containsItem(_item))
-                        this.removeItem(_item);
+                if (this.release(__item))
                     this._heldItems[0] = _item;
-                }
                 else
                     return false;
             }
-            else {
-                if (this.containsItem(_item))
-                    this.removeItem(_item);
+            else
                 this._heldItems.push(_item);
-            }
         }
         this.addCurrentAction("hold", _item);
         return true;
@@ -3280,17 +3390,22 @@ class Character extends Entity {
         }
         this.addCurrentAction("kiss", _entity, _bodyPart);
     }
-    lay(_furniture = undefined) {
+    lay(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
-        
-        this.addCurrentAction("lay", _furniture);
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
         this.removeCurrentAction("sit");
-        this.removeCurrentAction("sleep");
+        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.addCurrentAction("lay", _furniture);
 
         if (_furniture instanceof Furniture)
             this.furniture = _furniture;
@@ -3302,13 +3417,21 @@ class Character extends Entity {
             _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
         this.addCurrentAction("look", _entity);
     }
-    masturbate() {
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("walk");
-        this.removeCurrentAction("sex");
-        
+    masturbate(_dontOverride = []) {
+        if (typeof _dontOverride == "array") {}
+        else if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+        else
+            _dontOverride = [];
+
+        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
+        if (_dontOverride.contains("walk")) this.removeCurrentAction("walk");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
         this.addCurrentAction("masturbate");
-        
+
         return true;
     }
     open(_entity) {
@@ -3375,45 +3498,61 @@ class Character extends Entity {
     /*sex(_character) {
     
     }*/
-    sit(_furniture = undefined) {
+    sit(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
 
-        this.addCurrentAction("sit", _furniture);
         this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
+        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
         this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.addCurrentAction("sit", _furniture);
 
         if (_furniture instanceof Furniture)
             this.furniture = _furniture
 
         return this.furniture;
     }
-    sleep(_furniture = undefined) {
+    sleep(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
 
-        this.addCurrentAction("sleep", _furniture);
         this.removeCurrentAction("walk");
         this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.addCurrentAction("sleep");
 
         if (_furniture instanceof Furniture)
             this.furniture = _furniture;
 
         return this.furniture;
     }
-    stand() {
-        this.addCurrentAction("stand");
+    stand(_dontOverride = []) {
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
         this.removeCurrentAction("sit");
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("walk");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.addCurrentAction("stand");
 
         this.furniture = undefined;
 
@@ -3461,14 +3600,20 @@ class Character extends Entity {
 
         return this.furniture;
     }
-    walk() {
-        this.addCurrentAction("walk");
+    walk(_dontOverride = []) {
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
         this.removeCurrentAction("sit");
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sleep");
         this.removeCurrentAction("stand");
-        this.removeCurrentAction("masturbate");
-        this.removeCurrentAction("sex");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.addCurrentAction("walk");
 
         this.furniture = undefined;
 
@@ -3677,6 +3822,9 @@ class Character extends Entity {
         this.eyeColour = _colour
         this.eyeColourHex = colourNameToHex(_colour.replace(/[^a-z]/g, ""));
     }
+    setEyeColourHex(_hexColour) {
+        this.eyeColourHex = _hexColour;
+    }
 
     setFur(_type) {
         if (kPeltTypes.has(_type))
@@ -3699,11 +3847,21 @@ class Character extends Entity {
         this.setFurColourA(_colourA);
         this.setFurColourB(_colourB);
     }
+    setFurColourAHex(_hexColour) {
+        this.furColourAHex = _hexColour;
+    }
+    setFurColourBHex(_hexColour) {
+        this.furColourBHex = _hexColour;
+    }
 
     hasBodyPart(_bodyPart) {
+        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
+            this.bodyParts = new Set();
         return this.bodyParts.has(_bodyPart);
     }
     removeBodyPart(_bodyPart) {
+        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
+            this.bodyParts = new Set();
         var _removedBodyPart = false;
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {
@@ -3718,6 +3876,8 @@ class Character extends Entity {
         return _removedBodyPart;
     }
     addBodyPart(_bodyPart) {
+        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
+            this.bodyParts = new Set();
         var _addedBodyPart = false;
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {

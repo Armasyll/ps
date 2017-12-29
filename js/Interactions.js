@@ -58,6 +58,25 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         Menu.generate();
     }
 
+    if (!scenesViewedThisWindow.has(player.previousRoom)) {
+        if (player.room.characters.size > 1) {
+            var _blob = "";
+            tempArray = Array.from(player.room.characters).remove(player);
+            if (tempArray.length == 1)
+                _blob += tempArray[0].toString() + " is here with you.";
+            else {
+                // Lazy
+                for (i = 0; i < tempArray.length - 1; i++) {
+                    _blob += (tempArray[i]);
+                    if (tempArray.length > 2)
+                        _blob += (", ");
+                }
+                _blob += " and " + tempArray[tempArray.length - 1] + " are here too.";
+            }
+            Content.add("<p>" + _blob + "</p>");
+        }
+    }
+
     eventsIndexes.forEach(function(_event) {
         if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
             return undefined;
