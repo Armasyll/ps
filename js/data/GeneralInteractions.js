@@ -1,4 +1,7 @@
-function chearlieEatFruitypebbles() {
+function charlieCheckMirror() {
+    console.log("Someone entered the same room as Charlie.");
+}
+function charlieEatFruitypebbles() {
     clearContentAndMenu();
 
     Title.set("Eat Fruity Pebbles");

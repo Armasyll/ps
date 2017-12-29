@@ -292,7 +292,7 @@ function setCharacterRoom(_character = player, _room) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
     
-    if (debug) console.log("Moving " + _character.id + " from " + _character.room.sid + " to " + _room.sid);
+    if (debug) console.log("Executing setCharacterRoom({0}, {1})".format(_character.id, _room.id));
     
     if (_character.room != _room) {
         characterWalk(_character);
@@ -317,7 +317,8 @@ function setCharacterRoom(_character = player, _room) {
         eventsIndexes.forEach(function(_event) {
             if (
                 typeof _event.cron == 'undefined' &&
-                _character == _event.characterA &&
+                (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
+                (typeof _event.characterB == 'undefined' || _character.room.containsCharacter(_event.characterB)) &&
                 _character.room == _event.room &&
                 (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
             ) {
@@ -337,7 +338,7 @@ function setPlayerRoom(_room) {
     characterMovements.delete(player);
     var _moved = setCharacterRoom(player, _room);
     if (_moved) {
-        tick("1m", false, true);
+        tick("1m", false, true, false);
         
         if (enableMinimap)
             Minimap.generateMapFromStartRoom(player.room);
@@ -360,14 +361,18 @@ function givePlayerItem(_item, _fromEntity) {
  * @param Boolean _runLastMenu Return to (run again) the last-used menu.
  * @return Date The current time, in-game.
  */
-function tick(time, _updateMinimap = true, _runLastMenu = false) {
+function tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExecutedThisTick = true) {
     var _newTime = new Date(currentTime);
     
     if (typeof _updateMinimap != "boolean")
         _updateMinimap = true;
     if (typeof _runLastMenu != "boolean")
         _runLastMenu = false;
+    if (typeof _clearEventsExecutedThisTick != "boolean")
+        _clearEventsExecutedThisTick = true;
     
+    if (debug) console.log("Executing tick({0}, {1}, {2})".format(time, _updateMinimap ? "true" : "false", _runLastMenu ? "true" : "false"));
+
     if (Number.isInteger(time))
         _newTime.addSeconds(time);
     else {
@@ -449,8 +454,9 @@ function tick(time, _updateMinimap = true, _runLastMenu = false) {
         Minimap.generateMapFromStartRoom(player.room);
     if (_runLastMenu)
         runLastMenu();
-    
-    eventsExecutedThisTick.clear();
+
+    if (_clearEventsExecutedThisTick)
+        eventsExecutedThisTick.clear();
     return currentTime;
 }
 /**

@@ -4206,20 +4206,25 @@ class Character extends Entity {
     }
 
     addFollower(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
-        if (_character instanceof Character)
-            this.followers.add(_character);
+        this.followers.add(_character);
     }
     removeFollower(_character) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character) {
-            if (this.followers.has(_character))
-                this.followers.delete(_character);
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
         }
+
+        if (this.followers.has(_character))
+            this.followers.delete(_character);
     }
     clearFollowers() {
         this.followers.clear();
@@ -4227,15 +4232,29 @@ class Character extends Entity {
     hasFollowers() {
         return this.followers.size > 0;
     }
+    isFollowing(_character) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+
+        if (typeof this.following == "undefined")
+            return false;
+        else
+            return this.following == _character;
+    }
 
     getCharacterSexCount(_character = undefined) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
-        if (_character instanceof Character)
-            return this.characterSexCount.has(_character) ? this.characterSexCount.get(_character) : 0;
-        else
-            return undefined;
+        return this.characterSexCount.has(_character) ? this.characterSexCount.get(_character) : 0;
     }
     getSexCount(_character = undefined) {
         if (typeof _character != "undefined")
@@ -4244,32 +4263,36 @@ class Character extends Entity {
             return this.sexCount;
     }
     addSexWith(_character, _updateChild = true) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character) {
-            this.virgin = false;
-            this.sexCount++;
-            if (this.characterSexCount.has(_character))
-                this.characterSexCount.set(_character, Number.parseInt(this.characterSexCount.get(_character)) + 1);
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
             else
-                this.characterSexCount.set(_character, 1);
-
-            if (_updateChild)
-                _character.addSexWith(this, false);
+                return undefined;
         }
+
+        this.virgin = false;
+        this.sexCount++;
+        if (this.characterSexCount.has(_character))
+            this.characterSexCount.set(_character, Number.parseInt(this.characterSexCount.get(_character)) + 1);
+        else
+            this.characterSexCount.set(_character, 1);
+
+        if (_updateChild)
+            _character.addSexWith(this, false);
     }
 
     addRelative(_character, _updateChild = true) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (_character instanceof Character) {
-            this.relatives.add(_character);
-
-            if (_updateChild)
-                _character.addRelative(this, false);
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
         }
+
+        this.relatives.add(_character);
+
+        if (_updateChild)
+            _character.addRelative(this, false);
     }
 
     addPreferredSpecies(_species) {
@@ -4296,11 +4319,12 @@ class Character extends Entity {
         return this.addNewCharacterDispositionFor(_character, erosOffset, philiaOffset, lodusOffset, pragmaOffset, storgeOffset, manicOffset);
     }
     addNewCharacterDispositionFor(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-        if (!(_character instanceof Character))
-            return undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
 
         if (this.prefersSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {

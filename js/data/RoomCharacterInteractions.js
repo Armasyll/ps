@@ -1,4 +1,4 @@
-function alBuildingBasementRosie() {
+function alBuildingBasementRosieInteract() {
     _character = rosie;
     
     Content.clear();
@@ -21,7 +21,7 @@ function alBuildingBasementRosieTalk() {
         Content.add("WIP");
     }
 }
-function alBuildingSecondFloorHallwayCharlie() {
+function alBuildingSecondFloorHallwayCharlieInteract() {
     _character = charlie;
     
     Content.add("<p>You look at {0} as you stand in {1}</p>".format(_character.name, player.room.name));
@@ -89,7 +89,7 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
     tick("3m");
 }
 
-function remmyApartmentBedroomWolter() {
+function remmyApartmentBedroomWolterInteract() {
 }
 function remmyApartmentBedroomWolterTalk() {
 }
@@ -135,14 +135,16 @@ function remmyApartmentLivingroomCouchMasturbateFleshlight(_character = player) 
     
     tick("15m");
 }
-function remmyApartmentLivingroomCharlie() {
+function remmyApartmentLivingroomCharlieInteract() {
     _character = charlie;
     
     _blob = "";
     if (_character.furniture instanceof Furniture)
     	_blob += "{0} is {1} on the {2}".format(_character.toString(), _character.currentActionPresentParticiplePosition(), _character.furniture.type);
+    else if (_character.isFollowing(player))
+        _blob += "{0} is right beside you".format(_character.toString());
     else
-    	_blob += "{0} is leaning over the back of the couch".format(_character.toString());
+    	_blob += "{0} is standing off to the side of the room".format(_character.toString());
 
     if (!charlie.hasShirt() && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += ", completely bare. Her fur is fluffed up along her chest and cheeks, and the room smells of violets. You don't know why she's in your apartment, naked, but you don't really care about the \"why\"s at the moment.";
@@ -153,7 +155,7 @@ function remmyApartmentLivingroomCharlie() {
     else if (charlie.hasShirt() && !charlie.hasPants() && !charlie.hasUnderwear())
         _blob += (", bottomless, peering over the end opposite you. Her fluffy tail is in the way of anything good. You're suddenly feeling very thirsty. Also, you don't know why she's in your apartment in just a turtleneck.");
     else
-        _blob += (" in a " + _character.getShirt().toString() + " and " + _character.getPants().toString() + ". You invited her over for something, but you can't remember what.");
+        _blob += (" in a " + _character.getShirt().toString() + " and " + _character.getPants().toString() + ".");
     
     Content.add("<p>" + _blob + "</p>");
 }
@@ -536,18 +538,20 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
 }
 function remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter() {
 }
-function remmyApartmentLivingroomWolter() {
+function remmyApartmentLivingroomWolterInteract() {
     _character = wolter;
 }
 
-function remmyApartmentBathroomCharlie() {
+function remmyApartmentBathroomCharlieInteract() {
     _character = charlie;
     
-    Content.add("<p>{0} looks at your face, then tilts her head down to the tub containing sheddings of her fur, and her big black dildo shaped oddly like your cock.</p>".format(_character.name));
-    Content.add("<p>Looking back at you, she says in her scratchy, monotone voice, \"This is exactly what it looks like, Remmy.\"</p>");
+    if (remmyApartmentBathroomTub.hasItem(charlieBigBlackRemmyDildo)) {
+        Content.add("<p>{0} looks at you, then tilts her head down to the tub containing sheddings of her fur, and her big {1} shaped oddly like your cock. Looking back at you, she says in her scratchy, monotone voice, \"This is exactly what it looks like, Remmy.\"</p>".format(_character.toString(), charlieBigBlackRemmyDildo.toString()));
+    }
 }
-function remmyApartmentBathroomWolter() {
+function remmyApartmentBathroomWolterInteract() {
     _character = wolter;
     
-    Content.add("<p>Wolter looks over at the big black sheep dildo in the tub, then glances over at you with a grin. \"Hey ram, I don't judge.\"</p>");
+    if (remmyApartmentBathroomTub.hasItem(charlieBigBlackRemmyDildo))
+        Content.add("<p>{0} looks over at the {1} in the tub, then glances over at you with a grin. \"Hey fluff, I don't judge.\"</p>".format(_character.toString(), charlieBigBlackRemmyDildo.toString()));
 }

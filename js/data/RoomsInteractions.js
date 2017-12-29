@@ -138,7 +138,7 @@ function remmyApartmentLivingroomInteract(_showContent = true) {
     }
     
     if (!Menu.showingBaseMenu) {
-        Menu.addOption("chearlieEatFruitypebbles()", "Eat Fruity Pebbles.");
+        Menu.addOption("charlieEatFruitypebbles()", "Eat Fruity Pebbles.");
     }
 }
 function remmyApartmentBedroomInteract(_showContent = true) {

@@ -114,6 +114,8 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
             }
         }
     }, this);
+
+    eventsExecutedThisTick.clear();
 }
 
 function characterInteract(_character, _clearContent = true) {
