@@ -1543,10 +1543,10 @@ class Character extends Entity {
         
         if (typeof json == "string") {
             try {
-                var json = JSON.parse(jsonString);
+                json = JSON.parse(json);
             }
             catch (e) {
-                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                if (debug) console.log("Parameter `json` could not be parsed to JSON.");
                 return undefined;
             }
         }

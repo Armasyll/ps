@@ -1632,24 +1632,41 @@ function useNormalMenu() {
 }
 
 function saveGame() {
+    var _charArr = new Array();
+    var _furnArr = new Array();
+    charactersIndexes.forEach(function(_character){_charArr.push(_character.toJSON())}, this);
+    var _text = JSON.stringify({"characters":_charArr,"furniture":_furnArr});
+    delete _charArr;
+    delete _furnArr;
+
+    var _save = document.createElement('a');
+    _save.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(_text));
+    _save.setAttribute('download', "ps_{0}.json".format(Date.now()));
+
+    _save.style.display = 'none';
+    document.body.appendChild(_save);
+
+    _save.click();
+
+    document.body.removeChild(_save);
 }
-function loadGame() {
+function loadGame(_json) {
+    if (typeof _json == "string") {
+        try {
+            var _json = JSON.parse(_json);
+        }
+        catch (e) {
+            if (debug) console.log("Parameter `_json` could not be parsed to JSON.");
+            return undefined;
+        }
+    }
+    
     // Locations, Cells, Rooms
-    var _unassignedLocationOwner = new Array();
-    var _locationJSON = undefined;
-    _locations.forEach(function(_location) {
-        _locationJSON = JSON.parse(_location);
-        window[_locationJSON.id] = new Location();
-        window[_locationJSON.id].fromJSON(_location);
-        window[_locationJSON.id].owner.forEach(function(_character) {
-            if (!(_character instanceof Character))
-                _unassignedLocationOwner.push([window[_locationJSON.id], _character]);
-        }, this);
-    }, this);
-    _cells.forEach(function(_cell) {
-        
-    });
     // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
+    var _charactersJSON = _json["characters"];
+    _charactersJSON.forEach(function(_character) {
+        window[_character["id"]] = new Character(_character);
+    });
     // Initialize all first, then assign properties
     // WebSites, WebPages
     // Cron, GameEvents, 
