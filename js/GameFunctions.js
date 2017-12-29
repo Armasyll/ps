@@ -133,7 +133,7 @@ function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _
     return _body;
 }
 function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
-    if (giveEntityItem(_item, _fromEntity, _toEntity)) {
+    if (entityGiveItem(_item, _fromEntity, _toEntity)) {
         var _lazyEntity = _fromEntity;
         if (_lazyEntity == player)
             _lazyEntity = _toEntity;
@@ -142,7 +142,7 @@ function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = unde
     }
 }
 function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true) {
-    if (giveEntityItem(_item, _fromEntity, _toEntity, _useLastMenu)) {
+    if (entityGiveItem(_item, _fromEntity, _toEntity, _useLastMenu)) {
         if (_switch) {
             if (_fromEntity instanceof Character)
                 characterInteractOpen(_toEntity, _switch, _allowSwitch, false);
@@ -169,7 +169,7 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
  * @param {Boolean} _useLastMenu
  * @return {Boolean}
  */
-function giveEntityItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+function entityGiveItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     var _eventRun = false;
 
     if (!(_item instanceof Item)) {
@@ -285,14 +285,14 @@ function clearContentAndMenu() {
  * @param Room _room
  * @return Boolean Whether or not the Character was moved to the Room.
  */
-function setCharacterRoom(_character = player, _room) {
+function characterSetRoom(_character = player, _room) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
     
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
     
-    if (debug) console.log("Executing setCharacterRoom({0}, {1})".format(_character.id, _room.id));
+    if (debug) console.log("Executing characterSetRoom({0}, {1})".format(_character.id, _room.id));
     
     if (_character.room != _room) {
         characterWalk(_character);
@@ -302,7 +302,7 @@ function setCharacterRoom(_character = player, _room) {
         if (_character.hasFollowers) {
             _character.followers.forEach(function(_follower) {
                 if (_follower.room == _character.previousRoom || _follower.room == _character.room)
-                    setCharacterRoom(_follower, _room);
+                    characterSetRoom(_follower, _room);
                 else
                     characterMovements.set(_follower, _findPathToRoom(_follower.room, _room));
             }, this);
@@ -334,9 +334,9 @@ function setCharacterRoom(_character = player, _room) {
  * @param Room _room
  * @return Boolean
  */
-function setPlayerRoom(_room) {
+function setRoom(_room) {
     characterMovements.delete(player);
-    var _moved = setCharacterRoom(player, _room);
+    var _moved = characterSetRoom(player, _room);
     if (_moved) {
         tick("1m", false, true, false);
         
@@ -351,9 +351,7 @@ function setPlayerRoom(_room) {
  * @param Entity _fromEntity
  * @return Boolean
  */
-function givePlayerItem(_item, _fromEntity) {
-    return giveEntityItem(_item, _fromEntity, player, true);
-}
+function giveItem(_item, _fromEntity) {return entityGiveItem(_item, _fromEntity, player, true);}
 /**
  * Passes time.
  * @param String time Amount of time to pass. If passed an integer, will treat it as seconds. "30s" will pass 30 seconds, "30m" will pass 30 minutes, "24h" will pass 24 hours, and "2d" will pass 2 days, in-game time.
@@ -410,7 +408,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExe
                         if (_rooms.size > 0) {
                             var _room = _rooms.values().next().value;
                             if (!_character.room.isLocked(_room) || _character.hasKey(_room)) {
-                                setCharacterRoom(_character, _room);
+                                characterSetRoom(_character, _room);
                                 _rooms.delete(_room);
                             }
                             else
@@ -1335,6 +1333,224 @@ function characterTakeItem(_character, _item, _executeScene = false) {
         return true;
 }
 
+function characterSetLife(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setLife(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.life;
+}
+function characterDecLife(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decLife(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.life;
+}
+function characterIncLife(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incLife(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.life;
+}
+function characterSetLifeMax(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setLifeMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.lifeMax;
+}
+function characterDecLifeMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decLifeMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.lifeMax;
+}
+function characterIncLifeMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incLifeMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.lifeMax;
+}
+function characterSetStamina(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setStamina(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.stamina;
+}
+function characterDecStamina(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decStamina(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.stamina;
+}
+function characterIncStamina(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incStamina(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.stamina;
+}
+function characterSetStaminaMax(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setStaminaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.staminaMax;
+}
+function characterDecStaminaMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decStaminaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.staminaMax;
+}
+function characterIncStaminaMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incStaminaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.staminaMax;
+}
+function characterSetMana(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setMana(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.mana;
+}
+function characterIncMana(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incMana(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.mana;
+}
+function characterDecMana(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decMana(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.mana;
+}
+function characterSetManaMax(_character, int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setManaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.manaMax;
+}
+function characterIncManaMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incManaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.manaMax;
+}
+function characterDecManaMax(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decManaMax(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.manaMax;
+}
+function setLife(_int) {characterSetLife(player, _int);}
+function setLife(_int) {characterIncLife(player, _int);}
+function setLife(_int) {characterDecLife(player, _int);}
+function setLifeMax(_int) {characterSetLifeMax(player, _int);}
+function setLifeMax(_int) {characterIncLifeMax(player, _int);}
+function setLifeMax(_int) {characterDecLifeMax(player, _int);}
+function setStamina(_int) {characterSetStamina(player, _int);}
+function setStamina(_int) {characterIncStamina(player, _int);}
+function setStamina(_int) {characterDecStamina(player, _int);}
+function setStaminaMax(_int) {characterSetStaminaMax(player, _int);}
+function setStaminaMax(_int) {characterIncStaminaMax(player, _int);}
+function setStaminaMax(_int) {characterDecStaminaMax(player, _int);}
+function setMana(_int) {characterSetMana(player, _int);}
+function setMana(_int) {characterIncMana(player, _int);}
+function setMana(_int) {characterDecMana(player, _int);}
+function setManaMax(_int) {characterSetManaMax(player, _int);}
+function setManaMax(_int) {characterIncManaMax(player, _int);}
+function setManaMax(_int) {characterDecManaMax(player, _int);}
+
+
 /**
  * Returns to (runs again) the last-used menu.
  */
@@ -1480,7 +1696,7 @@ function _unlockRoom(_roomA, _roomB) {
  * @param {Room} _room
  * @return {Boolean} Whether or not the Room was locked, or undefined
  */
-function lockRoomFromInside(_room) {
+function roomLockFromInside(_room) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     
@@ -1511,7 +1727,7 @@ function lockRoomFromInside(_room) {
  * @param {Room} _room
  * @return {Boolean} Whether or not the Room was unlocked, or undefined
  */
-function unlockRoomFromInside(_room) {
+function roomUnlockFromInside(_room) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     
@@ -1543,7 +1759,7 @@ function unlockRoomFromInside(_room) {
  * @param {Character} _character
  * @return {Boolean} Whether or not the Room was locked, or undefined
  */
-function lockRoomFromOutside(_room, _character = player) {
+function roomLockFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     if (!(_character instanceof Character))
@@ -1563,7 +1779,7 @@ function lockRoomFromOutside(_room, _character = player) {
  * @param {Character} _character
  * @return {Boolean} Whether or not the Room was unlocked, or undefined
  */
-function unlockRoomFromOutside(_room, _character = player) {
+function roomUnlockFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     if (!(_character instanceof Character))
@@ -1592,7 +1808,7 @@ function addAllItems(_character = player, _execEvents = true) {
 
     itemsIndexes.forEach(function(_item) {
         if (_execEvents)
-            giveEntityItem(_item, undefined, player, false);
+            entityGiveItem(_item, undefined, player, false);
         else
             player.addItem(_item);
     }, this);

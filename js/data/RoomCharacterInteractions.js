@@ -83,7 +83,7 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
         Content.add("{0} leaps from her window, and falls to her death two stories down.".format(_character.name));
         Content.add("You somehow obtain " + charlieBeatingHeart.toString() + " and " + charlieLeftEye.toString() + ".");
         charlie.living = false;
-        setCharacterRoom(charlie, limbo);
+        characterSetRoom(charlie, limbo);
     }
     
     tick("3m");
@@ -246,7 +246,7 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     
     Content.add("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
     
-    setCharacterRoom(charlie, chartyApartmentBedroomCharlie);
+    characterSetRoom(charlie, chartyApartmentBedroomCharlie);
 
     if (player.room.containsCharacter(wolter) && wolter.isSleeping()) {
         Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(wolter.name, wolter.subjectPronoun(), wolter.possessivePronoun(), player.name, charlie.name, charlie.objectPronoun()));

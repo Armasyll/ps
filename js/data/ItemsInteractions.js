@@ -45,8 +45,12 @@ function charlieLeftEyeConsume(_character) {
         else
             return undefined;
     }
-    
-    _character.incManaMax(25);
+
+
+    if (_character.maxMan == 0)
+        _character.incManaMax(2);
+    else
+        _character.incManaMax(4);
 }
 
 function charlieBeatingHeartHold(_character) {

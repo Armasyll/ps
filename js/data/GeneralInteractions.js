@@ -179,7 +179,7 @@ function rosieGiveCharlieHeartFlee() {
     tick("1m", true, false);
 }
 function rosieGiveCharlieHeartStay() {
-    setCharacterRoom(charlie, rosie.room);
+    characterSetRoom(charlie, rosie.room);
 
     var _blob = "";
 

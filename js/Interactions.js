@@ -17,7 +17,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     
     if (player.room !== _room) {
         if (debug) console.log("Previous Room: {0}".format(player.room.id));
-        setPlayerRoom(_room);
+        setRoom(_room);
         if (debug) console.log("Current Room: {0}".format(player.room.id));
     }
 
@@ -214,9 +214,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
                 _blob += ("a " + _characterB.items[0].toString() + ".");
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _characterB.items.forEach(function(_item) {
-                    _blob += (_item.toString() + ".");
-                });
+                _blob += "{0}, and {1}".format(_characterB.items[0].plural ? _characterB.items[0].toString() : _characterB.items[0], _characterB.items[1].plural ? _characterB.items[1] : _characterB.items[1]);
             }
             else {
                 // Lazy
