@@ -1532,23 +1532,23 @@ function characterDecManaMax(_character, _int) {
     return _character.manaMax;
 }
 function setLife(_int) {characterSetLife(player, _int);}
-function setLife(_int) {characterIncLife(player, _int);}
-function setLife(_int) {characterDecLife(player, _int);}
+function incLife(_int) {characterIncLife(player, _int);}
+function decLife(_int) {characterDecLife(player, _int);}
 function setLifeMax(_int) {characterSetLifeMax(player, _int);}
-function setLifeMax(_int) {characterIncLifeMax(player, _int);}
-function setLifeMax(_int) {characterDecLifeMax(player, _int);}
+function incLifeMax(_int) {characterIncLifeMax(player, _int);}
+function decLifeMax(_int) {characterDecLifeMax(player, _int);}
 function setStamina(_int) {characterSetStamina(player, _int);}
-function setStamina(_int) {characterIncStamina(player, _int);}
-function setStamina(_int) {characterDecStamina(player, _int);}
+function incStamina(_int) {characterIncStamina(player, _int);}
+function decStamina(_int) {characterDecStamina(player, _int);}
 function setStaminaMax(_int) {characterSetStaminaMax(player, _int);}
-function setStaminaMax(_int) {characterIncStaminaMax(player, _int);}
-function setStaminaMax(_int) {characterDecStaminaMax(player, _int);}
+function incStaminaMax(_int) {characterIncStaminaMax(player, _int);}
+function decStaminaMax(_int) {characterDecStaminaMax(player, _int);}
 function setMana(_int) {characterSetMana(player, _int);}
-function setMana(_int) {characterIncMana(player, _int);}
-function setMana(_int) {characterDecMana(player, _int);}
+function incMana(_int) {characterIncMana(player, _int);}
+function decMana(_int) {characterDecMana(player, _int);}
 function setManaMax(_int) {characterSetManaMax(player, _int);}
-function setManaMax(_int) {characterIncManaMax(player, _int);}
-function setManaMax(_int) {characterDecManaMax(player, _int);}
+function incManaMax(_int) {characterIncManaMax(player, _int);}
+function decManaMax(_int) {characterDecManaMax(player, _int);}
 
 
 /**
