@@ -52,6 +52,8 @@ class Title {
 class Content {
     constructor() {
         this.initialized = false;
+        this.prepend = "";
+        this.append = "";
     }
     static initialize() {
         this.initialized = true;

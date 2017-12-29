@@ -17,4 +17,4 @@ new GameEvent("charlieReceiveHeartEvent", "take", charlie, undefined, "charlieBe
 new GameEvent("charlieRemoveLeftEyeEvent", "remove", player, charlie, "charlieLeftEye", undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);
 new GameEvent("charlieReceiveLeftEyeEvent", "take", charlie, undefined, "charlieLeftEye", undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveLeftEyeEvent')", false);
 new GameEvent("rosieReceiveCharlieBeatingHeartEvent", "give", undefined, rosie, "charlieBeatingHeart", undefined, undefined, undefined, undefined, "rosieGiveCharlieHeart('rosieReceiveCharlieBeatingHeartEvent')", true);
-new GameEvent("charlieCheckMirrorEvent", undefined, undefined, charlie, undefined, undefined, undefined, charlie.room, undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", false);
+new GameEvent("charlieCheckMirrorEvent", undefined, undefined, charlie, undefined, undefined, undefined, charlie.room, undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", true);

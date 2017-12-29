@@ -10,6 +10,11 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         return undefined;
     }
 
+    var _previousRoomDifferent = (!(player.room instanceof Room) || !(player.room.sid == _room.sid));
+
+    if (_clearContent != false && _previousRoomDifferent)
+        Content.clear();
+    
     if (player.room !== _room) {
         if (debug) console.log("Previous Room: {0}".format(player.room.id));
         setPlayerRoom(_room);
@@ -23,11 +28,6 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
     );
 
-    var _previousRoomDifferent = (!(player.previousRoom instanceof Room) || !(player.previousRoom.sid == player.room.sid));
-
-    if (_clearContent != false && _previousRoomDifferent)
-        Content.clear();
-    
     Menu.showingBaseMenu = _showBaseMenu == true;
 
     if (Menu.showingBaseMenu) {

@@ -1,5 +1,8 @@
 function charlieCheckMirror() {
-    console.log("Someone entered the same room as Charlie.");
+    if (charlie.room == player.room) {
+        Content.add("<p>You see Charlie looking herself over in her small mirror just before she snaps it shut and puts it away.</p>");
+    }
+    charlie.release(charliePalmMirror);
 }
 function charlieEatFruitypebbles() {
     clearContentAndMenu();
