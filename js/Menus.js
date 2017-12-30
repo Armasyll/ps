@@ -70,6 +70,8 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
                 Menu.setOption(3, "phoneInteract({0}, true)".format(player.phone.id), "Check Phone");
         }
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true)", "Wait");
+        if (player.maxMana > 0)
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "spellMenu()", "Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
         Menu.generate();
     }
 }
@@ -99,6 +101,14 @@ function localCharactersMenu() {
             Menu.addOption("characterInteract({0}, false)".format(_character.id), _character.name, "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()));
     }
     
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.generate();
+}
+function spellMenu() {
+    lastMenu = "spellMenu()";
+    
+    Title.set("Spells");
+
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
@@ -170,7 +180,7 @@ function debugRoomInformation() {
                 _contentBody += "<li>Seating ({0}/{1})".format(_furniture.seatingSpace - _furniture.availableSeatingSpace(), _furniture.seatingSpace);
                     _contentBody += "<ul>";
                         _furniture.characters.forEach(function(_character) {
-                            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _character.currentActionPresentParticiplePosition());
+                            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _character.getStancePresentTense());
                         }, this);
                     _contentBody += "</ul>";
                 _contentBody += "</li>";
@@ -212,7 +222,7 @@ function debugSwitchRoom() {
     Content.add(_blob);
     
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(true, true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "debugMenuClose()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugCharactersInformation(_character = player) {
@@ -370,7 +380,7 @@ function debugSwitchCharacter() {
     Content.add(_blob);
     
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "debugMenuClose(); roomInteract(" + player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function debugBrowserInformation() {

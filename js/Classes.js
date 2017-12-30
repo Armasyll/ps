@@ -3222,24 +3222,34 @@ class Character extends Entity {
     hasCurrentAction(_actionType) {
         return this.currentActions.has(_actionType);
     }
-    currentActionPosition() {
+    getStance() {
         if (this.currentActions.has("lay"))
             return "lay";
         else if (this.currentActions.has("sit"))
             return "sit";
         else if (this.currentActions.has("stand"))
             return "stand";
+        else if (this.currentActions.has("kneel"))
+            return "kneel";
     }
-    currentActionPresentParticiplePosition() {
+    getStancePresentTense() {
         if (this.isLying())
             return "lying";
         else if (this.isSitting())
             return "sitting";
         else if (this.isStanding())
             return "standing";
+        else if (this.isKneeling())
+            return "kneeling";
     }
-    currentActionPresentTensePosition() {
-        return this.currentActionPresentParticiplePosition();
+    getStancePresentParticiple() {
+        return this.positionPresentTense();
+    }
+    hasStance(_actionType) {
+        if (kIntraactionTypes.has(_actionType))
+            return this.hasCurrentAction(_actionType);
+        else
+            return false;
     }
 
     attack(_entity) {
@@ -3391,6 +3401,23 @@ class Character extends Entity {
                 return undefined;
         }
         this.addCurrentAction("kiss", _entity, _bodyPart);
+    }
+    kneel(_entity, _dontOverride = []) {
+        if (!(_entity instanceof Entity))
+            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
+        this.removeCurrentAction("lay");
+        this.removeCurrentAction("sit");
+        this.removeCurrentAction("stand");
+        this.removeCurrentAction("walk");
+
+        this.addCurrentAction("kneel", _entity);
+
+        return _entity;
     }
     lay(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
@@ -3667,23 +3694,26 @@ class Character extends Entity {
             return 0;
     }
 
-    isSleeping() {
-        return this.hasCurrentAction("sleep");
+    isFucking() {
+        return this.hasCurrentAction("sex");
     }
-    isStanding() {
-        return this.hasCurrentAction("stand");
+    isKneeling() {
+        return this.hasCurrentAction("kneel");
     }
     isLying() {
         return this.hasCurrentAction("lay");
     }
+    isMasturbating() {
+        return this.hasCurrentAction("masturbate");
+    }
+    isSleeping() {
+        return this.hasCurrentAction("sleep");
+    }
     isSitting() {
         return this.hasCurrentAction("sit");
     }
-    isFucking() {
-        return this.hasCurrentAction("sex");
-    }
-    isMasturbating() {
-        return this.hasCurrentAction("masturbate");
+    isStanding() {
+        return this.hasCurrentAction("stand");
     }
 
     isClothed() {

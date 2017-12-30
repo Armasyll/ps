@@ -140,7 +140,7 @@ function remmyApartmentLivingroomCharlieInteract() {
     
     _blob = "";
     if (_character.furniture instanceof Furniture)
-    	_blob += "{0} is {1} on the {2}".format(_character.toString(), _character.currentActionPresentParticiplePosition(), _character.furniture.type);
+    	_blob += "{0} is {1} on the {2}".format(_character.toString(), _character.getStancePresentTense(), _character.furniture.type);
     else if (_character.isFollowing(player))
         _blob += "{0} is right beside you".format(_character.toString());
     else
