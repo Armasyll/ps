@@ -6636,6 +6636,38 @@ class WebSite {
             return undefined;
     }
 }
+class Spell extends Entity {
+    /**
+     * Creates a Spell
+     * @param  {String} _id          Unique ID
+     * @param  {String} _name        Name
+     * @param  {String} _description Description
+     * @param  {String} _image       Image path of base64
+     * @param  {Number} _manaCost    Cost of Spell in Mana
+     * @param  {Number} _lifeCost    Cost of Spell in Life
+     * @param  {Number} _staminaCost Cost of Spell in Stamina
+     */
+    constructor(_id, _name = "", _description = undefined, _image = undefined, _manaCost = 0, _lifeCost = 0, _staminaCost = 0) {
+        super(_id, _name, _description, _image);
+
+        if (isNaN(_manaCost)) _manaCost = 0;
+        else if (_manaCost < 0) _manaCost = 0;
+        else _manaCost = Number.parseInt(_manaCost);
+        this.manaCost = _manaCost;
+
+        if (isNaN(_lifeCost)) _lifeCost = 0;
+        else if (_lifeCost < 0) _lifeCost = 0;
+        else _lifeCost = Number.parseInt(_lifeCost);
+        this.lifeCost = _lifeCost;
+
+        if (isNaN(_staminaCost)) _staminaCost = 0;
+        else if (_staminaCost < 0) _staminaCost = 0;
+        else _staminaCost = Number.parseInt(_staminaCost);
+        this.staminaCost = _staminaCost;
+
+        spellsIndexes.set(this.id, this);
+    }
+}
 class Cron {
     /**
      * Creats a schedule

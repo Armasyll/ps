@@ -60,50 +60,56 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     }
 
     if (!scenesViewedThisWindow.has(player.previousRoom)) {
-        if (player.room.characters.size > 1) {
-            var _blob = "";
-            var _characters = [];
-            var _followingCharacters = [];
+if (player.room.characters.size > 1) {
+    var _blob = "";
+    var _characters = [];
+    var _followingCharacters = [];
 
-            Array.from(player.room.characters).forEach(function(__character) {
-                if (!__character.isFollowing(player) && __character != player)
-                    _characters.push(__character);
-            }, this);
-            
-            if (_characters.length > 0) {
-                if (_characters.length == 1)
-                    _blob += _characters[0].toString() + " is here";
-                else {
-                    // Lazy
-                    for (i = 0; i < _characters.length - 1; i++) {
-                        _blob += (_characters[i]);
-                        if (_characters.length > 2)
-                            _blob += (", ");
-                    }
-                    _blob += " and " + _characters[_characters.length - 1] + " are here";
-                }
+    Array.from(player.room.characters).forEach(function(__character) {
+        if (!__character.isFollowing(player) && __character != player)
+            _characters.push(__character);
+    }, this);
+    
+    if (_characters.length > 0) {
+        if (_characters.length == 1)
+            _blob += _characters[0].toString() + " is here";
+        else {
+            // Lazy
+            for (i = 0; i < _characters.length - 1; i++) {
+                _blob += (_characters[i]);
+                if (_characters.length > 2)
+                    _blob += (", ");
             }
-            if (player.followers.size > 0) {
-                if (_characters.length > 0)
-                    _blob += ", along with ";
-                _followingCharacters = Array.from(player.followers);
-                if (_followingCharacters.length == 1)
-                    _blob += _followingCharacters[0].toString();
-                else {
-                    // Lazy
-                    for (i = 0; i < _followingCharacters.length - 1; i++) {
-                        _blob += (_followingCharacters[i]);
-                        if (_followingCharacters.length > 2)
-                            _blob += (", ");
-                    }
-                    _blob += " and " + _followingCharacters[_followingCharacters.length - 1];
-                }
-                if (_characters.length == 0)
-                    _blob += " is";
-                _blob += " following beside you.";
-            }
-            Content.add("<p>" + _blob + "</p>");
+            _blob += " and " + _characters[_characters.length - 1] + " are here";
         }
+    }
+    if (player.followers.size > 0) {
+        if (_characters.length > 0)
+            _blob += ", along with ";
+        _followingCharacters = Array.from(player.followers);
+        if (_followingCharacters.length == 1)
+            _blob += _followingCharacters[0].toString();
+        else {
+            // Lazy
+            for (i = 0; i < _followingCharacters.length - 1; i++) {
+                _blob += (_followingCharacters[i]);
+                if (_followingCharacters.length > 2)
+                    _blob += (", ");
+            }
+            _blob += " and " + _followingCharacters[_followingCharacters.length - 1];
+        }
+        if (_characters.length == 0) {
+            if (_followingCharacters.length > 1)
+                _blob += " are";
+            else
+                _blob += " is";
+        }
+        _blob += " following beside you.";
+    }
+    else
+        _blob += ".";
+    Content.add("<p>" + _blob + "</p>");
+}
     }
 
     eventsIndexes.forEach(function(_event) {

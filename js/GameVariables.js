@@ -3,35 +3,45 @@
 //var serializer = new XMLSerializer()
 
 /**
- * Map of Entity(s)
- * @type {Map<String, Entity}
+ * Map of BodyPart(s)
+ * @type {Map<String, BodyPart}
  */
-var entityIndexes = new Map();
-/**
- * Map of Location(s)
- * @type {Map<String, Location>}
- */
-var locationsIndexes = new Map();
+var bodyPartsIndexes = new Map();
 /**
  * Map of Cell(s)
  * @type {Map<String, Cell}
  */
 var cellsIndexes = new Map();
 /**
- * Map of Room(s)
- * @type {Map<String, Room>}
- */
-var roomsIndexes = new Map();
-/**
- * Map of BodyPart(s)
- * @type {Map<String, BodyPart}
- */
-var bodyPartsIndexes = new Map();
-/**
  * Map of Character(s)
  * @type {Map<String, Character}
  */
 var charactersIndexes = new Map();
+/**
+ * Map of pathed Character movements from Room to Room
+ * @type {Map<Character, Set<Room>>}
+ */
+var characterMovements = new Map();
+/**
+ * Map of Clothing
+ * @type {Map<String, Clothing>}
+ */
+var clothingIndexes = new Map();
+/**
+ * Map of Consumable(s)
+ * @type {Map<String, Consumable>}
+ */
+var consumableIndexes = new Map();
+/**
+ * Map of Entity(s)
+ * @type {Map<String, Entity}
+ */
+var entityIndexes = new Map();
+/**
+ * Map of GameEvent(s).
+ * @type {Map<String, GameEvent>}
+ */
+var eventsIndexes = new Map();
 /**
  * Map of Furniture
  * @type {Map<String, Furniture>}
@@ -48,35 +58,30 @@ var itemsIndexes = new Map();
  */
 var keysIndexes = new Map();
 /**
- * Map of Clothing
- * @type {Map<String, Clothing>}
+ * Map of Location(s)
+ * @type {Map<String, Location>}
  */
-var clothingIndexes = new Map();
+var locationsIndexes = new Map();
 /**
  * Map of Phone(s)
  * @type {Map<String, Phone>}
  */
 var phonesIndexes = new Map();
 /**
+ * Map of Room(s)
+ * @type {Map<String, Room>}
+ */
+var roomsIndexes = new Map();
+/**
+ * Map of Spell(s)
+ * @type {Map<String, Spell>}
+ */
+var spellsIndexes = new Map();
+/**
  * Map of TextMessage(s)
  * @type {Map<String, TextMessage>}
  */
 var textMessageIndexes = new Map();
-/**
- * Map of Consumable(s)
- * @type {Map<String, Consumable>}
- */
-var consumableIndexes = new Map();
-/**
- * Map of GameEvent(s).
- * @type {Map<String, GameEvent>}
- */
-var eventsIndexes = new Map();
-/**
- * Map of pathed Character movements from Room to Room
- * @type {Map<Character, Set<Room>>}
- */
-var characterMovements = new Map();
 /**
  * Map of WebPage(s)
  * @type {Map<String, WebPage}
@@ -87,6 +92,7 @@ var webPageIndexes = new Map();
  * @type {Map<String, WebSite>}
  */
 var webSiteIndexes = new Map();
+
 var agreeTOS = false;
 var lastMenu = undefined;
 var lastGameEvent = undefined;
@@ -117,20 +123,3 @@ const kInteractionTypes = new Set(["attack","bite","boop","cast","channel","chok
 const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
 const kConsumableTypes = new Set(["food", "drink", "medicine"]);
 const kSpecialTypes = new Set(["exists", "living", "dead", "mirror", "water", "fire", "earth", "metal", "broken", "wood", "magic", "nature", "container", "charm"]);
-
-// Mana Costs
-const kManaCostLevitate = 10;
-const kManaCostUnlock = 15;
-const kManaCostImbue = 50;
-const kManaCostMirrorUseOpen = 25; // Open the mirror's inventory
-const kManaCostMirrorUseWalk = 75; // Walk through the mirror
-const kManaCostMirrorUseLook = 50; // Peer through the mirror
-
-const kManaCostCharacterSummon = 100;
-const kManaCostCharacterLust = 25; // 1-time; +5 to Lust to Character
-const kManaCostCharacterRut = 50; // 1-time; enable Rut
-const kManaCostCharacterTempDisposition = 25; // 24h; +20 to a Disposition type to Character
-const kManaCostCharacterGradualDisposition = 50; // Channel; Initial cost of 50 to start, additional cost of 50 the next day, +2 Disposition type to Character
-const kManaCostCharacterCompel = 50; // 1-time; +100 to all Dispositions, +5 Miseo after Scene
-const kManaCostCharacterDominate = 100; // 24h; +100 to all Dispositions, practically disables all checks to Character
-const kManaCostCharacterPossess = 150; // 24h;

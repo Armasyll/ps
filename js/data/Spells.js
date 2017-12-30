@@ -1,0 +1,15 @@
+new Spell("spellLevitate", "Levitate", "Levitates an object.", undefined, 10, 0, 2);
+new Spell("spellTeleport", "Teleport", "Teleports an object.", undefined, 25, 5, 25);
+new Spell("spellUnlock", "Unlock", "Unlocks things that are locked.", undefined, 15, 0, 2);
+new Spell("spellImbue", "Imbue", "A magical item with intent.", undefined, 50, 0, 2);
+new Spell("spellMirrorOpen", "Open Mirror", "Stores items in mirrors.", undefined, 25, 0, 2);
+new Spell("spellMirrorWalk", "Travel through Mirror", "", undefined, 75, 0, 2);
+new Spell("spellMirrorLook", "Look through Mirror", "", undefined, 50, 0, 2);
+new Spell("spellCharacterSummon", "Summon", "Summons someone, anyone, to you.", undefined, 100, 0, 2);
+new Spell("spellCharacterLust", "Lust", "Increases a person's lust.", undefined, 25, 0, 2);
+new Spell("spellCharacterRut", "Uncontrollable Lust", "Sends a person into an uncontrollable lust.", undefined, 50, 0, 2);
+new Spell("spellCharacterTempDisposition", "Fool", "Increases a person's disposition to you for a day.", undefined, 25, 0, 2);
+new Spell("spellCharacterGradualDisposition", "Charm", "Increases a person's disposition to you gradually, at a cost.", undefined, 50, 0, 2);
+new Spell("spellCharacterCompel", "Compel", "Compel another person to do <i>almost anything</i> for an hour.", undefined, 50, 0, 2);
+new Spell("spellCharacterDominate", "Dominate", "Dominate the will of another person for a day.", undefined, 100, 0, 2);
+new Spell("spellCharacterPossess", "Possess", "Possess another person for a day.", undefined, 50, 0, 2);
