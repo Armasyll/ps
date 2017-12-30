@@ -3505,10 +3505,8 @@ class Character extends Entity {
                 return undefined;
         }
 
-        if (this._heldItems.contains(_item)) {
+        if (this._heldItems.contains(_item))
             this._heldItems.remove(_item);
-            this.addItem(_item);
-        }
         else
             return false;
         if (!this.hasItemInEitherHand())
