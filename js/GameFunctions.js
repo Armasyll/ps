@@ -225,8 +225,16 @@ function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
                 return false
             else if (_fromEntity.holding(_item) && !characterReleaseItem(_fromEntity, _item, undefined, _fromEntity == player))
                 return false;
+            else if (!unsafeExec("{0}Remove({1})".format(_item.id, _fromEntity.id)))
+                return false;
         }
-
+        else if (_fromEntity instanceof Furniture) {
+            if (!unsafeExec("{0}Remove({1})".format(_item.id, _fromEntity.id)))
+                return false;
+            else if (!unsafeExec("{0}Remove({1})".format(_fromEntity.id, _item.id))) // mimic :o
+                return false;
+        }
+        
         _fromEntity.remove(_item);
 
         if (debug) console.log("Checking for item removal events");
