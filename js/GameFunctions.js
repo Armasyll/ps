@@ -220,7 +220,15 @@ function entityGiveItem(_item = undefined, _fromEntity = undefined, _toEntity = 
 function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
     var _eventRun = false;
     if (typeof _fromEntity != 'undefined') {
-        _fromEntity.removeItem(_item);
+        if (_fromEntity instanceof Character) {
+            if (_item instanceof Clothing && _fromEntity.wearing(_item) && !characterDisrobeItem(_fromEntity, _item, _fromEntity == player))
+                return false
+            else if (_fromEntity.holding(_item) && !characterReleaseItem(_fromEntity, _item, undefined, _fromEntity == player))
+                return false;
+        }
+
+        _fromEntity.remove(_item);
+
         if (debug) console.log("Checking for item removal events");
         eventsIndexes.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
@@ -237,6 +245,10 @@ function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
 }
 function _executeItemGiveEvents(_item, _fromEntity, _toEntity) {
     var _eventRun = false;
+
+    if (_fromEntity instanceof Character && !characterGiveItem(_fromEntity, _toEntity, _item, (_fromEntity == player || _toEntity == player)))
+        return false;
+
     if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
         if (debug) console.log("Checking for item given events");
         eventsIndexes.forEach(function(_event) {
@@ -250,12 +262,19 @@ function _executeItemGiveEvents(_item, _fromEntity, _toEntity) {
             }
         }, this);
     }
+
     return _eventRun;
 }
 function _executeItemTakeEvents(_item, _fromEntity, _toEntity) {
     var _eventRun = false;
     if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
-        _toEntity.addItem(_item);
+        if (_toEntity instanceof Character) {
+            if (!characterTakeItem(_toEntity, _item, _toEntity == player))
+                return false;
+        }
+        else
+            _toEntity.addItem(_item);
+
         if (debug) console.log("Checking for item taken events");
         eventsIndexes.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
@@ -268,6 +287,7 @@ function _executeItemTakeEvents(_item, _fromEntity, _toEntity) {
             }
         }, this);
     }
+
     return _eventRun;
 }
 
@@ -1219,6 +1239,26 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     
     return _character.masturbate(_furniture);
 }
+function characterDisrobeItem(_character, _item, _executeScene = false) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_item instanceof Item)){
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
+
+    _character.disrobe(_item);
+    if (_executeScene == true)
+        return unsafeExec("{0}Disrobe({1})".format(_item.id, _character.id));
+    else
+        return true;
+}
 function characterGiveItem(_characterA, _characterB, _item, _executeScene = false) {
     if (!(_characterA instanceof Character)){
         if (charactersIndexes.has(_characterA))
@@ -1239,35 +1279,11 @@ function characterGiveItem(_characterA, _characterB, _item, _executeScene = fals
             return undefined;
     }
 
-    if (_characterA.hasHeldItem(_item)) {}
-    else if (_characterA.containsItem(_item)) {
-        if (!(_characterA.addHeldItem(_item)))
-            return false;
-    }
+    _characterA.give(_characterB, _item);
+    if (_executeScene == true)
+        return unsafeExec("{0}Give({1}, {2})".format(_item.id, _characterA.id, _characterB.id))
     else
-        return undefined;
-
-    /*
-        Think about this later.
-     */
-    if (_characterB.hasItemsInBothHands()) {
-        var __item = _characterB.getItemInRightHand();
-        
-        characterReleaseItem(_characterB, __item, 0, true);
-        
-        _characterB.addHeldItem(_item);
-        unsafeExec("{0}Hold({1})".format(_item.id, _characterB.id));
-        
-        characterReleaseItem(_characterB, _item, 0, true);
-        
-        _characterB.addHeldItem(__item);
-        unsafeExec("{0}Hold({1})".format(__item.id, _characterB.id));
-    }
-    else {
-        _characterB.addHeldItem(_item);
-        unsafeExec("{0}Hold({1})".format(_item.id, _characterB.id));
-    }
-
+        return true;
 }
 function characterHoldItem(_character, _item, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){

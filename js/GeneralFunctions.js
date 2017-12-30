@@ -170,7 +170,10 @@ function unsafeExec(_executableString = undefined) {
             console.log(err);
     }
     
-    return _return;
+    if (_return == undefined)
+        return true;
+    else
+        return _return;
 }
 
 /**

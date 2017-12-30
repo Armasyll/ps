@@ -1988,6 +1988,23 @@ class Character extends Entity {
     removeItemInLeftHand() {
         return this.removeHeldItem(this.getItemInLeftHand());
     }
+    holding(_item) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        var _isHolding = false;
+        this._heldItems.forEach(function(__item) {
+            if (_item == __item)
+                _isHolding = true;
+        }, this);
+        return _isHolding;
+    }
+    isHolding(_item) {
+        return this.holding(_item);
+    }
 
     setAge(_int) {
         if (isNaN(_int))
@@ -3332,15 +3349,6 @@ class Character extends Entity {
                 return undefined;
         }
 
-        if (this.hasItem(_item)) {
-            this.removeItem(_item);
-        }
-        else if (this.wearing(_item)) {
-            this.disrobe(_item);
-            this.removeItem(_item);
-        }
-        else
-            return false;
         return true;
     }
     hold(_item, _hand = undefined) {
@@ -3505,7 +3513,7 @@ class Character extends Entity {
                 return undefined;
         }
 
-        if (this._heldItems.contains(_item))
+        if (this.holding(_item))
             this._heldItems.remove(_item);
         else
             return false;
@@ -3520,7 +3528,16 @@ class Character extends Entity {
             else
                 return undefined;
         }
-        this.removeItem(_item);
+        if (this.hasItem(_item)) {
+            this.release(_item);
+            this.removeItem(_item);
+        }
+        else if (this.wearing(_item)) {
+            this.disrobe(_item);
+            this.removeItem(_item);
+        }
+        else
+            return false;
         return true;
     }
     /*sex(_character) {
