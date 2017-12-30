@@ -210,6 +210,8 @@ judy.addItem(hoppsHouseholdFakeGuestRoomKey);
 judy.moveToRoom(judyRoom);
 violet.moveTo(violetRoom);
 nick.moveTo(hoppsHouseholdGuestRoom);
+
+nick.sleep(guestBed);
 </pre>
                             </div>
                         </div>
@@ -361,14 +363,24 @@ nick.possessiveAdjective()
 // would return "his"
 nick.reflexivePronoun()
 // would return "himself"
+
+nick.name
+// would return "Nick"
 nick.singularPossesiveName()
 // would return "Nick's"
+
 nick.grammaticalGender()
 // would return "male"
+
 nick.getHand()
 // would return "paw"
 nick.getHands()
 // would return "paws"
+
+nick.getStance()
+// would return "lay"
+nick.getStancePresentTense()
+// would return "laying"
 </pre>
                             </div>
                         </div>
