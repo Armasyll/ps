@@ -1825,16 +1825,58 @@ function roomUnlockFromOutside(_room, _character = player) {
  * @return {Boolean}
  */
 function addAllItems(_character = player, _execEvents = true) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (!(typeof _execEvents == 'boolean'))
         _execEvents = true;
 
     itemsIndexes.forEach(function(_item) {
         if (_execEvents)
-            entityGiveItem(_item, undefined, player, false);
+            entityGiveItem(_item, undefined, _character, false);
         else
-            player.addItem(_item);
+            _character.addItem(_item);
+    }, this);
+
+    return true;
+}
+/**
+ * Adds all known Locations(s) to the specified Character
+ * @param {Character} _character Character to add all known Location(s) to, defaults to Player
+ * @return {Boolean}
+ */
+function addAllLocations(_character = player) {
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+
+    locationsIndexes.forEach(function(_location) {
+        _character.addKnownLocation(_location);
+    }, this);
+
+    return true;
+}
+/**
+ * Adds all known Spell(s) to the specified Character
+ * @param {Character} _character Character to add all known Spell(s) to, defaults to Player
+ * @return {Boolean}
+ */
+function addAllSpells(_character = player, _execEvents = true) {
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+
+    spellsIndexes.forEach(function(_spell) {
+        _character.addKnownSpell(_spell);
     }, this);
 
     return true;
@@ -1842,8 +1884,8 @@ function addAllItems(_character = player, _execEvents = true) {
 
 /**
  * Chance for Character(2) to have sex with Character(1)
- * @param {Character} _characterA
- * @param {Character} _characterB
+ * @param {Character} _characterA Character requesting
+ * @param {Character} _characterB Character respoding to request
  * @return {Number}, or undefined
  */
 function calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {

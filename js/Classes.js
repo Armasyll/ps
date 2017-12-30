@@ -1401,9 +1401,11 @@ class Character extends Entity {
         this.addAction("kiss");
 
         this.currentActions = new Map();
+        this.knownLocations = new Set();
+        this.knownSpells = new Set();
 
         this.items = new Array();
-        this._heldItems = new Array();
+        this.heldItems = new Array();
         this.hasPhone = false;
         this.phone = undefined;
 
@@ -1648,15 +1650,33 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["items"];
-        //  _heldItems
+        //  heldItems
         try {
-            _tmpArr = JSON.parse(json["_heldItems"]);
+            _tmpArr = JSON.parse(json["heldItems"]);
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
                     this.addHeldItem(itemsIndexes.get(_item));
             }, this);
         } catch (e) {}
-        delete json["_heldItems"];
+        delete json["heldItems"];
+        //  knownLocations
+        try {
+            _tmpArr = JSON.parse(json["knownLocations"]);
+            _tmpArr.forEach(function(_location) {
+                if (locationsIndexes.has(_location))
+                    this.knownLocations.add(locationsIndexes.get(_location));
+            }, this);
+        } catch (e) {}
+        delete json["knownLocations"];
+        //  knownSpells
+        try {
+            _tmpArr = JSON.parse(json["knownSpells"]);
+            _tmpArr.forEach(function(_spell) {
+                if (spellsIndexes.has(_spell))
+                    this.knownSpells.add(spellsIndexes.get(_spell));
+            }, this);
+        } catch (e) {}
+        delete json["knownSpells"];
         //  prefersSpecies
         try {
             _tmpArr = JSON.parse(json["prefersSpecies"]);
@@ -1956,13 +1976,13 @@ class Character extends Entity {
         this.release(_item);
     }
     hasItemInRightHand() {
-        return this._heldItems.length > 0 && this._heldItems[0] instanceof Item;
+        return this.heldItems.length > 0 && this.heldItems[0] instanceof Item;
     }
     hasItemInLeftHand() {
-        return this._heldItems.length > 1 && this._heldItems[1] instanceof Item;
+        return this.heldItems.length > 1 && this.heldItems[1] instanceof Item;
     }
     hasItemsInBothHands() {
-        return this._heldItems[0] instanceof Item && this._heldItems[1] instanceof Item;
+        return this.heldItems[0] instanceof Item && this.heldItems[1] instanceof Item;
     }
     handsFull() {
         return this.hasItemsInBothHands();
@@ -1972,13 +1992,13 @@ class Character extends Entity {
     }
     getItemInRightHand() {
         if (this.hasItemInRightHand())
-            return this._heldItems[0];
+            return this.heldItems[0];
         else
             return undefined;
     }
     getItemInLeftHand() {
         if (this.hasItemInLeftHand())
-            return this._heldItems[1];
+            return this.heldItems[1];
         else
             return undefined;
     }
@@ -1996,7 +2016,7 @@ class Character extends Entity {
                 return undefined;
         }
         var _isHolding = false;
-        this._heldItems.forEach(function(__item) {
+        this.heldItems.forEach(function(__item) {
             if (_item == __item)
                 _isHolding = true;
         }, this);
@@ -3384,23 +3404,23 @@ class Character extends Entity {
         }
 
         if (typeof _hand == "number") {
-            if (this._heldItems[_hand] instanceof Item) {
-                var __item = this._heldItems[_hand];
+            if (this.heldItems[_hand] instanceof Item) {
+                var __item = this.heldItems[_hand];
                 if (!this.release(__item))
                     return false;
             }
-            this._heldItems[_hand] = _item;
+            this.heldItems[_hand] = _item;
         }
         else {
-            if (this._heldItems.length > 1) {
-                var __item = this._heldItems[0];
+            if (this.heldItems.length > 1) {
+                var __item = this.heldItems[0];
                 if (this.release(__item))
-                    this._heldItems[0] = _item;
+                    this.heldItems[0] = _item;
                 else
                     return false;
             }
             else
-                this._heldItems.push(_item);
+                this.heldItems.push(_item);
         }
         this.addCurrentAction("hold", _item);
         return true;
@@ -3514,7 +3534,7 @@ class Character extends Entity {
         }
 
         if (this.holding(_item))
-            this._heldItems.remove(_item);
+            this.heldItems.remove(_item);
         else
             return false;
         if (!this.hasItemInEitherHand())
@@ -4342,6 +4362,60 @@ class Character extends Entity {
             _character.addRelative(this, false);
     }
 
+    addKnownLocation(_location) {
+        if (!(_location instanceof Location)) {
+            if (locationsIndexes.has(_location))
+                _location = locationsIndexes.get(_location);
+            else
+                return undefined;
+        }
+        this.knownLocations.add(_location);
+        return true;
+    }
+    addLocation(_location) {
+        return this.addKnownLocation(_location);
+    }
+    removeKnownLocation(_location) {
+        if (!(_location instanceof Location)) {
+            if (locationsIndexes.has(_location))
+                _location = locationsIndexes.get(_location);
+            else
+                return undefined;
+        }
+        this.knownLocations.delete(_location);
+        return true;
+    }
+    removeLocation(_location) {
+        return this.removeKnownLocation(_location);
+    }
+
+    addKnownSpell(_spell) {
+        if (!(_spell instanceof Spell)) {
+            if (spellIndexes.has(_spell))
+                _spell = spellIndexes.get(_spell);
+            else
+                return undefined;
+        }
+        this.knownSpells.add(_spell);
+        return true;
+    }
+    addSpell(_spell) {
+        return this.addKnownSpell(_spell);
+    }
+    removeKnownSpell(_spell) {
+        if (!(_spell instanceof Spell)) {
+            if (spellIndexes.has(_spell))
+                _spell = spellIndexes.get(_spell);
+            else
+                return undefined;
+        }
+        this.knownSpells.delete(_spell);
+        return true;
+    }
+    removeSpell(_spell) {
+        return this.removeKnownSpell(_spell);
+    }
+
     addPreferredSpecies(_species) {
         if (kSpeciesTypes.has(_species)) {
             _species = _species;
@@ -4663,6 +4737,11 @@ class Character extends Entity {
             this.location = undefined;
 
         _room.addCharacter(this);
+
+        if (!this.knownLocations.has(_room.cell.location))
+            this.knownLocations.add(_room.cell.location);
+        if (!this.knownLocations.has(_room.location))
+            this.knownLocations.add(_room.location);
 
         return true;
     }
