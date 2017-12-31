@@ -70,7 +70,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
                 Menu.setOption(3, "phoneInteract({0}, true)".format(player.phone.id), "Check Phone");
         }
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true)", "Wait");
-        if (player.maxMana > 0 && player.knownSpells.size > 0)
+        if (player.manaMax > 0 && player.knownSpells.size > 0)
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "spellMenu()", "Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
         Menu.generate();
     }
@@ -109,9 +109,10 @@ function spellMenu() {
     
     Title.set("Spells");
 
+    Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     player.knownSpells.forEach(function(_spell) {
-        Menu.addOption(spellInteract);
+        Menu.addOption("spellInteract({0})".format(_spell.id), _spell.name, _spell.description);
     });
     Menu.generate();
 }

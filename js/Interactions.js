@@ -301,7 +301,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
 }
 function characterInteractTalk(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
 
     Menu.clear();
@@ -315,7 +315,7 @@ function characterInteractTalk(_character) {
 }
 function characterInteractSex(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -327,7 +327,7 @@ function characterInteractSex(_character) {
 }
 function characterInteractFollow(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -339,7 +339,7 @@ function characterInteractFollow(_character) {
 }
 function characterInteractAttack(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -351,7 +351,7 @@ function characterInteractAttack(_character) {
 }
 function characterInteractStay(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -363,7 +363,7 @@ function characterInteractStay(_character) {
 }
 function characterInteractHug(_character) {
     if (!(_character instanceof Character))
-        _character = characterIndexes.get(_character);
+        _character = charactersIndexes.get(_character);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -831,20 +831,86 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
         else
             return undefined;
     }
+
+    Menu.clear();
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "spellMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Spells");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    switch (_spell.id) {
+        case "spellLevitate" : {
+            break;
+        }
+        case "spellTeleport" : {
+            break;
+        }
+        case "spellUnlock" : {
+
+            break;
+        }
+        case "spellImbue" : {
+            break;
+        }
+        case "spellMirrorOpen" : {}
+        case "spellMirrorWalk" : {}
+        case "spellMirrorLook" : {}
+        case "spellMirror*" : {
+
+            break;
+        }
+        case "spellCharacterSleep" : {}
+        case "spellCharacterSummon" : {}
+        case "spellCharacterLust" : {}
+        case "spellCharacterRut" : {}
+        case "spellCharacterTempDisposition" : {}
+        case "spellCharacterGradualDisposition" : {}
+        case "spellCharacterCompel" : {}
+        case "spellCharacterDominate" : {}
+        case "spellCharacterPossess" : {}
+        case "spellCharacter*" : {
+            Title.clear();
+            Title.set(
+                "Spell Targets", 
+                _spell.image, 
+                _spell.name, 
+                "Spells"
+            );
+            var _mapOrSet = undefined; // Haven't tested this yet.
+            if (player.room.location.rooms.size > charactersIndexes.size)
+                _mapOrSet = charactersIndexes;
+            else
+                _mapOrSet = player.room.location.rooms.characters;
+
+            _mapOrSet.forEach(function(_character) {
+                Menu.addOption(
+                    "spellInteractCast({0}, {1})".format(_spell.id, _entity.id),
+                    _entity.name,
+                    "{0} {1}".format(_spell.name, _entity.name),
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    "btn-mana"
+                );
+            });
+            break;
+        }
+    }
+    Menu.generate();
 }
-function spellInteractCast(_spell, _character = player) {
+function spellInteractCast(_spell, _entity) {
     if (!(_spell instanceof Spell)) {
         if (spellsIndexes.has(_spell))
             _spell = spellsIndexes.get(_spell);
         else
             return undefined;
     }
-    if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+    if (!(_entity instanceof Character)) {
+        if (charactersIndexes.has(_entity))
+            _entity = charactersIndexes.get(_entity);
         else
             return undefined;
     }
+
+    unsafeExec("{0}Cast({1}, player)".format(_spell.id, _entity.id));
 }
 
 function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
@@ -873,10 +939,10 @@ function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
         }
 
         Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         Menu.addOption("textMessageInteract({0}, 0)".format(_phone.id), "Received Messages");
         Menu.addOption("textMessageInteract({0}, 1)".format(_phone.id), "Read Messages");
         Menu.addOption("textMessageInteract({0}, 2)".format(_phone.id), "Sent Messages");
-        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         Menu.generate();
     }
 }
