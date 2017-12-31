@@ -95,7 +95,7 @@ function charlieBeatingHeartConsume(_character) {
 }
 
 function charliePalmMirrorHold(_character) {
-
+    
     _character.incManaCostOffsetPercent(10);
 }
 function charliePalmMirrorRelease(_character) {

@@ -1288,13 +1288,13 @@ class Disposition {
         _manic = isNaN(_manic) ? 0 : _manic;
         _miseo = isNaN(_miseo) ? 0 : _miseo;
 
-        _eros = _eros < 0 ? 0 : _eros;
-        _philia = _philia < 0 ? 0 : _philia;
-        _lodus = _lodus < 0 ? 0 : _lodus;
-        _pragma = _pragma < 0 ? 0 : _pragma;
-        _storge = _storge < 0 ? 0 : _storge;
-        _manic = _manic < 0 ? 0 : _manic;
-        _miseo = _miseo < 0 ? 0 : _miseo;
+        _eros = _eros < -100 ? -100 : _eros;
+        _philia = _philia < -100 ? -100 : _philia;
+        _lodus = _lodus < -100 ? -100 : _lodus;
+        _pragma = _pragma < -100 ? -100 : _pragma;
+        _storge = _storge < -100 ? -100 : _storge;
+        _manic = _manic < -100 ? -100 : _manic;
+        _miseo = _miseo < -100 ? -100 : _miseo;
 
         _eros = _eros > 100 ? 100 : _eros;
         _philia = _philia > 100 ? 100 : _philia;
@@ -1907,6 +1907,12 @@ class Character extends Entity {
     }
 
     calculateManaCost(_cost = 0) {
+        if (!isNaN(_cost)) {}
+        else if (_cost instanceof Spell) {
+            _cost = _cost.manaCost;
+        }
+        else if (spellsIndexes.has(_cost))
+            _cost = spellsIndexes.get(_cost).manaCost;
         if (this.manaCostOffsetPercent == 0 || _cost == 0)
             return _cost;
         else if (_cost < 0)
@@ -2691,6 +2697,9 @@ class Character extends Entity {
     subIncestual(_int) {
         return this.decIncestual(_int);
     }
+    getIncestual() {
+        return this.incestual;
+    }
 
     setRut(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
@@ -2698,7 +2707,19 @@ class Character extends Entity {
         else
             _bool = false;
         this.rut = _bool;
-        return _bool;
+        return this.rut;
+    }
+    enableRut() {
+        this.rut = true;
+        return this.rut;
+    }
+    disableRut() {
+        this.rut = false;
+        return this.rut;
+    }
+    toggleRut() {
+        this.rut = !this.rut;
+        return this.rut;
     }
 
     setSleep(_bool) {
@@ -2882,14 +2903,12 @@ class Character extends Entity {
     setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined, _miseo = undefined) {
         if (debug) console.log("Running setCharacterDisposition");
 
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
         if (!(_character instanceof Character)) {
-            if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
-            return false;
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
         }
-
         if (_eros instanceof Disposition)
             this.characterDisposition.set(_character, _eros);
         else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && !isNaN(Number.parseInt(_philia)))
@@ -2911,7 +2930,7 @@ class Character extends Entity {
             _manic = isNaN(_manic) ? this.characterDisposition.get(_character).manic : _manic;
             _miseo = isNaN(_miseo) ? this.characterDisposition.get(_character)._miseo : _miseo;
 
-            this.characterDisposition.set(_character, this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo));
+            this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
         }
         else {
             _eros = Number.parseInt(_eros);
@@ -3052,6 +3071,40 @@ class Character extends Entity {
     }
     hasMet(_character) {
         return this.hasCharacterDisposition(_character);
+    }
+    incCharacterAllDispositions(_character, _int) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        if (isNaN(_int)) {
+            _int = Number.parseInt(_int);
+            if (_isNaN(_int))
+                return undefined;
+        }
+        if (!this.hasCharacterDisposition(_character))
+            this.setCharacterDisposition(_character);
+        var _disposition = this.getCharacterDisposition(_character);
+        this.setCharacterDisposition(_character, _disposition.eros + _int, _disposition.philia + _int, _disposition.lodus + _int, _disposition.pragma + _int, _disposition.storge + _int, _disposition.manic + _int, _disposition.miseo - _int);
+    }
+    decCharacterAllDispositions(_character, _int) {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        if (isNaN(_int)) {
+            _int = Number.parseInt(_int);
+            if (_isNaN(_int))
+                return undefined;
+        }
+        if (!this.hasCharacterDisposition(_character))
+            this.setCharacterDisposition(_character);
+        var _disposition = this.getCharacterDisposition(_character);
+        this.setCharacterDisposition(_character, _disposition.eros - _int, _disposition.philia - _int, _disposition.lodus - _int, _disposition.pragma - _int, _disposition.storge - _int, _disposition.manic - _int, _disposition.miseo + _int);
     }
 
     date(_character, _updateChild = true) {
@@ -3299,6 +3352,17 @@ class Character extends Entity {
         this.addCurrentAction("attack", _entity);
         return true;
     }
+    bewitched(_character, _cron = "4m") {
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.addCurrentAction("bewitched", _character);
+        new GameEvent("{0}BewitchedRemove".format(this.id), "bewitched", _character, this, undefined, undefined, undefined, undefined, _cron, "{0}.removeCurrentAction('bewitched')".format(this.id), true);
+        return true;
+    }
     consume(_entity) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
@@ -3322,15 +3386,16 @@ class Character extends Entity {
             this.clothing.set(_clothing, undefined);
     }
     fuck(_character = undefined, _furniture = undefined) {
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        if (!(_character instanceof Character)) {
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
         
         if (!(_furniture instanceof Furniture))
             _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
         
-        if (!(_character instanceof Character))
-            return undefined;
-
         if (_character.sex == 1)
             this.hadSexWithFemale = true;
         else if (_character.sex == 0)
@@ -4391,8 +4456,8 @@ class Character extends Entity {
 
     addKnownSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellIndexes.has(_spell))
-                _spell = spellIndexes.get(_spell);
+            if (spellsIndexes.has(_spell))
+                _spell = spellsIndexes.get(_spell);
             else
                 return undefined;
         }
@@ -4404,8 +4469,8 @@ class Character extends Entity {
     }
     removeKnownSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellIndexes.has(_spell))
-                _spell = spellIndexes.get(_spell);
+            if (spellsIndexes.has(_spell))
+                _spell = spellsIndexes.get(_spell);
             else
                 return undefined;
         }
@@ -4414,6 +4479,26 @@ class Character extends Entity {
     }
     removeSpell(_spell) {
         return this.removeKnownSpell(_spell);
+    }
+
+    castSpell(_spell) {
+        var _cost = 0;
+        if (!isNaN(_spell)) {
+            _cost = _spell;
+        }
+        else if (!(_spell instanceof Spell)) {
+            if (spellsIndexes.has(_spell))
+                _cost = spellsIndexes.get(_spell).manaCost;
+            else
+                return undefined;
+        }
+        var _spellCost = this.calculateManaCost(_cost);
+        if (this.mana >= _spellCost) {
+            this.decMana(_spellCost);
+            return true;
+        }
+        else
+            return false;
     }
 
     addPreferredSpecies(_species) {
@@ -6978,13 +7063,19 @@ class Cron {
             return String(_number).match(new RegExp("[{0}]".format(this.dow))) != null;
     }
     containsDOM(_date) {
-        return (this.dom == _date.getDate());
+        if (_date instanceof Date)
+            _date = _date.getDate();
+        return (this.dom == _date);
     }
     containsMonth(_date) {
-        return (this.month == _date.getMonth() + 1);
+        if (_date instanceof Date)
+            _date = _date.getMonth();
+        return (this.month == _date);
     }
     containsYear(_date) {
-        return (this.year == _date.getYear());
+        if (_date instanceof Date)
+            _date = _date.getFullYear();
+        return (this.year == _date);
     }
 }
 class GameEvent {
@@ -6998,7 +7089,7 @@ class GameEvent {
      * @param  {Location}  _location   Location that triggers the event
      * @param  {Cell}  _cell           Cell that triggers the event
      * @param  {Room}  _room           Room that triggers the event
-     * @param  {Cron}  _cron           Cron, when to run
+     * @param  {Cron,String,Date}  _cron           When to run. Can be a Cron, or a String ("2m" for 2 minutes, "2h" for 2 hours, "2d" for 2 days, "2M" for 2 months), or a Date
      * @param  {String}  _nextFunction Function to run
      * @param  {Boolean} _runOnce      Run once, then delete.
      */
@@ -7028,6 +7119,47 @@ class GameEvent {
 
             if (!(_room instanceof Room))
                 _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+
+            if (_cron instanceof Cron || _cron == undefined) {}
+            else if (typeof _cron == 'string') {
+                var _cronPrefix = Number.parseInt(_cron.slice(0, -1));
+                var _cronSuffix = _cron.slice(-1);
+                if (_cronPrefix < 0) {
+                    if (debug) console.log("   Cron from String contained an invalid number prefix.");
+                    return undefined;
+                }
+                var _cron = new Date(currentTime);
+                switch (_cronSuffix) {
+                    case "y" : {
+                        _cron.addYear(_cronPrefix);
+                        break;
+                    }
+                    case "M" : {
+                        _cron.addMonth(_cronPrefix);
+                        break;
+                    }
+                    case "d" : {
+                        _cron.addDate(_cronPrefix);
+                        break;
+                    }
+                    case "h" : {
+                        _cron.addHours(_cronPrefix);
+                        break;
+                    }
+                    case "m" : {
+                        _cron.addMinutes(_cronPrefix);
+                        break;
+                    }
+                    default : {
+                        if (debug) console.log("   Cron from String contained an invalid time suffix.");
+                        return undefined;
+                    }
+                }
+                _cron = new Cron(_cron.getMinutes(), _cron.getHours(), _cron.getDate(), _cron.getMonth(), undefined, _cron.getFullYear());
+            }
+            else if (_cron instanceof Date) {
+                _cron = new Cron(_cron.getMinutes(), _cron.getHours(), _cron.getDate(), _cron.getMonth(), undefined, _cron.getFullYear());
+            }
 
             this.id = _id;
             this.action = _action;

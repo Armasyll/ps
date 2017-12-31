@@ -110,6 +110,9 @@ function spellMenu() {
     Title.set("Spells");
 
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    player.knownSpells.forEach(function(_spell) {
+        Menu.addOption(spellInteract);
+    });
     Menu.generate();
 }
 

@@ -60,56 +60,56 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     }
 
     if (!scenesViewedThisWindow.has(player.previousRoom)) {
-if (player.room.characters.size > 1) {
-    var _blob = "";
-    var _characters = [];
-    var _followingCharacters = [];
+        if (player.room.characters.size > 1) {
+            var _blob = "";
+            var _characters = [];
+            var _followingCharacters = [];
 
-    Array.from(player.room.characters).forEach(function(__character) {
-        if (!__character.isFollowing(player) && __character != player)
-            _characters.push(__character);
-    }, this);
-    
-    if (_characters.length > 0) {
-        if (_characters.length == 1)
-            _blob += _characters[0].toString() + " is here";
-        else {
-            // Lazy
-            for (i = 0; i < _characters.length - 1; i++) {
-                _blob += (_characters[i]);
-                if (_characters.length > 2)
-                    _blob += (", ");
+            Array.from(player.room.characters).forEach(function(__character) {
+                if (!__character.isFollowing(player) && __character != player)
+                    _characters.push(__character);
+            }, this);
+            
+            if (_characters.length > 0) {
+                if (_characters.length == 1)
+                    _blob += _characters[0].toString() + " is here";
+                else {
+                    // Lazy
+                    for (i = 0; i < _characters.length - 1; i++) {
+                        _blob += (_characters[i]);
+                        if (_characters.length > 2)
+                            _blob += (", ");
+                    }
+                    _blob += " and " + _characters[_characters.length - 1] + " are here";
+                }
             }
-            _blob += " and " + _characters[_characters.length - 1] + " are here";
-        }
-    }
-    if (player.followers.size > 0) {
-        if (_characters.length > 0)
-            _blob += ", along with ";
-        _followingCharacters = Array.from(player.followers);
-        if (_followingCharacters.length == 1)
-            _blob += _followingCharacters[0].toString();
-        else {
-            // Lazy
-            for (i = 0; i < _followingCharacters.length - 1; i++) {
-                _blob += (_followingCharacters[i]);
-                if (_followingCharacters.length > 2)
-                    _blob += (", ");
+            if (player.followers.size > 0) {
+                if (_characters.length > 0)
+                    _blob += ", along with ";
+                _followingCharacters = Array.from(player.followers);
+                if (_followingCharacters.length == 1)
+                    _blob += _followingCharacters[0].toString();
+                else {
+                    // Lazy
+                    for (i = 0; i < _followingCharacters.length - 1; i++) {
+                        _blob += (_followingCharacters[i]);
+                        if (_followingCharacters.length > 2)
+                            _blob += (", ");
+                    }
+                    _blob += " and " + _followingCharacters[_followingCharacters.length - 1];
+                }
+                if (_characters.length == 0) {
+                    if (_followingCharacters.length > 1)
+                        _blob += " are";
+                    else
+                        _blob += " is";
+                }
+                _blob += " following beside you.";
             }
-            _blob += " and " + _followingCharacters[_followingCharacters.length - 1];
-        }
-        if (_characters.length == 0) {
-            if (_followingCharacters.length > 1)
-                _blob += " are";
             else
-                _blob += " is";
+                _blob += ".";
+            Content.add("<p>" + _blob + "</p>");
         }
-        _blob += " following beside you.";
-    }
-    else
-        _blob += ".";
-    Content.add("<p>" + _blob + "</p>");
-}
     }
 
     eventsIndexes.forEach(function(_event) {
@@ -598,8 +598,12 @@ function furnitureInteractSex(_furniture, _characterA = player, _characterB = un
 }
 
 function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu = true) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+    }
     if (!(_entity instanceof Entity)) {
         if (charactersIndexes.has(_entity))
             _entity = charactersIndexes.get(_entity);
@@ -608,12 +612,9 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
         else if (itemsIndexes.has(_entity))
             _entity = itemsIndexes.get(_entity);
         else
-            _entity = undefined;
+            return undefined;
     }
     
-    if (!(_item instanceof Item) || !(_entity instanceof Entity))
-        return;
-
     Menu.clear();
     if (_entity instanceof Character)
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossesiveName()));
@@ -815,6 +816,35 @@ function itemInteractMasturbate(_item, _character = player) {
 
     _character.wearing(_item) && _character.takeOff(_item);
     itemInteract(_item, _character);
+}
+
+function spellInteract(_spell, _character = player, _clearContent = false, _clearMenu = true) {
+    if (!(_spell instanceof Spell)) {
+        if (spellsIndexes.has(_spell))
+            _spell = spellsIndexes.get(_spell);
+        else
+            return undefined;
+    }
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+}
+function spellInteractCast(_spell, _character = player) {
+    if (!(_spell instanceof Spell)) {
+        if (spellsIndexes.has(_spell))
+            _spell = spellsIndexes.get(_spell);
+        else
+            return undefined;
+    }
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 }
 
 function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {

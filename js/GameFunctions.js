@@ -1694,7 +1694,7 @@ function _lockRoom(_roomA, _roomB) {
     Minimap.generateMapFromStartRoom(player.room);
 }
 /**
- * Unlock access to the second Room from the first Room.
+ * Unlock access to the Room(2) from Room(1).
  * @param {Room} _roomA
  * @param {Room} _roomB
  * @return {Boolean} Whether or not the Room was unlocked, or undefined
@@ -1713,7 +1713,8 @@ function _unlockRoom(_roomA, _roomB) {
     else
         _roomB.unlock(_roomA);
 
-    Minimap.generateMapFromStartRoom(player.room);
+    if (player.room.cell == _roomB.cell && enableMinimap)
+        Minimap.generateMapFromStartRoom(player.room);
 }
 /**
  * Locks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.

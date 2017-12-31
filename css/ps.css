@@ -133,7 +133,7 @@ img {
 	margin-top:0.5em;
 	margin-right: 0.5em;
 }
-#contentContainerBody {
+#contentContainerBody, #debugContentContainerBody {
 	overflow-y: scroll;
 	padding: 1em;
 	height: calc(100% - 2.5em);
