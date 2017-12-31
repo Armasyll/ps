@@ -1918,7 +1918,7 @@ class Character extends Entity {
         else if (_cost < 0)
             return 0;
         else
-            return _cost - (this.manaCostOffsetPercent / _cost);
+            return _cost - (_cost / (100 / this.manaCostOffsetPercent));
     }
 
     getItems() {
@@ -2218,8 +2218,6 @@ class Character extends Entity {
             _int = -100;
         else if (_int > 100)
             _int = 100;
-        if (this.mana > this.manaCostOffsetPercent)
-            this.mana = this._int;
         this.manaCostOffsetPercent = _int;
         return _int;
     }
@@ -3794,6 +3792,9 @@ class Character extends Entity {
             return 0;
     }
 
+    isBewitched() {
+        return this.hasCurrentAction("bewitched");
+    }
     isFucking() {
         return this.hasCurrentAction("sex");
     }
@@ -4492,6 +4493,8 @@ class Character extends Entity {
             else
                 return undefined;
         }
+        else
+            _cost = _spell.manaCost;
         var _spellCost = this.calculateManaCost(_cost);
         if (this.mana >= _spellCost) {
             this.decMana(_spellCost);

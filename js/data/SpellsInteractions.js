@@ -21,7 +21,7 @@ function spellTeleportCast(_entity) {
 function spellUnlockCast(_entity, _character = player) {
 	var _spell = spellsIndexes.get("spellUnlock");
 
-    if (!(_entity instanceof Entity)) {
+	if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else if (_entity instanceof Room) {}
@@ -37,11 +37,10 @@ function spellUnlockCast(_entity, _character = player) {
     if (!_character.castSpell(_spell))
     	return false;
 
-    if (_entity instanceof Entity) {
+	if (debug) console.log("Running {0} with {1} and {2}".format(_spell.id, _entity.id, _character.id));
 
-    }
-    else if (_entity instanceof Room) {
-    	_unlockRoom(_character.room, _room);
+    if (_entity instanceof Room) {
+    	_unlockRoom(_character.room, _entity);
     }
 
 	return true;
@@ -208,7 +207,9 @@ function spellCharacterCompelCast(_entity) {
 	return true;
 }
 function spellCharacterDominateCast(_entity, _character = player) {
-    if (!(_character instanceof Entity)) {
+	var _spell = spellsIndexes.get("spellCharacterDominate");
+
+    if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
@@ -220,14 +221,16 @@ function spellCharacterDominateCast(_entity, _character = player) {
     if (!_character.castSpell(_spell))
     	return false;
 
-    new GameEvent("{0}CharacterDominate".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.setCharacterEros({1}, {2});{0}.setCharacterManic({1}, {3});{0}.setSexualOrientation({4});{0}.setIncestual({5});{0}.disableRut();{0}.setLust(0)".format(_entity.id, _character.id, _entity.getCharacterEros(_character), _entity.getCharacterManic(_character), _entity.sexualOrientation, _entity.incestual), true);
-	_entity.bewitched(_character, "1d");
-	_entity.setCharacterEros(_character, 999);
-	_entity.setCharacterManic(_character, 999);
-	_entity.setSexualOrientation(2);
-	_entity.setIncestual(100);
-	_entity.enableRut();
-	_entity.setLust(999);
+    if (_entity instanceof Character) {
+	    new GameEvent("{0}CharacterDominate".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.setCharacterEros({1}, {2});{0}.setCharacterManic({1}, {3});{0}.setSexualOrientation({4});{0}.setIncestual({5});{0}.disableRut();{0}.setLust(0)".format(_entity.id, _character.id, _entity.getCharacterEros(_character), _entity.getCharacterManic(_character), _entity.sexualOrientation, _entity.incestual), true);
+		_entity.bewitched(_character, "1d");
+		_entity.setCharacterEros(_character, 999);
+		_entity.setCharacterManic(_character, 999);
+		_entity.setSexualOrientation(2);
+		_entity.setIncestual(100);
+		_entity.enableRut();
+		_entity.setLust(999);
+	}
 
 	return true;
 }

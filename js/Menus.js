@@ -112,7 +112,16 @@ function spellMenu() {
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     player.knownSpells.forEach(function(_spell) {
-        Menu.addOption("spellInteract({0})".format(_spell.id), _spell.name, _spell.description);
+        Menu.addOption(
+            "spellInteract({0}, player)".format(_spell.id),
+            _spell.name,
+            _spell.description,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            "btn-mana"
+        );
     });
     Menu.generate();
 }
@@ -135,6 +144,9 @@ function debugMenu() {
     Menu.addOption("debugBrowserInformation()", "Browser Information");
     Menu.addOption("debugMenuPopulate()", "Populate Menu", "with useless boxes");
     Menu.addOption("player.addItem('masterKey')", "Get Skeleton Key");
+    Menu.addOption("addAllItems({0}, false)".format(player.id), "Add All Items");
+    Menu.addOption("addAllLocations({0})".format(player.id), "Add All Locations");
+    Menu.addOption("addAllSpells({0});characterSetManaMax({0}, 100);characterSetMana({0}, 100);{0}.setManaCostOffsetPercent(100)".format(player.id), "Add All Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
     Menu.generate();
 }
 function debugMenuClose() {

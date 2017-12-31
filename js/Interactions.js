@@ -154,6 +154,13 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
 }
 
 function characterInteract(_character, _clearContent = true) {
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+
     if (!_character.characterDisposition.has(player))
         _character.addNewCharacterDispositionFor(player);
     if (!player.characterDisposition.has(_character))
@@ -200,14 +207,20 @@ function characterInteract(_character, _clearContent = true) {
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
     Menu.addOption("characterInteractHug({0})".format(_character.id), "Hug");
+    if (_character.isSleeping())
+        Menu.addOption("characterInteractWake({0})".format(_character.id), "Wake");
 
-    unsafeExec("{0}Interact()".format(_character.id));
+    unsafeExec("{0}Interact({1})".format(_character.id, _clearContent));
 
     Menu.generate();
 }
 function characterInteractOpen(_character, _switch = false, _allowSwitch = true, _clearContent = true) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            _character = player;
+    }
 
     if (usePopups) {
         if (!_allowSwitch) {
@@ -300,8 +313,12 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
     }
 }
 function characterInteractTalk(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
 
     Menu.clear();
@@ -314,8 +331,12 @@ function characterInteractTalk(_character) {
     Menu.generate();
 }
 function characterInteractSex(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -326,8 +347,12 @@ function characterInteractSex(_character) {
     Menu.generate();
 }
 function characterInteractFollow(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -338,8 +363,12 @@ function characterInteractFollow(_character) {
     Menu.generate();
 }
 function characterInteractAttack(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -350,8 +379,12 @@ function characterInteractAttack(_character) {
     Menu.generate();
 }
 function characterInteractStay(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -362,8 +395,12 @@ function characterInteractStay(_character) {
     Menu.generate();
 }
 function characterInteractHug(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
@@ -372,6 +409,17 @@ function characterInteractHug(_character) {
     unsafeExec("{0}Hug()".format(_character.id));
 
     Menu.generate();
+}
+function characterInteractWake(_character) {
+    if (!(_character instanceof Character)) {
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+
+    _character.wake();
+    characterInteract(_character, false);
 }
 
 function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true) {
@@ -832,6 +880,8 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
             return undefined;
     }
 
+    lastMenu = "spellInteract({0}, {1}, false, true)".format(_spell.id, _character.id);
+
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "spellMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Spells");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -843,7 +893,20 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
             break;
         }
         case "spellUnlock" : {
-
+            _character.room.roomsOptions.forEach(function(_options, _room) {
+                if (_options.isLocked) {
+                    Menu.addOption(
+                        "spellInteractCast({0}, {1})".format(_spell.id, _room.id),
+                        _room.location != player.room.location ? _room.location.name : _room.name,
+                        "{0} {1}".format(_spell.name, _room.location != player.room.location ? _room.location.name : _room.name),
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        "btn-mana"
+                    );
+                }
+            });
             break;
         }
         case "spellImbue" : {
@@ -873,17 +936,14 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
                 _spell.name, 
                 "Spells"
             );
-            var _mapOrSet = undefined; // Haven't tested this yet.
-            if (player.room.location.rooms.size > charactersIndexes.size)
-                _mapOrSet = charactersIndexes;
-            else
-                _mapOrSet = player.room.location.rooms.characters;
 
-            _mapOrSet.forEach(function(_character) {
+            _character.room.characters.forEach(function(__character) {
+                if (__character == player || __character.isBewitched())
+                    return undefined;
                 Menu.addOption(
-                    "spellInteractCast({0}, {1})".format(_spell.id, _entity.id),
-                    _entity.name,
-                    "{0} {1}".format(_spell.name, _entity.name),
+                    "spellInteractCast({0}, {1})".format(_spell.id, __character.id),
+                    __character.name,
+                    "{0} {1}".format(_spell.name, __character.name),
                     undefined,
                     undefined,
                     undefined,
@@ -893,24 +953,38 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
             });
             break;
         }
+        default : {
+
+        }
     }
     Menu.generate();
 }
 function spellInteractCast(_spell, _entity) {
+    if (debug) console.log("Running spellInteractCast...");
     if (!(_spell instanceof Spell)) {
+        if (debug) console.log("  Looking for Spell");
         if (spellsIndexes.has(_spell))
             _spell = spellsIndexes.get(_spell);
         else
             return undefined;
     }
-    if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+    if (!(_entity instanceof Entity)) {
+        if (debug) console.log("  Looking for Entity");
+        if (entityIndexes.has(_entity))
+            _entity = entityIndexes.get(_entity);
+        else if (_entity instanceof Room) {}
+        else if (roomsIndexes.has(_entity)) {
+            _entity = roomsIndexes.get(_entity);
+        }
         else
             return undefined;
     }
+    if (debug) console.log("  with {0}, {1}".format(_spell.id, _entity.id));
 
-    unsafeExec("{0}Cast({1}, player)".format(_spell.id, _entity.id));
+    if (unsafeExec("{0}Cast({1}, player)".format(_spell.id, _entity.id)))
+        runLastMenu();
+    else
+        return false;
 }
 
 function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {

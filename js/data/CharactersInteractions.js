@@ -1,7 +1,7 @@
-function avoInteract() {
+function avoInteract(_clearContent = true) {
     _character = avo;
     
-    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function avoTalk() {
     _character = avo;
@@ -47,16 +47,18 @@ function avoStay() {
     characterInteract(_character, false);
 }
 
-function charlieInteract() {
+function charlieInteract(_clearContent = true) {
     _character = charlie;
     
-    if (player.hasItem(charlieBeatingHeart) && _character.hasItem(charlieBeatingHeart))
-        Content.add("<p>You see Charlie run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>");
-    
+    if (_clearContent) {
+        if (player.hasItem(charlieBeatingHeart) && _character.hasItem(charlieBeatingHeart))
+            Content.add("<p>You see Charlie run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>");
+    }
+
     if (enableGore && enableRape)
         Menu.addOption("charlieEatCharlie()", "Murder and eat Charlie");
 
-    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function charlieTalk() {
     _character = charlie;
@@ -100,10 +102,10 @@ function charlieStay() {
     characterStay(_character);
 }
 
-function remmyInteract() {
+function remmyInteract(_clearContent = true) {
     _character = remmy;
     
-    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function remmyTalk() {
     _character = remmy;
@@ -133,10 +135,10 @@ function remmyFollow() {
     characterInteract(_character, false);
 }
 
-function rosieInteract() {
+function rosieInteract(_clearContent = true) {
     _character = rosie;
 
-    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function rosieTalk() {
     _character = rosie;
@@ -170,60 +172,61 @@ function rosieFollow() {
     characterInteract(_character, false);
 }
 
-function wolterInteract() {
+function wolterInteract(_clearContent = true) {
     _character = wolter;
 
-    _blob = "";
-    if (_character.isLying()) {
-        if (_character.isSleeping())
-            _blob += "{0} is lying on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
-        else
-            _blob += "{0} is lying on the {1},".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
-    }
-    else if (_character.isSitting()) {
-        if (_character.isSleeping())
-            _blob += "{0} is sitting on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
-        else
-            _blob += "{0} is sitting on the {1}".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
-    }
-    else if (_character.isStanding()) {
-        if (_character.isSleeping())
-            _blob += "{0} is sleeping, while standing,".format(_character.name);
-        else
-            _blob += "{0} is standing around".format(_character.name);
-    }
-
-    if (_character.hasShirt() && _character.hasPants())
-        _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getPants().toString());
-    else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
-        _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getUnderwear().toString());
-    else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear())
-        _blob += " in just a {0},".format(_character.getShirt().toString());
-    else if (!_character.hasShirt() && _character.hasPants())
-        _blob += " shirtless, with just his {0},".format(_character.hasPants().toString);
-    else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
-        _blob += " in just a {0}{1},".format((_character.getUnderwear().plural ? "pair of " : ""), _character.hasUnderwear());
-    else
-        _blob += " completely naked,";
-
-    if (_character.lust > 66) {
-        if (_character.hasPants())
-            _blob += " and he's pitching a tent in his pants.";
-        else if (_character.hasUnderwear())
-            _blob += " and he's pitching a tent in his {0}.".format(_character.getUnderwear());
-        else {
-            _blob += " and his dick is out.";
-            if (player.sexualOrientationCompatibility(_character))
-                _blob += " You pay a little too much ";
+    if (_clearContent) {
+        _blob = "";
+        if (_character.isLying()) {
+            if (_character.isSleeping())
+                _blob += "{0} is lying on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
             else
-                _blob += " You try not to pay ";
-            _blob += "attention to that <i>big</i> detail.";
+                _blob += "{0} is lying on the {1},".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
         }
+        else if (_character.isSitting()) {
+            if (_character.isSleeping())
+                _blob += "{0} is sitting on the {1}, sleeping,".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+            else
+                _blob += "{0} is sitting on the {1}".format(_character.name, (_character.furniture instanceof Furniture ? _character.furniture.toString() : "ground"));
+        }
+        else if (_character.isStanding()) {
+            if (_character.isSleeping())
+                _blob += "{0} is sleeping, while standing,".format(_character.name);
+            else
+                _blob += "{0} is standing around".format(_character.name);
+        }
+
+        if (_character.hasShirt() && _character.hasPants())
+            _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getPants().toString());
+        else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
+            _blob += " in a {0} and {1},".format(_character.getShirt().toString(), _character.getUnderwear().toString());
+        else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear())
+            _blob += " in just a {0},".format(_character.getShirt().toString());
+        else if (!_character.hasShirt() && _character.hasPants())
+            _blob += " shirtless, with just his {0},".format(_character.hasPants().toString);
+        else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear())
+            _blob += " in just a {0}{1},".format((_character.getUnderwear().plural ? "pair of " : ""), _character.hasUnderwear());
+        else
+            _blob += " completely naked,";
+
+        if (_character.lust > 66) {
+            if (_character.hasPants())
+                _blob += " and he's pitching a tent in his pants.";
+            else if (_character.hasUnderwear())
+                _blob += " and he's pitching a tent in his {0}.".format(_character.getUnderwear());
+            else {
+                _blob += " and his dick is out.";
+                if (player.sexualOrientationCompatibility(_character))
+                    _blob += " You pay a little too much ";
+                else
+                    _blob += " You try not to pay ";
+                _blob += "attention to that <i>big</i> detail.";
+            }
+        }
+
+        Content.add("<p>" + _blob + "</p>");
     }
-
-    Content.add("<p>" + _blob + "</p>");
-
-    unsafeExec("{0}{1}Interact()".format(player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function wolterTalk() {
     _character = wolter;

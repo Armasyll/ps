@@ -1357,7 +1357,7 @@ function characterTakeItem(_character, _item, _executeScene = false) {
         return true;
 }
 
-function characterSetLife(_character, int) {
+function characterSetLife(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1390,7 +1390,7 @@ function characterIncLife(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.life;
 }
-function characterSetLifeMax(_character, int) {
+function characterSetLifeMax(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1423,7 +1423,7 @@ function characterIncLifeMax(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.lifeMax;
 }
-function characterSetStamina(_character, int) {
+function characterSetStamina(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1456,7 +1456,7 @@ function characterIncStamina(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.stamina;
 }
-function characterSetStaminaMax(_character, int) {
+function characterSetStaminaMax(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1489,7 +1489,7 @@ function characterIncStaminaMax(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.staminaMax;
 }
-function characterSetMana(_character, int) {
+function characterSetMana(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1522,7 +1522,7 @@ function characterDecMana(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.mana;
 }
-function characterSetManaMax(_character, int) {
+function characterSetManaMax(_character, _int) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
