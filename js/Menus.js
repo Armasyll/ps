@@ -477,7 +477,7 @@ function getAppearance(_character, _self = false) {
 function start() {
     agreeTOS = true;
     Menu.showingBaseMenu = true;
-    document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small style="position:absolute; right:0px; top:-3px;">[O]</small><div class="trim">Options</div></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
+    document.getElementById('gameControlsDisplay').innerHTML = '<div class="btn-group" role="group"><button class="btn" data-toggle="modal" data-target="#optionsModal"><small class="hidden-md hidden-sm hidden-xs" style="position:absolute; right:0px; top:-3px;">[O]</small>O<span class="hidden-xs">ptions</span></button></div>' + document.getElementById('gameControlsDisplay').innerHTML;
     
     if (enableMinimap)
         Minimap.generateMapFromStartRoom(player.room);
