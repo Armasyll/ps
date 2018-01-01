@@ -56,7 +56,17 @@ img {
     background-repeat: no-repeat;
     background-position: left center; 
 }
-.btn-mana {
+.btn-basic, .btn-basic:active {
+	background-color: #eee;
+	border-color: #eee;
+	color: #000;
+}
+.btn-basic:hover {
+	background-color: #fff;
+	border-color: #fff;
+	color: #000;
+}
+.btn-mana, .btn-mana:active {
 	background-color: #4b1e66;
 	background-border: #4b1e66;
 	color: white;

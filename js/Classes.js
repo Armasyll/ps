@@ -469,7 +469,7 @@ class Menu {
         _blob += '</div>';
         document.getElementById(this.choiceContainer).innerHTML = _blob;
     }
-    static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "") {
+    static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "btn-basic") {
         if (this.initialized !== true)
             this.initialize();
 
@@ -484,18 +484,17 @@ class Menu {
             $btnClass = (typeof $functionCall[7] === 'undefined' ? $btnClass : $functionCall[7]);
             $functionCall = $functionCall[0];
         }
-
+        
         if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
             $functionCall = $functionCall + "()";
+        if ($btnClass == undefined || $btnClass.length == 0) $btnClass = "btn-basic";
 
         var _blob = "";
-        _blob += '<div class="btn-group">';
-            _blob += '<button class="btn ' + $btnClass + ' ' + ($invisible ? 'invisible' : '') + '" onClick="' + $functionCall + '" title="' + $hover + '" style="' + ($secret ? "opacity:0.0;" : "") + '" ' + ($disabled === true ? "disabled=disabled" : "") + '>';
-                _blob += ($key !== false ? '<small style="position:absolute; right:0px; top:-3px;">[' + $key + ']</small>' : '');
-                _blob += '<div class="trim"><span class="button-title">' + $title + '</span></div>';
-                _blob += '<small class="trim"><span>' + $subTitle + '</span></small>';
-            _blob += '</button>';
-        _blob += '</div>';
+        _blob += '<a class="btn {0} {1}" type="button" onClick="{2}" title="{3}" style="{4}" {5}>'.format($btnClass, ($invisible ? 'invisible' : ''), $functionCall, $hover, ($secret ? 'opacity:0.0;' : ''), ($disabled === true ? 'disabled=disabled' : ''));
+        if ($key !== false) _blob += '<small style="position:absolute; right:0px; top:-3px;">[{0}]</small>'.format($key);
+        _blob += '<div class="trim"><span class="button-title">{0}</span></div>'.format($title);
+        _blob += '<small class="trim"><span>{0}</span></small>'.format($subTitle);
+        _blob += '</a>';
         return _blob;
     }
 
