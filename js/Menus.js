@@ -484,7 +484,7 @@ function start() {
     
     clearContentAndMenu();
     
-    Content.add("Your name is " + player.toString() + ", a " + player.age + " year old " + (player.sex == 0 ? 'male' : 'female') + " " + player.species + ".<br/>");
+    Content.add("<p>Your name is " + player.toString() + ", a " + player.age + " year old " + (player.sex == 0 ? 'male' : 'female') + " " + player.species + ".</p>");
     
     Menu.addOption("roomInteract({0}, true)".format(player.room.id), "Get a move on.");
     Menu.generate();

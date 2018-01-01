@@ -739,7 +739,7 @@ function setCharacterPath(_character, _targetRoom) {
  * @param {Cron} _cron
  * @param {Boolean} _runOnce
  */
-function setCharacterScheduleEvent(_id = undefined, _character, _targetRoom, _cron, _runOnce = true) {
+function setEventCharacterLocationSchedule(_id = undefined, _character, _targetRoom, _cron, _function, _runOnce = true) {
     if (_id == undefined)
         _id = "{0}{1}CharacterSchedule{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventsIndexes.size);
     if (!(_character instanceof Character))
@@ -764,7 +764,7 @@ function setCharacterScheduleEvent(_id = undefined, _character, _targetRoom, _cr
         undefined,  // _cell
         undefined,  // _room
         _cron,      // _cron
-        "setCharacterPath({0}, {1})".format(_character.id, _targetRoom.id), // _nextFunction
+        "setCharacterPath({0}, {1}){2}".format(_character.id, _targetRoom.id, (_function != undefined && _function.length > 2 ? ";" + _function : "")), // _nextFunction
         _runOnce    // _runOnce
     );
 }
