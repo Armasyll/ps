@@ -1,4 +1,4 @@
-function magicFleshlightHold(_character) {
+function magicBettyFleshlightHold(_character) {
 	if (!(_character instanceof Character)) {
 	    if (charactersIndexes.has(_character))
 	        _character = charactersIndexes.get(_character);
@@ -8,7 +8,7 @@ function magicFleshlightHold(_character) {
 
 	_character.incLust(15);
 }
-function magicFleshlightMasturbate(_character) {
+function magicBettyFleshlightMasturbate(_character) {
 	if (!(_character instanceof Character)) {
 	    if (charactersIndexes.has(_character))
 	        _character = charactersIndexes.get(_character);

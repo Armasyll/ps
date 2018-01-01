@@ -1,20 +1,30 @@
-function spellLevitateCast(_entity) {
+function spellLevitateCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
-function spellTeleportCast(_entity) {
+function spellTeleportCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
@@ -45,43 +55,63 @@ function spellUnlockCast(_entity, _character = player) {
 
 	return true;
 }
-function spellImbueCast(_entity) {
+function spellImbueCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
-function spellMirrorOpenCast(_entity) {
+function spellMirrorOpenCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
-function spellMirrorWalkCast(_entity) {
+function spellMirrorWalkCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
-function spellMirrorLookCast(_entity) {
+function spellMirrorLookCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
@@ -185,23 +215,33 @@ function spellCharacterTempDispositionCast(_entity, _character = player) {
 	new GameEvent("{0}TempDispositionRemove".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.decCharacterAllDispositions({1}, 20);{0}.incCharacterMiseo({1}, 2)".format(_entity.id, _character.id), true);
 	return true;
 }
-function spellCharacterGradualDispositionCast(_entity) {
+function spellCharacterGradualDispositionCast(_entity, _character = player) {
     if (!(_character instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }
-function spellCharacterCompelCast(_entity) {
+function spellCharacterCompelCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	_entity.bewitched(_character, "1h");
 	return true;
@@ -241,6 +281,11 @@ function spellCharacterPossessCast(_entity, _character = player) {
         else
             return undefined;
     }
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+
+    if (!_character.castSpell(_spell))
+    	return false;
 
 	return true;
 }

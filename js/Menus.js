@@ -69,7 +69,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
             else
                 Menu.setOption(3, "phoneInteract({0}, true)".format(player.phone.id), "Check Phone");
         }
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true)", "Wait");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true, true)", "Wait");
         if (player.manaMax > 0 && player.knownSpells.size > 0)
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "spellMenu()", "Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
         Menu.generate();
@@ -86,6 +86,7 @@ function personalCharacterMenu() {
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.setOption((Menu.useWideMenu ? 13 : 10), "$('#optionsModal').modal()", "Options");
+    Menu.setOption((Menu.useWideMenu ? 12 : 9), "debugMenu()", "Debug", undefined, undefined, undefined, undefined, true);
     Menu.addOption("getAppearance(player, 1)", "Appearance");
     Menu.addOption("characterInteractOpen()", "Inventory");
     Menu.generate();

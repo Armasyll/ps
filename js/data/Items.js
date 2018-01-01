@@ -11,7 +11,8 @@ woodenBowlEmpty = new Item("woodenBowlEmpty", "Empty Bowl", "An empty bowl.", un
 roseLiving = new Item("roseLiving", "Rose", "A single rose.", undefined, undefined, ["living", "water", "earth"]);
 roseDead = new Item("roseDead", "Dead Rose", "A dead rose.", undefined, undefined, ["dead", "earth"])
 dildoCanineRed = new Item("dildoCanineRed", "Red Rocket Dildo", "A fox-sized canine-themed dildo.", undefined, undefined);
-magicFleshlight = new Item("magicFleshlight", "Life-like Wolf Fleshlight", "A black wolf fleshlight that feels warm to the touch. It moistens and becomes tighter during use, just like the real thing!", undefined, undefined, ["magic","living","container"]);
+magicBettyFleshlight = new Item("magicBettyFleshlight", "Life-like Wolf Fleshlight", "A charcoal-grey fleshlight, shaped like a large wolf's pussy, that feels warm to the touch. It moistens and becomes tighter during use, just like the real thing!", undefined, undefined, ["magic","living","container"]);
+magicCharlieFleshlight = new Item("magicCharlieFleshlight", "Life-like Vixen Fleshlight", "A cream-colored fleshlight, shaped like a vixen's vagina, that feels warm to the touch. It's hard to penetrate at first, but gets easier after a few minutes.", undefined, undefined, ["magic","living","container"]);
 
 // Clothing
 blouseBlue = new Clothing("blouseBlue", "Blue Blouse", "A blue, loose-fitting blouse.", undefined, "shirt");
