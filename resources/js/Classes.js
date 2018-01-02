@@ -1030,7 +1030,7 @@ class Entity {
             this.description = _description;
 
             if (typeof _image == 'undefined')
-                _image = "images/items/genericItem.svg";
+                _image = "resources/images/items/genericItem.svg";
             this.image = _image;
 
             this.availableActions = new Set();
@@ -1382,7 +1382,7 @@ class Character extends Entity {
         }
         this.nickname = undefined;
         this.age = this.setAge(_age);
-        this.image = "images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
+        this.image = "resources/images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
 
         this.addAction("talk");
         this.addAction("sex");

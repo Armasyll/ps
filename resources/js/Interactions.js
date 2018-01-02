@@ -192,10 +192,6 @@ function characterInteract(_character, _clearContent = true) {
     else
         Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
     Menu.setOption(2, "getAppearance({0})".format(_character.id), "Appearance");
-    if (_character.following != player)
-        Menu.setOption(3, "characterInteractFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
-    else
-        Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
 
     if (debug)
         Menu.setOption(4, "characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
@@ -324,6 +320,10 @@ function characterInteractTalk(_character) {
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    if (_character.following != player)
+        Menu.setOption(3, "characterInteractFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
+    else
+        Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
 
     unsafeExec("{0}Talk()".format(_character.id));
 
@@ -354,13 +354,7 @@ function characterInteractFollow(_character) {
             return undefined;
     }
 
-    Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-
     unsafeExec("{0}Follow()".format(_character.id));
-
-    Menu.generate();
 }
 function characterInteractAttack(_character) {
     if (!(_character instanceof Character)) {
@@ -386,13 +380,7 @@ function characterInteractStay(_character) {
             return undefined;
     }
 
-    Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-
     unsafeExec("{0}Stay()".format(_character.id));
-
-    Menu.generate();
 }
 function characterInteractHug(_character) {
     if (!(_character instanceof Character)) {

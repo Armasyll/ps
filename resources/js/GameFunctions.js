@@ -1985,6 +1985,9 @@ function loadGame(_json) {
     // Initialize all first, then assign properties
     // WebSites, WebPages
     // Cron, GameEvents
+    if (_json.hasOwnProperty("GameEvents")) {
+        eventsIndexes.clear();
+    }
     if (_json.hasOwnProperty("player") && charactersIndexes.has(_json["player"])) player = charactersIndexes.get(_json["player"]);
     if (_json.hasOwnProperty("lastMenu")) lastMenu = _json["lastMenu"];
     if (_json.hasOwnProperty("lastGameEvent")) lastGameEvent = _json["lastGameEvent"];
