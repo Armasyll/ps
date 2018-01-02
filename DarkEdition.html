@@ -6,12 +6,12 @@
         <meta name="author" content="armasyll">
         <link rel="icon" href="favicon.ico">
         <title>Pack Street Simulator - Dark Edition</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script data-description="General Functions" src="js/GeneralFunctions.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/ps.css">
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/ps.css">
+        <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
+        <script data-description="General Functions" src="resources/js/GeneralFunctions.js"></script>
     </head>
     <body>
         <div class="modal" id="webModal" tabindex="-1">
@@ -245,46 +245,46 @@
                 </div>
             </div>
         </div>
-        <script data-description="Game Variables" src="js/GameVariables.js"></script>
-        <script data-description="Game Variables" src="js/Tiles.js"></script>
-        <script data-description="Game Functions" src="js/GameFunctions.js"></script>
+        <script data-description="Game Variables" src="resources/js/GameVariables.js"></script>
+        <script data-description="Game Variables" src="resources/js/Tiles.js"></script>
+        <script data-description="Game Functions" src="resources/js/GameFunctions.js"></script>
         <script data-description="Additional Game Variables">
             var enableRape = false;
             var enableGore = false;
             var debug = false;
         </script>
-        <script data-description="Classes" src="js/Classes.js"></script>
+        <script data-description="Classes" src="resources/js/Classes.js"></script>
         
-        <script data-description="DefaultEntities" src="js/DefaultEntities.js"></script>
+        <script data-description="DefaultEntities" src="resources/js/DefaultEntities.js"></script>
+        <script data-description="Interactions" src="resources/js/Interactions.js"></script>
         
-        <script data-description="Locations" src="js/data/Locations.js"></script>
-        <script data-description="Cells" src="js/data/Cells.js"></script>
-        <script data-description="Rooms" src="js/data/Rooms.js"></script>
-        <script data-description="Characters" src="js/data/Characters.js"></script>
-        <script data-description="Furniture" src="js/data/Furniture.js"></script>
-        <script data-description="Items" src="js/data/Items.js"></script>
-        <script data-description="Spells" src="js/data/Spells.js"></script>
-        <script data-description="WebSites" src="js/data/WebSites.js"></script>
-        <script data-description="WebPages" src="js/data/WebPages.js"></script>
-        <script data-description="Interactions" src="js/Interactions.js"></script>
+        <script data-description="Locations" src="resources/data/initialize/Locations.js"></script>
+        <script data-description="Cells" src="resources/data/initialize/Cells.js"></script>
+        <script data-description="Rooms" src="resources/data/initialize/Rooms.js"></script>
+        <script data-description="Characters" src="resources/data/initialize/Characters.js"></script>
+        <script data-description="Furniture" src="resources/data/initialize/Furniture.js"></script>
+        <script data-description="Items" src="resources/data/initialize/Items.js"></script>
+        <script data-description="Spells" src="resources/data/initialize/Spells.js"></script>
+        <script data-description="WebSites" src="resources/data/initialize/WebSites.js"></script>
+        <script data-description="WebPages" src="resources/data/initialize/WebPages.js"></script>
         
-        <script data-description="Locations Assignments" src="js/data/LocationsAssignments.js"></script>
-        <script data-description="Cells Assignments" src="js/data/CellsAssignments.js"></script>
-        <script data-description="Rooms Assignments" src="js/data/RoomsAssignments.js"></script>
-        <script data-description="Characters Assignments" src="js/data/CharactersAssignments.js"></script>
-        <script data-description="Furniture Assignments" src="js/data/FurnitureAssignments.js"></script>
-        <script data-description="Items Assignments" src="js/data/ItemsAssignments.js"></script>
+        <script data-description="Locations Assignments" src="resources/data/assign/Locations.js"></script>
+        <script data-description="Cells Assignments" src="resources/data/assign/Cells.js"></script>
+        <script data-description="Rooms Assignments" src="resources/data/assign/Rooms.js"></script>
+        <script data-description="Characters Assignments" src="resources/data/assign/Characters.js"></script>
+        <script data-description="Furniture Assignments" src="resources/data/assign/Furniture.js"></script>
+        <script data-description="Items Assignments" src="resources/data/assign/Items.js"></script>
         
-        <script data-description="Rooms Interactions" src="js/data/RoomsInteractions.js"></script>
-        <script data-description="Character Interactions" src="js/data/CharactersInteractions.js"></script>
-        <script data-description="Furniture Interactions" src="js/data/FurnitureInteractions.js"></script>
-        <script data-description="Items Interactions" src="js/data/ItemsInteractions.js"></script>
-        <script data-description="Spell Interactions" src="js/data/SpellsInteractions.js"></script>
+        <script data-description="Rooms Interactions" src="resources/data/interact/Rooms.js"></script>
+        <script data-description="Character Interactions" src="resources/data/interact/Characters.js"></script>
+        <script data-description="Furniture Interactions" src="resources/data/interact/Furniture.js"></script>
+        <script data-description="Items Interactions" src="resources/data/interact/Items.js"></script>
+        <script data-description="Spell Interactions" src="resources/data/interact/Spells.js"></script>
         
-        <script data-description="Room-specific Character Interactions" src="js/data/RoomCharacterInteractions.js"></script>
-        <script data-description="General Interactions" src="js/data/GeneralInteractions.js"></script>
+        <script data-description="Room-specific Character Interactions" src="resources/data/interact/RoomsCharacters.js"></script>
+        <script data-description="General Interactions" src="resources/data/interact/General.js"></script>
         
-        <script data-description="Menus" src="js/Menus.js"></script>
+        <script data-description="Menus" src="resources/js/Menus.js"></script>
         <script data-description="Last modifications to DOM">
             toggleRape = function() {
                 document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Enable" : "Disable") + " Non-Con";
@@ -320,8 +320,8 @@
             document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Menu Inventory" : "Use Popup Inventory");
             document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal Menu" : "Use Wide Menu");
         </script>
-        <script data-description="Start the game" src="js/Start.js"></script>
-        <script data-description="Start the game" src="js/data/Start.js"></script>
-        <script data-description="Events" src="js/data/GameEvents.js"></script>
+        <script data-description="Start the game" src="resources/js/Start.js"></script>
+        <script data-description="Start the game" src="resources/data/Start.js"></script>
+        <script data-description="Events" src="resources/data/initialize/GameEvents.js"></script>
     </body>
 </html>
