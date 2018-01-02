@@ -1924,7 +1924,21 @@ function saveGame() {
     var _charArr = new Array();
     var _furnArr = new Array();
     charactersIndexes.forEach(function(_character){_charArr.push(_character.toJSON())}, this);
-    var _text = JSON.stringify({"characters":_charArr,"furniture":_furnArr});
+    var _text = JSON.stringify(
+        {
+            "player":player.id,
+            "lastMenu":lastMenu,
+            "lastGameEvent":lastGameEvent,
+            "enableMinimap":enableMinimap,
+            "enableAutoscroll":enableAutoscroll,
+            "currentTime":currentTime,
+            "previousTime":previousTime,
+            "usePopups":usePopups,
+            "interruptTick":interruptTick,
+            "characters":_charArr,
+            "furniture":_furnArr
+        }
+    );
     delete _charArr;
     delete _furnArr;
 
@@ -1954,19 +1968,57 @@ function loadGame(_json) {
     // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
     var _charactersJSON = _json["characters"];
     _charactersJSON.forEach(function(_character) {
-        window[_character["id"]] = new Character(_character);
+        if (charactersIndexes.has(_character["id"]))
+            charactersIndexes.get(_character["id"]).fromJSON(_character);
+        else
+            window[_character["id"]] = new Character(_character);
     });
     // Initialize all first, then assign properties
     // WebSites, WebPages
-    // Cron, GameEvents, 
-    
-    _unassignedLocationOwner.forEach(function(_arr) {
-        if (_arr[0] instanceof Location && charactersIndexes.has(_arr[1]))
-            _arr[0].owner.add(charactersIndexes.get(_arr[1]));
-    });
-    delete _unassignedLocationOwner;
+    // Cron, GameEvents
+    if (_json.hasOwnProperty("player") && charactersIndexes.has(_json["player"])) player = charactersIndexes.get(_json["player"]);
+    if (_json.hasOwnProperty("lastMenu")) lastMenu = _json["lastMenu"];
+    if (_json.hasOwnProperty("lastGameEvent")) lastGameEvent = _json["lastGameEvent"];
+    if (_json.hasOwnProperty("enableMinimap")) enableMinimap = _json["enableMinimap"];
+    if (_json.hasOwnProperty("enableAutoscroll")) enableAutoscroll = _json["enableAutoscroll"];
+    if (_json.hasOwnProperty("currentTime")) currentTime = new Date(_json["currentTime"]);
+    if (_json.hasOwnProperty("previousTime")) previousTime = new Date(_json["previousTime"]);
+    if (_json.hasOwnProperty("usePopups")) usePopups = _json["usePopups"];
+    if (_json.hasOwnProperty("interruptTick")) interruptTick = _json["interruptTick"];
+    if (enableMinimap)
+        Minimap.generateMapFromStartRoom(player.room);
+    Content.clear();
+    updateTimeDisplay();
+    updatePlayerInfoDisplay();
+    baseMenu(true, true);
+    roomInteract(player.room, true);
 }
+function loadFile(input) {
+    var file, fr, _blob;
 
+    if (typeof window.FileReader !== 'function') {
+        alert("The file API isn't supported on this browser yet.");
+        return;
+    }
+
+    if (!input) {
+        alert("Um, couldn't find the fileinput element.");
+    }
+    else if (!input.files) {
+        alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+        alert("Please select a file before clicking 'Load'");
+    }
+    else {
+        file = input.files[0];
+        fr = new FileReader();
+        fr.onload = function(e) {
+            loadGame(e.target.result);
+        };
+        fr.readAsText(file);
+    }
+}
 window.addEventListener(
     "resize", 
     function() {

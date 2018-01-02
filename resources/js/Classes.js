@@ -1624,6 +1624,7 @@ class Character extends Entity {
         delete json["bodyParts"];
         //  followers
         try {
+            this.bodyParts = new Set();
             _tmpArr = JSON.parse(json["followers"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
@@ -1633,6 +1634,7 @@ class Character extends Entity {
         delete json["followers"];
         // _dating
         try {
+            this._dating = new Set();
             _tmpArr = JSON.parse(json["_dating"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
@@ -1642,6 +1644,7 @@ class Character extends Entity {
         delete json["_dating"];
         //  items
         try {
+            this.items = new Array();
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
@@ -1649,15 +1652,6 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["items"];
-        //  heldItems
-        try {
-            _tmpArr = JSON.parse(json["heldItems"]);
-            _tmpArr.forEach(function(_item) {
-                if (itemsIndexes.has(_item))
-                    this.addHeldItem(itemsIndexes.get(_item));
-            }, this);
-        } catch (e) {}
-        delete json["heldItems"];
         //  knownLocations
         try {
             _tmpArr = JSON.parse(json["knownLocations"]);
@@ -1686,6 +1680,7 @@ class Character extends Entity {
         delete json["prefersSpecies"];
         //  relatives
         try {
+            this.relatlives = new Set();
             _tmpArr = JSON.parse(json["relatives"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
