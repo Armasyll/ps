@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>How to setup PS stuff :v</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap-theme.css">
+        <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
         <style>
             img {
                 max-width:100%;
@@ -59,7 +59,7 @@
                             <div class="panel-body">
                                 
 <pre>
-//[js/data/Locations.js]
+//[resources/data/initialize/Locations.js]
 eg: variableNameLocation = new Location("variableNameLocation", "Displayed Name");
 eg: variableNameOtherLocation = new Location("variableNameOtherLocation", "Displayed Name");
 
@@ -74,7 +74,7 @@ hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Househol
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Cells.js]
+//[resources/data/initialize/Cells.js]
 eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
 
 bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation);
@@ -89,7 +89,7 @@ hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Secon
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Rooms.js]
+//[resources/data/initialize/Rooms.js]
 eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell);
 eg: variableNameRoom02 = new Room("variableNameRoom02", "variableNameRoom", "Display Name", "roomType", variableNameCell);
 eg: variableNameOtherRoom01 = new Room("variableNameOtherRoom01", undefined, "Display Name", "roomType", variableNameCell, variableNameOtherLocation);
@@ -110,7 +110,7 @@ hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest 
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Characters.js]
+//[resources/data/initialize/Characters.js]
 eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
 
 judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
@@ -125,7 +125,7 @@ nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Furniture.js]
+//[resources/data/initialize/Furniture.js]
 eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
 
 guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
@@ -138,11 +138,11 @@ guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large eno
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Items.js]
+//[resources/data/initialize/Items.js]
 // Items
 eg: variableNameItem = new Item("variableNameItem", "Display Name", "Description", "path/to/picture.ext");
 
-playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "images/items/playBuck942.svg");
+playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "resources/images/items/playBuck942.svg");
 doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.");
 sluttyPictureOfViolet = new Item("sluttyPictureOfViolet", "Lewd picture of Violet", "A picture of Violet Hopps in lingerie, laying on a small bed, spreading her legs for the camera.");
 sluttyPictureOfJudy = new Item("sluttyPictureOfJudy", "Lewd picture of Judy", "A picture of Judy Hopps wearing a form-fitting fox costume, with the crotch exposed.");
@@ -162,9 +162,9 @@ eg: variableNameLocationKey = new Key("variableNameLocationKey", "Display Name",
 eg: variableNameCellKey = new Key("variableNameCellKey", "Display Name", "Description", "path/to/picture.ext");
 eg: variableNameRoomKey = new Key("variableNameRoomKey", "Display Name", "Description", "path/to/picture.ext");
 
-hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
-hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "images/items/hoppsHouseholdLocationKey.svg");
-hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "images/items/guestRoomKey.svg");
+hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room Key", "resources/images/items/guestRoomKey.svg");
+hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "resources/images/items/hoppsHouseholdLocationKey.svg");
+hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "resources/images/items/guestRoomKey.svg");
 </pre>
                             </div>
                         </div>
@@ -174,7 +174,7 @@ hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Gues
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/RoomsAssignments.js]
+//[resources/data/assign/Rooms.js]
 hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
 hoppsHouseholdHallwayA.setEastRoom(judyRoom);
 hoppsHouseholdHallwayB.setNorthRoom(hoppsHouseholdHallwayC);
@@ -190,10 +190,10 @@ hoppsHouseholdGuestRoom.addFurniture(guestBed);
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/CharactersAssignments.js]
+//[resources/data/assign/Characters.js]
 judy.setEyeColour("violet");                // Assigns Judy's eye colour
 judy.setFurColour("gray", white);           // Assigns Judy's primary and secondary fur colours
-judy.image = "images/characters/judy.svg";  // Assigns Judy's Minimap and Avatar icons
+judy.image = "resources/images/characters/judy.svg";  // Assigns Judy's Minimap and Avatar icons
 judy.addSexWith(nick);                      // Pops both their cherries, and lists each other as having had sex with the other
 
 judy.wear(clothingPoliceVest);
@@ -221,7 +221,7 @@ nick.sleep(guestBed);
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/FurnitureAssignments.js]
+//[resources/data/assign/Furniture.js]
 guestBed.addItem(playBuck942);
 guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
 guestBed.addItem(sluttyPictureOfViolet);
@@ -234,7 +234,7 @@ guestBed.addItem(sluttyPictureOfViolet);
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/RoomsInteractions.js]
+//[resources/data/interact/Rooms.js]
 eg: ...
 function variableNameRoom01Interact(_showContent = true) {
     if (_showContent) {
@@ -279,7 +279,7 @@ function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = 
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/CharacterInteractions.js]
+//[resources/data/interact/Character.js]
 function judyTalk() {
     _character = judy;
     
@@ -310,7 +310,7 @@ function judyFollow() {
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/RoomCharacterInteractions.js]
+//[resources/data/interact/RoomsCharacters.js]
 // location + character name + action [ + optional action ]
 function judyRoomJudyTalk() {
 }
@@ -339,7 +339,7 @@ function judyRoomJudyVioletNickThreeway() {
                             </div>
                             <div class="panel-body">
 <pre>
-//[js/data/Start.js]
+//[resources/data/Start.js]
 ...
 player = nick;
 ...
