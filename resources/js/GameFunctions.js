@@ -1966,13 +1966,22 @@ function loadGame(_json) {
     
     // Locations, Cells, Rooms
     // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
-    var _charactersJSON = _json["characters"];
-    _charactersJSON.forEach(function(_character) {
-        if (charactersIndexes.has(_character["id"]))
-            charactersIndexes.get(_character["id"]).fromJSON(_character);
-        else
-            window[_character["id"]] = new Character(_character);
-    });
+    if (_json.hasOwnProperty("furniture")) {
+        _json["furniture"].forEach(function(_furniture) {
+            if (furnitureIndexes.has(_furniture["id"]))
+                furnitureIndexes.get(_furniture["id"]).fromJSON(_furniture);
+            else
+                window[_furniture["id"]] = new Furniture(_furniture);
+        });
+    }
+    if (_json.hasOwnProperty("characters")) {
+        _json["characters"].forEach(function(_character) {
+            if (charactersIndexes.has(_character["id"]))
+                charactersIndexes.get(_character["id"]).fromJSON(_character);
+            else
+                window[_character["id"]] = new Character(_character);
+        });
+    }
     // Initialize all first, then assign properties
     // WebSites, WebPages
     // Cron, GameEvents
@@ -1985,13 +1994,7 @@ function loadGame(_json) {
     if (_json.hasOwnProperty("previousTime")) previousTime = new Date(_json["previousTime"]);
     if (_json.hasOwnProperty("usePopups")) usePopups = _json["usePopups"];
     if (_json.hasOwnProperty("interruptTick")) interruptTick = _json["interruptTick"];
-    if (enableMinimap)
-        Minimap.generateMapFromStartRoom(player.room);
-    Content.clear();
-    updateTimeDisplay();
-    updatePlayerInfoDisplay();
-    baseMenu(true, true);
-    roomInteract(player.room, true);
+    start();
 }
 function loadFile(input) {
     var file, fr, _blob;

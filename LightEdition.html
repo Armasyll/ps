@@ -47,7 +47,10 @@
                     </div>
                     <div class="modal-body">
                         <button type="button" id="saveGameButton" class="btn btn-info" onClick="saveGame()">Save Game</button>
-                        <button type="button" id="loadGameButton" class="btn btn-info" onClick="loadGame()">Load Game</button>
+                        <label class="custom-file">
+                            <input type="file" id="fileInput" class="custom-file-input" onChange="loadFile(this)" style="display:none">
+                            <span class="btn btn-info custom-file-control">Load Game</span>
+                        </label>
                         <hr/>
                         <button type="button" class="btn btn-info" onClick="alert(':V')"><b>:V</b></button>
                         <hr/>
