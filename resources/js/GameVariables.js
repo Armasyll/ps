@@ -68,6 +68,11 @@ var locationsIndexes = new Map();
  */
 var phonesIndexes = new Map();
 /**
+ * Map of Cheque(s)
+ * @type {Map<String, Cheque>}
+ */
+var chequesIndexes = new Map();
+/**
  * Map of Room(s)
  * @type {Map<String, Room>}
  */
@@ -109,7 +114,7 @@ var scenesViewedThisWindow = new Set(); // Set of Events executed during the cur
 var usePopups = false;
 var interruptTick = false;
 
-const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse"]);
+const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
 const kBodyPartTypes = new Set(["ankles","anus","arms","back","chest","clitoris","leftEar","rightEar","ears","leftEye","rightEye","eyes","leftFoot","rightFoot","feet","fingers","groin","leftHand","rightHand","hands","head","knot","legs","lips","mouth","neck","leftNipple","rightNipple","nipples","nose","penis","rear","shoulder","stomach","testicles","toes","tongue","vagina","waist"]);
 const kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
 const kHandTypes = new Set(["fur", "pad", "hoof", "clovenhoof", "skin"]);

@@ -3892,6 +3892,7 @@ class Character extends Entity {
             case "stoat" : {
                 return this.gender == 0 ? "jack" : "jill";
             }
+            case "mouse" :
             case "deer" :
             case "rabbit" :
             case "antelope" : {
@@ -4274,6 +4275,24 @@ class Character extends Entity {
             this.setHand("hoof");
             this.setEyes("rectangle");
             this.setFur("hair");
+        }
+        else if (_species == "mouse") {
+            if (this.sex == 0) {
+                this.penisSize = 1;
+                this.penisGirth = 0.5;
+            }
+            else {
+                this.vaginaSize = 1;
+                this.vaginaGirth = 0.6;
+            }
+            
+            this.bodySize = 0.05;
+            this.predator = false;
+            this.setFeet("skin");
+            this.setHand("skin");
+            this.setEyes("circle");
+            this.setFur("fur");
+            this.furSoftness = 75;
         }
     }
 
@@ -6277,6 +6296,52 @@ class Consumable extends Item {
             this.type = _type;
         else
             this.type = "food";
+    }
+}
+/**
+ * Class that represents all Cheque(s)
+ * @extends {Item}
+ */
+class Cheque extends Item {
+    constructor(_from, _to, _amount, _memo) {
+        if (debug) console.log("Attempting to create a Cheque...");
+        if (!(_from instanceof Character)) {
+            if (charactersIndexes.has(_from))
+                _from = charactersIndexes.get(_from);
+            else {
+                if (debug) console.log("  _from was not a valid Character.");
+                return undefined;
+            }
+        }
+        if (!(_to instanceof Character)) {
+            if (charactersIndexes.has(_to))
+                _to = charactersIndexes.get(_to);
+            else {
+                if (debug) console.log("  _to was not a valid Character.");
+                return undefined;
+            }
+        }
+        _amount = Number.parseInt(_amount);
+        if (isNaN(_amount)) {
+            if (debug) console.log("  _amount was not a valid number.");
+            return undefined;
+        }
+        else if (_amount < 1) {
+            if (debug) console.log("  _amount was less than 1.");
+            return undefined;
+        }
+
+        super("cheque{0}{1}{2}".format(_from, _to, _amount, currentTime.slice(0, -3)), "Cheque", _memo);
+        this.from = _from;
+        this.to = _to;
+        this.amount = _amount;
+        this.memo = this.description;
+
+        chequesIndexes.set(this.id, this);
+    }
+
+    delete() {
+        chequesIndexes.delete(this.id);
     }
 }
 

@@ -1,4 +1,5 @@
 var stoneFloor01 = new Image(); stoneFloor01.src = 'resources/images/tiles/stoneFloor01.svg';
+var stoneFloor02 = new Image(); stoneFloor02.src = 'resources/images/tiles/stoneFloor02.svg';
 var woodenFloor01 = new Image(); woodenFloor01.src = 'resources/images/tiles/woodenFloor01.svg';
 var woodenStairsDownLeft01 = new Image(); woodenStairsDownLeft01.src = 'resources/images/tiles/woodenStairsDownLeft01.svg';
 var woodenStairsUpLeft01 = new Image(); woodenStairsUpLeft01.src = 'resources/images/tiles/woodenStairsUpLeft01.svg';

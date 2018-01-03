@@ -191,6 +191,10 @@ rosie.setDefaultDisposition(0, 25, 25, 0, 15, 0);  // no :v
 rosie.addPreferredSpecies("fox");
 rosie.addPreferredSpecies("wolf");
 
+tellerMicely.image = "resources/images/characters/tellerMicely.png";
+tellerMicely.moveTo(zootopiaCreditUnion44thEntrance);
+tellerMicely.addPreferredSpecies("stoat");
+
 velvet.image = "resources/images/characters/Velvet.png";
 velvet.setEyeColour("brown");
 velvet.moveTo(alApartmentBedroom);

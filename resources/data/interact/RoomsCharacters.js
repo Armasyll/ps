@@ -555,3 +555,11 @@ function remmyApartmentBathroomWolterInteract() {
     if (remmyApartmentBathroomTub.hasItem(charlieBigBlackRemmyDildo))
         Content.add("<p>{0} looks over at the {1} in the tub, then glances over at you with a grin. \"Hey fluff, I don't judge.\"</p>".format(_character.toString(), charlieBigBlackRemmyDildo.toString()));
 }
+
+function zootopiaCreditUnion44thEntranceTellerMicelyInteract() {
+
+}
+function zootopiaCreditUnion44thEntranceTellerMicelyTalk() {
+    Content.add("Looking up from her computer, the mouse bank teller greets you, \"Good {0}, {1}! How can I help you today?\"".format(currentTime.getHours() < 10 ? "morning" : currentTime.getHours() < 16 ? "afternoon" : "evening"));
+    Menu.addOption("cashCheque()");
+}

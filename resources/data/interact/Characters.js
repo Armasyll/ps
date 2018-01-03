@@ -63,6 +63,15 @@ function charlieInteract(_clearContent = true) {
 function charlieTalk() {
     _character = charlie;
     
+    if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
+        if (_character.hasDated(player) && !_character.isDating(player))
+            Menu.addOption("charlieDateAsk()", "Ask her out, again");
+        else if (!_character.hasDated(player))
+            Menu.addOption("charlieFirstDateAsk()", "Ask her out on a date");
+        else // They're currently dating
+            Menu.addOption("charlieDateSchedule()", "Go out on a date");
+    }
+
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
 function charlieRape() {
@@ -170,6 +179,32 @@ function rosieFollow() {
     }
     
     characterInteract(_character, false);
+}
+
+function tellerMicelyInteraction() {
+    _character = tellerMicely;
+
+    unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
+}
+function tellerMicelyTalk() {
+    _character = tellerMicely;
+
+    unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
+}
+function tellerMicelySex() {
+    _character = tellerMicely;
+
+    if (player.sex == 0)
+        Content.add("<p>You briefly think about hot-gluing the nerdy little mouse. The thought won't go away.</p>");
+    else
+        Content.add("<p>You briefly think about stuffing the nerdy little mouse up your pussy. The thought passes, though.</p>");
+    player.incLust(1);
+}
+function tellerMicelyFollow() {
+    Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(player.sex == 0 ? "Sir" : "Ma'am"));
+}
+function tellerMicelyHug() {
+    Content.add("<p>\"{0}, this is highly inappropriate!\" Teller squeaks{1}</p>".format(player.sex == 0 ? "S-Sir" : "M-Ma'am"), player.furSoftness > 50 ? ", but she then rubs her face against your " + player.peltType + " and fails to hide a smile." : ".");
 }
 
 function wolterInteract(_clearContent = true) {

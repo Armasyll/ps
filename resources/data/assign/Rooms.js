@@ -17,6 +17,7 @@ zootopiaPackStreet07.setWestRoom(zootopiaPackStreet08);
 zootopiaPackStreet08.setWestRoom(zootopiaPackStreet09);
 zootopiaPackStreet09.setWestRoom(zootopiaPackStreet10);
 zootopiaPackStreet10.setWestRoom(zootopia44thStreet06);
+zootopiaPackStreet10.setSouthRoom(zootopiaCreditUnion44thEntrance);
 
 // Zootopia, 42nd Street
 zootopia42ndStreet06.setNorthRoom(zootopia42ndStreet05);
@@ -46,6 +47,7 @@ zootopia44thStreet02.setNorthRoom(zootopia44thStreet01);
 zootopia44thStreet06.setWestRoom(zootopiaExchangeStreet01);
 zootopia44thStreet06.setSouthRoom(zootopia44thStreet07);
 zootopia44thStreet07.setSouthRoom(zootopia44thStreet08);
+zootopia44thStreet07.setEastRoom(zootopiaCreditUnion44thEntrance);
 zootopia44thStreet08.setSouthRoom(zootopia44thStreet09);
 zootopia44thStreet09.setEastRoom(packStreetHappytownLocksmithsEntrance);
 zootopia44thStreet09.setSouthRoom(zootopia44thStreet10);

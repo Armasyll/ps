@@ -178,4 +178,7 @@ packStreetPublicLibraryEntrance = new Room("packStreetPublicLibraryEntrance", un
 // packStreeyHappytownLocksmiths
 packStreetHappytownLocksmithsEntrance = new Room("packStreetHappytownLocksmithsEntrance", undefined, "Entrance", "hallway", packStreetHappytownLocksmithsCell);
 
+// 
+zootopiaCreditUnion44thEntrance = new Room("zootopiaCreditUnion44thEntrance", undefined, "Lobby", "hallway", zootopiaCreditUnion44thCell);
+
 if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");

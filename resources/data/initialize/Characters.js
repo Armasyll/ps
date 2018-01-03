@@ -14,6 +14,7 @@ var rosie = new Character("rosie", "Wilde, Rosie", 14, 1, "fox");
 var velvet = new Character("velvet", "Velvet", 39, 1, "deer");
 var wolter = new Character("wolter", "Wolter", 20, 0, "aardwolf");
 
+var tellerMicely = new Character("tellerMicely", "Teller Micely", 27, 1, "mouse");
 var weaver = new Character("weaver", "Weaver", 30, 0, "antelope");
 
 var cotton = new Character("cotton", "Hoops, Cotton", 12, 1, "rabbit");
