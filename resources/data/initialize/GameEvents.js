@@ -47,3 +47,4 @@ new GameEvent("charlieRemoveHeartEvent", "remove", player, charlie, "charlieBeat
 new GameEvent("charlieReceiveHeartEvent", "take", charlie, undefined, "charlieBeatingHeart", undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveHeartEvent')", false);
 new GameEvent("charlieRemoveLeftEyeEvent", "remove", player, charlie, "charlieLeftEye", undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);
 new GameEvent("charlieReceiveLeftEyeEvent", "take", charlie, undefined, "charlieLeftEye", undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveLeftEyeEvent')", false);
+new GameEvent("tellerMicelyReceiveChequeEvent", "take", tellerMicely, undefined, undefined, undefined, undefined, undefined, undefined, "cashCheque()", false);

@@ -186,23 +186,35 @@ function characterInteract(_character, _clearContent = true) {
 
     Menu.clear();
 
-    Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk");
-    if ((player.age > 18 && _character.age > 18))
-        Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex");
+    if (typeof window["{0}Talk".format(_character.id)] == "function")
+        Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk");
+    else
+        Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, undefined, undefined, true);
+
+    if (typeof window["{0}Sex".format(_character.id)] == "function") {
+        if ((player.age > 18 && _character.age > 18))
+            Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex");
+        else
+            Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
+    }
     else
         Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
+
     Menu.setOption(2, "getAppearance({0})".format(_character.id), "Appearance");
 
     if (debug)
         Menu.setOption(4, "characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
     else
-        Menu.setOption(4, "characterInteractOpen({0}, true, false, false)".format(_character.id), "Give", "Give them an item.")
+        Menu.setOption(4, "characterInteractOpen({0}, true, false, undefined, false)".format(_character.id), "Give", "Give them an item.")
 
     if (player.room.characters.size > 2)
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
+
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-    Menu.addOption("characterInteractHug({0})".format(_character.id), "Hug");
+    if (typeof window["{0}Hug".format(_character.id)] == "function")
+        Menu.addOption("characterInteractHug({0})".format(_character.id), "Hug");
+
     if (_character.isSleeping())
         Menu.addOption("characterInteractWake({0})".format(_character.id), "Wake");
 
@@ -210,12 +222,27 @@ function characterInteract(_character, _clearContent = true) {
 
     Menu.generate();
 }
-function characterInteractOpen(_character, _switch = false, _allowSwitch = true, _clearContent = true) {
+function characterInteractOpen(_character, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
     if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             _character = player;
+    }
+    if (typeof _switch != "boolean")
+        _switch = false;
+    if (typeof _allowSwitch != "boolean")
+        _allowSwitch = true;
+    if (_filter != undefined) {
+        if (_filter == "Item" ||
+            _filter == "Key" ||
+            _filter == "Clothing" ||
+            _filter == "Consumable" ||
+            _filter == "Cheque" ||
+            _filter == "ElectronicDevice" ||
+            _filter == "Phone") {}
+        else
+            _filter = undefined;
     }
 
     if (usePopups) {
@@ -280,7 +307,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         Menu.showingBaseMenu = false;
         if (_allowSwitch) {
             if (_characterA != _characterB) {
-                Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, {1}, {2}, false)".format(_character.id, !_switch, _allowSwitch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
+                Menu.setOption((Menu.useWideMenu ? 4 : 3), "characterInteractOpen({0}, {1}, {2}, '{3}', false)".format(_character.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.singularPossesiveName()));
                 if (_characterB != player)
                     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
             }
@@ -294,15 +321,17 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
                 Menu.setOption((Menu.useWideMenu ? 9 : 7), "personalCharacterMenu()".format(player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
         }
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-        
+
         if (_character != player) {
             _characterB.items.forEach(function(_item) {
-                Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                if (_filter == undefined || _filter == _item.constructor.name)
+                    Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4}, '{5}')".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
             _characterB.items.forEach(function(_item) {
-                Menu.addOption("itemInteract({0})".format(_item.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_item.name), _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                if (_filter == undefined || _filter == _item.constructor.name)
+                    Menu.addOption("itemInteract('{0}')".format(_item.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_item.name), _item.description, undefined, undefined, undefined, undefined, "btn-primary");
             }, this);
         }
         Menu.generate();
@@ -320,10 +349,13 @@ function characterInteractTalk(_character) {
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    if (_character.following != player)
-        Menu.setOption(3, "characterInteractFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
-    else
-        Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
+
+    if (typeof window["{0}Follow".format(_character.id)] == "function") {
+        if (_character.following != player)
+            Menu.setOption(3, "characterInteractFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
+        else
+            Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
+    }
 
     unsafeExec("{0}Talk()".format(_character.id));
 
@@ -473,7 +505,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
         }
     }
 }
-function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true, _clearContent = true) {
+function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
 
@@ -522,12 +554,12 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
 
         Menu.clear();
         Menu.showingBaseMenu = false;
-        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, {1}, {2}, false)".format(_furniture.id, !_switch, _allowSwitch), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, {1}, {2}, '{3}', false)".format(_furniture.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_item) {
-            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3})".format(_item.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, true, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -650,6 +682,9 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
         else
             return undefined;
     }
+
+    if (_item.description != undefined && _item.description.length > 0)
+        Content.add("<p>{0}</p>".format(_item.description));
     
     Menu.clear();
     if (_entity instanceof Character)

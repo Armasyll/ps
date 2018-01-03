@@ -557,9 +557,25 @@ function remmyApartmentBathroomWolterInteract() {
 }
 
 function zootopiaCreditUnion44thEntranceTellerMicelyInteract() {
+    _character = tellerMicely;
+    
 
 }
 function zootopiaCreditUnion44thEntranceTellerMicelyTalk() {
-    Content.add("Looking up from her computer, the mouse bank teller greets you, \"Good {0}, {1}! How can I help you today?\"".format(currentTime.getHours() < 10 ? "morning" : currentTime.getHours() < 16 ? "afternoon" : "evening"));
-    Menu.addOption("cashCheque()");
+    _character = tellerMicely;
+    
+    Content.add("<p>Looking up from her computer, the mouse bank teller greets you, \"Good {0}, {1}! How can I help you today?\"</p>".format(currentTime.getHours() < 10 ? "morning" : currentTime.getHours() < 16 ? "afternoon" : "evening", player.sex == 0 ? "sir" : "ma'am"));
+    Menu.addOption("zootopiaCreditUnion44thEntranceTellerMicelyCashCheque(player)", "Cash Cheque");
+}
+function zootopiaCreditUnion44thEntranceTellerMicelyCashCheque() {
+    _character = tellerMicely;
+
+    Content.add("<p>\"I'd like to cash a cheque,\" you say, holding out a paper cheque for her.</p>");
+
+    if (cashCheque(player)) {
+        Content.add("<p>Taking the cheque from your {0}, {1} slides it through a reader, and a moment later a stack of bills starts shuffling out of a machine behind her. Turning around, she grabs the money, and waddles over to you, letting it fall into a neat stack at your {2}</p>".format(player.getHand(), _character.toString(), player.getHands()));
+    }
+    else {
+        Content.add("<p>\"I'm sorry, but you don't have any valid cheques to cash,\" the mouse says with a shrug.</p>");
+    }
 }

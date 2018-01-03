@@ -258,6 +258,7 @@ marty.addItem(chartyApartmentLocationKey);
 ozzy.addItem(ozzyApartmentLocationKey);
 pandora.addItem(pandorasBoxLocationKey);
 remmy.addItem(remmyApartmentLocationKey);
+remmy.addItem(new Cheque(pandora, remmy, 100, "For rigorously testing products.", true))
 velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 

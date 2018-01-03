@@ -191,7 +191,7 @@ function tellerMicelyTalk() {
 
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
-function tellerMicelySex() {
+function _tellerMicelySex() {
     _character = tellerMicely;
 
     if (player.sex == 0)
@@ -200,10 +200,10 @@ function tellerMicelySex() {
         Content.add("<p>You briefly think about stuffing the nerdy little mouse up your pussy. The thought passes, though.</p>");
     player.incLust(1);
 }
-function tellerMicelyFollow() {
+function _tellerMicelyFollow() {
     Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(player.sex == 0 ? "Sir" : "Ma'am"));
 }
-function tellerMicelyHug() {
+function _tellerMicelyHug() {
     Content.add("<p>\"{0}, this is highly inappropriate!\" Teller squeaks{1}</p>".format(player.sex == 0 ? "S-Sir" : "M-Ma'am"), player.furSoftness > 50 ? ", but she then rubs her face against your " + player.peltType + " and fails to hide a smile." : ".");
 }
 

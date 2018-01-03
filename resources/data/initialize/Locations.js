@@ -48,7 +48,7 @@ packStreetPublicLibraryLocation = new Location("packStreetPublicLibraryLocation"
 happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happytown Locksmiths", "", "resources/images/locations/happytownLocksmiths.svg");
 
 
-zootopiaCreditUnion44thLocation = new Location("zootopiaCreditUnion44thLocation", "Zootopia Credit Union", "", "resources/images/locations/zootopiaCreditUnionLocation.svg")
+zootopiaCreditUnion44thLocation = new Location("zootopiaCreditUnion44thLocation", "Zootopia Credit Union", "", "resources/images/locations/zootopiaCreditUnionLocation.svg", "bank")
 
 
 if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");

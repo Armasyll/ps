@@ -91,7 +91,7 @@ function updatePlayerInfoDisplay() {
     }
 }
 
-function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false) {
+function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false, _filter = undefined) {
     var _body = "";
     _fromEntity.items.forEach(function(_item) {
         var _ownerString = '';
@@ -132,7 +132,7 @@ function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _
     
     return _body;
 }
-function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined) {
+function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
     if (entityGiveItem(_item, _fromEntity, _toEntity)) {
         var _lazyEntity = _fromEntity;
         if (_lazyEntity == player)
@@ -141,17 +141,17 @@ function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = unde
         $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true) {
+function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true, _filter = undefined) {
     if (entityGiveItem(_item, _fromEntity, _toEntity, _useLastMenu)) {
         if (_switch) {
             if (_fromEntity instanceof Character)
-                characterInteractOpen(_toEntity, _switch, _allowSwitch, false);
+                characterInteractOpen(_toEntity, _switch, _allowSwitch, _filter, false);
             else if (_fromEntity instanceof Furniture)
                 furnitureInteractOpen(_toEntity, _switch, _allowSwitch, false);
         }
         else {
             if (_fromEntity instanceof Character)
-                characterInteractOpen(_fromEntity, _switch, _allowSwitch, false);
+                characterInteractOpen(_fromEntity, _switch, _allowSwitch, _filter, false);
             else if (_fromEntity instanceof Furniture)
                 furnitureInteractOpen(_fromEntity, _switch, _allowSwitch, false);
         }
@@ -1555,6 +1555,39 @@ function characterDecManaMax(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.manaMax;
 }
+function characterSetMoney(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setMoney(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.money;
+}
+function characterDecMoney(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decMoney(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.money;
+}
+function characterIncMoney(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incMoney(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.money;
+}
 function setLife(_int) {return characterSetLife(player, _int);}
 function incLife(_int) {return characterIncLife(player, _int);}
 function decLife(_int) {return characterDecLife(player, _int);}
@@ -1573,7 +1606,35 @@ function decMana(_int) {return characterDecMana(player, _int);}
 function setManaMax(_int) {return characterSetManaMax(player, _int);}
 function incManaMax(_int) {return characterIncManaMax(player, _int);}
 function decManaMax(_int) {return characterDecManaMax(player, _int);}
+function setMoney(_int) {return characterSetMoney(player, _int);}
+function incMoney(_int) {return characterIncMoney(player, _int);}
+function decMoney(_int) {return characterDecMoney(player, _int);}
 
+function cashCheque(_character = player) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_character.cell.location.type == "bank")) {
+        Content.add("<p>How can you cash a cheque if you're not at a bank?</p>");
+        return false;
+    }
+    var _chequeCashed = false;
+
+    _character.items.forEach(function(_item) {
+        if (_item instanceof Cheque) {
+            if (_item.to instanceof Character && (_item.signed || _item.to == _character) && !isNaN(_item.amount) && _item.amount > 0) {
+                characterIncMoney(_item.to, _item.amount);
+                _character.removeItem(_item);
+                _item.delete();
+                _chequeCashed = true;
+            }
+        }
+    });
+    return _chequeCashed;
+}
 
 /**
  * Returns to (runs again) the last-used menu.

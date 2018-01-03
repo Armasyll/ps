@@ -1538,7 +1538,6 @@ class Character extends Entity {
         charactersIndexes.set(_id, this);
 
         this.stand();
-        this.sleep();
     }
     
     fromJSON(json = "") {
@@ -4873,7 +4872,7 @@ class Location {
      * @param  {String} _description Description
      * @param  {String} _image       Image path or base64
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = undefined) {
         if (_id instanceof Location) {
             this.id = _id.id;
             delete _id["id"];
@@ -4896,6 +4895,8 @@ class Location {
             this.rooms = new Set();
 
             this.image = _image;
+
+            this.setType(_type);
 
             this.floorImage = undefined;
 
@@ -5032,6 +5033,13 @@ class Location {
 
             return _blob;
         }
+    }
+
+    setType(_type) {
+        if (kLocationTypes.has(_type))
+            this.type = _type;
+        else
+            this.type = "general";
     }
 
     addCell(_cell) {
@@ -6303,7 +6311,7 @@ class Consumable extends Item {
  * @extends {Item}
  */
 class Cheque extends Item {
-    constructor(_from, _to, _amount, _memo) {
+    constructor(_from, _to, _amount = 1, _memo = "", _signed = false) {
         if (debug) console.log("Attempting to create a Cheque...");
         if (!(_from instanceof Character)) {
             if (charactersIndexes.has(_from))
@@ -6331,13 +6339,26 @@ class Cheque extends Item {
             return undefined;
         }
 
-        super("cheque{0}{1}{2}".format(_from, _to, _amount, currentTime.slice(0, -3)), "Cheque", _memo);
+        super("cheque{0}{1}{2}".format(_from.id.capitalize(), _to.id.capitalize(), _amount, String(currentTime.getTime()).slice(0, -3)), "Cheque");
         this.from = _from;
         this.to = _to;
         this.amount = _amount;
-        this.memo = this.description;
+        this.memo = _memo;
+        this.signed = _signed == true ? true : false;
+        this.description = "A cheque from {0} to {1} for the amount of ${2}, with the memo '{3}'".format(this.from.name, this.to.name, this.amount, this.memo)
 
         chequesIndexes.set(this.id, this);
+    }
+
+    sign(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+
+        this.signed = _from == _character;
     }
 
     delete() {

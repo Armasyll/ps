@@ -114,6 +114,19 @@ function charlieEatCharlieCont() {
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
+function charlieFirstDateAsk() {
+
+}
+function charlieFirstDateSchedule() {
+
+}
+function charlieFirstDateMeet() {
+
+}
+function charlieFirstDatePost() {
+
+}
+
 function rosieGiveCharlieHeart() {
     Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie.</p>");
     if (rosie.sleeping) {

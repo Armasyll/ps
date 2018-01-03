@@ -121,6 +121,7 @@ const kHandTypes = new Set(["fur", "pad", "hoof", "clovenhoof", "skin"]);
 const kFeetTypes = kHandTypes;
 const kEyeTypes = new Set(["circle", "slit", "rectangle", "none"]);
 const kPeltTypes = new Set(["skin", "fur", "wool", "hair"]);
+const kLocationTypes = new Set(["general","city","house","apartment","bank","park","store"]);
 const kRoomTypes = new Set(["hallway","lobby","bedroom","livingroom","bathroom","kitchen","diningroom","closet","basement","extBuilding","street","walkway","lot"]);
 const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
 const kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk","kneel"]);
