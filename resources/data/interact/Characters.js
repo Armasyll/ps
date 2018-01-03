@@ -388,7 +388,10 @@ function wolterHug() {
     var _arr = new Array();
     var _disposition = _character.getCharacterDisposition(player);
 
-    if (_character.hasMet(player)) {
+    if (_character.isSleeping()) {
+        _arr = ["<p>As you give the sleeping aardwolf a hug, you see his tail twitch.</p>"];
+    }
+    else if (_character.hasMet(player)) {
         if (_disposition.philia > 66) {
             if (_disposition.pragma > 50) {
                 if ((_character.sexualOrientation == 0 && _character.sex == player.sex) || (_character.sexualOrientaiton == 1 && _character.sex != player.sex)) {
