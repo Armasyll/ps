@@ -214,7 +214,7 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
     charlie['annoyed'] += 1;
     
     if (charlie['annoyed'] == 1)
-        Content.add("<p>You say \"Hi,\" again.</p><p>The small smile on {0} face is gone as she repeats, \"Hello, {1}.\"</p>".format(_character.objectPronoun(), player.name));
+        Content.add("<p>You say \"Hi,\" again.</p><p>The small smile on {0} face is gone as she repeats, \"Hello, {1}.\"</p>".format(_character.objectPronoun(), player.surname));
     else if (charlie['annoyed'] < 5) {
         Content.add("As you continue bugging the {0} on your couch, {1} eyes gradually open".format(_character.getSpeciesName(), _character.objectPronoun()));
         if (charlie['annoyed'] == 2)
