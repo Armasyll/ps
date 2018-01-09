@@ -120,26 +120,24 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         if (
             typeof _event.characterA == 'undefined' ||
             (
-                (_event.characterA instanceof Character && _event.characterA == player) &&
+                _event.characterA == player &&
                 (typeof _event.item == 'undefined' || _event.characterA.containsItem(_event.item))
             )
         ) {
             if (typeof _event.location == 'undefined' ||
-                (
-                    (_event.location instanceof Location && (_event.location == _room.location || _event.location == _room.cell.location)) &&
-                    (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
-                )
+                (_event.location == _room.location || _event.location == _room.cell.location) &&
+                (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
             ) {
                 if (typeof _event.cell == 'undefined' ||
                     (
-                        (_event.cell instanceof Cell && _event.cell == _room.cell) &&
+                        _event.cell == _room.cell &&
                         (typeof _event.characterB == 'undefined' || _event.characterB.room.cell == _event.cell) &&
                         (_event.characterA.previousRoom.cell != _event.characterA.room.cell)
                     )
                 ) {
                     if (typeof _event.room == 'undefined' ||
                         (
-                            (_event.room instanceof Room && _event.room == _room) &&
+                            _event.room == _room &&
                             (typeof _event.characterB == 'undefined' || _event.characterB.room == _event.room)
                         )
                     ) {
@@ -169,7 +167,7 @@ function characterInteract(_character, _clearContent = true) {
     Menu.showingBaseMenu = false;
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
-    lastMenu = "characterInteract({0}, false, true)".format(_character.id);
+    lastMenu = "characterInteract({0}, false)".format(_character.id);
 
     Title.set(
         _character.name,

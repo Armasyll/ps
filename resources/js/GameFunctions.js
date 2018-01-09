@@ -344,18 +344,20 @@ function characterSetRoom(_character = player, _room) {
         else
             characterStand(_character);
         
-        if (debug) console.log("Checking for room events.");
-        eventsIndexes.forEach(function(_event) {
-            if (
-                typeof _event.cron == 'undefined' &&
-                (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
-                (typeof _event.characterB == 'undefined' || _character.room.containsCharacter(_event.characterB)) &&
-                _character.room == _event.room &&
-                (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
-            ) {
-                _event.execute();
-            }
-        }, this);
+        if (_character != player) {
+            if (debug) console.log("Checking for room events.");
+            eventsIndexes.forEach(function(_event) {
+                if (
+                    typeof _event.cron == 'undefined' &&
+                    (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
+                    (typeof _event.characterB == 'undefined' || _character.room.containsCharacter(_event.characterB)) &&
+                    _character.room == _event.room &&
+                    (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
+                ) {
+                    _event.execute();
+                }
+            }, this);
+        }
     }
     
     return _character.room == _room;

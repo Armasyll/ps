@@ -13,7 +13,7 @@ function charlieEatFruitypebbles() {
     _blob += ("Remmy chooses to eat some fruity fucking pebbles");
     if (player.room.characters.has(charlie)) {
         _blob += (", and Charlie joins him. For some reason, they both strip naked and sit on the couch, enjoying their morning cereal.<br/>");
-        _blob += ("<img src='images/fuck yeah fruity pebbles by the_weaver.png'/>");
+        _blob += ("<img src='resources/images/fuck yeah fruity pebbles by the_weaver.png'/>");
         _blob += ("<p style='dispay:inline;'>(Image by tg_weaver, used with permission.)</p>");
     }
     else
@@ -115,7 +115,7 @@ function charlieEatCharlieCont() {
     Menu.generate();
 }
 function charlieFirstDateAsk() {
-
+    
 }
 function charlieFirstDateSchedule() {
 
@@ -186,7 +186,7 @@ function rosieGiveCharlieHeartFlee() {
 
     charlie.sleeping = false;
     charlie.alive = true;
-    charlie.image = 'images/characters/RosieCharlie.png';
+    charlie.image = 'resources/images/characters/RosieCharlie.png';
     characterStand(charlie);
 
     tick("1m", true, false);
@@ -229,7 +229,7 @@ function rosieGiveCharlieHeartStay() {
 
     charlie.sleeping = false;
     charlie.alive = true;
-    charlie.image = 'images/characters/RosieCharlie.png';
+    charlie.image = 'resources/images/characters/RosieCharlie.png';
     characterStand(charlie);
 
     tick("1m", true, false);
@@ -238,12 +238,12 @@ function rosieGiveCharlieHeartStay() {
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
-
 function rosieGiveCharlieHeartNightmare() {
     music.src = 'audio/pbrlt.mp3';
     music.volume = 0.005;
     music.play();
 }
+
 function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
 
@@ -266,13 +266,13 @@ function updateCharlieBuse(_event = undefined) {
     if (debug) console.log("Running updateCharlieBuse with {0}".format(_event));
 
     if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
-        charlie.image = "images/characters/CharlieNoHeartAndLeftEye.svg";
+        charlie.image = "resources/images/characters/CharlieNoHeartAndLeftEye.svg";
     else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye))
-        charlie.image = "images/characters/CharlieNoHeart.svg";
+        charlie.image = "resources/images/characters/CharlieNoHeart.svg";
     else if (charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
-        charlie.image = "images/characters/CharlieNoLeftEye.svg";
+        charlie.image = "resources/images/characters/CharlieNoLeftEye.svg";
     else
-        charlie.image = "images/characters/Charlie.svg";
+        charlie.image = "resources/images/characters/Charlie.svg";
 
     if (!charlie.hasItem(charlieBeatingHeart)) {
         Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries to grab it from your " + player.getHands() + ", but you move it away from her.</p><p>Her struggle ceases once you utter the word, \"No.\"</p>");
@@ -282,6 +282,7 @@ function updateCharlieBuse(_event = undefined) {
 
     return true;
 }
+
 function wolterConsidersJumpingTheFence(_event = undefined) {
     wolter.setSexualOrientation(2);
     wolter.incLust(25);
@@ -291,8 +292,12 @@ function wolterConsidersJumpingTheFence(_event = undefined) {
     if (wolter.hasPhone)
         setTimedFunctionEvent("wolter.phone.sendMessage(remmy, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
 }
-function wolterPlayerFirsttimeSameSexSpecial() {
-    
+function wolterPlayerFirsttimeSameSexSpecial() {    
+}
+function wolterFirstDateAsk() {
+    if (wolter.hadSexWith(remmy)) {
+        Content.add("<p></p>");
+    }
 }
 function bettyRemmySleepparalysisSpecial() {
     _blob = "";
