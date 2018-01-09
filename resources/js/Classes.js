@@ -1048,7 +1048,7 @@ class Entity {
         var _arr = new Array();
         
         for (var property in this) {
-            if (this[property] instanceof Entity) {
+            if (this[property] instanceof Entity || this[property] instanceof Room) {
                 _blob[property] = this[property].id;
             }
             else if (this[property] instanceof Object) {
@@ -1382,7 +1382,7 @@ class Character extends Entity {
         }
         this.nickname = undefined;
         this.age = this.setAge(_age);
-        this.image = "resources/images/characters/{0}.svg".format(this.name.toLowerCase()); // base64 image, or url
+        this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
 
         this.addAction("talk");
         this.addAction("sex");
@@ -1400,6 +1400,7 @@ class Character extends Entity {
         this.addAction("kiss");
 
         this.currentActions = new Map();
+        this.currentInteractions = new Map(); // <this.bodyParts.*, [interactionType, Character, Character.bodyParts.*]>
         this.knownLocations = new Set();
         this.knownSpells = new Set();
 
@@ -1466,20 +1467,36 @@ class Character extends Entity {
         this.hadSexWithFemale = false;
 
         this.sexCount = 0;
-        this.characterSexCount = new Map(); // Map<Character, integer>
-        this.characterSexRefusalCount = new Map(); // Map<Character, integer>
+        this.sexCountMap = new Map(); // Map<Character, integer>
+        this.sexRefusalCountMap = new Map(); // Map<Character, integer>
         this.vaginalReceiveCount = 0;
+        this.vaginalReceiveCountMap = new Map();
         this.vaginalGiveCount = 0;
+        this.vaginalGiveCountMap = new Map();
         this.analReceiveCount = 0;
+        this.analReceiveCountMap = new Map();
         this.analGiveCount = 0;
+        this.analGiveCountMap = new Map();
         this.cunnilingusReceiveCount = 0;
+        this.cunnilingusReceiveCountMap = new Map();
         this.cunnilingusGiveCount = 0;
+        this.cunnilingusGiveCountMap = new Map();
         this.analingusReceiveCount = 0;
+        this.analingusReceiveCountMap = new Map();
         this.analingusGiveCount = 0;
+        this.analingusGiveCountMap = new Map();
         this.fellatioReceiveCount = 0;
+        this.fellatioReceiveCountMap = new Map();
         this.fellatioGiveCount = 0;
+        this.fellatioGiveCountMap = new Map();
+        this.handjobReceiveCount = 0;
+        this.handjobReceiveCountMap = new Map();
+        this.handjobGiveCount = 0;
+        this.handjobGiveCountMap = new Map();
         this.masturbateCount = 0;
-        this.handjobCount = 0;
+        this.autofellatioCount = 0;
+        this.autocunnilingusCount = 0;
+        this.autoanalingusCount = 0;
 
         this.following = undefined; // Character
         this.followers = new Set(); // Set<Character>
@@ -1598,6 +1615,7 @@ class Character extends Entity {
         // Sets
         //  availableActions
         try {
+            if (!(this.availableActions instanceof Set)) this.availableActions = new Set();
             _tmpArr = JSON.parse(json["availableActions"]);
             _tmpArr.forEach(function(_int) {
                 this.addAction(_int);
@@ -1606,6 +1624,7 @@ class Character extends Entity {
         delete json["availableActions"];
         //  avoidsSpecies
         try {
+            if (!(this.avoidsSpecies instanceof Set)) this.avoidsSpecies = new Set();
             _tmpArr = JSON.parse(json["avoidsSpecies"]);
             _tmpArr.forEach(function(_int) {
                 this.addPreferredSpecies(_int);
@@ -1614,6 +1633,7 @@ class Character extends Entity {
         delete json["avoidsSpecies"];
         //  bodyParts
         try {
+            if (!(this.bodyParts instanceof Set)) this.bodyParts = new Set();
             _tmpArr = JSON.parse(json["bodyParts"]);
             _tmpArr.forEach(function(_bodyPart) {
                 if (kBodyPartTypes.has(_bodyPart))
@@ -1623,7 +1643,7 @@ class Character extends Entity {
         delete json["bodyParts"];
         //  followers
         try {
-            this.bodyParts = new Set();
+            if (!(this.followers instanceof Set)) this.followers = new Set();
             _tmpArr = JSON.parse(json["followers"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
@@ -1633,7 +1653,7 @@ class Character extends Entity {
         delete json["followers"];
         // _dating
         try {
-            this._dating = new Set();
+            if (!(this._dating instanceof Set)) this._dating = new Set();
             _tmpArr = JSON.parse(json["_dating"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
@@ -1643,7 +1663,7 @@ class Character extends Entity {
         delete json["_dating"];
         //  items
         try {
-            this.items = new Array();
+            if (!(this.items instanceof Set)) this.items = new Array();
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
                 if (itemsIndexes.has(_item))
@@ -1653,6 +1673,7 @@ class Character extends Entity {
         delete json["items"];
         //  knownLocations
         try {
+            if (!(this.knownLocations instanceof Set)) this.knownLocations = new Set();
             _tmpArr = JSON.parse(json["knownLocations"]);
             _tmpArr.forEach(function(_location) {
                 if (locationsIndexes.has(_location))
@@ -1662,6 +1683,7 @@ class Character extends Entity {
         delete json["knownLocations"];
         //  knownSpells
         try {
+            if (!(this.knownSpells instanceof Set)) this.knownSpells = new Set();
             _tmpArr = JSON.parse(json["knownSpells"]);
             _tmpArr.forEach(function(_spell) {
                 if (spellsIndexes.has(_spell))
@@ -1671,6 +1693,7 @@ class Character extends Entity {
         delete json["knownSpells"];
         //  prefersSpecies
         try {
+            if (!(this.prefersSpecies instanceof Set)) this.prefersSpecies = new Set();
             _tmpArr = JSON.parse(json["prefersSpecies"]);
             _tmpArr.forEach(function(_int) {
                 this.addPreferredSpecies(_int);
@@ -1679,7 +1702,7 @@ class Character extends Entity {
         delete json["prefersSpecies"];
         //  relatives
         try {
-            this.relatlives = new Set();
+            if (!(this.relatlives instanceof Set)) this.relatlives = new Set();
             _tmpArr = JSON.parse(json["relatives"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character))
@@ -1689,6 +1712,7 @@ class Character extends Entity {
         delete json["relatives"];
         //  specialTypes
         try {
+            if (!(this.specialTypes instanceof Set)) this.specialTypes = new Set();
             _tmpArr = JSON.parse(json["specialTypes"]);
             _tmpArr.forEach(function(_specialType) {
                 if (kSpecialTypes.has(_specialType))
@@ -1698,14 +1722,14 @@ class Character extends Entity {
         delete json["specialTypes"];
         
         // Maps
-        //  characterSexCount
+        //  sexCountMap
         try {
-            this.characterSexCount = new Map();
-            _tmpArr = JSON.parse(json["characterSexCount"]);
+            if (!(this.sexCountMap instanceof Set)) this.sexCountMap = new Map();
+            _tmpArr = JSON.parse(json["sexCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.characterSexCount.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexCountMap.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -1713,15 +1737,15 @@ class Character extends Entity {
         } catch (e) {
             console.log(e);
         }
-        delete json["characterSexCount"];
-        //  characterSexRefusalCount
+        delete json["sexCountMap"];
+        //  sexRefusalCountMap
         try {
-            this.characterSexRefusalCount = new Map();
-            _tmpArr = JSON.parse(json["characterSexRefusalCount"]);
+            if (!(this.sexRefusalCountMap instanceof Set)) this.sexRefusalCountMap = new Map();
+            _tmpArr = JSON.parse(json["sexRefusalCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.characterSexRefusalCount.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexRefusalCountMap.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -1729,9 +1753,10 @@ class Character extends Entity {
         } catch (e) {
             console.log(e);
         }
-        delete json["characterSexRefusalCount"];
+        delete json["sexRefusalCountMap"];
         //  characterDisposition
         try {
+            if (!(this.characterDisposition instanceof Set)) this.characterDisposition = new Map();
             this.characterDisposition = new Map();
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
@@ -1746,7 +1771,7 @@ class Character extends Entity {
         delete json["characterDisposition"];
         //  currentActions
         try {
-            this.currentActions = new Map();
+            if (!(this.currentActions instanceof Set)) this.currentActions = new Map();
             _tmpArr = JSON.parse(json["currentActions"]);
             _tmpArr.forEach(function(_arr) {
                 if (!(_arr instanceof Array)) {
@@ -1816,7 +1841,7 @@ class Character extends Entity {
         delete json["currentActions"];
         //  clothing
         try {
-            this.clothing = new Map();
+            if (!(this.clothing instanceof Set)) this.clothing = new Map();
             _tmpArr = JSON.parse(json["clothing"]);
             _tmpArr.forEach(function(_clothing) {
                 if (!(_clothing instanceof Clothing))
@@ -1831,7 +1856,7 @@ class Character extends Entity {
         delete json["clothing"];
         //  _dated
         try {
-            this._dated = new Map();
+            if (!(this._dated instanceof Set)) this._dated = new Map();
             _tmpArr = JSON.parse(json["_dated"]);
             _tmpArr.forEach(function(_int, _character) {
                 if (charactersIndexes.has(_character)) {
@@ -1877,7 +1902,7 @@ class Character extends Entity {
         //  room
         this.room = undefined;
         if (roomsIndexes.has(json["room"]))
-            this.room = roomsIndexes.get(json["room"]);
+            this.moveToRoom(roomsIndexes.get(json["room"]));
         delete json["room"];
         delete json["cell"];
         delete json["location"];
@@ -2860,6 +2885,10 @@ class Character extends Entity {
         return this.sexualOrientationCompatibility(_character);
     }
 
+    fellatioGiveSet(_int, _character) {
+
+    }
+
     setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (!(this.defaultDisposition instanceof Disposition))
             this.defaultDisposition = new Disposition();
@@ -3375,6 +3404,8 @@ class Character extends Entity {
         }
         else if (kClothingTypes.has(_clothing))
             this.clothing.set(_clothing, undefined);
+
+        return true;
     }
     fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character)) {
@@ -3394,10 +3425,9 @@ class Character extends Entity {
 
         this.removeCurrentAction("masturbate");
         _character.removeCurrentAction("masturbate");
+
         this.addCurrentAction("sex");
         _character.addCurrentAction("sex");
-
-        this.addSexWith(_character, true);
         return true;
     }
     follow(_character) {
@@ -3766,12 +3796,12 @@ class Character extends Entity {
         if (!(_character instanceof Character))
             return undefined;
 
-        if (this.characterSexRefusalCount.has(_character))
-            this.characterSexRefusalCount.set(_character, this.characterSexRefusalCount.get(_character) + 1);
+        if (this.sexRefusalCountMap.has(_character))
+            this.sexRefusalCountMap.set(_character, this.sexRefusalCountMap.get(_character) + 1);
         else
-            this.characterSexRefusalCount.set(_character, 1);
+            this.sexRefusalCountMap.set(_character, 1);
 
-        return this.characterSexRefusalCount.get(_character);
+        return this.sexRefusalCountMap.get(_character);
     }
     getSexRefusalCount(_character) {
         if (!(_character instanceof Character))
@@ -3779,8 +3809,8 @@ class Character extends Entity {
         if (!(_character instanceof Character))
             return undefined;
 
-        if (this.characterSexRefusalCount.has(_character))
-            return this.characterSexRefusalCount.get(_character);
+        if (this.sexRefusalCountMap.has(_character))
+            return this.sexRefusalCountMap.get(_character);
         else
             return 0;
     }
@@ -4025,7 +4055,7 @@ class Character extends Entity {
         else
             this.species = "fox";
 
-        this.addBodyPart(["head","leftEye","rightEye","leftEar","rightEar","nose","mouth","lips","tongue","neck","chest","leftNipple","rightNipple","stomach","back","shoulder","waist","groin","legs","arms","leftHand","rightHand","leftFoot","rightFoot","fingers","toes","rear","anus"]);
+        this.addBodyPart(["ankles","anus","arms","arms","back","chest","feet","fingers","groin","hands","head","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulder","shoulders","stomach","toes","tongue","waist","wrists"]);
         if (this.sex == 0)
             this.addBodyPart(["penis","testicles"]);
         else
@@ -4350,6 +4380,211 @@ class Character extends Entity {
         this.stay();
     }
 
+    /**
+     * Increments sex count with Character
+     * @param  {Character} _character Character
+     * @return {Boolean}            Whether or not values were incremented
+     */
+    incSexCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                _character = undefined;
+        }
+        this.virgin = false;
+        this.sexCount++;
+        if (_character instanceof Character) this.sexCountMap.set(_character, this.sexCountMap.get(_character) + 1);
+        return true;
+    }
+    /**
+     * Wrapper function for this.incSexCount(Character)
+     * @param {Character}  _character   Character
+     * @param {Boolean} _updateChild Whether or not to update the passed Character
+     */
+    addSexWith(_character, _updateChild = true) {
+        this.incSexCount(_character);
+        if (_updateChild)
+            _character.incSexCount(_character);
+    }
+    /**
+     * Increments vaginal receiving count with Character
+     * @param  {Character} _character Character
+     * @return {Boolean}            Whether or not values were incremented
+     */
+    incVaginalReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.vaginalReceiveCount++;
+        this.vaginalReceiveCountMap.set(_character, this.vaginalReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    /**
+     * Increments vaginal penetration count with Character
+     * @param  {Character} _character Character
+     * @return {Boolean}            Whether or not values were incremented
+     */
+    incVaginalGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.vaginalGiveCount++;
+        this.vaginalGiveCountMap.set(_character, this.vaginalGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    /**
+     * Increments anal receiving count with Character
+     * @param  {Character} _character Character
+     * @return {Boolean}            Whether or not values were incremented
+     */
+    incAnalReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.analReceiveCount++;
+        this.analReceiveCountMap.set(_character, this.analReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    /**
+     * Increments anal penetration count with Character
+     * @param  {Character} _character Character
+     * @return {Boolean}            Whether or not values were incremented
+     */
+    incAnalGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.analGiveCount++;
+        this.analGiveCountMap.set(_character, this.analGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incCunnilingusReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.cunnilingusReceiveCount++;
+        this.cunnilingusReceiveCountMap.set(_character, this.cunnilingusReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incCunnilingusGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.cunnilingusGiveCount++;
+        this.cunnilingusGiveCountMap.set(_character, this.cunnilingusGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incAnalingusReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.analingusReceiveCount++;
+        this.analingusReceiveCountMap.set(_character, this.analingusReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incAnalingusGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.analingusGiveCount++;
+        this.analingusGiveCountMap.set(_character, this.analingusGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incFellatioReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.fellatioReceiveCount++;
+        this.fellatioReceiveCountMap.set(_character, this.fellatioReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incFellatioGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.fellatioGiveCount++;
+        this.fellatioGiveCountMap.set(_character, this.fellatioGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incHandjobReceiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.handjobReceiveCount++;
+        this.handjobReceiveCountMap.set(_character, this.handjobReceiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incHandjobGiveCount(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
+        }
+        this.handjobGiveCount++;
+        this.handjobGiveCountMap.set(_character, this.handjobGiveCountMap.get(_character) + 1);
+        return true;
+    }
+    incMasturbateCount() {
+        this.masturbateCount++;
+        return true;
+    }
+    incAutofellatioCount() {
+        this.fellatioGiveCount++;
+        this.fellatioReceiveCount++;
+        this.masturbateCount++;
+        this.autofellatioCount++;
+        return true;
+    }
+    incAutocunnilingusCount() {
+        this.cunnilingusGiveCount++;
+        this.cunnilingusReceiveCount++;
+        this.masturbateCount++;
+        this.autocunnilingusCount++;
+        return true;
+    }
+    incAutoanalingusCount() {
+        this.analingusGiveCount++;
+        this.analingusReceiveCount++;
+        this.masturbateCount++;
+        this.autoanalingusCount++;
+        return true;
+    }
+
     addFollower(_character) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
@@ -4391,39 +4626,14 @@ class Character extends Entity {
             return this.following == _character;
     }
 
-    getCharacterSexCount(_character = undefined) {
-        if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
-            else
-                return undefined;
-        }
-
-        return this.characterSexCount.has(_character) ? this.characterSexCount.get(_character) : 0;
-    }
     getSexCount(_character = undefined) {
-        if (typeof _character != "undefined")
-            return this.getCharacterSexCount(_character);
-        else
-            return this.sexCount;
-    }
-    addSexWith(_character, _updateChild = true) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return 0;
         }
-
-        this.virgin = false;
-        this.sexCount++;
-        if (this.characterSexCount.has(_character))
-            this.characterSexCount.set(_character, Number.parseInt(this.characterSexCount.get(_character)) + 1);
-        else
-            this.characterSexCount.set(_character, 1);
-
-        if (_updateChild)
-            _character.addSexWith(this, false);
+        return this.sexCountMap.has(_character) ? this.sexCountMap.get(_character) : 0;
     }
 
     addRelative(_character, _updateChild = true) {
@@ -4690,7 +4900,7 @@ class Character extends Entity {
         if (!(_character instanceof Character))
             return undefined;
 
-        return this.getCharacterSexCount(_character) > 0;
+        return this.getSexCount(_character) > 0;
     }
     calculateChanceToFuck(_character, _ignoreLustAndRut = false) {
         if (!(_character instanceof Character))
@@ -4709,7 +4919,7 @@ class Character extends Entity {
 
         // Disposition
         if (_character.hadSexWith(this) && !_character.relatives.has(this)) {
-            chance += _disposition.eros / 2 + (_character.getCharacterSexCount(this) * 3);
+            chance += _disposition.eros / 2 + (_character.getSexCount(this) * 3);
             chance += _disposition.philia / 4;
         }
         else {
@@ -4781,11 +4991,11 @@ class Character extends Entity {
         // Incest
         if (_character.relatives.has(this)) {
             if (_character.incestual > 66)
-                chance += _disposition.storge / 3 + (_character.getCharacterSexCount(this) * 2);
+                chance += _disposition.storge / 3 + (_character.getSexCount(this) * 2);
             else if (_character.incestual > 33)
-                chance += _disposition.storge / 4 + (_character.getCharacterSexCount(this));
+                chance += _disposition.storge / 4 + (_character.getSexCount(this));
             else if (_character.incestual > 0)
-                chance += _disposition.storge / 5 + (_character.getCharacterSexCount(this));
+                chance += _disposition.storge / 5 + (_character.getSexCount(this));
             else
                 chance -= 50;
         }

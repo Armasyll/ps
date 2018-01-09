@@ -64,12 +64,14 @@ function charlieTalk() {
     _character = charlie;
     
     if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
-        if (_character.hasDated(player) && !_character.isDating(player))
-            Menu.addOption("charlieDateAsk()", "Ask her out, again");
+        if (_character.hasDated(player)) {
+            if (!_character.isDating(player))
+                Menu.addOption("charlieDateAsk()", "Ask {0} out, again".format(_character.objectPronoun));
+            else
+                Menu.addOption("charlieDateSchedule()", "Go out on a date");
+        }
         else if (!_character.hasDated(player))
-            Menu.addOption("charlieFirstDateAsk()", "Ask her out on a date");
-        else // They're currently dating
-            Menu.addOption("charlieDateSchedule()", "Go out on a date");
+            Menu.addOption("charlieFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun));
     }
 
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
@@ -201,9 +203,13 @@ function _tellerMicelySex() {
     player.incLust(1);
 }
 function _tellerMicelyFollow() {
+    _character = tellerMicely;
+
     Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(player.sex == 0 ? "Sir" : "Ma'am"));
 }
 function _tellerMicelyHug() {
+    _character = tellerMicely;
+
     Content.add("<p>\"{0}, this is highly inappropriate!\" Teller squeaks{1}</p>".format(player.sex == 0 ? "S-Sir" : "M-Ma'am"), player.furSoftness > 50 ? ", but she then rubs her face against your " + player.peltType + " and fails to hide a smile." : ".");
 }
 
@@ -265,6 +271,17 @@ function wolterInteract(_clearContent = true) {
 }
 function wolterTalk() {
     _character = wolter;
+    
+    if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
+        if (_character.hasDated(player)) {
+            if (!_character.isDating(player))
+                Menu.addOption("wolterDateAsk()", "Ask {0} out, again".format(_character.objectPronoun));
+            else
+                Menu.addOption("wolterDateSchedule()", "Go out on a date");
+        }
+        else if (!_character.hasDated(player))
+            Menu.addOption("wolterFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun));
+    }
 
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
 }
@@ -411,14 +428,14 @@ function wolterHug() {
                     _character.incLust(1);
                 }
                 else {
-                    "<p></p>".format(_character.name)
+                    _arr = ["<p></p>".format(_character.name)];
                 }
             }
             else if (_disposition.eros > 66 && _character.lust > 33) {
                 if ((_character.sexualOrientation == 0 && _character.sex == player.sex) || (_character.sexualOrientaiton == 1 && _character.sex != player.sex)) {
                     _arr = [
                         "<p>You feel {0} jolt as you wrap your arms around him. Feeling something hard press against your leg, you see the {0} look away, grinning. \"Uh, sorry about that {1}, but you should'a warned a guy.\"</p>{2}".format(_character.name, player.sex == 0 ? "man" : player.name, player.lust > 50 ? "<p>Leaning into him, you say in a sultry voice, or as good a one as you can manage, \"Maybe I like like surprising <i>guys</i>.\"</p>" : ""),
-                        "<p>{0} leans in as you wrap your arms around him. His body feels unusually warm, and you can feel his breath against your neck. \"Wolter, you're hot,\" you say, stepping away from him. He looks up at you, and you can see his unfocused gaze before he squeezes his eyes shut.</p><p>{1}</p><p>{0} takes in a deep breath and slowly lets it out, his nostrils flaring as his toes curl in. He looks away from you nervously and squeezes his legs together. \"Yeah, I think I might be catching ah, something,\" he says, and for a brief moment gives you a strange look.</p>".format(_character.name, player.sex == 0 ? "After a moment, you realize what you said, and quickly correct yourself, \"I mean, you're warm.\"" : "\"You're really warm,\" you correct yourself.")
+                        "<p>{0} leans in as you wrap your arms around him. His body feels unusually warm, and you can feel his breath against your neck. \"Wolter, you're hot,\" you say, stepping away from him. He looks up at you, and you can see his unfocused gaze before he squeezes his eyes shut.</p><p>{1}</p><p>He takes in a deep breath and slowly lets it out, looking away from you. \"Yeah, I think I might be catching, ah, something,\" he says, and for a brief moment you feel his tail brush against you.</p>".format(_character.name, player.sex == 0 ? "After a moment, you realize what you said, and quickly correct yourself, \"I mean, you're warm.\"" : "\"You're really warm,\" you correct yourself.")
                     ];
                 }
                 else if (_character.dating(player)) {
@@ -432,7 +449,7 @@ function wolterHug() {
                     _character.setRut(true);
                 }
                 else {
-                    "<p></p>".format(_character.name)
+                    _arr = ["<p></p>".format(_character.name)];
                 }
             }
             else if (_disposition.eros > 33) {
@@ -482,6 +499,15 @@ function wolterHug() {
         }
     }
     else { // Who the hell are you?
+            if ((_character.sexualOrientation == 0 && _character.sex == player.sex) || (_character.sexualOrientaiton == 1 && _character.sex != player.sex)) {
+                _arr = ["<p></p>".format(_character.name)];
+            }
+            else {
+                if (player.sex == 0)
+                    _arr = ["<p>Hugging the random aardwolf, you feel him pat your pack gently. \"Uh, hey stranger. Nice to meet you, too,\" he says, stepping back from your embrace.</p>"];
+                else
+                    _arr = ["<p>Hugging the random aardwolf, you feel him grope your tail. After a few seconds, he looks {1} at you with a grin, \"Hey cutey, I'm {0},\"</p>".format(_character.name, player.bodySize > _character.bodySize ? "up" : "down")];
+            }
     }
 
     Content.add(_arr.getRandom());

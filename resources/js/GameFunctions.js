@@ -314,9 +314,12 @@ function clearContentAndMenu() {
  * @return Boolean Whether or not the Character was moved to the Room.
  */
 function characterSetRoom(_character = player, _room) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
     
@@ -709,9 +712,12 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
  * @return Boolean Whether or not the path is available, or undefined if the Character or Room are invalid.
  */
 function setCharacterPath(_character, _targetRoom) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (!(_targetRoom instanceof Room)) {
         if (typeof _targetRoom == "string" && roomsIndexes.has(_targetRoom))
             _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
@@ -726,7 +732,7 @@ function setCharacterPath(_character, _targetRoom) {
             _targetRoom = undefined;
     }
     
-    if (typeof _character == 'undefined' || typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
+    if (typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
         return undefined;
     
     return characterMovements.set(_character, _findPathToRoom(_character.room, _targetRoom));
@@ -955,12 +961,12 @@ function setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce =
  * @return {Boolean} Whether or not the Character is seated on Furniture, or undefined
  */
 function characterSit(_character, _furniture = undefined) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
         _furniture.removeCharacter(_character);
     
@@ -978,12 +984,12 @@ function characterSit(_character, _furniture = undefined) {
  * @return {Boolean} Whether or not the Character is lying on Furniture, or undefined
  */
 function characterLay(_character, _furniture = undefined) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
         _furniture.removeCharacter(_character);
     
@@ -1001,12 +1007,12 @@ function characterLay(_character, _furniture = undefined) {
  * @return {Boolean} Whether or not the Character is sleeping on Furniture, or undefined
  */
 function characterSleep(_character, _furniture = undefined) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.furniture instanceof Furniture && _character.furniture != _furniture)
         _furniture.removeCharacter(_character);
     
@@ -1035,12 +1041,12 @@ function characterSleep(_character, _furniture = undefined) {
  * @return {Boolean}, or undefined
  */
 function characterStand(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.furniture instanceof Furniture) {
         _character.furniture.removeCharacter(_character);
         _character.furniture = undefined;
@@ -1056,12 +1062,12 @@ function characterStand(_character) {
  * @return {Boolean}, or undefined
  */
 function characterWalk(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.furniture instanceof Furniture) {
         _character.furniture.removeCharacter(_character);
         _character.furniture = undefined;
@@ -1078,17 +1084,20 @@ function characterWalk(_character) {
  * @return {Boolean}, or undefined
  */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
-    if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-    
-    if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    
-    if (typeof _characterA == 'undefined' || typeof _characterB == 'undefined')
-        return undefined;
-    
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
     if (_characterA == _characterB)
-        return;
+        return undefined;
     
     if (characterMovements.has(_characterA))
         characterWalk(_characterB);
@@ -1123,12 +1132,12 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
  * @return {Boolean}, or undefined
  */
 function characterStay(_character) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (_character.following instanceof Character)
         _character.following.removeFollower(_character);
     
@@ -1144,19 +1153,19 @@ function characterStay(_character) {
  * @param {Number or String} _action Can be undefined; defaults to "lay"
  * @return {Boolean} Whether or not sex happens, or undefined
  */
-function characterSex(_characterA, _characterB = undefined, _furniture = undefined, _action = "lay") {
-    if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-    
-    if (typeof _characterA == 'undefined')
-        return undefined;
-    
-    if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    
-    if (typeof _characterB == 'undefined')
-        return undefined;
-    
+function characterSex(_characterA, _characterB, _furniture = undefined, _action = "lay") {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
@@ -1203,6 +1212,230 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
     return _characterA.fuck(_characterB, _furniture);
 }
 /**
+ * Increments sex count for both Characters
+ * @param  {Character} _characterA Character performing sex
+ * @param  {Character} _characterB Character receiving sex
+ */
+function characterIncSex(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            _characterB = undefined;
+    }
+    _characterA.incSexCount(_characterB);
+    if (_characterB instanceof Character) _characterB.incSexCount(_characterA);
+    return true;
+}
+/**
+ * Increments anal sex count for both Characters
+ * @param  {Character} _characterA Character performing anal sex
+ * @param  {Character} _characterB Character receiving anal sex
+ */
+function characterIncAnal(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            _characterB = undefined;
+    }
+    _characterA.incAnalGiveCount(_characterB);
+    if (_characterB instanceof Character) _characterB.incAnalReceiveCount(_characterA);
+    else _characterA.incMasturbateCount();
+    _characterA.incSexCount(_characterB);
+    if (_characterB instanceof Character) _characterB.incSexCount(_characterA);
+    return true;
+}
+/**
+ * Increments vaginal sex count for both Characters
+ * @param  {Character} _characterA Character performing vaginal sex
+ * @param  {Character} _characterB Character receiving vaginal sex
+ */
+function characterIncVaginal(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    if (_characterB.sex == 0)
+        return false;
+    _characterA.incVaginalGiveCount(_characterB);
+    if (_characterB instanceof Character) _characterB.incVaginalReceiveCount(_characterA);
+    else _characterA.incMasturbateCount();
+    return true;
+}
+/**
+ * Increments fellatio count for both Characters
+ * @param  {Character} _characterA Character performing fellatio
+ * @param  {Character} _characterB Character receiving fellatio
+ */
+function characterIncFellatio(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    if (_characterB.sex == 1)
+        return false;
+    _characterA.incFellatioGiveCount(_characterB);
+    _characterB.incFellatioReceiveCount(_characterA);
+    return true;
+}
+/**
+ * Increments cunnilingus count for both Characters
+ * @param  {Character} _characterA Character performing cunnilingus
+ * @param  {Character} _characterB Character receiving cunnilingus
+ */
+function characterIncCunnilingus(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    if (_characterB.sex == 0)
+        return false;
+    _characterA.incCunnilingusGiveCount(_characterB);
+    _characterB.incCunnilingusReceiveCount(_characterA);
+    return true;
+}
+/**
+ * Increments analingus count for both Characters
+ * @param  {Character} _characterA Character performing analingus
+ * @param  {Character} _characterB Character receiving analingus
+ */
+function characterIncAnalingus(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    _characterA.incAnalingusGiveCount(_characterB);
+    _characterB.incAnalingusReceiveCount(_characterA);
+    return true;
+}
+/**
+ * Increments handjob count for both Characters
+ * @param  {Character} _characterA Character giving the handjob
+ * @param  {Character} _characterB Character receiving the handjob
+ */
+function characterIncHandjob(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)){
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)){
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+    _characterA.incHandjobGiveCount(_characterB);
+    _characterB.incHandjobReceiveCount(_characterA);
+    return true;
+}
+/**
+ * Increments masturbate count for Character
+ * @param  {Character} _character Character
+ */
+function characterIncMasturbate(_character) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incMasturbateCount();
+    return true;
+}
+/**
+ * Increments autofellatio count for Character
+ * @param  {Character} _character Character
+ */
+function characterIncAutofellatioCount(_character) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (_character.sex == 1)
+        return false;
+    _character.incAutofellatioCount();
+    return true;
+}
+/**
+ * Increments autocunnilingus count for Character
+ * @param  {Character} _character Character
+ */
+function characterIncAutocunnilingusCount(_character) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (_character.sex == 0)
+        return false;
+    _character.incAutocunnilingusCount();
+    return true;
+}
+/**
+ * Increments autoanalingus count for Character
+ * @param  {Character} _character Character
+ */
+function characterIncAutoanalingusCount(_character) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.incAutoanalingusCount();
+    return true;
+}
+/**
  * Makes the Character masturbate on Furniture (not literally on it) or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
  * @param {Character} _character
  * @param {Furniture} _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
@@ -1210,12 +1443,12 @@ function characterSex(_characterA, _characterB = undefined, _furniture = undefin
  * @return {Boolean} Whether or not masturbation happens, or undefined
  */
 function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-    
-    if (typeof _character == 'undefined')
-        return undefined;
-    
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
     
@@ -1685,8 +1918,8 @@ function characterTakeOver(_characterA, _characterB) {
     arr.set('hadSexWithFemale', _characterA.hadSexWithFemale);
 
     arr.set('sexCount', _characterA.sexCount);
-    arr.set('characterSexCount', _characterA.characterSexCount);
-    arr.set('characterSexRefusalCount', _characterA.characterSexRefusalCount);
+    arr.set('sexCountMap', _characterA.sexCountMap);
+    arr.set('sexRefusalCountMap', _characterA.sexRefusalCountMap);
 
     arr.set('characterDisposition', _characterA.characterDisposition);
 
@@ -2037,10 +2270,21 @@ function loadGame(_json) {
     }
     if (_json.hasOwnProperty("characters")) {
         _json["characters"].forEach(function(_character) {
-            if (charactersIndexes.has(_character["id"]))
+            try {
+                _tmpCharacter = JSON.parse(_character);
+                _character = _tmpCharacter;
+                delete _tmpCharacter;
+            }
+            catch (e) {}
+
+            if (charactersIndexes.has(_character["id"])) {
+                if (debug) console.log("Found Character `{0}`, updating their Character instance.".format(_character["id"]));
                 charactersIndexes.get(_character["id"]).fromJSON(_character);
-            else
+            }
+            else {
+                if (debug) console.log("Couldn't find Character `{0}`, creating a new Character instance.".format(_character["id"]));
                 window[_character["id"]] = new Character(_character);
+            }
         });
     }
     // Initialize all first, then assign properties
