@@ -2262,10 +2262,21 @@ function loadGame(_json) {
     // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
     if (_json.hasOwnProperty("furniture")) {
         _json["furniture"].forEach(function(_furniture) {
-            if (furnitureIndexes.has(_furniture["id"]))
+            try {
+                _tmpFurniture = JSON.parse(_furniture);
+                _furniture = _tmpFurniture;
+                delete _tmpFurniture;
+            }
+            catch (e) {}
+
+            if (furnitureIndexes.has(_furniture["id"])) {
+                if (debug) console.log("Found Furniture `{0}`, updating its Furniture instance.".format(_furniture["id"]));
                 furnitureIndexes.get(_furniture["id"]).fromJSON(_furniture);
-            else
+            }
+            else {
+                if (debug) console.log("Couldn't find Furniture `{0}`, creating a new Furniture instance.".format(_furniture["id"]));
                 window[_furniture["id"]] = new Furniture(_furniture);
+            }
         });
     }
     if (_json.hasOwnProperty("characters")) {
