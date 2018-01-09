@@ -129,6 +129,9 @@ class Menu {
         this.choiceContainer = "choiceContainer";
     }
 
+    /**
+     * Clears the Menu
+     */
     static clear() {
         if (this.initialized !== true)
             this.initialize();
@@ -177,12 +180,12 @@ class Menu {
      * Sets Menu button contents
      * @param {Number}  _index        Where the button is placed on the Menu; can be 0-12, (1-4, Q-R, A-F) or 0-14, (1-5, Q-T, A-G)
      * @param {String}  _functionCall The function to be called when the button is pressed
-     * @param {[type]}  _title        The displayed text in the middle of the button
-     * @param {[type]}  _subTitle     The displayed text at the bottom of the button
-     * @param {[type]}  _hover        The displayed text when the button is hovered over by the mouse
-     * @param {Number}  _displayType  0 default, 1 disabled, 2 disable-invisible, 4 invisible
-     * @param {String}  _btnClass     The bootstrap-specific btn sub-class
-     * @param {Boolean} _softSet      Whether or not to offset the displayed menu based on the _index and Menu.numberOfOptions
+     * @param {String}  _title        The displayed text in the middle of the button
+     * @param {String}  _subTitle     Optional; The displayed text at the bottom of the button
+     * @param {String}  _hover        Optional; The displayed text when the button is hovered over by the mouse
+     * @param {Number}  _displayType  Optional; 0 default, 1 disabled, 2 disable-invisible, 4 invisible
+     * @param {String}  _btnClass     Optional; The bootstrap-specific btn sub-class
+     * @param {Boolean} _softSet      Optional; Whether or not to offset the displayed menu based on the _index and Menu.numberOfOptions
      */
     static setOption(_index, _functionCall, _title, _subTitle, _hover = undefined, _displayType = 0, _btnClass = "", _softSet = true) {
         if (this.initialized !== true)
@@ -295,6 +298,15 @@ class Menu {
         else
             return false;
     }
+    /**
+     * Wrapper function for this.setOption
+     * @param {String}  _functionCall The function to be called when the button is pressed
+     * @param {String}  _title        The displayed text in the middle of the button
+     * @param {String}  _subTitle     Optional; The displayed text at the bottom of the button
+     * @param {String}  _hover        Optional; The displayed text when the button is hovered over by the mouse
+     * @param {Number}  _displayType  Optional; 0 default, 1 disabled, 2 disable-invisible, 4 invisible
+     * @param {String}  _btnClass     Optional; The bootstrap-specific btn sub-class
+     */
     static addOption(_functionCall, _title, _subTitle, _hover = "", _displayType = 0, _btnClass = "") {
         if (this.initialized !== true)
             this.initialize();
@@ -400,6 +412,10 @@ class Menu {
         }
         _room = undefined;
     }
+    /**
+     * Generates Menu
+     * @param  {Number} _page Optional; Offset displayed menu by this multiplied by Menu.numberOfOptions
+     */
     static generate(_page = 1) {
         if (this.initialized !== true)
             this.initialize();
@@ -472,6 +488,17 @@ class Menu {
         _blob += '</div>';
         document.getElementById(this.choiceContainer).innerHTML = _blob;
     }
+    /**
+     * Creates an HTML button
+     * @param {String}  _functionCall The function to be called when the button is pressed
+     * @param {String}  _title        The displayed text in the middle of the button
+     * @param {String}  _subTitle     Optional; The displayed text at the bottom of the button
+     * @param {String}  _key          Optional; The displayed text at the top right of the button
+     * @param {String}  _hover        Optional; The displayed text when the button is hovered over by the mouse
+     * @param {Number}  _displayType  Optional; 0 default, 1 disabled, 2 disable-invisible, 4 invisible
+     * @param {String}  _btnClass     Optional; The bootstrap-specific btn sub-class
+     * @return {String}               Bootstrap button as an anchor in HTML
+     */
     static createButton(_functionCall, _title = "", _subTitle = "&nbsp;", _key = "", _hover = "", _displayType = 0, _btnClass = "btn-basic") {
         if (this.initialized !== true)
             this.initialize();
