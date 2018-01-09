@@ -2313,7 +2313,7 @@ function loadGame(_json) {
     if (_json.hasOwnProperty("previousTime")) previousTime = new Date(_json["previousTime"]);
     if (_json.hasOwnProperty("usePopups")) usePopups = _json["usePopups"];
     if (_json.hasOwnProperty("interruptTick")) interruptTick = _json["interruptTick"];
-    start();
+    startGame();
 }
 function loadFile(input) {
     var file, fr, _blob;

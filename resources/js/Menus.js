@@ -1,5 +1,5 @@
 function mainMenu() {
-    Menu.addOption("start()", "Enter", "You meet the conditions above.");
+    Menu.addOption("startGame()", "Enter", "You meet the conditions above.");
     Menu.generate();
 }
 function baseMenu(_clearContent = false, _clearMenu = true) {
@@ -71,7 +71,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
         }
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "tick('1m', true, true)", "Wait");
         if (player.manaMax > 0 && player.knownSpells.size > 0)
-            Menu.setOption((Menu.useWideMenu ? 14 : 11), "spellMenu()", "Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "spellMenu()", "Spells", undefined, undefined, undefined, "btn-mana");
         Menu.generate();
     }
 }
@@ -119,8 +119,6 @@ function spellMenu() {
             _spell.description,
             undefined,
             undefined,
-            undefined,
-            undefined,
             "btn-mana"
         );
     });
@@ -147,7 +145,7 @@ function debugMenu() {
     Menu.addOption("player.addItem('masterKey')", "Get Skeleton Key");
     Menu.addOption("addAllItems({0}, false)".format(player.id), "Add All Items");
     Menu.addOption("addAllLocations({0})".format(player.id), "Add All Locations");
-    Menu.addOption("addAllSpells({0});characterSetManaMax({0}, 100);characterSetMana({0}, 100);{0}.setManaCostOffsetPercent(100)".format(player.id), "Add All Spells", undefined, undefined, undefined, undefined, undefined, "btn-mana");
+    Menu.addOption("addAllSpells({0});characterSetManaMax({0}, 100);characterSetMana({0}, 100);{0}.setManaCostOffsetPercent(100)".format(player.id), "Add All Spells", undefined, undefined, undefined, "btn-mana");
     Menu.generate();
 }
 function debugMenuClose() {
@@ -387,6 +385,8 @@ function debugSwitchCharacter() {
     _blob = "";
     _blob += '<div class="btn-group btn-group-justified">';
     charactersIndexes.forEach(function (_key, _val) {
+        if (_key == player)
+            return undefined;
         _blob += Menu.createButton("switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.sex ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
         if (i % 4 == 0)
             _blob += '</div><div class="btn-group btn-group-justified">';
@@ -474,10 +474,10 @@ function getAppearance(_character, _self = false) {
     
     Content.add("<p>" + _blob + "</p>");
 }
-function start() {
+function startGame() {
     agreeTOS = true;
     Menu.showingBaseMenu = true;
-    
+    document.getElementById("gameControlsOptions").classList.remove("hidden");
     if (enableMinimap)
         Minimap.generateMapFromStartRoom(player.room);
     
@@ -491,7 +491,7 @@ function start() {
     updateTimeDisplay();
     updatePlayerInfoDisplay();
 }
-function quit() {
+function quitGame() {
     clearContentAndMenu();
     close();
 }

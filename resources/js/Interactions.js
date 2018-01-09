@@ -189,16 +189,16 @@ function characterInteract(_character, _clearContent = true) {
     if (typeof window["{0}Talk".format(_character.id)] == "function")
         Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk");
     else
-        Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, undefined, undefined, true);
+        Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, 4);
 
     if (typeof window["{0}Sex".format(_character.id)] == "function") {
         if ((player.age > 18 && _character.age > 18))
             Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex");
         else
-            Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
+            Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
     }
     else
-        Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, undefined, undefined, true);
+        Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
 
     Menu.setOption(2, "getAppearance({0})".format(_character.id), "Appearance");
 
@@ -325,13 +325,13 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         if (_character != player) {
             _characterB.items.forEach(function(_item) {
                 if (_filter == undefined || _filter == _item.constructor.name)
-                    Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4}, '{5}')".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                    Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4}, '{5}')".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
             _characterB.items.forEach(function(_item) {
                 if (_filter == undefined || _filter == _item.constructor.name)
-                    Menu.addOption("itemInteract('{0}')".format(_item.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_item.name), _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+                    Menu.addOption("itemInteract('{0}')".format(_item.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_item.name), _item.description, undefined, undefined, "btn-primary");
             }, this);
         }
         Menu.generate();
@@ -473,7 +473,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
                     switch(_action) {
                         case "use" : {
                             if (_furniture.type == "mirror" && player.mana > 0)
-                                Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, undefined, undefined, "btn-mana");
+                                Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, "btn-mana");
                             else
                                 Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
@@ -559,7 +559,7 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_item) {
-            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, true, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, undefined, undefined, "btn-primary");
+            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, true, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -924,8 +924,6 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
                         "{0} {1}".format(_spell.name, _room.location != player.room.location ? _room.location.name : _room.name),
                         undefined,
                         undefined,
-                        undefined,
-                        undefined,
                         "btn-mana"
                     );
                 }
@@ -967,8 +965,6 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
                     "spellInteractCast({0}, {1})".format(_spell.id, __character.id),
                     __character.name,
                     "{0} {1}".format(_spell.name, __character.name),
-                    undefined,
-                    undefined,
                     undefined,
                     undefined,
                     "btn-mana"

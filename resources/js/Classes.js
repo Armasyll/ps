@@ -61,13 +61,13 @@ class Content {
     }
     /**
      * Set's the HTML of the content container's body
-     * @param {String} $string HTML to be displayed in the content container's body
+     * @param {String} _string HTML to be displayed in the content container's body
      */
-    static set($string) {
+    static set(_string) {
         if (this.initialized !== true)
             this.initialize();
 
-        document.getElementById(this.contentContainer).innerHTML = $string;
+        document.getElementById(this.contentContainer).innerHTML = _string;
         $('a[data-toggle=tooltip]').tooltip();
 
         if (enableAutoscroll)
@@ -75,13 +75,13 @@ class Content {
     }
     /**
      * Appends the HTML of the content container's body
-     * @param {String} $string HTML to be appended in the content container's body
+     * @param {String} _string HTML to be appended in the content container's body
      */
-    static add($string) {
+    static add(_string) {
         if (this.initialized !== true)
             this.initialize();
 
-        document.getElementById(this.contentContainer).innerHTML += $string;
+        document.getElementById(this.contentContainer).innerHTML += _string;
         $('a[data-toggle=tooltip]').tooltip();
 
         if (enableAutoscroll)
@@ -173,74 +173,77 @@ class Menu {
         return false;
     }
 
-    static setOption($index, $functionCall, $title, $subTitle, $hover = undefined, $disabled = false, $invisible = false, $secret = false, _btnClass = "", _softSet = true) {
+    /**
+     * Sets Menu button contents
+     * @param {Number}  _index        Where the button is placed on the Menu; can be 0-12, (1-4, Q-R, A-F) or 0-14, (1-5, Q-T, A-G)
+     * @param {String}  _functionCall The function to be called when the button is pressed
+     * @param {[type]}  _title        The displayed text in the middle of the button
+     * @param {[type]}  _subTitle     The displayed text at the bottom of the button
+     * @param {[type]}  _hover        The displayed text when the button is hovered over by the mouse
+     * @param {Number}  _displayType  0 default, 1 disabled, 2 disable-invisible, 4 invisible
+     * @param {String}  _btnClass     The bootstrap-specific btn sub-class
+     * @param {Boolean} _softSet      Whether or not to offset the displayed menu based on the _index and Menu.numberOfOptions
+     */
+    static setOption(_index, _functionCall, _title, _subTitle, _hover = undefined, _displayType = 0, _btnClass = "", _softSet = true) {
         if (this.initialized !== true)
             this.initialize();
 
-        if (typeof $disabled != 'boolean')
-            $disabled = false;
-        if (typeof $invisible != 'boolean')
-            $invisible = false;
-        if (typeof $secret != 'boolean')
-            $secret = false;
-        if (typeof _btnClass != 'string')
-            _btnClass = "";
-        if (typeof _softSet != 'boolean')
-            _softSet = false;
+        if (isNaN(_displayType) || _displayType < 0 || _displayType > 7)
+            _displayType = 0;
 
-        if (isNaN($index)) {
+        if (isNaN(_index)) {
             if (this.numberOfOptions == 12) {
-                switch ($index) {
-                    case "1": $index = 0; break;
-                    case "2": $index = 1; break;
-                    case "3": $index = 2; break;
-                    case "4": $index = 3; break;
-                    case "q": $index = 4; break;
-                    case "w": $index = 5; break;
-                    case "e": $index = 6; break;
-                    case "r": $index = 7; break;
-                    case "a": $index = 8; break;
-                    case "s": $index = 9; break;
-                    case "d": $index = 10; break;
-                    case "f": $index = 11; break;
-                    default: $index = -1;
+                switch (_index) {
+                    case "1": _index = 0; break;
+                    case "2": _index = 1; break;
+                    case "3": _index = 2; break;
+                    case "4": _index = 3; break;
+                    case "q": _index = 4; break;
+                    case "w": _index = 5; break;
+                    case "e": _index = 6; break;
+                    case "r": _index = 7; break;
+                    case "a": _index = 8; break;
+                    case "s": _index = 9; break;
+                    case "d": _index = 10; break;
+                    case "f": _index = 11; break;
+                    default: _index = -1;
                 }
             }
             else {
-                switch ($index) {
-                    case "1": $index = 0; break;
-                    case "2": $index = 1; break;
-                    case "3": $index = 2; break;
-                    case "4": $index = 3; break;
-                    case "5": $index = 4; break;
-                    case "q": $index = 5; break;
-                    case "w": $index = 6; break;
-                    case "e": $index = 7; break;
-                    case "r": $index = 8; break;
-                    case "t": $index = 9; break;
-                    case "a": $index = 10; break;
-                    case "s": $index = 11; break;
-                    case "d": $index = 12; break;
-                    case "f": $index = 13; break;
-                    case "g": $index = 14; break;
-                    default: $index = -1;
+                switch (_index) {
+                    case "1": _index = 0; break;
+                    case "2": _index = 1; break;
+                    case "3": _index = 2; break;
+                    case "4": _index = 3; break;
+                    case "5": _index = 4; break;
+                    case "q": _index = 5; break;
+                    case "w": _index = 6; break;
+                    case "e": _index = 7; break;
+                    case "r": _index = 8; break;
+                    case "t": _index = 9; break;
+                    case "a": _index = 10; break;
+                    case "s": _index = 11; break;
+                    case "d": _index = 12; break;
+                    case "f": _index = 13; break;
+                    case "g": _index = 14; break;
+                    default: _index = -1;
                 }
             }
         }
 
-        if ($index > -1 && $index < this.numberOfOptions * 10) {
+        if (_index > -1 && _index < this.numberOfOptions * 10) {
             var _runCond = true;
             var _page = 0;
 
-            if ($index / this.numberOfOptions > 1)
-                _page = parseInt($index / this.numberOfOptions);
+            if (_index / this.numberOfOptions > 1)
+                _page = parseInt(_index / this.numberOfOptions);
             else
                 _page = 1;
 
-            if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
-                $functionCall = $functionCall + "()";
+            if (_functionCall.length > 0 && !_functionCall.endsWith(")"))
+                _functionCall = _functionCall + "()";
 
-            if ($index == this.numberOfOptions * (_page)) {
+            if (_index == this.numberOfOptions * (_page)) {
                 var _tmpArr = new Array();
                 var _startIndex = this.numberOfOptions * (_page - 1) + (this.useWideMenu ? 8 : 6);
 
@@ -251,40 +254,40 @@ class Menu {
                     }
                 }
 
-                this.options[(this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6)] = ["Menu.generate({0})".format(_page + 1), "Next", "", false, false, false, false, undefined, true];
+                this.options[(this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6)] = ["Menu.generate({0})".format(_page + 1), "Next", "", false, 0, undefined, true];
                 if (_page > 1)
-                    this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
+                    this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, 0, undefined, true];
 
-                _tmpArr.push([$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet]);
+                _tmpArr.push([_functionCall, _title, _subTitle, _hover, _displayType, _btnClass, _softSet]);
 
-                $index = (this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6);
+                _index = (this.numberOfOptions * _page) - (this.useWideMenu ? 8 : 6);
 
                 _tmpArr.forEach(function(_item) {
                     var _runCond = true;
-                    while ($index < this.numberOfOptions * 10 && _runCond) {
-                        if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2)) {
-                            this.options[$index] = _item;
+                    while (_index < this.numberOfOptions * 10 && _runCond) {
+                        if (typeof this.options[_index] == 'undefined' && (_page == 1 || _page > 1 && _index != this.numberOfOptions * _page - 2)) {
+                            this.options[_index] = _item;
                             _runCond = false;
                         }
                         else
-                            $index++;
+                            _index++;
                     }
                 }, this);
             }
-            else if ($index > this.numberOfOptions && $index == this.numberOfOptions * _page - 2)
-                this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, false, false, false, undefined, true];
+            else if (_index > this.numberOfOptions && _index == this.numberOfOptions * _page - 2)
+                this.options[this.numberOfOptions * _page - 2] = ["Menu.generate({0})".format(_page - 1), "Previous", "", false, 0, undefined, true];
             else {
-                if (typeof this.options[$index] != 'undefined') {
+                if (typeof this.options[_index] != 'undefined') {
                     var _runCond = true;
-                    while ($index < this.numberOfOptions * 10 && _runCond) {
-                        if (typeof this.options[$index] == 'undefined' && (_page == 1 || _page > 1 && $index != this.numberOfOptions * _page - 2))
+                    while (_index < this.numberOfOptions * 10 && _runCond) {
+                        if (typeof this.options[_index] == 'undefined' && (_page == 1 || _page > 1 && _index != this.numberOfOptions * _page - 2))
                             _runCond = false;
                         else
-                            $index++;
+                            _index++;
                     }
                 }
 
-                this.options[$index] = [$functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, _softSet];
+                this.options[_index] = [_functionCall, _title, _subTitle, _hover, _displayType, _btnClass, _softSet];
             }
 
             return true;
@@ -292,7 +295,7 @@ class Menu {
         else
             return false;
     }
-    static addOption($functionCall, $title, $subTitle, $hover = "", $disabled = 0, $invisible = 0, $secret = 0, _btnClass = "") {
+    static addOption(_functionCall, _title, _subTitle, _hover = "", _displayType = 0, _btnClass = "") {
         if (this.initialized !== true)
             this.initialize();
 
@@ -302,7 +305,7 @@ class Menu {
         if (this.numberOfOptions == 12) {
             while (i <= this.options.length && _runCond) {
                 if (typeof this.options[i] == 'undefined')
-                    _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
+                    _runCond = !this.setOption(i, _functionCall, _title, _subTitle, _hover, _displayType, _btnClass, false);
                 else
                     i++;
             }
@@ -310,7 +313,7 @@ class Menu {
         else if (this.numberOfOptions == 15) {
             while (i <= this.options.length && _runCond) {
                 if (typeof this.options[i] == 'undefined')
-                    _runCond = !this.setOption(i, $functionCall, $title, $subTitle, $hover, $disabled, $invisible, $secret, _btnClass, false);
+                    _runCond = !this.setOption(i, _functionCall, _title, _subTitle, _hover, _displayType, _btnClass, false);
                 else
                     i++;
             }
@@ -318,7 +321,7 @@ class Menu {
 
         return i;
     }
-    static setExplorationOptions(northRoom = undefined, eastRoom = undefined, southRoom = undefined, westRoom = undefined, downRoom = undefined, upRoom = undefined) {
+    static setExplorationOptions(_northRoom = undefined, _eastRoom = undefined, _southRoom = undefined, _westRoom = undefined, _downRoom = undefined, _upRoom = undefined) {
         if (this.initialized !== true)
             this.initialize();
 
@@ -329,8 +332,8 @@ class Menu {
         var _secret = false;
         var _room = undefined;
 
-        if (downRoom instanceof Room) {
-            _room = downRoom;
+        if (_downRoom instanceof Room) {
+            _room = _downRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -338,10 +341,10 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
-        if (northRoom instanceof Room) {
-            _room = northRoom;
+        if (_northRoom instanceof Room) {
+            _room = _northRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -349,10 +352,10 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
-        if (upRoom instanceof Room) {
-            _room = upRoom;
+        if (_upRoom instanceof Room) {
+            _room = _upRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -360,10 +363,10 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
-        if (westRoom instanceof Room) {
-            _room = westRoom;
+        if (_westRoom instanceof Room) {
+            _room = _westRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -371,10 +374,10 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
-        if (southRoom instanceof Room) {
-            _room = southRoom;
+        if (_southRoom instanceof Room) {
+            _room = _southRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -382,10 +385,10 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
-        if (eastRoom instanceof Room) {
-            _room = eastRoom;
+        if (_eastRoom instanceof Room) {
+            _room = _eastRoom;
             if (player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
             else if (player.room.location === _room.location || typeof _room.location === 'undefined')
@@ -393,7 +396,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, undefined, undefined, _room.isHidden(player.room), "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
         }
         _room = undefined;
     }
@@ -453,7 +456,7 @@ class Menu {
             }
 
             if (typeof this.options[j] === 'undefined')
-                _blob += this.createButton("", "&nbsp;", "&nbsp;", "", "", 1, 1, 0);
+                _blob += this.createButton("", "&nbsp;", "&nbsp;", "", "", 2);
             else {
                 _blob += this.createButton(this.options[j], _key);
             }
@@ -469,31 +472,29 @@ class Menu {
         _blob += '</div>';
         document.getElementById(this.choiceContainer).innerHTML = _blob;
     }
-    static createButton($functionCall, $title = "", $subTitle = "&nbsp;", $key = "", $hover = "", $disabled = 0, $invisible = 0, $secret = 0, $btnClass = "btn-basic") {
+    static createButton(_functionCall, _title = "", _subTitle = "&nbsp;", _key = "", _hover = "", _displayType = 0, _btnClass = "btn-basic") {
         if (this.initialized !== true)
             this.initialize();
 
-        if (typeof $functionCall == 'object') {
-            $key = $title;
-            $title = (typeof $functionCall[1] === 'undefined' ? $title : $functionCall[1]);
-            $subTitle = (typeof $functionCall[2] === 'undefined' || $functionCall[2].length < 1) ? "&nbsp;" : $functionCall[2];
-            $hover = (typeof $functionCall[3] === 'undefined' ? "" : $functionCall[3]);
-            $disabled = (typeof $functionCall[4] === 'undefined' ? $disabled : $functionCall[4]);
-            $invisible = (typeof $functionCall[5] === 'undefined' ? $invisible : $functionCall[5]);
-            $secret = (typeof $functionCall[6] === 'undefined' ? $secret : $functionCall[6]);
-            $btnClass = (typeof $functionCall[7] === 'undefined' ? $btnClass : $functionCall[7]);
-            $functionCall = $functionCall[0];
+        if (typeof _functionCall == 'object') {
+            _key = _title;
+            _title = (typeof _functionCall[1] === 'undefined' ? _title : _functionCall[1]);
+            _subTitle = (typeof _functionCall[2] === 'undefined' || _functionCall[2].length < 1) ? "&nbsp;" : _functionCall[2];
+            _hover = (typeof _functionCall[3] === 'undefined' ? "" : _functionCall[3]);
+            _displayType = (typeof _functionCall[4] === 'undefined' ? 0 : _functionCall[4]);
+            _btnClass = (typeof _functionCall[5] === 'undefined' ? _btnClass : _functionCall[5]);
+            _functionCall = _functionCall[0];
         }
         
-        if ($functionCall.length > 0 && !$functionCall.endsWith(")"))
-            $functionCall = $functionCall + "()";
-        if ($btnClass == undefined || $btnClass.length == 0) $btnClass = "btn-basic";
+        if (_functionCall.length > 0 && !_functionCall.endsWith(")"))
+            _functionCall = _functionCall + "()";
+        if (_btnClass == undefined || _btnClass.length == 0) _btnClass = "btn-basic";
 
         var _blob = "";
-        _blob += '<a class="btn {0} {1}" type="button" onClick="{2}" title="{3}" style="{4}" {5}>'.format($btnClass, ($invisible ? 'invisible' : ''), $functionCall, $hover, ($secret ? 'opacity:0.0;' : ''), ($disabled === true ? 'disabled=disabled' : ''));
-        if ($key !== false) _blob += '<small style="position:absolute; right:0px; top:-3px;">[{0}]</small>'.format($key);
-        _blob += '<div class="trim"><span class="button-title">{0}</span></div>'.format($title);
-        _blob += '<small class="trim"><span>{0}</span></small>'.format($subTitle);
+        _blob += '<a class="btn {0} {1}" type="button" onClick="{2}" title="{3}" style="{4}" {5}>'.format(_btnClass, (_displayType == 2 ? 'invisible' : ''), _functionCall, _hover, (_displayType == 4 ? 'opacity:0.0;' : ''), (_displayType == 1 ? 'disabled=disabled' : ''));
+        if (_key !== false) _blob += '<small style="position:absolute; right:0px; top:-3px;">[{0}]</small>'.format(_key);
+        _blob += '<div class="trim"><span class="button-title">{0}</span></div>'.format(_title);
+        _blob += '<small class="trim"><span>{0}</span></small>'.format(_subTitle);
         _blob += '</a>';
         return _blob;
     }
