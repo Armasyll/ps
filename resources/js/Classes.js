@@ -1952,6 +1952,13 @@ class Character extends Entity {
         }
     }
 
+    getFullName() {
+        if (this.surname != undefined && this.surname.length > 0)
+            return "{0} {1}".format(this.name, this.surname);
+        else
+            return this.name;
+    }
+
     calculateManaCost(_cost = 0) {
         if (!isNaN(_cost)) {}
         else if (_cost instanceof Spell) {

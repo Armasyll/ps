@@ -92,7 +92,7 @@ charlie.setCharacterDisposition(marty,   new Disposition(25, 50, 50, 0, 15, 0));
 charlie.setCharacterDisposition(nick,	 new Disposition(75, 25, 25, 10, 15, 5));
 charlie.setCharacterDisposition(ozzy,    new Disposition(0, 50, 75, 0, 25, 0));
 charlie.setCharacterDisposition(pandora, new Disposition(15, 75, 50, 2, 25, 5));
-charlie.setCharacterDisposition(remmy,   new Disposition(50, 50, 50, 0, 0, 0));
+charlie.setCharacterDisposition(remmy,   new Disposition(75, 55, 50, 0, 0, 15));
 charlie.setCharacterDisposition(wolter,  new Disposition(25, 50, 50, 0, 15, 0));
 charlie.setCharacterDisposition(velvet,  new Disposition(0, 50, 75, 0, 0, 0));
 charlie.addAvoidedSpecies("fox");
