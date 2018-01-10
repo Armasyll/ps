@@ -253,18 +253,56 @@ function charlieSexFellatioGive() {
     Content.add("<p>Your {0} move against her head until they both are at the base of her ears. You don't know if foxes have any pleasure spots there, but you decide to give them a few firm strokes to the tips.</p>".format(player.getHands()))
     Content.add("<p>Charlie lets out a garbled moan and for a few seconds you see her eyes open as they roll back in her head. \"Hah, wow, you really like that?\" you ask her as the corners of her mouth twitch into a dopy, non-Charlie-like smile around your girth.</p>");
     Content.add("<p>Once her eyes squeeze shut again, you feel her pull back like the last few times. Once its just the head of your penis in her mouth, instead of bobbing forward again and taking more of you, you feel her tongue flick and prod at the tip. It was odd, for the first few moments, \"Oh, god, whatever you're doing don't stop!\" until she found a spot that made your {0} curl and caused you to sqeeuze at her ears a little harder than you should have.</p>".format(player.getHands()));
-    Content.add("<p>Sucking harder than before, she continued lashing at that one spot that made had you practically cradling her head in your arms, trying to force her muzzle into your crotch. Your peak was approaching, and your hips were giving arrythmic thrusts with her quick work. As your breathing became laboured, and you felt like your were about to blow, one of her paws pushed between your legs and under your balls, and grinded against your taint.</p>");
+    Content.add("<p>Sucking harder than before, she continues lashing at that one spot that made had you practically cradling her head in your arms, trying to force her muzzle into your crotch. Your peak was approaching, and your hips were giving arrythmic thrusts with her quick work. As your breathing became laboured, and you felt like your were about to blow, one of her paws pushed between your legs and under your balls, and grinded against your taint.</p>");
     Content.add("<p>Right as your were seeing stars, feeling yourself ready to cum, her other paw grabbed around the base of your cock, squeezing it like a vice. Still, though, she kept working her magic tongue, and you felt that moment of bliss finally come, and then the heat of her mouth and throat taking you all the way to where her other paw continued its choke hold on your rod.</p>");
-    Content.add("<p>Pulling her head back one last time, she let go of your dick, and you felt the heat of your seed splash against her tongue and all over what of your dick was in her mouth. Her tongue licked at your and stirred it around in her mouth as it seaped out from between her lips and down her chin.</p>");
-    Content.add("<p>Taking in short, small swallows as she continued to try to suck you dry, you assumed she was tasting it until she released your member from her mouth, leaving what looked like a hickey over a quarter of your dick.</p>");
-    Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt after that, her faced entered your vision, and her warm, wet slips pressed against yours.</p>");
-    Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, Charlie's tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>");
-    Content.add("<p>The worst thing, though, was that you were really turned on.</p>");
+    if (charlie.fellatioGiveCount > 6) {
+        Content.add("<p>Pulling her head back one last time, she lets go of your dick, and you feel the warmth of your cum splash against her tongue and over what of yourself was in her mouth. Her tongue licks at your tip, mixing saliva and cum around in her mouth as it seaps out from between her lips and down her chin.</p>");
+        Content.add("<p>You watch as she takes in short, small gulps between sucking what's left out of you and your own petering out orgasm. With her cheeks showing a noticable bulge, you assume she's probably trying to enjoy the taste until she released your member from her mouth with a wet pop, leaving what looks like a hickey over a quarter of your dick.</p>");
+        if (charlie.lust > 66) {
+            Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt after that, her faced entered your vision, and her warm, wet slips pressed against yours.</p>");
+            Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, Charlie's tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>");
+            Content.add("<p>The worst thing, though, was that you were really turned on.</p>");
+            charlie.odorSex += 35;
+        }
+        else {
+            Content.add("<p>Her head tilts back, revealing the soft fur of her neck, as her purses her lips and swallows with a loud gulp. You can see some of her saliva and your seed had escaped her lips while she was blowing you, and left streaks down her lips, and the fur of her chin and neck.</p>");
+            Content.add("<p>Swallowing again, the bulge of her cheeks is gone.</p>");
+            charlie.odorSex += 15;
+        }
+    }
+    else {
+        Content.add("<p>Pulling her head back one last time, she lets go of your dick, and you feel the warmth of your cum splash against her tongue and pool around your member. She takes in an unexpected gasp, and from what you can guess, breathes in some of your load as she pulls her head back and muffles cough with a paw.</p>");
+        Content.add("<p>Instead of another load of cum going in her muzzle, though, it lands across it, giving her a pearly white streak from her nose to her ear. Opening her mouth, she grabs your shaft and tries to aim it at her tongue after another spurt of cum hits her chin and neck. A desperate huff leaves her as she strokes you, and a last streak of cum lands across the roof of her mouth and tongue.</p>");
+        Content.add("<p>Giving your dick a last, slow stroke, her tongue catches the seed that dribbles out. Letting your erection hang and slowly grow flaccid, she runs a paw over her face, collecting your cum, and tries to lick it clean.</p>");
+        Content.add("<p>You can't really tell if she did a good job, since cum blends really well with her fur colour.</p>");
+        charlie.odorSex += 50;
+    }
+
     characterIncFellatio(remmy, charlie);
     charlie.incLust(15);
     charlie.decStamina(10);
-    remmy.decLust(15);
+
+    remmy.decLust(25);
     remmy.decStamina(5);
+    remmy.odorSex = 10;
+
+    if (player.stamina < 15 || player.lust == 0) {
+        _blob += "Deciding you've had enough fun, you ";
+        if (player.hasPants()) {
+            if (player.hasUnderwear())
+                _blob += "tuck your flaccid dick into your {1} and slip your {1} back on.".format(player.getUnderwear(), player.getPants());
+            else
+                _blob += "slip your {0} back on over your flaccid dick.".format(player.getPants());
+        }
+        else if (player.hasUnderwear())
+            _blob += "tuck your flaccid dick into your {0}.".format(player.getUnderwear());
+        else
+            _blob += "wipe your dick on her muzzle."; // idk :v
+        Content.add("<p>" + _blob + "</p>");
+        _blob = "";
+        if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation")
+            Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
+    }
 }
 function _charlieSexFellatioGiveReluctantFollow() {
     _character = charlie;

@@ -1456,7 +1456,9 @@ class Character extends Entity {
         this.sanity = 100;
         this.lust = 25;
         this.rut = false;
-        this.clean = 100;
+        this.cleanliness = 0;
+        this.odorSex = 0;
+        this.odorSweat = 0;
         this.annoyed = 0;
         this.living = true;
 
@@ -2083,6 +2085,12 @@ class Character extends Entity {
     }
     isHolding(_item) {
         return this.holding(_item);
+    }
+
+    clean() {
+        this.cleanliness = 100;
+        this.odorSex = 0;
+        this.odorSweat = 0;
     }
 
     setAge(_int) {
