@@ -11,3 +11,9 @@ entityIndexes.forEach(function(_entity) {
 Menu.initialize();
 resizeGui();
 mainMenu();
+
+document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
+document.getElementById("toggleInventoryModalButton").innerHTML = (enablePopups ? "Use Menu" : "Use Popup") + " Inventory";
+document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal" : "Use Wide") + " Menu";
+document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
+document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Disable" : "Enable") + " Violence";

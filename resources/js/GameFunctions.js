@@ -91,6 +91,56 @@ function updatePlayerInfoDisplay() {
     }
 }
 
+function toggleDebug() {
+    debug = !debug;
+    document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
+}
+function toggleInventoryModal() {
+    enablePopups = !enablePopups;
+    document.getElementById("toggleInventoryModalButton").innerHTML = (enablePopups ? "Use Menu Inventory" : "Use Popup Inventory");
+}
+function toggleMenuSize() {
+    Menu.useWideMenu ? useNormalMenu() : useWideMenu();
+    document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal Menu" : "Use Wide Menu");
+}
+function toggleRape() {
+    enableRape = !enableRape;
+    document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
+    
+    charactersIndexes.forEach(function(_character) {
+        if (enableRape && _character.age >= 18)
+            _character.addAvailableAction("rape");
+        else
+            _character.removeAvailableAction("rape");
+    }, this);
+}
+function toggleGore() {
+    enableGore = !enableGore;
+    document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Disable" : "Enable") + " Violence";
+}
+function setPOV(_int = 2) {
+    if (isNaN(_int)) {
+        Number.parseInt(_int);
+    }
+    switch (_int) {
+        case 1 : {
+            pov = 1
+            break;
+        }
+        case 2 : {
+            pov = 2;
+            break;
+        }
+        case 3 : {
+            pov = 3;
+            break;
+        }
+        default : {
+            pov = 2;
+        }
+    }
+}
+
 function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false, _filter = undefined) {
     var _body = "";
     _fromEntity.items.forEach(function(_item) {
@@ -487,7 +537,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExe
         runLastMenu();
 
     if (_clearEventsExecutedThisTick)
-        eventsExecutedThisTick.clear();
+        _eventsExecutedThisTick.clear();
     return currentTime;
 }
 /**
@@ -1823,6 +1873,28 @@ function characterIncMoney(_character, _int) {
     if (_character == player) updatePlayerInfoDisplay();
     return _character.money;
 }
+function characterSetLust(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.setLust(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.lust;
+}
+function characterDecLust(_character, _int) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    _character.decLust(_int);
+    if (_character == player) updatePlayerInfoDisplay();
+    return _character.lust;
+}
 function setLife(_int) {return characterSetLife(player, _int);}
 function incLife(_int) {return characterIncLife(player, _int);}
 function decLife(_int) {return characterDecLife(player, _int);}
@@ -1844,6 +1916,9 @@ function decManaMax(_int) {return characterDecManaMax(player, _int);}
 function setMoney(_int) {return characterSetMoney(player, _int);}
 function incMoney(_int) {return characterIncMoney(player, _int);}
 function decMoney(_int) {return characterDecMoney(player, _int);}
+function setLust(_int) {return characterSetLust(player, _int);}
+function incLust(_int) {return characterIncLust(player, _int);}
+function decLust(_int) {return characterDecLust(player, _int);}
 
 function cashCheque(_character = player) {
     if (!(_character instanceof Character)){
@@ -2229,8 +2304,8 @@ function saveGame() {
             "enableAutoscroll":enableAutoscroll,
             "currentTime":currentTime,
             "previousTime":previousTime,
-            "usePopups":usePopups,
-            "interruptTick":interruptTick,
+            "enablePopups":enablePopups,
+            "_interruptTick":_interruptTick,
             "characters":_charArr,
             "furniture":_furnArr
         }
@@ -2313,8 +2388,8 @@ function loadGame(_json) {
     if (_json.hasOwnProperty("enableAutoscroll")) enableAutoscroll = _json["enableAutoscroll"];
     if (_json.hasOwnProperty("currentTime")) currentTime = new Date(_json["currentTime"]);
     if (_json.hasOwnProperty("previousTime")) previousTime = new Date(_json["previousTime"]);
-    if (_json.hasOwnProperty("usePopups")) usePopups = _json["usePopups"];
-    if (_json.hasOwnProperty("interruptTick")) interruptTick = _json["interruptTick"];
+    if (_json.hasOwnProperty("enablePopups")) enablePopups = _json["enablePopups"];
+    if (_json.hasOwnProperty("_interruptTick")) _interruptTick = _json["_interruptTick"];
     startGame();
 }
 function loadFile(input) {

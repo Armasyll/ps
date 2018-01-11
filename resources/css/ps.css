@@ -50,8 +50,14 @@ img {
 	display:block;
 	vertical-align:top;
 }
-.btn-info.locked {
+.btn.locked {
     background-image: url('../images/misc/keyhole.svg');
+	background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left center; 
+}
+.btn.bewitched {
+    background-image: url('../images/misc/bewitched.png');
 	background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: left center; 

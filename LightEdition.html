@@ -304,24 +304,6 @@
         <script data-description="General Interactions" src="resources/data/interact/General.js"></script>
         
         <script data-description="Menus" src="resources/js/Menus.js"></script>
-        <script data-description="Last modifications to DOM">
-            toggleDebug = function() {
-                document.getElementById("toggleDebugButton").innerHTML = (debug ? "Enable" : "Disable") + " Debugging";
-                debug = !debug;
-            };
-            toggleInventoryModal = function() {
-                document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Popup Inventory" : "Use Menu Inventory");
-                usePopups = !usePopups;
-            };
-            toggleMenuSize = function() {
-                document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Wide Menu" : "Use Normal Menu");
-                Menu.useWideMenu ? useNormalMenu() : useWideMenu();
-            };
-            
-            document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
-            document.getElementById("toggleInventoryModalButton").innerHTML = (usePopups ? "Use Menu Inventory" : "Use Popup Inventory");
-            document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal Menu" : "Use Wide Menu");
-        </script>
         <script data-description="Start the game" src="resources/js/Start.js"></script>
         <script data-description="Start the game" src="resources/data/Start.js"></script>
         <script data-description="Events" src="resources/data/initialize/GameEvents.js"></script>

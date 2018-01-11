@@ -59,7 +59,14 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
                 if (character != player)
                     _character = character;
             });
-            Menu.setOption(2, "characterInteract(" + _character.id + ", true)", "Interact with " + _character.name, (_character.age + " year old " + _character.grammaticalGender() + "."));
+            Menu.setOption(
+                2, 
+                "characterInteract(" + _character.id + ", true)", 
+                "Interact with " + _character.name, (_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age + " year old " + _character.grammaticalGender() + "."),
+                undefined,
+                undefined,
+                "btn-basic {0}".format(player.manaMax > 24 && _character.isBewitched() ? "bewitched" : "")
+            );
         }
         else if (player.room.characters.size > 1)
             Menu.setOption(2, "localCharactersMenu()", "Interact with those near you.");
@@ -98,8 +105,16 @@ function localCharactersMenu() {
     
     Menu.clear();
     for (var [_characterID, _character] of player.room.characters.entries()) {
-        if (_character != player)
-            Menu.addOption("characterInteract({0}, true)".format(_character.id), _character.name, "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()));
+        if (_character != player) {
+            Menu.addOption(
+                "characterInteract({0}, true)".format(_character.id), 
+                _character.name, 
+                "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()),
+                undefined,
+                undefined,
+                "btn-basic {0}".format(player.manaMax > 24 && _character.isBewitched() ? "bewitched" : "")
+            );
+        }
     }
     
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");

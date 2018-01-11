@@ -1064,7 +1064,7 @@ class Entity {
             this.availableActions = new Set();
             this.specialTypes = new Set();
 
-            this.addAction("look");
+            this.addAvailableAction("look");
             this.addSpecialType("exists");
         }
         
@@ -1122,7 +1122,7 @@ class Entity {
         return JSON.stringify(_blob, function(k, v) { return (v === undefined ? null : v)});
     }
 
-    addAction(_actions) {
+    addAvailableAction(_actions) {
         if (typeof _actions == 'undefined')
             return false;
         else if (_actions instanceof Array) {
@@ -1133,6 +1133,21 @@ class Entity {
         }
         else if (kActionTypes.has(_actions)) {
             this.availableActions.add(_actions);
+            return true;
+        }
+        return false;
+    }
+    removeAvailableAction(_actions) {
+        if (typeof _actions == 'undefined')
+            return false;
+        else if (_actions instanceof Array) {
+            _actions.forEach(function(_action) {
+                kActionTypes.has(_action) && this.availableActions.delete(_action);
+            }, this);
+            return true;
+        }
+        else if (kActionTypes.has(_actions)) {
+            this.availableActions.delete(_actions);
             return true;
         }
         return false;
@@ -1412,20 +1427,18 @@ class Character extends Entity {
         this.age = this.setAge(_age);
         this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
 
-        this.addAction("talk");
-        this.addAction("sex");
-        this.addAction("masturbate");
-        this.addAction("attack");
-        this.addAction("follow");
-        this.addAction("stay");
-        this.addAction("hold");
-        this.addAction("open"); // inventory... maybe :v
-        this.addAction("give");
-        this.addAction("remove");
-        this.addAction("take");
-        this.addAction("wear");
-        this.addAction("hug");
-        this.addAction("kiss");
+        this.addAvailableAction("talk");
+        this.addAvailableAction("attack");
+        this.addAvailableAction("follow");
+        this.addAvailableAction("stay");
+        this.addAvailableAction("hold");
+        this.addAvailableAction("open"); // inventory... maybe :v
+        this.addAvailableAction("give");
+        this.addAvailableAction("remove");
+        this.addAvailableAction("take");
+        this.addAvailableAction("wear");
+        this.addAvailableAction("hug");
+        this.addAvailableAction("kiss");
 
         this.currentActions = new Map();
         this.currentInteractions = new Map(); // <this.bodyParts.*, [interactionType, Character, Character.bodyParts.*]>
@@ -1648,7 +1661,7 @@ class Character extends Entity {
             if (!(this.availableActions instanceof Set)) this.availableActions = new Set();
             _tmpArr = JSON.parse(json["availableActions"]);
             _tmpArr.forEach(function(_int) {
-                this.addAction(_int);
+                this.addAvailableAction(_int);
             }, this);
         } catch (e) {}
         delete json["availableActions"];
@@ -2098,7 +2111,21 @@ class Character extends Entity {
             _int = 0;
         else if (_int < 0)
             _int = 0;
+        else if (_int > 9001)
+            _int = 9001
+        else
+            Number.parseInt(_int);
         this.age = _int;
+
+        if (this.age >= 18) {
+            this.addAvailableAction("sex");
+            this.addAvailableAction("masturbate");
+        }
+        else {
+            this.removeAvailableAction("sex");
+            this.removeAvailableAction("masturbate");
+        }
+
         return _int;
     }
     incAge(_int = 1) {
@@ -6369,9 +6396,9 @@ class Item extends Entity {
         else {
             super(_id, _name, _description, _image);
 
-            this.addAction("put");
-            this.addAction("take");
-            this.addAction("hold");
+            this.addAvailableAction("put");
+            this.addAvailableAction("take");
+            this.addAvailableAction("hold");
 
             this.addSpecialType(_specialTypes);
 
@@ -6502,8 +6529,8 @@ class Clothing extends Item {
         else {
             super(_id, _name, _description, _image, _plural);
 
-            this.addAction("wear");
-            this.addAction("remove");
+            this.addAvailableAction("wear");
+            this.addAvailableAction("remove");
 
             this.setType(_type);
 
@@ -6544,7 +6571,7 @@ class Consumable extends Item {
         else {
             super(_id, _name, _description, _image, _plural, _specialTypes);
 
-            this.addAction("consume");
+            this.addAvailableAction("consume");
 
             this.setType(_type);
         }
@@ -6690,7 +6717,7 @@ class Furniture extends Entity {
         try {
             _tmpArr = JSON.parse(json["availableActions"]);
             _tmpArr.forEach(function(_int) {
-                this.addAction(_int);
+                this.addAvailableAction(_int);
             }, this);
         } catch (e) {}
         delete json["availableActions"];
@@ -6782,122 +6809,122 @@ class Furniture extends Entity {
 
         switch(this.type) {
             case "bed" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("lay");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("lay");
+                this.addAvailableAction("sit");
                 break;
             }
             case "chair" : {
-                this.addAction("sit");
-                this.addAction("sleep");
+                this.addAvailableAction("sit");
+                this.addAvailableAction("sleep");
                 break;
             }
             case "recliner" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("lay");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("lay");
+                this.addAvailableAction("sit");
                 break;
             }
             case "loveseat" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("lay");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("lay");
+                this.addAvailableAction("sit");
                 break;
             }
             case "couch" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("lay");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("lay");
+                this.addAvailableAction("sit");
                 break;
             }
             case "table" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("sit");
                 break;
             }
             case "desk" : {
-                this.addAction("open");
-                this.addAction("sleep");
-                this.addAction("sit");
+                this.addAvailableAction("open");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("sit");
                 break;
             }
             case "shelf" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "cupboard" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "cabinet" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "bureau" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "hook" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "tv" : {
-                this.addAction("use");
-                this.addAction("look");
+                this.addAvailableAction("use");
+                this.addAvailableAction("look");
                 break;
             }
             case "fridge" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
             case "oven" : {
-                this.addAction("use");
-                this.addAction("open");
+                this.addAvailableAction("use");
+                this.addAvailableAction("open");
                 break;
             }
             case "microwave" : {
-                this.addAction("use");
-                this.addAction("open");
+                this.addAvailableAction("use");
+                this.addAvailableAction("open");
                 break;
             }
             case "toaster" : {
-                this.addAction("use");
-                this.addAction("open");
+                this.addAvailableAction("use");
+                this.addAvailableAction("open");
                 break;
             }
             case "tub" : {
-                this.addAction("use");
-                this.addAction("sleep");
-                this.addAction("lay");
-                this.addAction("sit");
+                this.addAvailableAction("use");
+                this.addAvailableAction("sleep");
+                this.addAvailableAction("lay");
+                this.addAvailableAction("sit");
                 break;
             }
             case "shower" : {
-                this.addAction("use");
-                this.addAction("sit");
+                this.addAvailableAction("use");
+                this.addAvailableAction("sit");
                 break;
             }
             case "sink" : {
-                this.addAction("use");
+                this.addAvailableAction("use");
                 break;
             }
             case "toilet" : {
-                this.addAction("use");
-                this.addAction("sit");
+                this.addAvailableAction("use");
+                this.addAvailableAction("sit");
                 break;
             }
             case "mirror" : {
-                this.addAction("look");
-                this.addAction("use");
+                this.addAvailableAction("look");
+                this.addAvailableAction("use");
                 break;
             }
             case "basket" : {
-                this.addAction("open");
+                this.addAvailableAction("open");
                 break;
             }
         }
@@ -6971,6 +6998,10 @@ class ElectronicDevice extends Item {
         super(_id, _name, _description, _image);
     }
 }
+/**
+ * Class that represents all Phones
+ * @extends {Item}
+ */
 class Phone extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _owner = undefined) {
         super(_id, _name, _description, _image);
@@ -7136,6 +7167,10 @@ class WebSite {
             return undefined;
     }
 }
+/**
+ * Class that represents all Spells
+ * @extends {Entity}
+ */
 class Spell extends Entity {
     /**
      * Creates a Spell
@@ -7518,7 +7553,7 @@ class GameEvent {
     }
 
     execute() {
-        if (eventsExecutedThisTick.has(this))
+        if (_eventsExecutedThisTick.has(this))
             return;
 
         if (debug) console.log("Executing " + this.id);
@@ -7531,7 +7566,7 @@ class GameEvent {
             this.delete();
         }
 
-        eventsExecutedThisTick.add(this);
+        _eventsExecutedThisTick.add(this);
     }
 
     delete() {

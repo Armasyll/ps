@@ -109,10 +109,11 @@ var enableAutoscroll = true;
 //var music = new Audio();
 var currentTime = new Date("2017-07-03T17:35:00.000Z");
 var previousTime = currentTime;
-var eventsExecutedThisTick = new Set(); // Set of Events executed during the current Tick
-var scenesViewedThisWindow = new Set(); // Set of Events executed during the current Room visit
-var usePopups = false;
-var interruptTick = false;
+var _eventsExecutedThisTick = new Set(); // Set of Events executed during the current Tick
+var _scenesViewedThisWindow = new Set(); // Set of Events executed during the current Room visit
+var enablePopups = false;
+var _interruptTick = false;
+var pov = 2; // 1 - first person, 2 - second person, 3 - third person
 
 const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
 const kBodyPartTypes = new Set(["ankles","anus","arms","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","leftAnkle","leftArm","leftBreast","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightBreast","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulder","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);

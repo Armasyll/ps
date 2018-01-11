@@ -282,8 +282,8 @@ function charlieSexFellatioGive() {
     charlie.incLust(15);
     charlie.decStamina(10);
 
-    remmy.decLust(25);
-    remmy.decStamina(5);
+    decLust(25);
+    decStamina(5);
     remmy.odorSex = 10;
 
     if (player.stamina < 15 || player.lust == 0) {

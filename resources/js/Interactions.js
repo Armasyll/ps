@@ -32,25 +32,25 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
 
     if (Menu.showingBaseMenu) {
         if (debug) console.log("\tBase Menu and Room for ".format(_room.sid));
-        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !scenesViewedThisWindow.has(player.previousRoom)));
+        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !_scenesViewedThisWindow.has(player.previousRoom)));
 
-        scenesViewedThisWindow.add(player.previousRoom);
+        _scenesViewedThisWindow.add(player.previousRoom);
 
         baseMenu(0, 1);
         
         if (_previousRoomDifferent)
-            scenesViewedThisWindow.clear();
+            _scenesViewedThisWindow.clear();
     }
     else {
         Menu.clear();
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-        scenesViewedThisWindow.add(player.previousRoom);
+        _scenesViewedThisWindow.add(player.previousRoom);
 
         if (debug) console.log("\tRoom for {0}".format(_room.sid));
         lastMenu = "roomInteract({0}, false)".format(_room.sid);
         
-        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !scenesViewedThisWindow.has(player.previousRoom)));
+        unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !_scenesViewedThisWindow.has(player.previousRoom)));
 
         _room.furniture.forEach(function(_furniture) {
             Menu.addOption("furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
@@ -59,7 +59,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         Menu.generate();
     }
 
-    if (!scenesViewedThisWindow.has(player.previousRoom)) {
+    if (!_scenesViewedThisWindow.has(player.previousRoom)) {
         if (player.room.characters.size > 1) {
             var _blob = "";
             var _characters = [];
@@ -148,7 +148,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         }
     }, this);
 
-    eventsExecutedThisTick.clear();
+    _eventsExecutedThisTick.clear();
 }
 
 function characterInteract(_character, _clearContent = true) {
@@ -243,7 +243,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
             _filter = undefined;
     }
 
-    if (usePopups) {
+    if (enablePopups) {
         if (!_allowSwitch) {
             $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
             $("#personalInventoryModal-body").html(_generateEntityItemsGraphicalList(player, _character, false));
@@ -507,7 +507,7 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
 
-    if (usePopups) {
+    if (enablePopups) {
         $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
         $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
         $('#dualInventoryContent-characterA').html(_generateEntityItemsGraphicalList(player, _furniture, true));
@@ -1018,7 +1018,7 @@ function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
         player.name
     );
 
-    if (usePopups) {
+    if (enablePopups) {
 
     }
     else {
