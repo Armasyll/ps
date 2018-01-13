@@ -1332,7 +1332,13 @@ function characterIncVaginal(_characterA, _characterB) {
         else
             return undefined;
     }
-    if (_characterB.sex == 0)
+    if (_characterA.sex == 1 && _characterB.sex == 0) {
+        _tmpChar = _characterB;
+        _characterB = _characterA;
+        _characterA = _tmpChar;
+        delete _tmpChar;
+    }
+    else if (_characterB.sex == 0)
         return false;
     _characterA.incVaginalGiveCount(_characterB);
     if (_characterB instanceof Character) _characterB.incVaginalReceiveCount(_characterA);
@@ -1363,6 +1369,8 @@ function characterIncFellatio(_characterA, _characterB) {
         _characterA = _tmpChar;
         delete _tmpChar;
     }
+    else if (_characterB.sex == 1)
+        return false;
     _characterA.incFellatioGiveCount(_characterB);
     _characterB.incFellatioReceiveCount(_characterA);
     return true;
@@ -1391,6 +1399,8 @@ function characterIncCunnilingus(_characterA, _characterB) {
         _characterA = _tmpChar;
         delete _tmpChar;
     }
+    else if (_characterB.sex == 0)
+        return false;
     _characterA.incCunnilingusGiveCount(_characterB);
     _characterB.incCunnilingusReceiveCount(_characterA);
     return true;
