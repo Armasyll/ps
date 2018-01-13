@@ -56,7 +56,7 @@ function charlieEatCharlie() {
     Content.add("<p>No, no you are not. There&apos;s an entire apartment full of animals here, and you are still so very, very hungry.</p>");
     Content.add("<p>(Written by Zorotokon, used with permission.)</p>");
 
-    Content.add("<img src='images/Remmy Horror TT1 by akella.jpg'/>");
+    Content.add("<img src='resources/images/Remmy Horror TT1 by akella.jpg'/>");
     Content.add("<p style='dispay:inline;'>(Image by Akella, used with permission.)</p>");
 
     charlie.moveToRoom(limbo);
