@@ -52,11 +52,11 @@ function charlieInteract(_clearContent = true) {
     
     if (_clearContent) {
         if (player.hasItem(charlieBeatingHeart) && _character.hasItem(charlieBeatingHeart))
-            Content.add("<p>You see Charlie run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>");
+            Content.add("<p>You see {0} run a paw up her chest as she looks at you in confusion. \"You alright, Charlie?\" you ask her, and she nods slowly.</p>".format(_character.name));
     }
 
     if (enableGore && enableRape)
-        Menu.addOption("charlieEatCharlie()", "Murder and eat Charlie");
+        Menu.addOption("charlieEatCharlie()", "Murder and eat {0}".format(_character.name));
 
     unsafeExec("{0}{1}Interact({2})".format(player.room.sid, _character.id.capitalize(), _clearContent));
 }
@@ -106,8 +106,11 @@ function charlieSex() {
     }
 }
 function charlieSexFellatioGive() {
+    _character = charlie;
+
     _ctf = calculateChanceToFuck(remmy, charlie);
     _blob = "";
+
     if (player.hasItem(charlieBeatingHeart) && _ctf < 50)
         _blob += "\"Blow me,\" you tell the vixen, ";
     else
@@ -153,7 +156,7 @@ function charlieSexFellatioGive() {
                 Menu.clear();
                 Menu.addOption(_charlieSexFellatioGiveReluctantFollow(), "Yes", "Go somewhere discrete");
                 Menu.addOption(_charlieSexFellatioGiveReluctantForce(), "No", "Fuck her in front of {0}".format(_characters.length == 1 ? _characters[0].name : "the others"));
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(charlie.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + charlie.name);
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false)".format(charlie.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
                 Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
                 Menu.generate();
                 
@@ -165,25 +168,25 @@ function charlieSexFellatioGive() {
                 _blob += "and her snarl barely leaves her face as her head dips down. You double-check that your company is sleeping.";
             if (_characters.length == 1) {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and before you're able to check if {0} is sleeping, you feel Charlie's paw on your thigh.".format(_characters[0].name);
+                    _blob += "and before you're able to check if {1} is sleeping, you feel {0}'s paw on your thigh.".format(_character.name, _characters[0].name);
                 else if (charlie.exhibitionism > 33)
-                    _blob += "glancing over at {0} to ensure they're sleeping. You barely see Charlie's eyes flicker in {1} direction.".format(_characters[0].name, _characters[0].subjectPronoun());
+                    _blob += "glancing over at {1} to ensure they're sleeping. You barely see {0}'s eyes flicker in {2} direction.".format(_character.name, _characters[0].name, _characters[0].subjectPronoun());
                 else
-                    _blob += "as both you and Charlie look over at {0}. From what you can tell, {1}'s sleeping.".format(_characters[0].name, _characters[0].subjectPronoun());
+                    _blob += "as both you and {0} look over at {1}. From what you can tell, {2}'s sleeping.".format(_character.name, _characters[0].name, _characters[0].subjectPronoun());
             }
             else if (_characters.length == 2) {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and glance over at {0} and {1} to see if they're still sleeping. Before you can check {1}, though, you feel Charlie's paw press against your waist.".format(_characters[0].name, _characters[1].name);
+                    _blob += "and glance over at {1} and {2} to see if they're still sleeping. Before you can check {2}, though, you feel {0}'s paw press against your waist.".format(_character.name, _characters[0].name, _characters[1].name);
                 else if (charlie.exhibitionism > 33)
-                    _blob += "glancing over at {0} and {1} as they sleep, you barely see Charlie's eyes flicker in their direction.".format(_characters[0].name, _characters[1].name);
+                    _blob += "glancing over at {1} and {2} as they sleep, you barely see {0}'s eyes flicker in their direction.".format(_character.name, _characters[0].name, _characters[1].name);
                 else
-                    _blob += "as both you and Charlie look over at {0} and {1}, and from what you can tell, they're both sleeping.".format(_characters[0].name, _characters[1].name);
+                    _blob += "as both you and {0} look over at {1} and {2}, and from what you can tell, they're both sleeping.".format(_character.name, _characters[0].name, _characters[1].name);
             }
             else {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and before you can check if the mammals around you are sound asleep, you feel Charlie's paw against your thigh.";
+                    _blob += "and before you can check if the mammals around you are sound asleep, you feel {0}'s paw against your thigh.".format(_character.name);
                 else if (charlie.exhibitionism > 33)
-                    _blob += "as you look around the room, making sure the mammals around you are really sleeping. You see Charlie just glance side to side.";
+                    _blob += "as you look around the room, making sure the mammals around you are really sleeping. You see {0} just glance side to side.".format(_character.name);
                 else
                     _blob += "the both of you look around the room, making sure that the mammals around you are sleeping.";
             }
@@ -251,7 +254,7 @@ function charlieSexFellatioGive() {
     Content.add("<p>Twirling her tongue between her lips, she pushes forward, taking a quarter of your cock past her now-glistening lips. Her tongue continues to glide around you, squeezing and pulling, and with its unique length, stroking every inch that she choose to take into her mouth. Your {0} find their way to the back of her head as she lets out a vibrating humm in response. \"You're amazing, Charlie,\" you say with a sigh.</p>".format(player.getHands()));
     Content.add("<p>Really looking down at her, you see her face is calm and relaxed, aside from her jaw. Her black lips then tug along your shaft as she pulls her head back, and tilts to the side, rubbing your meat against her teeth. You want to winch at the idea of being pricked by one of her canines, but she pushed forward again, taking half of your length before stopping, and squeezing around what's in her mouth with her tongue.</p>");
     Content.add("<p>Your {0} move against her head until they both are at the base of her ears. You don't know if foxes have any pleasure spots there, but you decide to give them a few firm strokes to the tips.</p>".format(player.getHands()))
-    Content.add("<p>Charlie lets out a garbled moan and for a few seconds you see her eyes open as they roll back in her head. \"Hah, wow, you really like that?\" you ask her as the corners of her mouth twitch into a dopy, non-Charlie-like smile around your girth.</p>");
+    Content.add("<p>{0} lets out a garbled moan and for a few seconds you see her eyes open as they roll back in her head. \"Hah, wow, you really like that?\" you ask her as the corners of her mouth twitch into a dopy, non-Charlie-like smile around your girth.</p>".format(_character.name));
     Content.add("<p>Once her eyes squeeze shut again, you feel her pull back like the last few times. Once its just the head of your penis in her mouth, instead of bobbing forward again and taking more of you, you feel her tongue flick and prod at the tip. It was odd, for the first few moments, \"Oh, god, whatever you're doing don't stop!\" until she found a spot that made your {0} curl and caused you to sqeeuze at her ears a little harder than you should have.</p>".format(player.getHands()));
     Content.add("<p>Sucking harder than before, she continues lashing at that one spot that made had you practically cradling her head in your arms, trying to force her muzzle into your crotch. Your peak was approaching, and your hips were giving arrythmic thrusts with her quick work. As your breathing became laboured, and you felt like your were about to blow, one of her paws pushed between your legs and under your balls, and grinded against your taint.</p>");
     Content.add("<p>Right as your were seeing stars, feeling yourself ready to cum, her other paw grabbed around the base of your cock, squeezing it like a vice. Still, though, she kept working her magic tongue, and you felt that moment of bliss finally come, and then the heat of her mouth and throat taking you all the way to where her other paw continued its choke hold on your rod.</p>");
@@ -260,7 +263,7 @@ function charlieSexFellatioGive() {
         Content.add("<p>You watch as she takes in short, small gulps between sucking what's left out of you and your own petering out orgasm. With her cheeks showing a noticable bulge, you assume she's probably trying to enjoy the taste until she released your member from her mouth with a wet pop, leaving what looks like a hickey over a quarter of your dick.</p>");
         if (charlie.lust > 66) {
             Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt after that, her faced entered your vision, and her warm, wet slips pressed against yours.</p>");
-            Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, Charlie's tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>");
+            Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, {0}'s tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>".format(_character.name));
             Content.add("<p>The worst thing, though, was that you were really turned on.</p>");
             charlie.odorSex += 35;
         }
@@ -308,6 +311,8 @@ function charlieSexFellatioGive() {
         Menu.addOption("_charlieSexFellatioGivePostAskShower()", "Shower?", "Ask her if she wants to share a shower.")
 }
 function _charlieSexFellatioGivePostAskShower() {
+    _character = charlie;
+
     Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
     characterFollow(remmy, charlie);
 }
@@ -316,6 +321,8 @@ function _charlieSexFellatioGiveReluctantFollow() {
 
 }
 function _charlieSexFellatioGiveReluctantForce() {
+    _character = charlie;
+    
     Content.add("<p>Her eyes open just enough for you to see her thin, black pupils. \"I hate you, {0}.\"</p>".format(player.getFullName()));
     if (charlie.isDating(player)) {
         charlie.dump(player);
