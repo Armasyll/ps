@@ -190,7 +190,7 @@ function characterInteract(_character, _clearContent = true) {
         Menu.setOption(0, "characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, 4);
 
     if (typeof window["{0}Sex".format(_character.id)] == "function") {
-        if ((player.age > 18 && _character.age > 18))
+        if ((player.age >= 18 && _character.age >= 18))
             Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex");
         else
             Menu.setOption(1, "characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);

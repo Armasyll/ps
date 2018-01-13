@@ -201,7 +201,7 @@ function charlieSexFellatioGive() {
 
             return false;
         }
-        _blob += " Pressing a single finger to her lips, she signals for you to be quiet, and you nod your head in agreement.";
+        _blob += " Pressing a single finger to her lips, she signals for you to be quiet.";
     }
 
     Content.add("<p>" + _blob + "</p>");
@@ -303,6 +303,13 @@ function charlieSexFellatioGive() {
         if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation")
             Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
     }
+    
+    if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation")
+        Menu.addOption("_charlieSexFellatioGivePostAskShower()", "Shower?", "Ask her if she wants to share a shower.")
+}
+function _charlieSexFellatioGivePostAskShower() {
+    Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
+    characterFollow(remmy, charlie);
 }
 function _charlieSexFellatioGiveReluctantFollow() {
     _character = charlie;
@@ -323,12 +330,11 @@ function _charlieSexUndressA() {
     
     _reluctant = player.hasItem(charlieBeatingHeart) && (charlie.lust < 15 && charlie.stamina < 15) || calculateChanceToFuck(remmy, charlie) < 50;
     _blob = "<p>";
-    if (_reluctant)
-        _blob += "With her paws tightly clenched, leaning ";
-    else
-        _blob += "Leaning ";
-
     if (charlie.isSitting()) {
+        if (_reluctant)
+            _blob += "With her paws tightly clenched, leaning ";
+        else
+            _blob += "Leaning ";
         _furnitureType = charlie.furniture instanceof Furniture ? charlie.furniture.type : undefined;
         switch (charlie.furniture.type) {
             case "chair" :
@@ -350,7 +356,15 @@ function _charlieSexUndressA() {
                 _blob += "back,";
             }
         }
-        _blob += "";
+    }
+    else if (charlie.isStanding()) {
+        if (_reluctant)
+            _blob += "Glaring at you,";
+        else
+            _blob += "While standing,";
+    }
+    else if (charlie.isLying()) {
+        _blob += "While still lying back";
     }
 
     if (charlie.hasPants() && charlie.hasUnderwear())
