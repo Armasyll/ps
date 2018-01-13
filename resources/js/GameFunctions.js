@@ -2304,6 +2304,8 @@ function saveGame() {
             "enableAutoscroll":enableAutoscroll,
             "currentTime":currentTime,
             "previousTime":previousTime,
+            "enableRape":enableRape,
+            "enableGore":enableGore,
             "enablePopups":enablePopups,
             "_interruptTick":_interruptTick,
             "characters":_charArr,
@@ -2388,6 +2390,10 @@ function loadGame(_json) {
     if (_json.hasOwnProperty("enableAutoscroll")) enableAutoscroll = _json["enableAutoscroll"];
     if (_json.hasOwnProperty("currentTime")) currentTime = new Date(_json["currentTime"]);
     if (_json.hasOwnProperty("previousTime")) previousTime = new Date(_json["previousTime"]);
+    if (document.getElementById("toggleRapeButton") != null) {
+        if (_json.hasOwnProperty("enableRape")) enableRape = _json["enableRape"];
+        if (_json.hasOwnProperty("enableGore")) enableGore = _json["enableGore"];
+    }
     if (_json.hasOwnProperty("enablePopups")) enablePopups = _json["enablePopups"];
     if (_json.hasOwnProperty("_interruptTick")) _interruptTick = _json["_interruptTick"];
     startGame();
