@@ -101,7 +101,11 @@ function toggleInventoryModal() {
 }
 function toggleMenuSize() {
     Menu.useWideMenu ? useNormalMenu() : useWideMenu();
-    document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal Menu" : "Use Wide Menu");
+    document.getElementById("toggleMenuSizeButton").innerHTML = "Use {0} Menu".format(Menu.useWideMenu ? "Normal" : "Wide");
+}
+function toggleAutoscroll() {
+    enableAutoscroll = !enableAutoscroll;
+    document.getElementById("toggleAutoscrollButton").innerHTML = (enableAutoscroll ? "Enable" : "Disable") + " Autoscroll";
 }
 function toggleRape() {
     enableRape = !enableRape;

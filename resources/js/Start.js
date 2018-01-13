@@ -14,7 +14,8 @@ mainMenu();
 
 document.getElementById("toggleDebugButton").innerHTML = (debug ? "Disable" : "Enable") + " Debugging";
 document.getElementById("toggleInventoryModalButton").innerHTML = (enablePopups ? "Use Menu" : "Use Popup") + " Inventory";
-document.getElementById("toggleMenuSizeButton").innerHTML = (Menu.useWideMenu ? "Use Normal" : "Use Wide") + " Menu";
+document.getElementById("toggleMenuSizeButton").innerHTML = "Use {0} Menu".format(Menu.useWideMenu ? "Normal" : "Wide");
+document.getElementById("toggleAutoscrollButton").innerHTML = (enableAutoscroll ? "Disable" : "Enable") + " Autoscroll";
 if (document.getElementById("toggleRapeButton") != null) {
 	document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
 	document.getElementById("toggleGoreButton").innerHTML = (enableGore ? "Disable" : "Enable") + " Violence";
