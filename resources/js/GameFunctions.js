@@ -1310,8 +1310,6 @@ function characterIncAnal(_characterA, _characterB) {
     _characterA.incAnalGiveCount(_characterB);
     if (_characterB instanceof Character) _characterB.incAnalReceiveCount(_characterA);
     else _characterA.incMasturbateCount();
-    _characterA.incSexCount(_characterB);
-    if (_characterB instanceof Character) _characterB.incSexCount(_characterA);
     return true;
 }
 /**
