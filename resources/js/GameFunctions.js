@@ -1340,7 +1340,7 @@ function characterIncVaginal(_characterA, _characterB) {
     return true;
 }
 /**
- * Increments fellatio count for both Characters
+ * Increments fellatio give count for first Character, receive count for second Character
  * @param  {Character} _characterA Character performing fellatio
  * @param  {Character} _characterB Character receiving fellatio
  */
@@ -1357,8 +1357,12 @@ function characterIncFellatio(_characterA, _characterB) {
         else
             return undefined;
     }
-    if (_characterB.sex == 1)
-        return false;
+    if (_characterA.sex == 0 && _characterB.sex == 1) {
+        _tmpChar = _characterB;
+        _characterB = _characterA;
+        _characterA = _tmpChar;
+        delete _tmpChar;
+    }
     _characterA.incFellatioGiveCount(_characterB);
     _characterB.incFellatioReceiveCount(_characterA);
     return true;
@@ -1381,8 +1385,12 @@ function characterIncCunnilingus(_characterA, _characterB) {
         else
             return undefined;
     }
-    if (_characterB.sex == 0)
-        return false;
+    if (_characterA.sex == 1 && _characterB.sex == 0) {
+        _tmpChar = _characterB;
+        _characterB = _characterA;
+        _characterA = _tmpChar;
+        delete _tmpChar;
+    }
     _characterA.incCunnilingusGiveCount(_characterB);
     _characterB.incCunnilingusReceiveCount(_characterA);
     return true;

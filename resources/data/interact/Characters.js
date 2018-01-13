@@ -258,7 +258,7 @@ function charlieSexFellatioGive() {
     Content.add("<p>Once her eyes squeeze shut again, you feel her pull back like the last few times. Once its just the head of your penis in her mouth, instead of bobbing forward again and taking more of you, you feel her tongue flick and prod at the tip. It was odd, for the first few moments, \"Oh, god, whatever you're doing don't stop!\" until she found a spot that made your {0} curl and caused you to sqeeuze at her ears a little harder than you should have.</p>".format(player.getHands()));
     Content.add("<p>Sucking harder than before, she continues lashing at that one spot that made had you practically cradling her head in your arms, trying to force her muzzle into your crotch. Your peak was approaching, and your hips were giving arrythmic thrusts with her quick work. As your breathing became laboured, and you felt like your were about to blow, one of her paws pushed between your legs and under your balls, and grinded against your taint.</p>");
     Content.add("<p>Right as your were seeing stars, feeling yourself ready to cum, her other paw grabbed around the base of your cock, squeezing it like a vice. Still, though, she kept working her magic tongue, and you felt that moment of bliss finally come, and then the heat of her mouth and throat taking you all the way to where her other paw continued its choke hold on your rod.</p>");
-    if (charlie.fellatioGiveCount > 6) {
+    if (charlie.fellatioGiveCount > 5) {
         Content.add("<p>Pulling her head back one last time, she lets go of your dick, and you feel the warmth of your cum splash against her tongue and over what of yourself was in her mouth. Her tongue licks at your tip, mixing saliva and cum around in her mouth as it seaps out from between her lips and down her chin.</p>");
         Content.add("<p>You watch as she takes in short, small gulps between sucking what's left out of you and your own petering out orgasm. With her cheeks showing a noticable bulge, you assume she's probably trying to enjoy the taste until she released your member from her mouth with a wet pop, leaving what looks like a hickey over a quarter of your dick.</p>");
         if (charlie.lust > 66) {
@@ -281,7 +281,7 @@ function charlieSexFellatioGive() {
         charlie.odorSex += 50;
     }
 
-    characterIncFellatio(remmy, charlie);
+    characterIncFellatio(charlie, remmy);
     charlie.incLust(15);
     charlie.decStamina(10);
 
