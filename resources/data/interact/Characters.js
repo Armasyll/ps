@@ -262,7 +262,7 @@ function charlieSexFellatioGive() {
         Content.add("<p>Pulling her head back one last time, she lets go of your dick, and you feel the warmth of your cum splash against her tongue and over what of yourself was in her mouth. Her tongue licks at your tip, mixing saliva and cum around in her mouth as it seaps out from between her lips and down her chin.</p>");
         Content.add("<p>You watch as she takes in short, small gulps between sucking what's left out of you and your own petering out orgasm. With her cheeks showing a noticable bulge, you assume she's probably trying to enjoy the taste until she released your member from her mouth with a wet pop, leaving what looks like a hickey over a quarter of your dick.</p>");
         if (charlie.lust > 66) {
-            Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt after that, her faced entered your vision, and her warm, wet slips pressed against yours.</p>");
+            Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt, her face entered your vision, and her warm, wet slips pressed against yours.</p>");
             Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, {0}'s tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>".format(_character.name));
             Content.add("<p>The worst thing, though, was that you were really turned on.</p>");
             charlie.odorSex += 35;
