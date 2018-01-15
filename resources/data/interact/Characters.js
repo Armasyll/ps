@@ -105,6 +105,9 @@ function charlieSex() {
         Content.add("No thank you.");
     }
 }
+function charlieSexVaginalGive() {
+
+}
 function charlieSexFellatioGive() {
     _character = charlie;
 
@@ -239,9 +242,9 @@ function charlieSexFellatioGive() {
 
     if (player.hasPants()) {
         if (player.hasUnderwear())
-            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "u") + " " + possessiveAdjective() + " " + player.getPants().name + " and pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
+            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
         else
-            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "u") + " " + possessiveAdjective() + " " + player.getPants().name + " and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
+            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
     }
     else if (player.hasUnderwear()) {
         _blob += "as " + subjectPronoun() + " pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " out.";
