@@ -1505,6 +1505,8 @@ class Character extends Entity {
 
         this.setSpecies(_species);
 
+        this.bodyPartsSlickWithPre = new Set();
+        this.bodyPartsSlickWithCum = new Set();
         this.virgin = true;
         this.hadSexWithMale = false;
         this.hadSexWithFemale = false;
@@ -2101,6 +2103,8 @@ class Character extends Entity {
     }
 
     clean() {
+        this.bodyPartsSlickWithCum.clear();
+        this.bodyPartsSlickWithPre.clear();
         this.cleanliness = 100;
         this.odorSex = 0;
         this.odorSweat = 0;
@@ -2872,6 +2876,33 @@ class Character extends Entity {
             _bool = false;
         this.avoidsPrey = _bool;
         return _bool;
+    }
+
+    addBodyPartSlickWithPre(_bodyPart) {
+        if (this.hasBodyPart(_bodyPart)) {
+            this.bodyPartsSlickWithPre.add(_bodyPart);
+        }
+    }
+    removeBodyPartSlickWithPre(_bodyPart) {
+        if (this.hasBodyPart(_bodyPart)) {
+            this.bodyPartsSlickWithPre.delete(_bodyPart);
+        }
+    }
+    hasBodyPartSlickWithPre(_bodyPart) {
+        return this.bodyPartsSlickWithPre.has(_bodyPart);
+    }
+    addBodyPartSlickWithCum(_bodyPart) {
+        if (this.hasBodyPart(_bodyPart)) {
+            this.bodyPartsSlickWithCum.add(_bodyPart);
+        }
+    }
+    removeBodyPartSlickWithCum(_bodyPart) {
+        if (this.hasBodyPart(_bodyPart)) {
+            this.bodyPartsSlickWithCum.delete(_bodyPart);
+        }
+    }
+    hasBodyPartSlickWithCum(_bodyPart) {
+        return this.bodyPartsSlickWithCum.has(_bodyPart);
     }
 
     setSexualOrientation(_int) {

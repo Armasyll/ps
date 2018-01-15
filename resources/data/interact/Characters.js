@@ -268,9 +268,11 @@ function charlieSexFellatioGive() {
         Content.add("<p>You watch as she takes in short, small gulps between sucking what's left out of you and your own petering out orgasm. With her cheeks showing a noticable bulge, you assume she's probably trying to enjoy the taste until she released your member from her mouth with a wet pop, leaving what looks like a hickey over a quarter of your dick.</p>");
         if (charlie.lust > 66) {
             Content.add("<p>Then, to your growing horror, something which you couldn't escape because of how drained you felt, her face entered your vision, and her warm, wet slips pressed against yours.</p>");
-            Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slipped down your lips, tongue, and the back of your throat. Just as you thought the moment couldn't get any worse, though, {0}'s tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>".format(_character.name));
+            Content.add("<p>Your hot, thick cum poured into your mouth, and you wanted to gag. It was a bit frothy from when she stirred it with her tongue, and it slips past your lips, along your tongue, and down the back of your throat. Just as you thought the moment couldn't get any worse, though, {0}'s tongue pulled at yours, and she sucked the cum back into her mouth, and pushed it back into yours.</p>".format(_character.name));
             Content.add("<p>The worst thing, though, was that you were really turned on.</p>");
             charlie.odorSex += 35;
+            remmy.addBodyPartSlickWithCum("neck");
+            remmy.addBodyPartSlickWithCum("mouth");
         }
         else {
             Content.add("<p>Her head tilts back, revealing the soft fur of her neck, as her purses her lips and swallows with a loud gulp. You can see some of her saliva and your seed had escaped her lips while she was blowing you, and left streaks down her lips, and the fur of her chin and neck.</p>");
@@ -283,16 +285,22 @@ function charlieSexFellatioGive() {
         Content.add("<p>Instead of another load of cum going in her muzzle, though, it lands across it, giving her a pearly white streak from her nose to her ear. Opening her mouth, she grabs your shaft and tries to aim it at her tongue after another spurt of cum hits her chin and neck. A desperate huff leaves her as she strokes you, and a last streak of cum lands across the roof of her mouth and tongue.</p>");
         Content.add("<p>Giving your dick a last, slow stroke, her tongue catches the seed that dribbles out. Letting your erection hang and slowly grow flaccid, she runs a paw over her face, collecting your cum, and tries to lick it clean.</p>");
         Content.add("<p>You can't really tell if she did a good job, since cum blends really well with her fur colour.</p>");
+        charlie.addBodyPartSlickWithCum("head");
+        remmy.addBodyPartSlickWithCum("balls");
         charlie.odorSex += 50;
     }
 
     characterIncFellatio(charlie, remmy);
     charlie.incLust(15);
     charlie.decStamina(10);
+    charlie.addBodyPartSlickWithPre("vagina");
+    charlie.addBodyPartSlickWithCum("mouth");
+    charlie.addBodyPartSlickWithCum("neck");
 
     decLust(25);
     decStamina(5);
     remmy.odorSex = 10;
+    remmy.addBodyPartSlickWithCum("penis");
 
     if (player.stamina < 15 || player.lust == 0) {
         _blob += "Deciding " + presentPerfectTense(true) + " had enough fun, " + subjectPronoun() + " ";
