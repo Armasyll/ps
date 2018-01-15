@@ -146,6 +146,7 @@ function spellMenu() {
 function debugMenu() {
     $('#gameOptionsModal').modal('hide');
     Content.useDebugContent();
+    Menu.useDebugMenu();
     
     Title.set(undefined, undefined, undefined, "Debug Menu");
     
@@ -164,9 +165,9 @@ function debugMenu() {
     Menu.generate();
 }
 function debugMenuClose() {
-    clearContentAndMenu();
     Content.useNormalContent();
-    baseMenu(true);
+    Menu.useNormalMenu();
+    Menu.generate();
 }
 function debugRoomInformation() {
     _contentBody = "";

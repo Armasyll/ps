@@ -121,6 +121,8 @@ class Menu {
     static initialize() {
         this.initialized = true;
         this.options = [];
+        this.previousOptions = [];
+        this.temporaryOptions = [];
         this.showingBaseMenu = false;
         this.page = 1;
         this.numberOfOptions = 12;
@@ -136,6 +138,7 @@ class Menu {
         if (this.initialized !== true)
             this.initialize();
 
+        this.previousOptions = this.options;
         this.options = [];
         document.getElementById(this.choiceContainer).innerHTML = "";
         this.generate();
@@ -533,6 +536,7 @@ class Menu {
         if (this.initialized !== true)
             this.initialize();
 
+        this.temporaryOptions = this.options;
         document.getElementById(this.choiceContainer).classList.add("hidden");
         this.choiceContainer = "debugChoiceContainer";
         document.getElementById(this.choiceContainer).classList.remove("hidden");
@@ -545,6 +549,7 @@ class Menu {
         if (this.initialized !== true)
             this.initialize();
 
+        this.options = this.temporaryOptions;
         document.getElementById(this.choiceContainer).classList.add("hidden");
         this.choiceContainer = "choiceContainer";
         document.getElementById(this.choiceContainer).classList.remove("hidden");

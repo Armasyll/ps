@@ -249,9 +249,12 @@ function charlieSexFellatioGive() {
             _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
         else
             _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
+        player.disrobe("pants");
+        player.disrobe("underwear");
     }
     else if (player.hasUnderwear()) {
         _blob += "as " + subjectPronoun() + " pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " out.";
+        player.disrobe("underwear");
     }
     else
         _blob += "letting a hot breath out over " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick.";
