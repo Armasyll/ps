@@ -106,6 +106,10 @@ function charlieSex() {
     }
 }
 function charlieSexVaginalGive() {
+    _character = charlie;
+
+    _ctf = calculateChanceToFuck(remmy, charlie);
+    _blob = "";
 
 }
 function charlieSexFellatioGive() {
@@ -140,7 +144,7 @@ function charlieSexFellatioGive() {
 
         if (!enableRape && player.hasItem(charlieBeatingHeart)) {
             if (!enableRape) {
-                _blob += "\"You are weak, " + player.surname + ",\" she snears before lunging at " + objectPronoun() + ".";
+                _blob += "\"You are weak, " + player.surname + ",\" she sneers before lunging at " + objectPronoun() + ".";
                 _blob += "Her paws quickly find her heart on " + possessiveAdjective() + " person, and a moment later she's swallowed it whole.</p>";
                 _blob += "<p>Poking a claw to " + possessiveAdjective() + " chest, she fixes " + objectPronoun(true) + " with a tired glare, \"Do that again, " + player.surname + ", and I will eat you alive.\" and snaps her teeth in front of " + possessiveAdjective() + " nose.</p>";
                 _blob += "<p>Also, " + presentContinuousTense(true, true) + " bleeding profusely where she poked " + objectPronoun() + " in the chest.";
