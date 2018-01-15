@@ -1691,6 +1691,26 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["bodyParts"];
+        //  bodyPartsSlickWithCum
+        try {
+            if (!(this.bodyPartsSlickWithCum instanceof Set)) this.bodyPartsSlickWithCum = new Set();
+            _tmpArr = JSON.parse(json["bodyPartsSlickWithCum"]);
+            _tmpArr.forEach(function(_bodyPart) {
+                if (kBodyPartTypes.has(_bodyPart))
+                    this.addBodyPartSlickWithCum(_bodyPart);
+            }, this);
+        } catch (e) {}
+        delete json["bodyPartsSlickWithCum"];
+        //  bodyPartsSlickWithPre
+        try {
+            if (!(this.bodyPartsSlickWithPre instanceof Set)) this.bodyPartsSlickWithPre = new Set();
+            _tmpArr = JSON.parse(json["bodyPartsSlickWithPre"]);
+            _tmpArr.forEach(function(_bodyPart) {
+                if (kBodyPartTypes.has(_bodyPart))
+                    this.addBodyPartSlickWithPre(_bodyPart);
+            }, this);
+        } catch (e) {}
+        delete json["bodyPartsSlickWithPre"];
         //  followers
         try {
             if (!(this.followers instanceof Set)) this.followers = new Set();

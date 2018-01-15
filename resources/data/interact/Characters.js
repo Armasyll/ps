@@ -260,6 +260,8 @@ function charlieSexFellatioGive() {
         _blob += "letting a hot breath out over " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick.";
     Content.add("<p>" + _blob + "</p>");
     _blob = "";
+
+    // bodyPartsSlickWithPre and bodyPartsSlickWithCum content here, eventually
     
     Content.add("<p>Her cold nose presses against the tip, and you can feel a tickle of air against your delicate skin. As her mouth opens, you see her tongue poke out past her bottom lip as she takes the head of your cock into your mouth. Before her lips close, though, you can feel the heat of her mouth and tongue.</p>");
     Content.add("<p>For a few seconds, you feel her tongue slide up and down what little of your member is inside her mouth as well as her lips, and a bit of saliva trickles down her chin and your shaft. Then, gradually, with her lips forming a tight seal around you, she pulls her head back. While you feel a brief cool where her mouth once was, her vacuum-like seal around your dick increases.</p>");
