@@ -112,16 +112,16 @@ function charlieSexFellatioGive() {
     _blob = "";
 
     if (player.hasItem(charlieBeatingHeart) && _ctf < 50)
-        _blob += "\"Blow me,\" you tell the vixen, ";
+        _blob += "\"Blow me,\" " + subjectPronoun() + " tell" + (pov == 3 ? "s" : "") + " the vixen, ";
     else
-        _blob += "\"Wanna go down on me?\" you ask her, ";
+        _blob += "\"Wanna go down on me?\" " + subjectPronoun() + " ask" + (pov == 3 ? "s" : "") + " her, ";
 
     if (player.room.characters.size == 2) {
         if (player.hasItem(charlieBeatingHeart)) {
-            _blob += "and her eyes never leave yours as she nods her head.";
+            _blob += "and her eyes never leave " + possessivePronoun() + " as she nods her head.";
         }
         else {
-            _blob += "to which she gives a brief shrug. Licking her lips, her head tilts towards yours and she says, \"Sure.\"";
+            _blob += "to which she gives a brief shrug. Licking her lips, her head tilts towards " + possessivePronoun() + " as she purrs \"Sure.\"";
         }
     }
     else {
@@ -137,8 +137,10 @@ function charlieSexFellatioGive() {
 
         if (!enableRape && player.hasItem(charlieBeatingHeart)) {
             if (!enableRape) {
-                _blob += "\"You are weak, {0},\" she snears before lunging at you. Her paws quickly find her heart on your person, and a moment later she's swallowed it whole.</p><p>Poking a claw to your chest, she fixes you with a tired glare, \"Do that again, {0}, and I will eat you alive.\" and snaps her teeth in front of your nose.".format(player.surname);
-                _blob += "</p><p><i>'You think love that vixen.</i> Also, you're bleeding profusely where she poked you in the chest.";
+                _blob += "\"You are weak, " + player.surname + ",\" she snears before lunging at " + objectPronoun() + ".";
+                _blob += "Her paws quickly find her heart on " + possessiveAdjective() + " person, and a moment later she's swallowed it whole.</p>";
+                _blob += "<p>Poking a claw to " + possessiveAdjective() + " chest, she fixes " + objectPronoun(true) + " with a tired glare, \"Do that again, " + player.surname + ", and I will eat you alive.\" and snaps her teeth in front of " + possessiveAdjective() + " nose.</p>";
+                _blob += "<p>Also, " + presentContinuousTense(true, true) + " bleeding profusely where she poked " + objectPronoun() + " in the chest.";
                 
                 player.removeItem(charlieBeatingHeart);
                 charlie.consume(charlieBeatingHeart);
@@ -149,7 +151,7 @@ function charlieSexFellatioGive() {
                 return false;
             }
             else {
-                _blob += "and her snarl barely leaves her face as her head dips down. \"I will do this anywhere but here, mammals are watching,\" you hear her say. Pressing one of your {0} on top of her head, she lets out a weak \"Please,\"".format(player.getHands());
+                _blob += "and her snarl barely leaves her face as her head dips down. \"I will do this anywhere but here, mammals are watching,\" " + subjectPronoun(true) + " hear" + (pov == 3 ? "s" : "") + " her say. Pressing one of " + possessiveAdjective() + " " + player.getHands() + " on top of her head, she lets out a weak \"Please,\"";
                 
                 Content.add("<p>" + _blob + "</p>");
 
@@ -165,38 +167,38 @@ function charlieSexFellatioGive() {
         }
         else if (_otherCharactersSleeping) {
             if (player.hasItem(charlieBeatingHeart))
-                _blob += "and her snarl barely leaves her face as her head dips down. You double-check that your company is sleeping.";
+                _blob += "and her snarl barely leaves her face as her head dips down. " + subjectPronoun().capitalize() + " double-check that " + possessiveAdjective() + " company is sleeping.";
             if (_characters.length == 1) {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and before you're able to check if {1} is sleeping, you feel {0}'s paw on your thigh.".format(_character.name, _characters[0].name);
+                    _blob += "and before " + presentContinuousTense(true, true) + " able to check if " + _characters[0].name + " is sleeping, " + subjectPronoun() + " feel" + (pov == 3 ? "s" : "") + " " + _character.singularPossessiveName() + " paw on " + possessiveAdjective() + " thigh.";
                 else if (charlie.exhibitionism > 33)
-                    _blob += "glancing over at {1} to ensure they're sleeping. You barely see {0}'s eyes flicker in {2} direction.".format(_character.name, _characters[0].name, _characters[0].subjectPronoun());
+                    _blob += "glancing over at " + _characters[0].name + " to ensure they're sleeping. " + subjectPronoun(true).capitalize() + " barely see" + (pov == 3 ? "s" : "") + " " + _character.singularPossessiveName() + " eyes flicker in " + _characters[0].subjectPronoun() + " direction."
                 else
-                    _blob += "as both you and {0} look over at {1}. From what you can tell, {2}'s sleeping.".format(_character.name, _characters[0].name, _characters[0].subjectPronoun());
+                    _blob += "as both " + _character.name + " and " + subjectPronoun() + " look over at " + _characters[0].name + ". From what " + subjectPronoun() + " can tell, " + _characters[0].subjectPronoun() + "'s sleeping.";
             }
             else if (_characters.length == 2) {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and glance over at {1} and {2} to see if they're still sleeping. Before you can check {2}, though, you feel {0}'s paw press against your waist.".format(_character.name, _characters[0].name, _characters[1].name);
+                    _blob += "and glance over at " + _characters[0].name + " and " + _characters[1].name + " to see if they're still sleeping. Before " + subjectPronoun(true) + " can check " + _characters[1].name + ", though, " + subjectPronoun() + " feel" + (pov == 3 ? "s" : "") + " " + _character.singularPossessiveName() + " paw press against " + possessiveAdjective() + " waist.";
                 else if (charlie.exhibitionism > 33)
-                    _blob += "glancing over at {1} and {2} as they sleep, you barely see {0}'s eyes flicker in their direction.".format(_character.name, _characters[0].name, _characters[1].name);
+                    _blob += "glancing over at " + _characters[0].name + " and " + _characters[1].name + " as they sleep, " + subjectPronoun() + " barely see" + (pov == 3 ? "s" : "") + " " + _character.singularPossessiveName() + " eyes flicker in their direction.";
                 else
-                    _blob += "as both you and {0} look over at {1} and {2}, and from what you can tell, they're both sleeping.".format(_character.name, _characters[0].name, _characters[1].name);
+                    _blob += "as both " + _character.name + " and " + subjectPronoun() + " look over at " + _characters[0].name + " and " + _characters[1].name + ". From what " + subjectPronoun() + " can tell, they're both sleeping.";
             }
             else {
                 if (charlie.exhibitionism > 66)
-                    _blob += "and before you can check if the mammals around you are sound asleep, you feel {0}'s paw against your thigh.".format(_character.name);
+                    _blob += "and before " + subjectPronoun() + " can check if the mammals around " + objectPronoun() + " are sound asleep, " + subjectPronoun() + " feel" + (pov == 3 ? "s" : "") + " " + _character.singularPossessiveName() + " paw against " + possessiveAdjective() + " thigh.";
                 else if (charlie.exhibitionism > 33)
-                    _blob += "as you look around the room, making sure the mammals around you are really sleeping. You see {0} just glance side to side.".format(_character.name);
+                    _blob += "as " + subjectPronoun() + " look" + (pov == 3 ? "s" : "") + " around the room, making sure the mammals around " + objectPronoun() + " are really sleeping. " + subjectPronoun().capitalize() + " see " + _character.name + " just glance to " + _character.possessiveAdjective() + ".";
                 else
-                    _blob += "the both of you look around the room, making sure that the mammals around you are sleeping.";
+                    _blob += "the both of " + objectPronounPlural() + " look around the room, making sure that the mammals around " + objectPronounPlural() + " are sleeping.";
             }
         }
         else {
-            _blob += "and she shakes her head. \"Not here, with prying eyes.\" she whispers just loud enough for you to hear.";
+            _blob += "and she shakes her head. \"Not here, with prying eyes.\" she whispers just loud enough for " + objectPronoun() + " to hear.";
             if (charlie.isStanding() && player.isStanding())
-                _blob += "Walking beside you, you feel her tail brush against your legs. \"Lead the way to some place discrete, {0}.\"".format(player.surname);
+                _blob += "As she walks beside " + objectPronoun(true) + ", " + subjectPronoun() + " feel" + (pov == 3 ? "s" : "") + " her tail brush against " + possessiveAdjective() + " legs. \"Lead the way to some place discrete, " + player.surname + ".\"";
             else
-                _blob += "Standing up, she walks beside you and brushes her tail against your legs. \"Lead the way to some place discrete, {0}.\"".format(player.surname);
+                _blob += "Standing up, she walks beside " + objectPronoun(true) + " and brushes her tail against " + possessiveAdjective() + " legs. \"Lead the way to some place discrete, " + player.surname + ".\"";
 
             Content.add("<p>" + _blob + "</p>");
 
@@ -204,7 +206,7 @@ function charlieSexFellatioGive() {
 
             return false;
         }
-        _blob += " Pressing a single finger to her lips, she signals for you to be quiet.";
+        _blob += " Pressing a single finger to her lips, she signals for " + objectPronoun() + " to be quiet.";
     }
 
     Content.add("<p>" + _blob + "</p>");
@@ -212,19 +214,19 @@ function charlieSexFellatioGive() {
 
     if (player.isStanding()) {
         if (charlie.isStanding()) // Kneel
-            _blob += "Kneeling down in front of you, the vixen brings her head closer to your waist ";
+            _blob += "Kneeling down in front of " + objectPronoun(true) + ", the vixen brings her head closer to " + possessiveAdjective() + " waist ";
         else if (charlie.isSitting()) // Sit
-            _blob += "Still sitting, the vixen leans forward, bringing her head closer to your waist ";
+            _blob += "Still sitting, the vixen leans forward, bringing her head closer to " + possessiveAdjective(true) + " waist ";
         else if (charlie.isLying()) // Sit
-            _blob += "Sitting up, the vixen braces her paws on your side for a moment before bringing her head closer to your waist ";
+            _blob += "Sitting up, the vixen braces her paws on " + possessiveAdjective(true) + " side for a moment before bringing her head closer to " + possessiveAdjective() + " waist ";
     }
     else if (player.isSitting()) {
         if (charlie.isStanding()) // Kneel
-            _blob += "Kneeling down on the floor in front of you, the vixen brings her head between your legs ";
+            _blob += "Kneeling down on the floor in front of " + objectPronoun(true) + ", the vixen brings her head between " + possessiveAdjective() + " legs ";
         else if (charlie.isSitting()) // Lean
-            _blob += "The vixen leans over your lap ";
+            _blob += "The vixen leans over " + possessiveAdjective(true) + " lap ";
         else if (charlie.isLying()) // Lean
-            _blob += "The vixen sits up, leaning over your lap, ";
+            _blob += "The vixen sits up, leaning over " + possessiveAdjective(true) + " lap, ";
     }
     else if (player.isLying()) {
         if (charlie.isStanding()) // Kneel
@@ -237,15 +239,15 @@ function charlieSexFellatioGive() {
 
     if (player.hasPants()) {
         if (player.hasUnderwear())
-            _blob += "as your {0} undo your {1} and pull down your {2}, letting your {3} out.".format(player.getHands(), player.getPants().name, player.getUnderwear().name, player.lust > 66 ? "fully erect" : player.lust > 33 ? "growing" : "flaccid");
+            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "u") + " " + possessiveAdjective() + " " + player.getPants().name + " and pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
         else
-            _blob += "as you undo your {0} and let your {1} dick out.".format(player.getPants().name, player.lust > 66 ? "fully erect" : player.lust > 33 ? "growing" : "flaccid")
+            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "u") + " " + possessiveAdjective() + " " + player.getPants().name + " and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
     }
     else if (player.hasUnderwear()) {
-        _blob += "as you pull down your {0}, and let your {1} out.".format(player.getUnderwear().name, player.lust > 66 ? "fully erect" : player.lust > 33 ? "growing" : "flaccid");
+        _blob += "as " + subjectPronoun() + " pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " out.";
     }
     else
-        _blob += "letting a hot breath out over your {0} dick.".format(player.lust > 66 ? "fully erect" : player.lust > 33 ? "growing" : "flaccid");
+        _blob += "letting a hot breath out over " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick.";
     Content.add("<p>" + _blob + "</p>");
     _blob = "";
     
@@ -290,30 +292,30 @@ function charlieSexFellatioGive() {
     remmy.odorSex = 10;
 
     if (player.stamina < 15 || player.lust == 0) {
-        _blob += "Deciding you've had enough fun, you ";
+        _blob += "Deciding " + presentPerfectTense(true) + " had enough fun, " + subjectPronoun() + " ";
         if (player.hasPants()) {
             if (player.hasUnderwear())
-                _blob += "tuck your flaccid dick into your {1} and slip your {1} back on.".format(player.getUnderwear(), player.getPants());
+                _blob += "tuck" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " flaccid dick into " + possessiveAdjective() + " " + player.getUnderwear() + " and slip " + possessiveAdjective() + " " + player.getPants() + " back on.";
             else
-                _blob += "slip your {0} back on over your flaccid dick.".format(player.getPants());
+                _blob += "slip" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + player.getPants() + " back on over " + possessiveAdjective() + " flaccid dick.";
         }
         else if (player.hasUnderwear())
-            _blob += "tuck your flaccid dick into your {0}.".format(player.getUnderwear());
+            _blob += "tuck" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " flaccid dick into your " + player.getUnderwear() + "."
         else
-            _blob += "wipe your dick on her muzzle."; // idk :v
+            _blob += "wipe" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " dripping dick on her muzzle."; // idk :v
         Content.add("<p>" + _blob + "</p>");
         _blob = "";
-        if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation")
-            Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
     }
     
-    if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation")
+    if (player.room.location.id == "chartyApartmentLocation" || player.room.location.id == "remmyApartmentLocation") {
         Menu.addOption("_charlieSexFellatioGivePostAskShower()", "Shower?", "Ask her if she wants to share a shower.")
+        Menu.generate();
+    }
 }
 function _charlieSexFellatioGivePostAskShower() {
     _character = charlie;
 
-    Content.add("<p>\"Wanna go take a shower?\" You ask, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" You see her wipe the back of her paw against her muzzle, smearing more proof of your recent activities across her fur.</p>");
+    Content.add("<p>\"How about a shower?\" " + subjectPronoun(true).capitalize() + " ask" + (pov == 3 ? "s" : "") + " with a grin, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" " + subjectPronoun() + " see" + (pov == 3 ? "s" : "") + " her wipe the back of her paw against her muzzle, smearing more proof of " + possessiveAdjectivePlural() + " recent activities across her fur.</p>");
     characterFollow(remmy, charlie);
 }
 function _charlieSexFellatioGiveReluctantFollow() {

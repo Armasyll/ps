@@ -145,6 +145,46 @@ function setPOV(_int = 2) {
     }
 }
 
+
+
+function subjectPronoun(_useName = false) {
+    return pov == 1 ? "I" : pov == 2 ? "you" : _useName ? player.name : player.objectPronoun();
+}
+function personalPronoun(_useName = false) {return subjectPronoun(_useName);}
+function objectPronoun(_useName = false) {
+    return pov == 1 ? "me" : pov == 2 ? "you" : _useName ? player.name : player.objectPronoun();
+}
+function objectPronounPlural() {
+    return pov == 1 ? "us" : pov == 2 ? "you" : "them";
+}
+function possessivePronoun(_useName = false) {
+    return pov == 1 ? "mine" : pov == 2 ? "yours" : _useName ? player.singularPossesiveName() : player.possessivePronoun();
+}
+function possessivePronounPlural() {
+    return pov == 1 ? "ours" : pov == 2 ? "yours" : "theirs";
+}
+function possessiveAdjective(_useName = false) {
+    return pov == 1 ? "my" : pov == 2 ? "your" : _useName ? player.singularPossesiveName() : player.possessiveAdjective();
+}
+function possessiveAdjectivePlural() {
+    return pov == 1 ? "our" : pov == 2 ? "your" : "their";
+}
+function reflexivePronoun() {
+    return pov == 1 ? "myself" : pov == 2 ? "yourself" : player.reflexivePronoun();
+}
+function presentPerfectTense(_contraction, _useName = false) {
+    if (_contraction)
+        return pov == 1 ? "I have" : pov == 2 ? "you have" : _useName ? (player.name + "has ") : "he has";
+    else
+        return pov == 1 ? "I've" : pov == 2 ? "you've" : _useName ? (player.name + "has ") : "he's";
+}
+function presentContinuousTense(_contraction = false, _useName = false) {
+    if (_contraction)
+        return (pov == 1 ? "I'm" : pov == 2 ? "you're" : _useName ? (player.name + " is") : (player.subjectPronoun() + " is"));
+    else
+        return (pov == 1 ? "I am" : pov == 2 ? "you are" : _useName ? (player.name + " is") : (player.subjectPronoun() + " is"));
+}
+
 function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false, _filter = undefined) {
     var _body = "";
     _fromEntity.items.forEach(function(_item) {

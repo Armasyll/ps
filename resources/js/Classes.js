@@ -3967,7 +3967,7 @@ class Character extends Entity {
     reflexivePronoun() {
         return this.gender == 0 ? "himself" : "herself";
     }
-    singularPossesiveName() {
+    singularPossessiveName() {
         if (this.name.slice(-1) == 's' || this.name.slice(-1) == 'z')
             return "{0}'".format(this.name);
         else
