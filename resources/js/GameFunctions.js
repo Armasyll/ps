@@ -105,7 +105,7 @@ function toggleMenuSize() {
 }
 function toggleAutoscroll() {
     enableAutoscroll = !enableAutoscroll;
-    document.getElementById("toggleAutoscrollButton").innerHTML = (enableAutoscroll ? "Enable" : "Disable") + " Autoscroll";
+    document.getElementById("toggleAutoscrollButton").innerHTML = (enableAutoscroll ? "Disable" : "Enable") + " Autoscroll";
 }
 function toggleRape() {
     enableRape = !enableRape;
