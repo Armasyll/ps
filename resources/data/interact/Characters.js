@@ -110,7 +110,7 @@ function charlieSexVaginalGive() {
 
     _ctf = calculateChanceToFuck(remmy, charlie);
     _blob = "";
-
+    
 }
 function charlieSexFellatioGive() {
     _character = charlie;
@@ -245,10 +245,12 @@ function charlieSexFellatioGive() {
     }
 
     if (player.hasPants()) {
+        _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and ";
         if (player.hasUnderwear())
-            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
+            _blob += "pull" + (pov == 3 ? "s" : "") + " down " + possessiveAdjective() + " " + player.getUnderwear().name + ", letting";
         else
-            _blob += "as " + subjectPronoun() + " und" + (pov == 3 ? "oes" : "o") + " " + possessiveAdjective() + " " + player.getPants().name + " and let" + (pov == 3 ? "s" : "") + " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
+            _blob += "let" + (pov == 3 ? "s" : "");
+        _blob +=  " " + possessiveAdjective() + " " + (player.lust > 66 ? "hard" : player.lust > 33 ? "firm" : "flaccid") + " dick out.";
         player.disrobe("pants");
         player.disrobe("underwear");
     }
