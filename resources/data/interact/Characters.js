@@ -115,6 +115,14 @@ function charlieSexVaginalGive() {
 function charlieSexFellatioGive() {
     _character = charlie;
 
+    if (_character.hasBodyPartSlickWithCum("mouth") && player.hasBodyPartSlickWithCum("penis"))
+        charlieSexFellatioGiveAgain();
+    else
+        charlieSexFellatioGiveInitial();
+}
+function charlieSexFellatioGiveInitial() {
+    _character = charlie;
+
     _ctf = calculateChanceToFuck(remmy, charlie);
     _blob = "";
 
@@ -333,6 +341,9 @@ function charlieSexFellatioGive() {
         Menu.addOption("_charlieSexFellatioGivePostAskShower()", "Shower?", "Ask her if she wants to share a shower.")
         Menu.generate();
     }
+}
+function charlieSexFellatioGiveAgain() {
+    
 }
 function _charlieSexFellatioGivePostAskShower() {
     _character = charlie;
