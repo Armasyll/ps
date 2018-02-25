@@ -53,6 +53,11 @@ var furnitureIndexes = new Map();
  */
 var itemsIndexes = new Map();
 /**
+ * Map of ItemInstance(s)
+ * @type {Map<String, ItemInstance>}
+ */
+var itemInstancesIndexes = new Map();
+/**
  * Map of Key(s)
  * @type {Map<String, Key>}
  */

@@ -48,7 +48,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         _scenesViewedThisWindow.add(player.previousRoom);
 
         if (debug) console.log("\tRoom for {0}".format(_room.sid));
-        lastMenu = "roomInteract({0}, false)".format(_room.sid);
+        lastMenu = "roomInteract('{0}', false)".format(_room.sid);
         
         unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !_scenesViewedThisWindow.has(player.previousRoom)));
 
@@ -167,7 +167,7 @@ function characterInteract(_character, _clearContent = true) {
     Menu.showingBaseMenu = false;
     if (!(_character instanceof Character))
         _character = charactersIndexes.get(_character);
-    lastMenu = "characterInteract({0}, false)".format(_character.id);
+    lastMenu = "characterInteract('{0}', false)".format(_character.id);
 
     Title.set(
         _character.name,
@@ -272,33 +272,37 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
             var _characterB = _character;
         }
 
-        if (_clearContent) {
+        if (_clearContent && !_scenesViewedThisWindow.has("characterInteractOpen")) {
             var _blob = "";
             if (_characterB == _characterA)
                 _blob += ("Looking through your pockets, you find ");
             else
                 _blob += ("Looking through {0}'s pockets, you find ".format(_characterB.name));
 
-            if (_characterB.getNumberOfItems() == 1) {
-                _blob += ("a " + _characterB.items[0].toString() + ".");
+            if (_characterB.getNumberOfItems() == 0) {
+                _blob += "that it is empty.";
+            }
+            else if (_characterB.getNumberOfItems() == 1) {
+                _blob += ("a " + _characterB.items[0].item.toString() + ".");
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _blob += "{0}, and {1}".format(_characterB.items[0].plural ? _characterB.items[0].toString() : _characterB.items[0], _characterB.items[1].plural ? _characterB.items[1] : _characterB.items[1]);
+                _blob += "{0}, and {1}".format(_characterB.items[0].item.plural ? _characterB.items[0].item.toString() : _characterB.items[0].item, _characterB.items[1].item.plural ? _characterB.items[1].item : _characterB.items[1].item);
             }
             else {
                 // Lazy
                 var _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i]);
+                    _blob += (_arr[i].item.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1] + ".");
+                _blob += (" and " + _arr[_arr.length - 1].item.toString() + ".");
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
             delete _blob;
+            _scenesViewedThisWindow.add("characterInteractOpen");
         }
 
         Menu.clear();
@@ -321,15 +325,17 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         if (_character != player) {
-            _characterB.items.forEach(function(_item) {
-                if (_filter == undefined || _filter == _item.constructor.name)
-                    Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, {4}, '{5}')".format(_item.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _item.name, _item.description, undefined, undefined, "btn-primary");
+            _characterB.items.forEach(function(_itemInstance) {
+                if (_filter == _itemInstance.item.constructor.name)
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+                else
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
-            _characterB.items.forEach(function(_item) {
-                if (_filter == undefined || _filter == _item.constructor.name)
-                    Menu.addOption("itemInteract('{0}')".format(_item.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_item.name), _item.description, undefined, undefined, "btn-primary");
+            _characterB.items.forEach(function(_itemInstance) {
+                if (_filter == undefined || _filter == _itemInstance.item.constructor.name)
+                    Menu.addOption("itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.item.name), _itemInstance.item.description, undefined, undefined, "btn-primary");
             }, this);
         }
         Menu.generate();
@@ -444,7 +450,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
     if (!(_furniture instanceof Furniture))
         _furniture = furnitureIndexes.get(_furniture);
 
-    lastMenu = "furnitureInteract({0},false,true)".format(_furniture.id);
+    lastMenu = "furnitureInteract('{0}', false, true)".format(_furniture.id);
 
     if (player.furniture != _furniture)
         Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(_furniture.type, (_furniture.getNumberOfItems() == 0 ? "no items" : (_furniture.getNumberOfItems() == 1 ? "an item" : "a few items"))));
@@ -524,40 +530,47 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
             var _characterB = _furniture;
         }
 
-        if (_clearContent) {
+        if (_clearContent && !_scenesViewedThisWindow.has("furnitureInteractOpen")) {
             var _blob = "";
             _blob += ("Looking through the {0}, you find ".format(_characterB.toString()));
 
-            if (_characterB.getNumberOfItems() == 1) {
-                _blob += "a {0} {1}.".format((_characterB.items[0].plural ? "set of" : ""), _characterB.items[0].toString());
+            if (_characterB.getNumberOfItems() == 0) {
+                _blob += "that it is empty.";
+            }
+            else if (_characterB.getNumberOfItems() == 1) {
+                _blob += "a {0} {1}.".format((_characterB.items[0].item.plural ? "set of" : ""), _characterB.items[0].item.toString());
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].plural ? "set of " : ""), _characterB.items[0].toString(), (_characterB.items[1].plural ? "" : "a "), _characterB.items[1].toString());
+                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].item.plural ? "set of " : ""), _characterB.items[0].item.toString(), (_characterB.items[1].item.plural ? "" : "a "), _characterB.items[1].item.toString());
             }
             else {
                 // Lazy
-                _arr = _characterB.items;
+                var _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i]);
+                    _blob += (_arr[i].item.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1] + ".");
+                _blob += (" and " + _arr[_arr.length - 1].item.toString() + ".");
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
             delete _blob;
+            _scenesViewedThisWindow.add("furnitureInteractOpen");
         }
 
         Menu.clear();
         Menu.showingBaseMenu = false;
-        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen({0}, {1}, {2}, '{3}', false)".format(_furniture.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen('{0}', {1}, {2}, '{3}', false)".format(_furniture.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract('{0}', false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-        _characterB.items.forEach(function(_item) {
-            Menu.addOption("_generateEntityItemsMenuMove({0}, {1}, {2}, false, {3}, true, {4})".format(_item.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _item.name, _item.description, undefined, undefined, "btn-primary");
+        _characterB.items.forEach(function(_itemInstance) {
+            if (_filter == _itemInstance.item.constructor.name)
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+            else
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -663,13 +676,7 @@ function furnitureInteractSex(_furniture, _characterA = player, _characterB = un
         unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefined)));
 }
 
-function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu = true) {
-    if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
-    }
+function itemInteract(_itemInstance, _entity = player, _clearContent = false, _clearMenu = true) {
     if (!(_entity instanceof Entity)) {
         if (charactersIndexes.has(_entity))
             _entity = charactersIndexes.get(_entity);
@@ -681,10 +688,18 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
             return undefined;
     }
 
-    if (_item.description != undefined && _item.description.length > 0)
-        Content.add("<p>{0}</p>".format(_item.description));
-    
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _entity.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    if (_itemInstance.item.description != undefined && _itemInstance.item.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
+        Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString()));
+
+    lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
+
     Menu.clear();
+    _scenesViewedThisWindow.add("itemInteract");
     if (_entity instanceof Character)
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
     else if (_entity instanceof Furniture)
@@ -694,48 +709,54 @@ function itemInteract(_item, _entity = player, _clearContent = false, _clearMenu
     
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
-    _item.availableActions.forEach(function(_action) {
+    _itemInstance.item.availableActions.forEach(function(_action) {
         if (kActionTypes.has(_action)) {
             switch(_action) {
                 case "use" : {
-                    !(_item instanceof Clothing) && Menu.addOption("itemInteractUse({0}, {1})".format(this.id, _entity.id), "Use {0}".format(this.name));
+                    !(_itemInstance.item instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
                     break;
                 }
                 case "put" : {
-                    !(_entity instanceof Character) && Menu.addOption("itemInteractPut({0}, {1})".format(this.id, _entity.id), "Put {0}".format(this.name));
+                    !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.item.name));
                     break;
                 }
                 case "hold" : {
-                    _entity instanceof Character && Menu.addOption("itemInteractHold({0}, {1})".format(this.id, _entity.id), "Hold {0}".format(this.name));
+                    if (_entity.holding(_itemInstance))
+                        _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.item.name));
+                    else
+                        _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.item.name));
                     break;
                 }
                 case "wear" : {
-                    _item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear({0}, {1})".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_item) ? "Take off" : "Wear"), this.name));
+                    _itemInstance.item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
                     break;
                 }
                 case "masturbate" : {
-                    _entity instanceof Character && Menu.addOption("itemInteractMasturbate({0}, {1})".format(this.id, _entity.id), "Masturbate with {0}".format(this.name));
+                    _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.item.name));
                     break;
                 }
                 case "consume" : {
-                    Menu.addOption("itemInteractConsume({0}, {1})".format(this.id, _entity.id), "{1} {0}".format(this.name, this.type == "food" ? "Eat" : this.type == "drink" ? "Drink" : "Apply"));
+                    Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.item.name, this.item.type == "food" ? "Eat" : this.item.type == "drink" ? "Drink" : "Apply"));
                     break;
                 }
             }
         }
-    }, _item);
+    }, _itemInstance);
     Menu.generate();
 }
-function itemInteractUse(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractUse(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return undefined;
 
-    return unsafeExec("{0}Use({1})".format(_item.id, player.id));
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    return unsafeExec("{0}Use({1})".format(_itemInstance.item.id, player.id));
 }
 /**
  * Item is taken from Character and Put into the Entity; addItem for non-Character(s)
@@ -744,19 +765,22 @@ function itemInteractUse(_item, _character = player) {
  * @param  {Entity} _entityB    [description]
  * @return {Boolean}             [description]
  */
-function itemInteractPut(_item, _characterA = player, _entityB = undefined) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_entityB instanceof Entity))
         _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_characterA instanceof Character))
+    if (!(_characterA instanceof Character))
         return undefined;
 
-    _characterA.removeItem(_item);
-    _entityB.addItem(_item);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _characterA.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    _characterA.removeItem(_itemInstance);
+    _entityB.addItem(_itemInstance);
 
     return true;
 }
@@ -767,19 +791,22 @@ function itemInteractPut(_item, _characterA = player, _entityB = undefined) {
  * @param  {Entity} _entityB    [description]
  * @return {Boolean}             [description]
  */
-function itemInteractGive(_item, _characterA = player, _entityB = undefined) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_entityB instanceof Entity))
         _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_characterA instanceof Character))
+    if (!(_characterA instanceof Character))
         return;
 
-    _characterA.removeItem(_item);
-    _entityB.addItem(_item);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _characterA.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    _characterA.removeItem(_itemInstance);
+    _entityB.addItem(_itemInstance);
 
     return true;
 }
@@ -790,101 +817,138 @@ function itemInteractGive(_item, _characterA = player, _entityB = undefined) {
  * @param  {Entity} _entityB    [description]
  * @return {Boolean}             [description]
  */
-function itemInteractTake(_item, _characterA = player, _entityB = undefined) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character))
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_entityB instanceof Entity))
         _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
 
-    if (!(_item instanceof Item) || !(_characterA instanceof Character))
+    if (!(_characterA instanceof Character))
         return;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _characterA.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
 
     _entityB.removeItem(_item);
     _characterA.addItem(_item);
 
     return true;
 }
-function itemInteractHold(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractHold(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
 
-    _character.wearing(_item) && _character.takeOff(_item);
-    if (_character.addHeldItem(_item))
-        unsafeExec("{0}Hold({1})".format(_item.id, _character.id));
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
+    if (_character.addHeldItem(_itemInstance))
+        unsafeExec("{0}Hold({1})".format(_itemInstance.item.id, _character.id));
+
+    runLastMenu();
+    return true;
 }
-function itemInteractRelease(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractRelease(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
 
-    if (_character.removeHeldItem(_item))
-        unsafeExec("{0}Release({1})".format(_item.id, _character.id));
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    if (_character.removeHeldItem(_itemInstance))
+        unsafeExec("{0}Release({1})".format(_itemInstance.item.id, _character.id));
+
+    runLastMenu();
+    return true;
 }
-function itemInteractWear(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractWear(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
 
-    _character.wearing(_item) ? _character.takeOff(_item) : _character.putOn(_item);
-    itemInteract(_item, _character);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    _character.wearing(_itemInstance) ? _character.takeOff(_itemInstance) : _character.putOn(_itemInstance);
+    itemInteract(_itemInstance, _character);
+
+    return true;
 }
-function itemInteractLook(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractLook(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item))
-        return;
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
 
-    Content.add(_item.description);
+    Content.add(_itemInstance.description);
+
+    return true;
 }
-function itemInteractAttack(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractAttack(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    return true;
 }
-function itemInteractSex(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractSex(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
 
-    itemInteract(_item, _character);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    itemInteract(_itemInstance, _character);
+
+    return true;
 }
-function itemInteractMasturbate(_item, _character = player) {
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.get(_item);
+function itemInteractMasturbate(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
         _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
 
-    if (!(_item instanceof Item) || !(_character instanceof Character))
+    if (!(_character instanceof Character))
         return;
 
-    _character.wearing(_item) && _character.takeOff(_item);
-    itemInteract(_item, _character);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
+    itemInteract(_itemInstance, _character);
+
+    return true;
 }
 
 function spellInteract(_spell, _character = player, _clearContent = false, _clearMenu = true) {
@@ -901,7 +965,7 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
             return undefined;
     }
 
-    lastMenu = "spellInteract({0}, {1}, false, true)".format(_spell.id, _character.id);
+    lastMenu = "spellInteract('{0}', '{1}', false, true)".format(_spell.id, _character.id);
 
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "spellMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Spells");
@@ -1055,7 +1119,7 @@ function textMessageInteract(_phone, _messageCategory) {
         _messageType = _phone.receivedMessages;
     }
 
-    lastMenu = "textMessageInteract({0}, {1})".format(_phone.id, _messageCategory);
+    lastMenu = "textMessageInteract('{0}', '{1}'')".format(_phone.id, _messageCategory);
 
     Title.clear();
     Title.set(

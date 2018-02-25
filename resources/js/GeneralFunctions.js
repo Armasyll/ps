@@ -1,6 +1,6 @@
 // General functions
 if (!String.prototype.format) {
-  String.prototype.format = function() {
+    String.prototype.format = function() {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function(match, number) { 
       return typeof args[number] != 'undefined'
@@ -142,6 +142,12 @@ function unixTimeToDateString(_unixTimestamp = currentTime) {
         ('0' + _date.getHours()).slice(-2) + ":" +
         ('0' + _date.getMinutes()).slice(-2)
     );
+}
+
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  )
 }
 
 function colourNameToHex(_colour) {

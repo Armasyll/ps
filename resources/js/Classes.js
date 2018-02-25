@@ -1119,6 +1119,7 @@ class Entity {
              * @type {Number} 0 to Number.MAX_VALUE
              */
             this.durability = 1;
+            this.durabilityMax = 1;
 
             this.addAvailableAction("look");
             this.addSpecialType("exists");
@@ -1560,12 +1561,12 @@ class Character extends Entity {
 
         /**
          * Item(s) this Character has
-         * @type {Array} <Item>
+         * @type {Array} <ItemInstance>
          */
         this.items = new Array();
         /**
          * Item(s) this Character is holding; will never exceed two (2) Item(s)
-         * @type {Array} <Item>
+         * @type {Array} <ItemInstance>
          */
         this.heldItems = new Array();
         /**
@@ -2278,8 +2279,8 @@ class Character extends Entity {
             if (!(this.items instanceof Set)) this.items = new Array();
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemsIndexes.has(_item))
-                    this.addItem(itemsIndexes.get(_item));
+                if (itemInstancesIndexes.has(_item))
+                    this.addItem(itemInstancesIndexes.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -2427,6 +2428,14 @@ class Character extends Entity {
                 else if (_entity instanceof Item) {
                     switch (_actionType) {
                         case "hold" : {
+                            this.hold(new ItemInstance(_entity));
+                            break;
+                        }
+                    }
+                }
+                else if (_entity instanceof ItemInstance) {
+                    switch (_actionType) {
+                        case "hold" : {
                             this.hold(_entity);
                             break;
                         }
@@ -2561,48 +2570,106 @@ class Character extends Entity {
     getItems() {
         return this.items;
     }
-    addItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    addItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Item)
+                _itemInstance = new ItemInstance(_itemInstance);
+            else if (itemsIndexes.has(_itemInstance))
+                _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
-                return undefined;
+                return;
         }
-        this.items.push(_item);
-        if (_item instanceof Phone && _item.owner == this) {
-            this.phone = _item;
-        }
-        
+        this.items.push(_itemInstance);
+
+        if (_itemInstance.item instanceof Phone && _itemInstance.item.owner == this)
+            this.phone = _itemInstance.item;
+
         return true;
     }
-    removeItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    removeItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return undefined;
+                return;
         }
-        if (!this.containsItem(_item))
+        if (!this.containsItem(_itemInstance))
             return true;
 
-        if (this instanceof Character && this.wearing(_item))
-            this.takeOff(_item);
+        if (this.wearing(_itemInstance))
+            this.takeOff(_itemInstance);
         
-        this.items.splice(this.items.indexOf(_item), 1);
+        if (_itemInstance.item instanceof Phone && _itemInstance.item.owner == this)
+            this.phone = undefined;
+
+        this.items.splice(this.items.indexOf(_itemInstance), 1);
         return true;
     }
-
-    containsItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    getItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Item) {
+                if (this instanceof Entity) {
+                    this.items.some(function(__itemInstance) {
+                        if (__itemInstance.item == _itemInstance) {
+                            _itemInstance = __itemInstance;
+                            return true;
+                        }
+                    }, this);
+                }
+                else
+                    _itemInstance = new ItemInstance(_itemInstance, this);
+            }
+            else if (itemsIndexes.has(_itemInstance)) {
+                _itemInstance = itemsIndexes.get(_itemInstance);
+                if (this instanceof Entity) {
+                    this.items.some(function(__itemInstance) {
+                        if (__itemInstance.item == _itemInstance) {
+                            _itemInstance = __itemInstance;
+                            return true;
+                        }
+                    }, this);
+                }
+                else
+                    _itemInstance = new ItemInstance(_itemInstance, this);
+            }
             else
                 return undefined;
         }
-        return this.items.indexOf(_item) >= 0;
+        return _itemInstance;
     }
-    hasItem(_item) {
-        return this.containsItem(_item);
+
+    containsItem(_item, _strict = false) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.item;
+            else if (itemInstancesIndexes.has(_item))
+                _item = itemInstancesIndexes.get(_item).item;
+            else
+                return;
+        }
+        var _foundItem = false;
+        this.items.some(function(__item) {
+            if (__item.item == _item) {
+                _foundItem = true;
+                return true;
+            }
+        }, this);
+        this.clothing.forEach(function(__item) {
+            if (typeof __item == "undefined")
+                return;
+            if (__item.item == _item)
+                _foundItem = true;
+        }, this);
+        return _foundItem;
+    }
+    hasItem(_itemInstance) {
+        return this.containsItem(_itemInstance);
     }
     getItems() {
         return this.items;
@@ -2611,11 +2678,11 @@ class Character extends Entity {
         return this.items.length;
     }
 
-    addHeldItem(_item) {
-    	return this.hold(_item);
+    addHeldItem(_itemInstance) {
+    	return this.hold(_itemInstance);
     }
-    removeHeldItem(_item) {
-        this.release(_item);
+    removeHeldItem(_itemInstance) {
+        this.release(_itemInstance);
     }
     hasItemInRightHand() {
         return this.heldItems.length > 0 && this.heldItems[0] instanceof Item;
@@ -2624,7 +2691,7 @@ class Character extends Entity {
         return this.heldItems.length > 1 && this.heldItems[1] instanceof Item;
     }
     hasItemsInBothHands() {
-        return this.heldItems[0] instanceof Item && this.heldItems[1] instanceof Item;
+        return this.heldItems[0] instanceof ItemInstance && this.heldItems[1] instanceof ItemInstance;
     }
     handsFull() {
         return this.hasItemsInBothHands();
@@ -2650,22 +2717,20 @@ class Character extends Entity {
     removeItemInLeftHand() {
         return this.removeHeldItem(this.getItemInLeftHand());
     }
-    holding(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
+    holding(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
         }
         var _isHolding = false;
-        this.heldItems.forEach(function(__item) {
-            if (_item == __item)
+        this.heldItems.forEach(function(__itemInstance) {
+            if (_itemInstance == __itemInstance)
                 _isHolding = true;
         }, this);
         return _isHolding;
     }
-    isHolding(_item) {
-        return this.holding(_item);
+    isHolding(_itemInstance) {
+        return this.holding(_itemInstance);
     }
 
     clean() {
@@ -3908,66 +3973,66 @@ class Character extends Entity {
     }
 
     hasHat() {
-        return this.clothing.get("hat") instanceof Clothing;
+        return this.clothing.get("hat") instanceof ItemInstance && this.clothing.get("hat").item instanceof Item;
     }
     getHat() {
-        return this.clothing.get("hat");
+        return this.clothing.get("hat").item;
     }
 
     hasShirt() {
-        return this.clothing.get("shirt") instanceof Clothing;
+        return this.clothing.get("shirt") instanceof ItemInstance && this.clothing.get("shirt").item instanceof Item;
     }
     getShirt() {
-        return this.clothing.get("shirt");
+        return this.clothing.get("shirt").item;
     }
 
     hasJacket() {
-        return this.clothing.get("jacket") instanceof Clothing;
+        return this.clothing.get("jacket") instanceof ItemInstance && this.clothing.get("jacket").item instanceof Item;
     }
     getJacket() {
-        return this.clothing.get("jacket");
+        return this.clothing.get("jacket").item;
     }
 
     hasNeckwear() {
-        return this.clothing.get("neckwear") instanceof Clothing;
+        return this.clothing.get("neckwear") instanceof ItemInstance && this.clothing.get("neckwear").item instanceof Item;
     }
     getNeckwear() {
-        return this.clothing.get("neckwear");
+        return this.clothing.get("neckwear").item;
     }
 
     hasBra() {
-        return this.clothing.get("bra") instanceof Clothing;
+        return this.clothing.get("bra") instanceof ItemInstance && this.clothing.get("bra").item instanceof Item;
     }
     getBra() {
-        return this.clothing.get("bra");
+        return this.clothing.get("bra").item;
     }
 
     hasBelt() {
-        return this.clothing.get("belt") instanceof Clothing;
+        return this.clothing.get("belt") instanceof ItemInstance && this.clothing.get("belt").item instanceof Item;
     }
     getBelt() {
-        return this.clothing.get("belt");
+        return this.clothing.get("belt").item;
     }
 
     hasUnderwear() {
-        return this.clothing.get("underwear") instanceof Clothing;
+        return this.clothing.get("underwear") instanceof ItemInstance && this.clothing.get("underwear").item instanceof Item;
     }
     getUnderwear() {
-        return this.clothing.get("underwear");
+        return this.clothing.get("underwear").item;
     }
 
     hasPants() {
-        return this.clothing.get("pants") instanceof Clothing;
+        return this.clothing.get("pants") instanceof ItemInstance && this.clothing.get("pants").item instanceof Item;
     }
     getPants() {
-        return this.clothing.get("pants");
+        return this.clothing.get("pants").item;
     }
     
     hasShoes() {
-        return this.clothing.get("shoe") instanceof Clothing;
+        return this.clothing.get("shoe") instanceof ItemInstance && this.clothing.get("shoe").item instanceof Item;
     }
     getShoes() {
-        return this.clothing.get("shoes");
+        return this.clothing.get("shoes").item;
     }
     getClothing(_type) {
         if (kClothingTypes.has(_type))
@@ -4060,17 +4125,20 @@ class Character extends Entity {
         this.addCurrentAction("consume", _entity);
         return true;
     }
-    disrobe(_clothing) {
-        if (!(_clothing instanceof Clothing))
-            _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : _clothing;
-
-        if (_clothing instanceof Clothing) {
-            if (kClothingTypes.has(_clothing.type))
-                this.clothing.set(_clothing.type, undefined);
-            this.addItem(_clothing);
+    disrobe(_itemInstance) {
+        if (kClothingTypes.has(_itemInstance)) {
+            this.clothing.set(_itemInstance, undefined);
+            return true;
         }
-        else if (kClothingTypes.has(_clothing))
-            this.clothing.set(_clothing, undefined);
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
+        }
+
+        if (kClothingTypes.has(_itemInstance.item.type))
+            this.clothing.set(_itemInstance.item.type, undefined);
+        this.addItem(_itemInstance);
 
         return true;
     }
@@ -4108,31 +4176,27 @@ class Character extends Entity {
         this.addCurrentAction("follow", _character);
         return true;
     }
-    give(_entity, _item) {
+    give(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity)
             else
                 return undefined;
         }
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
         }
 
         return true;
     }
-    hold(_item, _hand = undefined) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
+    hold(_itemInstance, _hand = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
         }
-        if (!this.containsItem(_item))
-            return false;
+        if (this.holding(_itemInstance))
+            return true;
         if (_hand !== undefined) {
             if (isNaN(_hand)) {
                 switch (_hand.slice(0, -1).toLowerCase()) {
@@ -4157,25 +4221,25 @@ class Character extends Entity {
         }
 
         if (typeof _hand == "number") {
-            if (this.heldItems[_hand] instanceof Item) {
+            if (this.heldItems[_hand] instanceof ItemInstance) {
                 var __item = this.heldItems[_hand];
                 if (!this.release(__item))
                     return false;
             }
-            this.heldItems[_hand] = _item;
+            this.heldItems[_hand] = _itemInstance;
         }
         else {
             if (this.heldItems.length > 1) {
                 var __item = this.heldItems[0];
                 if (this.release(__item))
-                    this.heldItems[0] = _item;
+                    this.heldItems[0] = _itemInstance;
                 else
                     return false;
             }
             else
-                this.heldItems.push(_item);
+                this.heldItems.push(_itemInstance);
         }
-        this.addCurrentAction("hold", _item);
+        this.addCurrentAction("hold", _itemInstance);
         return true;
     }
     hug(_entity) {
@@ -4267,8 +4331,8 @@ class Character extends Entity {
         this.addCurrentAction("pray", _entity);
         return true;
     }
-    put(_entity, _item) {
-        return this.give(_entity, _item);
+    put(_entity, _itemInstance) {
+        return this.give(_entity, _itemInstance);
     }
     rape(_character) {
         if (!(_character instanceof Character)) {
@@ -4278,36 +4342,31 @@ class Character extends Entity {
                 return undefined;
         }
     }
-    release(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
+    release(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
         }
-
-        if (this.holding(_item))
-            this.heldItems.remove(_item);
+        if (this.holding(_itemInstance))
+            this.heldItems.remove(_itemInstance);
         else
             return false;
         if (!this.hasItemInEitherHand())
             this.removeCurrentAction("hold");
         return true;
     }
-    remove(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
+    remove(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
         }
-        if (this.hasItem(_item)) {
-            this.release(_item);
-            this.removeItem(_item);
+        if (this.hasItem(_itemInstance)) {
+            this.release(_itemInstance);
+            this.removeItem(_itemInstance);
         }
-        else if (this.wearing(_item)) {
-            this.disrobe(_item);
-            this.removeItem(_item);
+        else if (this.wearing(_itemInstance)) {
+            this.disrobe(_itemInstance);
+            this.removeItem(_itemInstance);
         }
         else
             return false;
@@ -4380,32 +4439,32 @@ class Character extends Entity {
         this.removeCurrentAction("follow");
         return true;
     }
-    steal(_entity, _item) {
+    steal(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity)
             else
                 return undefined;
         }
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return undefined;
+                return;
         }
     }
-    take(_entity, _item) {
+    take(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity)
             else
                 return undefined;
         }
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return undefined;
+                return;
         }
     }
     talk(_entity) {
@@ -4436,13 +4495,21 @@ class Character extends Entity {
         this.furniture = undefined;
         return true;
     }
-    wear(_clothing, _type = undefined) {
-        if (!(_clothing instanceof Clothing))
-            _clothing = clothingIndexes.get(_clothing);
+    wear(_itemInstance, _type = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Clothing)
+                _itemInstance = new ItemInstance(_itemInstance);
+            else if (clothingIndexes.has(_itemInstance))
+                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
+            else
+                return;
+        }
 
-        if (_clothing instanceof Clothing) {
-            if (kClothingTypes.has(_clothing.type)) {
-                this.clothing.set(_clothing.type, _clothing);
+        if (_itemInstance instanceof ItemInstance) {
+            if (kClothingTypes.has(_itemInstance.item.type)) {
+                this.clothing.set(_itemInstance.item.type, _itemInstance);
                 return true;
             }
             return false;
@@ -6978,6 +7045,7 @@ class Item extends Entity {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
+     * @param  {Set}     _specialTypes Set of special types
      */
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialTypes = undefined) {
         if (_id instanceof Item) {
@@ -6987,8 +7055,6 @@ class Item extends Entity {
                     this[property] = _id[property];
                 }
             }
-            
-            itemsIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description, _image);
@@ -7005,9 +7071,9 @@ class Item extends Entity {
 
             if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
                 this.addSpecialType(_specialTypes);
-
-            itemsIndexes.set(_id, this);
         }
+
+        itemsIndexes.set(_id, this);
     }
     
     moveToEntity(_entity) {
@@ -7068,6 +7134,196 @@ class Item extends Entity {
         return this.moveToEntity(_entity);
     }
 }
+class ItemInstance {
+    constructor(_item, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+        /**
+         * ID
+         * @type {String} UUIDv4
+         */
+        
+        this.id = uuidv4();
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        /**
+         * Item
+         * @type {Item}
+         */
+        this.item = _item;
+        if (!(_owner instanceof Character)) {
+            if (charactersIndexes.has(_owner))
+                _owner = charactersIndexes.get(_owner);
+            else
+                _owner = undefined;
+        }
+        /**
+         * Owner
+         * @type {Character} Can be undefined
+         */
+        this.owner = _owner;
+        if (typeof _price == "undefined" || _price == 0)
+            _price = this.item.price;
+        /**
+         * Price
+         * @type {Number} (Int)
+         */
+        this.price = this.setPrice(_price);
+        if (typeof _weight == "undefined" || _weight == 0.001)
+            _weight = this.item.weight;
+        /**
+         * Weight
+         * @type {Number} (Float)
+         */
+        this.weight = this.setWeight(_weight);
+        if (typeof _durability == "undefined" || _durability == 1)
+            _durability = this.item.durability;
+        /**
+         * Durability
+         * @type {Number}
+         */
+        this.durability = this.setDurability(_durability);
+        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
+            _durabilityMax = this.item.durabilityMax;
+        /**
+         * Max Durability
+         * @type {Number}
+         */
+        this.durabilityMax = this.setDurabilityMax(_durabilityMax);
+
+        itemInstancesIndexes.set(this.id, this);
+    }
+
+    setOwner(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                _character = undefined;
+        }
+        this.owner = _character;
+    }
+
+    /**
+     * Sets Price
+     * @param {Number} _int Integer
+     */
+    setPrice(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > Number.MAX_VALUE)
+            _int = Number.MAX_VALUE;
+        this.durability = _int;
+        return _int;
+    }
+
+    /**
+     * Sets Weight
+     * @param {Number} _float Float
+     */
+    setWeight(_float) {
+        _float = Number.parseFloat(_float);
+        if (isNaN(_float))
+            _float = 0;
+        else if (_float < 0)
+            _float = 0;
+        else if (_float > Number.MAX_VALUE)
+            _float = Number.MAX_VALUE;
+        this.weight = _float;
+        return _float;
+    }
+
+    /**
+     * Sets Durability
+     * @param {Number} _int Integer
+     */
+    setDurability(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.durabilityMax)
+            _int = this.durabilityMax;
+        this.durability = _int;
+        return _int;
+    }
+    incDurability(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurability(this.durability + _int);
+    }
+    addDurability(_int) {
+        return this.incDurability(_int);
+    }
+    decDurability(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurability(this.durability - _int);
+    }
+    subDurability(_int) {
+        return this.decDurability(_int);
+    }
+    /**
+     * Returns Durability
+     * @return {Number} Integer
+     */
+    getDurability() {
+        return this.durability;
+    }
+
+    /**
+     * Sets Max Durability
+     * @param {Number} _int Integer
+     */
+    setDurabilityMax(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > Number.MAX_VALUE)
+            _int = Number.MAX_VALUE;
+        this.durabilityMax = _int;
+        return _int;
+    }
+    incDurabilityMax(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurabilityMax(this.durabilityMax + _int);
+    }
+    addDurabilityMax(_int) {
+        return this.incDurabilityMax(_int);
+    }
+    decDurabilityMax(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurabilityMax(this.durabilityMax - _int);
+    }
+    subDurabilityMax(_int) {
+        return this.decDurabilityMax(_int);
+    }
+    /**
+     * Returns Max Durability
+     * @return {Number} Integer
+     */
+    getDurabilityMax() {
+        return this.durabilityMax;
+    }
+}
 /**
  * Class that represents all Key(s)
  * @extends {Item}
@@ -7080,7 +7336,7 @@ class Key extends Item {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = undefined, _specialTypes = undefined) {
         if (_id instanceof Key) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7088,14 +7344,12 @@ class Key extends Item {
                     this[property] = _id[property];
                 }
             }
-            
-            keysIndexes.set(_id, this);
         }
         else {
-            super(_id, _name, _description, _image);
-
-            keysIndexes.set(_id, this);
+            super(_id, _name, _description, _image, _plural, _specialTypes);
         }
+
+        keysIndexes.set(_id, this);
     }
 }
 /**
@@ -7120,8 +7374,6 @@ class Clothing extends Item {
                     this[property] = _id[property];
                 }
             }
-            
-            clothingIndexes.set(_id, this);
         }
         else {
             super(_id, _name, _description, _image, _plural);
@@ -7130,9 +7382,9 @@ class Clothing extends Item {
             this.addAvailableAction("remove");
 
             this.setType(_type);
-
-            clothingIndexes.set(_id, this);
         }
+
+        clothingIndexes.set(_id, this);
     }
 
     setType(_type) {
@@ -7348,8 +7600,8 @@ class Furniture extends Entity {
         try {
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemsIndexes.has(_item))
-                    this.addItem(itemsIndexes.get(_item));
+                if (itemInstancesIndexes.has(_item))
+                    this.addItem(itemInstancesIndexes.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -7373,48 +7625,91 @@ class Furniture extends Entity {
         }
     }
 
-    addItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    addItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Item)
+                _itemInstance = new ItemInstance(_itemInstance);
+            else if (itemsIndexes.has(_itemInstance))
+                _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
-                return undefined;
+                return;
         }
-        this.items.push(_item);
-        if (_item instanceof Phone && _item.owner == this) {
-            this.phone = _item;
-        }
-        
+        this.items.push(_itemInstance);
+
         return true;
     }
-    removeItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    removeItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return undefined;
+                return;
         }
-        if (!this.containsItem(_item))
+        if (!this.containsItem(_itemInstance))
             return true;
 
-        if (this instanceof Character && this.wearing(_item))
-            this.takeOff(_item);
-        
-        this.items.splice(this.items.indexOf(_item), 1);
+        this.items.splice(this.items.indexOf(_itemInstance), 1);
         return true;
     }
-
-    containsItem(_item) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    getItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Item) {
+                if (_character instanceof Entity) {
+                    _character.items.some(function(__itemInstance) {
+                        if (__itemInstance.item == _itemInstance) {
+                            _itemInstance = __itemInstance;
+                            return true;
+                        }
+                    }, this);
+                }
+                else
+                    _itemInstance = new ItemInstance(_itemInstance, _character);
+            }
+            else if (itemsIndexes.has(_itemInstance)) {
+                _itemInstance = itemsIndexes.get(_itemInstance);
+                if (_character instanceof Entity) {
+                    _character.items.some(function(__itemInstance) {
+                        if (__itemInstance.item == _itemInstance) {
+                            _itemInstance = __itemInstance;
+                            return true;
+                        }
+                    }, this);
+                }
+                else
+                    _itemInstance = new ItemInstance(_itemInstance, _character);
+            }
             else
                 return undefined;
         }
-        return this.items.indexOf(_item) >= 0;
+        return _itemInstance;
     }
-    hasItem(_item) {
-        return this.containsItem(_item);
+
+    containsItem(_item, _strict = false) {
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.item;
+            else if (itemInstancesIndexes.has(_item))
+                _item = itemInstancesIndexes.get(_item).item;
+            else
+                return;
+        }
+        var _foundItem = false;
+        this.items.some(function(__item) {
+            if (__item.item == _item) {
+                _foundItem = true;
+                return true;
+            }
+        }, this);
+        return _foundItem;
+    }
+    hasItem(_itemInstance) {
+        return this.containsItem(_itemInstance);
     }
     getItems() {
         return this.items;
@@ -8101,8 +8396,16 @@ class GameEvent {
             if (!(_characterB instanceof Character))
                 _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
 
-            if (!(_item instanceof Item))
-                _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+            if (!(_item instanceof Item)) {
+                if (_item instanceof ItemInstance)
+                    _item = _item.item;
+                else if (!_item instanceof ItemInstance && itemInstancesIndexes.has(_item))
+                    _item = itemInstancesIndexes.get(_item).item;
+                else if (itemsIndexes.has(_item))
+                    _item = itemsIndexes.get(_item);
+                else
+                    _item = undefined;
+            }
 
             if (!(_location instanceof Location))
                 _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;

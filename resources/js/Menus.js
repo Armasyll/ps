@@ -316,7 +316,7 @@ function debugCharactersInformation(_character = player) {
 	            _clothingIndexes.delete(_clothing.id);
     		}
     	}, this);
-    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (player.hasHat() ? player.getHat().id : "undefined"), _clothingOptionsBlob, _clothingType);
+    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (typeof player.clothing.get(_clothingType) != "undefined" ? player.clothing.get(_clothingType).item.id : "undefined"), _clothingOptionsBlob, _clothingType);
     	_clothingOptionsBlob = "";
     }, this);
 	_blob += "</table>";
@@ -390,6 +390,12 @@ function debugCharactersInformation(_character = player) {
     _blob += "</div></div></div>";
     Content.add(_blob);
     _blob = "";
+
+    // Sets Clothing values
+    var changeClothingElements = document.getElementsByClassName('changeClothing');
+    for (var i = 0; i < changeClothingElements.length; i++) {
+        changeClothingElements[i].value = changeClothingElements[i].getAttribute('selected');
+    }
 }
 function debugSwitchCharacter() {
     clearContentAndMenu();

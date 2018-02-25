@@ -187,13 +187,13 @@ function presentContinuousTense(_contraction = false, _useName = false) {
 
 function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false, _filter = undefined) {
     var _body = "";
-    _fromEntity.items.forEach(function(_item) {
+    _fromEntity.items.forEach(function(_itemInstance) {
         var _ownerString = '';
-        if (_item.owner instanceof Set && _item.owner.size > 0) {
+        if (_itemInstance.owner instanceof Set && _itemInstance.owner.size > 0) {
             _ownerString += "Owned by ";
             
-            var _owners = Array.from(_item.owner);
-            if (_item.owner.size == 1)
+            var _owners = Array.from(_itemInstance.owner);
+            if (_itemInstance.owner.size == 1)
                 _ownerString += (_owners[0] == player ? "you" : _owners[0].name);
             else {
                 for (i = 0; i < _owners.length - 1; i++) {
@@ -216,18 +216,27 @@ function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _
                     "</div>" +
                 "</div>"
             ).format(
-                _item.image,
-                _item.name,
+                _itemInstance.item.image,
+                _itemInstance.item.name,
                 (typeof _item.owner != 'undefined' ? _ownerString : ''),
-                _item.description,
-                (_modify === true ? (_fromEntity == player ? ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_item.id, _fromEntity.id, _toEntity.id) : ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_item.id, _fromEntity.id, _toEntity.id)) : '')
+                _itemInstance.item.description,
+                (_modify === true ? (_fromEntity == player ? ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id) : ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id)) : '')
             )
     }, this);
     
     return _body;
 }
-function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
-    if (entityGiveItem(_item, _fromEntity, _toEntity)) {
+function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item)
+            _itemInstance = new ItemInstance(_itemInstance);
+        else
+            return;
+    }
+    
+    if (entityGiveItem(_itemInstance, _fromEntity, _toEntity)) {
         var _lazyEntity = _fromEntity;
         if (_lazyEntity == player)
             _lazyEntity = _toEntity;
@@ -235,21 +244,68 @@ function _generateEntityItemsGraphicalMove(_item = undefined, _fromEntity = unde
         $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_lazyEntity, player, true));
     }
 }
-function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true, _filter = undefined) {
-    if (entityGiveItem(_item, _fromEntity, _toEntity, _useLastMenu)) {
+function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true, _filter = undefined) {
+    if (debug) console.log("Executing _generateEntityItemsMenuMove");
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item)
+            _itemInstance = new ItemInstance(_itemInstance);
+        else
+            return;
+    }
+
+    if (debug) console.log("  Checking if _fromEntity is an instance of Entity");
+    if (typeof _fromEntity != "undefined" && !(_fromEntity instanceof Entity)) {
+        if (entityIndexes.has(_fromEntity))
+            _fromEntity = entityIndexes.get(_fromEntity);
+        else {
+            if (debug) console.log("    _fromEntity {0} isn't an Entity.".format(_fromEntity));
+            _fromEntity = undefined;
+        }
+    }
+    if (debug) console.log("    It is");
+    
+    if (debug) console.log("  Checking if _toEntity is an instance of Entity");
+    if (!(_toEntity instanceof Entity)) {
+        if (entityIndexes.has(_toEntity))
+            _toEntity = entityIndexes.get(_toEntity);
+        else {
+            if (debug) console.log("    _toEntity {0} isn't an Entity.".format(_toEntity));
+            return undefined;
+        }
+    }
+    
+    if (debug) console.log("  Giving {0} {1} from {2}".format(_toEntity.id, _itemInstance.id, _fromEntity.id));
+    if (entityGiveItem(_itemInstance, _fromEntity, _toEntity, _useLastMenu)) {
         if (_switch) {
-            if (_fromEntity instanceof Character)
+            if (_toEntity instanceof Character) {
+                if (debug) console.log("    Going back to characterInteractOpen({0}, {1}, {2}, {3})".format(_toEntity.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter));
                 characterInteractOpen(_toEntity, _switch, _allowSwitch, _filter, false);
-            else if (_fromEntity instanceof Furniture)
-                furnitureInteractOpen(_toEntity, _switch, _allowSwitch, false);
+            }
+            else if (_toEntity instanceof Furniture) {
+                if (debug) console.log("    Going back to furnitureInteractOpen({0}, {1}, {2}, {3})".format(_toEntity.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter));
+                furnitureInteractOpen(_toEntity, _switch, _allowSwitch, _filter, false);
+            }
         }
         else {
-            if (_fromEntity instanceof Character)
+            if (_fromEntity instanceof Character) {
+                if (debug) console.log("    Going back to characterInteractOpen({0}, {1}, {2}, {3})".format(_fromEntity.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter));
                 characterInteractOpen(_fromEntity, _switch, _allowSwitch, _filter, false);
-            else if (_fromEntity instanceof Furniture)
-                furnitureInteractOpen(_fromEntity, _switch, _allowSwitch, false);
+            }
+            else if (_fromEntity instanceof Furniture) {
+                if (debug) console.log("    Going back to furnitureInteractOpen({0}, {1}, {2}, {3})".format(_fromEntity.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter));
+                furnitureInteractOpen(_fromEntity, _switch, _allowSwitch, _filter, false);
+            }
         }
         
+        if (_toEntity == player) {
+            if (_fromEntity instanceof Character)
+                Content.add("<p>{0} take{1} the {2} from {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString(), _fromEntity.toString()));
+            else if (_fromEntity instanceof Furniture)
+                Content.add("<p>{0} take{1} the {2} from the {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString(), _fromEntity.toString()));
+        }
+
         return true;
     }
     else
@@ -263,77 +319,126 @@ function _generateEntityItemsMenuMove(_item, _fromEntity = undefined, _toEntity 
  * @param {Boolean} _useLastMenu
  * @return {Boolean}
  */
-function entityGiveItem(_item = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+    if (debug) console.log("Executing entityGiveItem with {0}, {1}, {2}, {3}".format(_itemInstance.id, _fromEntity instanceof Entity ? _fromEntity.id : _fromEntity, _toEntity instanceof Entity ? _toEntity.id : _toEntity, _useLastMenu));
     var _eventRun = false;
 
-    if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            item = itemsIndexes.get(_item);
-        else {
-            if (debug) console.log(_item.id + " isn't indexed in Items or Clothing.");
-            return undefined;
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item) {
+            if (_fromEntity instanceof Entity) {
+                _fromEntity.items.some(function(__itemInstance) {
+                    if (__itemInstance.item == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        return true;
+                    }
+                }, this);
+            }
+            else
+                _itemInstance = new ItemInstance(_itemInstance, _fromEntity);
         }
+        else if (itemsIndexes.has(_itemInstance)) {
+            _itemInstance = itemsIndexes.get(_itemInstance);
+            if (_fromEntity instanceof Entity) {
+                _fromEntity.items.some(function(__itemInstance) {
+                    if (__itemInstance.item == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        return true;
+                    }
+                }, this);
+            }
+            else
+                _itemInstance = new ItemInstance(_itemInstance, _fromEntity);
+        }
+        else
+            return undefined;
     }
-    
-    if (_fromEntity != undefined && !(_fromEntity instanceof Entity)) {
+
+    if (debug) console.log("  Checking if _fromEntity is an instance of Entity");
+    if (typeof _fromEntity != "undefined" && !(_fromEntity instanceof Entity)) {
         if (entityIndexes.has(_fromEntity))
             _fromEntity = entityIndexes.get(_fromEntity);
         else {
-            if (debug) console.log("_fromEntity {0} isn't an Entity.".format(_fromEntity));
+            if (debug) console.log("    _fromEntity {0} isn't an Entity.".format(_fromEntity));
             _fromEntity = undefined;
         }
     }
-        
+    if (debug) console.log("    It is");
+    
+    if (debug) console.log("  Checking if _toEntity is an instance of Entity");
     if (!(_toEntity instanceof Entity)) {
         if (entityIndexes.has(_toEntity))
             _toEntity = entityIndexes.get(_toEntity);
         else {
-            if (debug) console.log("_toEntity {0} isn't an Entity.".format(_toEntity));
+            if (debug) console.log("    _toEntity {0} isn't an Entity.".format(_toEntity));
             return undefined;
         }
     }
+    if (debug) console.log("    It is");
 
-    if (_fromEntity == undefined || _fromEntity.containsItem(_item)) {
-        _eventRun = _executeItemRemoveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
-        _eventRun = _executeItemGiveEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
-        _eventRun = _executeItemTakeEvents(_item, _fromEntity, _toEntity) ? true : _eventRun;
+    if (debug) console.log("  Checking against _fromEntity if events can be run");
+    if (typeof _fromEntity == "undefined" || _fromEntity.containsItem(_itemInstance)) {
+        if (debug) console.log("    They can");
+        _eventRun = _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) ? true : _eventRun;
+        _eventRun = _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) ? true : _eventRun;
+        _eventRun = _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) ? true : _eventRun;
+        if (debug) console.log("      All events run this scene without breaking");
     }
-    else
+    else {
+        if (debug) console.log("    They can't");
         return undefined;
+    }
     
+    if (debug) console.log("  Checking if there was an event run this scene");
     if (lastGameEvent == undefined && !_eventRun) {
+        if (debug) console.log("    There was");
         if (_useLastMenu) {
+            if (debug) console.log("      Running `{0}`".format(lastMenu.toString()));
             unsafeExec(lastMenu);
         }
 
         return true;
     }
-    else
+    else {
+        if (debug) console.log("    There wasn't");
         return false;
+    }
 }
-function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
+function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item)
+            _itemInstance = new ItemInstance(_itemInstance);
+        else if (itemsIndexes.has(_itemInstance))
+            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+        else
+            return undefined;
+    }
+    
     var _eventRun = false;
     if (typeof _fromEntity != 'undefined') {
         if (_fromEntity instanceof Character) {
-            if (_item instanceof Clothing && _fromEntity.wearing(_item) && !characterDisrobeItem(_fromEntity, _item, _fromEntity == player))
+            if (_itemInstance.item instanceof Clothing && _fromEntity.wearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
-            else if (_fromEntity.holding(_item) && !characterReleaseItem(_fromEntity, _item, undefined, _fromEntity == player))
+            else if (_fromEntity.holding(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
-            else if (!unsafeExec("{0}Remove({1})".format(_item.id, _fromEntity.id)))
+            else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.item.id, _fromEntity.id)))
                 return false;
         }
         else if (_fromEntity instanceof Furniture) {
-            if (!unsafeExec("{0}Remove({1})".format(_item.id, _fromEntity.id)))
+            if (!unsafeExec("{0}Remove({1})".format(_itemInstance.item.id, _fromEntity.id)))
                 return false;
-            else if (!unsafeExec("{0}Remove({1})".format(_fromEntity.id, _item.id))) // mimic :o
+            else if (!unsafeExec("{0}Remove({1})".format(_fromEntity.id, _itemInstance.item.id))) // mimic :o
                 return false;
         }
         
-        _fromEntity.remove(_item);
+        _fromEntity.removeItem(_itemInstance);
 
         if (debug) console.log("Checking for item removal events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
+            if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _itemInstance && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
                     _eventRun = true;
@@ -345,16 +450,27 @@ function _executeItemRemoveEvents(_item, _fromEntity, _toEntity) {
     }
     return _eventRun;
 }
-function _executeItemGiveEvents(_item, _fromEntity, _toEntity) {
+function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item)
+            _itemInstance = new ItemInstance(_itemInstance);
+        else if (itemsIndexes.has(_itemInstance))
+            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+        else
+            return undefined;
+    }
+    
     var _eventRun = false;
 
-    if (_fromEntity instanceof Character && !characterGiveItem(_fromEntity, _toEntity, _item, (_fromEntity == player || _toEntity == player)))
+    if (_fromEntity instanceof Character && !characterGiveItem(_fromEntity, _toEntity, _itemInstance.item, (_fromEntity == player || _toEntity == player)))
         return false;
 
-    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.item))) {
         if (debug) console.log("Checking for item given events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
+            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _itemInstance.item && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
                     _eventRun = true;
@@ -367,19 +483,31 @@ function _executeItemGiveEvents(_item, _fromEntity, _toEntity) {
 
     return _eventRun;
 }
-function _executeItemTakeEvents(_item, _fromEntity, _toEntity) {
+function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else if (_itemInstance instanceof Item)
+            _itemInstance = new ItemInstance(_itemInstance);
+        else if (itemsIndexes.has(_itemInstance))
+            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+        else
+            return undefined;
+    }
+
     var _eventRun = false;
-    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_item))) {
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.item))) {
         if (_toEntity instanceof Character) {
-            if (!characterTakeItem(_toEntity, _item, _toEntity == player))
+            if (!characterTakeItem(_toEntity, _itemInstance, _toEntity == player))
                 return false;
         }
-        else
-            _toEntity.addItem(_item);
+        else {
+            _toEntity.addItem(_itemInstance);
+        }
 
         if (debug) console.log("Checking for item taken events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
+            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _itemInstance.item && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
                     _eventRun = true;
@@ -478,7 +606,7 @@ function setRoom(_room) {
  * @param Entity _fromEntity
  * @return Boolean
  */
-function giveItem(_item, _fromEntity) {return entityGiveItem(_item, _fromEntity, player, true);}
+function giveItem(_itemInstance, _fromEntity) {return entityGiveItem(_itemInstance, _fromEntity, player, true);}
 /**
  * Passes time.
  * @param String time Amount of time to pass. If passed an integer, will treat it as seconds. "30s" will pass 30 seconds, "30m" will pass 30 minutes, "24h" will pass 24 hours, and "2d" will pass 2 days, in-game time.
@@ -887,8 +1015,16 @@ function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else if (_item instanceof ItemInstance)
+            _item = _item.item;
+        else if (itemInstancesIndexes.has(_item))
+            _item = itemInstancesIndexes.get(_item);
+        else
+            _item = undefined;
+    }
     if (typeof _runOnce != "boolean")
         _runOnce = true;
 
@@ -927,8 +1063,16 @@ function setCharacterMeetingRoomEvent(_id = undefined, _characterA, _characterB,
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else if (_item instanceof ItemInstance)
+            _item = _item.item;
+        else if (itemInstancesIndexes.has(_item))
+            _item = itemInstancesIndexes.get(_item);
+        else
+            _item = undefined;
+    }
     if (!(_room instanceof Room))
         _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
     if (typeof _runOnce != "boolean")
@@ -968,8 +1112,16 @@ function setCharacterMeetingCellEvent(_id = undefined, _characterA, _characterB,
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else if (_item instanceof ItemInstance)
+            _item = _item.item;
+        else if (itemInstancesIndexes.has(_item))
+            _item = itemInstancesIndexes.get(_item);
+        else
+            _item = undefined;
+    }
     if (!(_cell instanceof Cell))
         _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
     if (typeof _runOnce != "boolean")
@@ -1009,8 +1161,16 @@ function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _charact
         _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
         _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
-    if (!(_item instanceof Item))
-        _item = itemsIndexes.has(_item) ? itemsIndexes.get(_item) : undefined;
+    if (!(_item instanceof Item)) {
+        if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else if (_item instanceof ItemInstance)
+            _item = _item.item;
+        else if (itemInstancesIndexes.has(_item))
+            _item = itemInstancesIndexes.get(_item);
+        else
+            _item = undefined;
+    }
     if (!(_location instanceof Location))
         _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
     if (typeof _runOnce != "boolean")
@@ -1592,27 +1752,26 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     
     return _character.masturbate(_furniture);
 }
-function characterDisrobeItem(_character, _item, _executeScene = false) {
+function characterDisrobeItem(_character, _itemInstance, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_item instanceof Item)){
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _character.disrobe(_item);
+    _character.disrobe(_itemInstance);
     if (_executeScene == true)
-        return unsafeExec("{0}Disrobe({1})".format(_item.id, _character.id));
+        return unsafeExec("{0}Disrobe({1})".format(_itemInstance.item.id, _character.id));
     else
         return true;
 }
-function characterGiveItem(_characterA, _characterB, _item, _executeScene = false) {
+function characterGiveItem(_characterA, _characterB, _itemInstance, _executeScene = false) {
     if (!(_characterA instanceof Character)){
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
@@ -1625,79 +1784,75 @@ function characterGiveItem(_characterA, _characterB, _item, _executeScene = fals
         else
             return undefined;
     }
-    if (!(_item instanceof Item)){
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _characterA.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _characterA.give(_characterB, _item);
+    _characterA.give(_characterB, _itemInstance);
     if (_executeScene == true)
-        return unsafeExec("{0}Give({1}, {2})".format(_item.id, _characterA.id, _characterB.id))
+        return unsafeExec("{0}Give({1}, {2})".format(_itemInstance.item.id, _characterA.id, _characterB.id))
     else
         return true;
 }
-function characterHoldItem(_character, _item, _hand = undefined, _executeScene = false) {
+function characterHoldItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_item instanceof Item)){
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _character.addHeldItem(_item, _hand);
+    _character.addHeldItem(_itemInstance, _hand);
     if (_executeScene == true)
-        return unsafeExec("{0}Hold({1})".format(_item.id, _character.id))
+        return unsafeExec("{0}Hold({1})".format(_itemInstance.item.id, _character.id))
     else
         return true;
 }
-function characterReleaseItem(_character, _item, _hand = undefined, _executeScene = false) {
+function characterReleaseItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_item instanceof Item)){
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _character.removeHeldItem(_item, _hand);
+    _character.removeHeldItem(_itemInstance, _hand);
     if (_executeScene == true)
-        return unsafeExec("{0}Release({1})".format(_item.id, _character.id));
+        return unsafeExec("{0}Release({1})".format(_itemInstance.item.id, _character.id));
     else
         return true;
 }
-function characterAddItem(_character, _item, _executeScene = false) {
-    return characterTakeItem(_character, _item, _executeScene);
+function characterAddItem(_character, _itemInstance, _executeScene = false) {
+    return characterTakeItem(_character, _itemInstance, _executeScene);
 }
-function characterTakeItem(_character, _item, _executeScene = false) {
+function characterTakeItem(_character, _itemInstance, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_item instanceof Item)){
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _character.addItem(_item);
+    _character.addItem(_itemInstance);
     if (_executeScene == true)
-        return unsafeExec("{0}Take({1})".format(_item.id, _character.id));
+        return unsafeExec("{0}Take({1})".format(_itemInstance.item.id, _character.id));
     else
         return true;
 }
@@ -1993,11 +2148,11 @@ function cashCheque(_character = player) {
     }
     var _chequeCashed = false;
 
-    _character.items.forEach(function(_item) {
+    _character.items.forEach(function(_itemInstance) {
         if (_item instanceof Cheque) {
-            if (_item.to instanceof Character && (_item.signed || _item.to == _character) && !isNaN(_item.amount) && _item.amount > 0) {
+            if (_itemInstance.item.to instanceof Character && (_itemInstance.item.signed || _itemInstance.item.to == _character) && !isNaN(_itemInstance.item.amount) && _itemInstance.item.amount > 0) {
                 characterIncMoney(_item.to, _item.amount);
-                _character.removeItem(_item);
+                _character.removeItem(_itemInstance);
                 _item.delete();
                 _chequeCashed = true;
             }
@@ -2267,9 +2422,9 @@ function addAllItems(_character = player, _execEvents = true) {
 
     itemsIndexes.forEach(function(_item) {
         if (_execEvents)
-            entityGiveItem(_item, undefined, _character, false);
+            entityGiveItem(new ItemInstance(_item, _character), undefined, _character, false);
         else
-            _character.addItem(_item);
+            _character.addItem(new ItemInstance(_item, _character));
     }, this);
 
     return true;
