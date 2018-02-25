@@ -1712,7 +1712,7 @@ class Character extends Entity {
          * Personal sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
-        this.gender = this.sex;
+        this.gender = 0;
 
         /**
          * Primary fur colour
@@ -2145,13 +2145,14 @@ class Character extends Entity {
         this.previousRoom = undefined;
         /**
          * Current Room
-         * @type {Room} Cannot be undefined!
+         * @type {Room} Cannot be undefined! But it is! :V
          */
         this.room = undefined;
 
         charactersIndexes.set(_id, this);
 
         this.setSex(_sex);
+        this.gender = this.sex;
         this.setSpecies(_species);
         this.stand();
     }
