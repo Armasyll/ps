@@ -31,17 +31,17 @@ tshirtWhiteMelesMeles = new Clothing("tshirtWhiteMelesMeles", "Meles Meles Tank 
 shockCollar = new Clothing("shockCollar", "Shock Collar", "A shock collar from the 80s.", "resources/images/items/shockCollar.svg", "neckwear", false);
 
 // Keys
-masterKey = new Key("masterKey", "Simple Key", "A simple key.", "resources/images/items/masterKey.svg");
-remmyApartmentLocationKey = new Key("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", "resources/images/items/remmyApartmentLocationKey.svg");
-alApartmentLocationKey = new Key("alApartmentLocationKey", "Al's Apartment Key", "Al's Apartment Key", "resources/images/items/key.svg");
-alBuildingLocationKey = new Key("alBuildingLocationKey", "Skeleton Key", "Skeleton key for 3 Pack Street.", "resources/images/items/key.svg");
-avoApartmentLocationKey = new Key("avoApartmentLocationKey", "Avo's Apartment Key", "Avo's Apartment Key", "resources/images/items/key.svg");
-bettyApartmentLocationKey = new Key("bettyApartmentLocationKey", "Betty's Apartment Key", "Betty's Apartment Key", "resources/images/items/key.svg");
-bettyBuildingLocationKey = new Key("bettyBuildingLocationKey", "Skeleton Key", "Skeleton key for 5 Pack Street.", "resources/images/items/key.svg");
-chartyApartmentLocationKey = new Key("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", "resources/images/items/key.svg");
-ozzyApartmentLocationKey = new Key("ozzyApartmentLocationKey", "Ozzy's Apartment Key", "Ozzy's Apartment Key", "resources/images/items/key.svg");
-twinsApartmentLocationKey = new Key("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", "resources/images/items/key.svg");
-pandorasBoxLocationKey = new Key("pandorasBoxLocationKey", "Key to Pandora's Box", "A complex brass key meant for digitigrade mammals to Pandora's Box.", "resources/images/items/pandorasBoxLocationKey.svg");
+masterKey = new Key("masterKey", "Simple Key", "A simple key.", "resources/images/items/masterKey.svg", false, ["jagged", "smooth", "metal"]);
+remmyApartmentLocationKey = new Key("remmyApartmentLocationKey", "Remmy's Apartment Key", "Remmy's Apartment Key", "resources/images/items/remmyApartmentLocationKey.svg", false, ["jagged", "sharp", "metal"]);
+alApartmentLocationKey = new Key("alApartmentLocationKey", "Al's Apartment Key", "Al's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+alBuildingLocationKey = new Key("alBuildingLocationKey", "Skeleton Key", "Skeleton key for 3 Pack Street.", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+avoApartmentLocationKey = new Key("avoApartmentLocationKey", "Avo's Apartment Key", "Avo's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+bettyApartmentLocationKey = new Key("bettyApartmentLocationKey", "Betty's Apartment Key", "Betty's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+bettyBuildingLocationKey = new Key("bettyBuildingLocationKey", "Skeleton Key", "Skeleton key for 5 Pack Street.", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+chartyApartmentLocationKey = new Key("chartyApartmentLocationKey", "Charlie and Marty's Apartment Key", "Charlie and Marty's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+ozzyApartmentLocationKey = new Key("ozzyApartmentLocationKey", "Ozzy's Apartment Key", "Ozzy's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+twinsApartmentLocationKey = new Key("twinsApartmentLocationKey", "Anneke and Wolter's Apartment Key", "Anneke and Wolter's Apartment Key", "resources/images/items/key.svg", false, ["jagged", "smooth", "metal"]);
+pandorasBoxLocationKey = new Key("pandorasBoxLocationKey", "Key to Pandora's Box", "A complex brass key meant for digitigrade mammals to Pandora's Box.", "resources/images/items/pandorasBoxLocationKey.svg", false, ["jagged", "smooth", "metal"]);
 
 // Consumables
 bugBurgaDelux = new Consumable("bugBurgaDelux", "Bug Burga Delux", "A Bug Burga Delux; two Bug Burga patties, two slices of cheese, and two sesame seed buns.", "resources/images/items/bugBurgaDelux.svg", "food", undefined, "dead");
