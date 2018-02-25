@@ -1069,17 +1069,6 @@ class Entity {
                 if (debug) console.log("ID for Character was not a String");
                 return undefined;
             }
-            if (typeof _name == "string") {
-                _name = _name.replace(/\W+/g, "");
-                if (_name.length == 0) {
-                    if (debug) console.log("Name for Character `{0}` was not a valid String".format(_id));
-                    return undefined;
-                }
-            }
-            else {
-                if (debug) console.log("Name for Character `{0}` was not a String".format(_id));
-                return undefined;
-            }
             /**
              * Identification
              * @type {String} Cannot be undefined!
@@ -1087,7 +1076,7 @@ class Entity {
             this.id = _id;
             /**
              * Name
-             * @type {String} Cannot be undefined!
+             * @type {String} Can be undefined
              */
             this.name = _name;
             /**
@@ -1500,21 +1489,24 @@ class Character extends Entity {
         
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
-        super(_id, _name);
+        super(_id);
         /**
          * Surname
          * @type {String} Cannot be undefined!
          */
         this.surname = undefined;
-        if (this.name.split(", ").length > 1) {
-            var tempName = this.name.split(", ");
+        if (_name.split(", ").length > 1) {
+            var tempName = _name.split(", ");
             this.name = tempName[1];
             this.surname = tempName[0];
         }
-        else if (this.name.split(" ").length > 1) {
-            var tempName = this.name.split(" ");
+        else if (_name.split(" ").length > 1) {
+            var tempName = _name.split(" ");
             this.name = tempName[0];
             this.surname = tempName[1];
+        }
+        else {
+            this.name = _name;
         }
         /**
          * Nickname
