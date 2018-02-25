@@ -128,5 +128,5 @@ const kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","ta
 const kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk","kneel"]);
 const kInteractionTypes = new Set(["attack","bewitched","bite","boop","cast","channel","choke","consume","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);
 const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
-const kConsumableTypes = new Set(["food","drink","medicine"]);
+const kConsumableTypes = new Set(["food","drink","medicine","other"]);
 const kSpecialTypes = new Set(["exists","living","dead","mirror","water","fire","earth","metal","broken","wood","magic","nature","container","charm"]);

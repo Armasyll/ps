@@ -289,7 +289,7 @@ function wolterConsidersJumpingTheFence(_event = undefined) {
     
     setEventCharacterLocationSchedule("wolterCallsRemmyForSomFuk", wolter, twinsApartmentBedroomWolter, new Cron(0, 6), undefined, true);
     setTimedFunctionEvent("unlockRoomFromInside(twinsApartmentLivingroomA)", new Cron(2, 6), true);
-    if (wolter.hasPhone)
+    if (wolter.phone instanceof Phone)
         setTimedFunctionEvent("wolter.phone.sendMessage(remmy, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
 }
 function wolterPlayerFirsttimeSameSexSpecial() {    

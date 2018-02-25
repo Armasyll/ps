@@ -1058,16 +1058,78 @@ class Entity {
             }
         }
         else {
+            if (typeof _id == "string") {
+                _id = _id.replace(/\W+/g, "");
+                if (_id.length == 0) {
+                    if (debug) console.log("ID for Character was not a valid String");
+                    return undefined;
+                }
+            }
+            else {
+                if (debug) console.log("ID for Character was not a String");
+                return undefined;
+            }
+            if (typeof _name == "string") {
+                _name = _name.replace(/\W+/g, "");
+                if (_name.length == 0) {
+                    if (debug) console.log("Name for Character `{0}` was not a valid String".format(_id));
+                    return undefined;
+                }
+            }
+            else {
+                if (debug) console.log("Name for Character `{0}` was not a String".format(_id));
+                return undefined;
+            }
+            /**
+             * Identification
+             * @type {String} Cannot be undefined!
+             */
             this.id = _id;
+            /**
+             * Name
+             * @type {String} Cannot be undefined!
+             */
             this.name = _name;
+            /**
+             * Description
+             * @type {String} Can be undefined
+             */
             this.description = _description;
 
             if (typeof _image == 'undefined')
                 _image = "resources/images/items/genericItem.svg";
+            /**
+             * Path to Character's picture
+             * @type {String} Relative path to an image, or base64 encoded String
+             */
             this.image = _image;
 
+            /**
+             * Actions available to this Entity
+             * @type {Set} <kActionTypes>
+             */
             this.availableActions = new Set();
+            /**
+             * Special types
+             * @type {Set} <kSpecialTypes>
+             */
             this.specialTypes = new Set();
+
+            /**
+             * Weight in kilograms
+             * @type {Number} 0.001 to Number.MAX_VALUE
+             */
+            this.weight = 0;
+            /**
+             * Price
+             * @type {Number} 0 to Number.MAX_VALUE
+             */
+            this.price = 0;
+            /**
+             * Durability of an entity
+             * @type {Number} 0 to Number.MAX_VALUE
+             */
+            this.durability = 1;
 
             this.addAvailableAction("look");
             this.addSpecialType("exists");
@@ -1127,6 +1189,10 @@ class Entity {
         return JSON.stringify(_blob, function(k, v) { return (v === undefined ? null : v)});
     }
 
+    /**
+     * Adds an available Action when interacting with this Entity
+     * @param {String} _actions (kActionTypes)
+     */
     addAvailableAction(_actions) {
         if (typeof _actions == 'undefined')
             return false;
@@ -1142,6 +1208,11 @@ class Entity {
         }
         return false;
     }
+    /**
+     * Removes an available Action when interacting with this Entity
+     * @param  {String} _actions (kActionTypes)
+     * @return {Booealn}          Whether or not the Action was removed
+     */
     removeAvailableAction(_actions) {
         if (typeof _actions == 'undefined')
             return false;
@@ -1158,6 +1229,10 @@ class Entity {
         return false;
     }
 
+    /**
+     * Adds a Special Type
+     * @param {String} _specialTypes (kSpecialTypes)
+     */
     addSpecialType(_specialTypes) {
         if (typeof _specialTypes == 'undefined')
             return false;
@@ -1173,9 +1248,18 @@ class Entity {
         }
         return false;
     }
+    /**
+     * Returns this Entity's Special Types
+     * @return {Set} <String (kSpecialTypes)>
+     */
     getSpecialTypes() {
         return this._specialTypes;
     }
+    /**
+     * Returns whether or not this Entity has the specified Special Type
+     * @param  {String}  _specialType (kSpecialTypes)
+     * @return {Boolean}              Whether or not this Entity has the specified Special Type
+     */
     hasSpecialType(_specialType) {
         if (kSpecialTypes.has(_specialType))
             return this.specialTypes.has(_specialType);
@@ -1216,7 +1300,7 @@ class Disposition {
      * @param {Number} _pragma souldmate
      * @param {Number} _storge familial
      * @param {Number} _manic  obsession
-     * @param {Number} _miseo hate
+     * @param {Number} _miseo  hate
      */
     constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
         if (typeof _eros == "number") {
@@ -1417,6 +1501,10 @@ class Character extends Entity {
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
         super(_id, _name);
+        /**
+         * Surname
+         * @type {String} Cannot be undefined!
+         */
         this.surname = undefined;
         if (this.name.split(", ").length > 1) {
             var tempName = this.name.split(", ");
@@ -1428,8 +1516,20 @@ class Character extends Entity {
             this.name = tempName[0];
             this.surname = tempName[1];
         }
+        /**
+         * Nickname
+         * @type {String} Can be undefined
+         */
         this.nickname = undefined;
+        /**
+         * Age
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.age = this.setAge(_age);
+        /**
+         * Path to Character's picture
+         * @type {String} Relative path to an image, or base64 encoded String
+         */
         this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
 
         this.addAvailableAction("talk");
@@ -1445,115 +1545,484 @@ class Character extends Entity {
         this.addAvailableAction("hug");
         this.addAvailableAction("kiss");
 
+        /**
+         * Intraactions this Character is currently performing
+         * @type {Map} <kIntraactionTypes>
+         */
         this.currentActions = new Map();
+        /**
+         * Interactions this Character is currently performing
+         * @type {Map} <kInteractionTypes>
+         */
         this.currentInteractions = new Map(); // <this.bodyParts.*, [interactionType, Character, Character.bodyParts.*]>
+        /**
+         * Locations known by this Character
+         * @type {Set} <Location>
+         */
         this.knownLocations = new Set();
+        /**
+         * Spells known by this Character
+         * @type {Set} <Spell>
+         */
         this.knownSpells = new Set();
 
+        /**
+         * Item(s) this Character has
+         * @type {Array} <Item>
+         */
         this.items = new Array();
+        /**
+         * Item(s) this Character is holding; will never exceed two (2) Item(s)
+         * @type {Array} <Item>
+         */
         this.heldItems = new Array();
-        this.hasPhone = false;
+        /**
+         * Current Phone this Character is using
+         * @type {Phone} Can be undefined
+         */
         this.phone = undefined;
 
+        /**
+         * Base disposition this Character has for others
+         * @type {Disposition}
+         */
         this.defaultDisposition = new Disposition(0,0,0,0,0,0);
-        this.philautia = 50;     // self
-        this.agape = 50;         // others
-        this.sanguine = 0;       // optimistic, carefree, pleasure-seeking, may compliment philautia
-        this.phlegmatic = 0;     // caring, preserving, helpful, compliments agape
-        this.choleric = 0;       // practical, logical, asocial
-        this.melancholic = 0;    // tradition, stability, order
+        /**
+         * This Character's love for themself
+         * @type {Number} 0 to 100
+         */
+        this.philautia = 50;
+        /**
+         * This Character's love for others
+         * @type {Number} 0 to 100
+         */
+        this.agape = 50;
+        /**
+         * Optimism, carefree attitude, pleasure-seeking; may compliment philautia
+         * @type {Number} 0 to 100
+         */
+        this.sanguine = 0;
+        /**
+         * Caring, preservation, helpfulness; may compliment agape
+         * @type {Number} 0 to 100
+         */
+        this.phlegmatic = 0;
+        /**
+         * Practical, logical, asocial
+         * @type {Number} 0 to 100
+         */
+        this.choleric = 0;
+        /**
+         * Tradition, stability, order
+         * @type {Number} 0 to 100
+         */
+        this.melancholic = 0;
+        /**
+         * Hunger; may affect health, stamina, and mana regeneration
+         * @type {Number} 0 to 100
+         */
         this.hunger = 0;
+        /**
+         * Life; should this drop to 0, u ded
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.life = 100;
+        /**
+         * Max life; should never drop below 1
+         * @type {Number} 1 to Number.MAX_VALUE
+         */
         this.lifeMax = 100;
+        /**
+         * Mana; should this ever be greater than 0, things will be revealed
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.mana = 0;
+        /**
+         * Max mana
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.manaMax = 0;
+        /**
+         * Mana cost offset percentage when casting spells
+         * @type {Number} -100 to 100
+         */
         this.manaCostOffsetPercent = 0;
+        /**
+         * Stamina; should this drop to 0, u unconscious
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.stamina = 100;
+        /**
+         * Max stamina; should never drop below 1
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.staminaMax = 100;
+        /**
+         * Money
+         * @type {Number} 0 to Number.MAX_VALUE
+         */
         this.money = 0;
+        /**
+         * Sanity; may affect mana regeneration, mana, manaMax, and manaCostOffsetPercent
+         * @type {Number} 0 to 100
+         */
         this.sanity = 100;
+        /**
+         * Lust
+         * @type {Number} 0 to 100
+         */
         this.lust = 25;
+        /**
+         * Whether or not this Character is in rut
+         * @type {Boolean} True - yes, false - no
+         */
         this.rut = false;
-        this.cleanliness = 0;
+        /**
+         * Cleanliness
+         * @type {Number} 0 - filthy, 100 clean
+         */
+        this.cleanliness = 100;
+        /**
+         * Sex odor
+         * @type {Number} 0 - none, 100 reek
+         */
         this.odorSex = 0;
+        /**
+         * Sweat odor
+         * @type {Number} 0 - none, 100 reek
+         */
         this.odorSweat = 0;
+        /**
+         * Annoyed
+         * @type {Number} 0 - none, 100 agitated
+         */
         this.annoyed = 0;
+        /**
+         * Living
+         * @type {Boolean} True - alive, false - dead
+         */
         this.living = true;
 
-        this.setSex(_sex);
-        this.gender = _sex;
+        /**
+         * Physical sexual identity
+         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
+         */
+        this.sex = 0;
+        /**
+         * Personal sexual identity
+         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
+         */
+        this.gender = this.sex;
 
-        this.furColourA = "orange"; // Body
+        /**
+         * Primary fur colour
+         * @type {String}
+         */
+        this.furColourA = "orange";
+        /**
+         * Primary fur colour hex value
+         * @type {String}
+         */
         this.furColourAHex = undefined;
-        this.furColourB = "cream"; // Middle
+        /**
+         * Sexondary fur colour
+         * @type {String}
+         */
+        this.furColourB = "cream";
+        /**
+         * Secondary fur colour hex value
+         * @type {[type]}
+         */
         this.furColourBHex = undefined;
-
-        // Handled by setSpecies
+        /**
+         * Bodyparts
+         * @type {Set} <Bodypart>
+         */
         this.bodyParts = new Set();
+        /**
+         * Size in reference to a tundra wolf
+         * @type {Number}
+         */
         this.bodySize = 0.5;
+        /**
+         * Whether or not this Character is a predator
+         * @type {Boolean} True - predator, false - prey
+         */
         this.predator = false;
+        /**
+         * Hand type
+         * @type {String} (kHandTypes)
+         */
         this.handType = "pad";
+        /**
+         * Feet type
+         * @type {String} (kHandTypes)
+         */
         this.feetType = "pad";
+        /**
+         * Relatives
+         * @type {Set} <Character>
+         */
         this.relatives = new Set();
+        /**
+         * Eye type
+         * @type {String} (kEyeTypes)
+         */
         this.eyeType = "circle";
+        /**
+         * Eye colour
+         * @type {String}
+         */
         this.eyeColour = "green";
+        /**
+         * Pelt type
+         * @type {String} (kPeltTypes)
+         */
         this.peltType = "fur";
-        this.furTrimmed = 50;
-        this.furSoftness = 50;
+        /**
+         * Pelt trimmed
+         * @type {Number} 0 to 100
+         */
+        this.peltTrimmed = 50;
+        /**
+         * Pelt softness; I don't really know
+         * @type {Number} 0  to 100
+         */
+        this.peltSoftness = 50;
+        /**
+         * Breast size
+         * @type {Number} 0 - flat, 100 - DD; relative to body size
+         */
         this.breastSize = 0;
+        /**
+         * Penis size in centimeters
+         * @type {Number} 0 - none, 100 - Character dies from blood loss
+         */
         this.penisSize = 0;
+        /**
+         * Penis girth in centimeters
+         * @type {Number} 0 - none, 100 - Character dies from blood loss
+         */
         this.penisGirth = 0;
+        /**
+         * Vaginal depth in centimeters
+         * @type {Number} 0 - none, 100 - Character is basically a trash bag
+         */
         this.vaginaSize = 0;
+        /**
+         * Vaginal girth in centimeters
+         * @type {Number} 0 - none, 100 - Character is basically a trash bag
+         */
         this.vaginaGirth = 0;
+        /**
+         * Pubic hair, I don't know how that would work with fur
+         * @type {Number} 0 - none, 100 - 70s porn groove plays during sex
+         */
         this.pubicHairSize = 0;
-
-
-        this.setSpecies(_species);
-
+        /**
+         * Body parts slick with precum
+         * @type {Set} <Bodypart>
+         */
         this.bodyPartsSlickWithPre = new Set();
+        /**
+         * Body parts slick with cum
+         * @type {Set} <Bodypart>
+         */
         this.bodyPartsSlickWithCum = new Set();
+        /**
+         * Virgin
+         * @type {Boolean} True - virgin, false - not a virgin
+         */
         this.virgin = true;
+        /**
+         * Had sex with a male
+         * @type {Boolean} True - had sex with a male, false - didn't have sex with a male
+         */
         this.hadSexWithMale = false;
+        /**
+         * Had sex with a female
+         * @type {Boolean} True - had sex with a female, false - didn't have sex with a female
+         */
         this.hadSexWithFemale = false;
 
+        /**
+         * Number of times this Character has had sex
+         * @type {Number}
+         */
         this.sexCount = 0;
-        this.sexCountMap = new Map(); // Map<Character, integer>
-        this.sexRefusalCountMap = new Map(); // Map<Character, integer>
+        /**
+         * Map of Characters and the Number of times this Character has had sex with them
+         * @type {Map} <Character, integer>
+         */
+        this.sexCountMap = new Map();
+        /**
+         * Map of Characters and the Number of times this Character has been refused sex with them
+         * @type {Map} <Character, integer>
+         */
+        this.sexRefusalCountMap = new Map();
+        /**
+         * Number of times this Character has received vaginal
+         * @type {Number}
+         */
         this.vaginalReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received vaginal from them
+         * @type {Map} <Character, Number>
+         */
         this.vaginalReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given vaginal
+         * @type {Number}
+         */
         this.vaginalGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them vaginal
+         * @type {Map} <Character, Number>
+         */
         this.vaginalGiveCountMap = new Map();
+        /**
+         * Number of times this Character has received anal
+         * @type {Number}
+         */
         this.analReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received anal from them
+         * @type {Map} <Character, Number>
+         */
         this.analReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given anal
+         * @type {Number}
+         */
         this.analGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them anal
+         * @type {Map} <Character, Number>
+         */
         this.analGiveCountMap = new Map();
+        /**
+         * Number of times this Character has received cunnilingus
+         * @type {Number}
+         */
         this.cunnilingusReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received cunnilingus from them
+         * @type {Map} <Character, Number>
+         */
         this.cunnilingusReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given cunnilingus
+         * @type {Number}
+         */
         this.cunnilingusGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them cunnilingus
+         * @type {Map} <Character, Number>
+         */
         this.cunnilingusGiveCountMap = new Map();
+        /**
+         * Number of times this Character has received analingus
+         * @type {Number}
+         */
         this.analingusReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received analingus from them
+         * @type {Map} <Character, Number>
+         */
         this.analingusReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given analingus
+         * @type {Number}
+         */
         this.analingusGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them analingus
+         * @type {Map} <Character, Number>
+         */
         this.analingusGiveCountMap = new Map();
+        /**
+         * Number of times this Character has received fellatio
+         * @type {Number}
+         */
         this.fellatioReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received fellatio from them
+         * @type {Map} <Character, Number>
+         */
         this.fellatioReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given fellatio
+         * @type {Number}
+         */
         this.fellatioGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them fellatio
+         * @type {Map} <Character, Number>
+         */
         this.fellatioGiveCountMap = new Map();
+        /**
+         * Number of times this Character has received a handjob
+         * @type {Number}
+         */
         this.handjobReceiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has received a handjob from them
+         * @type {Map} <Character, Number>
+         */
         this.handjobReceiveCountMap = new Map();
+        /**
+         * Number of times this Character has given a handjob
+         * @type {Number}
+         */
         this.handjobGiveCount = 0;
+        /**
+         * Map of Characters and the Number of times this Character has given them a handjob
+         * @type {Map} <Character, Number>
+         */
         this.handjobGiveCountMap = new Map();
+        /**
+         * Number of times this Character has masturbated
+         * @type {Number}
+         */
         this.masturbateCount = 0;
+        /**
+         * Number of times this Character has performed autofellatio
+         * @type {Number}
+         */
         this.autofellatioCount = 0;
+        /**
+         * Number of times this Character has performed autocunnilingus
+         * @type {Number}
+         */
         this.autocunnilingusCount = 0;
+        /**
+         * Number of times this Character has performed autoanalingus
+         * @type {Number}
+         */
         this.autoanalingusCount = 0;
 
+        /**
+         * The Character this Character is following
+         * @type {Character} Can be undefined
+         */
         this.following = undefined; // Character
+        /**
+         * Set of Character(s) this Character is leading
+         * @type {Set} <Character>
+         */
         this.followers = new Set(); // Set<Character>
 
+        /**
+         * Current Furniture this Character is using
+         * @type {Furniture} Can be undefined
+         */
         this.furniture = undefined;
 
-        this.clothing = new Map(); // Map<string, Clothing>
+        /**
+         * Clothing this Character is wearing
+         * @type {Map} <String, Clothing>
+         */
+        this.clothing = new Map();
         this.clothing.set("hat", undefined);
         this.clothing.set("mask", undefined);
         this.clothing.set("glasses", undefined);
@@ -1573,37 +2042,117 @@ class Character extends Entity {
         this.clothing.set("shoes", undefined);
         this.clothing.set("bra", undefined);
 
-        this.characterDisposition = new Map(); // Map<Character, Disposition>
+        /**
+         * Map of Characters and this Character's disposition for them
+         * @type {Map} <Character, Disposition>
+         */
+        this.characterDisposition = new Map();
         
+        /**
+         * Set of Characters that are currently being dated
+         * @type {Set} <Character>
+         */
         this._dating = new Set();
+        /**
+         * Map of Characters and the Number of times this Character has dated them
+         * @type {Map} <Character, Number>
+         */
         this._dated = new Map();
 
+        /**
+         * Preference for species
+         * @type {Set}
+         */
         this.prefersSpecies = new Set(); // Set<species>
+        /**
+         * Preference for avoiding species
+         * @type {Set}
+         */
         this.avoidsSpecies = new Set(); // Set<species>
 
-        this.sexualOrientation = 0; // 0 straight, 1 gay, 2 bi
+        /**
+         * Sexual orientation
+         * @type {Number} 0 - straight, 1 - gay, 2 - bi
+         */
+        this.sexualOrientation = 0;
+        /**
+         * Preferred penis size in males
+         * @type {Number}
+         */
+        this.preferredPenisSize = 0;
+        /**
+         * Preferred penis girth in males
+         * @type {Number}
+         */
+        this.preferredPenisGirth = 0;
+        /**
+         * Preferred breast size in females
+         * @type {Number}
+         */
+        this.preferredBreastSize = 0;
 
-        this.preferredPenisSize = undefined; // int
-        this.preferredPenisGirth = undefined; // int
-        this.preferredBreastSize = undefined; // int
-
+        /**
+         * Preference for predators
+         * @type {Boolean} True - prefers predators, false - doen't prefer predators
+         */
         this.prefersPredators = false;
+        /**
+         * Preference for avoiding predators
+         * @type {Boolean} True - avoids predators, false - doesn't avoid predators
+         */
         this.avoidsPredators = false;
+        /**
+         * Preference for prey
+         * @type {Boolean} True - prefers prey, false - doesn't prefer prey
+         */
         this.prefersPrey = false;
+        /**
+         * Preference for avoiding prey
+         * @type {Boolean} True - avoids prey, false - Doesn't avoid prey
+         */
         this.avoidsPrey = false;
 
-        this.exhibitionism = 0; // 0-100, preference for public sex
-        this.somnophilia = 0; // 0-100, preference for sleep sex
-        this.intoxication = 0; // 0-100, drunkness
-        this.incestual = 0; // 0-100, preference for incest
+        /**
+         * Preference for public sex
+         * @type {Number} 0 to 100
+         */
+        this.exhibitionism = 0;
+        /**
+         * Preference for sleep sex
+         * @type {Number} 0 to 100
+         */
+        this.somnophilia = 0;
+        /**
+         * Drunkenness
+         * @type {Number} 0 to 100
+         */
+        this.intoxication = 0;
+        /**
+         * Alcohol tolerance
+         * @type {Number} 0 to 100
+         */
+        this.alcoholTolerance = 0;
+        /**
+         * Preference for incest
+         * @type {Number} 0 to 100
+         */
+        this.incestual = 0;
 
+        /**
+         * Previous Room
+         * @type {Room} Can be undefined
+         */
         this.previousRoom = undefined;
+        /**
+         * Current Room
+         * @type {Room} Cannot be undefined!
+         */
         this.room = undefined;
-        this.cell = undefined;
-        this.location = undefined;
 
         charactersIndexes.set(_id, this);
 
+        this.setSex(_sex);
+        this.setSpecies(_species);
         this.stand();
     }
     
@@ -2028,7 +2577,6 @@ class Character extends Entity {
         }
         this.items.push(_item);
         if (_item instanceof Phone && _item.owner == this) {
-            this.hasPhone = true;
             this.phone = _item;
         }
         
@@ -4273,7 +4821,7 @@ class Character extends Entity {
             this.setHand("clovenhoof");
             this.setEyes("rectangle");
             this.setFur("wool");
-            this.furSoftness = 75;
+            this.peltSoftness = 75;
         }
         else if (_species == "stoat") {
             if (this.sex == 0) {
@@ -4308,7 +4856,7 @@ class Character extends Entity {
             this.setHand("clovenhoof");
             this.setEyes("circle");
             this.setFur("wool");
-            this.furSoftness = 75;
+            this.peltSoftness = 75;
         }
         else if (_species == "rabbit") {
             if (this.sex == 0) {
@@ -4326,7 +4874,7 @@ class Character extends Entity {
             this.setHand("fur");
             this.setEyes("circle");
             this.setFur("fur");
-            this.furSoftness = 75;
+            this.peltSoftness = 75;
         }
         else if (_species == "jackal") {
             if (this.sex == 0) {
@@ -4447,7 +4995,7 @@ class Character extends Entity {
             this.setHand("skin");
             this.setEyes("circle");
             this.setFur("fur");
-            this.furSoftness = 75;
+            this.peltSoftness = 75;
         }
     }
 
@@ -6630,6 +7178,32 @@ class Consumable extends Item {
             this.addAvailableAction("consume");
 
             this.setType(_type);
+
+            /**
+             * Modification to a Character's Hunger property
+             * @type {Number} -9999 to 9999
+             */
+            this.modHunger = 0;
+            /**
+             * Modification to a Character's Life property
+             * @type {Number} -9999 to 9999
+             */
+            this.modLife = 0;
+            /**
+             * Modification to a Character's Stamina property
+             * @type {Number} -9999 to 9999
+             */
+            this.modStamina = 0;
+            /**
+             * Modification to a Character's Mana property
+             * @type {Number} -9999 to 9999
+             */
+            this.modMana = 0;
+            /**
+             * Modification to a Character's alcohol property
+             * @type {Number} -100 to 100
+             */
+            this.modAlcohol = 0;
         }
 
         consumableIndexes.set(_id, this);
@@ -6815,7 +7389,6 @@ class Furniture extends Entity {
         }
         this.items.push(_item);
         if (_item instanceof Phone && _item.owner == this) {
-            this.hasPhone = true;
             this.phone = _item;
         }
         
@@ -7077,14 +7650,14 @@ class Phone extends Item {
             if (phonesIndexes.has(_fromPhone))
                 _fromPhone = phonesIndexes.get(_fromPhone);
             else if (_fromPhone instanceof Character) {
-                if (_fromPhone.hasPhone)
+                if (_fromPhone.phone instanceof Phone)
                     _fromPhone = _fromPhone.phone;
                 else
                     return undefined;
             }
             else if (charactersIndexes.has(_fromPhone)) {
                 _fromPhone = charactersIndexes.get(_fromPhone);
-                if (_fromPhone.hasPhone)
+                if (_fromPhone.phone instanceof Phone)
                     _fromPhone = _fromPhone.phone;
                 else
                     return undefined;
@@ -7104,14 +7677,14 @@ class Phone extends Item {
             if (phonesIndexes.has(_toPhone))
                 _toPhone = phonesIndexes.get(_toPhone);
             else if (_toPhone instanceof Character) {
-                if (_toPhone.hasPhone)
+                if (_toPhone.phone instanceof Phone)
                     _toPhone = _toPhone.phone;
                 else
                     return undefined;
             }
             else if (charactersIndexes.has(_toPhone)) {
                 _toPhone = charactersIndexes.get(_toPhone);
-                if (_toPhone.hasPhone)
+                if (_toPhone.phone instanceof Phone)
                     _toPhone = _toPhone.phone;
                 else
                     return undefined;

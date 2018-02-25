@@ -2039,7 +2039,6 @@ function characterTakeOver(_characterA, _characterB) {
     
     arr.set('id', _characterA.id);
 
-    arr.set('hasPhone', _characterA.hasPhone);
     arr.set('phone', _characterA.phone);
 
     arr.set('defaultDisposition', _characterA.defaultDisposition);
