@@ -343,7 +343,12 @@ function charlieSexFellatioGiveInitial() {
     }
 }
 function charlieSexFellatioGiveAgain() {
-    
+    _character = charlie;
+
+    _ctf = calculateChanceToFuck(remmy, charlie);
+    _blob = "";
+
+    if (player.hasItem(charlieBeatingHeart) && _ctf < 50)
 }
 function _charlieSexFellatioGivePostAskShower() {
     _character = charlie;
@@ -604,12 +609,12 @@ function wolterTalk() {
     if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
         if (_character.hasDated(player)) {
             if (!_character.isDating(player))
-                Menu.addOption("wolterDateAsk()", "Ask {0} out, again".format(_character.objectPronoun));
+                Menu.addOption("wolterDateAsk()", "Ask {0} out, again".format(_character.objectPronoun()));
             else
                 Menu.addOption("wolterDateSchedule()", "Go out on a date");
         }
         else if (!_character.hasDated(player))
-            Menu.addOption("wolterFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun));
+            Menu.addOption("wolterFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun()));
     }
 
     unsafeExec("{0}{1}Talk()".format(player.room.sid, _character.id.capitalize()));
