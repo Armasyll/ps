@@ -218,7 +218,7 @@ function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _
             ).format(
                 _itemInstance.item.image,
                 _itemInstance.item.name,
-                (typeof _item.owner != 'undefined' ? _ownerString : ''),
+                (typeof _itemInstance.owner != 'undefined' ? _ownerString : ''),
                 _itemInstance.item.description,
                 (_modify === true ? (_fromEntity == player ? ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id) : ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id)) : '')
             )
