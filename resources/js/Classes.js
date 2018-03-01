@@ -2661,12 +2661,6 @@ class Character extends Entity {
                 return true;
             }
         }, this);
-        this.clothing.forEach(function(__item) {
-            if (typeof __item == "undefined")
-                return;
-            if (__item.item == _item)
-                _foundItem = true;
-        }, this);
         return _foundItem;
     }
     hasItem(_itemInstance) {
@@ -4048,7 +4042,7 @@ class Character extends Entity {
     addCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
         if (!kActionTypes.has(_actionType))
             return undefined;
-        if (!(_entity instanceof Entity))
+        if (!(_entity instanceof Entity) && !(_entity instanceof ItemInstance))
             _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
 
         this.currentActions.set(_actionType, _entity);
@@ -4056,7 +4050,7 @@ class Character extends Entity {
     removeCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
         if (!kActionTypes.has(_actionType) && _actionType !== undefined)
             return undefined;
-        if (!(_entity instanceof Entity))
+        if (!(_entity instanceof Entity) && !(_entity instanceof ItemInstance))
             _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
 
         this.currentActions.delete(_actionType);
@@ -4506,6 +4500,9 @@ class Character extends Entity {
             else
                 return;
         }
+
+        if (!(this.hasItem(_itemInstance)))
+            this.addItem(_itemInstance);
 
         if (_itemInstance instanceof ItemInstance) {
             if (kClothingTypes.has(_itemInstance.item.type)) {
