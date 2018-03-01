@@ -1,3 +1,27 @@
+function entityInteract(_entity, _clearContent = false, _clearMenu = true) {
+    if (!_entity instanceof Entity || !_entity instanceof Instance) {
+        if (entityIndexes.has(_entity))
+            _entity = entityIndexes.get(_entity);
+        else
+            return undefined;
+    }
+
+    if (_entity instanceof Character)
+        return characterInteract(_entity, _clearContent);
+    else if (_entity instanceof Furniture)
+        return furnitureInteract(_entity, _clearContent, _clearMenu);
+    else if (_entity instanceof Phone)
+        return phoneInteract(_entity, _clearContent, _clearMenu);
+    else if (_entity instanceof Item || _entity instanceof ItemInstance)
+        return itemInteract(_entity, player, _clearContent, _clearMenu);
+    else if (_entity instanceof Spell)
+        return spellInteract(_entity, player, _clearContent, _clearMenu);
+    else if (_entity instanceof Room)
+        return roomInteract(_entity, _clearContent, _clearMenu);
+    else
+        return false;
+}
+
 function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     if (!(_room instanceof Room))
         _room = roomsIndexes.get(_room);
@@ -567,7 +591,10 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
         Menu.clear();
         Menu.showingBaseMenu = false;
         Menu.setOption((Menu.useWideMenu ? 4 : 3), "furnitureInteractOpen('{0}', {1}, {2}, '{3}', false)".format(_furniture.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == player ? "yours" : _characterA.name));
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract('{0}', false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        if (_characterB instanceof Furniture)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract('{0}', false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+        else if (_characterB instanceof Character)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteract('{0}', false, true)".format(_furniture.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_furniture.name));
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_itemInstance) {

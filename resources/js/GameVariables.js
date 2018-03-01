@@ -58,6 +58,11 @@ var itemsIndexes = new Map();
  */
 var itemInstancesIndexes = new Map();
 /**
+ * Map of Instance(s)
+ * @type {Map<String, Instance>}
+ */
+var instancesIndexes = new Map();
+/**
  * Map of Key(s)
  * @type {Map<String, Key>}
  */

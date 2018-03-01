@@ -7157,196 +7157,6 @@ class Item extends Entity {
         return this.moveToEntity(_entity);
     }
 }
-class ItemInstance {
-    constructor(_item, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
-        /**
-         * ID
-         * @type {String} UUIDv4
-         */
-        
-        this.id = uuidv4();
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else
-                return undefined;
-        }
-        /**
-         * Item
-         * @type {Item}
-         */
-        this.item = _item;
-        if (!(_owner instanceof Character)) {
-            if (charactersIndexes.has(_owner))
-                _owner = charactersIndexes.get(_owner);
-            else
-                _owner = undefined;
-        }
-        /**
-         * Owner
-         * @type {Character} Can be undefined
-         */
-        this.owner = _owner;
-        if (typeof _price == "undefined" || _price == 0)
-            _price = this.item.price;
-        /**
-         * Price
-         * @type {Number} (Int)
-         */
-        this.price = this.setPrice(_price);
-        if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = this.item.weight;
-        /**
-         * Weight
-         * @type {Number} (Float)
-         */
-        this.weight = this.setWeight(_weight);
-        if (typeof _durability == "undefined" || _durability == 1)
-            _durability = this.item.durability;
-        /**
-         * Durability
-         * @type {Number}
-         */
-        this.durability = this.setDurability(_durability);
-        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = this.item.durabilityMax;
-        /**
-         * Max Durability
-         * @type {Number}
-         */
-        this.durabilityMax = this.setDurabilityMax(_durabilityMax);
-
-        itemInstancesIndexes.set(this.id, this);
-    }
-
-    setOwner(_character) {
-        if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
-            else
-                _character = undefined;
-        }
-        this.owner = _character;
-    }
-
-    /**
-     * Sets Price
-     * @param {Number} _int Integer
-     */
-    setPrice(_int) {
-        _int = Number.parseInt(_int);
-        if (isNaN(_int))
-            _int = 0;
-        else if (_int < 0)
-            _int = 0;
-        else if (_int > Number.MAX_VALUE)
-            _int = Number.MAX_VALUE;
-        this.durability = _int;
-        return _int;
-    }
-
-    /**
-     * Sets Weight
-     * @param {Number} _float Float
-     */
-    setWeight(_float) {
-        _float = Number.parseFloat(_float);
-        if (isNaN(_float))
-            _float = 0;
-        else if (_float < 0)
-            _float = 0;
-        else if (_float > Number.MAX_VALUE)
-            _float = Number.MAX_VALUE;
-        this.weight = _float;
-        return _float;
-    }
-
-    /**
-     * Sets Durability
-     * @param {Number} _int Integer
-     */
-    setDurability(_int) {
-        _int = Number.parseInt(_int);
-        if (isNaN(_int))
-            _int = 0;
-        else if (_int < 0)
-            _int = 0;
-        else if (_int > this.durabilityMax)
-            _int = this.durabilityMax;
-        this.durability = _int;
-        return _int;
-    }
-    incDurability(_int = 1) {
-        if (isNaN(_int))
-            _int = 1;
-        else if (_int < 1)
-            _int = 1;
-        return this.setDurability(this.durability + _int);
-    }
-    addDurability(_int) {
-        return this.incDurability(_int);
-    }
-    decDurability(_int = 1) {
-        if (isNaN(_int))
-            _int = 1;
-        else if (_int < 1)
-            _int = 1;
-        return this.setDurability(this.durability - _int);
-    }
-    subDurability(_int) {
-        return this.decDurability(_int);
-    }
-    /**
-     * Returns Durability
-     * @return {Number} Integer
-     */
-    getDurability() {
-        return this.durability;
-    }
-
-    /**
-     * Sets Max Durability
-     * @param {Number} _int Integer
-     */
-    setDurabilityMax(_int) {
-        _int = Number.parseInt(_int);
-        if (isNaN(_int))
-            _int = 0;
-        else if (_int < 0)
-            _int = 0;
-        else if (_int > Number.MAX_VALUE)
-            _int = Number.MAX_VALUE;
-        this.durabilityMax = _int;
-        return _int;
-    }
-    incDurabilityMax(_int = 1) {
-        if (isNaN(_int))
-            _int = 1;
-        else if (_int < 1)
-            _int = 1;
-        return this.setDurabilityMax(this.durabilityMax + _int);
-    }
-    addDurabilityMax(_int) {
-        return this.incDurabilityMax(_int);
-    }
-    decDurabilityMax(_int = 1) {
-        if (isNaN(_int))
-            _int = 1;
-        else if (_int < 1)
-            _int = 1;
-        return this.setDurabilityMax(this.durabilityMax - _int);
-    }
-    subDurabilityMax(_int) {
-        return this.decDurabilityMax(_int);
-    }
-    /**
-     * Returns Max Durability
-     * @return {Number} Integer
-     */
-    getDurabilityMax() {
-        return this.durabilityMax;
-    }
-}
 /**
  * Class that represents all Key(s)
  * @extends {Item}
@@ -8141,6 +7951,197 @@ class Spell extends Entity {
         this.staminaCost = _staminaCost;
 
         spellsIndexes.set(this.id, this);
+    }
+}
+class Instance {
+    constructor(_id) {
+        this.id = _id;
+        instancesIndexes.set(this.id, this);
+    }
+}
+class ItemInstance extends Instance {
+    constructor(_item, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+        super(uuidv4());
+        if (!(_item instanceof Item)) {
+            if (itemsIndexes.has(_item))
+                _item = itemsIndexes.get(_item);
+            else
+                return undefined;
+        }
+        /**
+         * Item
+         * @type {Item}
+         */
+        this.item = _item;
+        if (!(_owner instanceof Character)) {
+            if (charactersIndexes.has(_owner))
+                _owner = charactersIndexes.get(_owner);
+            else
+                _owner = undefined;
+        }
+        /**
+         * Owner
+         * @type {Character} Can be undefined
+         */
+        this.owner = _owner;
+        if (typeof _price == "undefined" || _price == 0)
+            _price = this.item.price;
+        /**
+         * Price
+         * @type {Number} (Int)
+         */
+        this.price = this.setPrice(_price);
+        if (typeof _weight == "undefined" || _weight == 0.001)
+            _weight = this.item.weight;
+        /**
+         * Weight
+         * @type {Number} (Float)
+         */
+        this.weight = this.setWeight(_weight);
+        if (typeof _durability == "undefined" || _durability == 1)
+            _durability = this.item.durability;
+        /**
+         * Durability
+         * @type {Number}
+         */
+        this.durability = this.setDurability(_durability);
+        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
+            _durabilityMax = this.item.durabilityMax;
+        /**
+         * Max Durability
+         * @type {Number}
+         */
+        this.durabilityMax = this.setDurabilityMax(_durabilityMax);
+
+        itemInstancesIndexes.set(this.id, this);
+    }
+
+    setOwner(_character) {
+        if (!(_character instanceof Character)){
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                _character = undefined;
+        }
+        this.owner = _character;
+    }
+
+    /**
+     * Sets Price
+     * @param {Number} _int Integer
+     */
+    setPrice(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > Number.MAX_VALUE)
+            _int = Number.MAX_VALUE;
+        this.durability = _int;
+        return _int;
+    }
+
+    /**
+     * Sets Weight
+     * @param {Number} _float Float
+     */
+    setWeight(_float) {
+        _float = Number.parseFloat(_float);
+        if (isNaN(_float))
+            _float = 0;
+        else if (_float < 0)
+            _float = 0;
+        else if (_float > Number.MAX_VALUE)
+            _float = Number.MAX_VALUE;
+        this.weight = _float;
+        return _float;
+    }
+
+    /**
+     * Sets Durability
+     * @param {Number} _int Integer
+     */
+    setDurability(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > this.durabilityMax)
+            _int = this.durabilityMax;
+        this.durability = _int;
+        return _int;
+    }
+    incDurability(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurability(this.durability + _int);
+    }
+    addDurability(_int) {
+        return this.incDurability(_int);
+    }
+    decDurability(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurability(this.durability - _int);
+    }
+    subDurability(_int) {
+        return this.decDurability(_int);
+    }
+    /**
+     * Returns Durability
+     * @return {Number} Integer
+     */
+    getDurability() {
+        return this.durability;
+    }
+
+    /**
+     * Sets Max Durability
+     * @param {Number} _int Integer
+     */
+    setDurabilityMax(_int) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > Number.MAX_VALUE)
+            _int = Number.MAX_VALUE;
+        this.durabilityMax = _int;
+        return _int;
+    }
+    incDurabilityMax(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurabilityMax(this.durabilityMax + _int);
+    }
+    addDurabilityMax(_int) {
+        return this.incDurabilityMax(_int);
+    }
+    decDurabilityMax(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDurabilityMax(this.durabilityMax - _int);
+    }
+    subDurabilityMax(_int) {
+        return this.decDurabilityMax(_int);
+    }
+    /**
+     * Returns Max Durability
+     * @return {Number} Integer
+     */
+    getDurabilityMax() {
+        return this.durabilityMax;
     }
 }
 class Cron {
