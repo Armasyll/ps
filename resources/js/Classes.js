@@ -2574,8 +2574,14 @@ class Character extends Entity {
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Phone)
+                _itemInstance = new PhoneInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
+            else if (phonesIndexes.has(_itemInstance)) {
+                _itemInstance = phonesIndexes.get(_itemInstance);
+                _itemInstance = new PhoneInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
+            }
             else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(_itemInstance);
+                _itemInstance = new ItemInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
             else if (itemsIndexes.has(_itemInstance))
                 _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
@@ -2584,8 +2590,8 @@ class Character extends Entity {
         if (!this.hasItem(_itemInstance.id))
             this.items.push(_itemInstance);
 
-        if (_itemInstance.item instanceof Phone && _itemInstance.item.owner == this)
-            this.phone = _itemInstance.item;
+        if (_itemInstance instanceof PhoneInstance && _itemInstance.owner == this)
+            this.phone = _itemInstance;
 
         return true;
     }
@@ -2602,7 +2608,7 @@ class Character extends Entity {
         if (this.wearing(_itemInstance))
             this.takeOff(_itemInstance);
         
-        if (_itemInstance.item instanceof Phone && _itemInstance.item.owner == this)
+        if (_itemInstance.child instanceof Phone && _itemInstance.child.owner == this)
             this.phone = undefined;
 
         this.items.splice(this.items.indexOf(_itemInstance), 1);
@@ -2615,7 +2621,7 @@ class Character extends Entity {
             else if (_itemInstance instanceof Item) {
                 if (this instanceof Entity) {
                     this.items.some(function(__itemInstance) {
-                        if (__itemInstance.item == _itemInstance) {
+                        if (__itemInstance.child == _itemInstance) {
                             _itemInstance = __itemInstance;
                             return true;
                         }
@@ -2628,7 +2634,7 @@ class Character extends Entity {
                 _itemInstance = itemsIndexes.get(_itemInstance);
                 if (this instanceof Entity) {
                     this.items.some(function(__itemInstance) {
-                        if (__itemInstance.item == _itemInstance) {
+                        if (__itemInstance.child == _itemInstance) {
                             _itemInstance = __itemInstance;
                             return true;
                         }
@@ -4131,8 +4137,8 @@ class Character extends Entity {
             if (typeof _itemInstance == "undefined") return undefined;
         }
 
-        if (kClothingTypes.has(_itemInstance.item.type))
-            this.clothing.set(_itemInstance.item.type, undefined);
+        if (kClothingTypes.has(_itemInstance.child.type))
+            this.clothing.set(_itemInstance.child.type, undefined);
 
         return true;
     }
@@ -4181,7 +4187,6 @@ class Character extends Entity {
             _itemInstance = _entity.getItem(_itemInstance);
             if (typeof _itemInstance == "undefined") return undefined;
         }
-
         return true;
     }
     hold(_itemInstance, _hand = undefined) {
@@ -4505,8 +4510,8 @@ class Character extends Entity {
             this.addItem(_itemInstance);
 
         if (_itemInstance instanceof ItemInstance) {
-            if (kClothingTypes.has(_itemInstance.item.type)) {
-                this.clothing.set(_itemInstance.item.type, _itemInstance);
+            if (kClothingTypes.has(_itemInstance.child.type)) {
+                this.clothing.set(_itemInstance.child.type, _itemInstance);
                 return true;
             }
             return false;
@@ -4607,10 +4612,10 @@ class Character extends Entity {
             else
                 return undefined;
         }
-        else if (!(_itemInstance.item instanceof Clothing))
+        else if (!(_itemInstance.child instanceof Clothing))
             return undefined;
         else
-            _clothing = _itemInstance.item;
+            _clothing = _itemInstance.child;
 
         if (_clothing instanceof Clothing) {
             if (kClothingTypes.has(_clothing.type)) {
@@ -7070,7 +7075,7 @@ class Item extends Entity {
      * @param  {Boolean} _plural      Whether or not the item is plural
      * @param  {Set}     _specialTypes Set of special types
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialTypes = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialTypes = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         if (_id instanceof Item) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7493,7 +7498,7 @@ class Furniture extends Entity {
             else if (_itemInstance instanceof Item) {
                 if (_character instanceof Entity) {
                     _character.items.some(function(__itemInstance) {
-                        if (__itemInstance.item == _itemInstance) {
+                        if (__itemInstance.child == _itemInstance) {
                             _itemInstance = __itemInstance;
                             return true;
                         }
@@ -7506,7 +7511,7 @@ class Furniture extends Entity {
                 _itemInstance = itemsIndexes.get(_itemInstance);
                 if (_character instanceof Entity) {
                     _character.items.some(function(__itemInstance) {
-                        if (__itemInstance.item == _itemInstance) {
+                        if (__itemInstance.child == _itemInstance) {
                             _itemInstance = __itemInstance;
                             return true;
                         }
@@ -7753,105 +7758,34 @@ class ElectronicDevice extends Item {
  * @extends {Item}
  */
 class Phone extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _owner = undefined) {
-        super(_id, _name, _description, _image);
-        if (!(_owner instanceof Character))
-            _owner = charactersIndexes.has(_owner) ? charactersIndexes.get(_owner) : undefined;
-        this.owner = _owner;
-
-        this.receivedMessages = new Map();
-        this.readMessages = new Map();
-        this.sentMessages = new Map();
-
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
+        super(_id, _name, _description, _image, false, ["metal","electricity","smooth","mirror"], _defaultPrice, _defaultWeight, _defaultDurability);
         phonesIndexes.set(_id, this);
-    }
-
-    newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
-        if (!(_fromPhone instanceof Phone)) {
-            if (phonesIndexes.has(_fromPhone))
-                _fromPhone = phonesIndexes.get(_fromPhone);
-            else if (_fromPhone instanceof Character) {
-                if (_fromPhone.phone instanceof Phone)
-                    _fromPhone = _fromPhone.phone;
-                else
-                    return undefined;
-            }
-            else if (charactersIndexes.has(_fromPhone)) {
-                _fromPhone = charactersIndexes.get(_fromPhone);
-                if (_fromPhone.phone instanceof Phone)
-                    _fromPhone = _fromPhone.phone;
-                else
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
-
-        var _textMessage = new TextMessage(_fromPhone, this, _message);
-        _textMessage.time = _time;
-        this.readMessages.set(_textMessage.id, _textMessage);
-        _fromPhone.sentMessages.set(_textMessage.id, _textMessage);
-    }
-
-    sendMessage(_toPhone, _message, _time = undefined) {
-        if (!(_toPhone instanceof Phone)) {
-            if (phonesIndexes.has(_toPhone))
-                _toPhone = phonesIndexes.get(_toPhone);
-            else if (_toPhone instanceof Character) {
-                if (_toPhone.phone instanceof Phone)
-                    _toPhone = _toPhone.phone;
-                else
-                    return undefined;
-            }
-            else if (charactersIndexes.has(_toPhone)) {
-                _toPhone = charactersIndexes.get(_toPhone);
-                if (_toPhone.phone instanceof Phone)
-                    _toPhone = _toPhone.phone;
-                else
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
-
-        var _textMessage = new TextMessage(this, _toPhone, _message, _time);
-        _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
-        this.sentMessages.set(_textMessage.id, _textMessage);
-
-        if (_toPhone == player.phone)
-            Content.add("<p>You've received a text message.</p>");
-    }
-
-    readMessage(_textMessage) {
-        if (!(_textMessage instanceof TextMessage))
-            _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
-        if (!(_textMessage instanceof TextMessage))
-            return undefined;
-
-        if (this.receivedMessages.has(_textMessage.id)) {
-            this.receivedMessages.delete(_textMessage.id);
-            this.readMessages.set(_textMessage.id, _textMessage);
-        }
     }
 }
 class TextMessage {
     /**
      * Create new TextMessage
-     * @param  {Phone} _fromPhone Source
-     * @param  {Phone} _toPhone   Destination
-     * @param  {String} _message   Text message, can be HTML
-     * @param  {String} _time      Optional Time (YYYY-MM-DD HH:mm:SS)
+     * @param  {ItemInstance}   _fromPhone      Source
+     * @param  {ItemInstance}   _toPhone        Destination
+     * @param  {String}         _message        Text message, can be HTML
+     * @param  {String}         _time           Optional Time (YYYY-MM-DD HH:mm:SS)
      */
     constructor(_fromPhone, _toPhone, _message = "", _time = undefined) {
-        if (!(_fromPhone instanceof Phone))
-            _fromPhone = phonesIndexes.has(_fromPhone) ? phonesIndexes.get(_fromPhone) : undefined;
-        if (!(_toPhone instanceof Phone))
-            _toPhone = phonesIndexes.has(_toPhone) ? phonesIndexes.get(_toPhone) : undefined;
+        if (!(_fromPhone instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_fromPhone))
+                _fromPhone = itemInstancesIndexes.get(_fromPhone);
+            else
+                return undefined;
+        }
+        if (!(_toPhone instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_toPhone))
+                _toPhone = itemInstancesIndexes.get(_toPhone);
+            else
+                return undefined;
+        }
 
-        if (_fromPhone == undefined || _toPhone == undefined)
-            return undefined;
-
-        this.id = "{0}{1}{2}".format(_fromPhone.id, _toPhone.id, textMessageIndexes.size);
+        this.id = "{0}{1}{2}".format(_fromPhone.owner.id, _toPhone.owner.name, textMessageIndexes.size);
         this.from = _fromPhone.owner.name;
         this.to = _toPhone.owner.name;
         this.time = _time == undefined ? "{0}/{1}/{2} {3}:{4}:{5}".format(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds()) : _time;
@@ -7954,63 +7888,88 @@ class Spell extends Entity {
     }
 }
 class Instance {
-    constructor(_id) {
+    constructor(_id, _child) {
+        if (typeof _id == "undefined")
+            _id = uuidv4();
         this.id = _id;
+
+        if (typeof _child == "undefined")
+            return undefined;
+        else if (!(_child instanceof Entity)) {
+            if (entityIndexes.has(_child))
+                _entityIndexes.get(_child);
+            else if (_child instanceof Instance)
+                _child = _child.child;
+            else if (instancesIndexes.has(_child))
+                _child = instancesIndexes.get(_child).child;
+            else
+                return undefined;
+        }
+        this.child = _child;
+
         instancesIndexes.set(this.id, this);
     }
 }
 class ItemInstance extends Instance {
-    constructor(_item, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
-        super(uuidv4());
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
+    constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+        /**
+         * Child
+         * @type {Item}
+         */
+        if (!(_child instanceof Item)) {
+            if (itemsIndexes.has(_child)) 
+                _child = itemsIndexes.get(_child);
+            else if (_child instanceof ItemInstance && _child.child instanceof Item) 
+                _child = _child.child;
+            else if (itemInstancesIndexes.has(_child)) {
+                _child = itemInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Item))
+                    return undefined;
+            }
             else
                 return undefined;
         }
+
+        super(uuidv4(), _child);
+
         /**
-         * Item
-         * @type {Item}
+         * Owner
+         * @type {Character} Can be undefined
          */
-        this.item = _item;
         if (!(_owner instanceof Character)) {
             if (charactersIndexes.has(_owner))
                 _owner = charactersIndexes.get(_owner);
             else
                 _owner = undefined;
         }
-        /**
-         * Owner
-         * @type {Character} Can be undefined
-         */
         this.owner = _owner;
-        if (typeof _price == "undefined" || _price == 0)
-            _price = this.item.price;
         /**
          * Price
          * @type {Number} (Int)
          */
+        if (typeof _price == "undefined" || _price == 0)
+            _price = this.child.price;
         this.price = this.setPrice(_price);
-        if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = this.item.weight;
         /**
          * Weight
          * @type {Number} (Float)
          */
+        if (typeof _weight == "undefined" || _weight == 0.001)
+            _weight = this.child.weight;
         this.weight = this.setWeight(_weight);
-        if (typeof _durability == "undefined" || _durability == 1)
-            _durability = this.item.durability;
         /**
          * Durability
          * @type {Number}
          */
+        if (typeof _durability == "undefined" || _durability == 1)
+            _durability = this.child.durability;
         this.durability = this.setDurability(_durability);
-        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = this.item.durabilityMax;
         /**
          * Max Durability
          * @type {Number}
          */
+        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
+            _durabilityMax = this.child.durabilityMax;
         this.durabilityMax = this.setDurabilityMax(_durabilityMax);
 
         itemInstancesIndexes.set(this.id, this);
@@ -8049,9 +8008,9 @@ class ItemInstance extends Instance {
     setWeight(_float) {
         _float = Number.parseFloat(_float);
         if (isNaN(_float))
-            _float = 0;
+            _float = 0.001;
         else if (_float < 0)
-            _float = 0;
+            _float = 0.001;
         else if (_float > Number.MAX_VALUE)
             _float = Number.MAX_VALUE;
         this.weight = _float;
@@ -8065,9 +8024,9 @@ class ItemInstance extends Instance {
     setDurability(_int) {
         _int = Number.parseInt(_int);
         if (isNaN(_int))
-            _int = 0;
+            _int = 1;
         else if (_int < 0)
-            _int = 0;
+            _int = 1;
         else if (_int > this.durabilityMax)
             _int = this.durabilityMax;
         this.durability = _int;
@@ -8108,9 +8067,9 @@ class ItemInstance extends Instance {
     setDurabilityMax(_int) {
         _int = Number.parseInt(_int);
         if (isNaN(_int))
-            _int = 0;
+            _int = 1;
         else if (_int < 0)
-            _int = 0;
+            _int = 1;
         else if (_int > Number.MAX_VALUE)
             _int = Number.MAX_VALUE;
         this.durabilityMax = _int;
@@ -8142,6 +8101,106 @@ class ItemInstance extends Instance {
      */
     getDurabilityMax() {
         return this.durabilityMax;
+    }
+}
+class PhoneInstance extends ItemInstance {
+    constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+        if (!(_child instanceof Phone)) {
+            if (phonesIndexes.has(_child))
+                _child = phonesIndexes.get(_child);
+            else
+                return undefined;
+        }
+        if (!(_owner instanceof Character)) {
+            if (charactersIndexes.has(_owner))
+                _owner = charactersIndexes.get(_owner);
+            else
+                _owner = undefined;
+        }
+        if (typeof _price == "undefined" || _price == 0)
+            _price = _child.price;
+        if (typeof _weight == "undefined" || _weight == 0.001)
+            _weight = _child.weight;
+        if (typeof _durability == "undefined" || _durability == 1)
+            _durability = _child.durability;
+        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
+            _durabilityMax = _child.durability;
+
+        super(_child, _owner, _price, _weight, _durability, _durabilityMax);
+
+        this.receivedMessages = new Map();
+        this.readMessages = new Map();
+        this.sentMessages = new Map();
+
+        phoneInstancesIndexes.set(this.id, this);
+    }
+
+    newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
+        if (!(_fromPhone instanceof PhoneInstance)) {
+            if (phoneInstancesIndexes.has(_fromPhone))
+                _fromPhone = phoneInstancesIndexes.get(_fromPhone);
+            else if (_fromPhone instanceof Character) {
+                if (_fromPhone.phone instanceof PhoneInstance)
+                    _fromPhone = _fromPhone.phone;
+                else
+                    return undefined;
+            }
+            else if (charactersIndexes.has(_fromPhone)) {
+                _fromPhone = charactersIndexes.get(_fromPhone);
+                if (_fromPhone.phone instanceof PhoneInstance)
+                    _fromPhone = _fromPhone.phone;
+                else
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        var _textMessage = new TextMessage(_fromPhone, this, _message);
+        _textMessage.time = _time;
+        this.readMessages.set(_textMessage.id, _textMessage);
+        _fromPhone.sentMessages.set(_textMessage.id, _textMessage);
+    }
+
+    sendMessage(_toPhone, _message, _time = undefined) {
+        if (!(_toPhone instanceof PhoneInstance)) {
+            if (phoneInstancesIndexes.has(_toPhone))
+                _toPhone = phoneInstancesIndexes.get(_toPhone);
+            else if (_toPhone instanceof Character) {
+                if (_toPhone.phone instanceof PhoneInstance)
+                    _toPhone = _toPhone.phone;
+                else
+                    return undefined;
+            }
+            else if (charactersIndexes.has(_toPhone)) {
+                _toPhone = charactersIndexes.get(_toPhone);
+                if (_toPhone.phone instanceof PhoneInstance)
+                    _toPhone = _toPhone.phone;
+                else
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        var _textMessage = new TextMessage(this, _toPhone, _message, _time);
+        _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
+        this.sentMessages.set(_textMessage.id, _textMessage);
+
+        if (_toPhone == player.phone)
+            Content.add("<p>You've received a text message.</p>");
+    }
+
+    readMessage(_textMessage) {
+        if (!(_textMessage instanceof TextMessage))
+            _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
+        if (!(_textMessage instanceof TextMessage))
+            return undefined;
+
+        if (this.receivedMessages.has(_textMessage.id)) {
+            this.receivedMessages.delete(_textMessage.id);
+            this.readMessages.set(_textMessage.id, _textMessage);
+        }
     }
 }
 class Cron {

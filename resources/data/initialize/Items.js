@@ -60,12 +60,16 @@ redPotion = new Consumable("redPotion", "Red Liquid", "A strange bottle of water
 purplePotion = new Consumable("purplePotion", "Purple Liquid", "Some Grape Fizz in a strange glass bottle.", undefined, undefined, undefined, ["water", "container"]);
 
 // Phones
-remmyPhone = new Phone("remmyPhone", "Carrot Phone 6S", "Carrot Phone 6S smartphone designed, developed, and marketed by Carrot Inc.", undefined, remmy);
-wolterPhone = new Phone("wolterPhone", "Sungsam Universe 7", "Sungsam Universe 7 smartphone, developed by Sungsam.", undefined, wolter);
-annekePhone = new Phone("annekePhone", "Sungsam Universe 7", "Sungsam Universe 7 smartphone, developed by Sungsam, in a pink, waterproof case.", undefined, anneke);
-avoPhone = new Phone("avoPhone", "Carrot Phone 7", "Carrot Phone 7S smartphone designed, developed, and marketed by Carrot Inc. in black and gold.", undefined, avo);
-bettyPhone = new Phone("bettyPhone", "Carrot Phone 7S", "Carrot Phone 7S smartphone designed, developed, and marketed by Carrot Inc. in a gorilla glass cover and case.", undefined, betty);
-//rexPhone = new Phone("rexPhone", "Carrot Phone Plus", "Engraved with the BugBurga logo, and the name 'Rex,' in diamonds.", undefined, rex)
+carrotPhone6S = new Phone("carrotPhone6S", "Carrot Phone 6S", "Carrot Phone 6s smartphone designed, developed, and marketed by Carrot Inc.", undefined, 200, 0.180);
+carrotPhone7 = new Phone("carrotPhone7", "Carrot Phone 6S", "Carrot Phone 7 smartphone designed, developed, and marketed by Carrot Inc.", undefined, 500, 0.140);
+sungsamUniverse7 = new Phone("sungsamUniverse7", "Sungsam Universe 7 smartphone, developed by Sungsam.", undefined, 180, 0.150);
+goatoGrazr = new Phone("motoGrazr", "Goatorola Grazr", "Flip phone from the early 2000s.", undefined, 20, 100);
+
+remmyPhone = new PhoneInstance(carrotPhone6S, remmy);
+wolterPhone = new PhoneInstance(carrotPhone7, wolter);
+annekePhone = new PhoneInstance(carrotPhone7, anneke);
+charliePhone = new PhoneInstance(goatoGrazr, charlie);
+bettyPhone = new PhoneInstance(carrotPhone7, betty);
 
 
 if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");

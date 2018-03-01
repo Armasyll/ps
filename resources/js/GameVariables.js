@@ -53,15 +53,20 @@ var furnitureIndexes = new Map();
  */
 var itemsIndexes = new Map();
 /**
+ * Map of Instance(s)
+ * @type {Map<String, Instance>}
+ */
+var instancesIndexes = new Map();
+/**
  * Map of ItemInstance(s)
  * @type {Map<String, ItemInstance>}
  */
 var itemInstancesIndexes = new Map();
 /**
- * Map of Instance(s)
- * @type {Map<String, Instance>}
+ * Map of PhoneInstance(s)
+ * @type {Map<String, PhoneInstance>}
  */
-var instancesIndexes = new Map();
+var phoneInstancesIndexes = new Map();
 /**
  * Map of Key(s)
  * @type {Map<String, Key>}
@@ -139,4 +144,4 @@ const kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk","kn
 const kInteractionTypes = new Set(["attack","bewitched","bite","boop","cast","channel","choke","consume","cut","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);
 const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
 const kConsumableTypes = new Set(["food","drink","medicine","other"]);
-const kSpecialTypes = new Set(["exists","living","dead","mirror","water","fire","earth","metal","broken","wood","magic","nature","container","charm","bone","jagged","smooth","sharp"]);
+const kSpecialTypes = new Set(["exists","living","dead","mirror","water","fire","earth","metal","electricity","broken","wood","magic","nature","container","charm","bone","jagged","smooth","sharp"]);

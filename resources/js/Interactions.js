@@ -354,16 +354,16 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
 
         if (_character != player) {
             _characterB.items.forEach(function(_itemInstance) {
-                if (_filter == _itemInstance.item.constructor.name)
-                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+                if (_filter == _itemInstance.child.constructor.name)
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
                 else
-                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
             _characterB.items.forEach(function(_itemInstance) {
-                if (_filter == undefined || _filter == _itemInstance.item.constructor.name)
-                    Menu.addOption("itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.item.name), _itemInstance.item.description, undefined, undefined, "btn-primary");
+                if (_filter == undefined || _filter == _itemInstance.child.constructor.name)
+                    Menu.addOption("itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.child.name), _itemInstance.child.description, undefined, undefined, "btn-primary");
             }, this);
         }
         Menu.generate();
@@ -598,10 +598,10 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_itemInstance) {
-            if (_filter == _itemInstance.item.constructor.name)
-                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+            if (_filter == _itemInstance.child.constructor.name)
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
             else
-                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.item.name, _itemInstance.item.description, undefined, undefined, "btn-primary");
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -726,8 +726,8 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
 
     if (enablePopups) {}
     else {
-        if (_itemInstance.item.description != undefined && _itemInstance.item.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
-            Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString()));
+        if (_itemInstance.child.description != undefined && _itemInstance.child.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
+            Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.child.toString()));
 
         lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
 
@@ -742,11 +742,11 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
         
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
-        _itemInstance.item.availableActions.forEach(function(_action) {
+        _itemInstance.child.availableActions.forEach(function(_action) {
             if (kActionTypes.has(_action)) {
                 switch(_action) {
                     case "use" : {
-                        !(_itemInstance.item instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
+                        !(_itemInstance.child instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
                         break;
                     }
                     case "put" : {
@@ -761,7 +761,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                         break;
                     }
                     case "wear" : {
-                        _itemInstance.item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
+                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
                         break;
                     }
                     case "masturbate" : {
@@ -792,7 +792,7 @@ function itemInteractUse(_itemInstance, _character = player) {
         if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    return unsafeExec("{0}Use({1})".format(_itemInstance.item.id, player.id));
+    return unsafeExec("{0}Use({1})".format(_itemInstance.child.id, player.id));
 }
 /**
  * Item is taken from Character and Put into the Entity; addItem for non-Character(s)
@@ -886,7 +886,7 @@ function itemInteractHold(_itemInstance, _character = player) {
 
     _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
     if (_character.addHeldItem(_itemInstance))
-        unsafeExec("{0}Hold({1})".format(_itemInstance.item.id, _character.id));
+        unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -906,7 +906,7 @@ function itemInteractRelease(_itemInstance, _character = player) {
     }
 
     if (_character.removeHeldItem(_itemInstance))
-        unsafeExec("{0}Release({1})".format(_itemInstance.item.id, _character.id));
+        unsafeExec("{0}Release({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -1136,17 +1136,19 @@ function spellInteractCast(_spell, _entity) {
         return false;
 }
 
-function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
-    if (!(_phone instanceof Phone))
-        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
-    if (!(_phone instanceof Phone))
-        return undefined;
+function phoneInteract(_phoneInstance, _clearContent = false, _clearMenu = true) {
+    if (!(_phoneInstance instanceof PhoneInstance)) {
+        if (phoneInstancesIndexes.has(_phoneInstance))
+            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        else
+            return undefined;
+    }
 
     Title.clear();
     Title.set(
         "Home Screen", 
         undefined, 
-        player.phone.name, 
+        player.phone.child.name, 
         player.name
     );
 
@@ -1155,72 +1157,90 @@ function phoneInteract(_phone, _clearContent = false, _clearMenu = true) {
     }
     else {
         if (_clearContent) {
-            if (_phone.owner == player)
+            if (_phoneInstance.owner == player)
                 Content.add("<p>You check your phone.</p>");
             else
-                Content.add("<p>You check {0} phone.</p>".format(_phone.owner.singularPossessiveName()));
+                Content.add("<p>You check {0} phone.</p>".format(_phoneInstance.owner.singularPossessiveName()));
         }
 
         Menu.clear();
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-        Menu.addOption("textMessageInteract({0}, 0)".format(_phone.id), "Received Messages");
-        Menu.addOption("textMessageInteract({0}, 1)".format(_phone.id), "Read Messages");
-        Menu.addOption("textMessageInteract({0}, 2)".format(_phone.id), "Sent Messages");
+        Menu.addOption("textMessageInteract('{0}', 0)".format(_phoneInstance.id), "Received Messages");
+        Menu.addOption("textMessageInteract('{0}', 1)".format(_phoneInstance.id), "Read Messages");
+        Menu.addOption("textMessageInteract('{0}', 2)".format(_phoneInstance.id), "Sent Messages");
         Menu.generate();
     }
 }
-function textMessageInteract(_phone, _messageCategory) {
+function textMessageInteract(_phoneInstance, _messageCategory) {
+    if (!(_phoneInstance instanceof PhoneInstance)) {
+        if (phoneInstancesIndexes.has(_phoneInstance))
+            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        else
+            return undefined;
+    }
+
     var _title = "";
     var _messageType = "";
 
-    if (_messageCategory == 1) {
-        _title = "Read Messages";
-        _messageType = _phone.readMessages;
-    }
-    else if (_messageCategory == 2) {
-        _title = "Sent Messages";
-        _messageType = _phone.sentMessages;
-    }
-    else {
-        _messageCategory = 0;
-        _title = "Received Messages";
-        _messageType = _phone.receivedMessages;
+    switch(_messageCategory) {
+        case 1 : {
+            _title = "Read Messages";
+            _messageType = _phoneInstance.readMessages;
+            break;
+        }
+        case 2 : {
+            _title = "Sent Messages";
+            _messageType = _phoneInstance.sentMessages;
+            break;
+        }
+        default : {
+            _messageCategory = 0;
+            _title = "Received Messages";
+            _messageType = _phoneInstance.receivedMessages;
+        }
     }
 
-    lastMenu = "textMessageInteract('{0}', '{1}'')".format(_phone.id, _messageCategory);
+    lastMenu = "textMessageInteract('{0}', '{1}')".format(_phoneInstance.id, _messageCategory);
 
     Title.clear();
     Title.set(
         _title, 
         undefined, 
-        player.phone.name, 
+        player.phone.child.name, 
         player.name
     );
 
     Menu.clear();
     if (_messageCategory == 2) {
         _messageType.forEach(function(_textMessage) {
-            Menu.addOption("textMessageInteractRead({0}, '{1}')".format(_phone.id, _textMessage.id), "To " + _textMessage.to, _textMessage.time);
+            Menu.addOption("textMessageInteractRead('{0}', '{1}')".format(_phoneInstance.id, _textMessage.id), "To " + _textMessage.to, _textMessage.time);
         });
     }
     else {
         _messageType.forEach(function(_textMessage) {
-            Menu.addOption("textMessageInteractRead({0}, '{1}')".format(_phone.id, _textMessage.id), "From " + _textMessage.from, _textMessage.time);
+            Menu.addOption("textMessageInteractRead('{0}', '{1}')".format(_phoneInstance.id, _textMessage.id), "From " + _textMessage.from, _textMessage.time);
         });
     }
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "phoneInteract({0})".format(_phone.id), "Check Phone");
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "phoneInteract('{0}')".format(_phoneInstance.id), "Check Phone");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
-function textMessageInteractRead(_phone, _textMessage) {
-    if (!(_phone instanceof Phone))
-        _phone = phonesIndexes.has(_phone) ? phonesIndexes.get(_phone) : undefined;
-    if (!(_textMessage instanceof TextMessage))
-        _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
-    if (!(_phone instanceof Phone) || !(_textMessage instanceof TextMessage))
-        return undefined;
+function textMessageInteractRead(_phoneInstance, _textMessage) {
+    if (!(_phoneInstance instanceof PhoneInstance)) {
+        if (phoneInstancesIndexes.has(_phoneInstance))
+            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        else
+            return undefined;
+    }
 
-    _phone.readMessage(_textMessage);
+    if (!(_textMessage instanceof TextMessage)) {
+        if (textMessageIndexes.has(_textMessage))
+            _textMessage = textMessageIndexes.get(_textMessage);
+        else
+            return undefined;
+    }
+
+    _phoneInstance.readMessage(_textMessage);
     Content.add("<blockquote class='small'><div>{0}</div><div>From: {1}</div><div>To: {2}</div><p>{3}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.to, _textMessage.message));
 
     runLastMenu();
