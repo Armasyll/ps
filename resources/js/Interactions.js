@@ -279,9 +279,9 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         if (_clearContent && !_scenesViewedThisWindow.has("characterInteractOpen")) {
             var _blob = "";
             if (_characterB == _characterA)
-                _blob += ("Looking through your pockets, you find ");
+                _blob += ("Looking through your pockets and on your person, you find ");
             else
-                _blob += ("Looking through {0}'s pockets, you find ".format(_characterB.name));
+                _blob += ("Looking through {0}'s pockets and on {1} person, you find ".format(_characterB.name, _characterB.possessiveAdjective()));
 
             if (_characterB.getNumberOfItems() == 0) {
                 _blob += "that it is empty.";
