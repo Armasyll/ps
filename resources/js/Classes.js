@@ -8136,25 +8136,8 @@ class PhoneInstance extends ItemInstance {
     }
 
     newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
-        if (!(_fromPhone instanceof PhoneInstance)) {
-            if (phoneInstancesIndexes.has(_fromPhone))
-                _fromPhone = phoneInstancesIndexes.get(_fromPhone);
-            else if (_fromPhone instanceof Character) {
-                if (_fromPhone.phone instanceof PhoneInstance)
-                    _fromPhone = _fromPhone.phone;
-                else
-                    return undefined;
-            }
-            else if (charactersIndexes.has(_fromPhone)) {
-                _fromPhone = charactersIndexes.get(_fromPhone);
-                if (_fromPhone.phone instanceof PhoneInstance)
-                    _fromPhone = _fromPhone.phone;
-                else
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
+        if (!(_fromPhone instanceof PhoneInstance))
+            _fromPhone = _findPhone(_fromPhone);
 
         var _textMessage = new TextMessage(_fromPhone, this, _message);
         _textMessage.time = _time;
@@ -8162,26 +8145,16 @@ class PhoneInstance extends ItemInstance {
         _fromPhone.sentMessages.set(_textMessage.id, _textMessage);
     }
 
+    /**
+     * Sends a message to a phone
+     * @param  {PhoneInstance} _toPhone         The PhoneInstance (or Character with a Phone) to send a message to.
+     * @param  {String}         _message        Text message, can be HTML
+     * @param  {String}         _time           Optional Time (YYYY-MM-DD HH:mm:SS)
+     * @return {Boolean}        Whether or not the message was sent
+     */
     sendMessage(_toPhone, _message, _time = undefined) {
-        if (!(_toPhone instanceof PhoneInstance)) {
-            if (phoneInstancesIndexes.has(_toPhone))
-                _toPhone = phoneInstancesIndexes.get(_toPhone);
-            else if (_toPhone instanceof Character) {
-                if (_toPhone.phone instanceof PhoneInstance)
-                    _toPhone = _toPhone.phone;
-                else
-                    return undefined;
-            }
-            else if (charactersIndexes.has(_toPhone)) {
-                _toPhone = charactersIndexes.get(_toPhone);
-                if (_toPhone.phone instanceof PhoneInstance)
-                    _toPhone = _toPhone.phone;
-                else
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
+        if (!(_toPhone instanceof PhoneInstance))
+            _toPhone = _findPhone(_toPhone);
 
         var _textMessage = new TextMessage(this, _toPhone, _message, _time);
         _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
@@ -8189,6 +8162,7 @@ class PhoneInstance extends ItemInstance {
 
         if (_toPhone == player.phone)
             Content.add("<p>You've received a text message.</p>");
+        return true;
     }
 
     readMessage(_textMessage) {

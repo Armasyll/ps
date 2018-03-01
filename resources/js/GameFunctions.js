@@ -613,6 +613,35 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
 }
 
 /**
+ * Finds the PhoneInstance from itself, its String ID, the Character which has it, or the String ID of the Character which has it
+ * @param  {String, PhoneInstance, Character} _blob The thing to search
+ * @return {PhoneInstance}       PhoneInstance
+ */
+function _findPhone(_blob) {
+    if (!(_blob instanceof PhoneInstance)) {
+        if (phoneInstancesIndexes.has(_blob))
+            return phoneInstancesIndexes.get(_blob);
+        else if (_blob instanceof Character) {
+            if (_blob.phone instanceof PhoneInstance)
+                return _blob.phone;
+            else
+                return undefined;
+        }
+        else if (charactersIndexes.has(_blob)) {
+            _blob = charactersIndexes.get(_blob);
+            if (_blob.phone instanceof PhoneInstance)
+                return _blob.phone;
+            else
+                return undefined;
+        }
+        else
+            return undefined;
+    }
+    else
+        return _blob;
+}
+
+/**
  * Clears the Content and Menu.
  */
 function clearContentAndMenu() {
