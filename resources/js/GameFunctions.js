@@ -285,7 +285,7 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
 
     var _blob = String(
             "<h4>{0}</h4>" +
-            "<img src='{1}' class='center-block'/>" +
+            "<img src='{1}' class='center-block' style='max-height:64px; height:64px;'/>" +
             "<blockquote>{2}</blockquote>" +
             "<table class='table' style='position:absolute; bottom:0px; width:94%;'>" +
                 "<tr><td colspan=2>{6}</td></tr>" +
