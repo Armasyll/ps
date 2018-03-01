@@ -493,6 +493,16 @@ function getAppearance(_character, _self = false) {
     else {
         _blob += ("absolutely nothing.");
     }
+
+    if (_character.hasItemsInBothHands()) {
+        _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getItemInLeftHand().item.toString(), _character.getItemInRightHand().item.toString(), _character.getItemInLeftHand().item.plural ? "are" : "is a", _character.getItemInRightHand().item.plural ? "" : "a");
+    }
+    else if (_character.hasItemInLeftHand()) {
+        _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getItemInLeftHand().item.toString(), _character.getItemInLeftHand().item.plural ? "are" : "is a");
+    }
+    else if (_character.hasItemInRightHand()) {
+        _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getItemInRightHand().item.toString(), _character.getItemInRightHand().item.plural ? "are" : "is a");
+    }
     
     Content.add("<p>" + _blob + "</p>");
 }

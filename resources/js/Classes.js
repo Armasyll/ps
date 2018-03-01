@@ -2680,10 +2680,10 @@ class Character extends Entity {
         this.release(_itemInstance);
     }
     hasItemInRightHand() {
-        return this.heldItems.length > 0 && this.heldItems[0] instanceof Item;
+        return this.heldItems.length > 0 && this.heldItems[0] instanceof ItemInstance;
     }
     hasItemInLeftHand() {
-        return this.heldItems.length > 1 && this.heldItems[1] instanceof Item;
+        return this.heldItems.length > 1 && this.heldItems[1] instanceof ItemInstance;
     }
     hasItemsInBothHands() {
         return this.heldItems[0] instanceof ItemInstance && this.heldItems[1] instanceof ItemInstance;
