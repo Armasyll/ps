@@ -522,7 +522,7 @@ class Menu {
 
         var _blob = "";
         _blob += '<a class="btn {0} {1}" type="button" onClick="{2}" title="{3}" style="{4}" {5}>'.format(_btnClass, (_displayType == 2 ? 'invisible' : ''), _functionCall, _hover, (_displayType == 4 ? 'opacity:0.0;' : ''), (_displayType == 1 ? 'disabled=disabled' : ''));
-        if (_key !== false) _blob += '<small style="position:absolute; right:0px; top:-3px;">[{0}]</small>'.format(_key);
+        if (typeof _key == "string" && _key.length > 0) _blob += '<small style="position:absolute; right:0px; top:-3px;">[{0}]</small>'.format(_key);
         _blob += '<div class="trim"><span class="button-title">{0}</span></div>'.format(_title);
         _blob += '<small class="trim"><span>{0}</span></small>'.format(_subTitle);
         _blob += '</a>';
@@ -2579,9 +2579,10 @@ class Character extends Entity {
             else if (itemsIndexes.has(_itemInstance))
                 _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
-                return;
+                return undefined;
         }
-        this.items.push(_itemInstance);
+        if (!this.hasItem(_itemInstance.id))
+            this.items.push(_itemInstance);
 
         if (_itemInstance.item instanceof Phone && _itemInstance.item.owner == this)
             this.phone = _itemInstance.item;
@@ -4138,7 +4139,6 @@ class Character extends Entity {
 
         if (kClothingTypes.has(_itemInstance.item.type))
             this.clothing.set(_itemInstance.item.type, undefined);
-        this.addItem(_itemInstance);
 
         return true;
     }
@@ -4593,14 +4593,40 @@ class Character extends Entity {
     takeOff(_clothing) {
         this.disrobe(_clothing);
     }
-    wearing(_clothing) {
-        if (!(_clothing instanceof Clothing))
-            _clothing = clothingIndexes.get(_clothing);
+    wearing(_itemInstance) {
+        var _clothing;
+        var _checkInstance = true;
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Clothing) {
+                _checkInstance = false;
+                _clothing = _itemInstance;
+            }
+            else if (clothingIndexes.has(_itemInstance)) {
+                _checkInstance = false;
+                _clothing = clothingIndexes.get(_itemInstance).item;
+            }
+            else
+                return undefined;
+        }
+        else if (!(_itemInstance.item instanceof Clothing))
+            return undefined;
+        else
+            _clothing = _itemInstance.item;
 
         if (_clothing instanceof Clothing) {
-            if (kClothingTypes.has(_clothing.type))
-                return this.clothing.get(_clothing.type) == _clothing;
+            if (kClothingTypes.has(_clothing.type)) {
+                if (!(this.clothing.get(_clothing.type) instanceof ItemInstance))
+                    return false;
+                if (_checkInstance)
+                    return this.clothing.get(_clothing.type) == _itemInstance;
+                else
+                    return this.clothing.get(_clothing.type).item == _clothing;
+            }
         }
+        else
+            return undefined;
     }
 
     hasKey(_room) {

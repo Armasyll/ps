@@ -185,46 +185,125 @@ function presentContinuousTense(_contraction = false, _useName = false) {
         return (pov == 1 ? "I am" : pov == 2 ? "you are" : _useName ? (player.name + " is") : (player.subjectPronoun() + " is"));
 }
 
-function _generateEntityItemsGraphicalList(_fromEntity, _toEntity = undefined, _modify = false, _filter = undefined) {
+function _generateEntityItemsGraphicalList(_fromEntity = player, _toEntity = undefined, _modify = false, _filter = undefined) {
+    if (!(_fromEntity instanceof Entity)){
+        if (entityIndexes.has(_fromEntity))
+            _fromEntity = entityIndexes.get(_fromEntity);
+        else
+            return undefined;
+    }
+    if (!(_toEntity instanceof Entity)){
+        if (entityIndexes.has(_toEntity))
+            _toEntity = entityIndexes.get(_toEntity);
+        else
+            _toEntity = undefined;
+    }
+
+    lastMenu = "_generateEntityItemsGraphicalList({0}, {1}, {2}, {3})".format(_fromEntity.id, _toEntity instanceof Entity ? _toEntity.id : undefined, _modify ? "true" : "false", _filter);
+
     var _body = "";
     _fromEntity.items.forEach(function(_itemInstance) {
-        var _ownerString = '';
-        if (_itemInstance.owner instanceof Set && _itemInstance.owner.size > 0) {
-            _ownerString += "Owned by ";
-            
-            var _owners = Array.from(_itemInstance.owner);
-            if (_itemInstance.owner.size == 1)
-                _ownerString += (_owners[0] == player ? "you" : _owners[0].name);
-            else {
-                for (i = 0; i < _owners.length - 1; i++) {
-                    _ownerString += (_owners[i] == player ? "you" : _owners[i].name);
-                    if (_owners.length > 2)
-                        _ownerString += ", ";
-                }
-                _ownerString += " and " + (_owners[_owners.length - 1] == player ? "you" : _owners[_owners.length - 1].name) + ".";
-            }
-        }
-        
+        _body += "<div class='list-group'>";
         _body += String(
-                "<div class='inventoryItemContainer'>" +
-                    "<img class='text-center' src='{0}' alt=''/><br/>" +
-                    "<div style='vertical-align:bottom;'>" +
-                        "<p class='text-center' style='height: 2.5em;'>{1}</p>" +
-                        "<p class='small text-center' style='height: 2em;'>{2}</p>" +
-                        "<p class='small' style='background-color: #d3d3d3; padding: 0.25em; height: 6em; max-height: 6em; overflow-y: scroll;'>{3}</p>" +
-                        "{4}" +
-                    "</div>" +
-                "</div>"
+                "<a href='#' class='list-group-item list-group-item-action' data-id='{2}' onclick='_generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(\"{2}\", \"{3}\", \"{4}\", \"{5}\")'><img src='{0}' class='float-left' style='max-height:64px; max-width:64px; height:64px; width:64px;' height='64px' width='64px'/>{1}</a>"
             ).format(
                 _itemInstance.item.image,
                 _itemInstance.item.name,
-                (typeof _itemInstance.owner != 'undefined' ? _ownerString : ''),
-                _itemInstance.item.description,
-                (_modify === true ? (_fromEntity == player ? ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Give</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id) : ("<button onclick='_generateEntityItemsGraphicalMove({0},{1},{2})'>Take</button>").format(_itemInstance.id, _fromEntity.id, _toEntity.id)) : '')
-            )
+                _itemInstance.id,
+                _fromEntity.id,
+                _toEntity instanceof Entity ? _toEntity.id : undefined,
+                _filter
+            );
+        _body += "</div>";
     }, this);
     
     return _body;
+}
+function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+    if (!(_fromEntity instanceof Entity)){
+        if (entityIndexes.has(_fromEntity))
+            _fromEntity = entityIndexes.get(_fromEntity);
+        else
+            return undefined;
+    }
+    if (!(_toEntity instanceof Entity)){
+        if (entityIndexes.has(_toEntity))
+            _toEntity = entityIndexes.get(_toEntity);
+        else
+            _toEntity = undefined;
+    }
+    
+    lastMenu = "_generateEntityItemsGraphicalListItemInstanceDescriptionPopulate('{0}', '{1}', '{2}', '{3}')".format(_itemInstance.id, _fromEntity.id, _toEntity instanceof Character ? _toEntity.id : undefined, _filter);
+    var _actionsBlob = "";
+    var _itemAction = "";
+
+    /**
+     * Move item from _fromEntity to _toEntity
+     */
+    if (_toEntity instanceof Entity)
+        _actionsBlob += Menu.createButton("_generateEntityItemsGraphicalMove('{0}', '{1}', '{2}', '{3}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id, _toEntity.id, _filter), _toEntity instanceof Character ? "Give to " + _toEntity.name : "Put in " + _toEntity.name);
+    /**
+     * Hold or Release item
+     */
+    if (_fromEntity instanceof Character && _fromEntity.holding(_itemInstance))
+        _actionsBlob += Menu.createButton("itemInteractRelease('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Release");
+    else
+        _actionsBlob += Menu.createButton("itemInteractHold('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Hold ");
+    /**
+     * Consume item
+     */
+    if (_itemInstance.item instanceof Consumable) {
+        if (typeof _itemInstance.item.type == "undefined" || _itemInstance.item.type == "other")
+            _itemAction = "Consume";
+        else if (_itemInstance.item.type == "drink")
+            _itemAction = "Drink";
+        else if (_itemInstance.item.type == "food")
+            _itemAction = "Eat";
+        else if (_itemInstance.item.type == "medicine")
+            _itemAction = "Consume";
+        _actionsBlob += Menu.createButton("itemInteractConsume('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), _itemAction);
+    }
+    /**
+     * Wear item
+     */
+    if (_itemInstance.item instanceof Clothing) {
+        var _youWear = _fromEntity.wearing(_itemInstance);
+        var _theyWear = _toEntity instanceof Character && _toEntity.wearing(_itemInstance);
+        if (_youWear)
+            _actionsBlob += Menu.createButton("itemInteractWear('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Disrobe yourself");
+        else if (_theyWear)
+            _actionsBlob += Menu.createButton("itemInteractWear('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _toEntity.id), "Disrobe" + _toEntity.name);
+        else
+            _actionsBlob += Menu.createButton("itemInteractWear('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Wear");
+    }
+
+    var _blob = String(
+            "<h4>{0}</h4>" +
+            "<img src='{1}' class='center-block'/>" +
+            "<blockquote>{2}</blockquote>" +
+            "<table class='table' style='position:absolute; bottom:0px; width:94%;'>" +
+                "<tr><td colspan=2>{6}</td></tr>" +
+                "<tr><td>Durability</td><td>{3}</td></tr>" +
+                "<tr><td>Weight</td><td>{4}</td></tr>" +
+                "<tr><td>Price</td><td>{5}</td></tr>" +
+            "</table>"
+        ).format(
+            _itemInstance.item.name,
+            _itemInstance.item.image,
+            _itemInstance.item.description,
+            _itemInstance.durability,
+            _itemInstance.weight,
+            _itemInstance.price,
+            _actionsBlob
+        );
+
+    $("#personalInventoryModal-description").html(_blob);
 }
 function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
     if (!(_itemInstance instanceof ItemInstance)) {
@@ -233,7 +312,19 @@ function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntit
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(_itemInstance);
         else
-            return;
+            return undefined;
+    }
+    if (!(_fromEntity instanceof Entity)){
+        if (entityIndexes.has(_fromEntity))
+            _fromEntity = entityIndexes.get(_fromEntity);
+        else
+            return undefined;
+    }
+    if (!(_toEntity instanceof Entity)){
+        if (entityIndexes.has(_toEntity))
+            _toEntity = entityIndexes.get(_toEntity);
+        else
+            return undefined;
     }
     
     if (entityGiveItem(_itemInstance, _fromEntity, _toEntity)) {
@@ -252,7 +343,7 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(_itemInstance);
         else
-            return;
+            return undefined;
     }
 
     if (debug) console.log("  Checking if _fromEntity is an instance of Entity");
@@ -735,7 +826,7 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
             else
                 console.log("\tTarget cell isn't an instance of Cell.");
         }
-        return;
+        return undefined;
     }
     
     if (_startCell == _targetCell)
@@ -767,7 +858,7 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
             
             _currentCell.cells.forEach(function(_neighbor) {
                 if (_closedList.has(_neighbor))
-                    return;
+                    return undefined;
                 
                 if (!_openList.has(_neighbor))
                     _openList.add(_neighbor);
@@ -796,10 +887,10 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
         _targetRoom = roomsIndexes.get(_targetRoom);
     
     if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
-        return;
+        return undefined;
     
     if (_startRoom.cell != _targetRoom.cell)
-        return;
+        return undefined;
     
     var _openList = new Set();
     var _closedList = _excludeRooms;
@@ -826,7 +917,7 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
         
         _currentRoom.attachedRooms.forEach(function(_neighbor) {
             if (_closedList.has(_neighbor))
-                return;
+                return undefined;
             
             var _gScore = Math.abs(_currentRoom.x - _startRoom.x) + Math.abs(_currentRoom.y - _startRoom.x) + 1;
             var _gScoreIsBest = false;
@@ -865,7 +956,7 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
         _targetRoom = roomsIndexes.get(_targetRoom);
     
     if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
-        return;
+        return undefined;
     
     if (_startRoom.cell != _targetRoom.cell) {
         var _cellPath = _findPathFromCellToCell(_startRoom.cell, _targetRoom.cell);
@@ -878,7 +969,7 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
         var _i = 1;
         
         if (_cellPath.size == 0)
-            return;
+            return undefined;
         
         Array.from(_cRoom.cell.gateways).some(function(_room) {
             _pCells.add(_room.cell);
@@ -1405,7 +1496,7 @@ function characterStay(_character) {
  * Makes the Character have Sex with another Character on Furniture or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
  * @param {Character} _characterA
  * @param {Character} _characterB
- * @param {Furniture} _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
+ * @param {Furniture} _furniture Can be undefined; If undefined or incorrect, the Characters' Furniture will be used, with the second Character's furniture taking precedence.
  * @param {Number or String} _action Can be undefined; defaults to "lay"
  * @return {Boolean} Whether or not sex happens, or undefined
  */
@@ -1710,7 +1801,7 @@ function characterIncAutoanalingusCount(_character) {
 /**
  * Makes the Character masturbate on Furniture (not literally on it) or the ground; can be done while Sitting, Laying, Sleeping, or Standing.
  * @param {Character} _character
- * @param {Furniture} _furniture Can be undefined; If undefiend or incorrect, the Characters' Furniture will be used.
+ * @param {Furniture} _furniture Can be undefined; If undefined or incorrect, the Characters' Furniture will be used.
  * @param {Number or String} _action Can be undefined; defaults to "lay"
  * @return {Boolean} Whether or not masturbation happens, or undefined
  */
@@ -2617,7 +2708,7 @@ function loadFile(input) {
 
     if (typeof window.FileReader !== 'function') {
         alert("The file API isn't supported on this browser yet.");
-        return;
+        return undefined;
     }
 
     if (!input) {
@@ -2655,7 +2746,7 @@ window.addEventListener(
     "keypress",
     function(event) {
         if (document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')
-            return;
+            return undefined;
         var fn = undefined;
         var _placement = undefined;
         switch(event['key']) {

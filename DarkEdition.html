@@ -103,13 +103,17 @@
             </div>
         </div>
         <div class="modal" id="personalInventoryModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+            <div class="modal-dialog modal-lg" style="height:93vh">
+                <div class="modal-content" style="height:100%;">
                     <div class="modal-header">
                         <h4 id="personalInventoryModal-title" class="modal-title"></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
-                    <div id="personalInventoryModal-body" class="modal-body" style='background-color: rgb(44, 44, 44);'>
+                    <div id="personalInventoryModal-body" class="modal-body" style='background-color: rgb(44, 44, 44); height:82vh;'>
+                        <div class="container-fluid" style="height:100%;">
+                            <div id="personalInventoryModal-list" class="col-sm-6"></div>
+                            <div id="personalInventoryModal-description" class="col-sm-6" style='background-color: #ffffff; height:100%; border-radius:4px;'></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -184,3 +184,6 @@ img {
 #locationContentDisplay > div {
 	color: #c3c3c3;
 }
+#personalInventoryModal-list {
+	overflow-y: scroll;
+	height: 100%;

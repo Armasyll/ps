@@ -243,10 +243,13 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
             _filter = undefined;
     }
 
+    lastMenu = "characterInteractOpen({0}, {1}, {2}, {3}, {4})".format(_character.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter, false);
+
     if (enablePopups) {
         if (!_allowSwitch) {
             $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
-            $("#personalInventoryModal-body").html(_generateEntityItemsGraphicalList(player, _character, false));
+            $("#personalInventoryModal-list").html(_generateEntityItemsGraphicalList(player, _character, false));
+            $("#personalInventoryModal-description").html("");
             $("#personalInventoryModal").modal("show");
         }
         else if (_character != player) {
@@ -258,7 +261,8 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         }
         else {
             $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
-            $("#personalInventoryModal-body").html(_generateEntityItemsGraphicalList(_character, undefined, false));
+            $("#personalInventoryModal-list").html(_generateEntityItemsGraphicalList(_character, undefined, false));
+            $("#personalInventoryModal-description").html("");
             $("#personalInventoryModal").modal("show");
         }
     }
@@ -693,56 +697,61 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
         if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    if (_itemInstance.item.description != undefined && _itemInstance.item.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
-        Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString()));
+    if (enablePopups) {}
+    else {
+        if (_itemInstance.item.description != undefined && _itemInstance.item.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
+            Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.item.toString()));
 
-    lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
+        lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
 
-    Menu.clear();
-    _scenesViewedThisWindow.add("itemInteract");
-    if (_entity instanceof Character)
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
-    else if (_entity instanceof Furniture)
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
-    else if (_entity instanceof Item)
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
-    
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    
-    _itemInstance.item.availableActions.forEach(function(_action) {
-        if (kActionTypes.has(_action)) {
-            switch(_action) {
-                case "use" : {
-                    !(_itemInstance.item instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
-                    break;
-                }
-                case "put" : {
-                    !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.item.name));
-                    break;
-                }
-                case "hold" : {
-                    if (_entity.holding(_itemInstance))
-                        _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.item.name));
-                    else
-                        _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.item.name));
-                    break;
-                }
-                case "wear" : {
-                    _itemInstance.item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
-                    break;
-                }
-                case "masturbate" : {
-                    _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.item.name));
-                    break;
-                }
-                case "consume" : {
-                    Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.item.name, this.item.type == "food" ? "Eat" : this.item.type == "drink" ? "Drink" : "Apply"));
-                    break;
+        Menu.clear();
+        _scenesViewedThisWindow.add("itemInteract");
+        if (_entity instanceof Character)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
+        else if (_entity instanceof Furniture)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "furnitureInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
+        else if (_entity instanceof Item)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
+        
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        
+        _itemInstance.item.availableActions.forEach(function(_action) {
+            if (kActionTypes.has(_action)) {
+                switch(_action) {
+                    case "use" : {
+                        !(_itemInstance.item instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
+                        break;
+                    }
+                    case "put" : {
+                        !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.item.name));
+                        break;
+                    }
+                    case "hold" : {
+                        if (_entity.holding(_itemInstance))
+                            _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.item.name));
+                        else
+                            _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.item.name));
+                        break;
+                    }
+                    case "wear" : {
+                        _itemInstance.item instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
+                        break;
+                    }
+                    case "masturbate" : {
+                        _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.item.name));
+                        break;
+                    }
+                    case "consume" : {
+                        Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.item.name, this.item.type == "food" ? "Eat" : this.item.type == "drink" ? "Drink" : "Apply"));
+                        break;
+                    }
                 }
             }
-        }
-    }, _itemInstance);
-    Menu.generate();
+        }, _itemInstance);
+        Menu.generate();
+    }
+
+    return true;
 }
 function itemInteractUse(_itemInstance, _character = player) {
     if (!(_character instanceof Character))
@@ -852,7 +861,9 @@ function itemInteractHold(_itemInstance, _character = player) {
     if (_character.addHeldItem(_itemInstance))
         unsafeExec("{0}Hold({1})".format(_itemInstance.item.id, _character.id));
 
-    runLastMenu();
+    if (enablePopups) {}
+    else
+        runLastMenu();
     return true;
 }
 function itemInteractRelease(_itemInstance, _character = player) {
@@ -870,7 +881,9 @@ function itemInteractRelease(_itemInstance, _character = player) {
     if (_character.removeHeldItem(_itemInstance))
         unsafeExec("{0}Release({1})".format(_itemInstance.item.id, _character.id));
 
-    runLastMenu();
+    if (enablePopups) {}
+    else
+        runLastMenu();
     return true;
 }
 function itemInteractWear(_itemInstance, _character = player) {
@@ -885,8 +898,30 @@ function itemInteractWear(_itemInstance, _character = player) {
         if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    _character.wearing(_itemInstance) ? _character.takeOff(_itemInstance) : _character.putOn(_itemInstance);
-    itemInteract(_itemInstance, _character);
+    _character.wearing(_itemInstance) ? _character.disrobe(_itemInstance) : _character.wear(_itemInstance);
+    if (enablePopups) {}
+    else
+        itemInteract(_itemInstance, _character);
+
+    return true;
+}
+function itemInteractDisrobe(_itemInstance, _character = player) {
+    if (!(_character instanceof Character))
+        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+
+    if (!(_character instanceof Character))
+        return;
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        _itemInstance = _character.getItem(_itemInstance);
+        if (typeof _itemInstance == "undefined") return undefined;
+    }
+
+    if (_character.wearing(_itemInstance))
+        _character.disrobe(_itemInstance);
+    if (enablePopups) {}
+    else
+        itemInteract(_itemInstance, _character);
 
     return true;
 }
@@ -899,7 +934,9 @@ function itemInteractLook(_itemInstance, _character = player) {
         if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    Content.add(_itemInstance.description);
+    if (enablePopups) {}
+    else
+        Content.add(_itemInstance.description);
 
     return true;
 }
@@ -929,7 +966,9 @@ function itemInteractSex(_itemInstance, _character = player) {
         if (typeof _itemInstance == "undefined") return undefined;
     }
 
-    itemInteract(_itemInstance, _character);
+    if (enablePopups) {}
+    else
+        itemInteract(_itemInstance, _character);
 
     return true;
 }
@@ -946,7 +985,9 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
     }
 
     _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
-    itemInteract(_itemInstance, _character);
+    if (enablePopups) {}
+    else
+        itemInteract(_itemInstance, _character);
 
     return true;
 }
