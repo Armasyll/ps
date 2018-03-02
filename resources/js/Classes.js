@@ -2649,24 +2649,38 @@ class Character extends Entity {
         return _itemInstance;
     }
 
-    containsItem(_item, _strict = false) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else if (_item instanceof ItemInstance)
-                _item = _item.child;
-            else if (itemInstancesIndexes.has(_item))
-                _item = itemInstancesIndexes.get(_item).child;
-            else
-                return false;
-        }
+    containsItem(_item) {
         var _foundItem = false;
-        this.items.some(function(__item) {
-            if (__item.child == _item) {
-                _foundItem = true;
-                return true;
-            }
-        }, this);
+        var _strict = false;
+
+        if (_item instanceof ItemInstance)
+            _strict = true;
+        else if (itemInstancesIndexes.has(_item)) {
+            _strict = true;
+            _item = itemInstancesIndexes.get(_item);
+        }
+        else if (_item instanceof Item) {}
+        else if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+
+        if (_strict) {
+            this.items.some(function(__item) {
+                if (__item.id == _item.id) {
+                    _foundItem = true;
+                    return true;
+                }
+            }, this);
+        }
+        else {
+            this.items.some(function(__item) {
+                if (__item.child == _item) {
+                    _foundItem = true;
+                    return true;
+                }
+            }, this);
+        }
         return _foundItem;
     }
     hasItem(_itemInstance) {
@@ -4503,10 +4517,10 @@ class Character extends Entity {
             else if (clothingIndexes.has(_itemInstance))
                 _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
             else
-                return;
+                return undefined;
         }
 
-        if (!(this.hasItem(_itemInstance)))
+        if (!(this.containsItem(_itemInstance, true)))
             this.addItem(_itemInstance);
 
         if (_itemInstance instanceof ItemInstance) {
@@ -7526,24 +7540,38 @@ class Furniture extends Entity {
         return _itemInstance;
     }
 
-    containsItem(_item, _strict = false) {
-        if (!(_item instanceof Item)) {
-            if (itemsIndexes.has(_item))
-                _item = itemsIndexes.get(_item);
-            else if (_item instanceof ItemInstance)
-                _item = _item.child;
-            else if (itemInstancesIndexes.has(_item))
-                _item = itemInstancesIndexes.get(_item).child;
-            else
-                return;
-        }
+    containsItem(_item) {
         var _foundItem = false;
-        this.items.some(function(__item) {
-            if (__item.child == _item) {
-                _foundItem = true;
-                return true;
-            }
-        }, this);
+        var _strict = false;
+
+        if (_item instanceof ItemInstance)
+            _strict = true;
+        else if (itemInstancesIndexes.has(_item)) {
+            _strict = true;
+            _item = itemInstancesIndexes.get(_item);
+        }
+        else if (_item instanceof Item) {}
+        else if (itemsIndexes.has(_item))
+            _item = itemsIndexes.get(_item);
+        else
+            return undefined;
+
+        if (_strict) {
+            this.items.some(function(__item) {
+                if (__item.id == _item.id) {
+                    _foundItem = true;
+                    return true;
+                }
+            }, this);
+        }
+        else {
+            this.items.some(function(__item) {
+                if (__item.child == _item) {
+                    _foundItem = true;
+                    return true;
+                }
+            }, this);
+        }
         return _foundItem;
     }
     hasItem(_itemInstance) {
