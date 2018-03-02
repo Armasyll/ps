@@ -311,21 +311,21 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
                 _blob += "that it is empty.";
             }
             else if (_characterB.getNumberOfItems() == 1) {
-                _blob += ("a " + _characterB.items[0].item.toString() + ".");
+                _blob += ("a " + _characterB.items[0].child.toString() + ".");
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _blob += "{0}, and {1}".format(_characterB.items[0].item.plural ? _characterB.items[0].item.toString() : _characterB.items[0].item, _characterB.items[1].item.plural ? _characterB.items[1].item : _characterB.items[1].item);
+                _blob += "{0}, and {1}".format(_characterB.items[0].child.plural ? _characterB.items[0].child.toString() : _characterB.items[0].child, _characterB.items[1].child.plural ? _characterB.items[1].child : _characterB.items[1].child);
             }
             else {
                 // Lazy
                 var _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i].item.toString());
+                    _blob += (_arr[i].child.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1].item.toString() + ".");
+                _blob += (" and " + _arr[_arr.length - 1].child.toString() + ".");
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
@@ -566,21 +566,21 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
                 _blob += "that it is empty.";
             }
             else if (_characterB.getNumberOfItems() == 1) {
-                _blob += "a {0} {1}.".format((_characterB.items[0].item.plural ? "set of" : ""), _characterB.items[0].item.toString());
+                _blob += "a {0} {1}.".format((_characterB.items[0].child.plural ? "set of" : ""), _characterB.items[0].child.toString());
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].item.plural ? "set of " : ""), _characterB.items[0].item.toString(), (_characterB.items[1].item.plural ? "" : "a "), _characterB.items[1].item.toString());
+                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].child.plural ? "set of " : ""), _characterB.items[0].child.toString(), (_characterB.items[1].child.plural ? "" : "a "), _characterB.items[1].child.toString());
             }
             else {
                 // Lazy
-                var _arr = _characterB.items;
+                var _arr = _characterB.child;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i].item.toString());
+                    _blob += (_arr[i].child.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1].item.toString() + ".");
+                _blob += (" and " + _arr[_arr.length - 1].child.toString() + ".");
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
@@ -746,30 +746,30 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
             if (kActionTypes.has(_action)) {
                 switch(_action) {
                     case "use" : {
-                        !(_itemInstance.child instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.item.name));
+                        !(_itemInstance.child instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.child.name));
                         break;
                     }
                     case "put" : {
-                        !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.item.name));
+                        !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.child.name));
                         break;
                     }
                     case "hold" : {
                         if (_entity.holding(_itemInstance))
-                            _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.item.name));
+                            _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.child.name));
                         else
-                            _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.item.name));
+                            _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.child.name));
                         break;
                     }
                     case "wear" : {
-                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.item.name));
+                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.child.name));
                         break;
                     }
                     case "masturbate" : {
-                        _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.item.name));
+                        _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.child.name));
                         break;
                     }
                     case "consume" : {
-                        Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.item.name, this.item.type == "food" ? "Eat" : this.item.type == "drink" ? "Drink" : "Apply"));
+                        Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.child.name, this.child.type == "food" ? "Eat" : this.child.type == "drink" ? "Drink" : "Apply"));
                         break;
                     }
                 }

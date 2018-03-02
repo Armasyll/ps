@@ -316,7 +316,7 @@ function debugCharactersInformation(_character = player) {
 	            _clothingIndexes.delete(_clothing.id);
     		}
     	}, this);
-    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (typeof player.clothing.get(_clothingType) != "undefined" ? player.clothing.get(_clothingType).item.id : "undefined"), _clothingOptionsBlob, _clothingType);
+    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (typeof player.clothing.get(_clothingType) != "undefined" ? player.clothing.get(_clothingType).child.id : "undefined"), _clothingOptionsBlob, _clothingType);
     	_clothingOptionsBlob = "";
     }, this);
 	_blob += "</table>";
@@ -495,13 +495,13 @@ function getAppearance(_character, _self = false) {
     }
 
     if (_character.hasItemsInBothHands()) {
-        _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getItemInLeftHand().item.toString(), _character.getItemInRightHand().item.toString(), _character.getItemInLeftHand().item.plural ? "are" : "is a", _character.getItemInRightHand().item.plural ? "" : "a");
+        _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getItemInLeftHand().child.toString(), _character.getItemInRightHand().child.toString(), _character.getItemInLeftHand().child.plural ? "are" : "is a", _character.getItemInRightHand().child.plural ? "" : "a");
     }
     else if (_character.hasItemInLeftHand()) {
-        _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getItemInLeftHand().item.toString(), _character.getItemInLeftHand().item.plural ? "are" : "is a");
+        _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getItemInLeftHand().child.toString(), _character.getItemInLeftHand().child.plural ? "are" : "is a");
     }
     else if (_character.hasItemInRightHand()) {
-        _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getItemInRightHand().item.toString(), _character.getItemInRightHand().item.plural ? "are" : "is a");
+        _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getItemInRightHand().child.toString(), _character.getItemInRightHand().child.plural ? "are" : "is a");
     }
     
     Content.add("<p>" + _blob + "</p>");

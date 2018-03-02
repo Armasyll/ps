@@ -1139,7 +1139,7 @@ function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.item;
+            _item = _item.child;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1187,7 +1187,7 @@ function setCharacterMeetingRoomEvent(_id = undefined, _characterA, _characterB,
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.item;
+            _item = _item.child;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1236,7 +1236,7 @@ function setCharacterMeetingCellEvent(_id = undefined, _characterA, _characterB,
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.item;
+            _item = _item.child;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1285,7 +1285,7 @@ function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _charact
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.item;
+            _item = _item.child;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
