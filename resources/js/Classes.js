@@ -2654,15 +2654,15 @@ class Character extends Entity {
             if (itemsIndexes.has(_item))
                 _item = itemsIndexes.get(_item);
             else if (_item instanceof ItemInstance)
-                _item = _item.item;
+                _item = _item.child;
             else if (itemInstancesIndexes.has(_item))
-                _item = itemInstancesIndexes.get(_item).item;
+                _item = itemInstancesIndexes.get(_item).child;
             else
-                return;
+                return false;
         }
         var _foundItem = false;
         this.items.some(function(__item) {
-            if (__item.item == _item) {
+            if (__item.child == _item) {
                 _foundItem = true;
                 return true;
             }
@@ -3974,66 +3974,66 @@ class Character extends Entity {
     }
 
     hasHat() {
-        return this.clothing.get("hat") instanceof ItemInstance && this.clothing.get("hat").item instanceof Item;
+        return this.clothing.get("hat") instanceof ItemInstance && this.clothing.get("hat").child instanceof Item;
     }
     getHat() {
-        return this.clothing.get("hat").item;
+        return this.clothing.get("hat").child;
     }
 
     hasShirt() {
-        return this.clothing.get("shirt") instanceof ItemInstance && this.clothing.get("shirt").item instanceof Item;
+        return this.clothing.get("shirt") instanceof ItemInstance && this.clothing.get("shirt").child instanceof Item;
     }
     getShirt() {
-        return this.clothing.get("shirt").item;
+        return this.clothing.get("shirt").child;
     }
 
     hasJacket() {
-        return this.clothing.get("jacket") instanceof ItemInstance && this.clothing.get("jacket").item instanceof Item;
+        return this.clothing.get("jacket") instanceof ItemInstance && this.clothing.get("jacket").child instanceof Item;
     }
     getJacket() {
-        return this.clothing.get("jacket").item;
+        return this.clothing.get("jacket").child;
     }
 
     hasNeckwear() {
-        return this.clothing.get("neckwear") instanceof ItemInstance && this.clothing.get("neckwear").item instanceof Item;
+        return this.clothing.get("neckwear") instanceof ItemInstance && this.clothing.get("neckwear").child instanceof Item;
     }
     getNeckwear() {
-        return this.clothing.get("neckwear").item;
+        return this.clothing.get("neckwear").child;
     }
 
     hasBra() {
-        return this.clothing.get("bra") instanceof ItemInstance && this.clothing.get("bra").item instanceof Item;
+        return this.clothing.get("bra") instanceof ItemInstance && this.clothing.get("bra").child instanceof Item;
     }
     getBra() {
-        return this.clothing.get("bra").item;
+        return this.clothing.get("bra").child;
     }
 
     hasBelt() {
-        return this.clothing.get("belt") instanceof ItemInstance && this.clothing.get("belt").item instanceof Item;
+        return this.clothing.get("belt") instanceof ItemInstance && this.clothing.get("belt").child instanceof Item;
     }
     getBelt() {
-        return this.clothing.get("belt").item;
+        return this.clothing.get("belt").child;
     }
 
     hasUnderwear() {
-        return this.clothing.get("underwear") instanceof ItemInstance && this.clothing.get("underwear").item instanceof Item;
+        return this.clothing.get("underwear") instanceof ItemInstance && this.clothing.get("underwear").child instanceof Item;
     }
     getUnderwear() {
-        return this.clothing.get("underwear").item;
+        return this.clothing.get("underwear").child;
     }
 
     hasPants() {
-        return this.clothing.get("pants") instanceof ItemInstance && this.clothing.get("pants").item instanceof Item;
+        return this.clothing.get("pants") instanceof ItemInstance && this.clothing.get("pants").child instanceof Item;
     }
     getPants() {
-        return this.clothing.get("pants").item;
+        return this.clothing.get("pants").child;
     }
     
     hasShoes() {
-        return this.clothing.get("shoe") instanceof ItemInstance && this.clothing.get("shoe").item instanceof Item;
+        return this.clothing.get("shoe") instanceof ItemInstance && this.clothing.get("shoe").child instanceof Item;
     }
     getShoes() {
-        return this.clothing.get("shoes").item;
+        return this.clothing.get("shoes").child;
     }
     getClothing(_type) {
         if (kClothingTypes.has(_type))
@@ -4607,7 +4607,7 @@ class Character extends Entity {
             }
             else if (clothingIndexes.has(_itemInstance)) {
                 _checkInstance = false;
-                _clothing = clothingIndexes.get(_itemInstance).item;
+                _clothing = clothingIndexes.get(_itemInstance).child;
             }
             else
                 return undefined;
@@ -4624,7 +4624,7 @@ class Character extends Entity {
                 if (_checkInstance)
                     return this.clothing.get(_clothing.type) == _itemInstance;
                 else
-                    return this.clothing.get(_clothing.type).item == _clothing;
+                    return this.clothing.get(_clothing.type).child == _clothing;
             }
         }
         else
@@ -7531,15 +7531,15 @@ class Furniture extends Entity {
             if (itemsIndexes.has(_item))
                 _item = itemsIndexes.get(_item);
             else if (_item instanceof ItemInstance)
-                _item = _item.item;
+                _item = _item.child;
             else if (itemInstancesIndexes.has(_item))
-                _item = itemInstancesIndexes.get(_item).item;
+                _item = itemInstancesIndexes.get(_item).child;
             else
                 return;
         }
         var _foundItem = false;
         this.items.some(function(__item) {
-            if (__item.item == _item) {
+            if (__item.child == _item) {
                 _foundItem = true;
                 return true;
             }
@@ -8455,9 +8455,9 @@ class GameEvent {
 
             if (!(_item instanceof Item)) {
                 if (_item instanceof ItemInstance)
-                    _item = _item.item;
+                    _item = _item.child;
                 else if (!_item instanceof ItemInstance && itemInstancesIndexes.has(_item))
-                    _item = itemInstancesIndexes.get(_item).item;
+                    _item = itemInstancesIndexes.get(_item).child;
                 else if (itemsIndexes.has(_item))
                     _item = itemsIndexes.get(_item);
                 else
