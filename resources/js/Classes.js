@@ -1108,18 +1108,7 @@ class Entity {
              * Weight in kilograms
              * @type {Number} 0.001 to Number.MAX_VALUE
              */
-            this.weight = 0;
-            /**
-             * Price
-             * @type {Number} 0 to Number.MAX_VALUE
-             */
-            this.price = 0;
-            /**
-             * Durability of an entity
-             * @type {Number} 0 to Number.MAX_VALUE
-             */
-            this.durability = 1;
-            this.durabilityMax = 1;
+            this.defaultWeight = 0;
 
             this.addAvailableAction("look");
             this.addSpecialType("exists");
@@ -7113,6 +7102,23 @@ class Item extends Entity {
 
             if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
                 this.addSpecialType(_specialTypes);
+
+            /**
+             * Weight
+             * @type {Number} 0.001 to Number.MAX_VALUE
+             */
+            this.defaultWeight = _defaultWeight;
+            /**
+             * Price
+             * @type {Number} 0 to Number.MAX_VALUE
+             */
+            this.defaultPrice = _defaultPrice;
+            /**
+             * Durability of an entity
+             * @type {Number} 0 to Number.MAX_VALUE
+             */
+            this.defaultDurability = _defaultDurability;
+            this.defaultDurabilityMax = _defaultDurability;
         }
 
         itemsIndexes.set(_id, this);
@@ -7976,28 +7982,28 @@ class ItemInstance extends Instance {
          * @type {Number} (Int)
          */
         if (typeof _price == "undefined" || _price == 0)
-            _price = this.child.price;
+            _price = this.child.defaultPrice;
         this.price = this.setPrice(_price);
         /**
          * Weight
          * @type {Number} (Float)
          */
         if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = this.child.weight;
+            _weight = this.child.defaultWeight;
         this.weight = this.setWeight(_weight);
         /**
          * Durability
          * @type {Number}
          */
         if (typeof _durability == "undefined" || _durability == 1)
-            _durability = this.child.durability;
+            _durability = this.child.defaultDurability;
         this.durability = this.setDurability(_durability);
         /**
          * Max Durability
          * @type {Number}
          */
         if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = this.child.durabilityMax;
+            _durabilityMax = this.child.defaultDurability;
         this.durabilityMax = this.setDurabilityMax(_durabilityMax);
 
         itemInstancesIndexes.set(this.id, this);
