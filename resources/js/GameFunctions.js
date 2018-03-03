@@ -411,7 +411,7 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
  * @return {Boolean}
  */
 function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
-    if (characterGiveItem(_itemInstance, _fromEntity, _toEntity, (_toEntity == player || _fromEntity == player)) {
+    if (characterGiveItem(_itemInstance, _fromEntity, _toEntity, (_toEntity == player || _fromEntity == player))) {
         if (_useLastMenu)
             unsafeExec(lastMenu);
         return true;
