@@ -186,13 +186,13 @@ function presentContinuousTense(_contraction = false, _useName = false) {
 }
 
 function _generateEntityItemsGraphicalList(_fromEntity = player, _toEntity = undefined, _modify = false, _filter = undefined) {
-    if (!(_fromEntity instanceof Entity)){
+    if (!(_fromEntity instanceof Entity)) {
         if (entityIndexes.has(_fromEntity))
             _fromEntity = entityIndexes.get(_fromEntity);
         else
             return undefined;
     }
-    if (!(_toEntity instanceof Entity)){
+    if (!(_toEntity instanceof Entity)) {
         if (entityIndexes.has(_toEntity))
             _toEntity = entityIndexes.get(_toEntity);
         else
@@ -226,13 +226,13 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
         else
             return undefined;
     }
-    if (!(_fromEntity instanceof Entity)){
+    if (!(_fromEntity instanceof Entity)) {
         if (entityIndexes.has(_fromEntity))
             _fromEntity = entityIndexes.get(_fromEntity);
         else
             return undefined;
     }
-    if (!(_toEntity instanceof Entity)){
+    if (!(_toEntity instanceof Entity)) {
         if (entityIndexes.has(_toEntity))
             _toEntity = entityIndexes.get(_toEntity);
         else
@@ -314,13 +314,13 @@ function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntit
         else
             return undefined;
     }
-    if (!(_fromEntity instanceof Entity)){
+    if (!(_fromEntity instanceof Entity)) {
         if (entityIndexes.has(_fromEntity))
             _fromEntity = entityIndexes.get(_fromEntity);
         else
             return undefined;
     }
-    if (!(_toEntity instanceof Entity)){
+    if (!(_toEntity instanceof Entity)) {
         if (entityIndexes.has(_toEntity))
             _toEntity = entityIndexes.get(_toEntity);
         else
@@ -667,7 +667,7 @@ function clearContentAndMenu() {
  * @return Boolean Whether or not the Character was moved to the Room.
  */
 function characterSetRoom(_character = player, _room) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1067,7 +1067,7 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
  * @return Boolean Whether or not the path is available, or undefined if the Character or Room are invalid.
  */
 function setCharacterPath(_character, _targetRoom) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1125,7 +1125,7 @@ function setEventCharacterLocationSchedule(_id = undefined, _character, _targetR
         undefined,  // _cell
         undefined,  // _room
         _cron,      // _cron
-        "setCharacterPath({0}, {1}){2}".format(_character.id, _targetRoom.id, (_function != undefined && _function.length > 2 ? ";" + _function : "")), // _nextFunction
+        "setCharacterPath({0}, {1}) {2}".format(_character.id, _targetRoom.id, (_function != undefined && _function.length > 2 ? ";" + _function : "")), // _nextFunction
         _runOnce    // _runOnce
     );
 }
@@ -1348,7 +1348,7 @@ function setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce =
  * @return {Boolean} Whether or not the Character is seated on Furniture, or undefined
  */
 function characterSit(_character, _furniture = undefined) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1371,7 +1371,7 @@ function characterSit(_character, _furniture = undefined) {
  * @return {Boolean} Whether or not the Character is lying on Furniture, or undefined
  */
 function characterLay(_character, _furniture = undefined) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1394,7 +1394,7 @@ function characterLay(_character, _furniture = undefined) {
  * @return {Boolean} Whether or not the Character is sleeping on Furniture, or undefined
  */
 function characterSleep(_character, _furniture = undefined) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1428,7 +1428,7 @@ function characterSleep(_character, _furniture = undefined) {
  * @return {Boolean}, or undefined
  */
 function characterStand(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1449,7 +1449,7 @@ function characterStand(_character) {
  * @return {Boolean}, or undefined
  */
 function characterWalk(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1471,13 +1471,13 @@ function characterWalk(_character) {
  * @return {Boolean}, or undefined
  */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1519,7 +1519,7 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
  * @return {Boolean}, or undefined
  */
 function characterStay(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1541,13 +1541,13 @@ function characterStay(_character) {
  * @return {Boolean} Whether or not sex happens, or undefined
  */
 function characterSex(_characterA, _characterB, _furniture = undefined, _action = "lay") {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1604,13 +1604,13 @@ function characterSex(_characterA, _characterB, _furniture = undefined, _action 
  * @param  {Character} _characterB Character receiving sex
  */
 function characterIncSex(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1626,13 +1626,13 @@ function characterIncSex(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving anal sex
  */
 function characterIncAnal(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1649,13 +1649,13 @@ function characterIncAnal(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving vaginal sex
  */
 function characterIncVaginal(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1680,13 +1680,13 @@ function characterIncVaginal(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving fellatio
  */
 function characterIncFellatio(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1710,13 +1710,13 @@ function characterIncFellatio(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving cunnilingus
  */
 function characterIncCunnilingus(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1740,13 +1740,13 @@ function characterIncCunnilingus(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving analingus
  */
 function characterIncAnalingus(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1762,13 +1762,13 @@ function characterIncAnalingus(_characterA, _characterB) {
  * @param  {Character} _characterB Character receiving the handjob
  */
 function characterIncHandjob(_characterA, _characterB) {
-    if (!(_characterA instanceof Character)){
+    if (!(_characterA instanceof Character)) {
         if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
-    if (!(_characterB instanceof Character)){
+    if (!(_characterB instanceof Character)) {
         if (charactersIndexes.has(_characterB))
             _characterB = charactersIndexes.get(_characterB);
         else
@@ -1783,7 +1783,7 @@ function characterIncHandjob(_characterA, _characterB) {
  * @param  {Character} _character Character
  */
 function characterIncMasturbate(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1797,7 +1797,7 @@ function characterIncMasturbate(_character) {
  * @param  {Character} _character Character
  */
 function characterIncAutofellatioCount(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1813,7 +1813,7 @@ function characterIncAutofellatioCount(_character) {
  * @param  {Character} _character Character
  */
 function characterIncAutocunnilingusCount(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1829,7 +1829,7 @@ function characterIncAutocunnilingusCount(_character) {
  * @param  {Character} _character Character
  */
 function characterIncAutoanalingusCount(_character) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1846,7 +1846,7 @@ function characterIncAutoanalingusCount(_character) {
  * @return {Boolean} Whether or not masturbation happens, or undefined
  */
 function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1884,7 +1884,7 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
     return _character.masturbate(_furniture);
 }
 function characterDisrobeItem(_character, _itemInstance, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1905,7 +1905,7 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
         return false;
 }
 function characterGiveItem(_character, _entity, _itemInstance, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1939,7 +1939,7 @@ function characterGiveItem(_character, _entity, _itemInstance, _executeScene = f
     return false;
 }
 function characterHoldItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1963,7 +1963,7 @@ function characterPutItem(_character, _entity, _itemInstance, _executeScene = fa
     return characterGiveItem(_character, _entity, _itemInstance, _executeScene);
 }
 function characterReleaseItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -1987,13 +1987,13 @@ function characterAddItem(_character, _itemInstance, _executeScene = false) {
     return characterTakeItem(_character, undefined, _itemInstance, _executeScene);
 }
 function characterTakeItem(_character, _entity, _itemInstance, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_entity instanceof Entity) || _entity != undefined){
+    if (!(_entity instanceof Entity) || _entity != undefined) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
@@ -2014,7 +2014,7 @@ function characterTakeItem(_character, _entity, _itemInstance, _executeScene = f
         return false;
 }
 function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2036,7 +2036,7 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
 }
 
 function characterSetLife(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2047,7 +2047,7 @@ function characterSetLife(_character, _int) {
     return _character.life;
 }
 function characterDecLife(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2058,7 +2058,7 @@ function characterDecLife(_character, _int) {
     return _character.life;
 }
 function characterIncLife(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2069,7 +2069,7 @@ function characterIncLife(_character, _int) {
     return _character.life;
 }
 function characterSetLifeMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2080,7 +2080,7 @@ function characterSetLifeMax(_character, _int) {
     return _character.lifeMax;
 }
 function characterDecLifeMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2091,7 +2091,7 @@ function characterDecLifeMax(_character, _int) {
     return _character.lifeMax;
 }
 function characterIncLifeMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2102,7 +2102,7 @@ function characterIncLifeMax(_character, _int) {
     return _character.lifeMax;
 }
 function characterSetStamina(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2113,7 +2113,7 @@ function characterSetStamina(_character, _int) {
     return _character.stamina;
 }
 function characterDecStamina(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2124,7 +2124,7 @@ function characterDecStamina(_character, _int) {
     return _character.stamina;
 }
 function characterIncStamina(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2135,7 +2135,7 @@ function characterIncStamina(_character, _int) {
     return _character.stamina;
 }
 function characterSetStaminaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2146,7 +2146,7 @@ function characterSetStaminaMax(_character, _int) {
     return _character.staminaMax;
 }
 function characterDecStaminaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2157,7 +2157,7 @@ function characterDecStaminaMax(_character, _int) {
     return _character.staminaMax;
 }
 function characterIncStaminaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2168,7 +2168,7 @@ function characterIncStaminaMax(_character, _int) {
     return _character.staminaMax;
 }
 function characterSetMana(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2179,7 +2179,7 @@ function characterSetMana(_character, _int) {
     return _character.mana;
 }
 function characterIncMana(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2190,7 +2190,7 @@ function characterIncMana(_character, _int) {
     return _character.mana;
 }
 function characterDecMana(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2201,7 +2201,7 @@ function characterDecMana(_character, _int) {
     return _character.mana;
 }
 function characterSetManaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2212,7 +2212,7 @@ function characterSetManaMax(_character, _int) {
     return _character.manaMax;
 }
 function characterIncManaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2223,7 +2223,7 @@ function characterIncManaMax(_character, _int) {
     return _character.manaMax;
 }
 function characterDecManaMax(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2234,7 +2234,7 @@ function characterDecManaMax(_character, _int) {
     return _character.manaMax;
 }
 function characterSetMoney(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2245,7 +2245,7 @@ function characterSetMoney(_character, _int) {
     return _character.money;
 }
 function characterDecMoney(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2256,7 +2256,7 @@ function characterDecMoney(_character, _int) {
     return _character.money;
 }
 function characterIncMoney(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2267,7 +2267,7 @@ function characterIncMoney(_character, _int) {
     return _character.money;
 }
 function characterSetLust(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2278,7 +2278,7 @@ function characterSetLust(_character, _int) {
     return _character.lust;
 }
 function characterDecLust(_character, _int) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2314,7 +2314,7 @@ function incLust(_int) {return characterIncLust(player, _int);}
 function decLust(_int) {return characterDecLust(player, _int);}
 
 function cashCheque(_character = player) {
-    if (!(_character instanceof Character)){
+    if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
@@ -2687,7 +2687,7 @@ function useNormalMenu() {
 function saveGame() {
     var _charArr = new Array();
     var _furnArr = new Array();
-    charactersIndexes.forEach(function(_character){_charArr.push(_character.toJSON())}, this);
+    charactersIndexes.forEach(function(_character) {_charArr.push(_character.toJSON())}, this);
     var _text = JSON.stringify(
         {
             "player":player.id,
