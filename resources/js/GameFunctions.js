@@ -411,6 +411,15 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
  * @return {Boolean}
  */
 function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
+    if (characterGiveItem(_itemInstance, _fromEntity, _toEntity, (_toEntity == player || _fromEntity == player)) {
+        if (_useLastMenu)
+            unsafeExec(lastMenu);
+        return true;
+    }
+    else
+        return false;
+}
+/*function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (debug) console.log("Executing entityGiveItem with {0}, {1}, {2}, {3}".format(_itemInstance.id, _fromEntity instanceof Entity ? _fromEntity.id : _fromEntity, _toEntity instanceof Entity ? _toEntity.id : _toEntity, _useLastMenu));
     var _eventRun = false;
 
@@ -455,7 +464,8 @@ function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toE
             _fromEntity = undefined;
         }
     }
-    if (debug) console.log("    It is");
+    else
+        if (debug) console.log("    It is");
     
     if (debug) console.log("  Checking if _toEntity is an instance of Entity");
     if (!(_toEntity instanceof Entity)) {
@@ -466,7 +476,8 @@ function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toE
             return undefined;
         }
     }
-    if (debug) console.log("    It is");
+    else
+        if (debug) console.log("    It is");
 
     if (debug) console.log("  Checking against _fromEntity if events can be run");
     if (typeof _fromEntity == "undefined" || _fromEntity.containsItem(_itemInstance)) {
@@ -610,7 +621,7 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
     }
 
     return _eventRun;
-}
+}*/
 
 /**
  * Finds the PhoneInstance from itself, its String ID, the Character which has it, or the String ID of the Character which has it
@@ -1879,45 +1890,53 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
         else
             return undefined;
     }
-
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
-    _character.disrobe(_itemInstance);
-    if (_executeScene == true)
-        return unsafeExec("{0}Disrobe({1})".format(_itemInstance.child.id, _character.id));
-    else
+    if (unsafeExec("{0}Disrobe({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+        _character.disrobe(_itemInstance);
         return true;
-}
-function characterGiveItem(_characterA, _characterB, _itemInstance, _executeScene = false) {
-    if (!(_characterA instanceof Character)){
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
-        else
-            return undefined;
     }
-    if (!(_characterB instanceof Character)){
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
-        else
-            return undefined;
-    }
-
-    if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _characterA.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
-    }
-
-    if (_characterA.wearing(_itemInstance) && !characterDisrobeItem(_characterA, _itemInstance))
+    else
         return false;
-    characterRemoveItem(_characterA, _itemInstance, _executeScene);
-    characterTakeItem(_characterB, _itemInstance, _executeScene);
-    if (_executeScene == true)
-        return unsafeExec("{0}Give({1}, {2})".format(_itemInstance.id, _characterA.id, _characterB.id))
-    else
-        return true;
+}
+function characterGiveItem(_character, _entity, _itemInstance, _executeScene = false) {
+    if (!(_character instanceof Character)){
+        if (charactersIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+    if (!(_entity instanceof Entity) && _entity != undefined) {
+        if (entityIndexes.has(_entity))
+            _entity = entityIndexes.get(_entity);
+        else
+            _entity = undefined;
+    }
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+
+    if (_character.wearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
+        return false;
+    
+    if (!characterRemoveItem(_character, _itemInstance, _executeScene))
+        return false;
+
+    if (unsafeExec("{0}Give({1}, {2}, {3})".format(_itemInstance.id, _character.id, _entity.id, _executeScene))) {
+        if (characterTakeItem(_entity, _entity, _itemInstance, _executeScene))
+            return true;
+        else
+            return false;
+    }
+    return false;
 }
 function characterHoldItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
@@ -1926,17 +1945,22 @@ function characterHoldItem(_character, _itemInstance, _hand = undefined, _execut
         else
             return undefined;
     }
-
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
-
-    _character.addHeldItem(_itemInstance, _hand);
-    if (_executeScene == true)
-        return unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id))
-    else
+    
+    if (unsafeExec("{0}Hold({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+        _character.addHeldItem(_itemInstance, _hand);
         return true;
+    }
+    else
+        return false;
+}
+function characterPutItem(_character, _entity, _itemInstance, _executeScene = false) {
+    return characterGiveItem(_character, _entity, _itemInstance, _executeScene);
 }
 function characterReleaseItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)){
@@ -1945,39 +1969,49 @@ function characterReleaseItem(_character, _itemInstance, _hand = undefined, _exe
         else
             return undefined;
     }
-
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
-
-    _character.removeHeldItem(_itemInstance, _hand);
-    if (_executeScene == true)
-        return unsafeExec("{0}Release({1})".format(_itemInstance.child.id, _character.id));
-    else
+    
+    if (unsafeExec("{0}Release({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+        _character.removeHeldItem(_itemInstance, _hand);
         return true;
+    }
+    else
+        return false;
 }
 function characterAddItem(_character, _itemInstance, _executeScene = false) {
-    return characterTakeItem(_character, _itemInstance, _executeScene);
+    return characterTakeItem(_character, undefined, _itemInstance, _executeScene);
 }
-function characterTakeItem(_character, _itemInstance, _executeScene = false) {
+function characterTakeItem(_character, _entity, _itemInstance, _executeScene = false) {
     if (!(_character instanceof Character)){
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
     }
-
+    if (!(_entity instanceof Entity) || _entity != undefined){
+        if (entityIndexes.has(_entity))
+            _entity = entityIndexes.get(_entity);
+        else
+            _entity = undefined;
+    }
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
-    _character.addItem(_itemInstance);
-    if (_executeScene == true)
-        return unsafeExec("{0}Take({1})".format(_itemInstance.child.id, _character.id));
-    else
+    if (unsafeExec("{0}Take({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+        _character.addItem(_itemInstance);
         return true;
+    }
+    else
+        return false;
 }
 function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
     if (!(_character instanceof Character)){
@@ -1986,17 +2020,19 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
         else
             return undefined;
     }
-
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
-    _character.removeItem(_itemInstance);
-    if (_executeScene == true)
-        return unsafeExec("{0}Remove({1})".format(_itemInstance.child.id, _character.id));
-    else
+    if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+        _character.removeItem(_itemInstance);
         return true;
+    }
+    else
+        return false;
 }
 
 function characterSetLife(_character, _int) {
