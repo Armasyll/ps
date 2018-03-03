@@ -781,15 +781,18 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
     return true;
 }
 function itemInteractUse(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return undefined;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     return unsafeExec("{0}Use({1})".format(_itemInstance.child.id, player.id));
@@ -802,17 +805,25 @@ function itemInteractUse(_itemInstance, _character = player) {
  * @return {Boolean}             [description]
  */
 function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefined) {
-    if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-    if (!(_entityB instanceof Entity))
-        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
+    if (!(_characterA instanceof Character)) {
+        if (_characterIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
 
-    if (!(_characterA instanceof Character))
-        return undefined;
+    if (!(_entityB instanceof Character) && _entityB != undefined) {
+        if (_characterIndexes.has(_entityB))
+            _entityB = charactersIndexes.get(_entityB);
+        else
+            _entityB = undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _characterA.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     _characterA.removeItem(_itemInstance);
@@ -828,17 +839,25 @@ function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefin
  * @return {Boolean}             [description]
  */
 function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefined) {
-    if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-    if (!(_entityB instanceof Entity))
-        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
+    if (!(_characterA instanceof Character)) {
+        if (_characterIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
 
-    if (!(_characterA instanceof Character))
-        return;
+    if (!(_entityB instanceof Character) && _entityB != undefined) {
+        if (_characterIndexes.has(_entityB))
+            _entityB = charactersIndexes.get(_entityB);
+        else
+            _entityB = undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _characterA.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     _characterA.removeItem(_itemInstance);
@@ -854,17 +873,25 @@ function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefi
  * @return {Boolean}             [description]
  */
 function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefined) {
-    if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
-    if (!(_entityB instanceof Entity))
-        _entityB = entityIndexes.has(_entityB) ? entityIndexes.get(_entityB) : undefined;
+    if (!(_characterA instanceof Character)) {
+        if (_characterIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
 
-    if (!(_characterA instanceof Character))
-        return;
+    if (!(_entityB instanceof Character) && _entityB != undefined) {
+        if (_characterIndexes.has(_entityB))
+            _entityB = charactersIndexes.get(_entityB);
+        else
+            _entityB = undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _characterA.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     _entityB.removeItem(_item);
@@ -873,18 +900,22 @@ function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefi
     return true;
 }
 function itemInteractHold(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
-
-    if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
     }
 
-    _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+
+    if (_character.wearing(_itemInstance))
+        _character.takeOff(_itemInstance);
     if (_character.addHeldItem(_itemInstance))
         unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id));
 
@@ -894,15 +925,18 @@ function itemInteractHold(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractRelease(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     if (_character.removeHeldItem(_itemInstance))
@@ -914,18 +948,24 @@ function itemInteractRelease(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractWear(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
-
-    if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
     }
 
-    _character.wearing(_itemInstance) ? _character.disrobe(_itemInstance) : _character.wear(_itemInstance);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+
+    if (_character.wearing(_itemInstance))
+        _character.disrobe(_itemInstance);
+    else
+        _character.wear(_itemInstance);
     if (enablePopups) {}
     else
         itemInteract(_itemInstance, _character);
@@ -933,15 +973,18 @@ function itemInteractWear(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractDisrobe(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     if (_character.wearing(_itemInstance))
@@ -953,13 +996,22 @@ function itemInteractDisrobe(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractLook(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
+
+    if (_character.look(_itemInstance))
+        unsafeExec("{0}Look({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -968,29 +1020,42 @@ function itemInteractLook(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractAttack(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
+
+    if (_character.attack(_itemInstance.child))
+        unsafeExec("{0}Attack({1})".format(_itemInstance, _character.id));
+
+    if (enablePopups) {}
+    else
+        itemInteract(_itemInstance, _character);
 
     return true;
 }
 function itemInteractSex(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
     }
 
     if (enablePopups) {}
@@ -1000,21 +1065,55 @@ function itemInteractSex(_itemInstance, _character = player) {
     return true;
 }
 function itemInteractMasturbate(_itemInstance, _character = player) {
-    if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
-    if (!(_character instanceof Character))
-        return;
-
-    if (!(_itemInstance instanceof ItemInstance)) {
-        _itemInstance = _character.getItem(_itemInstance);
-        if (typeof _itemInstance == "undefined") return undefined;
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
     }
 
-    _character.wearing(_itemInstance) && _character.takeOff(_itemInstance);
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+
+    if (_character.wearing(_itemInstance))
+        _character.disrobe(_itemInstance);
+    if (_character.masturbate())
+        unsafeExec("{0}Masturbate({1})".format(_itemInstance.child.id, _character.id));
+
     if (enablePopups) {}
     else
         itemInteract(_itemInstance, _character);
+
+    return true;
+}
+function itemInteractConsume(_itemInstance, _character) {
+    if (!(_character instanceof Character)) {
+        if (_characterIndexes.has(_character))
+            _character = charactersIndexes.get(_character);
+        else
+            return undefined;
+    }
+
+    if (!(_itemInstance instanceof ItemInstance)) {
+        if (itemInstancesIndexes.has(_itemInstance))
+            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        else
+            return undefined;
+    }
+
+    if (_character.consume(_itemInstance)) {
+        this.addCurrentAction("consume", _entity);
+        unsafeExec("{0}Consume({1})".format(_itemInstance.child.id, _character.id));
+    }
+
+    if (enablePopups) {}
+    else
+        runLastMenu();
+    this.removeCurrentAction("consume", _entity);
 
     return true;
 }

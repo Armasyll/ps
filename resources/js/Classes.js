@@ -2559,24 +2559,23 @@ class Character extends Entity {
     getItems() {
         return this.items;
     }
+    /**
+     * Adds an ItemInstance to this Character; creates an ItemInstance if an Item is passed
+     * @param {ItemInstance} _itemInstance The ItemInstance, or Item, to be added to this Character
+     * @return {Boolean}               Whether or not the ItemInstance was added
+     */
     addItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
-            else if (_itemInstance instanceof Phone)
-                _itemInstance = new PhoneInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
-            else if (phonesIndexes.has(_itemInstance)) {
-                _itemInstance = phonesIndexes.get(_itemInstance);
-                _itemInstance = new PhoneInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
-            }
             else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(_itemInstance, this, _itemInstance.price, _itemInstance.weight, _itemInstance.durability, _itemInstance.durabilityMax);
+                _itemInstance = new ItemInstance(_itemInstance);
             else if (itemsIndexes.has(_itemInstance))
                 _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
                 return undefined;
         }
-        if (!this.hasItem(_itemInstance.id))
+        if (!this.containsItem(_itemInstance.id))
             this.items.push(_itemInstance);
 
         if (_itemInstance instanceof PhoneInstance && _itemInstance.owner == this)
@@ -2584,96 +2583,85 @@ class Character extends Entity {
 
         return true;
     }
+    /**
+     * Removes an ItemInstance from this Character
+     * @param  {ItemInstance} _itemInstance The ItemInstance, or Item, to be removed from this Character
+     * @return {Boolean}               Whether or not the ItemInstance was removed
+     */
     removeItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return;
+                _itemInstance = this.getItem(_itemInstance);
         }
-        if (!this.containsItem(_itemInstance))
-            return true;
+        if (_itemInstance instanceof ItemInstance)
+            this.items.splice(this.items.indexOf(_itemInstance), 1);
 
-        if (this.wearing(_itemInstance))
-            this.takeOff(_itemInstance);
-        
-        if (_itemInstance.child instanceof Phone && _itemInstance.child.owner == this)
-            this.phone = undefined;
-
-        this.items.splice(this.items.indexOf(_itemInstance), 1);
         return true;
     }
+    /**
+     * Returns the ItemInstance of a passed Item or ItemInstance if this Character has it
+     * @param  {ItemInstance} _itemInstance The Item or ItemInstance to search for
+     * @return {ItemInstance}               The ItemInstance that is found, or undefined if it isn't
+     */
     getItem(_itemInstance) {
+        var _foundItem = false;
+
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Item) {
-                if (this instanceof Entity) {
-                    this.items.some(function(__itemInstance) {
-                        if (__itemInstance.child == _itemInstance) {
-                            _itemInstance = __itemInstance;
-                            return true;
-                        }
-                    }, this);
-                }
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.child == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                /**
+                 * We've already gone through this.items and found what we were looking for, or not;
+                 * no need to continue through the rest of this method.
+                 */
+                if (_foundItem)
+                    return _itemInstance;
                 else
-                    _itemInstance = new ItemInstance(_itemInstance, this);
+                    return false;
             }
             else if (itemsIndexes.has(_itemInstance)) {
                 _itemInstance = itemsIndexes.get(_itemInstance);
-                if (this instanceof Entity) {
-                    this.items.some(function(__itemInstance) {
-                        if (__itemInstance.child == _itemInstance) {
-                            _itemInstance = __itemInstance;
-                            return true;
-                        }
-                    }, this);
-                }
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.child == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                if (_foundItem)
+                    return _itemInstance;
                 else
-                    _itemInstance = new ItemInstance(_itemInstance, this);
+                    return false;
             }
             else
                 return undefined;
         }
-        return _itemInstance;
+
+        this.items.some(function(__itemInstance) {
+            if (__itemInstance.id == _itemInstance.id)
+                _foundItem = true;
+        });
+
+        if (_foundItem)
+            return _itemInstance;
+        else
+            return false;
     }
 
-    containsItem(_item) {
-        var _foundItem = false;
-        var _strict = false;
-
-        if (_item instanceof ItemInstance)
-            _strict = true;
-        else if (itemInstancesIndexes.has(_item)) {
-            _strict = true;
-            _item = itemInstancesIndexes.get(_item);
-        }
-        else if (_item instanceof Item) {}
-        else if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
-
-        if (_strict) {
-            this.items.some(function(__item) {
-                if (__item.id == _item.id) {
-                    _foundItem = true;
-                    return true;
-                }
-            }, this);
-        }
-        else {
-            this.items.some(function(__item) {
-                if (__item.child == _item) {
-                    _foundItem = true;
-                    return true;
-                }
-            }, this);
-        }
-        return _foundItem;
+    containsItem(_itemInstance) {
+        return this.getItem(_itemInstance) instanceof ItemInstance;
     }
     hasItem(_itemInstance) {
-        return this.containsItem(_itemInstance);
+        return this.getItem(_itemInstance) instanceof ItemInstance;
     }
     getItems() {
         return this.items;
@@ -2723,8 +2711,13 @@ class Character extends Entity {
     }
     holding(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else {
+                _itemInstance = this.getItem(_itemInstance);
+                if (!(_itemInstance instanceof ItemInstance))
+                    return undefined;
+            }
         }
         var _isHolding = false;
         this.heldItems.forEach(function(__itemInstance) {
@@ -4101,10 +4094,15 @@ class Character extends Entity {
     attack(_entity) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
+
         this.addCurrentAction("attack", _entity);
         return true;
     }
@@ -4122,11 +4120,16 @@ class Character extends Entity {
     consume(_entity) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
-        this.addCurrentAction("consume", _entity);
+
+        //this.addCurrentAction("consume", _entity);
         return true;
     }
     disrobe(_itemInstance) {
@@ -4182,22 +4185,34 @@ class Character extends Entity {
     give(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
+
         if (!(_itemInstance instanceof ItemInstance)) {
             _itemInstance = _entity.getItem(_itemInstance);
             if (typeof _itemInstance == "undefined") return undefined;
         }
         return true;
     }
-    hold(_itemInstance, _hand = undefined) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
+    hold(_entity, _hand = undefined) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
+            else
+                return undefined;
         }
-        if (this.holding(_itemInstance))
+
+        if (this.holding(_entity))
             return true;
         if (_hand !== undefined) {
             if (isNaN(_hand)) {
@@ -4228,45 +4243,63 @@ class Character extends Entity {
                 if (!this.release(__item))
                     return false;
             }
-            this.heldItems[_hand] = _itemInstance;
+            this.heldItems[_hand] = _entity;
         }
         else {
             if (this.heldItems.length > 1) {
                 var __item = this.heldItems[0];
                 if (this.release(__item))
-                    this.heldItems[0] = _itemInstance;
+                    this.heldItems[0] = _entity;
                 else
                     return false;
             }
             else
-                this.heldItems.push(_itemInstance);
+                this.heldItems.push(_entity);
         }
-        this.addCurrentAction("hold", _itemInstance);
+        this.addCurrentAction("hold", _entity);
         return true;
     }
     hug(_entity) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
+
         this.addCurrentAction("hug", _entity);
         return true;
     }
     kiss(_entity, _bodyPart = undefined) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
+
         this.addCurrentAction("kiss", _entity, _bodyPart);
         return true;
     }
     kneel(_entity) {
-        if (!(_entity instanceof Entity))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
+            else
+                return undefined;
+        }
 
         this.removeCurrentAction("lay");
         this.removeCurrentAction("sit");
@@ -4298,8 +4331,17 @@ class Character extends Entity {
         return true;
     }
     look(_entity) {
-        if (!(_entity instanceof Entity))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
+            else
+                return undefined;
+        }
+
         this.addCurrentAction("look", _entity);
         return true;
     }
@@ -4322,18 +4364,43 @@ class Character extends Entity {
     open(_entity) {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
             else
                 return undefined;
         }
+        return true;
     }
     pray(_entity) {
-        if (!(_entity instanceof Entity))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
+            else
+                return undefined;
+        }
+
         this.addCurrentAction("pray", _entity);
         return true;
     }
     put(_entity, _itemInstance) {
+        if (!(_entity instanceof Entity)) {
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof Instance)
+                _entity = _entity.child;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).child;
+            else
+                return undefined;
+        }
+
         return this.give(_entity, _itemInstance);
     }
     rape(_character) {
@@ -7483,6 +7550,11 @@ class Furniture extends Entity {
         }
     }
 
+    /**
+     * Adds an ItemInstance to this Furniture; creates an ItemInstance if an Item is passed
+     * @param {ItemInstance} _itemInstance The ItemInstance, or Item, to be added to this Furniture
+     * @return {Boolean}               Whether or not the ItemInstance was added
+     */
     addItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
@@ -7492,96 +7564,92 @@ class Furniture extends Entity {
             else if (itemsIndexes.has(_itemInstance))
                 _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
             else
-                return;
+                return undefined;
         }
-        this.items.push(_itemInstance);
+        if (!this.containsItem(_itemInstance.id))
+            this.items.push(_itemInstance);
 
         return true;
     }
+    /**
+     * Removes an ItemInstance from this Furniture
+     * @param  {ItemInstance} _itemInstance The ItemInstance, or Item, to be removed from this Furniture
+     * @return {Boolean}               Whether or not the ItemInstance was removed
+     */
     removeItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else
-                return;
+                _itemInstance = this.getItem(_itemInstance);
         }
-        if (!this.containsItem(_itemInstance))
-            return true;
+        if (_itemInstance instanceof ItemInstance)
+            this.items.splice(this.items.indexOf(_itemInstance), 1);
 
-        this.items.splice(this.items.indexOf(_itemInstance), 1);
         return true;
     }
+    /**
+     * Returns the ItemInstance of a passed Item or ItemInstance if this Furniture has it
+     * @param  {ItemInstance} _itemInstance The Item or ItemInstance to search for
+     * @return {ItemInstance}               The ItemInstance that is found, or undefined if it isn't
+     */
     getItem(_itemInstance) {
+        var _foundItem = false;
+
         if (!(_itemInstance instanceof ItemInstance)) {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Item) {
-                if (_character instanceof Entity) {
-                    _character.items.some(function(__itemInstance) {
-                        if (__itemInstance.child == _itemInstance) {
-                            _itemInstance = __itemInstance;
-                            return true;
-                        }
-                    }, this);
-                }
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.child == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                /**
+                 * We've already gone through this.items and found what we were looking for, or not;
+                 * no need to continue through the rest of this method.
+                 */
+                if (_foundItem)
+                    return _itemInstance;
                 else
-                    _itemInstance = new ItemInstance(_itemInstance, _character);
+                    return false;
             }
             else if (itemsIndexes.has(_itemInstance)) {
                 _itemInstance = itemsIndexes.get(_itemInstance);
-                if (_character instanceof Entity) {
-                    _character.items.some(function(__itemInstance) {
-                        if (__itemInstance.child == _itemInstance) {
-                            _itemInstance = __itemInstance;
-                            return true;
-                        }
-                    }, this);
-                }
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.child == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                if (_foundItem)
+                    return _itemInstance;
                 else
-                    _itemInstance = new ItemInstance(_itemInstance, _character);
+                    return false;
             }
             else
                 return undefined;
         }
-        return _itemInstance;
+
+        this.items.some(function(__itemInstance) {
+            if (__itemInstance.id == _itemInstance.id)
+                _foundItem = true;
+        });
+
+        if (_foundItem)
+            return _itemInstance;
+        else
+            return false;
     }
 
-    containsItem(_item) {
-        var _foundItem = false;
-        var _strict = false;
-
-        if (_item instanceof ItemInstance)
-            _strict = true;
-        else if (itemInstancesIndexes.has(_item)) {
-            _strict = true;
-            _item = itemInstancesIndexes.get(_item);
-        }
-        else if (_item instanceof Item) {}
-        else if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
-        else
-            return undefined;
-
-        if (_strict) {
-            this.items.some(function(__item) {
-                if (__item.id == _item.id) {
-                    _foundItem = true;
-                    return true;
-                }
-            }, this);
-        }
-        else {
-            this.items.some(function(__item) {
-                if (__item.child == _item) {
-                    _foundItem = true;
-                    return true;
-                }
-            }, this);
-        }
-        return _foundItem;
+    containsItem(_itemInstance) {
+        return this.getItem(_itemInstance) instanceof ItemInstance;
     }
     hasItem(_itemInstance) {
-        return this.containsItem(_itemInstance);
+        return this.getItem(_itemInstance) instanceof ItemInstance;
     }
     getItems() {
         return this.items;
