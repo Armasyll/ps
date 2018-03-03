@@ -381,9 +381,9 @@ function characterInteractTalk(_character) {
 
     if (typeof window["{0}Follow".format(_character.id)] == "function") {
         if (_character.following != player)
-            Menu.setOption(3, "characterInteractFollow({0})".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
+            Menu.setOption(3, "characterInteractFollow('{0}')".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
         else
-            Menu.setOption(3, "characterInteractStay({0})".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
+            Menu.setOption(3, "characterInteractStay('{0}')".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
     }
 
     unsafeExec("{0}Talk()".format(_character.id));
@@ -400,7 +400,7 @@ function characterInteractSex(_character) {
     }
 
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract({0}, false, true)".format(_character.id), "Back");
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "characterInteract('{0}', false, true)".format(_character.id), "Back");
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
     unsafeExec("{0}Sex()".format(_character.id));

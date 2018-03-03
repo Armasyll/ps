@@ -517,6 +517,13 @@ function rosieFollow() {
     
     characterInteract(_character, false);
 }
+function rosieStay() {
+    _character = rosie;
+    
+    Content.add("<p>\"Stay right here,\" {0} tell{1} {2}. She looks around before muttering \"Okay.\"</p>".format(subjectPronoun(true), pov == 3 ? "s" : "", _character.name));
+    
+    characterStay(_character);
+}
 
 function tellerMicelyInteraction() {
     _character = tellerMicely;
