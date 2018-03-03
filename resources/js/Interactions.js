@@ -303,19 +303,16 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         if (_clearContent && !_scenesViewedThisWindow.has("characterInteractOpen")) {
             var _blob = "";
             if (_characterB == _characterA)
-                _blob += ("Looking through your pockets and on your person, you find ");
+                _blob += "Looking through {0} pockets and on {0} person, {1} find{2} ".format(possessiveAdjective()), subjectPronoun(true), (pov == 3 ? "s" : "");
             else
-                _blob += ("Looking through {0}'s pockets and on {1} person, you find ".format(_characterB.name, _characterB.possessiveAdjective()));
+                _blob += "Looking through {0}'s pockets and on {1} person, {2} find{3} ".format(_characterB.name, _characterB.possessiveAdjective(), subjectPronoun(true), (pov == 3 ? "s" : ""));
 
-            if (_characterB.getNumberOfItems() == 0) {
+            if (_characterB.getNumberOfItems() == 0)
                 _blob += "that it is empty.";
-            }
-            else if (_characterB.getNumberOfItems() == 1) {
-                _blob += ("a " + _characterB.items[0].child.toString() + ".");
-            }
-            else if (_characterB.getNumberOfItems() == 2) {
+            else if (_characterB.getNumberOfItems() == 1)
+                _blob += "a " + _characterB.items[0].child.toString() + ".";
+            else if (_characterB.getNumberOfItems() == 2)
                 _blob += "{0}, and {1}".format(_characterB.items[0].child.plural ? _characterB.items[0].child.toString() : _characterB.items[0].child, _characterB.items[1].child.plural ? _characterB.items[1].child : _characterB.items[1].child);
-            }
             else {
                 // Lazy
                 var _arr = _characterB.items;
@@ -325,7 +322,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1].child.toString() + ".");
+                _blob += " and " + _arr[_arr.length - 1].child.toString() + ".";
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
@@ -503,13 +500,13 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
             _furniture.availableActions.forEach(function(_action) {
                 if (kActionTypes.has(_action)) {
                     switch(_action) {
-                        case "use" : {
+                        /*case "use" : {
                             if (_furniture.type == "mirror" && player.mana > 0)
                                 Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, "btn-mana");
                             else
                                 Menu.addOption("furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
                             break;
-                        }
+                        }*/
                         case "sit" : {
                             if (!(player.furniture == this) || (player.furniture == this && !player.isSitting()))
                                 Menu.addOption("furnitureInteractSit({0})".format(this.id), "Sit on {0}".format(this.name));
@@ -727,7 +724,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
     if (enablePopups) {}
     else {
         if (_itemInstance.child.description != undefined && _itemInstance.child.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
-            Content.add("<p>{0} look{1} at {2}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.child.toString()));
+            Content.add("<p>{0} look{1} at {2} {3}.</p>".format(subjectPronoun(true).capitalize(), (pov == 3 ? "s" : ""), (_itemInstance.owner == player ? possessiveAdjective() : _itemInstance.owner.singularPossessiveName()), _itemInstance.child.toString()));
 
         lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
 
@@ -745,10 +742,10 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
         _itemInstance.child.availableActions.forEach(function(_action) {
             if (kActionTypes.has(_action)) {
                 switch(_action) {
-                    case "use" : {
+                    /*case "use" : {
                         !(_itemInstance.child instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.child.name));
                         break;
-                    }
+                    }*/
                     case "put" : {
                         !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.child.name));
                         break;
