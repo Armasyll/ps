@@ -1258,6 +1258,10 @@ class Entity {
 
         return "<a data-toggle=\"tooltip\" data-placement=\"left\" data-html=\"true\" title=\"{0}\">{1}</a>".format(_blob.replace(/\"/g, '\\"'), this.name);
     }
+
+    delete() {
+        entityIndexes.delete(this.id);
+    }
 }
 
 class BodyPart extends Entity {
@@ -7248,6 +7252,11 @@ class Item extends Entity {
     moveTo(_entity) {
         return this.moveToEntity(_entity);
     }
+
+    delete() {
+        itemsIndexes.delete(this.id);
+        super.delete();
+    }
 }
 /**
  * Class that represents all Key(s)
@@ -7275,6 +7284,11 @@ class Key extends Item {
         }
 
         keysIndexes.set(_id, this);
+    }
+
+    delete() {
+        keysIndexes.delete(this.id);
+        super.delete();
     }
 }
 /**
@@ -7317,6 +7331,11 @@ class Clothing extends Item {
         	this.type = _type;
         else
         	this.type = "shirt";
+    }
+
+    delete() {
+        clothingIndexes.delete(this.id);
+        super.delete();
     }
 }
 /**
@@ -7385,6 +7404,11 @@ class Consumable extends Item {
         else
             this.type = "food";
     }
+
+    delete() {
+        consumableIndexes.delete(this.id);
+        super.delete();
+    }
 }
 /**
  * Class that represents all Cheque(s)
@@ -7443,6 +7467,7 @@ class Cheque extends Item {
 
     delete() {
         chequesIndexes.delete(this.id);
+        super.delete();
     }
 }
 
@@ -7845,16 +7870,26 @@ class Furniture extends Entity {
 
         return _charactersSeatingSpaceTotal;
     }
+
+    delete() {
+        furnitureIndexes.delete(this.id);
+        super.delete();
+    }
 }
 /**
  * Class that represents all Electronic Devices
  * @extends {Item}
  */
-class ElectronicDevice extends Item {
+/*class ElectronicDevice extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
         super(_id, _name, _description, _image);
     }
-}
+
+    delete() {
+        electronicDevicesIndexes.delete(this.id);
+        super.delete();
+    }
+}*/
 /**
  * Class that represents all Phones
  * @extends {Item}
@@ -7863,6 +7898,11 @@ class Phone extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         super(_id, _name, _description, _image, false, ["metal","electricity","smooth","mirror"], _defaultPrice, _defaultWeight, _defaultDurability);
         phonesIndexes.set(_id, this);
+    }
+
+    delete() {
+        phoneIndexes.delete(this.id);
+        super.delete();
     }
 }
 class TextMessage {
@@ -7999,7 +8039,7 @@ class Instance {
             return undefined;
         else if (!(_child instanceof Entity)) {
             if (entityIndexes.has(_child))
-                _entityIndexes.get(_child);
+                entityIndexes.get(_child);
             else if (_child instanceof Instance)
                 _child = _child.child;
             else if (instancesIndexes.has(_child))
@@ -8010,6 +8050,10 @@ class Instance {
         this.child = _child;
 
         instancesIndexes.set(this.id, this);
+    }
+
+    delete() {
+        instancesIndexes.delete(this.id);
     }
 }
 class ItemInstance extends Instance {
@@ -8204,6 +8248,11 @@ class ItemInstance extends Instance {
     getDurabilityMax() {
         return this.durabilityMax;
     }
+
+    delete() {
+        itemInstancesIndexes.delete(this.id);
+        super.delete();
+    }
 }
 class PhoneInstance extends ItemInstance {
     constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
@@ -8277,6 +8326,11 @@ class PhoneInstance extends ItemInstance {
             this.receivedMessages.delete(_textMessage.id);
             this.readMessages.set(_textMessage.id, _textMessage);
         }
+    }
+
+    delete() {
+        phoneInstancesIndexes.delete(this.id);
+        super.delete();
     }
 }
 class Cron {

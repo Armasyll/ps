@@ -2291,11 +2291,12 @@ function cashCheque(_character = player) {
     var _chequeCashed = false;
 
     _character.items.forEach(function(_itemInstance) {
-        if (_item instanceof Cheque) {
+        if (_itemInstance.child instanceof Cheque) {
             if (_itemInstance.child.to instanceof Character && (_itemInstance.child.signed || _itemInstance.child.to == _character) && !isNaN(_itemInstance.child.amount) && _itemInstance.child.amount > 0) {
-                characterIncMoney(_item.to, _item.amount);
+                characterIncMoney(_itemInstance.child.to, _itemInstance.child.amount);
                 _character.removeItem(_itemInstance);
-                _item.delete();
+                _itemInstance.child.delete();
+                _itemInstance.delete();
                 _chequeCashed = true;
             }
         }
