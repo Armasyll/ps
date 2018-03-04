@@ -2601,9 +2601,9 @@ function addAllItems(_character = player, _execEvents = true) {
 
     itemsIndexes.forEach(function(_item) {
         if (_execEvents)
-            entityGiveItem(new ItemInstance(_item, _character), undefined, _character, false);
+            characterAddItem(_character, undefined, new ItemInstance(_item, _character), true);
         else
-            _character.addItem(new ItemInstance(_item, _character));
+            characterAddItem(_character, undefined, new ItemInstance(_item, _character), false);
     }, this);
 
     return true;
@@ -2667,6 +2667,62 @@ function calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {
         return undefined;
     
     return _characterA.calculateChanceToFuck(_characterB, _ignoreLustAndRut);
+}
+/**
+ * Rolls a number between 1 and _sides, multiplied by _times, and incremented by _addition
+ * @param  {Number} _times Multiplier
+ * @param  {Number} _sides Max number per _times
+ * @param  {Number} _addition To be added to the result
+ * @return {Number}        Result
+ */
+function roll(_times = 1, _sides = 2, _addition = 0) {
+    if (typeof _times == "string" && _times.indexOf('d') > -1) {
+        var _split = _times.split('d');
+        if (_split.length < 2) {
+            _times = 1;
+            _sides = 2;
+            _addition = 0;
+        }
+        else {
+            _times = Number.parseInt(_split[0]);
+            if (_split[1].indexOf('+') > -1) {
+                _split = _split[1].split('+');
+                _sides = Number.parseInt(_split[0]);
+                _addition = Number.parseInt(_split[1]);
+            }
+            else if (_split[1].indexOf('-') > -1) {
+                _split = _split[1].split('-');
+                _sides = Number.parseInt(_split[0]);
+                _addition = -1 * Number.parseInt(_split[1]);
+            }
+            else {
+                _sides = Number.parseInt(_split[1]);
+                _addition = 0;
+            }
+        }
+        delete _split;
+    }
+    else {
+        _times = Number.parseInt(_times);
+        _sides = Number.parseInt(_sides);
+        _addition = Number.parseInt(_addition);
+    }
+
+    if (isNaN(_times)) _times = 1;
+    else if (_times < 1) _times = 1;
+    else if (_times > 10) _times = 10;
+    if (isNaN(_sides)) _sides = 2;
+    else if (_sides < 2) _sides = 2;
+    else if (_sides > 100) _sides = 100;
+    if (isNaN(_addition)) _addition = 0;
+    else if (_addition < Number.MIN_SAFE_INTEGER) _addition = Number.MIN_SAFE_INTEGER;
+    else if (_addition > Number.MAX_SAFE_INTEGER) _addition = Number.MAX_SAFE_INTEGER;
+
+    var _count = 0;
+    for (var i = 0; i < _times; i++) {
+        _count += Math.floor(Math.random() * _sides) + 1;
+    }
+    return _count + _addition;
 }
 
 /**
@@ -2960,4 +3016,4 @@ window.addEventListener(
         }
     },
     false
-)
+);

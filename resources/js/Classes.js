@@ -1099,19 +1099,19 @@ class Entity {
              */
             this.availableActions = new Set();
             /**
-             * Special types
-             * @type {Set} <kSpecialTypes>
+             * kSpecialProperties
+             * @type {Set} <kSpecialProperties>
              */
-            this.specialTypes = new Set();
+            this.specialPropertiess = new Set();
 
             /**
              * Weight in kilograms
-             * @type {Number} 0.001 to Number.MAX_VALUE
+             * @type {Number} 0.001 to Number.MAX_SAFE_INTEGER
              */
             this.defaultWeight = 0;
 
             this.addAvailableAction("look");
-            this.addSpecialType("exists");
+            this.addSpecialProperty("exists");
         }
         
         entityIndexes.set(this.id, this);
@@ -1209,39 +1209,39 @@ class Entity {
     }
 
     /**
-     * Adds a Special Type
-     * @param {String} _specialTypes (kSpecialTypes)
+     * Adds a kSpecialProperties
+     * @param {String} _specialPropertiess (kSpecialProperties)
      */
-    addSpecialType(_specialTypes) {
-        if (typeof _specialTypes == 'undefined')
+    addSpecialProperty(_specialPropertiess) {
+        if (typeof _specialPropertiess == 'undefined')
             return false;
-        else if (_specialTypes instanceof Array) {
-            _specialTypes.forEach(function(_specialType) {
-                kSpecialTypes.has(_specialType) && this.specialTypes.add(_specialType);
+        else if (_specialPropertiess instanceof Array) {
+            _specialPropertiess.forEach(function(_specialProperties) {
+                kSpecialProperties.has(_specialProperties) && this.specialPropertiess.add(_specialProperties);
             }, this);
             return true;
         }
-        else if (kSpecialTypes.has(_specialTypes)) {
-            this.specialTypes.add(_specialTypes);
+        else if (kSpecialProperties.has(_specialPropertiess)) {
+            this.specialPropertiess.add(_specialPropertiess);
             return true;
         }
         return false;
     }
     /**
-     * Returns this Entity's Special Types
-     * @return {Set} <String (kSpecialTypes)>
+     * Returns this Entity's kSpecialProperties
+     * @return {Set} <String (kSpecialProperties)>
      */
-    getSpecialTypes() {
-        return this._specialTypes;
+    getSpecialProperties() {
+        return this._specialPropertiess;
     }
     /**
-     * Returns whether or not this Entity has the specified Special Type
-     * @param  {String}  _specialType (kSpecialTypes)
-     * @return {Boolean}              Whether or not this Entity has the specified Special Type
+     * Returns whether or not this Entity has the specified kSpecialProperties
+     * @param  {String}  _specialProperties (kSpecialProperties)
+     * @return {Boolean}              Whether or not this Entity has the specified kSpecialProperties
      */
-    hasSpecialType(_specialType) {
-        if (kSpecialTypes.has(_specialType))
-            return this.specialTypes.has(_specialType);
+    hasSpecialProperty(_specialProperties) {
+        if (kSpecialProperties.has(_specialProperties))
+            return this.specialPropertiess.has(_specialProperties);
         else
             return false;
     }
@@ -1509,7 +1509,7 @@ class Character extends Entity {
         this.nickname = undefined;
         /**
          * Age
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.age = this.setAge(_age);
         /**
@@ -1610,22 +1610,22 @@ class Character extends Entity {
         this.hunger = 0;
         /**
          * Life; should this drop to 0, u ded
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.life = 100;
         /**
          * Max life; should never drop below 1
-         * @type {Number} 1 to Number.MAX_VALUE
+         * @type {Number} 1 to Number.MAX_SAFE_INTEGER
          */
         this.lifeMax = 100;
         /**
          * Mana; should this ever be greater than 0, things will be revealed
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.mana = 0;
         /**
          * Max mana
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.manaMax = 0;
         /**
@@ -1635,17 +1635,17 @@ class Character extends Entity {
         this.manaCostOffsetPercent = 0;
         /**
          * Stamina; should this drop to 0, u unconscious
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.stamina = 100;
         /**
          * Max stamina; should never drop below 1
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.staminaMax = 100;
         /**
          * Money
-         * @type {Number} 0 to Number.MAX_VALUE
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.money = 0;
         /**
@@ -2316,16 +2316,16 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["relatives"];
-        //  specialTypes
+        //  specialPropertiess
         try {
-            if (!(this.specialTypes instanceof Set)) this.specialTypes = new Set();
-            _tmpArr = JSON.parse(json["specialTypes"]);
-            _tmpArr.forEach(function(_specialType) {
-                if (kSpecialTypes.has(_specialType))
-                    this.addSpecialType(_specialType);
+            if (!(this.specialPropertiess instanceof Set)) this.specialPropertiess = new Set();
+            _tmpArr = JSON.parse(json["specialPropertiess"]);
+            _tmpArr.forEach(function(_specialProperties) {
+                if (kSpecialProperties.has(_specialProperties))
+                    this.addSpecialProperty(_specialProperties);
             }, this);
         } catch (e) {}
-        delete json["specialTypes"];
+        delete json["specialPropertiess"];
         
         // Maps
         //  sexCountMap
@@ -7147,9 +7147,9 @@ class Item extends Entity {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
-     * @param  {Set}     _specialTypes Set of special types
+     * @param  {Set}     _specialPropertiess Set of kSpecialProperties
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialTypes = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialPropertiess = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         if (_id instanceof Item) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7165,28 +7165,28 @@ class Item extends Entity {
             this.addAvailableAction("take");
             this.addAvailableAction("hold");
 
-            this.addSpecialType(_specialTypes);
+            this.addSpecialProperty(_specialPropertiess);
 
             if (typeof _plural != "boolean")
                 _plural = false;
             this.plural = _plural;
 
-            if (typeof _specialTypes == "string" || _specialTypes instanceof Array)
-                this.addSpecialType(_specialTypes);
+            if (typeof _specialPropertiess == "string" || _specialPropertiess instanceof Array)
+                this.addSpecialProperty(_specialPropertiess);
 
             /**
              * Weight
-             * @type {Number} 0.001 to Number.MAX_VALUE
+             * @type {Number} 0.001 to Number.MAX_SAFE_INTEGER
              */
             this.defaultWeight = _defaultWeight;
             /**
              * Price
-             * @type {Number} 0 to Number.MAX_VALUE
+             * @type {Number} 0 to Number.MAX_SAFE_INTEGER
              */
             this.defaultPrice = _defaultPrice;
             /**
              * Durability of an entity
-             * @type {Number} 0 to Number.MAX_VALUE
+             * @type {Number} 0 to Number.MAX_SAFE_INTEGER
              */
             this.defaultDurability = _defaultDurability;
             this.defaultDurabilityMax = _defaultDurability;
@@ -7270,7 +7270,7 @@ class Key extends Item {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = undefined, _specialTypes = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = undefined, _specialPropertiess = undefined) {
         if (_id instanceof Key) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7280,7 +7280,7 @@ class Key extends Item {
             }
         }
         else {
-            super(_id, _name, _description, _image, _plural, _specialTypes);
+            super(_id, _name, _description, _image, _plural, _specialPropertiess);
         }
 
         keysIndexes.set(_id, this);
@@ -7351,9 +7351,9 @@ class Consumable extends Item {
      * @param  {String}  _type        consumableType
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
-     * @param  {Stromg}  _specialTypes  specialType
+     * @param  {Stromg}  _specialPropertiess  specialProperties
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "food", _plural = false, _specialTypes = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "food", _plural = false, _specialPropertiess = undefined) {
         if (_id instanceof Consumable) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7362,7 +7362,7 @@ class Consumable extends Item {
             }
         }
         else {
-            super(_id, _name, _description, _image, _plural, _specialTypes);
+            super(_id, _name, _description, _image, _plural, _specialPropertiess);
 
             this.addAvailableAction("consume");
 
@@ -7467,6 +7467,24 @@ class Cheque extends Item {
 
     delete() {
         chequesIndexes.delete(this.id);
+        super.delete();
+    }
+}
+class Weapon extends Item {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = undefined, _plural = false) {
+    }
+
+    delete() {
+        weaponIndexes.delete(this.id);
+        super.delete();
+    }
+}
+class Armor extends Clothing {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = undefined, _plural = false) {
+    }
+
+    delete() {
+        armorIndexes.delete(this.id);
         super.delete();
     }
 }
@@ -8141,8 +8159,8 @@ class ItemInstance extends Instance {
             _int = 0;
         else if (_int < 0)
             _int = 0;
-        else if (_int > Number.MAX_VALUE)
-            _int = Number.MAX_VALUE;
+        else if (_int > Number.MAX_SAFE_INTEGER)
+            _int = Number.MAX_SAFE_INTEGER;
         this.durability = _int;
         return _int;
     }
@@ -8157,8 +8175,8 @@ class ItemInstance extends Instance {
             _float = 0.001;
         else if (_float < 0)
             _float = 0.001;
-        else if (_float > Number.MAX_VALUE)
-            _float = Number.MAX_VALUE;
+        else if (_float > Number.MAX_SAFE_INTEGER)
+            _float = Number.MAX_SAFE_INTEGER;
         this.weight = _float;
         return _float;
     }
@@ -8216,8 +8234,8 @@ class ItemInstance extends Instance {
             _int = 1;
         else if (_int < 0)
             _int = 1;
-        else if (_int > Number.MAX_VALUE)
-            _int = Number.MAX_VALUE;
+        else if (_int > Number.MAX_SAFE_INTEGER)
+            _int = Number.MAX_SAFE_INTEGER;
         this.durabilityMax = _int;
         return _int;
     }
@@ -8330,6 +8348,45 @@ class PhoneInstance extends ItemInstance {
 
     delete() {
         phoneInstancesIndexes.delete(this.id);
+        super.delete();
+    }
+}
+class WeaponInstance extends ItemInstance {
+    constructor(_child, _owner = undefined) {
+        /**
+         * Child
+         * @type {Weapon}
+         */
+        if (!(_child instanceof Weapon)) {
+            if (weaponsIndexes.has(_child)) 
+                _child = weaponsIndexes.get(_child);
+            else if (_child instanceof WeaponInstance && _child.child instanceof Weapon) 
+                _child = _child.child;
+            else if (weaponInstancesIndexes.has(_child)) {
+                _child = weaponInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Weapon))
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        super(uuidv4(), _child);
+
+        this.price = _child.price;
+        this.weight = _child.weight;
+    }
+
+    delete() {
+        weaponsInstancesIndexes.delete(this.id);
+        super.delete();
+    }
+}
+class ArmorInstance extends ItemInstance {
+    constructor(_child, _owner = undefined) {}
+
+    delete() {
+        armorInstancesIndexes.delete(this.id);
         super.delete();
     }
 }
