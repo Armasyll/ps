@@ -1449,11 +1449,14 @@ class Character extends Entity {
      * Creates a Character
      * @param  {String} _id      Unique ID
      * @param  {String} _name    Name
+     * @param  {String} _description Description
+     * @param  {String} _image   Image path
+     * @param  {String} _class    Class
      * @param  {Number} _age     Age
      * @param  {Number} _sex     Sex (0 Male, 1 Female, 2 Herm)
      * @param  {String} _species Species
      */
-    constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _age = 33, _sex = 0, _species = "fox") {
+    constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _description = undefined, _image = undefined, _class = "classless", _age = 33, _sex = 0, _species = "fox") {
         if (_id instanceof Object) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -1483,7 +1486,8 @@ class Character extends Entity {
         
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
-        super(_id);
+        super(_id.replace(/[^0-9a-z]/gi, ''));
+        delete this._id;
         /**
          * Surname
          * @type {String} Cannot be undefined!
@@ -1491,32 +1495,59 @@ class Character extends Entity {
         this.surname = undefined;
         if (_name.split(", ").length > 1) {
             var tempName = _name.split(", ");
-            this.name = tempName[1];
-            this.surname = tempName[0];
+            this.name = tempName[1].replace(/[^0-9a-z]/gi, '');
+            this.surname = tempName[0].replace(/[^0-9a-z]/gi, '');
         }
         else if (_name.split(" ").length > 1) {
             var tempName = _name.split(" ");
-            this.name = tempName[0];
-            this.surname = tempName[1];
+            this.name = tempName[0].replace(/[^0-9a-z]/gi, '');
+            this.surname = tempName[1].replace(/[^0-9a-z]/gi, '');
         }
         else {
-            this.name = _name;
+            this.name = _name.replace(/[^0-9a-z]/gi, '');
         }
         /**
          * Nickname
          * @type {String} Can be undefined
          */
         this.nickname = undefined;
+        delete this._name;
         /**
          * Age
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
-        this.age = this.setAge(_age);
+        this.age = undefined;
+        this.setAge(_age);
+        delete this._age;
         /**
          * Path to Character's picture
          * @type {String} Relative path to an image, or base64 encoded String
          */
-        this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
+        if (typeof _image == "undefined")
+            this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
+        else if (_image.slice(0, 28) == "resources/images/characters/") {
+            _image = _image.split('.');
+            _image[0] = _image[0].replace(/[^0-9a-z]/gi, '');
+            _image[1] = _image[1].replace(/[^0-9a-z]/gi, '');
+            var _fileType = _image[1].toLowerCase();
+            if (_fileType !== "png" && _fileType !== "svg" && _fileType !== "jpg" && _fileType !== "jpeg" && _fileType !== "gif")
+                this.image = "resources/images/characters/{0}.svg".format(this.id);
+            else if (_image[0].length < 1)
+                this.image = "resources/images/characters/{0}.svg".format(this.id);
+            else
+                this.image = "resources/images/characters/{0}.{1}".format(_image[0], _image[1]);
+            delete this._fileType;
+        }
+        else if (_image.slice(0, 11) == "data:image/") {
+            this.image = _image;
+        }
+        else
+            this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
+        delete this._image;
+
+        this.class = undefined;
+        this.setClass(_class);
+        delete this._class;
 
         this.addAvailableAction("talk");
         this.addAvailableAction("attack");
@@ -1609,40 +1640,70 @@ class Character extends Entity {
          */
         this.hunger = 0;
         /**
-         * Life; should this drop to 0, u ded
-         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
+         * Physical power
+         * @type {Number}
          */
-        this.life = 100;
+        this.strength = 1;
+        /**
+         * Agility
+         * @type {Number}
+         */
+        this.dexterity = 1;
+        /**
+         * Endurance
+         * @type {Number}
+         */
+        this.constitution = 1;
+        /**
+         * Reasoning and memory
+         * @type {Number}
+         */
+        this.intelligence = 1;
+        /**
+         * Perception and insight
+         * @type {Number}
+         */
+        this.wisdom = 1;
+        /**
+         * Force of personality
+         * @type {Number}
+         */
+        this.charisma = 1;
         /**
          * Max life; should never drop below 1
          * @type {Number} 1 to Number.MAX_SAFE_INTEGER
          */
         this.lifeMax = 100;
         /**
-         * Mana; should this ever be greater than 0, things will be revealed
+         * Life; should this drop to 0, u ded
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
-        this.mana = 0;
+        this.life = this.lifeMax;
         /**
          * Max mana
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.manaMax = 0;
         /**
+         * Mana; should this ever be greater than 0, things will be revealed
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
+         */
+        this.mana = this.manaMax;
+        /**
          * Mana cost offset percentage when casting spells
          * @type {Number} -100 to 100
          */
         this.manaCostOffsetPercent = 0;
         /**
-         * Stamina; should this drop to 0, u unconscious
-         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
-         */
-        this.stamina = 100;
-        /**
          * Max stamina; should never drop below 1
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.staminaMax = 100;
+        /**
+         * Stamina; should this drop to 0, u unconscious
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
+         */
+        this.stamina = this.staminaMax;
         /**
          * Money
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
@@ -2135,7 +2196,7 @@ class Character extends Entity {
          */
         this.room = undefined;
 
-        charactersIndexes.set(_id, this);
+        charactersIndexes.set(this.id, this);
 
         this.setSex(_sex);
         this.gender = this.sex;
@@ -2545,6 +2606,13 @@ class Character extends Entity {
             return this.name;
     }
 
+    setClass(_class) {
+        if (kCharacterClasses.has(_class))
+            this.class = _class;
+        else
+            this.class = "commoner";
+    }
+
     calculateManaCost(_cost = 0) {
         if (!isNaN(_cost)) {}
         else if (_cost instanceof Spell) {
@@ -2770,7 +2838,7 @@ class Character extends Entity {
         else if (_int < 1)
             _int = 1;
 
-        return this.setAge(this.age + _int);
+        return this.setAge(this.age + Number.parseInt(_int));
     }
     addAge(_int) {
         return this.incAge(_int);
@@ -2791,7 +2859,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setHunger(this.hunger + _int);
+        return this.setHunger(this.hunger + Number.parseInt(_int));
     }
     addHunger(_int) {
         return this.incHunger(_int);
@@ -2801,12 +2869,204 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setHunger(this.hunger - _int);
+        return this.setHunger(this.hunger - Number.parseInt(_int));
     }
     subHunger(_int) {
         return this.decHunger(_int);
     }
 
+    setStrength(_int) {
+        if (isNaN(_int))
+            return this.strength;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.strength = _int;
+        return _int;
+    }
+    incStrength(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setStrength(this.strength + Number.parseInt(_int));
+    }
+    addStrength(_int) {
+        return this.incStrength(_int);
+    }
+    decStrength(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setStrength(this.strength - Number.parseInt(_int));
+    }
+    subStrength(_int) {
+        return this.decStrength(_int);
+    }
+    setDexterity(_int) {
+        if (isNaN(_int))
+            return this.dexterity;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.dexterity = _int;
+        return _int;
+    }
+    incDexterity(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDexterity(this.dexterity + Number.parseInt(_int));
+    }
+    addDexterity(_int) {
+        return this.incDexterity(_int);
+    }
+    decDexterity(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setDexterity(this.dexterity - Number.parseInt(_int));
+    }
+    subDexterity(_int) {
+        return this.decDexterity(_int);
+    }
+    setConstitution(_int) {
+        if (isNaN(_int))
+            return this.constitution;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.constitution = _int;
+        return _int;
+    }
+    incConstitution(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setConstitution(this.constitution + Number.parseInt(_int));
+    }
+    addConstitution(_int) {
+        return this.incConstitution(_int);
+    }
+    decConstitution(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setConstitution(this.constitution - Number.parseInt(_int));
+    }
+    subConstitution(_int) {
+        return this.decConstitution(_int);
+    }
+    setIntelligence(_int) {
+        if (isNaN(_int))
+            return this.intelligence;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.intelligence = _int;
+        return _int;
+    }
+    incIntelligence(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setIntelligence(this.intelligence + Number.parseInt(_int));
+    }
+    addIntelligence(_int) {
+        return this.incIntelligence(_int);
+    }
+    decIntelligence(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setIntelligence(this.intelligence - Number.parseInt(_int));
+    }
+    subIntelligence(_int) {
+        return this.decIntelligence(_int);
+    }
+    setWisdom(_int) {
+        if (isNaN(_int))
+            return this.wisdom;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.wisdom = _int;
+        return _int;
+    }
+    incWisdom(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setWisdom(this.wisdom + Number.parseInt(_int));
+    }
+    addWisdom(_int) {
+        return this.incWisdom(_int);
+    }
+    decWisdom(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setWisdom(this.wisdom - Number.parseInt(_int));
+    }
+    subWisdom(_int) {
+        return this.decWisdom(_int);
+    }
+    setCharisma(_int) {
+        if (isNaN(_int))
+            return this.charisma;
+        else if (_int < 0)
+            _int = 1;
+        else if (_int > 100)
+            _int = 100;
+        this.charisma = _int;
+        return _int;
+    }
+    incCharisma(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setCharisma(this.charisma + Number.parseInt(_int));
+    }
+    addCharisma(_int) {
+        return this.incCharisma(_int);
+    }
+    decCharisma(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setCharisma(this.charisma - Number.parseInt(_int));
+    }
+    subCharisma(_int) {
+        return this.decCharisma(_int);
+    }
+    setAbilities(_str = undefined, _dex = undefined, _con = undefined, _int = undefined, _wis = undefined, _cha = undefined) {
+        this.setStrength(_str);
+        this.setDexterity(_dex);
+        this.setConstitution(_con);
+        this.setIntelligence(_int);
+        this.setWisdom(_wis);
+        this.setCharisma(_cha);
+        return true;
+    }
+    getAbilities() {
+        return {strength: this.strength, dexterity: this.dexterity, constitution: this.constitution, intelligence: this.intelligence, wisdom: this.wisdom, charisma: this.charisma};
+    }
     setLife(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -2822,7 +3082,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLife(this.life + _int);
+        return this.setLife(this.life + Number.parseInt(_int));
     }
     addLife(_int) {
         return this.incLife(_int);
@@ -2832,7 +3092,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLife(this.life - _int);
+        return this.setLife(this.life - Number.parseInt(_int));
     }
     subLife(_int) {
         return this.decLife(_int);
@@ -2855,7 +3115,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLifeMax(this.lifeMax + _int);
+        return this.setLifeMax(this.lifeMax + Number.parseInt(_int));
     }
     addLifeMax(_int) {
         return this.incLifeMax(_int);
@@ -2865,7 +3125,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLifeMax(this.lifeMax - _int);
+        return this.setLifeMax(this.lifeMax - Number.parseInt(_int));
     }
     subLifeMax(_int) {
         return this.decLifeMax(_int);
@@ -2886,7 +3146,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMana(this.mana + _int);
+        return this.setMana(this.mana + Number.parseInt(_int));
     }
     addMana(_int) {
         return this.incMana(_int);
@@ -2896,7 +3156,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMana(this.mana - _int);
+        return this.setMana(this.mana - Number.parseInt(_int));
     }
     subMana(_int) {
         return this.decMana(_int);
@@ -2919,7 +3179,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setManaMax(this.manaMax + _int);
+        return this.setManaMax(this.manaMax + Number.parseInt(_int));
     }
     addManaMax(_int) {
         return this.incManaMax(_int);
@@ -2929,7 +3189,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setManaMax(this.manaMax - _int);
+        return this.setManaMax(this.manaMax - Number.parseInt(_int));
     }
     subManaMax(_int) {
         return this.decManaMax(_int);
@@ -2950,7 +3210,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent + _int);
+        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent + Number.parseInt(_int));
     }
     addManaCostOffsetPercent(_int) {
         return this.incManaCostOffsetPercent(_int);
@@ -2960,7 +3220,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent - _int);
+        return this.setManaCostOffsetPercent(this.manaCostOffsetPercent - Number.parseInt(_int));
     }
     subManaCostOffsetPercent(_int) {
         return this.decManaCostOffsetPercent(_int);
@@ -2981,7 +3241,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setStamina(this.stamina + _int);
+        return this.setStamina(this.stamina + Number.parseInt(_int));
     }
     addStamina(_int) {
         return this.incStamina(_int);
@@ -2991,7 +3251,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setStamina(this.stamina - _int);
+        return this.setStamina(this.stamina - Number.parseInt(_int));
     }
     subStamina(_int) {
         return this.decStamina(_int);
@@ -3014,7 +3274,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setStaminaMax(this.staminaMax + _int);
+        return this.setStaminaMax(this.staminaMax + Number.parseInt(_int));
     }
     addStaminaMax(_int) {
         return this.incStaminaMax(_int);
@@ -3024,7 +3284,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setStaminaMax(this.staminaMax - _int);
+        return this.setStaminaMax(this.staminaMax - Number.parseInt(_int));
     }
     subStaminaMax(_int) {
         return this.decStaminaMax(_int);
@@ -3043,7 +3303,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMoney(this.money + _int);
+        return this.setMoney(this.money + Number.parseInt(_int));
     }
     addMoney(_int) {
         return this.incMoney(_int);
@@ -3053,7 +3313,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMoney(this.money - _int);
+        return this.setMoney(this.money - Number.parseInt(_int));
     }
     subMoney(_int) {
         return this.decMoney(_int);
@@ -3074,7 +3334,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSanity(this.sanity + _int);
+        return this.setSanity(this.sanity + Number.parseInt(_int));
     }
     addSanity(_int) {
         return this.incSanity(_int);
@@ -3084,7 +3344,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSanity(this.sanity - _int);
+        return this.setSanity(this.sanity - Number.parseInt(_int));
     }
     subSanity(_int) {
         return this.decSanity(_int);
@@ -3103,7 +3363,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setPhilautia(this.philautia + _int);
+        return this.setPhilautia(this.philautia + Number.parseInt(_int));
     }
     addPhilautia(_int) {
         return this.incPhilautia(_int);
@@ -3113,7 +3373,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setPhilautia(this.philautia - _int);
+        return this.setPhilautia(this.philautia - Number.parseInt(_int));
     }
     subPhilautia(_int) {
         return this.decPhilautia(_int);
@@ -3132,7 +3392,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setAgape(this.agape + _int);
+        return this.setAgape(this.agape + Number.parseInt(_int));
     }
     addAgape(_int) {
         return this.incAgape(_int);
@@ -3142,7 +3402,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setAgape(this.agape - _int);
+        return this.setAgape(this.agape - Number.parseInt(_int));
     }
     subAgape(_int) {
         return this.decAgape(_int);
@@ -3161,7 +3421,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSanguine(this.sanguine + _int);
+        return this.setSanguine(this.sanguine + Number.parseInt(_int));
     }
     addSanguine(_int) {
         return this.incSanguine(_int);
@@ -3171,7 +3431,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSanguine(this.sanguine - _int);
+        return this.setSanguine(this.sanguine - Number.parseInt(_int));
     }
     subSanguine(_int) {
         return this.decSanguine(_int);
@@ -3190,7 +3450,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setPhlegmatic(this.phlegmatic + _int);
+        return this.setPhlegmatic(this.phlegmatic + Number.parseInt(_int));
     }
     addPhlegmatic(_int) {
         return this.incPhlegmatic(_int);
@@ -3200,7 +3460,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setPhlegmatic(this.phlegmatic - _int);
+        return this.setPhlegmatic(this.phlegmatic - Number.parseInt(_int));
     }
     subPhlegmatic(_int) {
         return this.decPhlegmatic(_int);
@@ -3219,7 +3479,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setCholeric(this.choleric + _int);
+        return this.setCholeric(this.choleric + Number.parseInt(_int));
     }
     addCholeric(_int) {
         return this.incCholeric(_int);
@@ -3229,7 +3489,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setCholeric(this.choleric - _int);
+        return this.setCholeric(this.choleric - Number.parseInt(_int));
     }
     subCholeric(_int) {
         return this.decCholeric(_int);
@@ -3248,7 +3508,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMelancholic(this.melancholic + _int);
+        return this.setMelancholic(this.melancholic + Number.parseInt(_int));
     }
     addMelancholic(_int) {
         return this.incMelancholic(_int);
@@ -3258,7 +3518,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setMelancholic(this.melancholic - _int);
+        return this.setMelancholic(this.melancholic - Number.parseInt(_int));
     }
     subMelancholic(_int) {
         return this.decMelancholic(_int);
@@ -3279,7 +3539,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLust(this.lust + _int);
+        return this.setLust(this.lust + Number.parseInt(_int));
     }
     addLust(_int) {
         return this.incLust(_int);
@@ -3289,7 +3549,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setLust(this.lust - _int);
+        return this.setLust(this.lust - Number.parseInt(_int));
     }
     subLust(_int) {
         return this.decLust(_int);
@@ -3310,7 +3570,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setExhibitionism(this.exhibitionism + _int);
+        return this.setExhibitionism(this.exhibitionism + Number.parseInt(_int));
     }
     addExhibitionism(_int) {
         return this.incExhibitionism(_int);
@@ -3320,7 +3580,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setExhibitionism(this.exhibitionism - _int);
+        return this.setExhibitionism(this.exhibitionism - Number.parseInt(_int));
     }
     subExhibitionism(_int) {
         return this.decExhibitionism(_int);
@@ -3341,7 +3601,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnophilia(this.somnophilia + _int);
+        return this.setSomnophilia(this.somnophilia + Number.parseInt(_int));
     }
     addSomnophilia(_int) {
         return this.incSomnophilia(_int);
@@ -3351,7 +3611,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnophilia(this.somnophilia - _int);
+        return this.setSomnophilia(this.somnophilia - Number.parseInt(_int));
     }
     subSomnophilia(_int) {
         return this.decSomnophilia(_int);
@@ -3372,7 +3632,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setIntoxication(this.intoxication + _int);
+        return this.setIntoxication(this.intoxication + Number.parseInt(_int));
     }
     addIntoxication(_int) {
         return this.incIntoxication(_int);
@@ -3382,7 +3642,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setIntoxication(this.intoxication - _int);
+        return this.setIntoxication(this.intoxication - Number.parseInt(_int));
     }
     subIntoxication(_int) {
         return this.decIntoxication(_int);
@@ -3404,7 +3664,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setIncestual(this.incestual + _int);
+        return this.setIncestual(this.incestual + Number.parseInt(_int));
     }
     addIncestual(_int) {
         return this.incIncestual(_int);
@@ -3414,7 +3674,7 @@ class Character extends Entity {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setIncestual(this.incestual - _int);
+        return this.setIncestual(this.incestual - Number.parseInt(_int));
     }
     subIncestual(_int) {
         return this.decIncestual(_int);
@@ -3714,7 +3974,7 @@ class Character extends Entity {
         this.incCharacterEros(_character, _int);
     }
     incCharacterEros(_character, _int = 1) {
-        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + _int);
+        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + Number.parseInt(_int));
     }
     getCharacterEros(_character) {
         return this.getCharacterDisposition(_character, "eros");
@@ -3726,7 +3986,7 @@ class Character extends Entity {
         this.incCharacterPhilia(_character, _int);
     }
     incCharacterPhilia(_character, _int = 1) {
-        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + _int);
+        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + Number.parseInt(_int));
     }
     getCharacterPhilia(_character) {
         return this.getCharacterDisposition(_character, "philia");
@@ -3738,7 +3998,7 @@ class Character extends Entity {
         this.incCharacterLodus(_character, _int);
     }
     incCharacterLodus(_character, _int = 1) {
-        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + _int);
+        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + Number.parseInt(_int));
     }
     getCharacterLodus(_character) {
         return this.getCharacterDisposition(_character, "lodus");
@@ -3750,7 +4010,7 @@ class Character extends Entity {
         this.incCharacterPragma(_character, _int);
     }
     incCharacterPragma(_character, _int = 1) {
-        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + _int);
+        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + Number.parseInt(_int));
     }
     getCharacterPragma(_character) {
         return this.getCharacterDisposition(_character, "pragma");
@@ -3762,7 +4022,7 @@ class Character extends Entity {
         this.incCharacterStorge(_character, _int);
     }
     incCharacterStorge(_character, _int = 1) {
-        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + _int);
+        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + Number.parseInt(_int));
     }
     getCharacterStorge(_character) {
         return this.getCharacterDisposition(_character, "storge");
@@ -3774,7 +4034,7 @@ class Character extends Entity {
         this.incCharacterManic(_character, _int);
     }
     incCharacterManic(_character, _int = 1) {
-        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + _int);
+        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + Number.parseInt(_int));
     }
     getCharacterManic(_character) {
         return this.getCharacterDisposition(_character, "manic");
@@ -3786,7 +4046,7 @@ class Character extends Entity {
         this.incCharacterMiseo(_character, _int);
     }
     incCharacterMiseo(_character, _int = 1) {
-        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + _int);
+        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + Number.parseInt(_int));
     }
     getCharacterMiseo(_character) {
         return this.getCharacterDisposition(_character, "miseo");
@@ -3840,7 +4100,7 @@ class Character extends Entity {
         if (!this.hasCharacterDisposition(_character))
             this.setCharacterDisposition(_character);
         var _disposition = this.getCharacterDisposition(_character);
-        this.setCharacterDisposition(_character, _disposition.eros + _int, _disposition.philia + _int, _disposition.lodus + _int, _disposition.pragma + _int, _disposition.storge + _int, _disposition.manic + _int, _disposition.miseo - _int);
+        this.setCharacterDisposition(_character, _disposition.eros + _int, _disposition.philia + _int, _disposition.lodus + _int, _disposition.pragma + _int, _disposition.storge + _int, _disposition.manic + _int, _disposition.miseo - Number.parseInt(_int));
     }
     decCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
@@ -3857,7 +4117,7 @@ class Character extends Entity {
         if (!this.hasCharacterDisposition(_character))
             this.setCharacterDisposition(_character);
         var _disposition = this.getCharacterDisposition(_character);
-        this.setCharacterDisposition(_character, _disposition.eros - _int, _disposition.philia - _int, _disposition.lodus - _int, _disposition.pragma - _int, _disposition.storge - _int, _disposition.manic - _int, _disposition.miseo + _int);
+        this.setCharacterDisposition(_character, _disposition.eros - _int, _disposition.philia - _int, _disposition.lodus - _int, _disposition.pragma - _int, _disposition.storge - _int, _disposition.manic - _int, _disposition.miseo + Number.parseInt(_int));
     }
 
     date(_character, _updateChild = true) {
@@ -7576,7 +7836,7 @@ class Furniture extends Entity {
         
         // Entities
         if (json.hasOwnProperty("characters"))
-            delete(json["characters"]);
+            delete json["characters"];
         if (roomsIndexes.has(json["room"]))
             roomsIndexes.get(json["room"]).addFurniture(this);
         delete json["room"];
@@ -8021,16 +8281,17 @@ class Spell extends Entity {
      * @param  {String} _id          Unique ID
      * @param  {String} _name        Name
      * @param  {String} _description Description
-     * @param  {String} _type        kSpellSchools
      * @param  {String} _image       Image path of base64
+     * @param  {String} _school      kSpellSchools
      * @param  {Number} _manaCost    Cost of Spell in Mana
      * @param  {Number} _lifeCost    Cost of Spell in Life
      * @param  {Number} _staminaCost Cost of Spell in Stamina
      */
-    constructor(_id, _name = "", _description = undefined, _image = undefined, _type = "universal", _manaCost = 0, _lifeCost = 0, _staminaCost = 0) {
+    constructor(_id, _name = "", _description = undefined, _image = undefined, _school = "universal", _manaCost = 0, _lifeCost = 0, _staminaCost = 0) {
         super(_id, _name, _description, _image);
 
-        this.setType(_type);
+        this.school = undefined;
+        this.setSchool(_school);
 
         if (isNaN(_manaCost)) _manaCost = 0;
         else if (_manaCost < 0) _manaCost = 0;
@@ -8050,11 +8311,11 @@ class Spell extends Entity {
         spellsIndexes.set(this.id, this);
     }
 
-    setType(_type) {
-        if (kSpellSchools.has(_type))
-            this.type = _type;
+    setSchool(_school) {
+        if (kSpellSchools.has(_school))
+            this.school = _school;
         else
-            this.type = "universal";
+            this.school = "universal";
     }
 }
 class Instance {
@@ -8211,7 +8472,7 @@ class ItemInstance extends Instance {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setDurability(this.durability + _int);
+        return this.setDurability(this.durability + Number.parseInt(_int));
     }
     addDurability(_int) {
         return this.incDurability(_int);
@@ -8221,7 +8482,7 @@ class ItemInstance extends Instance {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setDurability(this.durability - _int);
+        return this.setDurability(this.durability - Number.parseInt(_int));
     }
     subDurability(_int) {
         return this.decDurability(_int);
@@ -8254,7 +8515,7 @@ class ItemInstance extends Instance {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setDurabilityMax(this.durabilityMax + _int);
+        return this.setDurabilityMax(this.durabilityMax + Number.parseInt(_int));
     }
     addDurabilityMax(_int) {
         return this.incDurabilityMax(_int);
@@ -8264,7 +8525,7 @@ class ItemInstance extends Instance {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setDurabilityMax(this.durabilityMax - _int);
+        return this.setDurabilityMax(this.durabilityMax - Number.parseInt(_int));
     }
     subDurabilityMax(_int) {
         return this.decDurabilityMax(_int);

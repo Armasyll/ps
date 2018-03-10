@@ -166,6 +166,12 @@ const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
 const kConsumableTypes = new Set(["food","drink","medicine","other"]);
 const kSpecialProperties = new Set(["exists","living","dead","mirror","water","earth","metal","broken","wood","magic","nature","container","charm","bone","jagged","smooth","cursed","blessed","bludgeoning","slashing","piercing","acid","cold","fire","lightning","necrotic","poison"]);
 
+/**
+ * Classless should be a broad description for commoner, expert, and noble; it shouldn't be used, unless I'm lazy.
+ * @type {Set}
+ */
+const kCharacterClasses = new Set(["bard","cleric","druid","paladin","ranger","sorcerer","warlock","wizard","classless","commoner","expert","noble"]);
+
 const kSpellSchools = new Set(["abjuration","conjuration","divination","enchantment","evocation","illusion","necromancy","transmutation","universal"]);
 
 const kWeaponSimpleMeleeTypes = new Set(["club","dagger","greatclub","handaxe","javelin","lighthammer","mace","quarterstaff","sickle","spear"]);
