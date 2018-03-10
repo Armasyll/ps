@@ -8021,13 +8021,16 @@ class Spell extends Entity {
      * @param  {String} _id          Unique ID
      * @param  {String} _name        Name
      * @param  {String} _description Description
+     * @param  {String} _type        kSpellSchools
      * @param  {String} _image       Image path of base64
      * @param  {Number} _manaCost    Cost of Spell in Mana
      * @param  {Number} _lifeCost    Cost of Spell in Life
      * @param  {Number} _staminaCost Cost of Spell in Stamina
      */
-    constructor(_id, _name = "", _description = undefined, _image = undefined, _manaCost = 0, _lifeCost = 0, _staminaCost = 0) {
+    constructor(_id, _name = "", _description = undefined, _image = undefined, _type = "universal", _manaCost = 0, _lifeCost = 0, _staminaCost = 0) {
         super(_id, _name, _description, _image);
+
+        this.setType(_type);
 
         if (isNaN(_manaCost)) _manaCost = 0;
         else if (_manaCost < 0) _manaCost = 0;
@@ -8045,6 +8048,13 @@ class Spell extends Entity {
         this.staminaCost = _staminaCost;
 
         spellsIndexes.set(this.id, this);
+    }
+
+    setType(_type) {
+        if (kSpellSchools.has(_type))
+            this.type = _type;
+        else
+            this.type = "universal";
     }
 }
 class Instance {

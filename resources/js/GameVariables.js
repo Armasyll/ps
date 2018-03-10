@@ -166,6 +166,8 @@ const kActionTypes = new Set([...kIntraactionTypes, ...kInteractionTypes]);
 const kConsumableTypes = new Set(["food","drink","medicine","other"]);
 const kSpecialProperties = new Set(["exists","living","dead","mirror","water","earth","metal","broken","wood","magic","nature","container","charm","bone","jagged","smooth","cursed","blessed","bludgeoning","slashing","piercing","acid","cold","fire","lightning","necrotic","poison"]);
 
+const kSpellSchools = new Set(["abjuration","conjuration","divination","enchantment","evocation","illusion","necromancy","transmutation","universal"]);
+
 const kWeaponSimpleMeleeTypes = new Set(["club","dagger","greatclub","handaxe","javelin","lighthammer","mace","quarterstaff","sickle","spear"]);
 const kWeaponSimpleRangedTypes = new Set(["lightcrossbow","dart","shortbow","sling"]);
 const kWeaponMartialMeleeTypes = new Set(["battleaxe","flail","glaive","greataxe","greatsword","halberd","lance","longsword","maul","morningstar","pike","rapier","scimitar","shortsword","trident","warpick","warhammer","whip"]);
