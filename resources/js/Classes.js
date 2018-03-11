@@ -1140,8 +1140,8 @@ class Entity {
                     this[property].forEach(function(_value, _key) {
                         if (_value instanceof Entity)
                             _arr.push([_key, _value.id]);
-                        else if (_value instanceof Disposition)
-                            _arr.push([_key.id, _value.toObject()]);
+                        else if (_value instanceof Object)
+                            _arr.push([_key.id, _value]);
                     }, this);
                     _blob[property] = JSON.stringify(_arr);
                     _arr = [];
@@ -1157,8 +1157,8 @@ class Entity {
                         _arr = [];
                     }
                 }
-                else if (this[property] instanceof Disposition) {
-                    _blob[property] = this[property].toObject();
+                else if (this[property] instanceof Object) {
+                    _blob[property] = this[property];
                 }
             }
             else
@@ -1272,175 +1272,6 @@ class BodyPart extends Entity {
 }
 
 /**
- * Class that represents all Disposition(s)
- */
-class Disposition {
-    /**
-     * Creates a Disposition
-     * @param {Number} _eros   passion
-     * @param {Number} _philia friendship
-     * @param {Number} _lodus  playfulness
-     * @param {Number} _pragma souldmate
-     * @param {Number} _storge familial
-     * @param {Number} _manic  obsession
-     * @param {Number} _miseo  hate
-     */
-    constructor(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
-        if (typeof _eros == "number") {
-            if (debug) console.log("Creating a new instance of Disposition");
-            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
-        }
-        else if (_eros instanceof Object) {
-            this.fromObject(_eros);
-
-            return this;
-        }
-        else if (typeof _eros == "string" && _eros.slice(0,1) == '{') {
-            try {
-                var _json = JSON.parse(_eros);
-            }
-            catch (e) {
-                console.log(e);
-            }
-            
-            if (_json instanceof Object) {
-                this.fromJSON(_json);
-                
-                return this;
-            }
-        }
-    }
-    
-    toObject() {
-        var _blob = {};
-        for (var property in this) {
-            _blob[property] = this[property];
-        }
-        
-        return _blob;
-    }
-    
-    toMap() {
-        var _map = new Map();
-        for (var property in this) {
-            _map.set(property, this[property])
-        }
-        
-        return _map;
-    }
-    
-    toJSON() {
-        return JSON.stringify(this.toObject());
-    }
-    
-    fromObject(_object) {
-        for (var property in _object) {
-            if (_object.hasOwnProperty(property)) {
-                this[property] = _object[property];
-            }
-        }
-        
-        return true;
-    }
-    
-    fromJSON(_json) {
-        if (typeof json == "string") {
-            try {
-                var json = JSON.parse(jsonString);
-            }
-            catch (e) {
-                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
-                return undefined;
-            }
-        }
-        
-        try {
-            this.fromObject(_json);
-        }
-        catch (e) {
-            console.log(e);
-        }
-        
-        return this;
-    }
-    
-    set(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
-        if (isNaN(_eros))
-            this._setDispositionType(_eros, _philia);
-        else
-            this._setAll(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
-    }
-    
-    _setDispositionType(_type, _int = 0) {
-        if (!this.hasOwnProperty(_type))
-            return undefined;
-        
-        this[_type] = Number.parseInt(_int);
-    }
-    
-    get(_type) {
-        if (!this.hasOwnProperty(_type))
-            return undefined;
-        
-        return this[_type];
-    }
-
-    _setAll(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
-        _eros = Number.parseInt(_eros);
-        _philia = Number.parseInt(_philia);
-        _lodus = Number.parseInt(_lodus);
-        _pragma = Number.parseInt(_pragma);
-        _storge = Number.parseInt(_storge);
-        _manic = Number.parseInt(_manic);
-        _miseo = Number.parseInt(_miseo);
-        
-        _eros = isNaN(_eros) ? 0 : _eros;
-        _philia = isNaN(_philia) ? 0 : _philia;
-        _lodus = isNaN(_lodus) ? 0 : _lodus;
-        _pragma = isNaN(_pragma) ? 0 : _pragma;
-        _storge = isNaN(_storge) ? 0 : _storge;
-        _manic = isNaN(_manic) ? 0 : _manic;
-        _miseo = isNaN(_miseo) ? 0 : _miseo;
-
-        _eros = _eros < -100 ? -100 : _eros;
-        _philia = _philia < -100 ? -100 : _philia;
-        _lodus = _lodus < -100 ? -100 : _lodus;
-        _pragma = _pragma < -100 ? -100 : _pragma;
-        _storge = _storge < -100 ? -100 : _storge;
-        _manic = _manic < -100 ? -100 : _manic;
-        _miseo = _miseo < -100 ? -100 : _miseo;
-
-        _eros = _eros > 100 ? 100 : _eros;
-        _philia = _philia > 100 ? 100 : _philia;
-        _lodus = _lodus > 100 ? 100 : _lodus;
-        _pragma = _pragma > 100 ? 100 : _pragma;
-        _storge = _storge > 100 ? 100 : _storge;
-        _manic = _manic > 100 ? 100 : _manic;
-        _miseo = _miseo > 100 ? 100 : _miseo;
-
-        this.eros = _eros;
-        this.philia = _philia;
-        this.lodus = _lodus;
-        this.pragma = _pragma;
-        this.storge = _storge;
-        this.manic = _manic;
-        this.miseo = _miseo;
-    }
-
-    offset(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0) {
-        _eros = isNaN(_eros) ? 0 : _eros;
-        _philia = isNaN(_philia) ? 0 : _philia;
-        _lodus = isNaN(_lodus) ? 0 : _lodus;
-        _pragma = isNaN(_pragma) ? 0 : _pragma;
-        _storge = isNaN(_storge) ? 0 : _storge;
-        _manic = isNaN(_manic) ? 0 : _manic;
-        _miseo = isNaN(_miseo) ? 0 : _miseo;
-
-        this._setAll(this.eros + _eros, this.philia + _philia, this.lodus + _lodus, this.pragma + _pragma, this.storge + _storge, this.manic + _manic, this.miseo + _miseo);
-    }
-}
-
-/**
  * Class that represents all Character(s)
  * @extends {Entity}
  */
@@ -1513,13 +1344,6 @@ class Character extends Entity {
         this.nickname = undefined;
         delete this._name;
         /**
-         * Age
-         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
-         */
-        this.age = undefined;
-        this.setAge(_age);
-        delete this._age;
-        /**
          * Path to Character's picture
          * @type {String} Relative path to an image, or base64 encoded String
          */
@@ -1548,6 +1372,19 @@ class Character extends Entity {
         this.class = undefined;
         this.setClass(_class);
         delete this._class;
+
+        /**
+         * Age
+         * @type {Number} 0 to Number.MAX_SAFE_INTEGER
+         */
+        this.age = 18;
+        this.setAge(_age);
+        delete this._age;
+
+        this.sex = 0;
+        this.setSex(_sex);
+        this.gender = this.sex;
+        delete this._sex;
 
         this.addAvailableAction("talk");
         this.addAvailableAction("attack");
@@ -1601,9 +1438,15 @@ class Character extends Entity {
 
         /**
          * Base disposition this Character has for others
-         * @type {Disposition}
+         * @type {Number}  Passion
+         * @type {Number}  Friendship
+         * @type {Number}  Playfulness
+         * @type {Number}  Soulmate
+         * @type {Number}  Familial
+         * @type {Number}  Obsession
+         * @type {Number}  Hate
          */
-        this.defaultDisposition = new Disposition(0,0,0,0,0,0);
+        this.defaultDisposition = {passion:0,friendship:0,playfulness:0,soulmate:0,familial:0,obsession:0,hate:0};
         /**
          * This Character's love for themself
          * @type {Number} 0 to 100
@@ -1754,12 +1597,12 @@ class Character extends Entity {
          * Physical sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
-        this.sex = 0;
+        //this.sex = 0;
         /**
          * Personal sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
-        this.gender = 0;
+        //this.gender = 0;
 
         /**
          * Primary fur colour
@@ -2091,7 +1934,15 @@ class Character extends Entity {
 
         /**
          * Map of Characters and this Character's disposition for them
-         * @type {Map} <Character, Disposition>
+         * @type {Map} <Character, Object>
+         * 
+         * @type {Number}  Passion
+         * @type {Number}  Friendship
+         * @type {Number}  Playfulness
+         * @type {Number}  Souldmate
+         * @type {Number}  Familial
+         * @type {Number}  Obsession
+         * @type {Number}  Hate
          */
         this.characterDisposition = new Map();
         
@@ -2168,7 +2019,7 @@ class Character extends Entity {
          * Preference for sleep sex
          * @type {Number} 0 to 100
          */
-        this.somnophilia = 0;
+        this.somnofriendship = 0;
         /**
          * Drunkenness
          * @type {Number} 0 to 100
@@ -2198,8 +2049,6 @@ class Character extends Entity {
 
         charactersIndexes.set(this.id, this);
 
-        this.setSex(_sex);
-        this.gender = this.sex;
         this.setSpecies(_species);
         this.stand();
     }
@@ -2241,7 +2090,7 @@ class Character extends Entity {
         this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : 0); delete["melancholic"];
         this.setLust(json.hasOwnProperty("lust") ? json["lust"] : 0); delete json["lust"];
         this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : 0); delete json["exhibitionism"];
-        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : 0); delete json["somnophilia"];
+        this.setSomnofriendship(json.hasOwnProperty("somnofriendship") ? json["somnofriendship"] : 0); delete json["somnofriendship"];
         this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : 0); delete json["intoxication"];
         this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : 0); delete json["incestual"];
         this.setRut(json.hasOwnProperty("rut") ? json["rut"] : false); delete json["rut"];
@@ -2428,7 +2277,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
                 if (charactersIndexes.has(_character[0]))
-                    this.setCharacterDisposition(_character[0], new Disposition(_character[1]));
+                    this.setCharacterDisposition(_character[0], _character[1]);
                 else
                     return undefined;
             }, this);
@@ -2548,8 +2397,8 @@ class Character extends Entity {
         // Arrays
         
         // Entities
-        //  defaultDiposition
-        this.defaultDisposition = new Disposition(json["defaultDisposition"]);
+        //  defaultDisposition
+        this.defaultDisposition = this.setDefaultDisposition(json["defaultDisposition"]);
         delete json["defaultDisposition"];
         //  following
         this.following = undefined;
@@ -3726,38 +3575,38 @@ class Character extends Entity {
         return this.exhibitionlism;
     }
 
-    setSomnophilia(_int) {
+    setSomnofriendship(_int) {
     	if (isNaN(_int))
     		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
-    	this.somnophilia = _int;
+    	this.somnofriendship = _int;
         return _int;
     }
-    incSomnophilia(_int = 1) {
+    incSomnofriendship(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnophilia(this.somnophilia + Number.parseInt(_int));
+        return this.setSomnofriendship(this.somnofriendship + Number.parseInt(_int));
     }
-    addSomnophilia(_int) {
-        return this.incSomnophilia(_int);
+    addSomnofriendship(_int) {
+        return this.incSomnofriendship(_int);
     }
-    decSomnophilia(_int = 1) {
+    decSomnofriendship(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnophilia(this.somnophilia - Number.parseInt(_int));
+        return this.setSomnofriendship(this.somnofriendship - Number.parseInt(_int));
     }
-    subSomnophilia(_int) {
-        return this.decSomnophilia(_int);
+    subSomnofriendship(_int) {
+        return this.decSomnofriendship(_int);
     }
-    getSomnophilia() {
-        return this.somnophilia;
+    getSomnofriendship() {
+        return this.somnofriendship;
     }
 
     setIntoxication(_int) {
@@ -4010,12 +3859,15 @@ class Character extends Entity {
             switch (_sex.slice(0, 1)) {
                 case "m" : {
                     _sex = 0;
+                    break;
                 }
                 case "f" : {
                     _sex = 1;
+                    break;
                 }
                 case "h" : {
                     _sex = 2;
+                    break;
                 }
             }
         }
@@ -4054,38 +3906,45 @@ class Character extends Entity {
         return this.sexualOrientationCompatibility(_character);
     }
 
-    setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
-        if (!(this.defaultDisposition instanceof Disposition))
-            this.defaultDisposition = new Disposition();
-
-        if (_eros instanceof Disposition)
-            this.defaultDisposition.set(_eros);
-        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && typeof Number.parseInt(_philia) == "number")
-            this.defaultDisposition.set(_eros, Number.parseInt(_philia));
+    setDefaultDisposition(_passion = 0, _friendship = 0, _playfulness = 0, _soulmate = 0, _familial = 0, _obsession = 0, _hate = 0) {
+        if (!(this.defaultDisposition instanceof Object))
+            this.defaultDisposition = {passion:0,friendship:0,playfulness:0,soulmate:0,familial:0,obsession:0,hate:0};
+        else if (_passion instanceof Object) {
+            this.defaultDisposition = {
+                passion:(_passion.hasOwnProperty("passion") ? _passion.passion : 0),
+                friendship:(_passion.hasOwnProperty("friendship") ? _passion.friendship : 0),
+                playfulness:(_passion.hasOwnProperty("playfulness") ? _passion.playfulness : 0),
+                soulmate:(_passion.hasOwnProperty("soulmate") ? _passion.soulmate : 0),
+                familial:(_passion.hasOwnProperty("familial") ? _passion.familial : 0),
+                obsession:(_passion.hasOwnProperty("obsession") ? _passion.obsession : 0),
+                hate:(_passion.hasOwnProperty("hate") ? _passion.hate : 0)
+            };
+        }
+        else if (isNaN(_passion) && this.defaultDisposition.hasOwnProperty(_passion) && typeof Number.parseInt(_friendship) == "number")
+            this.defaultDisposition[_passion] = Number.parseInt(_friendship);
         else {
-            _eros = Number.parseInt(_eros);
-            _philia = Number.parseInt(_philia);
-            _lodus = Number.parseInt(_lodus);
-            _pragma = Number.parseInt(_pragma);
-            _storge = Number.parseInt(_storge);
-            _manic = Number.parseInt(_manic);
-            _miseo = Number.parseInt(_miseo);
+            _passion = Number.parseInt(_passion);
+            _friendship = Number.parseInt(_friendship);
+            _playfulness = Number.parseInt(_playfulness);
+            _soulmate = Number.parseInt(_soulmate);
+            _familial = Number.parseInt(_familial);
+            _obsession = Number.parseInt(_obsession);
+            _hate = Number.parseInt(_hate);
 
-            _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
-            _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
-            _lodus = isNaN(_lodus) ? this.defaultDisposition.lodus : _lodus;
-            _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
-            _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
-            _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
-            _miseo = isNaN(_miseo) ? this.defaultDisposition.miseo : _miseo;
-
-            this.defaultDisposition.set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
+            this.defaultDisposition = {
+                passion:(isNaN(_passion) ? this.defaultDisposition.passion : _passion),
+                friendship:(isNaN(_friendship) ? this.defaultDisposition.friendship : _friendship),
+                playfulness:(isNaN(_playfulness) ? this.defaultDisposition.playfulness : _playfulness),
+                soulmate:(isNaN(_soulmate) ? this.defaultDisposition.soulmate : _soulmate),
+                familial:(isNaN(_familial) ? this.defaultDisposition.familial : _familial),
+                obsession:(isNaN(_obsession) ? this.defaultDisposition.obsession : _obsession),
+                hate:(isNaN(_hate) ? this.defaultDisposition.hate : _hate)
+            };
         }
 
         return this.defaultDisposition;
-
     }
-    setCharacterDisposition(_character, _eros = undefined, _philia = undefined, _lodus = undefined, _pragma = undefined, _storge = undefined, _manic = undefined, _miseo = undefined) {
+    setCharacterDisposition(_character, _passion = undefined, _friendship = undefined, _playfulness = undefined, _soulmate = undefined, _familial = undefined, _obsession = undefined, _hate = undefined) {
         if (debug) console.log("Running setCharacterDisposition");
 
         if (!(_character instanceof Character)) {
@@ -4094,146 +3953,134 @@ class Character extends Entity {
             else
                 return undefined;
         }
-        if (_eros instanceof Disposition)
-            this.characterDisposition.set(_character, _eros);
-        else if (isNaN(_eros) && this.defaultDisposition.hasOwnProperty(_eros) && !isNaN(Number.parseInt(_philia)))
-            this.getCharacterDisposition(_character).set(_eros, Number.parseInt(_philia));
-        else if (this.characterDisposition.has(_character)) {
-            _eros = Number.parseInt(_eros);
-            _philia = Number.parseInt(_philia);
-            _lodus = Number.parseInt(_lodus);
-            _pragma = Number.parseInt(_pragma);
-            _storge = Number.parseInt(_storge);
-            _manic = Number.parseInt(_manic);
-            _miseo = Number.parseInt(_miseo);
-            
-            _eros = isNaN(_eros) ? this.characterDisposition.get(_character).eros : _eros;
-            _philia = isNaN(_philia) ? this.characterDisposition.get(_character).philia : _philia;
-            _lodus = isNaN(_lodus) ? this.characterDisposition.get(_character).lodus : _lodus;
-            _pragma = isNaN(_pragma) ? this.characterDisposition.get(_character).pragma : _pragma;
-            _storge = isNaN(_storge) ? this.characterDisposition.get(_character).storge : _storge;
-            _manic = isNaN(_manic) ? this.characterDisposition.get(_character).manic : _manic;
-            _miseo = isNaN(_miseo) ? this.characterDisposition.get(_character)._miseo : _miseo;
-
-            this.characterDisposition.get(_character).set(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo);
+        if (_passion instanceof Object) {
+            this.characterDisposition.set(_character, {
+                passion:(_passion.hasOwnProperty("passion") ? _passion.passion : 0),
+                friendship:(_passion.hasOwnProperty("friendship") ? _passion.friendship : 0),
+                playfulness:(_passion.hasOwnProperty("playfulness") ? _passion.playfulness : 0),
+                soulmate:(_passion.hasOwnProperty("soulmate") ? _passion.soulmate : 0),
+                familial:(_passion.hasOwnProperty("familial") ? _passion.familial : 0),
+                obsession:(_passion.hasOwnProperty("obsession") ? _passion.obsession : 0),
+                hate:(_passion.hasOwnProperty("hate") ? _passion.hate : 0)
+            });
         }
+        else if (isNaN(_passion) && this.defaultDisposition.hasOwnProperty(_passion) && !isNaN(Number.parseInt(_friendship)))
+            this.characterDisposition.get(_character)[_passion] = Number.parseInt(_friendship);
         else {
-            _eros = Number.parseInt(_eros);
-            _philia = Number.parseInt(_philia);
-            _lodus = Number.parseInt(_lodus);
-            _pragma = Number.parseInt(_pragma);
-            _storge = Number.parseInt(_storge);
-            _manic = Number.parseInt(_manic);
-            _miseo = Number.parseInt(_miseo);
-            
-            _eros = isNaN(_eros) ? this.defaultDisposition.eros : _eros;
-            _philia = isNaN(_philia) ? this.defaultDisposition.philia : _philia;
-            _lodus = isNaN(_lodus) ? this.defaultDisposition.lodus : _lodus;
-            _pragma = isNaN(_pragma) ? this.defaultDisposition.pragma : _pragma;
-            _storge = isNaN(_storge) ? this.defaultDisposition.storge : _storge;
-            _manic = isNaN(_manic) ? this.defaultDisposition.manic : _manic;
-            _miseo = isNaN(_miseo) ? this.defaultDisposition.miseo : _miseo;
+            _passion = Number.parseInt(_passion);
+            _friendship = Number.parseInt(_friendship);
+            _playfulness = Number.parseInt(_playfulness);
+            _soulmate = Number.parseInt(_soulmate);
+            _familial = Number.parseInt(_familial);
+            _obsession = Number.parseInt(_obsession);
+            _hate = Number.parseInt(_hate);
 
-            this.characterDisposition.set(_character, new Disposition(_eros, _philia, _lodus, _pragma, _storge, _manic, _miseo));
+            this.characterDisposition.set(_character, {
+                passion:(isNaN(_passion) ? this.defaultDisposition["passion"] : _passion),
+                friendship:(isNaN(_friendship) ? this.defaultDisposition["friendship"] : _friendship),
+                playfulness:(isNaN(_playfulness) ? this.defaultDisposition["playfulness"] : _playfulness),
+                soulmate:(isNaN(_soulmate) ? this.defaultDisposition["soulmate"] : _soulmate),
+                familial:(isNaN(_familial) ? this.defaultDisposition["familial"] : _familial),
+                obsession:(isNaN(_obsession) ? this.defaultDisposition["obsession"] : _obsession),
+                hate:(isNaN(_hate) ? this.defaultDisposition["hate"] : _hate)
+            });
         }
 
         return this.characterDisposition.get(_character);
     }
-    setCharacterEros(_character, _int) {
-        this.setCharacterDisposition(_character, "eros", _int);
+    setCharacterPassion(_character, _int) {
+        this.setCharacterDisposition(_character, "passion", _int);
     }
-    addCharacterEros(_character, _int) {
-        this.incCharacterEros(_character, _int);
+    addCharacterPassion(_character, _int) {
+        this.incCharacterPassion(_character, _int);
     }
-    incCharacterEros(_character, _int = 1) {
-        this.setCharacterEros(_character, this.getCharacterDisposition(_character)["eros"] + Number.parseInt(_int));
+    incCharacterPassion(_character, _int = 1) {
+        this.setCharacterPassion(_character, this.getCharacterDisposition(_character)["passion"] + Number.parseInt(_int));
     }
-    getCharacterEros(_character) {
-        return this.getCharacterDisposition(_character, "eros");
+    getCharacterPassion(_character) {
+        return this.getCharacterDisposition(_character, "passion");
     }
-    setCharacterPhilia(_character, _int) {
-        this.setCharacterDisposition(_character, "philia", _int);
+    setCharacterFriendship(_character, _int) {
+        this.setCharacterDisposition(_character, "friendship", _int);
     }
-    addCharacterPhilia(_character, _int) {
-        this.incCharacterPhilia(_character, _int);
+    addCharacterFriendship(_character, _int) {
+        this.incCharacterFriendship(_character, _int);
     }
-    incCharacterPhilia(_character, _int = 1) {
-        this.setCharacterPhilia(_character, this.getCharacterDisposition(_character)["philia"] + Number.parseInt(_int));
+    incCharacterFriendship(_character, _int = 1) {
+        this.setCharacterFriendship(_character, this.getCharacterDisposition(_character)["friendship"] + Number.parseInt(_int));
     }
-    getCharacterPhilia(_character) {
-        return this.getCharacterDisposition(_character, "philia");
+    getCharacterFriendship(_character) {
+        return this.getCharacterDisposition(_character, "friendship");
     }
-    setCharacterLodus(_character, _int) {
-        this.setCharacterDisposition(_character, "lodus", _int);
+    setCharacterPlayfulness(_character, _int) {
+        this.setCharacterDisposition(_character, "playfulness", _int);
     }
-    addCharacterLodus(_character, _int) {
-        this.incCharacterLodus(_character, _int);
+    addCharacterPlayfulness(_character, _int) {
+        this.incCharacterPlayfulness(_character, _int);
     }
-    incCharacterLodus(_character, _int = 1) {
-        this.setCharacterLodus(_character, this.getCharacterDisposition(_character)["lodus"] + Number.parseInt(_int));
+    incCharacterPlayfulness(_character, _int = 1) {
+        this.setCharacterPlayfulness(_character, this.getCharacterDisposition(_character)["playfulness"] + Number.parseInt(_int));
     }
-    getCharacterLodus(_character) {
-        return this.getCharacterDisposition(_character, "lodus");
+    getCharacterPlayfulness(_character) {
+        return this.getCharacterDisposition(_character, "playfulness");
     }
-    setCharacterPragma(_character, _int) {
-        this.setCharacterDisposition(_character, "pragma", _int);
+    setCharacterSoulmate(_character, _int) {
+        this.setCharacterDisposition(_character, "soulmate", _int);
     }
-    addCharacterPragma(_character, _int) {
-        this.incCharacterPragma(_character, _int);
+    addCharacterSoulmate(_character, _int) {
+        this.incCharacterSoulmate(_character, _int);
     }
-    incCharacterPragma(_character, _int = 1) {
-        this.setCharacterPragma(_character, this.getCharacterDisposition(_character)["pragma"] + Number.parseInt(_int));
+    incCharacterSoulmate(_character, _int = 1) {
+        this.setCharacterSoulmate(_character, this.getCharacterDisposition(_character)["soulmate"] + Number.parseInt(_int));
     }
-    getCharacterPragma(_character) {
-        return this.getCharacterDisposition(_character, "pragma");
+    getCharacterSoulmate(_character) {
+        return this.getCharacterDisposition(_character, "soulmate");
     }
-    setCharacterStorge(_character, _int) {
-        this.setCharacterDisposition(_character, "storge", _int);
+    setCharacterFamilial(_character, _int) {
+        this.setCharacterDisposition(_character, "familial", _int);
     }
-    addCharacterStorge(_character, _int) {
-        this.incCharacterStorge(_character, _int);
+    addCharacterFamilial(_character, _int) {
+        this.incCharacterFamilial(_character, _int);
     }
-    incCharacterStorge(_character, _int = 1) {
-        this.setCharacterStorge(_character, this.getCharacterDisposition(_character)["storge"] + Number.parseInt(_int));
+    incCharacterFamilial(_character, _int = 1) {
+        this.setCharacterFamilial(_character, this.getCharacterDisposition(_character)["familial"] + Number.parseInt(_int));
     }
-    getCharacterStorge(_character) {
-        return this.getCharacterDisposition(_character, "storge");
+    getCharacterFamilial(_character) {
+        return this.getCharacterDisposition(_character, "familial");
     }
-    setCharacterManic(_character, _int) {
-        this.setCharacterDisposition(_character, "manic", _int);
+    setCharacterObsession(_character, _int) {
+        this.setCharacterDisposition(_character, "obsession", _int);
     }
-    addCharacterManic(_character, _int) {
-        this.incCharacterManic(_character, _int);
+    addCharacterObsession(_character, _int) {
+        this.incCharacterObsession(_character, _int);
     }
-    incCharacterManic(_character, _int = 1) {
-        this.setCharacterManic(_character, this.getCharacterDisposition(_character)["manic"] + Number.parseInt(_int));
+    incCharacterObsession(_character, _int = 1) {
+        this.setCharacterObsession(_character, this.getCharacterDisposition(_character)["obsession"] + Number.parseInt(_int));
     }
-    getCharacterManic(_character) {
-        return this.getCharacterDisposition(_character, "manic");
+    getCharacterObsession(_character) {
+        return this.getCharacterDisposition(_character, "obsession");
     }
-    setCharacterMiseo(_character, _int) {
-        this.setCharacterDisposition(_character, "miseo", _int);
+    setCharacterHate(_character, _int) {
+        this.setCharacterDisposition(_character, "hate", _int);
     }
-    addCharacterMiseo(_character, _int) {
-        this.incCharacterMiseo(_character, _int);
+    addCharacterHate(_character, _int) {
+        this.incCharacterHate(_character, _int);
     }
-    incCharacterMiseo(_character, _int = 1) {
-        this.setCharacterMiseo(_character, this.getCharacterDisposition(_character)["miseo"] + Number.parseInt(_int));
+    incCharacterHate(_character, _int = 1) {
+        this.setCharacterHate(_character, this.getCharacterDisposition(_character)["hate"] + Number.parseInt(_int));
     }
-    getCharacterMiseo(_character) {
-        return this.getCharacterDisposition(_character, "miseo");
+    getCharacterHate(_character) {
+        return this.getCharacterDisposition(_character, "hate");
     }
     getCharacterDisposition(_character, _dispositionType = undefined) {
         if (debug) console.log("Running getCharacterDisposition");
 
-        if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
-
         if (!(_character instanceof Character)) {
-            if (debug) console.log("\t_character `{0}` isn't valid".format(_character));
-            return false;
+            if (charactersIndexes.has(_character))
+                _character = charactersIndexes.get(_character);
+            else
+                return undefined;
         }
-
         if (this.characterDisposition.has(_character)) {
             if (this.characterDisposition.get(_character).hasOwnProperty(_dispositionType))
                 return this.characterDisposition.get(_character)[_dispositionType];
@@ -4242,9 +4089,6 @@ class Character extends Entity {
         }
         else
             return false;
-    }
-    hasDisposition(_character) {
-        return this.hasCharacterDisposition(_character);
     }
     hasCharacterDisposition(_character) {
         if (debug) console.log("Running hasDisposition");
@@ -4272,7 +4116,7 @@ class Character extends Entity {
         if (!this.hasCharacterDisposition(_character))
             this.setCharacterDisposition(_character);
         var _disposition = this.getCharacterDisposition(_character);
-        this.setCharacterDisposition(_character, _disposition.eros + _int, _disposition.philia + _int, _disposition.lodus + _int, _disposition.pragma + _int, _disposition.storge + _int, _disposition.manic + _int, _disposition.miseo - Number.parseInt(_int));
+        this.setCharacterDisposition(_character, _disposition.passion + _int, _disposition.friendship + _int, _disposition.playfulness + _int, _disposition.soulmate + _int, _disposition.familial + _int, _disposition.obsession + _int, _disposition.hate - Number.parseInt(_int));
     }
     decCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
@@ -4289,7 +4133,7 @@ class Character extends Entity {
         if (!this.hasCharacterDisposition(_character))
             this.setCharacterDisposition(_character);
         var _disposition = this.getCharacterDisposition(_character);
-        this.setCharacterDisposition(_character, _disposition.eros - _int, _disposition.philia - _int, _disposition.lodus - _int, _disposition.pragma - _int, _disposition.storge - _int, _disposition.manic - _int, _disposition.miseo + Number.parseInt(_int));
+        this.setCharacterDisposition(_character, _disposition.passion - _int, _disposition.friendship - _int, _disposition.playfulness - _int, _disposition.soulmate - _int, _disposition.familial - _int, _disposition.obsession - _int, _disposition.hate + Number.parseInt(_int));
     }
 
     date(_character, _updateChild = true) {
@@ -4531,7 +4375,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4557,7 +4401,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4622,7 +4466,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4640,7 +4484,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4699,7 +4543,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4714,7 +4558,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4729,7 +4573,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4770,7 +4614,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4801,7 +4645,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4814,7 +4658,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -4829,7 +4673,7 @@ class Character extends Entity {
         if (!(_entity instanceof Entity)) {
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof Instance)
+            else if (_entity instanceof EntityInstance)
                 _entity = _entity.child;
             else if (instancesIndexes.has(_entity))
                 _entity = instancesIndexes.get(_entity).child;
@@ -6014,10 +5858,10 @@ class Character extends Entity {
         this.addAvoidedSpecies(_species);
     }
 
-    addNewDisposition(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
-        return this.addNewCharacterDispositionFor(_character, erosOffset, philiaOffset, lodusOffset, pragmaOffset, storgeOffset, manicOffset);
+    addNewDisposition(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0) {
+        return this.addNewCharacterDispositionFor(_character, passionOffset, friendshipOffset, playfulnessOffset, soulmateOffset, familialOffset, obsessionOffset);
     }
-    addNewCharacterDispositionFor(_character, erosOffset = 0, philiaOffset = 0, lodusOffset = 0, pragmaOffset = 0, storgeOffset = 0, manicOffset = 0) {
+    addNewCharacterDispositionFor(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -6030,69 +5874,69 @@ class Character extends Entity {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
-                            erosOffset += 3;
+                            passionOffset += 3;
                         else if (this.agape > 49)
-                            erosOffset += 2;
+                            passionOffset += 2;
                         else {
-                            erosOffset++;
-                            manicOffset++;
+                            passionOffset++;
+                            obsessionOffset++;
                         }
-                        erosOffset++;
+                        passionOffset++;
                     }
                     else {
                         if (this.agape > 74)
-                            erosOffset++;
-                        erosOffset += 2;
+                            passionOffset++;
+                        passionOffset += 2;
                     }
 
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
-                        erosOffset += 2;
-                        manicOffset++;
+                        passionOffset += 2;
+                        obsessionOffset++;
                     }
 
-                    erosOffset++;
+                    passionOffset++;
                 }
             }
 
             if (this.age >= _character.age + (this.age/10)) {
                 if (this.philautia > 74)
-                    manicOffset++;
+                    obsessionOffset++;
 
                 if (this.agape > 74)
-                    storgeOffset += 3;
+                    familialOffset += 3;
                 else if (this.agape > 49)
-                    storgeOffset += 2;
+                    familialOffset += 2;
 
-                storgeOffset++;
+                familialOffset++;
             }
 
             if (this.philautia > 74 && this.agape > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
-                    philiaOffset++;
-                    lodusOffset++;
+                    friendshipOffset++;
+                    playfulnessOffset++;
                 }
 
-                philiaOffset++;
-                lodusOffset += 2;
+                friendshipOffset++;
+                playfulnessOffset += 2;
             }
 
-            lodusOffset += 2;
+            playfulnessOffset += 2;
         }
         else if (this.avoidsSpecies.has(_character.species)) {
             if (this.prefersSex == _character.sex) {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
-                            erosOffset += 2;
+                            passionOffset += 2;
                     }
                     else {
                         if (this.agape > 74)
-                            erosOffset++;
+                            passionOffset++;
                     }
 
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
-                        erosOffset++;
-                        manicOffset++;
+                        passionOffset++;
+                        obsessionOffset++;
                     }
                 }
             }
@@ -6100,23 +5944,23 @@ class Character extends Entity {
             if (this.age >= _character.age + (this.age/10)) {
                 if (this.philautia > 74) {
                     if (this.agape > 74)
-                        storgeOffset++;
+                        familialOffset++;
                 }
                 else {
                     if (this.agape > 74)
-                        storgeOffset++;
+                        familialOffset++;
                 }
-                storgeOffset++;
+                familialOffset++;
             }
 
             if (this.philautia > 74 && this.agape > 50) {
                 if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
-                    philiaOffset++;
-                    lodusOffset++;
+                    friendshipOffset++;
+                    playfulnessOffset++;
                 }
 
-                philiaOffset++;
-                lodusOffset += 2;
+                friendshipOffset++;
+                playfulnessOffset += 2;
             }
         }
         else {
@@ -6124,40 +5968,39 @@ class Character extends Entity {
                 if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
-                            erosOffset += 2;
+                            passionOffset += 2;
                         else if (this.agape > 49)
-                            erosOffset++;
+                            passionOffset++;
                         else
-                            manicOffset++;
+                            obsessionOffset++;
 
-                        erosOffset++;
+                        passionOffset++;
                     }
                     else {
                         if (this.agape > 74)
-                            erosOffset++;
-                        erosOffset++;
+                            passionOffset++;
+                        passionOffset++;
                     }
 
                     if (this.prefersPrey && _character.predator == false || this.prefersPredators && _character.predator == true) {
-                        erosOffset++;
-                        manicOffset++;
+                        passionOffset++;
+                        obsessionOffset++;
                     }
 
-                    erosOffset++;
+                    passionOffset++;
                 }
             }
         }
 
-        this.characterDisposition.set(
+        this.setCharacterDisposition(
             _character,
-            new Disposition(
-                this.defaultDisposition.eros + erosOffset,
-                this.defaultDisposition.philia + philiaOffset,
-                this.defaultDisposition.lodus + lodusOffset,
-                this.defaultDisposition.pragma + pragmaOffset,
-                this.defaultDisposition.storge + storgeOffset,
-                this.defaultDisposition.manic + manicOffset
-            )
+            this.defaultDisposition["passion"] + passionOffset,
+            this.defaultDisposition["friendship"] + friendshipOffset,
+            this.defaultDisposition["playfulness"] + playfulnessOffset,
+            this.defaultDisposition["soulmate"] + soulmateOffset,
+            this.defaultDisposition["familial"] + familialOffset,
+            this.defaultDisposition["obsession"] + obsessionOffset,
+            this.defaultDisposition["hate"] + hateOffset
         );
     }
 
@@ -6187,16 +6030,16 @@ class Character extends Entity {
 
         // Disposition
         if (_character.hadSexWith(this) && !_character.relatives.has(this)) {
-            chance += _disposition.eros / 2 + (_character.getSexCount(this) * 3);
-            chance += _disposition.philia / 4;
+            chance += _disposition.passion / 2 + (_character.getSexCount(this) * 3);
+            chance += _disposition.friendship / 4;
         }
         else {
-            chance += _disposition.eros / 3;
-            chance += _disposition.philia / 6;
+            chance += _disposition.passion / 3;
+            chance += _disposition.friendship / 6;
         }
-        chance += _disposition.pragma / 2;
-        chance += _disposition.manic;
-        chance -= _disposition.miseo;
+        chance += _disposition.soulmate / 2;
+        chance += _disposition.obsession;
+        chance -= _disposition.hate;
 
         if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
@@ -6259,11 +6102,11 @@ class Character extends Entity {
         // Incest
         if (_character.relatives.has(this)) {
             if (_character.incestual > 66)
-                chance += _disposition.storge / 3 + (_character.getSexCount(this) * 2);
+                chance += _disposition.familial / 3 + (_character.getSexCount(this) * 2);
             else if (_character.incestual > 33)
-                chance += _disposition.storge / 4 + (_character.getSexCount(this));
+                chance += _disposition.familial / 4 + (_character.getSexCount(this));
             else if (_character.incestual > 0)
-                chance += _disposition.storge / 5 + (_character.getSexCount(this));
+                chance += _disposition.familial / 5 + (_character.getSexCount(this));
             else
                 chance -= 50;
         }
@@ -6275,15 +6118,15 @@ class Character extends Entity {
 
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 
-        // Somnophilia
+        // Somnofriendship
         if (_character.isSleeping()) {
             if (enableRape)
                 chance = 100;
-            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.eros > 75)
+            else if (_character.somnofriendship > 50 && _character.hadSexWith(this) && _disposition.passion > 75)
                 chance += 10;
         }
 
-        if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
+        if (debug) console.log("\tAfter Somnofriendship check: " + Math.ceil(chance));
 
         return Math.ceil(chance);
     }
@@ -8490,7 +8333,7 @@ class Spell extends Entity {
             this.school = "universal";
     }
 }
-class Instance {
+class EntityInstance {
     constructor(_id, _child) {
         if (typeof _id == "undefined")
             _id = uuidv4();
@@ -8501,7 +8344,7 @@ class Instance {
         else if (!(_child instanceof Entity)) {
             if (entityIndexes.has(_child))
                 entityIndexes.get(_child);
-            else if (_child instanceof Instance)
+            else if (_child instanceof EntityInstance)
                 _child = _child.child;
             else if (instancesIndexes.has(_child))
                 _child = instancesIndexes.get(_child).child;
@@ -8517,7 +8360,7 @@ class Instance {
         instancesIndexes.delete(this.id);
     }
 }
-class ItemInstance extends Instance {
+class ItemInstance extends EntityInstance {
     constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         /**
          * Child
