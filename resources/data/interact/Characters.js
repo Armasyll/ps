@@ -599,7 +599,7 @@ function wolterInteract(_clearContent = true) {
                 _blob += " and he's pitching a tent in his {0}.".format(_character.getUnderwear());
             else {
                 _blob += " and his dick is out.";
-                if (player.sexualOrientationCompatibility(_character))
+                if (player.getSexualOrientationCompatibility(_character))
                     _blob += " You pay a little too much ";
                 else
                     _blob += " You try not to pay ";

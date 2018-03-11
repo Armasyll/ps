@@ -2843,6 +2843,9 @@ class Character extends Entity {
     addAge(_int) {
         return this.incAge(_int);
     }
+    getAge() {
+        return this.age;
+    }
 
     setHunger(_int) {
         if (isNaN(_int))
@@ -2873,6 +2876,9 @@ class Character extends Entity {
     }
     subHunger(_int) {
         return this.decHunger(_int);
+    }
+    getHunger() {
+        return this.hunger;
     }
 
     setStrength(_int) {
@@ -3180,6 +3186,9 @@ class Character extends Entity {
     subLife(_int) {
         return this.decLife(_int);
     }
+    getLife() {
+        return this.life;
+    }
 
     setLifeMax(_int) {
         if (isNaN(_int))
@@ -3213,6 +3222,9 @@ class Character extends Entity {
     subLifeMax(_int) {
         return this.decLifeMax(_int);
     }
+    getLifeMax() {
+        return this.lifeMax;
+    }
 
     setMana(_int) {
         if (isNaN(_int))
@@ -3243,6 +3255,9 @@ class Character extends Entity {
     }
     subMana(_int) {
         return this.decMana(_int);
+    }
+    getMana() {
+        return this.getMana;
     }
 
     setManaMax(_int) {
@@ -3277,6 +3292,9 @@ class Character extends Entity {
     subManaMax(_int) {
         return this.decManaMax(_int);
     }
+    getManaMax() {
+        return this.manaMax;
+    }
 
     setManaCostOffsetPercent(_int) {
         if (isNaN(_int))
@@ -3308,6 +3326,9 @@ class Character extends Entity {
     subManaCostOffsetPercent(_int) {
         return this.decManaCostOffsetPercent(_int);
     }
+    getManaCostOffsetPercent() {
+        return this.manaCostOffsetPercent;
+    }
 
     setStamina(_int) {
         if (isNaN(_int))
@@ -3338,6 +3359,9 @@ class Character extends Entity {
     }
     subStamina(_int) {
         return this.decStamina(_int);
+    }
+    getStamina() {
+        return this.stamina;
     }
 
     setStaminaMax(_int) {
@@ -3372,6 +3396,9 @@ class Character extends Entity {
     subStaminaMax(_int) {
         return this.decStaminaMax(_int);
     }
+    getStaminaMax() {
+        return this.getStaminaMax;
+    }
 
     setMoney(_int) {
         if (isNaN(_int))
@@ -3400,6 +3427,9 @@ class Character extends Entity {
     }
     subMoney(_int) {
         return this.decMoney(_int);
+    }
+    getMoney() {
+        return this.money;
     }
 
     setSanity(_int) {
@@ -3432,6 +3462,9 @@ class Character extends Entity {
     subSanity(_int) {
         return this.decSanity(_int);
     }
+    getSanity() {
+        return this.sanity;
+    }
 
     setPhilautia(_int) {
         if (isNaN(_int))
@@ -3460,6 +3493,9 @@ class Character extends Entity {
     }
     subPhilautia(_int) {
         return this.decPhilautia(_int);
+    }
+    getPhilautia() {
+        return this.philautia;
     }
 
     setAgape(_int) {
@@ -3490,6 +3526,9 @@ class Character extends Entity {
     subAgape(_int) {
         return this.decAgape(_int);
     }
+    getAgape() {
+        return this.agape;
+    }
 
     setSanguine(_int) {
         if (isNaN(_int))
@@ -3518,6 +3557,9 @@ class Character extends Entity {
     }
     subSanguine(_int) {
         return this.decSanguine(_int);
+    }
+    getSanguine() {
+        return this.sanguine;
     }
 
     setPhlegmatic(_int) {
@@ -3548,6 +3590,9 @@ class Character extends Entity {
     subPhlegmatic(_int) {
         return this.decPhlegmatic(_int);
     }
+    getPhlegmatic() {
+        return this.phlegmatic;
+    }
 
     setCholeric(_int) {
         if (isNaN(_int))
@@ -3577,6 +3622,9 @@ class Character extends Entity {
     subCholeric(_int) {
         return this.decCholeric(_int);
     }
+    getCholeric() {
+        return this.choleric;
+    }
 
     setMelancholic(_int) {
         if (isNaN(_int))
@@ -3605,6 +3653,9 @@ class Character extends Entity {
     }
     subMelancholic(_int) {
         return this.decMelancholic(_int);
+    }
+    getMelancholic() {
+        return this.melancholic;
     }
 
     setLust(_int) {
@@ -3637,6 +3688,9 @@ class Character extends Entity {
     subLust(_int) {
         return this.decLust(_int);
     }
+    getLust() {
+        return this.lust;
+    }
 
     setExhibitionism(_int) {
     	if (isNaN(_int))
@@ -3667,6 +3721,9 @@ class Character extends Entity {
     }
     subExhibitionism(_int) {
         return this.decExhibitionism(_int);
+    }
+    getExhibitionism() {
+        return this.exhibitionlism;
     }
 
     setSomnophilia(_int) {
@@ -3699,6 +3756,9 @@ class Character extends Entity {
     subSomnophilia(_int) {
         return this.decSomnophilia(_int);
     }
+    getSomnophilia() {
+        return this.somnophilia;
+    }
 
     setIntoxication(_int) {
     	if (isNaN(_int))
@@ -3729,6 +3789,9 @@ class Character extends Entity {
     }
     subIntoxication(_int) {
         return this.decIntoxication(_int);
+    }
+    getIntoxication() {
+        return this.intoxication;
     }
 
     setIncestual(_int) {
@@ -3786,6 +3849,9 @@ class Character extends Entity {
         this.rut = !this.rut;
         return this.rut;
     }
+    getRut() {
+        return this.rut;
+    }
 
     setSleep(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true") {
@@ -3798,6 +3864,9 @@ class Character extends Entity {
         }
         return _bool;
     }
+    getSleep() {
+        return this.hasCurrentAction("sleep");
+    }
 
     setLiving(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
@@ -3806,6 +3875,9 @@ class Character extends Entity {
             _bool = false;
         this.living = _bool;
         return _bool;
+    }
+    getLiving() {
+        return this.living;
     }
 
     setVirgin(_bool) {
@@ -3816,6 +3888,9 @@ class Character extends Entity {
         this.virgin = _bool;
         return _bool;
     }
+    getVirgin() {
+        return this.virgin;
+    }
 
     setPrefersPredators(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
@@ -3824,6 +3899,9 @@ class Character extends Entity {
             _bool = false;
         this.prefersPredators = _bool;
         return _bool;
+    }
+    getPrefersPredators() {
+        return this.prefersPredators;
     }
 
     setAvoidsPredators(_bool) {
@@ -3834,6 +3912,9 @@ class Character extends Entity {
         this.avoidsPredators = _bool;
         return _bool;
     }
+    getAvoidsPredators() {
+        return this.avoidsPredators;
+    }
 
     setPrefersPrey(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
@@ -3843,6 +3924,9 @@ class Character extends Entity {
         this.prefersPrey = _bool;
         return _bool;
     }
+    getPrefersPrey() {
+        return this.prefersPrey;
+    }
 
     setAvoidsPrey(_bool) {
         if (_bool == true || _bool == 1 || _bool == "on" || _bool == "true")
@@ -3851,6 +3935,9 @@ class Character extends Entity {
             _bool = false;
         this.avoidsPrey = _bool;
         return _bool;
+    }
+    getAvoidsPrey() {
+        return this.avoidsPrey;
     }
 
     addBodyPartSlickWithPre(_bodyPart) {
@@ -3866,6 +3953,9 @@ class Character extends Entity {
     hasBodyPartSlickWithPre(_bodyPart) {
         return this.bodyPartsSlickWithPre.has(_bodyPart);
     }
+    getBodyPartsSlickWithPre() {
+        return this.bodyPartsSlickWithPre;
+    }
     addBodyPartSlickWithCum(_bodyPart) {
         if (this.hasBodyPart(_bodyPart)) {
             this.bodyPartsSlickWithCum.add(_bodyPart);
@@ -3878,6 +3968,9 @@ class Character extends Entity {
     }
     hasBodyPartSlickWithCum(_bodyPart) {
         return this.bodyPartsSlickWithCum.has(_bodyPart);
+    }
+    getBodyPartsSlickWithCum() {
+        return this.bodyPartsSlickWithCum;
     }
 
     setSexualOrientation(_int) {
@@ -3934,14 +4027,14 @@ class Character extends Entity {
         this.sex = _sex;
         return _sex;
     }
-    sexName() {
+    getSexName() {
         return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
     }
     getSex() {
-        return this.sexName();
+        return this.sex;
     }
 
-    sexualOrientationCompatibility(_character) {
+    getSexualOrientationCompatibility(_character) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -3950,19 +4043,15 @@ class Character extends Entity {
         }
         if (this.sexualOrientation == 2) // If you're bi
             return true;
-        else if (this.sex != _character.sex && this.sexualOrientation == 0) // else if you're female, they're male, and you're straight
+        else if (this.sex != _character.sex && this.sexualOrientation == 0) // else if you're both opposite sex, and you're straight
             return true;
-        else if (this.sex == _character.sex && this.sexualOrientation == 1) // else if you're male, they're male, and you're gay
+        else if (this.sex == _character.sex && this.sexualOrientation == 1) // else if you're both same sex, and you're gay
             return true;
         else // else no
             return false;
     }
-    sexualCompatibility(_character) {
+    getSexualCompatibility(_character) {
         return this.sexualOrientationCompatibility(_character);
-    }
-
-    fellatioGiveSet(_int, _character) {
-
     }
 
     setDefaultDisposition(_eros = 0, _philia = 0, _lodus = 0, _pragma = 0, _storge = 0, _manic = 0, _miseo = 0) {
