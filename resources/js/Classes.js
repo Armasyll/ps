@@ -2019,7 +2019,7 @@ class Character extends Entity {
          * Preference for sleep sex
          * @type {Number} 0 to 100
          */
-        this.somnofriendship = 0;
+        this.somnophilia = 0;
         /**
          * Drunkenness
          * @type {Number} 0 to 100
@@ -2090,7 +2090,7 @@ class Character extends Entity {
         this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : 0); delete["melancholic"];
         this.setLust(json.hasOwnProperty("lust") ? json["lust"] : 0); delete json["lust"];
         this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : 0); delete json["exhibitionism"];
-        this.setSomnofriendship(json.hasOwnProperty("somnofriendship") ? json["somnofriendship"] : 0); delete json["somnofriendship"];
+        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : 0); delete json["somnophilia"];
         this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : 0); delete json["intoxication"];
         this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : 0); delete json["incestual"];
         this.setRut(json.hasOwnProperty("rut") ? json["rut"] : false); delete json["rut"];
@@ -3575,38 +3575,38 @@ class Character extends Entity {
         return this.exhibitionlism;
     }
 
-    setSomnofriendship(_int) {
+    setSomnophilia(_int) {
     	if (isNaN(_int))
     		_int = 0;
     	else if (_int < 0)
     		_int = 0;
     	else if (_int > 100)
     		_int = 100;
-    	this.somnofriendship = _int;
+    	this.somnophilia = _int;
         return _int;
     }
-    incSomnofriendship(_int = 1) {
+    incSomnophilia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnofriendship(this.somnofriendship + Number.parseInt(_int));
+        return this.setSomnophilia(this.somnophilia + Number.parseInt(_int));
     }
-    addSomnofriendship(_int) {
-        return this.incSomnofriendship(_int);
+    addSomnophilia(_int) {
+        return this.incSomnophilia(_int);
     }
-    decSomnofriendship(_int = 1) {
+    decSomnophilia(_int = 1) {
         if (isNaN(_int))
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setSomnofriendship(this.somnofriendship - Number.parseInt(_int));
+        return this.setSomnophilia(this.somnophilia - Number.parseInt(_int));
     }
-    subSomnofriendship(_int) {
-        return this.decSomnofriendship(_int);
+    subSomnophilia(_int) {
+        return this.decSomnophilia(_int);
     }
-    getSomnofriendship() {
-        return this.somnofriendship;
+    getSomnophilia() {
+        return this.somnophilia;
     }
 
     setIntoxication(_int) {
@@ -4091,7 +4091,7 @@ class Character extends Entity {
             return false;
     }
     hasCharacterDisposition(_character) {
-        if (debug) console.log("Running hasDisposition");
+        if (debug) console.log("Running hasCharacterDisposition");
         
         if (!(_character instanceof Character))
             _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
@@ -6118,15 +6118,15 @@ class Character extends Entity {
 
         if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 
-        // Somnofriendship
+        // Somnophilia
         if (_character.isSleeping()) {
             if (enableRape)
                 chance = 100;
-            else if (_character.somnofriendship > 50 && _character.hadSexWith(this) && _disposition.passion > 75)
+            else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.passion > 75)
                 chance += 10;
         }
 
-        if (debug) console.log("\tAfter Somnofriendship check: " + Math.ceil(chance));
+        if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
 
         return Math.ceil(chance);
     }

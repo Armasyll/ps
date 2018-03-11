@@ -326,8 +326,6 @@ function debugCharactersInformation(_character = player) {
     
 
     // Disposition
-    _map = _character.defaultDisposition.toMap();
-    
     _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugDispositionPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Disposition</a></h3></div><div id='debugDispositionPanel' class='panel-collapse collapse'><div class='panel-body'>";
     _blob += "<form class='form-inline'><table class='table'>";
     _blob += "<thead><tr><th>Name</th>";
@@ -342,22 +340,22 @@ function debugCharactersInformation(_character = player) {
     //  Defaults
     _blob += "<tr><td>Default</td>";
     for (var _property in _character.defaultDisposition) {
-        _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property));
+        _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _character.defaultDisposition[_property]);
     }
     _blob += "</tr>";
     
     //  You->Them
-    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(_map.size + 3);
+    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(Object.keys(_character.defaultDisposition).length + 3);
     charactersIndexes.forEach(function(__character) {
         if (_character == __character)
             return undefined;
         
-        if (_character.hasDisposition(__character)) {
-	        _map = _character.getCharacterDisposition(__character).toMap();
+        if (_character.hasCharacterDisposition(__character)) {
+            _disposition = __character.getCharacterDisposition(_character);
 	        
 	        _blob += "<tr><td>{0}</td>".format(__character.id);
 	        for (var _property in _character.characterDisposition.get(__character)) {
-	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _map.get(_property), __character.id, __character.id.capitalize());
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
 	        }
             _blob += "<td></td>";
             _blob += "<td></td>";
@@ -367,19 +365,19 @@ function debugCharactersInformation(_character = player) {
     }, this);
     
     //  Them->You
-    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(_map.size + 3);
+    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(Object.keys(_disposition).length + 3);
     charactersIndexes.forEach(function(__character) {
         if (__character == _character)
             return undefined;
         
-        if (__character.hasDisposition(_character)) {
-	        _map = __character.getCharacterDisposition(_character).toMap();
+        if (__character.hasCharacterDisposition(_character)) {
+	        _disposition = __character.getCharacterDisposition(_character);
 	        
 	        _blob += "<tr><td>{0}</td>".format(__character.id);
 	        for (var _property in __character.characterDisposition.get(_character)) {
-	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.getCharacterDisposition({3}).set(\"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _map.get(_property), _character.id, __character.id.capitalize());
+	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _disposition[_property], _character.id, __character.id.capitalize());
 	        }
-            _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(calculateChanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (_character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
+            _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(calculateChanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (__character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
             _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#calculateChanceToFuckYou{3}\").text(calculateChanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
             _blob += "<td id='calculateChanceToFuckYou{1}'>{0}</td>".format(calculateChanceToFuck(_character, __character), __character.id.capitalize());
 	        _blob += "</tr>";

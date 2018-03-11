@@ -40,13 +40,14 @@ Array.prototype.getRandom = function() {
         return this[Math.floor(Math.random() * this.length)];
     }
 }
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
+/*Object.prototype.size = function() {
+    var _size = 0;
+    for (_key in this) {
+        if (this.hasOwnProperty(_key))
+            _size++;
     }
-    return size;
-};
+    return _size;
+}*/
 Date.prototype.addSeconds = function() {
     var args = arguments;
     if (Number.isInteger(args[0]) && args[0] > 0)
