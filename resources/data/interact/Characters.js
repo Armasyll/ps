@@ -65,7 +65,7 @@ function charlieTalk() {
     
     if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
         if (_character.hasDated(player)) {
-            if (!_character.isDating(player))
+            if (!_character.isDatingCharacter(player))
                 Menu.addOption("charlieDateAsk()", "Ask {0} out, again".format(_character.objectPronoun()));
             else
                 Menu.addOption("charlieDateSchedule()", "Go out on a date");
@@ -365,8 +365,8 @@ function _charlieSexFellatioGiveReluctantForce() {
     _character = charlie;
     
     Content.add("<p>Her eyes open just enough for you to see her thin, black pupils. \"I hate you, {0}.\"</p>".format(player.getFullName()));
-    if (charlie.isDating(player)) {
-        charlie.dump(player);
+    if (charlie.isDatingCharacter(player)) {
+        charlie.dumpCharacter(player);
         charlie.incCharacterMiseo(player, 20);
     }
     else
@@ -616,7 +616,7 @@ function wolterTalk() {
     
     if (_character.getCharacterEros(player) > 50 && _character.getCharacterPhilia(player) > 50) {
         if (_character.hasDated(player)) {
-            if (!_character.isDating(player))
+            if (!_character.isDatingCharacter(player))
                 Menu.addOption("wolterDateAsk()", "Ask {0} out, again".format(_character.objectPronoun()));
             else
                 Menu.addOption("wolterDateSchedule()", "Go out on a date");

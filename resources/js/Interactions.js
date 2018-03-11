@@ -46,7 +46,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     }
 
     Title.set(
-        (player.room.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? player.room.type : "room").capitalize()) : player.room.name),
+        (player.room.location.isOwner(player) ? "Your {0}".format((player.room.type !== 'undefined' ? player.room.type : "room").capitalize()) : player.room.name),
         undefined,
         (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"),
         (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")
@@ -758,7 +758,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                         break;
                     }
                     case "wear" : {
-                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.wearing(_itemInstance) ? "Take off" : "Wear"), this.child.name));
+                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.isWearing(_itemInstance) ? "Take off" : "Wear"), this.child.name));
                         break;
                     }
                     case "masturbate" : {
@@ -911,7 +911,7 @@ function itemInteractHold(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.wearing(_itemInstance))
+    if (_character.isWearing(_itemInstance))
         _character.takeOff(_itemInstance);
     if (_character.addHeldItem(_itemInstance))
         unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id));
@@ -959,7 +959,7 @@ function itemInteractWear(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.wearing(_itemInstance))
+    if (_character.isWearing(_itemInstance))
         _character.disrobe(_itemInstance);
     else
         _character.wear(_itemInstance);
@@ -984,7 +984,7 @@ function itemInteractDisrobe(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.wearing(_itemInstance))
+    if (_character.isWearing(_itemInstance))
         _character.disrobe(_itemInstance);
     if (enablePopups) {}
     else
@@ -1076,7 +1076,7 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.wearing(_itemInstance))
+    if (_character.isWearing(_itemInstance))
         _character.disrobe(_itemInstance);
     if (_character.masturbate())
         unsafeExec("{0}Masturbate({1})".format(_itemInstance.child.id, _character.id));

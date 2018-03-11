@@ -41,12 +41,7 @@ Array.prototype.getRandom = function() {
     }
 }
 /*Object.prototype.size = function() {
-    var _size = 0;
-    for (_key in this) {
-        if (this.hasOwnProperty(_key))
-            _size++;
-    }
-    return _size;
+    return Object.keys(this).length;
 }*/
 Date.prototype.addSeconds = function() {
     var args = arguments;

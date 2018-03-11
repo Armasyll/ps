@@ -12,7 +12,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
     if (_clearMenu) {
         Title.clear();
         Title.set(
-            (player.room.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? player.room.type : "room").capitalize() : player.room.name), 
+            (player.room.location.isOwner(player) ? "Your "  + (player.room.type !== 'undefined' ? player.room.type : "room").capitalize() : player.room.name), 
             undefined, 
             (typeof player.room.location !== 'undefined' ? (player.room.location == player.room.cell.location ? player.room.cell.name : player.room.location.name) : "&nbsp;"), 
             (typeof player.room.cell.location !== 'undefined' ? player.room.cell.location.name : "&nbsp;")

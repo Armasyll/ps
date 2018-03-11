@@ -273,8 +273,8 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
      * Wear item
      */
     if (_itemInstance.child instanceof Clothing) {
-        var _youWear = _fromEntity.wearing(_itemInstance);
-        var _theyWear = _toEntity instanceof Character && _toEntity.wearing(_itemInstance);
+        var _youWear = _fromEntity.isWearing(_itemInstance);
+        var _theyWear = _toEntity instanceof Character && _toEntity.isWearing(_itemInstance);
         if (_youWear)
             _actionsBlob += Menu.createButton("itemInteractWear('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Disrobe yourself");
         else if (_theyWear)
@@ -522,7 +522,7 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
     var _eventRun = false;
     if (typeof _fromEntity != 'undefined') {
         if (_fromEntity instanceof Character) {
-            if (_itemInstance.child instanceof Clothing && _fromEntity.wearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
+            if (_itemInstance.child instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
             else if (_fromEntity.holding(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
@@ -1924,7 +1924,7 @@ function characterGiveItem(_character, _entity, _itemInstance, _executeScene = f
             return undefined;
     }
 
-    if (_character.wearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
+    if (_character.isWearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
         return false;
     
     if (!characterRemoveItem(_character, _itemInstance, _executeScene))
