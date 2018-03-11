@@ -1451,7 +1451,7 @@ class Character extends Entity {
      * @param  {String} _name    Name
      * @param  {String} _description Description
      * @param  {String} _image   Image path
-     * @param  {String} _class    Class
+     * @param  {String} _class   Character class
      * @param  {Number} _age     Age
      * @param  {Number} _sex     Sex (0 Male, 1 Female, 2 Herm)
      * @param  {String} _species Species
@@ -1643,32 +1643,32 @@ class Character extends Entity {
          * Physical power
          * @type {Number}
          */
-        this.strength = 1;
+        this.strength = 10;
         /**
          * Agility
          * @type {Number}
          */
-        this.dexterity = 1;
+        this.dexterity = 10;
         /**
          * Endurance
          * @type {Number}
          */
-        this.constitution = 1;
+        this.constitution = 10;
         /**
          * Reasoning and memory
          * @type {Number}
          */
-        this.intelligence = 1;
+        this.intelligence = 10;
         /**
          * Perception and insight
          * @type {Number}
          */
-        this.wisdom = 1;
+        this.wisdom = 3;
         /**
          * Force of personality
          * @type {Number}
          */
-        this.charisma = 1;
+        this.charisma = 10;
         /**
          * Max life; should never drop below 1
          * @type {Number} 1 to Number.MAX_SAFE_INTEGER
@@ -2905,6 +2905,9 @@ class Character extends Entity {
     subStrength(_int) {
         return this.decStrength(_int);
     }
+    getStrength() {
+        return this.strength;
+    }
     setDexterity(_int) {
         if (isNaN(_int))
             return this.dexterity;
@@ -2934,6 +2937,9 @@ class Character extends Entity {
     }
     subDexterity(_int) {
         return this.decDexterity(_int);
+    }
+    getDexterity() {
+        return this.dexterity;
     }
     setConstitution(_int) {
         if (isNaN(_int))
@@ -2965,6 +2971,9 @@ class Character extends Entity {
     subConstitution(_int) {
         return this.decConstitution(_int);
     }
+    getConsitution() {
+        return this.constitution;
+    }
     setIntelligence(_int) {
         if (isNaN(_int))
             return this.intelligence;
@@ -2994,6 +3003,9 @@ class Character extends Entity {
     }
     subIntelligence(_int) {
         return this.decIntelligence(_int);
+    }
+    getIntelligence() {
+        return this.intelligence;
     }
     setWisdom(_int) {
         if (isNaN(_int))
@@ -3025,6 +3037,9 @@ class Character extends Entity {
     subWisdom(_int) {
         return this.decWisdom(_int);
     }
+    getWisdom() {
+        return this.wisdom;
+    }
     setCharisma(_int) {
         if (isNaN(_int))
             return this.charisma;
@@ -3055,7 +3070,19 @@ class Character extends Entity {
     subCharisma(_int) {
         return this.decCharisma(_int);
     }
-    setAbilities(_str = undefined, _dex = undefined, _con = undefined, _int = undefined, _wis = undefined, _cha = undefined) {
+    getCharisma() {
+        return this.charisma;
+    }
+    /**
+     * Sets Character attributes
+     * @param {Number} _str Strength, physical power
+     * @param {Number} _dex Dexterity, agility
+     * @param {Number} _con Constitution, endurance
+     * @param {Number} _int Intelligence, reasoning and memory
+     * @param {Number} _wis Wisdom, perception and insight
+     * @param {Number} _cha Charisma, force of personality
+     */
+    setAttributes(_str = 10, _dex = 10, _con = 10, _int = 10, _wis = 12, _cha = 10) {
         this.setStrength(_str);
         this.setDexterity(_dex);
         this.setConstitution(_con);
@@ -3064,8 +3091,64 @@ class Character extends Entity {
         this.setCharisma(_cha);
         return true;
     }
-    getAbilities() {
+    getAttributes() {
         return {strength: this.strength, dexterity: this.dexterity, constitution: this.constitution, intelligence: this.intelligence, wisdom: this.wisdom, charisma: this.charisma};
+    }
+    /**
+     * Sets Character attribute
+     * @param {String} _string Character attribute
+     * @param {Number} _int    Number to set it to
+     */
+    setAttribute(_string, _int = undefined) {
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            return;
+        switch (_string.toLowerCase().slice(0, 2)) {
+            case "st" :
+                return this.setStrength(_int);
+                break;
+            case "de" :
+                return this.setDexterity(_int);
+                break;
+            case "co" :
+                return this.setConstitution(_int);
+                break;
+            case "in" :
+                return this.setIntelligence(_int);
+                break;
+            case "wi" :
+                return this.setWisdom(_int);
+                break;
+            case "ch" :
+                return this.setCharisma(_int);
+                break;
+            default :
+                return;
+        }
+    }
+    getAttribute(_string) {
+        switch (_string.toLowerCase().slice(0, 2)) {
+            case "st" :
+                return this.getStrength();
+                break;
+            case "de" :
+                return this.getDexterity();
+                break;
+            case "co" :
+                return this.getConstitution();
+                break;
+            case "in" :
+                return this.getIntelligence();
+                break;
+            case "wi" :
+                return this.getWisdom();
+                break;
+            case "ch" :
+                return this.getCharisma();
+                break;
+            default :
+                return;
+        }
     }
     setLife(_int) {
         if (isNaN(_int))
