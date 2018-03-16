@@ -369,6 +369,7 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
     
     if (debug) console.log("  Giving {0} {1} from {2}".format(_toEntity.id, _itemInstance.id, _fromEntity.id));
     if (entityGiveItem(_itemInstance, _fromEntity, _toEntity, _useLastMenu)) {
+        if (debug) console.log("    Gave Item");
         if (_switch) {
             if (_toEntity instanceof Character) {
                 if (debug) console.log("    Going back to characterInteractOpen({0}, {1}, {2}, {3})".format(_toEntity.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter));
@@ -411,13 +412,23 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
  * @return {Boolean}
  */
 function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
-    if (characterGiveItem(_itemInstance, _fromEntity, _toEntity, (_toEntity == player || _fromEntity == player))) {
-        if (_useLastMenu)
-            unsafeExec(lastMenu);
-        return true;
+    var _gaveItem = false;
+    var _executeScene = (_toEntity == player || _fromEntity == player);
+    if (debug) console.log("Executing entityGiveItem");
+    if (_fromEntity instanceof Character) {
+        _gaveItem = characterGiveItem(_fromEntity, _toEntity, _itemInstance, _executeScene);
     }
-    else
-        return false;
+    else if (_fromEntity instanceof Furniture) {
+        if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.child.id, _fromEntity.id, _executeScene)))
+            _fromEntity.removeItem(_itemInstance);
+        else
+            return _gaveItem;
+        if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.child.id, _fromEntity.id, _toEntity.id, _executeScene)))
+            _gaveItem = characterTakeItem(_toEntity, _fromEntity, _itemInstance, _executeScene);
+    }
+    if (_gaveItem && _useLastMenu)
+        unsafeExec(lastMenu);
+    return _gaveItem;
 }
 /*function entityGiveItem(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false) {
     if (debug) console.log("Executing entityGiveItem with {0}, {1}, {2}, {3}".format(_itemInstance.id, _fromEntity instanceof Entity ? _fromEntity.id : _fromEntity, _toEntity instanceof Entity ? _toEntity.id : _toEntity, _useLastMenu));
@@ -1904,7 +1915,16 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
     else
         return false;
 }
+/**
+ * Uselessly meta function for characterRemoveItem, characterGiveItem, and characterTakeItem
+ * @param  {[type]}  _character    From
+ * @param  {[type]}  _entity       To
+ * @param  {[type]}  _itemInstance Item instance
+ * @param  {Boolean} _executeScene Whether or not to execute Item-specified Scene(s), defaults to false
+ * @return {[type]}                Whether or not the Item was given
+ */
 function characterGiveItem(_character, _entity, _itemInstance, _executeScene = false) {
+    if (debug) console.log("Executing characterGiveItem");
     if (!(_character instanceof Character)) {
         if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
@@ -1923,19 +1943,12 @@ function characterGiveItem(_character, _entity, _itemInstance, _executeScene = f
         else
             return undefined;
     }
-
     if (_character.isWearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
         return false;
-    
     if (!characterRemoveItem(_character, _itemInstance, _executeScene))
         return false;
-
-    if (unsafeExec("{0}Give({1}, {2}, {3})".format(_itemInstance.id, _character.id, _entity.id, _executeScene))) {
-        if (characterTakeItem(_entity, _entity, _itemInstance, _executeScene))
-            return true;
-        else
-            return false;
-    }
+    if (unsafeExec("{0}Give({1}, {2}, {3})".format(_itemInstance.child.id, _character.id, _entity.id, _executeScene)))
+        return characterTakeItem(_entity, _character, _itemInstance, _executeScene);
     return false;
 }
 function characterHoldItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
@@ -1986,14 +1999,23 @@ function characterReleaseItem(_character, _itemInstance, _hand = undefined, _exe
 function characterAddItem(_character, _itemInstance, _executeScene = false) {
     return characterTakeItem(_character, undefined, _itemInstance, _executeScene);
 }
+/**
+ * Adds _itemInstance from _entity to _character
+ * @param  {[type]}  _character    To
+ * @param  {[type]}  _entity       From
+ * @param  {[type]}  _itemInstance Item instance
+ * @param  {Boolean} _executeScene Whether or not to execute Item-specified Scene(s), defaults to false
+ * @return {[type]}                Whether or not the Item was taken
+ */
 function characterTakeItem(_character, _entity, _itemInstance, _executeScene = false) {
-    if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+    if (debug) console.log("Executing characterTakeItem");
+    if (!(_character instanceof Entity)) {
+        if (entityIndexes.has(_character))
+            _character = entityIndexes.get(_character);
         else
             return undefined;
     }
-    if (!(_entity instanceof Entity) || _entity != undefined) {
+    if (!(_entity instanceof Entity) && _entity != undefined) {
         if (entityIndexes.has(_entity))
             _entity = entityIndexes.get(_entity);
         else
