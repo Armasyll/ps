@@ -1168,6 +1168,9 @@ class Entity {
         return JSON.stringify(_blob, function(k, v) { return (v === undefined ? null : v)});
     }
 
+    setName(_name) {
+        this.name = _name.replace(/[^0-9a-z\-]/gi, '');
+    }
     setImage(_image) {
         var _subPath = "";
         if (this instanceof Character) {
@@ -1287,13 +1290,6 @@ class Entity {
     delete() {
         entityIndexes.delete(this.id);
         return undefined;
-    }
-}
-
-class BodyPart extends Entity {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
-        super(_id, _name, _description, _image);
-        bodyPartsIndexes.set(_id, this);
     }
 }
 
@@ -1636,7 +1632,7 @@ class Character extends Entity {
          * Bodyparts
          * @type {Set} <Bodypart>
          */
-        this.bodyParts = new Set();
+        this.bodyParts = new Map();
         /**
          * Size in reference to a tundra wolf
          * @type {Number}
@@ -5242,35 +5238,47 @@ class Character extends Entity {
         return this.bodyParts.has(_bodyPart);
     }
     removeBodyPart(_bodyPart) {
-        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
+        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Map))
             this.bodyParts = new Set();
-        var _removedBodyPart = false;
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {
-                if (this.removeBodyPart(__bodyPart))
-                    _removedBodyPart = true;
+                this.removeBodyPart(__bodyPart);
             }, this);
+            return this;
         }
-        else if (kBodyPartTypes.has(_bodyPart)) {
-            this.bodyParts.delete(_bodyPart);
-            _removedBodyPart = true;
+        if (!(_bodyPart instanceof BodyPartInstance)) {
+            if (_bodyPart instanceof BodyPart)
+                _bodyPart = new BodyPartInstance(_bodyPart, this, undefined, undefined, this.species);
+            else if (bodyPartsIndexes.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(bodyPartsIndexes.get(_bodyPart), this, undefined, undefined, this.species);
+            else if (bodyPartInstancesIndexes.has(_bodyPart))
+                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+            else
+                return undefined;
         }
+        this.bodyParts.set(_bodyPart.type, undefined);
         return this;
     }
     addBodyPart(_bodyPart) {
-        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
+        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Map))
             this.bodyParts = new Set();
-        var _addedBodyPart = false;
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {
-                if (this.addBodyPart(__bodyPart))
-                    _addedBodyPart = true;
+                this.addBodyPart(__bodyPart);
             }, this);
+            return this;
         }
-        else if (kBodyPartTypes.has(_bodyPart)) {
-            this.bodyParts.add(_bodyPart);
-            _addedBodyPart = true;
+        if (!(_bodyPart instanceof BodyPartInstance)) {
+            if (_bodyPart instanceof BodyPart)
+                _bodyPart = new BodyPartInstance(_bodyPart.getType(), this, undefined, undefined, this.species);
+            else if (bodyPartsIndexes.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(bodyPartsIndexes.get(_bodyPart).getType(), this, undefined, undefined, this.species);
+            else if (bodyPartInstancesIndexes.has(_bodyPart))
+                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+            else
+                return this;
         }
+        this.bodyParts.set(_bodyPart.child.type, _bodyPart);
         return this;
     }
 
@@ -7622,6 +7630,34 @@ class Item extends Entity {
         return undefined;
     }
 }
+
+class BodyPart extends Item {
+    constructor(_id, _name = undefined) {
+        if (bodyPartsIndexes.has(_id))
+            return bodyPartsIndexes.get(_id);
+        super(_id, _name);
+        this.setType(_id);
+        bodyPartsIndexes.set(_id, this);
+    }
+
+    setType(_type) {
+        if (kBodyPartTypes.has(_type))
+            this.type = _type;
+        else
+            this.type = "appendix";
+        return this;
+    }
+    getType() {
+        return this.type;
+    }
+
+    delete() {
+        bodyPartsIndexes.delete(this.id);
+        super.delete();
+        return undefined;
+    }
+}
+
 /**
  * Class that represents all Key(s)
  * @extends {Item}
@@ -8631,37 +8667,6 @@ class EntityInstance {
         return undefined;
     }
 }
-class BodyPartInstance extends EntityInstance {
-    constructor(_child, _owner = undefined, _durability = 1, _durabilityMax = 1, _speciesType = undefined) {
-        if (!(_child instanceof BodyPart)) {
-            if (bodyPartsIndexes.has(_child))
-                _child = bodyPartsIndexes.get(_child);
-            else if (_child instanceof BodyPartInstance && _child.child instanceof BodyPart)
-                _child = _child.child;
-            else if (bodyPartInstancesIndexes.has(_child)) {
-                _child = bodyPartInstancesIndexes.get(_child).child;
-                if (!(_child.child instanceof Phone))
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
-
-        super(uuidv4(), _child, _owner, undefined, undefined, _durability, _durabilityMax);
-
-        if (!kSpeciesTypes.has(_speciesType)) {
-            if (_speciesType instanceof Character)
-                _speciesType = _speciesType.getSpecies();
-            else if (_owner instanceof Character)
-                _speciesType = _owner.getSpecies();
-            else
-                _speciesType = "fox";
-        }
-        this.speciesType = _speciesType;
-
-        bodyPartInstancesIndexes.set(this.id, this);
-    }
-}
 class ItemInstance extends EntityInstance {
     constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_child instanceof Item)) {
@@ -8687,6 +8692,37 @@ class ItemInstance extends EntityInstance {
         itemInstancesIndexes.delete(this.id);
         super.delete();
         return undefined;
+    }
+}
+class BodyPartInstance extends ItemInstance {
+    constructor(_child, _owner = undefined, _durability = 1, _durabilityMax = 1, _speciesType = undefined) {
+        if (!(_child instanceof BodyPart)) {
+            if (bodyPartsIndexes.has(_child))
+                _child = bodyPartsIndexes.get(_child);
+            else if (_child instanceof BodyPartInstance && _child.child instanceof BodyPart)
+                _child = _child.child;
+            else if (bodyPartInstancesIndexes.has(_child)) {
+                _child = bodyPartInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Phone))
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        super(_child, _owner, undefined, undefined, _durability, _durabilityMax);
+
+        if (!kSpeciesTypes.has(_speciesType)) {
+            if (_speciesType instanceof Character)
+                _speciesType = _speciesType.getSpecies();
+            else if (_owner instanceof Character)
+                _speciesType = _owner.getSpecies();
+            else
+                _speciesType = "fox";
+        }
+        this.speciesType = _speciesType;
+
+        bodyPartInstancesIndexes.set(this.id, this);
     }
 }
 class PhoneInstance extends ItemInstance {
