@@ -1171,6 +1171,15 @@ class Entity {
     setName(_name) {
         this.name = _name.replace(/[^0-9a-z\-]/gi, '');
     }
+    getName() {
+        return this.name;
+    }
+    setDescription(_description) {
+        this.description = _description.replace(/[^0-9a-z\-\!\?\,\.\"\'\<\>\/\_]/gi, '');
+    }
+    getDescription() {
+        return this.description;
+    }
     setImage(_image) {
         var _subPath = "";
         if (this instanceof Character) {
@@ -1209,6 +1218,9 @@ class Entity {
         else
             this.image = "resources/images/items/genericItem.svg".format(this.id); // base64 image, or url
         return this;
+    }
+    getImage() {
+        return this.image;
     }
 
     /**
@@ -8504,6 +8516,10 @@ class EntityInstance {
                 return undefined;
         }
 
+        this.name = undefined;
+        this.description = undefined;
+        this.image = undefined;
+        this.parent = undefined;
         this.child = _child;
         this.owner = undefined;
         this.price = 0;
@@ -8511,22 +8527,49 @@ class EntityInstance {
         this.durability = 1;
         this.durabilityMax = 1;
 
-        if (typeof _price == "undefined" || _price == 0)
-            _price = _child.price;
-        if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = _child.weight;
-        if (typeof _durability == "undefined" || _durability == 1)
-            _durability = _child.durability;
-        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = _child.durability;
-
         this.setOwner(_owner);
-        this.setPrice(_price);
-        this.setWeight(_weight);
-        this.setDurability(_durability);
-        this.setDurabilityMax(_durabilityMax);
+        this.setPrice(_price || _child.price);
+        this.setWeight(_weight || _child.weight);
+        this.setDurability(_durability || 1);
+        this.setDurabilityMax(_durabilityMax || this.durability);
 
         instancesIndexes.set(this.id, this);
+    }
+
+    /**
+     * Sets Parent
+     * @param {Entity} _entity Entity, or undefined
+     */
+    setParent(_entity) {
+        if (!(_entity instanceof Entity)){
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else
+                _entity = undefined;
+        }
+        this.parent = _entity;
+        return this;
+    }
+    getParent() {
+        return this.parent;
+    }
+
+    /**
+     * Sets Child
+     * @param {Entity} _entity Entity, or undefined
+     */
+    setChild(_entity) {
+        if (!(_entity instanceof Entity)){
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else
+                _entity = undefined;
+        }
+        this.child = _entity;
+        return this;
+    }
+    getChild() {
+        return this.child;
     }
 
     /**
@@ -8542,6 +8585,9 @@ class EntityInstance {
         }
         this.owner = _character;
         return this;
+    }
+    getOwner() {
+        return this.owner;
     }
 
     /**
@@ -8559,6 +8605,9 @@ class EntityInstance {
         this.durability = _int;
         return this;
     }
+    getPrice() {
+        return this.price;
+    }
 
     /**
      * Sets Weight
@@ -8574,6 +8623,9 @@ class EntityInstance {
             _float = Number.MAX_SAFE_INTEGER;
         this.weight = _float;
         return this;
+    }
+    getWeight() {
+        return (this.weight || this.child.weight);
     }
 
     /**
@@ -8662,6 +8714,61 @@ class EntityInstance {
         return this.durabilityMax;
     }
 
+    setName(_name) {
+        this.name = _name.replace(/[^0-9a-z\-]/gi, '');
+    }
+    getName() {
+        return (this.name || this.child.getName());
+    }
+    setDescription(_description) {
+        this.description = _description.replace(/[^0-9a-z\-\!\?\,\.\"\'\<\>\/\_]/gi, '');
+    }
+    getDescription() {
+        return (this.description || this.child.getDescription());
+    }
+    setImage(_image) {
+        var _subPath = "";
+        if (this instanceof Character) {
+            _subPath = "characters";
+        }
+        else if (this instanceof Furniture) {
+            _subPath = "furniture";
+        }
+        else if (this instanceof Item) {
+            _subPath = "items";
+        }
+        else if (this instanceof Location) {
+            _subPath = "locations";
+        }
+
+        if (typeof _image == "undefined")
+            this.image = "resources/items/genericItem/{0}.svg".format(this.id); // base64 image, or url
+        else if (_image.slice(0, 17) == "resources/images/") {
+            _image = _image.slice(17).split('/');
+            _image = _image[_image.length];
+            _image = _image.split('.');
+            _image[0] = _image[0].replace(/[^0-9a-z]/gi, '');
+            _image[1] = _image[1].replace(/[^0-9a-z]/gi, '');
+            var _fileType = _image[1].toLowerCase();
+            if (_fileType !== "png" && _fileType !== "svg" && _fileType !== "jpg" && _fileType !== "jpeg" && _fileType !== "gif")
+                this.image = "resources/images/{0}/{1}.svg".format(_subPath, this.id);
+            else if (_image[0].length < 1)
+                this.image = "resources/images/{0}/{1}.svg".format(_subPath, this.id);
+            else
+                this.image = "resources/images/{0}/{1}.{2}".format(_subPath, _image[0], _image[1]);
+            delete this._fileType;
+        }
+        else if (_image.slice(0, 11) == "data:image/") {
+            this.image = _image;
+        }
+        else
+            this.image = "resources/images/items/genericItem.svg".format(this.id); // base64 image, or url
+        return this;
+    }
+    getImage() {
+        return (this.image || this.child.getImage());
+    }
+
     delete() {
         instancesIndexes.delete(this.id);
         return undefined;
@@ -8695,7 +8802,15 @@ class ItemInstance extends EntityInstance {
     }
 }
 class BodyPartInstance extends ItemInstance {
-    constructor(_child, _owner = undefined, _durability = 1, _durabilityMax = 1, _speciesType = undefined) {
+    /**
+     * Creates a BodyPart Instance per BodyPart per Character, specific to their Species
+     * @param  {BodyPart} _child       BodyPart
+     * @param  {Character} _owner      Character
+     * @param  {Number} _durability    Durability
+     * @param  {Number} _durabilityMax Max durability
+     * @param  {String} _type          Species type
+     */
+    constructor(_child, _owner = undefined, _durability = 1, _durabilityMax = 1, _type = undefined) {
         if (!(_child instanceof BodyPart)) {
             if (bodyPartsIndexes.has(_child))
                 _child = bodyPartsIndexes.get(_child);
@@ -8712,17 +8827,31 @@ class BodyPartInstance extends ItemInstance {
 
         super(_child, _owner, undefined, undefined, _durability, _durabilityMax);
 
-        if (!kSpeciesTypes.has(_speciesType)) {
-            if (_speciesType instanceof Character)
-                _speciesType = _speciesType.getSpecies();
-            else if (_owner instanceof Character)
-                _speciesType = _owner.getSpecies();
-            else
-                _speciesType = "fox";
-        }
-        this.speciesType = _speciesType;
+        this.setParent(_owner);
+        this.setType(_type);
 
         bodyPartInstancesIndexes.set(this.id, this);
+    }
+    setType(_type) {
+        if (!kSpeciesTypes.has(_type)) {
+            if (_type instanceof Character)
+                _type = _type.getSpecies();
+            else if (this.owner instanceof Character)
+                _type = this.owner.getSpecies();
+            else
+                _type = "fox";
+        }
+        this.type = _type;
+        return this;
+    }
+    getType() {
+        return this.type;
+    }
+
+    delete() {
+        bodyPartInstancesIndexes.delete(this.id);
+        super.delete();
+        return undefined;
     }
 }
 class PhoneInstance extends ItemInstance {
