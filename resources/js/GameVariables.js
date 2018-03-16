@@ -63,6 +63,11 @@ var instancesIndexes = new Map();
  */
 var itemInstancesIndexes = new Map();
 /**
+ * Map of ItemInstance(s)
+ * @type {Map<String, ItemInstance>}
+ */
+var bodyPartInstancesIndexes = new Map();
+/**
  * Map of Key(s)
  * @type {Map<String, Key>}
  */

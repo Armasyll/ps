@@ -5550,6 +5550,9 @@ class Character extends Entity {
         }
         return this;
     }
+    getSpecies() {
+        return this.species;
+    }
 
     setPenisSize(_blob) {
         if (isNaN(_blob))
@@ -8433,8 +8436,21 @@ class Spell extends Entity {
         return this;
     }
 }
+/**
+ * Class that reprents all EntityInstances
+ */
 class EntityInstance {
-    constructor(_id, _child) {
+    /**
+     * Creates an EntityInstance
+     * @param  {UUIDv4} _id            UUID
+     * @param  {Entity} _child         Entity, String ID of Entity, EntityInstance, or String ID of EntityInstance
+     * @param  {Character} _owner      Owner
+     * @param  {Number} _price         Price, defaults to 0
+     * @param  {Number} _weight        Weight, defaults to 0.001
+     * @param  {Number} _durability    Durability, defaults to 1
+     * @param  {Number} _durabilityMax Max durability, defaults to 1
+     */
+    constructor(_id, _child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (typeof _id == "undefined")
             _id = uuidv4();
         this.id = _id;
@@ -8451,81 +8467,36 @@ class EntityInstance {
             else
                 return undefined;
         }
+
         this.child = _child;
+        this.owner = undefined;
+        this.price = 0;
+        this.weight = 0.0;
+        this.durability = 1;
+        this.durabilityMax = 1;
+
+        if (typeof _price == "undefined" || _price == 0)
+            _price = _child.price;
+        if (typeof _weight == "undefined" || _weight == 0.001)
+            _weight = _child.weight;
+        if (typeof _durability == "undefined" || _durability == 1)
+            _durability = _child.durability;
+        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
+            _durabilityMax = _child.durability;
+
+        this.setOwner(_owner);
+        this.setPrice(_price);
+        this.setWeight(_weight);
+        this.setDurability(_durability);
+        this.setDurabilityMax(_durabilityMax);
 
         instancesIndexes.set(this.id, this);
     }
 
-    delete() {
-        instancesIndexes.delete(this.id);
-        return undefined;
-    }
-}
-class ItemInstance extends EntityInstance {
-    constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
-        /**
-         * Child
-         * @type {Item}
-         */
-        if (!(_child instanceof Item)) {
-            if (itemsIndexes.has(_child)) 
-                _child = itemsIndexes.get(_child);
-            else if (_child instanceof ItemInstance && _child.child instanceof Item) 
-                _child = _child.child;
-            else if (itemInstancesIndexes.has(_child)) {
-                _child = itemInstancesIndexes.get(_child).child;
-                if (!(_child.child instanceof Item))
-                    return undefined;
-            }
-            else
-                return undefined;
-        }
-
-        super(uuidv4(), _child);
-
-        /**
-         * Owner
-         * @type {Character} Can be undefined
-         */
-        if (!(_owner instanceof Character)) {
-            if (charactersIndexes.has(_owner))
-                _owner = charactersIndexes.get(_owner);
-            else
-                _owner = undefined;
-        }
-        this.owner = _owner;
-        /**
-         * Price
-         * @type {Number} (Int)
-         */
-        if (typeof _price == "undefined" || _price == 0)
-            _price = this.child.defaultPrice;
-        this.price = this.setPrice(_price);
-        /**
-         * Weight
-         * @type {Number} (Float)
-         */
-        if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = this.child.defaultWeight;
-        this.weight = this.setWeight(_weight);
-        /**
-         * Durability
-         * @type {Number}
-         */
-        if (typeof _durability == "undefined" || _durability == 1)
-            _durability = this.child.defaultDurability;
-        this.durability = this.setDurability(_durability);
-        /**
-         * Max Durability
-         * @type {Number}
-         */
-        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = this.child.defaultDurability;
-        this.durabilityMax = this.setDurabilityMax(_durabilityMax);
-
-        itemInstancesIndexes.set(this.id, this);
-    }
-
+    /**
+     * Sets Owner
+     * @param {Character} _character Character, or undefined
+     */
     setOwner(_character) {
         if (!(_character instanceof Character)){
             if (charactersIndexes.has(_character))
@@ -8656,6 +8627,63 @@ class ItemInstance extends EntityInstance {
     }
 
     delete() {
+        instancesIndexes.delete(this.id);
+        return undefined;
+    }
+}
+class BodyPartInstance extends EntityInstance {
+    constructor(_child, _owner = undefined, _durability = 1, _durabilityMax = 1, _speciesType = undefined) {
+        if (!(_child instanceof BodyPart)) {
+            if (bodyPartsIndexes.has(_child))
+                _child = bodyPartsIndexes.get(_child);
+            else if (_child instanceof BodyPartInstance && _child.child instanceof BodyPart)
+                _child = _child.child;
+            else if (bodyPartInstancesIndexes.has(_child)) {
+                _child = bodyPartInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Phone))
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        super(uuidv4(), _child, _owner, undefined, undefined, _durability, _durabilityMax);
+
+        if (!kSpeciesTypes.has(_speciesType)) {
+            if (_speciesType instanceof Character)
+                _speciesType = _speciesType.getSpecies();
+            else if (_owner instanceof Character)
+                _speciesType = _owner.getSpecies();
+            else
+                _speciesType = "fox";
+        }
+        this.speciesType = _speciesType;
+
+        bodyPartInstancesIndexes.set(this.id, this);
+    }
+}
+class ItemInstance extends EntityInstance {
+    constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+        if (!(_child instanceof Item)) {
+            if (itemsIndexes.has(_child)) 
+                _child = itemsIndexes.get(_child);
+            else if (_child instanceof ItemInstance && _child.child instanceof Item) 
+                _child = _child.child;
+            else if (itemInstancesIndexes.has(_child)) {
+                _child = itemInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Item))
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+
+        super(uuidv4(), _child, _owner, _price, _weight, _durability, _durabilityMax);
+
+        itemInstancesIndexes.set(this.id, this);
+    }
+
+    delete() {
         itemInstancesIndexes.delete(this.id);
         super.delete();
         return undefined;
@@ -8664,25 +8692,18 @@ class ItemInstance extends EntityInstance {
 class PhoneInstance extends ItemInstance {
     constructor(_child, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_child instanceof Phone)) {
-            if (phonesIndexes.has(_child))
+            if (phonesIndexes.has(_child)) 
                 _child = phonesIndexes.get(_child);
+            else if (_child instanceof PhoneInstance && _child.child instanceof Phone) 
+                _child = _child.child;
+            else if (phoneInstancesIndexes.has(_child)) {
+                _child = phoneInstancesIndexes.get(_child).child;
+                if (!(_child.child instanceof Phone))
+                    return undefined;
+            }
             else
                 return undefined;
         }
-        if (!(_owner instanceof Character)) {
-            if (charactersIndexes.has(_owner))
-                _owner = charactersIndexes.get(_owner);
-            else
-                _owner = undefined;
-        }
-        if (typeof _price == "undefined" || _price == 0)
-            _price = _child.price;
-        if (typeof _weight == "undefined" || _weight == 0.001)
-            _weight = _child.weight;
-        if (typeof _durability == "undefined" || _durability == 1)
-            _durability = _child.durability;
-        if (typeof _durabilityMax == "undefined" || _durabilityMax == 1)
-            _durabilityMax = _child.durability;
 
         super(_child, _owner, _price, _weight, _durability, _durabilityMax);
 
@@ -8745,10 +8766,6 @@ class PhoneInstance extends ItemInstance {
 }
 class WeaponInstance extends ItemInstance {
     constructor(_child, _owner = undefined) {
-        /**
-         * Child
-         * @type {Weapon}
-         */
         if (!(_child instanceof Weapon)) {
             if (weaponsIndexes.has(_child)) 
                 _child = weaponsIndexes.get(_child);
@@ -8763,10 +8780,7 @@ class WeaponInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(uuidv4(), _child);
-
-        this.price = _child.price;
-        this.weight = _child.weight;
+        super(uuidv4(), _child, _owner, _price, _weight);
     }
 
     delete() {
