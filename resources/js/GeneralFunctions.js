@@ -163,6 +163,11 @@ function isHidden(el) {
 function unsafeExec(_executableString = undefined) {
     var _return = undefined;
     
+    if (!window.hasOwnProperty(_executableString.split('(')[0])) {
+        if (debug) console.log("  `{0}` is not a function.".format(_executableString.split('(')[0]));
+        return true;
+    }
+
     fn = new Function(_executableString);
     try {
         _return = fn();
