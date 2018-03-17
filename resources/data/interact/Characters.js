@@ -159,7 +159,7 @@ function charlieSexFellatioGiveInitial() {
                 
                 player.removeItem(charlieBeatingHeart);
                 charlie.consume(charlieBeatingHeart);
-                characterSetLife(player, 15);
+                player.decLife(15);
 
                 Content.add("<p>" + _blob + "</p>");
 

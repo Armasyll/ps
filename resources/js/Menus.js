@@ -161,7 +161,7 @@ function debugMenu() {
     Menu.addOption("player.addItem('masterKey')", "Get Skeleton Key");
     Menu.addOption("addAllItems({0}, false)".format(player.id), "Add All Items");
     Menu.addOption("addAllLocations({0})".format(player.id), "Add All Locations");
-    Menu.addOption("addAllSpells({0});characterSetManaMax({0}, 100);characterSetMana({0}, 100);{0}.setManaCostOffsetPercent(100)".format(player.id), "Add All Spells", undefined, undefined, undefined, "btn-mana");
+    Menu.addOption("addAllSpells({0});{0}.setManaMax(100);{0}.setMana(100);{0}.setManaCostOffsetPercent(100)".format(player.id), "Add All Spells", undefined, undefined, undefined, "btn-mana");
     Menu.generate();
 }
 function debugMenuClose() {
