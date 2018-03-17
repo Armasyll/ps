@@ -1102,7 +1102,7 @@ class Entity {
              * kSpecialProperties
              * @type {Set} <kSpecialProperties>
              */
-            this.specialPropertiess = new Set();
+            this.specialProperties = new Set();
 
             /**
              * Weight in kilograms
@@ -1252,17 +1252,20 @@ class Entity {
         }
         return this;
     }
+    getAvailableActions() {
+        return this.currentActions;
+    }
 
     /**
      * Adds a kSpecialProperties
-     * @param {String} _specialPropertiess (kSpecialProperties)
+     * @param {String} _specialProperties (kSpecialProperties)
      */
-    addSpecialProperty(_specialPropertiess) {
-        if (kSpecialProperties.has(_specialPropertiess))
-            this.specialPropertiess.add(_specialPropertiess);
-        else if (_specialPropertiess instanceof Array) {
-            _specialPropertiess.forEach(function(_specialProperties) {
-                kSpecialProperties.has(_specialProperties) && this.specialPropertiess.add(_specialProperties);
+    addSpecialProperty(_specialProperties) {
+        if (kSpecialProperties.has(_specialProperties))
+            this.specialProperties.add(_specialProperties);
+        else if (_specialProperties instanceof Array) {
+            _specialProperties.forEach(function(_specialProperties) {
+                kSpecialProperties.has(_specialProperties) && this.specialProperties.add(_specialProperties);
             }, this);
         }
         return this;
@@ -1272,7 +1275,7 @@ class Entity {
      * @return {Set} <String (kSpecialProperties)>
      */
     getSpecialProperties() {
-        return this._specialPropertiess;
+        return this.specialProperties;
     }
     /**
      * Returns whether or not this Entity has the specified kSpecialProperties
@@ -1281,7 +1284,7 @@ class Entity {
      */
     hasSpecialProperty(_specialProperties) {
         if (kSpecialProperties.has(_specialProperties))
-            return this.specialPropertiess.has(_specialProperties);
+            return this.specialProperties.has(_specialProperties);
         else
             return false;
     }
@@ -2242,16 +2245,16 @@ class Character extends Entity {
             }, this);
         } catch (e) {}
         delete json["relatives"];
-        //  specialPropertiess
+        //  specialProperties
         try {
-            if (!(this.specialPropertiess instanceof Set)) this.specialPropertiess = new Set();
-            _tmpArr = JSON.parse(json["specialPropertiess"]);
+            if (!(this.specialProperties instanceof Set)) this.specialProperties = new Set();
+            _tmpArr = JSON.parse(json["specialProperties"]);
             _tmpArr.forEach(function(_specialProperties) {
                 if (kSpecialProperties.has(_specialProperties))
                     this.addSpecialProperty(_specialProperties);
             }, this);
         } catch (e) {}
-        delete json["specialPropertiess"];
+        delete json["specialProperties"];
         
         // Maps
         //  sexCountMap
@@ -4434,6 +4437,9 @@ class Character extends Entity {
 
         this.currentActions.delete(_actionType);
         return this;
+    }
+    getCurrentActions() {
+        return this.currentActions;
     }
     hasCurrentAction(_actionType) {
         return this.currentActions.has(_actionType);
@@ -7542,9 +7548,9 @@ class Item extends Entity {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
-     * @param  {Set}     _specialPropertiess Set of kSpecialProperties
+     * @param  {Set}     _specialProperties Set of kSpecialProperties
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialPropertiess = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialProperties = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         if (_id instanceof Item) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7560,14 +7566,14 @@ class Item extends Entity {
             this.addAvailableAction("take");
             this.addAvailableAction("hold");
 
-            this.addSpecialProperty(_specialPropertiess);
+            this.addSpecialProperty(_specialProperties);
 
             if (typeof _plural != "boolean")
                 _plural = false;
             this.plural = _plural;
 
-            if (typeof _specialPropertiess == "string" || _specialPropertiess instanceof Array)
-                this.addSpecialProperty(_specialPropertiess);
+            if (typeof _specialProperties == "string" || _specialProperties instanceof Array)
+                this.addSpecialProperty(_specialProperties);
 
             /**
              * Weight
@@ -7682,7 +7688,7 @@ class Key extends Item {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = undefined, _specialPropertiess = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = undefined, _specialProperties = undefined) {
         if (_id instanceof Key) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7692,7 +7698,7 @@ class Key extends Item {
             }
         }
         else {
-            super(_id, _name, _description, _image, _plural, _specialPropertiess);
+            super(_id, _name, _description, _image, _plural, _specialProperties);
         }
 
         keysIndexes.set(_id, this);
@@ -7766,9 +7772,9 @@ class Consumable extends Item {
      * @param  {String}  _type        consumableType
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
-     * @param  {Stromg}  _specialPropertiess  specialProperties
+     * @param  {Stromg}  _specialProperties  specialProperties
      */
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "food", _plural = false, _specialPropertiess = undefined) {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _type = "food", _plural = false, _specialProperties = undefined) {
         if (_id instanceof Consumable) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -7777,7 +7783,7 @@ class Consumable extends Item {
             }
         }
         else {
-            super(_id, _name, _description, _image, _plural, _specialPropertiess);
+            super(_id, _name, _description, _image, _plural, _specialProperties);
 
             this.addAvailableAction("consume");
 
