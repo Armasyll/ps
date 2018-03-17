@@ -4483,15 +4483,15 @@ class Character extends Entity {
         this.addCurrentAction("attack", _entity);
         return true;
     }
-    bewitched(_character, _cron = "4m") {
+    charmed(_character, _cron = "4m") {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
                 return undefined;
         }
-        this.addCurrentAction("bewitched", _character);
-        new GameEvent("{0}BewitchedRemove".format(this.id), "bewitched", _character, this, undefined, undefined, undefined, undefined, _cron, "{0}.removeCurrentAction('bewitched')".format(this.id), true);
+        this.addCurrentAction("charmed", _character);
+        new GameEvent("{0}CharmedRemove".format(this.id), "charmed", _character, this, undefined, undefined, undefined, undefined, _cron, "{0}.removeCurrentAction('charmed')".format(this.id), true);
         return true;
     }
     consume(_entity) {
@@ -5000,8 +5000,8 @@ class Character extends Entity {
             return 0;
     }
 
-    isBewitched() {
-        return this.hasCurrentAction("bewitched");
+    isCharmed() {
+        return this.hasCurrentAction("charmed");
     }
     isFucking() {
         return this.hasCurrentAction("sex");

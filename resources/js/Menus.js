@@ -65,7 +65,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
                 "Interact with " + _character.name, (_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age + " year old " + _character.grammaticalGender() + "."),
                 undefined,
                 undefined,
-                "btn-basic {0}".format(player.manaMax > 24 && _character.isBewitched() ? "bewitched" : "")
+                "btn-basic {0}".format(player.manaMax > 24 && _character.isCharmed() ? "charmed" : "")
             );
         }
         else if (player.room.characters.size > 1)
@@ -112,7 +112,7 @@ function localCharactersMenu() {
                 "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()),
                 undefined,
                 undefined,
-                "btn-basic {0}".format(player.manaMax > 24 && _character.isBewitched() ? "bewitched" : "")
+                "btn-basic {0}".format(player.manaMax > 24 && _character.isCharmed() ? "charmed" : "")
             );
         }
     }

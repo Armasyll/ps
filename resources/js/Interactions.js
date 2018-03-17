@@ -1185,7 +1185,7 @@ function spellInteract(_spell, _character = player, _clearContent = false, _clea
             );
 
             _character.room.characters.forEach(function(__character) {
-                if (__character == player || __character.isBewitched())
+                if (__character == player || __character.isCharmed())
                     return undefined;
                 Menu.addOption(
                     "spellInteractCast({0}, {1})".format(_spell.id, __character.id),

@@ -131,7 +131,7 @@ function spellCharacterSleepCast(_entity, _character = player) {
     	return false;
 
 	_entity.sleep();
-	_entity.bewitched(_character, "6h");
+	_entity.charmed(_character, "6h");
 
 	return true;
 }
@@ -190,7 +190,7 @@ function spellCharacterRutCast(_entity, _character = player) {
 
     if (!_entity.rut) {
 		_entity.enableRut();
-		new GameEvent("{0}RutRemove".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.disableRut()".format(_entity.id), true);
+		new GameEvent("{0}RutRemove".format(_entity.id), "charmed", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.disableRut()".format(_entity.id), true);
 	}
 
 	return true;
@@ -211,8 +211,8 @@ function spellCharacterTempDispositionCast(_entity, _character = player) {
     	return false;
 
     _entity.incCharacterAllDispositions(_character, 20);
-	_entity.bewitched(_character, "1d");
-	new GameEvent("{0}TempDispositionRemove".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.decCharacterAllDispositions({1}, 20);{0}.incCharacterMiseo({1}, 2)".format(_entity.id, _character.id), true);
+	_entity.charmed(_character, "1d");
+	new GameEvent("{0}TempDispositionRemove".format(_entity.id), "charmed", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.decCharacterAllDispositions({1}, 20);{0}.incCharacterMiseo({1}, 2)".format(_entity.id, _character.id), true);
 	return true;
 }
 function spellCharacterGradualDispositionCast(_entity, _character = player) {
@@ -243,7 +243,7 @@ function spellCharacterCompelCast(_entity, _character = player) {
     if (!_character.castSpell(_spell))
     	return false;
 
-	_entity.bewitched(_character, "1h");
+	_entity.charmed(_character, "1h");
 	return true;
 }
 function spellCharacterDominateCast(_entity, _character = player) {
@@ -264,7 +264,7 @@ function spellCharacterDominateCast(_entity, _character = player) {
     if (_entity instanceof Character) {
 	    new GameEvent(
             "{0}CharacterDominate".format(_entity.id),
-            "bewitched",
+            "charmed",
             _character,
             _entity,
             undefined,
@@ -283,7 +283,7 @@ function spellCharacterDominateCast(_entity, _character = player) {
             ),
             true
         );
-		_entity.bewitched(_character, "1d");
+		_entity.charmed(_character, "1d");
 		_entity.setCharacterPassion(_character, 999);
         _entity.setCharacterObsession(_character, 999);
         _entity.setCharacterHate(_character, 0);
