@@ -4143,6 +4143,9 @@ class Character extends Entity {
         
         return this.characterDisposition.has(_character);
     }
+    getCharacterDispositions() {
+        return this.characterDisposition;
+    }
     hasMet(_character) {
         return this.hasCharacterDisposition(_character);
     }
@@ -6109,13 +6112,13 @@ class Character extends Entity {
 
         this.setCharacterDisposition(
             _character,
-            this.defaultDisposition["passion"] + passionOffset,
-            this.defaultDisposition["friendship"] + friendshipOffset,
-            this.defaultDisposition["playfulness"] + playfulnessOffset,
-            this.defaultDisposition["soulmate"] + soulmateOffset,
-            this.defaultDisposition["familial"] + familialOffset,
-            this.defaultDisposition["obsession"] + obsessionOffset,
-            this.defaultDisposition["hate"] + hateOffset
+            this.defaultDisposition.passion + passionOffset,
+            this.defaultDisposition.friendship + friendshipOffset,
+            this.defaultDisposition.playfulness + playfulnessOffset,
+            this.defaultDisposition.soulmate + soulmateOffset,
+            this.defaultDisposition.familial + familialOffset,
+            this.defaultDisposition.obsession + obsessionOffset,
+            this.defaultDisposition.hate + hateOffset
         );
         return this;
     }

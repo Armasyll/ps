@@ -307,6 +307,7 @@ function debugCharactersInformation(_character = player) {
     _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugClothesPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Clothing</a></h3></div><div id='debugClothesPanel' class='panel-collapse collapse'><div class='panel-body'>";
     var _clothingIndexes = new Map(clothingIndexes);
     var _clothingOptionsBlob = "";
+    var _tableColSpan = Object.keys(_character.defaultDisposition).length + 3;
     
     _blob += "<table class='table'>";
     Array.from(_character.clothing.keys()).forEach(function(_clothingType) {
@@ -345,27 +346,22 @@ function debugCharactersInformation(_character = player) {
     _blob += "</tr>";
     
     //  You->Them
-    _blob += "<tr><td colspan='{0}'>Your Dispositions for Characters</td></tr>".format(Object.keys(_character.defaultDisposition).length + 3);
-    charactersIndexes.forEach(function(__character) {
-        if (_character == __character)
+    _blob += "<tr><td colspan='{0}'><b>Your</b> Dispositions for Characters</td></tr>".format(_tableColSpan);
+    _character.getCharacterDispositions().forEach(function(_disposition, __character) {
+        if (!_disposition.hasOwnProperty("passion"))
             return undefined;
-        
-        if (_character.hasCharacterDisposition(__character)) {
-            _disposition = __character.getCharacterDisposition(_character);
-	        
-	        _blob += "<tr><td>{0}</td>".format(__character.id);
-	        for (var _property in _character.characterDisposition.get(__character)) {
-	            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
-	        }
-            _blob += "<td></td>";
-            _blob += "<td></td>";
-            _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(calculateChanceToFuck(__character, _character), __character.id.capitalize());
-	        _blob += "</tr>";
-	    }
+        _blob += "<tr><td>{0}</td>".format(__character.id);
+        for (var _property in _disposition) {
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
+        }
+        _blob += "<td></td>";
+        _blob += "<td></td>";
+        _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(calculateChanceToFuck(__character, _character), __character.id.capitalize());
+        _blob += "</tr>";
     }, this);
     
     //  Them->You
-    _blob += "<tr><td colspan='{0}'>Characters' Dispositions for You</td></tr>".format(Object.keys(_disposition).length + 3);
+    _blob += "<tr><td colspan='{0}'><b>Characters'</b> Dispositions for You</td></tr>".format(_tableColSpan);
     charactersIndexes.forEach(function(__character) {
         if (__character == _character)
             return undefined;
