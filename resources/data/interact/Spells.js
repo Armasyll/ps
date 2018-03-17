@@ -262,14 +262,33 @@ function spellCharacterDominateCast(_entity, _character = player) {
     	return false;
 
     if (_entity instanceof Character) {
-	    new GameEvent("{0}CharacterDominate".format(_entity.id), "bewitched", _character, _entity, undefined, undefined, undefined, undefined, "1d", "{0}.setCharacterEros({1}, {2});{0}.setCharacterManic({1}, {3});{0}.setSexualOrientation({4});{0}.setIncestual({5});{0}.disableRut();{0}.setLust(0)".format(_entity.id, _character.id, _entity.getCharacterEros(_character), _entity.getCharacterManic(_character), _entity.getSexualOrientationCompatibility, _entity.incestual), true);
+	    new GameEvent(
+            "{0}CharacterDominate".format(_entity.id),
+            "bewitched",
+            _character,
+            _entity,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            "1d",
+            "{0}.setCharacterPassion({1}, {2});{0}.setCharacterObsession({1}, {3});{0}.setCharacterHate({1}, {4});{0}.setSexualOrientation({5});{0}.setIncestual({6});{0}.disableRut();{0}.setLust(0)".format(
+                _entity.id,
+                _character.id,
+                _entity.getCharacterPassion(_character),
+                _entity.getCharacterObsession(_character),
+                _entity.getCharacterHate(_character),
+                _entity.getSexualOrientationCompatibility(),
+                _entity.getIncestual()
+            ),
+            true
+        );
 		_entity.bewitched(_character, "1d");
-		_entity.setCharacterEros(_character, 999);
-		_entity.setCharacterManic(_character, 999);
+		_entity.setCharacterPassion(_character, 999);
+        _entity.setCharacterObsession(_character, 999);
+        _entity.setCharacterHate(_character, 0);
 		_entity.setSexualOrientation(2);
 		_entity.setIncestual(100);
-		_entity.enableRut();
-		_entity.setLust(999);
 	}
 
 	return true;
