@@ -3972,34 +3972,26 @@ class Character extends Entity {
             this.defaultDisposition = {passion:0,friendship:0,playfulness:0,soulmate:0,familial:0,obsession:0,hate:0};
         else if (_passion instanceof Object) {
             this.defaultDisposition = {
-                passion:(_passion.hasOwnProperty("passion") ? _passion.passion : 0),
-                friendship:(_passion.hasOwnProperty("friendship") ? _passion.friendship : 0),
-                playfulness:(_passion.hasOwnProperty("playfulness") ? _passion.playfulness : 0),
-                soulmate:(_passion.hasOwnProperty("soulmate") ? _passion.soulmate : 0),
-                familial:(_passion.hasOwnProperty("familial") ? _passion.familial : 0),
-                obsession:(_passion.hasOwnProperty("obsession") ? _passion.obsession : 0),
-                hate:(_passion.hasOwnProperty("hate") ? _passion.hate : 0)
+                passion:(Number.parseInt(_passion.passion) || 0),
+                friendship:(Number.parseInt(_passion.friendship) || 0),
+                playfulness:(Number.parseInt(_passion.playfulness) || 0),
+                soulmate:(Number.parseInt(_passion.soulmate) || 0),
+                familial:(Number.parseInt(_passion.familial) || 0),
+                obsession:(Number.parseInt(_passion.obsession) || 0),
+                hate:(Number.parseInt(_passion.hate) || 0)
             };
         }
         else if (isNaN(_passion) && this.defaultDisposition.hasOwnProperty(_passion) && typeof Number.parseInt(_friendship) == "number")
             this.defaultDisposition[_passion] = Number.parseInt(_friendship);
         else {
-            _passion = Number.parseInt(_passion);
-            _friendship = Number.parseInt(_friendship);
-            _playfulness = Number.parseInt(_playfulness);
-            _soulmate = Number.parseInt(_soulmate);
-            _familial = Number.parseInt(_familial);
-            _obsession = Number.parseInt(_obsession);
-            _hate = Number.parseInt(_hate);
-
             this.defaultDisposition = {
-                passion:(isNaN(_passion) ? this.defaultDisposition.passion : _passion),
-                friendship:(isNaN(_friendship) ? this.defaultDisposition.friendship : _friendship),
-                playfulness:(isNaN(_playfulness) ? this.defaultDisposition.playfulness : _playfulness),
-                soulmate:(isNaN(_soulmate) ? this.defaultDisposition.soulmate : _soulmate),
-                familial:(isNaN(_familial) ? this.defaultDisposition.familial : _familial),
-                obsession:(isNaN(_obsession) ? this.defaultDisposition.obsession : _obsession),
-                hate:(isNaN(_hate) ? this.defaultDisposition.hate : _hate)
+                passion:(Number.parseInt(_passion) || this.defaultDisposition.passion),
+                friendship:(Number.parseInt(_friendship) || this.defaultDisposition.friendship),
+                playfulness:(Number.parseInt(_playfulness) || this.defaultDisposition.playfulness),
+                soulmate:(Number.parseInt(_soulmate) || this.defaultDisposition.soulmate),
+                familial:(Number.parseInt(_familial) || this.defaultDisposition.familial),
+                obsession:(Number.parseInt(_obsession) || this.defaultDisposition.obsession),
+                hate:(Number.parseInt(_hate) || this.defaultDisposition.hate)
             };
         }
 
@@ -4016,34 +4008,26 @@ class Character extends Entity {
         }
         if (_passion instanceof Object) {
             this.characterDisposition.set(_character, {
-                passion:(_passion.hasOwnProperty("passion") ? _passion.passion : 0),
-                friendship:(_passion.hasOwnProperty("friendship") ? _passion.friendship : 0),
-                playfulness:(_passion.hasOwnProperty("playfulness") ? _passion.playfulness : 0),
-                soulmate:(_passion.hasOwnProperty("soulmate") ? _passion.soulmate : 0),
-                familial:(_passion.hasOwnProperty("familial") ? _passion.familial : 0),
-                obsession:(_passion.hasOwnProperty("obsession") ? _passion.obsession : 0),
-                hate:(_passion.hasOwnProperty("hate") ? _passion.hate : 0)
+                passion:(Number.parseInt(_passion.passion) || 0),
+                friendship:(Number.parseInt(_passion.friendship) || 0),
+                playfulness:(Number.parseInt(_passion.playfulness) || 0),
+                soulmate:(Number.parseInt(_passion.soulmate) || 0),
+                familial:(Number.parseInt(_passion.familial) || 0),
+                obsession:(Number.parseInt(_passion.obsession) || 0),
+                hate:(Number.parseInt(_passion.hate) || 0)
             });
         }
         else if (isNaN(_passion) && this.defaultDisposition.hasOwnProperty(_passion) && !isNaN(Number.parseInt(_friendship)))
             this.characterDisposition.get(_character)[_passion] = Number.parseInt(_friendship);
         else {
-            _passion = Number.parseInt(_passion);
-            _friendship = Number.parseInt(_friendship);
-            _playfulness = Number.parseInt(_playfulness);
-            _soulmate = Number.parseInt(_soulmate);
-            _familial = Number.parseInt(_familial);
-            _obsession = Number.parseInt(_obsession);
-            _hate = Number.parseInt(_hate);
-
             this.characterDisposition.set(_character, {
-                passion:(isNaN(_passion) ? this.defaultDisposition["passion"] : _passion),
-                friendship:(isNaN(_friendship) ? this.defaultDisposition["friendship"] : _friendship),
-                playfulness:(isNaN(_playfulness) ? this.defaultDisposition["playfulness"] : _playfulness),
-                soulmate:(isNaN(_soulmate) ? this.defaultDisposition["soulmate"] : _soulmate),
-                familial:(isNaN(_familial) ? this.defaultDisposition["familial"] : _familial),
-                obsession:(isNaN(_obsession) ? this.defaultDisposition["obsession"] : _obsession),
-                hate:(isNaN(_hate) ? this.defaultDisposition["hate"] : _hate)
+                passion:(Number.parseInt(_passion) || this.defaultDisposition.passion),
+                friendship:(Number.parseInt(_friendship) || this.defaultDisposition.friendship),
+                playfulness:(Number.parseInt(_playfulness) || this.defaultDisposition.playfulness),
+                soulmate:(Number.parseInt(_soulmate) || this.defaultDisposition.soulmate),
+                familial:(Number.parseInt(_familial) || this.defaultDisposition.familial),
+                obsession:(Number.parseInt(_obsession) || this.defaultDisposition.obsession),
+                hate:(Number.parseInt(_hate) || this.defaultDisposition.hate)
             });
         }
 
@@ -5989,10 +5973,10 @@ class Character extends Entity {
         return this;
     }
 
-    addNewDisposition(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0) {
-        return this.addNewCharacterDispositionFor(_character, passionOffset, friendshipOffset, playfulnessOffset, soulmateOffset, familialOffset, obsessionOffset);
+    addNewDisposition(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0, hateOffset = 0) {
+        return this.addNewCharacterDispositionFor(_character, passionOffset, friendshipOffset, playfulnessOffset, soulmateOffset, familialOffset, obsessionOffset, hateOffset);
     }
-    addNewCharacterDispositionFor(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0) {
+    addNewCharacterDispositionFor(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0, hateOffset = 0) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
