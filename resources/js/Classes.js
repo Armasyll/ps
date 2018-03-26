@@ -4719,7 +4719,14 @@ class Character extends Entity {
         if (_dontOverride.contains("walk")) this.removeCurrentAction("walk");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
-        this.addCurrentAction("masturbate");
+        if (this.sex == kMale) {
+            this.hold(this.getBodyPart("penis"));
+            this.addCurrentAction("masturbate", this.getBodyPart("penis"));
+        }
+        else if (this.sex == kFemale) {
+            this.hold(this.getBodyPart("vagina"));
+            this.addCurrentAction("masturbate", this.getBodyPart("vagina"));
+        }
         return true;
     }
     open(_entity) {
@@ -5276,6 +5283,15 @@ class Character extends Entity {
         }
         this.bodyParts.set(_bodyPart.child.type, _bodyPart);
         return this;
+    }
+    getBodyPart(_bodyPart) {
+        if (!(_bodyPart instanceof BodyPartInstance)) {
+            if (bodyPartInstancesIndexes.has(_bodyPart))
+                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+            else
+                return undefined;
+        }
+        return this.bodyParts.get(_bodyPart);
     }
 
     setSpecies(_species) {

@@ -1635,24 +1635,10 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
         else if (!(_furniture instanceof Furniture))
             _furniture = _character.furniture;
     }
-    
-    if (_furniture instanceof Furniture && _furniture != _character.furniture) {
-        if (_furniture.seatingSpace >= _character.bodySize * 2 && _action == "lay") {
-            _furniture.addCharacter(_character);
-            _character.lay(_furniture);
-        }
-        else if (_furniture.availableSeatingSpace() >= _character.bodySize && _action == "sit") {
-            _furniture.addCharacter(_character);
-            _character.sit(_furniture);
-        }
-        else {
-            _character.lay();
-            
-            _furniture = undefined;
-        }
-    }
-    
-    return _character.masturbate(_furniture);
+    if (_character.furniture != _furniture)
+        characterSit(_character, _furniture);
+
+    return _character.masturbate();
 }
 function characterDisrobeItem(_character, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing characterDisrobeItem");
