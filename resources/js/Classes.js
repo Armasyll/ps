@@ -743,6 +743,8 @@ class Minimap {
             this.canvas.setLineDash([]);
         }
 
+        // Add optional overlays
+
         // Add item icons to rooms
         /*_room.items.forEach(function(_item) {
             _itemPortraitLinks.push(_item.image);
@@ -778,9 +780,6 @@ class Minimap {
 
         this.canvas.beginPath();
         this.canvas.moveTo((this.cWidth - this.baseSize)/2 + (xPos * this.baseSize) + 1, (this.cHeight - this.baseSize)/2 + (yPos * this.baseSize) + 1);
-
-        // Add furniture icons to rooms
-
 
         if (west == 1) {
             this.canvas.lineTo(currentX + 1, currentY + this.baseSize/3);
@@ -1448,7 +1447,7 @@ class Character extends Entity {
          * Item(s) this Character is holding; will never exceed two (2) Item(s)
          * @type {Array} <ItemInstance>
          */
-        this.heldItems = new Array();
+        this.heldEntities = new Array();
         /**
          * Current Phone this Character is using
          * @type {Phone} Can be undefined
@@ -2642,47 +2641,47 @@ class Character extends Entity {
         return this.items.length;
     }
 
-    addHeldItem(_itemInstance) {
+    addHeldEntity(_itemInstance) {
     	this.hold(_itemInstance);
         return this;
     }
-    removeHeldItem(_itemInstance) {
+    removeHeldEntity(_itemInstance) {
         this.release(_itemInstance);
         return this;
     }
-    hasItemInRightHand() {
-        return this.heldItems.length > 0 && this.heldItems[0] instanceof ItemInstance;
+    hasSomethingInRightHand() {
+        return this.heldEntities.length > 0 && this.heldEntities[0] instanceof ItemInstance;
     }
-    hasItemInLeftHand() {
-        return this.heldItems.length > 1 && this.heldItems[1] instanceof ItemInstance;
+    hasSomethingInLeftHand() {
+        return this.heldEntities.length > 1 && this.heldEntities[1] instanceof ItemInstance;
     }
-    hasItemsInBothHands() {
-        return this.heldItems[0] instanceof ItemInstance && this.heldItems[1] instanceof ItemInstance;
+    hasSomethingInBothHands() {
+        return this.heldEntities[0] instanceof ItemInstance && this.heldEntities[1] instanceof ItemInstance;
     }
     handsFull() {
-        return this.hasItemsInBothHands();
+        return this.hasSomethingInBothHands();
     }
-    hasItemInEitherHand() {
-        return this.hasItemInRightHand() || this.hasItemInLeftHand();
+    hasSomethingInEitherHand() {
+        return this.hasSomethingInRightHand() || this.hasSomethingInLeftHand();
     }
-    getItemInRightHand() {
-        if (this.hasItemInRightHand())
-            return this.heldItems[0];
+    getEntityInRightHand() {
+        if (this.hasSomethingInRightHand())
+            return this.heldEntities[0];
         else
             return undefined;
     }
-    getItemInLeftHand() {
-        if (this.hasItemInLeftHand())
-            return this.heldItems[1];
+    getEntityInLeftHand() {
+        if (this.hasSomethingInLeftHand())
+            return this.heldEntities[1];
         else
             return undefined;
     }
-    removeItemInRightHand() {
-        this.removeHeldItem(this.getItemInRightHand());
+    removeEntityInRightHand() {
+        this.removeHeldEntity(this.getEntityInRightHand());
         return this;
     }
-    removeItemInLeftHand() {
-        this.removeHeldItem(this.getItemInLeftHand());
+    removeEntityInLeftHand() {
+        this.removeHeldEntity(this.getEntityInLeftHand());
         return this;
     }
     holding(_itemInstance) {
@@ -2696,7 +2695,7 @@ class Character extends Entity {
             }
         }
         var _isHolding = false;
-        this.heldItems.forEach(function(__itemInstance) {
+        this.heldEntities.forEach(function(__itemInstance) {
             if (_itemInstance == __itemInstance)
                 _isHolding = true;
         }, this);
@@ -4487,19 +4486,15 @@ class Character extends Entity {
         new GameEvent("{0}CharmedRemove".format(this.id), "charmed", _character, this, undefined, undefined, undefined, undefined, _cron, "{0}.removeCurrentAction('charmed')".format(this.id), true);
         return true;
     }
-    consume(_entity) {
-        if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof EntityInstance)
-                _entity = _entity.child;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).child;
+    consume(_entityInstance) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (instancesIndexes.has(_entityInstance))
+                _entityInstance = instancesIndexes.get(_entityInstance);
             else
                 return undefined;
         }
 
-        //this.addCurrentAction("consume", _entity);
+        this.addCurrentAction("consume", _entityInstance);
         return true;
     }
     disrobe(_itemInstance) {
@@ -4570,19 +4565,15 @@ class Character extends Entity {
         }
         return true;
     }
-    hold(_entity, _hand = undefined) {
-        if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
-            else if (_entity instanceof EntityInstance)
-                _entity = _entity.child;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).child;
+    hold(_entityInstance, _hand = undefined) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (instancesIndexes.has(_entityInstance))
+                _entityInstance = instancesIndexes.get(_entityInstance);
             else
                 return undefined;
         }
 
-        if (this.holding(_entity))
+        if (this.holding(_entityInstance))
             return true;
         if (_hand !== undefined) {
             if (isNaN(_hand)) {
@@ -4608,25 +4599,25 @@ class Character extends Entity {
         }
 
         if (typeof _hand == "number") {
-            if (this.heldItems[_hand] instanceof ItemInstance) {
-                var __item = this.heldItems[_hand];
-                if (!this.release(__item))
+            if (this.heldEntities[_hand] instanceof ItemInstance) {
+                var __entityInstance = this.heldEntities[_hand];
+                if (!this.release(__entityInstance))
                     return false;
             }
-            this.heldItems[_hand] = _entity;
+            this.heldEntities[_hand] = _entityInstance;
         }
         else {
-            if (this.heldItems.length > 1) {
-                var __item = this.heldItems[0];
-                if (this.release(__item))
-                    this.heldItems[0] = _entity;
+            if (this.heldEntities.length > 1) {
+                var __entityInstance = this.heldEntities[0];
+                if (this.release(__entityInstance))
+                    this.heldEntities[0] = _entityInstance;
                 else
                     return false;
             }
             else
-                this.heldItems.push(_entity);
+                this.heldEntities.push(_entityInstance);
         }
-        this.addCurrentAction("hold", _entity);
+        this.addCurrentAction("hold", _entityInstance);
         return true;
     }
     hug(_entity) {
@@ -4787,10 +4778,10 @@ class Character extends Entity {
             if (typeof _itemInstance == "undefined") return undefined;
         }
         if (this.holding(_itemInstance))
-            this.heldItems.remove(_itemInstance);
+            this.heldEntities.remove(_itemInstance);
         else
             return false;
-        if (!this.hasItemInEitherHand())
+        if (!this.hasSomethingInEitherHand())
             this.removeCurrentAction("hold");
         return true;
     }

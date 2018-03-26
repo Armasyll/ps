@@ -1726,7 +1726,7 @@ function characterHoldItem(_character, _itemInstance, _hand = undefined, _execut
     }
     
     if (unsafeExec("{0}Hold({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
-        _character.addHeldItem(_itemInstance, _hand);
+        _character.addHeldEntity(_itemInstance, _hand);
         return true;
     }
     else
@@ -1751,7 +1751,7 @@ function characterReleaseItem(_character, _itemInstance, _hand = undefined, _exe
     }
     
     if (unsafeExec("{0}Release({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
-        _character.removeHeldItem(_itemInstance, _hand);
+        _character.removeHeldEntity(_itemInstance, _hand);
         return true;
     }
     else

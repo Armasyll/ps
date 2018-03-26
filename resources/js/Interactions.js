@@ -724,7 +724,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
     if (enablePopups) {}
     else {
         if (_itemInstance.child.description != undefined && _itemInstance.child.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
-            Content.add("<p>{0} look{1} at {2} {3}.</p>".format(subjectPronoun(true).capitalize(), (pov == 3 ? "s" : ""), (_itemInstance.owner == player ? possessiveAdjective() : _itemInstance.owner.singularPossessiveName()), _itemInstance.child.toString()));
+            Content.add("<p>{0} look{1} at {2}{3}.</p>".format(subjectPronoun(true).capitalize(), (pov == 3 ? "s" : ""), (_itemInstance.owner === undefined ? "" : (_itemInstance.owner == player ? possessiveAdjective() : _itemInstance.owner.singularPossessiveName()) + " "), _itemInstance.child.toString()));
 
         lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
 
@@ -779,7 +779,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
 }
 function itemInteractUse(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -803,14 +803,14 @@ function itemInteractUse(_itemInstance, _character = player) {
  */
 function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (_characterIndexes.has(_characterA))
+        if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (_characterIndexes.has(_entityB))
+        if (charactersIndexes.has(_entityB))
             _entityB = charactersIndexes.get(_entityB);
         else
             _entityB = undefined;
@@ -837,14 +837,14 @@ function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefin
  */
 function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (_characterIndexes.has(_characterA))
+        if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (_characterIndexes.has(_entityB))
+        if (charactersIndexes.has(_entityB))
             _entityB = charactersIndexes.get(_entityB);
         else
             _entityB = undefined;
@@ -871,14 +871,14 @@ function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefi
  */
 function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (_characterIndexes.has(_characterA))
+        if (charactersIndexes.has(_characterA))
             _characterA = charactersIndexes.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (_characterIndexes.has(_entityB))
+        if (charactersIndexes.has(_entityB))
             _entityB = charactersIndexes.get(_entityB);
         else
             _entityB = undefined;
@@ -898,7 +898,7 @@ function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefi
 }
 function itemInteractHold(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -913,7 +913,7 @@ function itemInteractHold(_itemInstance, _character = player) {
 
     if (_character.isWearing(_itemInstance))
         _character.takeOff(_itemInstance);
-    if (_character.addHeldItem(_itemInstance))
+    if (_character.addHeldEntity(_itemInstance))
         unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
@@ -923,7 +923,7 @@ function itemInteractHold(_itemInstance, _character = player) {
 }
 function itemInteractRelease(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -936,7 +936,7 @@ function itemInteractRelease(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.removeHeldItem(_itemInstance))
+    if (_character.removeHeldEntity(_itemInstance))
         unsafeExec("{0}Release({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
@@ -946,7 +946,7 @@ function itemInteractRelease(_itemInstance, _character = player) {
 }
 function itemInteractWear(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -971,7 +971,7 @@ function itemInteractWear(_itemInstance, _character = player) {
 }
 function itemInteractDisrobe(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -994,7 +994,7 @@ function itemInteractDisrobe(_itemInstance, _character = player) {
 }
 function itemInteractLook(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -1018,7 +1018,7 @@ function itemInteractLook(_itemInstance, _character = player) {
 }
 function itemInteractAttack(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -1042,7 +1042,7 @@ function itemInteractAttack(_itemInstance, _character = player) {
 }
 function itemInteractSex(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -1063,7 +1063,7 @@ function itemInteractSex(_itemInstance, _character = player) {
 }
 function itemInteractMasturbate(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -1089,7 +1089,7 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
 }
 function itemInteractConsume(_itemInstance, _character) {
     if (!(_character instanceof Character)) {
-        if (_characterIndexes.has(_character))
+        if (charactersIndexes.has(_character))
             _character = charactersIndexes.get(_character);
         else
             return undefined;
@@ -1103,14 +1103,14 @@ function itemInteractConsume(_itemInstance, _character) {
     }
 
     if (_character.consume(_itemInstance)) {
-        this.addCurrentAction("consume", _entity);
+        this.addCurrentAction("consume", _itemInstance);
         unsafeExec("{0}Consume({1})".format(_itemInstance.child.id, _character.id));
     }
 
     if (enablePopups) {}
     else
         runLastMenu();
-    this.removeCurrentAction("consume", _entity);
+    this.removeCurrentAction("consume", _itemInstance);
 
     return true;
 }
