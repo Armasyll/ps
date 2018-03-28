@@ -1324,6 +1324,7 @@ class Character extends Entity {
      * @param  {String} _species Species
      */
     constructor(_id = "nickWilde", _name = "Wilde, Nicholas", _description = undefined, _image = undefined, _class = "classless", _age = 33, _sex = 0, _species = "fox") {
+        var _createNewInstanceFromScratch = true;
         if (_id instanceof Object) {
             super(_id.id, _id._name);
             for (var property in _id) {
@@ -1331,7 +1332,6 @@ class Character extends Entity {
                     this[property] = _id[property];
                 }
             }
-            
             return this;
         }
         
@@ -1345,78 +1345,38 @@ class Character extends Entity {
             
             if (_json instanceof Object) {
                 super(_json["id"], _json["name"]);
-                this.fromJSON(_json);
-                
-                return this;
+                _createNewInstanceFromScratch = false;
             }
         }
-        
+
         if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
-        super(_id.replace(/[^0-9a-z]/gi, ''));
-        delete this._id;
+        if (_createNewInstanceFromScratch)
+            super(_id.replace(/[^0-9a-z]/gi, ''));
         /**
          * Surname
          * @type {String} Cannot be undefined!
          */
+        this.name = undefined;
         this.surname = undefined;
-        if (_name.split(", ").length > 1) {
-            var tempName = _name.split(", ");
-            this.name = tempName[1].replace(/[^0-9a-z]/gi, '');
-            this.surname = tempName[0].replace(/[^0-9a-z]/gi, '');
-        }
-        else if (_name.split(" ").length > 1) {
-            var tempName = _name.split(" ");
-            this.name = tempName[0].replace(/[^0-9a-z]/gi, '');
-            this.surname = tempName[1].replace(/[^0-9a-z]/gi, '');
-        }
-        else {
-            this.name = _name.replace(/[^0-9a-z]/gi, '');
-        }
         /**
          * Nickname
          * @type {String} Can be undefined
          */
         this.nickname = undefined;
-        delete this._name;
         /**
          * Path to Character's picture
          * @type {String} Relative path to an image, or base64 encoded String
          */
         this.image = undefined;
-        this.setImage(_image);
-        delete this._image;
-
         this.class = undefined;
-        this.setClass(_class);
-        delete this._class;
-
         /**
          * Age
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.age = 18;
-        this.setAge(_age);
-        delete this._age;
-
         this.sex = 0;
-        this.setSex(_sex);
-        this.gender = this.sex;
-        delete this._sex;
-
-        this.addAvailableAction("talk");
-        this.addAvailableAction("attack");
-        this.addAvailableAction("follow");
-        this.addAvailableAction("stay");
-        this.addAvailableAction("hold");
-        this.addAvailableAction("open"); // inventory... maybe :v
-        this.addAvailableAction("give");
-        this.addAvailableAction("remove");
-        this.addAvailableAction("take");
-        this.addAvailableAction("wear");
-        this.addAvailableAction("hug");
-        this.addAvailableAction("kiss");
-
+        this.gender = 0;
         /**
          * Intraactions this Character is currently performing
          * @type {Map} <kIntraactionTypes>
@@ -1437,7 +1397,6 @@ class Character extends Entity {
          * @type {Set} <Spell>
          */
         this.knownSpells = new Set();
-
         /**
          * Item(s) this Character has
          * @type {Array} <ItemInstance>
@@ -1453,7 +1412,6 @@ class Character extends Entity {
          * @type {Phone} Can be undefined
          */
         this.phone = undefined;
-
         /**
          * Base disposition this Character has for others
          * @type {Number}  Passion
@@ -1464,7 +1422,15 @@ class Character extends Entity {
          * @type {Number}  Obsession
          * @type {Number}  Hate
          */
-        this.defaultDisposition = {passion:0,friendship:0,playfulness:0,soulmate:0,familial:0,obsession:0,hate:0};
+        this.defaultDisposition = {
+            passion:0,
+            friendship:0,
+            playfulness:0,
+            soulmate:0,
+            familial:0,
+            obsession:0,
+            hate:0
+        };
         /**
          * This Character's love for themself
          * @type {Number} 0 to 100
@@ -1539,7 +1505,7 @@ class Character extends Entity {
          * Life; should this drop to 0, u ded
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
-        this.life = this.lifeMax;
+        this.life = 100;
         /**
          * Max mana
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
@@ -1549,7 +1515,7 @@ class Character extends Entity {
          * Mana; should this ever be greater than 0, things will be revealed
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
-        this.mana = this.manaMax;
+        this.mana = 0;
         /**
          * Mana cost offset percentage when casting spells
          * @type {Number} -100 to 100
@@ -1564,7 +1530,7 @@ class Character extends Entity {
          * Stamina; should this drop to 0, u unconscious
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
-        this.stamina = this.staminaMax;
+        this.stamina = 100;
         /**
          * Money
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
@@ -1610,7 +1576,6 @@ class Character extends Entity {
          * @type {Boolean} True - alive, false - dead
          */
         this.living = true;
-
         /**
          * Physical sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
@@ -1621,7 +1586,6 @@ class Character extends Entity {
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
         //this.gender = 0;
-
         /**
          * Primary fur colour
          * @type {String}
@@ -1752,7 +1716,6 @@ class Character extends Entity {
          * @type {Boolean} True - had sex with a female, false - didn't have sex with a female
          */
         this.hadSexWithFemale = false;
-
         /**
          * Number of times this Character has had sex
          * @type {Number}
@@ -1908,7 +1871,6 @@ class Character extends Entity {
          * @type {Number}
          */
         this.autoanalingusCount = 0;
-
         /**
          * The Character this Character is following
          * @type {Character} Can be undefined
@@ -1919,37 +1881,35 @@ class Character extends Entity {
          * @type {Set} <Character>
          */
         this.followers = new Set(); // Set<Character>
-
         /**
          * Current Furniture this Character is using
          * @type {Furniture} Can be undefined
          */
         this.furniture = undefined;
-
         /**
          * Clothing this Character is wearing
          * @type {Map} <String, Clothing>
          */
-        this.clothing = new Map();
-        this.clothing.set("hat", undefined);
-        this.clothing.set("mask", undefined);
-        this.clothing.set("glasses", undefined);
-        this.clothing.set("earPiercingLeft", undefined);
-        this.clothing.set("earPiercingRight", undefined);
-        this.clothing.set("nosePiercing", undefined);
-        this.clothing.set("lipPiercing", undefined);
-        this.clothing.set("tonguePiercing", undefined);
-        this.clothing.set("neckwear", undefined);
-        this.clothing.set("shirt", undefined);
-        this.clothing.set("jacket", undefined);
-        this.clothing.set("belt", undefined);
-        this.clothing.set("gloves", undefined);
-        this.clothing.set("underwear", undefined);
-        this.clothing.set("pants", undefined);
-        this.clothing.set("socks", undefined);
-        this.clothing.set("shoes", undefined);
-        this.clothing.set("bra", undefined);
-
+        this.clothing = {
+            hat:undefined,
+            mask:undefined,
+            glasses:undefined,
+            earPiercingLeft:undefined,
+            earPiercingRight:undefined,
+            nosePiercing:undefined,
+            lipPiercing:undefined,
+            tonguePiercing:undefined,
+            neckwear:undefined,
+            shirt:undefined,
+            jacket:undefined,
+            belt:undefined,
+            gloves:undefined,
+            underwear:undefined,
+            pants:undefined,
+            socks:undefined,
+            shoes:undefined,
+            bra:undefined
+        };
         /**
          * Map of Characters and this Character's disposition for them
          * @type {Map} <Character, Object>
@@ -1963,7 +1923,6 @@ class Character extends Entity {
          * @type {Number}  Hate
          */
         this.characterDisposition = new Map();
-        
         /**
          * Set of Characters that are currently being dated
          * @type {Set} <Character>
@@ -1974,7 +1933,6 @@ class Character extends Entity {
          * @type {Map} <Character, Number>
          */
         this._dated = new Map();
-
         /**
          * Preference for species
          * @type {Set}
@@ -1985,7 +1943,6 @@ class Character extends Entity {
          * @type {Set}
          */
         this.avoidsSpecies = new Set(); // Set<species>
-
         /**
          * Sexual orientation
          * @type {Number} 0 - straight, 1 - gay, 2 - bi
@@ -2006,7 +1963,6 @@ class Character extends Entity {
          * @type {Number}
          */
         this.preferredBreastSize = 0;
-
         /**
          * Preference for predators
          * @type {Boolean} True - prefers predators, false - doen't prefer predators
@@ -2027,7 +1983,6 @@ class Character extends Entity {
          * @type {Boolean} True - avoids prey, false - Doesn't avoid prey
          */
         this.avoidsPrey = false;
-
         /**
          * Preference for public sex
          * @type {Number} 0 to 100
@@ -2053,7 +2008,6 @@ class Character extends Entity {
          * @type {Number} 0 to 100
          */
         this.incestual = 0;
-
         /**
          * Previous Room
          * @type {Room} Can be undefined
@@ -2064,6 +2018,37 @@ class Character extends Entity {
          * @type {Room} Cannot be undefined! But it is! :V
          */
         this.room = undefined;
+
+        if (_name.split(", ").length > 1) {
+            var tempName = _name.split(", ");
+            this.name = tempName[1].replace(/[^0-9a-z]/gi, '');
+            this.surname = tempName[0].replace(/[^0-9a-z]/gi, '');
+        }
+        else if (_name.split(" ").length > 1) {
+            var tempName = _name.split(" ");
+            this.name = tempName[0].replace(/[^0-9a-z]/gi, '');
+            this.surname = tempName[1].replace(/[^0-9a-z]/gi, '');
+        }
+        else {
+            this.name = _name.replace(/[^0-9a-z]/gi, '');
+        }
+        this.setImage(_image);
+        this.setClass(_class);
+        this.setAge(_age);
+        this.setSex(_sex);
+        this.setGender(this.sex);
+        this.addAvailableAction("talk");
+        this.addAvailableAction("attack");
+        this.addAvailableAction("follow");
+        this.addAvailableAction("stay");
+        this.addAvailableAction("hold");
+        this.addAvailableAction("open"); // inventory... maybe :v
+        this.addAvailableAction("give");
+        this.addAvailableAction("remove");
+        this.addAvailableAction("take");
+        this.addAvailableAction("wear");
+        this.addAvailableAction("hug");
+        this.addAvailableAction("kiss");
 
         charactersIndexes.set(this.id, this);
 
@@ -3946,6 +3931,38 @@ class Character extends Entity {
         return this.sex;
     }
 
+    setGender(_gender) {
+        if (isNaN(_gender)) {
+            switch (_gender.slice(0, 1)) {
+                case "m" : {
+                    _gender = 0;
+                    break;
+                }
+                case "f" : {
+                    _gender = 1;
+                    break;
+                }
+                case "h" : {
+                    _gender = 2;
+                    break;
+                }
+            }
+        }
+        else if (_gender >= 0 && _gender < 4) {
+            _gender = Number.parseInt(_gender);
+        }
+        else
+            _gender = 0;
+        this.gender = _gender;
+        return this;
+    }
+    getGenderName() {
+        return this.gender == 0 ? "male" : (this.gender == 1 ? "female" : "herm");
+    }
+    getGender() {
+        return this.gender;
+    }
+
     getSexualOrientationCompatibility(_character) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
@@ -4335,75 +4352,117 @@ class Character extends Entity {
     }
 
     hasHat() {
-        return this.clothing.get("hat") instanceof ItemInstance && this.clothing.get("hat").child instanceof Item;
+        return this.clothing["hat"] instanceof ItemInstance && this.clothing["hat"].child instanceof Item;
     }
     getHat() {
-        return this.clothing.get("hat").child;
+        return this.clothing["hat"].child;
     }
 
     hasShirt() {
-        return this.clothing.get("shirt") instanceof ItemInstance && this.clothing.get("shirt").child instanceof Item;
+        return this.clothing["shirt"] instanceof ItemInstance && this.clothing["shirt"].child instanceof Item;
     }
     getShirt() {
-        return this.clothing.get("shirt").child;
+        return this.clothing["shirt"].child;
     }
 
     hasJacket() {
-        return this.clothing.get("jacket") instanceof ItemInstance && this.clothing.get("jacket").child instanceof Item;
+        return this.clothing["jacket"] instanceof ItemInstance && this.clothing["jacket"].child instanceof Item;
     }
     getJacket() {
-        return this.clothing.get("jacket").child;
+        return this.clothing["jacket"].child;
     }
 
     hasNeckwear() {
-        return this.clothing.get("neckwear") instanceof ItemInstance && this.clothing.get("neckwear").child instanceof Item;
+        return this.clothing["neckwear"] instanceof ItemInstance && this.clothing["neckwear"].child instanceof Item;
     }
     getNeckwear() {
-        return this.clothing.get("neckwear").child;
+        return this.clothing["neckwear"].child;
     }
 
     hasBra() {
-        return this.clothing.get("bra") instanceof ItemInstance && this.clothing.get("bra").child instanceof Item;
+        return this.clothing["bra"] instanceof ItemInstance && this.clothing["bra"].child instanceof Item;
     }
     getBra() {
-        return this.clothing.get("bra").child;
+        return this.clothing["bra"].child;
     }
 
     hasBelt() {
-        return this.clothing.get("belt") instanceof ItemInstance && this.clothing.get("belt").child instanceof Item;
+        return this.clothing["belt"] instanceof ItemInstance && this.clothing["belt"].child instanceof Item;
     }
     getBelt() {
-        return this.clothing.get("belt").child;
+        return this.clothing["belt"].child;
     }
 
     hasUnderwear() {
-        return this.clothing.get("underwear") instanceof ItemInstance && this.clothing.get("underwear").child instanceof Item;
+        return this.clothing["underwear"] instanceof ItemInstance && this.clothing["underwear"].child instanceof Item;
     }
     getUnderwear() {
-        return this.clothing.get("underwear").child;
+        return this.clothing["underwear"].child;
     }
 
     hasPants() {
-        return this.clothing.get("pants") instanceof ItemInstance && this.clothing.get("pants").child instanceof Item;
+        return this.clothing["pants"] instanceof ItemInstance && this.clothing["pants"].child instanceof Item;
     }
     getPants() {
-        return this.clothing.get("pants").child;
+        return this.clothing["pants"].child;
     }
     
     hasShoes() {
-        return this.clothing.get("shoe") instanceof ItemInstance && this.clothing.get("shoe").child instanceof Item;
+        return this.clothing["shoe"] instanceof ItemInstance && this.clothing["shoe"].child instanceof Item;
     }
     getShoes() {
-        return this.clothing.get("shoes").child;
+        return this.clothing["shoes"].child;
     }
     getClothing(_type) {
         if (kClothingTypes.has(_type))
-            return this.clothing.get(_clothing.type);
+            return this.clothing[_clothing.type];
         else
-            return undefined;
+            return this.clothing;
     }
-    setClothing(_clothing) {
-        this.putOn(_clothing);
+    setClothing(_itemInstance, _type = undefined) {
+        if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Clothing)
+                _itemInstance = new ItemInstance(_itemInstance);
+            else if (clothingIndexes.has(_itemInstance))
+                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
+            else
+                return this;
+        }
+
+        if (!(this.containsItem(_itemInstance, true)))
+            this.addItem(_itemInstance);
+
+        if (_itemInstance instanceof ItemInstance && kClothingTypes.has(_itemInstance.child.type))
+            this.clothing[kClothingTypes.has(_type) ? _type : _itemInstance.child.type] = _itemInstance;
+        else if (kClothingTypes.has(_type))
+            this.clothing[_type] = undefined;
+        return this;
+    }
+    removeClothing(_itemInstance, _type = undefined) {
+        if (kClothingTypes.has(_itemInstance)) {
+            this.clothing[_itemInstance] = undefined;
+            return this;
+        }
+        else if (kClothingTypes.has(_type)) {
+            this.clothing[_type] = undefined;
+            return this;
+        }
+        if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
+            if (itemInstancesIndexes.has(_itemInstance))
+                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            else if (_itemInstance instanceof Clothing)
+                _itemInstance = new ItemInstance(_itemInstance);
+            else if (clothingIndexes.has(_itemInstance))
+                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
+            else
+                return this;
+        }
+
+        if (_itemInstance instanceof ItemInstance)
+            this.clothing[kClothingTypes.has(_type) ? _type : _itemInstance.child.type] = _itemInstance;
+        return this;
     }
 
     addCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
@@ -4498,20 +4557,7 @@ class Character extends Entity {
         return true;
     }
     disrobe(_itemInstance) {
-        if (kClothingTypes.has(_itemInstance)) {
-            this.clothing.set(_itemInstance, undefined);
-            return true;
-        }
-
-        if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
-        }
-
-        if (kClothingTypes.has(_itemInstance.child.type))
-            this.clothing.set(_itemInstance.child.type, undefined);
-
-        return true;
+        return this.removeClothing(_itemInstance);
     }
     fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character)) {
@@ -4933,35 +4979,7 @@ class Character extends Entity {
         return true;
     }
     wear(_itemInstance, _type = undefined) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
-            else if (_itemInstance instanceof Clothing)
-                _itemInstance = new ItemInstance(_itemInstance);
-            else if (clothingIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
-            else
-                return undefined;
-        }
-
-        if (!(this.containsItem(_itemInstance, true)))
-            this.addItem(_itemInstance);
-
-        if (_itemInstance instanceof ItemInstance) {
-            if (kClothingTypes.has(_itemInstance.child.type)) {
-                this.clothing.set(_itemInstance.child.type, _itemInstance);
-                return true;
-            }
-            return false;
-        }
-        else {
-            if (kClothingTypes.has(_type)) {
-                this.takeOff(_type);
-                return true;
-            }
-            else
-                return undefined;
-        }
+        return this.setClothing(_itemInstance, _type);
     }
 
     addSexRefusalCount(_character) {
@@ -5029,11 +5047,11 @@ class Character extends Entity {
         return !(this.getUnderwear() instanceof Clothing);
     }
     
-    putOn(_clothing, _type = undefined) {
-        return this.wear(_clothing, _type);
+    putOn(_itemInstance, _type = undefined) {
+        return this.setClothing(_itemInstance, _type);
     }
-    takeOff(_clothing) {
-        return this.disrobe(_clothing);
+    takeOff(_itemInstance, _type) {
+        return this.removeClothing(_itemInstance);
     }
     isWearing(_itemInstance) {
         var _clothing;
@@ -5059,12 +5077,12 @@ class Character extends Entity {
 
         if (_clothing instanceof Clothing) {
             if (kClothingTypes.has(_clothing.type)) {
-                if (!(this.clothing.get(_clothing.type) instanceof ItemInstance))
+                if (!(this.clothing[_clothing.type] instanceof ItemInstance))
                     return false;
                 if (_checkInstance)
-                    return this.clothing.get(_clothing.type) == _itemInstance;
+                    return this.clothing[_clothing.type] == _itemInstance;
                 else
-                    return this.clothing.get(_clothing.type).child == _clothing;
+                    return this.clothing[_clothing.type].child == _clothing;
             }
         }
         else
@@ -5236,13 +5254,21 @@ class Character extends Entity {
     }
 
     hasBodyPart(_bodyPart) {
-        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Set))
-            this.bodyParts = new Set();
+        if (!kBodyPartTypes.has(_bodyPart)) {
+            if (_bodyPart instanceof bodyParts)
+                _bodyPart = _bodyPart.type;
+            else if (bodyPartsIndexes.has(_bodyPart))
+                _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
+            else if (_bodyPart instanceof bodyPartsIndexes)
+                _bodyPart = _bodyPart.child.type;
+            else if (bodyPartInstancesIndexes.has(_bodyPart))
+                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).child.type;
+            else
+                return undefined;
+        }
         return this.bodyParts.has(_bodyPart);
     }
     removeBodyPart(_bodyPart) {
-        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Map))
-            this.bodyParts = new Set();
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {
                 this.removeBodyPart(__bodyPart);
@@ -5263,8 +5289,6 @@ class Character extends Entity {
         return this;
     }
     addBodyPart(_bodyPart) {
-        if (typeof this.bodyParts == "undefined" || !(this.bodyParts instanceof Map))
-            this.bodyParts = new Set();
         if (_bodyPart instanceof Array) {
             _bodyPart.forEach(function(__bodyPart) {
                 this.addBodyPart(__bodyPart);

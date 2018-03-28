@@ -310,14 +310,23 @@ function debugCharactersInformation(_character = player) {
     var _tableColSpan = Object.keys(_character.defaultDisposition).length + 3;
     
     _blob += "<table class='table'>";
-    Array.from(_character.clothing.keys()).forEach(function(_clothingType) {
+    Array.from(kClothingTypes).forEach(function(_clothingType) {
     	_clothingIndexes.forEach(function(_clothing) {
     		if (_clothing.type == _clothingType) {
-	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(_clothing.id, _clothing.name, (_character.clothing.has(_clothingType) && _character.clothing.get(_clothingType) == _clothing ? "selected" : ""));
+	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(
+                    _clothing.id,
+                    _clothing.name,
+                    (player.clothing[_clothingType] !== undefined && _character.clothing[_clothingType] == _clothing ? "selected" : "")
+                );
 	            _clothingIndexes.delete(_clothing.id);
     		}
     	}, this);
-    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.wear(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(player.id, (typeof player.clothing.get(_clothingType) != "undefined" ? player.clothing.get(_clothingType).child.id : "undefined"), _clothingOptionsBlob, _clothingType);
+    	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
+            player.id,
+            (player.clothing[_clothingType] !== undefined ? player.clothing[_clothingType].child.id : "undefined"),
+            _clothingOptionsBlob,
+            _clothingType
+        );
     	_clothingOptionsBlob = "";
     }, this);
 	_blob += "</table>";

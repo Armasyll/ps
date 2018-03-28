@@ -1656,7 +1656,7 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
     }
 
     if (unsafeExec("{0}Disrobe({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
-        _character.disrobe(_itemInstance);
+        _character.removeClothing(_itemInstance);
         return true;
     }
     else

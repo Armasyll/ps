@@ -747,26 +747,56 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                         break;
                     }*/
                     case "put" : {
-                        !(_entity instanceof Character) && Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.child.name));
+                        if (_entity instanceof Character) {}
+                        else {
+                            Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.child.name));
+                        }
                         break;
                     }
                     case "hold" : {
-                        if (_entity.holding(_itemInstance))
-                            _entity instanceof Character && Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.child.name));
-                        else
-                            _entity instanceof Character && Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.child.name));
+                        if (_entity instanceof Character) {
+                            if (_entity.holding(_itemInstance)) {
+                                Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.child.name));
+                            }
+                            else {
+                                Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.child.name));
+                            }
+                        }
+                        else {}
                         break;
                     }
                     case "wear" : {
-                        _itemInstance.child instanceof Clothing && _entity instanceof Character && Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "{0} {1}".format((_entity.isWearing(_itemInstance) ? "Take off" : "Wear"), this.child.name));
+                        if (!_itemInstance.child instanceof Clothing)
+                            break;
+                        if (_entity instanceof Character) {
+                            if (_entity.isWearing(_itemInstance)) {
+                                Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {1}".format(this.child.name));
+                            }
+                            else {
+                                Menu.addOption("itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {1}".format(this.child.name));
+                            }
+                        }
+                        else {}
                         break;
                     }
                     case "masturbate" : {
-                        _entity instanceof Character && Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.child.name));
+                        if (_entity instanceof Character) {
+                            Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.child.name));
+                        }
+                        else {}
                         break;
                     }
                     case "consume" : {
-                        Menu.addOption("itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id), "{1} {0}".format(this.child.name, this.child.type == "food" ? "Eat" : this.child.type == "drink" ? "Drink" : "Apply"));
+                        if (_entity instanceof Character) {
+                            Menu.addOption(
+                                "itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id),
+                                "{0} {1}".format(
+                                    this.child.type == "food" ? "Eat" : this.child.type == "drink" ? "Drink" : "Apply",
+                                    this.child.name
+                                )
+                            );
+                        }
+                        else {}
                         break;
                     }
                 }
@@ -959,10 +989,8 @@ function itemInteractWear(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.isWearing(_itemInstance))
-        _character.disrobe(_itemInstance);
-    else
-        _character.wear(_itemInstance);
+    if (!_character.isWearing(_itemInstance))
+        _character.setClothing(_itemInstance);
     if (enablePopups) {}
     else
         itemInteract(_itemInstance, _character);
@@ -985,7 +1013,7 @@ function itemInteractDisrobe(_itemInstance, _character = player) {
     }
 
     if (_character.isWearing(_itemInstance))
-        _character.disrobe(_itemInstance);
+        _character.removeClothing(_itemInstance);
     if (enablePopups) {}
     else
         itemInteract(_itemInstance, _character);
@@ -1077,8 +1105,8 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
     }
 
     if (_character.isWearing(_itemInstance))
-        _character.disrobe(_itemInstance);
-    if (_character.masturbate())
+        _character.removeClothing(_itemInstance);
+    if (_character.masturbate(_itemInstance))
         unsafeExec("{0}Masturbate({1})".format(_itemInstance.child.id, _character.id));
 
     if (enablePopups) {}
