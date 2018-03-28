@@ -5285,9 +5285,15 @@ class Character extends Entity {
         return this;
     }
     getBodyPart(_bodyPart) {
-        if (!(_bodyPart instanceof BodyPartInstance)) {
-            if (bodyPartInstancesIndexes.has(_bodyPart))
-                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+        if (!kBodyPartTypes.has(_bodyPart)) {
+            if (_bodyPart instanceof bodyParts)
+                _bodyPart = _bodyPart.type;
+            else if (bodyPartsIndexes.has(_bodyPart))
+                _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
+            else if (_bodyPart instanceof bodyPartsIndexes)
+                _bodyPart = _bodyPart.child.type;
+            else if (bodyPartInstancesIndexes.has(_bodyPart))
+                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).child.type;
             else
                 return undefined;
         }
