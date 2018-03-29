@@ -310,19 +310,19 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
             if (_characterB.getNumberOfItems() == 0)
                 _blob += "that it is empty.";
             else if (_characterB.getNumberOfItems() == 1)
-                _blob += "a " + _characterB.items[0].child.toString() + ".";
+                _blob += "a " + _characterB.items[0].parent.toString() + ".";
             else if (_characterB.getNumberOfItems() == 2)
-                _blob += "{0}, and {1}".format(_characterB.items[0].child.plural ? _characterB.items[0].child.toString() : _characterB.items[0].child, _characterB.items[1].child.plural ? _characterB.items[1].child : _characterB.items[1].child);
+                _blob += "{0}, and {1}".format(_characterB.items[0].parent.plural ? _characterB.items[0].parent.toString() : _characterB.items[0].parent, _characterB.items[1].parent.plural ? _characterB.items[1].parent : _characterB.items[1].parent);
             else {
                 // Lazy
                 var _arr = _characterB.items;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i].child.toString());
+                    _blob += (_arr[i].parent.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += " and " + _arr[_arr.length - 1].child.toString() + ".";
+                _blob += " and " + _arr[_arr.length - 1].parent.toString() + ".";
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
@@ -351,16 +351,16 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
 
         if (_character != player) {
             _characterB.items.forEach(function(_itemInstance) {
-                if (_filter == _itemInstance.child.constructor.name)
-                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
+                if (_filter == _itemInstance.parent.constructor.name)
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
                 else
-                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
+                    Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
             }, this);
         }
         else {
             _characterB.items.forEach(function(_itemInstance) {
-                if (_filter == undefined || _filter == _itemInstance.child.constructor.name)
-                    Menu.addOption("itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.child.name), _itemInstance.child.description, undefined, undefined, "btn-primary");
+                if (_filter == undefined || _filter == _itemInstance.parent.constructor.name)
+                    Menu.addOption("itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.parent.name), _itemInstance.parent.description, undefined, undefined, "btn-primary");
             }, this);
         }
         Menu.generate();
@@ -563,21 +563,21 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
                 _blob += "that it is empty.";
             }
             else if (_characterB.getNumberOfItems() == 1) {
-                _blob += "a {0} {1}.".format((_characterB.items[0].child.plural ? "set of" : ""), _characterB.items[0].child.toString());
+                _blob += "a {0} {1}.".format((_characterB.items[0].parent.plural ? "set of" : ""), _characterB.items[0].parent.toString());
             }
             else if (_characterB.getNumberOfItems() == 2) {
-                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].child.plural ? "set of " : ""), _characterB.items[0].child.toString(), (_characterB.items[1].child.plural ? "" : "a "), _characterB.items[1].child.toString());
+                _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].parent.plural ? "set of " : ""), _characterB.items[0].parent.toString(), (_characterB.items[1].parent.plural ? "" : "a "), _characterB.items[1].parent.toString());
             }
             else {
                 // Lazy
-                var _arr = _characterB.child;
+                var _arr = _characterB.parent;
 
                 for (i = 0; i < _arr.length - 1; i++) {
-                    _blob += (_arr[i].child.toString());
+                    _blob += (_arr[i].parent.toString());
                     if (_arr.length > 2)
                         _blob += (", ");
                 }
-                _blob += (" and " + _arr[_arr.length - 1].child.toString() + ".");
+                _blob += (" and " + _arr[_arr.length - 1].parent.toString() + ".");
                 delete _arr;
             }
             Content.add("<p>" + _blob + "</p>");
@@ -595,10 +595,10 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         _characterB.items.forEach(function(_itemInstance) {
-            if (_filter == _itemInstance.child.constructor.name)
-                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
+            if (_filter == _itemInstance.parent.constructor.name)
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
             else
-                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.child.name, _itemInstance.child.description, undefined, undefined, "btn-primary");
+                Menu.addOption("_generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
         }, this);
 
         Menu.generate();
@@ -723,8 +723,8 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
 
     if (enablePopups) {}
     else {
-        if (_itemInstance.child.description != undefined && _itemInstance.child.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
-            Content.add("<p>{0} look{1} at {2}{3}.</p>".format(subjectPronoun(true).capitalize(), (pov == 3 ? "s" : ""), (_itemInstance.owner === undefined ? "" : (_itemInstance.owner == player ? possessiveAdjective() : _itemInstance.owner.singularPossessiveName()) + " "), _itemInstance.child.toString()));
+        if (_itemInstance.parent.description != undefined && _itemInstance.parent.description.length > 0 && !_scenesViewedThisWindow.has("itemInteract"))
+            Content.add("<p>{0} look{1} at {2}{3}.</p>".format(subjectPronoun(true).capitalize(), (pov == 3 ? "s" : ""), (_itemInstance.owner === undefined ? "" : (_itemInstance.owner == player ? possessiveAdjective() : _itemInstance.owner.singularPossessiveName()) + " "), _itemInstance.parent.toString()));
 
         lastMenu = "itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
 
@@ -739,41 +739,41 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
         
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         
-        _itemInstance.child.availableActions.forEach(function(_action) {
+        _itemInstance.parent.availableActions.forEach(function(_action) {
             if (kActionTypes.has(_action)) {
                 switch(_action) {
                     /*case "use" : {
-                        !(_itemInstance.child instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.child.name));
+                        !(_itemInstance.parent instanceof Clothing) && Menu.addOption("itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.parent.name));
                         break;
                     }*/
                     case "put" : {
                         if (_entity instanceof Character) {}
                         else {
-                            Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.child.name));
+                            Menu.addOption("itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.parent.name));
                         }
                         break;
                     }
                     case "hold" : {
                         if (_entity instanceof Character) {
                             if (_entity.holding(_itemInstance)) {
-                                Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.child.name));
+                                Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.parent.name));
                             }
                             else {
-                                Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.child.name));
+                                Menu.addOption("itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.parent.name));
                             }
                         }
                         else {}
                         break;
                     }
                     case "wear" : {
-                        if (!_itemInstance.child instanceof Clothing)
+                        if (!_itemInstance.parent instanceof Clothing)
                             break;
                         if (_entity instanceof Character) {
                             if (_entity.isWearing(_itemInstance)) {
-                                Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {1}".format(this.child.name));
+                                Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {1}".format(this.parent.name));
                             }
                             else {
-                                Menu.addOption("itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {1}".format(this.child.name));
+                                Menu.addOption("itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {1}".format(this.parent.name));
                             }
                         }
                         else {}
@@ -781,7 +781,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                     }
                     case "masturbate" : {
                         if (_entity instanceof Character) {
-                            Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.child.name));
+                            Menu.addOption("itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.parent.name));
                         }
                         else {}
                         break;
@@ -791,8 +791,8 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                             Menu.addOption(
                                 "itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id),
                                 "{0} {1}".format(
-                                    this.child.type == "food" ? "Eat" : this.child.type == "drink" ? "Drink" : "Apply",
-                                    this.child.name
+                                    this.parent.type == "food" ? "Eat" : this.parent.type == "drink" ? "Drink" : "Apply",
+                                    this.parent.name
                                 )
                             );
                         }
@@ -822,7 +822,7 @@ function itemInteractUse(_itemInstance, _character = player) {
             return undefined;
     }
 
-    return unsafeExec("{0}Use({1})".format(_itemInstance.child.id, player.id));
+    return unsafeExec("{0}Use({1})".format(_itemInstance.parent.id, player.id));
 }
 /**
  * Item is taken from Character and Put into the Entity; addItem for non-Character(s)
@@ -944,7 +944,7 @@ function itemInteractHold(_itemInstance, _character = player) {
     if (_character.isWearing(_itemInstance))
         _character.takeOff(_itemInstance);
     if (_character.addHeldEntity(_itemInstance))
-        unsafeExec("{0}Hold({1})".format(_itemInstance.child.id, _character.id));
+        unsafeExec("{0}Hold({1})".format(_itemInstance.parent.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -967,7 +967,7 @@ function itemInteractRelease(_itemInstance, _character = player) {
     }
 
     if (_character.removeHeldEntity(_itemInstance))
-        unsafeExec("{0}Release({1})".format(_itemInstance.child.id, _character.id));
+        unsafeExec("{0}Release({1})".format(_itemInstance.parent.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -1036,7 +1036,7 @@ function itemInteractLook(_itemInstance, _character = player) {
     }
 
     if (_character.look(_itemInstance))
-        unsafeExec("{0}Look({1})".format(_itemInstance.child.id, _character.id));
+        unsafeExec("{0}Look({1})".format(_itemInstance.parent.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -1059,7 +1059,7 @@ function itemInteractAttack(_itemInstance, _character = player) {
             return undefined;
     }
 
-    if (_character.attack(_itemInstance.child))
+    if (_character.attack(_itemInstance.parent))
         unsafeExec("{0}Attack({1})".format(_itemInstance, _character.id));
 
     if (enablePopups) {}
@@ -1107,7 +1107,7 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
     if (_character.isWearing(_itemInstance))
         _character.removeClothing(_itemInstance);
     if (_character.masturbate(_itemInstance))
-        unsafeExec("{0}Masturbate({1})".format(_itemInstance.child.id, _character.id));
+        unsafeExec("{0}Masturbate({1})".format(_itemInstance.parent.id, _character.id));
 
     if (enablePopups) {}
     else
@@ -1132,7 +1132,7 @@ function itemInteractConsume(_itemInstance, _character) {
 
     if (_character.consume(_itemInstance)) {
         this.addCurrentAction("consume", _itemInstance);
-        unsafeExec("{0}Consume({1})".format(_itemInstance.child.id, _character.id));
+        unsafeExec("{0}Consume({1})".format(_itemInstance.parent.id, _character.id));
     }
 
     if (enablePopups) {}
@@ -1272,7 +1272,7 @@ function phoneInteract(_phoneInstance, _clearContent = false, _clearMenu = true)
     Title.set(
         "Home Screen", 
         undefined, 
-        player.phone.child.name, 
+        player.phone.parent.name, 
         player.name
     );
 
@@ -1330,7 +1330,7 @@ function textMessageInteract(_phoneInstance, _messageCategory) {
     Title.set(
         _title, 
         undefined, 
-        player.phone.child.name, 
+        player.phone.parent.name, 
         player.name
     );
 

@@ -207,8 +207,8 @@ function _generateEntityItemsGraphicalList(_fromEntity = player, _toEntity = und
         _body += String(
                 "<a href='#' class='list-group-item list-group-item-action' data-id='{2}' onclick='_generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(\"{2}\", \"{3}\", \"{4}\", \"{5}\")'><img src='{0}' class='float-left' style='max-height:64px; max-width:64px; height:64px; width:64px;' height='64px' width='64px'/>{1}</a>"
             ).format(
-                _itemInstance.child.image,
-                _itemInstance.child.name,
+                _itemInstance.parent.image,
+                _itemInstance.parent.name,
                 _itemInstance.id,
                 _fromEntity.id,
                 _toEntity instanceof Entity ? _toEntity.id : undefined,
@@ -258,21 +258,21 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
     /**
      * Consume item
      */
-    if (_itemInstance.child instanceof Consumable) {
-        if (typeof _itemInstance.child.type == "undefined" || _itemInstance.child.type == "other")
+    if (_itemInstance.parent instanceof Consumable) {
+        if (typeof _itemInstance.parent.type == "undefined" || _itemInstance.parent.type == "other")
             _itemAction = "Consume";
-        else if (_itemInstance.child.type == "drink")
+        else if (_itemInstance.parent.type == "drink")
             _itemAction = "Drink";
-        else if (_itemInstance.child.type == "food")
+        else if (_itemInstance.parent.type == "food")
             _itemAction = "Eat";
-        else if (_itemInstance.child.type == "medicine")
+        else if (_itemInstance.parent.type == "medicine")
             _itemAction = "Consume";
         _actionsBlob += Menu.createButton("itemInteractConsume('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), _itemAction);
     }
     /**
      * Wear item
      */
-    if (_itemInstance.child instanceof Clothing) {
+    if (_itemInstance.parent instanceof Clothing) {
         var _youWear = _fromEntity.isWearing(_itemInstance);
         var _theyWear = _toEntity instanceof Character && _toEntity.isWearing(_itemInstance);
         if (_youWear)
@@ -294,9 +294,9 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
                 "<tr><td>Price</td><td>{5}</td></tr>" +
             "</table>"
         ).format(
-            _itemInstance.child.name,
-            _itemInstance.child.image,
-            _itemInstance.child.description,
+            _itemInstance.parent.name,
+            _itemInstance.parent.image,
+            _itemInstance.parent.description,
             _itemInstance.durability,
             _itemInstance.weight,
             _itemInstance.price,
@@ -359,11 +359,11 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
     }
     var _gaveItem = false;
     if (_switch) {
-        if (debug) console.log("  Switch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.child.id, _toEntity.id));
+        if (debug) console.log("  Switch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.parent.id, _toEntity.id));
         _gaveItem = entityGiveItem(_fromEntity, _toEntity, _itemInstance, _useLastMenu);
     }
     else {
-        if (debug) console.log("  NoSwitch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.child.id, _toEntity.id));
+        if (debug) console.log("  NoSwitch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.parent.id, _toEntity.id));
         _gaveItem = entityGiveItem(_fromEntity, _toEntity, _itemInstance, _useLastMenu);
     }
     
@@ -383,9 +383,9 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
         
         if (_toEntity == player) {
             if (_fromEntity instanceof Character)
-                Content.add("<p>{0} take{1} the {2} from {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.child.toString(), _fromEntity.toString()));
+                Content.add("<p>{0} take{1} the {2} from {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.parent.toString(), _fromEntity.toString()));
             else if (_fromEntity instanceof Furniture)
-                Content.add("<p>{0} take{1} the {2} from the {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.child.toString(), _fromEntity.toString()));
+                Content.add("<p>{0} take{1} the {2} from the {3}.</p>".format(subjectPronoun(true).capitalize(), pov == 3 ? "s" : "", _itemInstance.parent.toString(), _fromEntity.toString()));
         }
 
         return true;
@@ -645,7 +645,7 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
     
     var _openList = new Set();
     var _closedList = _excludeCells;
-    var _parent = new Map();
+    var _child = new Map();
     var _timeout = 0;
     
     if (_startCell != _targetCell) {
@@ -657,9 +657,9 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
             if (_currentCell == _targetCell) {
                 var cur = _currentCell;
                 var ret = [];
-                while (_parent.has(_currentCell)) {
+                while (_child.has(_currentCell)) {
                     ret.push(_currentCell);
-                    _currentCell = _parent.get(_currentCell);
+                    _currentCell = _child.get(_currentCell);
                 }
                 return ret.reverse();
             }
@@ -674,7 +674,7 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
                 if (!_openList.has(_neighbor))
                     _openList.add(_neighbor);
                 
-                _parent.set(_neighbor, _currentCell);
+                _child.set(_neighbor, _currentCell);
             }, this);
             
             _timeout++;
@@ -705,7 +705,7 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
     
     var _openList = new Set();
     var _closedList = _excludeRooms;
-    var _parent = new Map();
+    var _child = new Map();
     var _timeout = 0;
     
     _openList.add(_startRoom);
@@ -716,9 +716,9 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
         if (_currentRoom == _targetRoom) {
             var cur = _currentRoom;
             var ret = [];
-            while (_parent.has(_currentRoom)) {
+            while (_child.has(_currentRoom)) {
                 ret.push(_currentRoom);
-                _currentRoom = _parent.get(_currentRoom);
+                _currentRoom = _child.get(_currentRoom);
             }
             return new Set(ret.reverse());
         }
@@ -742,7 +742,7 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
             }
             
             if (_gScoreIsBest) {
-                _parent.set(_neighbor, _currentRoom);
+                _child.set(_neighbor, _currentRoom);
             }
         }, this);
         
@@ -921,7 +921,7 @@ function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.child;
+            _item = _item.parent;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -969,7 +969,7 @@ function setCharacterMeetingRoomEvent(_id = undefined, _characterA, _characterB,
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.child;
+            _item = _item.parent;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1018,7 +1018,7 @@ function setCharacterMeetingCellEvent(_id = undefined, _characterA, _characterB,
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.child;
+            _item = _item.parent;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1067,7 +1067,7 @@ function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _charact
         if (itemsIndexes.has(_item))
             _item = itemsIndexes.get(_item);
         else if (_item instanceof ItemInstance)
-            _item = _item.child;
+            _item = _item.parent;
         else if (itemInstancesIndexes.has(_item))
             _item = itemInstancesIndexes.get(_item);
         else
@@ -1655,7 +1655,7 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
             return undefined;
     }
 
-    if (unsafeExec("{0}Disrobe({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+    if (unsafeExec("{0}Disrobe({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         _character.removeClothing(_itemInstance);
         return true;
     }
@@ -1692,7 +1692,7 @@ function characterGiveItem(_character, _entity, _itemInstance, _executeScene = f
     }
     if (!entityRemoveItem(_character, _itemInstance, _executeScene))
         return false;
-    if (unsafeExec("{0}Give({1}, {2}, {3})".format(_itemInstance.child.id, _character.id, _entity.id, _executeScene))) {
+    if (unsafeExec("{0}Give({1}, {2}, {3})".format(_itemInstance.parent.id, _character.id, _entity.id, _executeScene))) {
         return entityAddItem(_character, _entity, _itemInstance, _executeScene);
     }
     return false;
@@ -1711,7 +1711,7 @@ function characterHoldItem(_character, _itemInstance, _hand = undefined, _execut
             return undefined;
     }
     
-    if (unsafeExec("{0}Hold({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+    if (unsafeExec("{0}Hold({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         _character.addHeldEntity(_itemInstance, _hand);
         return true;
     }
@@ -1736,7 +1736,7 @@ function characterReleaseItem(_character, _itemInstance, _hand = undefined, _exe
             return undefined;
     }
     
-    if (unsafeExec("{0}Release({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
+    if (unsafeExec("{0}Release({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         _character.removeHeldEntity(_itemInstance, _hand);
         return true;
     }
@@ -1772,7 +1772,7 @@ function characterAddItem(_character, _entity, _itemInstance, _executeScene = fa
             return undefined;
     }
 
-    if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.child.id, _character.id, _entity.id, _executeScene))) {
+    if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.parent.id, _character.id, _entity.id, _executeScene))) {
         _character.addItem(_itemInstance);
         return true;
     }
@@ -1801,8 +1801,8 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
         return false;
     else if (_character.isHolding(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
         return false;
-    if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.child.id, _character.id, _executeScene))) {
-        if (debug) console.log("  Removing {0} from {1}".format(_itemInstance.child.id, _character.id));
+    if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
+        if (debug) console.log("  Removing {0} from {1}".format(_itemInstance.parent.id, _character.id));
         _character.removeItem(_itemInstance);
         return true;
     }
@@ -1852,11 +1852,11 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
     if (_fromEntity instanceof Character)
         _gaveItem = characterGiveItem(_fromEntity, _toEntity, _itemInstance, _executeScene);
     else if (_fromEntity instanceof Furniture) {
-        if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.child.id, _fromEntity.id, _executeScene)))
+        if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.parent.id, _fromEntity.id, _executeScene)))
             _fromEntity.removeItem(_itemInstance);
         else
             return _gaveItem;
-        if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.child.id, _fromEntity.id, _toEntity.id, _executeScene)))
+        if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.parent.id, _fromEntity.id, _toEntity.id, _executeScene)))
             _gaveItem = characterAddItem(_toEntity, _fromEntity, _itemInstance, _executeScene);
     }
     else if (_fromEntity instanceof Clothing)
@@ -1875,7 +1875,7 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
         else if (_itemInstance instanceof Item) {
             if (_fromEntity instanceof Entity) {
                 _fromEntity.items.some(function(__itemInstance) {
-                    if (__itemInstance.child == _itemInstance) {
+                    if (__itemInstance.parent == _itemInstance) {
                         _itemInstance = __itemInstance;
                         return true;
                     }
@@ -1888,7 +1888,7 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
             _itemInstance = itemsIndexes.get(_itemInstance);
             if (_fromEntity instanceof Entity) {
                 _fromEntity.items.some(function(__itemInstance) {
-                    if (__itemInstance.child == _itemInstance) {
+                    if (__itemInstance.parent == _itemInstance) {
                         _itemInstance = __itemInstance;
                         return true;
                     }
@@ -1968,17 +1968,17 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
     var _eventRun = false;
     if (typeof _fromEntity != 'undefined') {
         if (_fromEntity instanceof Character) {
-            if (_itemInstance.child instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
+            if (_itemInstance.parent instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
             else if (_fromEntity.holding(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
-            else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.child.id, _fromEntity.id)))
+            else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.parent.id, _fromEntity.id)))
                 return false;
         }
         else if (_fromEntity instanceof Furniture) {
-            if (!unsafeExec("{0}Remove({1})".format(_itemInstance.child.id, _fromEntity.id)))
+            if (!unsafeExec("{0}Remove({1})".format(_itemInstance.parent.id, _fromEntity.id)))
                 return false;
-            else if (!unsafeExec("{0}Remove({1})".format(_fromEntity.id, _itemInstance.child.id))) // mimic :o
+            else if (!unsafeExec("{0}Remove({1})".format(_fromEntity.id, _itemInstance.parent.id))) // mimic :o
                 return false;
         }
         
@@ -2012,13 +2012,13 @@ function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
     
     var _eventRun = false;
 
-    if (_fromEntity instanceof Character && !characterGiveItem(_fromEntity, _toEntity, _itemInstance.child, (_fromEntity == player || _toEntity == player)))
+    if (_fromEntity instanceof Character && !characterGiveItem(_fromEntity, _toEntity, _itemInstance.parent, (_fromEntity == player || _toEntity == player)))
         return false;
 
-    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.child))) {
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.parent))) {
         if (debug) console.log("Checking for item given events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _itemInstance.child && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
+            if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _itemInstance.parent && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
                     _eventRun = true;
@@ -2044,7 +2044,7 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
     }
 
     var _eventRun = false;
-    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.child))) {
+    if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.parent))) {
         if (_toEntity instanceof Character) {
             if (!characterTakeItem(_toEntity, _itemInstance, _toEntity == player))
                 return false;
@@ -2055,7 +2055,7 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
 
         if (debug) console.log("Checking for item taken events");
         eventsIndexes.forEach(function(_event) {
-            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _itemInstance.child && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
+            if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _itemInstance.parent && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
                     _eventRun = true;
@@ -2111,7 +2111,7 @@ function furnitureAddItem(_furniture, _entity, _itemInstance, _executeScene = fa
             return undefined;
     }
 
-    if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.child.id, _furniture.id, _entity.id, _executeScene))) {
+    if (unsafeExec("{0}Take({1}, {2}, {3})".format(_itemInstance.parent.id, _furniture.id, _entity.id, _executeScene))) {
         _furniture.addItem(_itemInstance);
         return true;
     }
@@ -2411,11 +2411,11 @@ function cashCheque(_character = player) {
     var _chequeCashed = false;
 
     _character.items.forEach(function(_itemInstance) {
-        if (_itemInstance.child instanceof Cheque) {
-            if (_itemInstance.child.to instanceof Character && (_itemInstance.child.signed || _itemInstance.child.to == _character) && !isNaN(_itemInstance.child.amount) && _itemInstance.child.amount > 0) {
-                characterIncMoney(_itemInstance.child.to, _itemInstance.child.amount);
+        if (_itemInstance.parent instanceof Cheque) {
+            if (_itemInstance.parent.to instanceof Character && (_itemInstance.parent.signed || _itemInstance.parent.to == _character) && !isNaN(_itemInstance.parent.amount) && _itemInstance.parent.amount > 0) {
+                characterIncMoney(_itemInstance.parent.to, _itemInstance.parent.amount);
                 _character.removeItem(_itemInstance);
-                _itemInstance.child.delete();
+                _itemInstance.parent.delete();
                 _itemInstance.delete();
                 _chequeCashed = true;
             }

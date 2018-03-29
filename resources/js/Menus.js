@@ -72,7 +72,7 @@ function baseMenu(_clearContent = false, _clearMenu = true) {
             Menu.setOption(2, "localCharactersMenu()", "Interact with those near you.");
         if (player.phone instanceof PhoneInstance) {
             if (player.phone.receivedMessages.size > 0)
-                Menu.setOption(3, "this.childNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker'); phoneInteract({0}, true)".format(player.phone.id), "Check Phone", "{0} Unread Messages".format(player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
+                Menu.setOption(3, "this.parentNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker'); phoneInteract({0}, true)".format(player.phone.id), "Check Phone", "{0} Unread Messages".format(player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
             else
                 Menu.setOption(3, "phoneInteract('{0}', true)".format(player.phone.id), "Check Phone");
         }
@@ -323,7 +323,7 @@ function debugCharactersInformation(_character = player) {
     	}, this);
     	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
             player.id,
-            (player.clothing[_clothingType] !== undefined ? player.clothing[_clothingType].child.id : "undefined"),
+            (player.clothing[_clothingType] !== undefined ? player.clothing[_clothingType].parent.id : "undefined"),
             _clothingOptionsBlob,
             _clothingType
         );
@@ -498,13 +498,13 @@ function getAppearance(_character, _self = false) {
     }
 
     if (_character.hasSomethingInBothHands()) {
-        _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getEntityInLeftHand().child.toString(), _character.getEntityInRightHand().child.toString(), _character.getEntityInLeftHand().child.plural ? "are" : "is a", _character.getEntityInRightHand().child.plural ? "" : "a");
+        _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getEntityInLeftHand().parent.toString(), _character.getEntityInRightHand().parent.toString(), _character.getEntityInLeftHand().parent.plural ? "are" : "is a", _character.getEntityInRightHand().parent.plural ? "" : "a");
     }
     else if (_character.hasSomethingInLeftHand()) {
-        _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getEntityInLeftHand().child.toString(), _character.getEntityInLeftHand().child.plural ? "are" : "is a");
+        _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getEntityInLeftHand().parent.toString(), _character.getEntityInLeftHand().parent.plural ? "are" : "is a");
     }
     else if (_character.hasSomethingInRightHand()) {
-        _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getEntityInRightHand().child.toString(), _character.getEntityInRightHand().child.plural ? "are" : "is a");
+        _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getEntityInRightHand().parent.toString(), _character.getEntityInRightHand().parent.plural ? "are" : "is a");
     }
     
     Content.add("<p>" + _blob + "</p>");
