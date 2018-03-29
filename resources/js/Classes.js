@@ -2666,7 +2666,7 @@ class Character extends Entity {
                 return this;
         }
 
-        if (this.isHoldingEntity(_entityInstance))
+        if (this.hasHeldEntity(_entityInstance))
             return this;
         if (_hand !== undefined && _hand != "leftHand" && _hand != "rightHand") {
             switch (_hand.slice(0, -1).toLowerCase()) {
@@ -2719,6 +2719,24 @@ class Character extends Entity {
         }
         this.currentActions["hold"] = this.heldEntities;
         return this;
+    }
+    hasHeldEntity(_entityInstance) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (entityInstanceIndices.has(_entityInstance))
+                _entityInstance = entityInstanceIndices.get(_entityInstance);
+            else {
+                _entityInstance = this.getItem(_entityInstance);
+                if (!(_entityInstance instanceof EntityInstance))
+                    return undefined;
+            }
+        }
+        return this.heldEntities["leftHand"] == _entityInstance || this.heldEntities["rightHand"] == _entityInstance;
+    }
+    isHoldingEntity(_entityInstance) {
+        return this.hasHeldEntity(_entityInstance);
+    }
+    isHolding(_entityInstance) {
+        return this.hasHeldEntity(_entityInstance);
     }
     hasSomethingInLeftHand() {
         return this.heldEntities["leftHand"] instanceof ItemInstance;
@@ -2775,21 +2793,6 @@ class Character extends Entity {
     removeEntityInLeftHand() {
         this.removeHeldEntity(this.getEntityInLeftHand());
         return this;
-    }
-    isHoldingEntity(_entityInstance) {
-        if (!(_entityInstance instanceof EntityInstance)) {
-            if (entityInstanceIndices.has(_entityInstance))
-                _entityInstance = entityInstanceIndices.get(_entityInstance);
-            else {
-                _entityInstance = this.getItem(_entityInstance);
-                if (!(_entityInstance instanceof EntityInstance))
-                    return undefined;
-            }
-        }
-        return this.heldEntities["leftHand"] == _entityInstance || this.heldEntities["rightHand"] == _entityInstance;
-    }
-    isHolding(_entityInstance) {
-        return this.isHoldingEntity(_entityInstance);
     }
 
     clean() {

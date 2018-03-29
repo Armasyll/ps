@@ -251,7 +251,7 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
     /**
      * Hold or Release item
      */
-    if (_fromEntity instanceof Character && _fromEntity.isHoldingEntity(_itemInstance))
+    if (_fromEntity instanceof Character && _fromEntity.hasHeldEntity(_itemInstance))
         _actionsBlob += Menu.createButton("itemInteractRelease('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Release");
     else
         _actionsBlob += Menu.createButton("itemInteractHold('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Hold ");
@@ -1828,7 +1828,7 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
 
     if (_character.isWearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
         return false;
-    else if (_character.isHoldingEntity(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
+    else if (_character.hasHeldEntity(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
         return false;
     if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         if (debug) console.log("  Removing {0} from {1}".format(_itemInstance.parent.id, _character.id));
@@ -1999,7 +1999,7 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
         if (_fromEntity instanceof Character) {
             if (_itemInstance.parent instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
-            else if (_fromEntity.isHoldingEntity(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
+            else if (_fromEntity.hasHeldEntity(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
             else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.parent.id, _fromEntity.id)))
                 return false;
