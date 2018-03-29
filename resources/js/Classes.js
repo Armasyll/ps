@@ -2786,12 +2786,22 @@ class Character extends Entity {
         }
         return undefined;
     }
+    /**
+     * Removes Entity in heldEntities["rightHand"]
+     * NOTE: Directly modifies this.heldEntities
+     * @return {this} This
+     */
     removeEntityInRightHand() {
-        this.removeHeldEntity(this.getEntityInRightHand());
+        this.heldEntities["rightHand"] = undefined;
         return this;
     }
+    /**
+     * Removes Entity in heldEntities["leftHand"]
+     * NOTE: Directly modifies this.heldEntities
+     * @return {this} This
+     */
     removeEntityInLeftHand() {
-        this.removeHeldEntity(this.getEntityInLeftHand());
+        this.heldEntities["leftHand"] = undefined;
         return this;
     }
 
