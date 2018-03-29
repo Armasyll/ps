@@ -6,20 +6,40 @@ function entityInteract(_entity, _clearContent = false, _clearMenu = true) {
             return undefined;
     }
 
-    if (_entity instanceof Character)
-        return characterInteract(_entity, _clearContent);
-    else if (_entity instanceof Furniture)
-        return furnitureInteract(_entity, _clearContent, _clearMenu);
-    else if (_entity instanceof Phone)
-        return phoneInteract(_entity, _clearContent, _clearMenu);
-    else if (_entity instanceof Item || _entity instanceof ItemInstance)
-        return itemInteract(_entity, player, _clearContent, _clearMenu);
-    else if (_entity instanceof Spell)
-        return spellInteract(_entity, player, _clearContent, _clearMenu);
-    else if (_entity instanceof Room)
-        return roomInteract(_entity, _clearContent, _clearMenu);
-    else
-        return false;
+    if (_entity instanceof Object) {
+        if (_entity instanceof Character)
+            return characterInteract(_entity, _clearContent);
+        else if (_entity instanceof Furniture)
+            return furnitureInteract(_entity, _clearContent, _clearMenu);
+        else if (_entity instanceof Phone)
+            return phoneInteract(_entity, _clearContent, _clearMenu);
+        else if (_entity instanceof Item || _entity instanceof ItemInstance)
+            return itemInteract(_entity, player, _clearContent, _clearMenu);
+        else if (_entity instanceof Spell)
+            return spellInteract(_entity, player, _clearContent, _clearMenu);
+        else if (_entity instanceof Room)
+            return roomInteract(_entity, _clearContent, _clearMenu);
+        else
+            return false;
+    }
+    else if (typeof _entity == "string") {
+        if (charactersIndexes.has(_entity))
+            return characterInteract(charactersIndexes.get(_entity), _clearContent);
+        else if (furnitureIndexes.has(_entity))
+            return furnitureInteract(furnitureIndexes.get(_entity), _clearContent, _clearMenu);
+        else if (phoneIndexes.has(_entity))
+            return phoneInteract(phoneIndexes.get(_entity), _clearContent, _clearMenu);
+        else if (itemIndexes.has(_entity))
+            return itemInteract(itemIndexes.get(_entity), player, _clearContent, _clearMenu);
+        else if (itemInstancesIndexes.has(_entity))
+            return itemInteract(itemInstancesIndexes.get(_entity), player, _clearContent, _clearMenu);
+        else if (spellsIndexes.has(_entity))
+            return spellInteract(spellsIndexes.get(_entity), player, _clearContent, _clearMenu);
+        else if (roomsIndexes.has(_entity))
+            return roomInteract(roomsIndexes.get(_entity), _clearContent, _clearMenu);
+        else
+            return false;
+    }
 }
 
 function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
