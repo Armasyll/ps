@@ -157,7 +157,7 @@ var pov = 2; // 1 - first person, 2 - second person, 3 - third person
 
 const kMale = 0, kFemale = 1;
 const kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
-const kBodyPartTypes = new Set(["ankles","anus","arms","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","leftAnkle","leftArm","leftBreast","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightBreast","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
+const kBodyPartTypes = new Set(["ankles","anus","arms","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","knot","leftAnkle","leftArm","leftBreast","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightBreast","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
 const kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
 const kHandTypes = new Set(["fur","pad","hoof","clovenhoof","skin"]);
 const kFeetTypes = kHandTypes;
