@@ -1381,12 +1381,7 @@ class Character extends Entity {
          * Intraactions this Character is currently performing
          * @type {Map} <kIntraactionTypes>
          */
-        this.currentActions = new Map();
-        /**
-         * Interactions this Character is currently performing
-         * @type {Map} <kInteractionTypes>
-         */
-        this.currentInteractions = new Map(); // <this.bodyParts.*, [interactionType, Character, Character.bodyParts.*]>
+        this.currentActions = {};
         /**
          * Locations known by this Character
          * @type {Set} <Location>
@@ -1403,10 +1398,18 @@ class Character extends Entity {
          */
         this.items = new Array();
         /**
+         * Dominant hand
+         * @type {String} "leftHand" or "rightHand"
+         */
+        this.handedness = "rightHand";
+        /**
          * Item(s) this Character is holding; will never exceed two (2) Item(s)
          * @type {Array} <ItemInstance>
          */
-        this.heldEntities = new Array();
+        this.heldEntities = {
+            leftHand:undefined,
+            rightHand:undefined
+        };
         /**
          * Current Phone this Character is using
          * @type {Phone} Can be undefined
@@ -2334,7 +2337,7 @@ class Character extends Entity {
                 else if (_entity instanceof Item) {
                     switch (_actionType) {
                         case "hold" : {
-                            this.hold(new ItemInstance(undefined, _entity));
+                            this.addHeldEntity(new ItemInstance(undefined, _entity));
                             break;
                         }
                     }
@@ -2342,7 +2345,7 @@ class Character extends Entity {
                 else if (_entity instanceof ItemInstance) {
                     switch (_actionType) {
                         case "hold" : {
-                            this.hold(_entity);
+                            this.addHeldEntity(_entity);
                             break;
                         }
                     }
@@ -2626,22 +2629,89 @@ class Character extends Entity {
         return this.items.length;
     }
 
-    addHeldEntity(_itemInstance) {
-    	this.hold(_itemInstance);
+    /**
+     * Adds Entity(s) to this Character's heldEntities
+     * NOTE: Directly modifies this.currentAction
+     * @param  {EntityInstance} _entityInstance The Entity to be held
+     * @param  {String} _hand The hand to hold it in; can be "leftHand", "rightHand", or undefined
+     * @param {this} This
+     */
+    addHeldEntity(_entityInstance, _hand = undefined) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (instancesIndexes.has(_entityInstance))
+                _entityInstance = instancesIndexes.get(_entityInstance);
+            else
+                return this;
+        }
+
+        if (this.isHoldingEntity(_entityInstance))
+            return this;
+        if (_hand !== undefined && _hand != "leftHand" && _hand != "rightHand") {
+            switch (_hand.slice(0, -1).toLowerCase()) {
+                case 0 :
+                case "0" :
+                case "l" : {
+                    _hand = "leftHand";
+                    break;
+                }
+                case 1 :
+                case "1" :
+                case "r" : {
+                    _hand = "rightHand";
+                    break;
+                }
+            }
+        }
+        if (_hand != "leftHand" && _hand != "rightHand") {
+            if (this.hasSomethingInBothHands())
+                _hand = this.handedness;
+            else
+                _hand = this.getFreeHand();
+        }
+        this.heldEntities[_hand] = _entityInstance;
+        this.currentActions["hold"] = this.heldEntities;
         return this;
     }
+    /**
+     * Removes Entity held in either hand
+     * NOTE: Directly modifies this.currentAction
+     * @param  {ItemInstance, String} _itemInstance EntityInstance, EntityInstance ID, "leftHand", or "rightHand"
+     * @return {this} This
+     */
     removeHeldEntity(_itemInstance) {
-        this.release(_itemInstance);
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (instancesIndexes.has(_entityInstance))
+                _entityInstance = instancesIndexes.get(_entityInstance);
+            else if (_itemInstance == "leftHand")
+                _entityInstance = this.getEntityInLeftHand();
+            else if (_itemInstance == "rightHand")
+                _entityInstance = this.getEntityInRightHand();
+            else
+                return this;
+        }
+        if (_itemInstance instanceof ItemInstance) {
+            if (this.getEntityInRightHand() == _itemInstance)
+                this.removeEntityInRightHand();
+            if (this.getEntityInLeftHand() == _itemInstance)
+                this.removeEntityInLeftHand();
+        }
+        this.currentActions["hold"] = this.heldEntities;
         return this;
-    }
-    hasSomethingInRightHand() {
-        return this.heldEntities.length > 0 && this.heldEntities[0] instanceof ItemInstance;
     }
     hasSomethingInLeftHand() {
-        return this.heldEntities.length > 1 && this.heldEntities[1] instanceof ItemInstance;
+        return this.heldEntities["leftHand"] instanceof ItemInstance;
+    }
+    hasEntityInLeftHand() {
+        return this.hasSomethingInLeftHand();
+    }
+    hasSomethingInRightHand() {
+        return this.heldEntities["rightHand"] instanceof ItemInstance;
+    }
+    hasEntityInRightHand() {
+        return this.hasSomethingInRightHand();
     }
     hasSomethingInBothHands() {
-        return this.heldEntities[0] instanceof ItemInstance && this.heldEntities[1] instanceof ItemInstance;
+        return this.heldEntities["leftHand"] instanceof ItemInstance && this.heldEntities["rightHand"] instanceof ItemInstance;
     }
     handsFull() {
         return this.hasSomethingInBothHands();
@@ -2651,15 +2721,30 @@ class Character extends Entity {
     }
     getEntityInRightHand() {
         if (this.hasSomethingInRightHand())
-            return this.heldEntities[0];
+            return this.heldEntities["rightHand"];
         else
             return undefined;
     }
     getEntityInLeftHand() {
         if (this.hasSomethingInLeftHand())
-            return this.heldEntities[1];
+            return this.heldEntities["leftHand"];
         else
             return undefined;
+    }
+    getFreeHand() {
+        if (this.handedness == "leftHand") {
+            if (!this.hasSomethingInLeftHand())
+                return "leftHand";
+            else if (!this.hasSomethingInRightHand())
+                return "rightHand";
+        }
+        else {
+            if (!this.hasSomethingInRightHand())
+                return "rightHand";
+            else if (!this.hasSomethingInLeftHand())
+                return "leftHand";
+        }
+        return undefined;
     }
     removeEntityInRightHand() {
         this.removeHeldEntity(this.getEntityInRightHand());
@@ -2669,25 +2754,20 @@ class Character extends Entity {
         this.removeHeldEntity(this.getEntityInLeftHand());
         return this;
     }
-    holding(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+    isHoldingEntity(_entityInstance) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (entityInstancesIndexes.has(_entityInstance))
+                _entityInstance = entityInstancesIndexes.get(_entityInstance);
             else {
-                _itemInstance = this.getItem(_itemInstance);
-                if (!(_itemInstance instanceof ItemInstance))
+                _entityInstance = this.getItem(_entityInstance);
+                if (!(_entityInstance instanceof EntityInstance))
                     return undefined;
             }
         }
-        var _isHolding = false;
-        this.heldEntities.forEach(function(__itemInstance) {
-            if (_itemInstance == __itemInstance)
-                _isHolding = true;
-        }, this);
-        return _isHolding;
+        return this.heldEntities["leftHand"] == _entityInstance || this.heldEntities["rightHand"] == _entityInstance;
     }
-    isHolding(_itemInstance) {
-        return this.holding(_itemInstance);
+    isHolding(_entityInstance) {
+        return this.isHoldingEntity(_entityInstance);
     }
 
     clean() {
@@ -4440,6 +4520,9 @@ class Character extends Entity {
             this.clothing[_type] = undefined;
         return this;
     }
+    addClothing(_itemInstance, _type) {
+        return this.setClothing(_itemInstance, _type);
+    }
     removeClothing(_itemInstance, _type = undefined) {
         if (typeof _itemInstance == "string" && kClothingTypes.has(_itemInstance)) {
             this.clothing[_itemInstance] = undefined;
@@ -4464,38 +4547,51 @@ class Character extends Entity {
         return this;
     }
 
-    addCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
+    addCurrentAction(_actionType, _entity = undefined) {
         if (!kActionTypes.has(_actionType))
             return undefined;
-        if (!(_entity instanceof Entity) && !(_entity instanceof ItemInstance))
+        if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
             _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
 
-        this.currentActions.set(_actionType, _entity);
+        this.currentActions[_actionType] = _entity;
         return this;
     }
-    removeCurrentAction(_actionType, _entity = undefined, _subEntity = undefined) {
-        if (!kActionTypes.has(_actionType) && _actionType !== undefined)
+    removeCurrentAction(_actionType, _entity = undefined) {
+        if (!kActionTypes.has(_actionType))
             return undefined;
-        if (!(_entity instanceof Entity) && !(_entity instanceof ItemInstance))
+        if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
             _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
 
-        this.currentActions.delete(_actionType);
+        delete this.currentActions[_actionType];
         return this;
+    }
+    hasCurrentAction(_actionType) {
+        if (!kActionTypes.has(_actionType))
+            return undefined;
+        return this.hasCurrentActionOwnProperty(_actionType);
     }
     getCurrentActions() {
         return this.currentActions;
     }
+    getCurrentAction(_actionType) {
+        if (!kActionTypes.has(_actionType))
+            return undefined;
+        else if (!this.hasCurrentAction(_actionType))
+            return undefined;
+        else
+            return this.currentActions[_actionType];
+    }
     hasCurrentAction(_actionType) {
-        return this.currentActions.has(_actionType);
+        return this.currentActions.hasOwnProperty(_actionType);
     }
     getStance() {
-        if (this.currentActions.has("lay"))
+        if (this.hasCurrentAction("lay"))
             return "lay";
-        else if (this.currentActions.has("sit"))
+        else if (this.hasCurrentAction("sit"))
             return "sit";
-        else if (this.currentActions.has("stand"))
+        else if (this.hasCurrentAction("stand"))
             return "stand";
-        else if (this.currentActions.has("kneel"))
+        else if (this.hasCurrentAction("kneel"))
             return "kneel";
     }
     getStancePresentTense() {
@@ -4611,59 +4707,7 @@ class Character extends Entity {
         return true;
     }
     hold(_entityInstance, _hand = undefined) {
-        if (!(_entityInstance instanceof EntityInstance)) {
-            if (instancesIndexes.has(_entityInstance))
-                _entityInstance = instancesIndexes.get(_entityInstance);
-            else
-                return undefined;
-        }
-
-        if (this.holding(_entityInstance))
-            return true;
-        if (_hand !== undefined) {
-            if (isNaN(_hand)) {
-                switch (_hand.slice(0, -1).toLowerCase()) {
-                    case 1 :
-                    case "l" : {
-                        _hand = 1;
-                        break;
-                    }
-                    case 0 :
-                    case "r" : {
-                        _hand = 0;
-                        break;
-                    }
-                }
-            }
-            else if (_hand > 1 || _hand < 0) {
-                _hand = 0;
-            }
-            else {
-                _hand = Number.parseInt(_hand);
-            }
-        }
-
-        if (typeof _hand == "number") {
-            if (this.heldEntities[_hand] instanceof ItemInstance) {
-                var __entityInstance = this.heldEntities[_hand];
-                if (!this.release(__entityInstance))
-                    return false;
-            }
-            this.heldEntities[_hand] = _entityInstance;
-        }
-        else {
-            if (this.heldEntities.length > 1) {
-                var __entityInstance = this.heldEntities[0];
-                if (this.release(__entityInstance))
-                    this.heldEntities[0] = _entityInstance;
-                else
-                    return false;
-            }
-            else
-                this.heldEntities.push(_entityInstance);
-        }
-        this.addCurrentAction("hold", _entityInstance);
-        return true;
+        return this.addHeldEntity(_entityInstance, _hand);
     }
     hug(_entity) {
         if (!(_entity instanceof Entity)) {
@@ -4765,11 +4809,11 @@ class Character extends Entity {
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
         if (this.sex == kMale) {
-            this.hold(this.getBodyPart("penis"));
+            this.addHeldEntity(this.getBodyPart("penis"));
             this.addCurrentAction("masturbate", this.getBodyPart("penis"));
         }
         else if (this.sex == kFemale) {
-            this.hold(this.getBodyPart("vagina"));
+            this.addHeldEntity(this.getBodyPart("vagina"));
             this.addCurrentAction("masturbate", this.getBodyPart("vagina"));
         }
         return true;
@@ -4784,6 +4828,29 @@ class Character extends Entity {
                 _entity = instancesIndexes.get(_entity).parent;
             else
                 return undefined;
+        }
+        return true;
+    }
+    oral(_entityInstance) {
+        if (!(_entityInstance instanceof EntityInstance)) {
+            if (instancesIndexes.has(_entityInstance))
+                _entityInstance = instancesIndexes.get(_entityInstance);
+            else
+                return undefined;
+        }
+
+        this.addCurrentAction("oral", _entityInstance);
+        if (_entityInstance.owner instanceof Character) {
+            if (_entityInstance.type == "penis") {
+                this.incFellatioGiveCount(1);
+                _entityInstance.owner.incFellatioReceiveCount(1);
+            }
+            else if (_entityInstance.type == "vagina") {
+                this.incCunnilingusGiveCount(1);
+                _entityInstance.owner.incCunnilingusReceiveCount(1);
+            }
+            else if (_entityInstance.type == "")
+            _entityInstance.owner.addCurrentAction("sex", this.getBodyPart("mouth"));
         }
         return true;
     }
@@ -4824,18 +4891,8 @@ class Character extends Entity {
                 return undefined;
         }
     }
-    release(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
-        }
-        if (this.holding(_itemInstance))
-            this.heldEntities.remove(_itemInstance);
-        else
-            return false;
-        if (!this.hasSomethingInEitherHand())
-            this.removeCurrentAction("hold");
-        return true;
+    release(_itemInstance, _hand = undefined) {
+        return this.removeHeldEntity(_itemInstance, _hand);
     }
     remove(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
@@ -4934,6 +4991,9 @@ class Character extends Entity {
             else
                 return;
         }
+    }
+    suck(_entityInstance) {
+        return this.oral(_entityInstance);
     }
     take(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
@@ -5655,7 +5715,7 @@ class Character extends Entity {
     /**
      * Increments sex count with Character
      * @param  {Character} _character Character
-     * @return {Boolean}            Whether or not values were incremented
+     * @param {this} This
      */
     incSexCount(_character) {
         if (!(_character instanceof Character)){
@@ -5675,7 +5735,7 @@ class Character extends Entity {
     /**
      * Wrapper function for this.incSexCount(Character)
      * @param {Character}  _character   Character
-     * @param {Boolean} _updateParent Whether or not to update the passed Character
+     * @param {this} This
      */
     addSexWith(_character, _updateParent = true) {
         this.incSexCount(_character);
@@ -5686,14 +5746,14 @@ class Character extends Entity {
     /**
      * Increments vaginal receiving count with Character
      * @param  {Character} _character Character
-     * @return {Boolean}            Whether or not values were incremented
+     * @param {this} This
      */
     incVaginalReceiveCount(_character) {
         if (!(_character instanceof Character)){
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.vaginalReceiveCount++;
         this.vaginalReceiveCountMap.set(_character, this.vaginalReceiveCountMap.get(_character) + 1);
@@ -5702,14 +5762,14 @@ class Character extends Entity {
     /**
      * Increments vaginal penetration count with Character
      * @param  {Character} _character Character
-     * @return {Boolean}            Whether or not values were incremented
+     * @param {this} This
      */
     incVaginalGiveCount(_character) {
         if (!(_character instanceof Character)){
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.vaginalGiveCount++;
         this.vaginalGiveCountMap.set(_character, this.vaginalGiveCountMap.get(_character) + 1);
@@ -5718,14 +5778,14 @@ class Character extends Entity {
     /**
      * Increments anal receiving count with Character
      * @param  {Character} _character Character
-     * @return {Boolean}            Whether or not values were incremented
+     * @param {this} This
      */
     incAnalReceiveCount(_character) {
         if (!(_character instanceof Character)){
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.analReceiveCount++;
         this.analReceiveCountMap.set(_character, this.analReceiveCountMap.get(_character) + 1);
@@ -5734,14 +5794,14 @@ class Character extends Entity {
     /**
      * Increments anal penetration count with Character
      * @param  {Character} _character Character
-     * @return {Boolean}            Whether or not values were incremented
+     * @param {this} This
      */
     incAnalGiveCount(_character) {
         if (!(_character instanceof Character)){
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.analGiveCount++;
         this.analGiveCountMap.set(_character, this.analGiveCountMap.get(_character) + 1);
@@ -5752,7 +5812,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.cunnilingusReceiveCount++;
         this.cunnilingusReceiveCountMap.set(_character, this.cunnilingusReceiveCountMap.get(_character) + 1);
@@ -5763,7 +5823,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.cunnilingusGiveCount++;
         this.cunnilingusGiveCountMap.set(_character, this.cunnilingusGiveCountMap.get(_character) + 1);
@@ -5774,7 +5834,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.analingusReceiveCount++;
         this.analingusReceiveCountMap.set(_character, this.analingusReceiveCountMap.get(_character) + 1);
@@ -5785,7 +5845,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.analingusGiveCount++;
         this.analingusGiveCountMap.set(_character, this.analingusGiveCountMap.get(_character) + 1);
@@ -5796,7 +5856,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.fellatioReceiveCount++;
         this.fellatioReceiveCountMap.set(_character, this.fellatioReceiveCountMap.get(_character) + 1);
@@ -5807,7 +5867,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.fellatioGiveCount++;
         this.fellatioGiveCountMap.set(_character, this.fellatioGiveCountMap.get(_character) + 1);
@@ -5818,7 +5878,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.handjobReceiveCount++;
         this.handjobReceiveCountMap.set(_character, this.handjobReceiveCountMap.get(_character) + 1);
@@ -5829,7 +5889,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.handjobGiveCount++;
         this.handjobGiveCountMap.set(_character, this.handjobGiveCountMap.get(_character) + 1);
@@ -5866,7 +5926,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.followers.add(_character);
         return this;
@@ -5876,7 +5936,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         if (this.followers.has(_character))
             this.followers.delete(_character);
@@ -5917,7 +5977,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
         this.relatives.add(_character);
         if (_updateParent)
@@ -5930,7 +5990,7 @@ class Character extends Entity {
             if (locationsIndexes.has(_location))
                 _location = locationsIndexes.get(_location);
             else
-                return undefined;
+                return this;
         }
         this.knownLocations.add(_location);
         return this;
@@ -5943,7 +6003,7 @@ class Character extends Entity {
             if (locationsIndexes.has(_location))
                 _location = locationsIndexes.get(_location);
             else
-                return undefined;
+                return this;
         }
         this.knownLocations.delete(_location);
         return this;
@@ -5957,7 +6017,7 @@ class Character extends Entity {
             if (spellsIndexes.has(_spell))
                 _spell = spellsIndexes.get(_spell);
             else
-                return undefined;
+                return this;
         }
         this.knownSpells.add(_spell);
         return this;
@@ -5970,7 +6030,7 @@ class Character extends Entity {
             if (spellsIndexes.has(_spell))
                 _spell = spellsIndexes.get(_spell);
             else
-                return undefined;
+                return this;
         }
         this.knownSpells.delete(_spell);
         return true;
@@ -5988,7 +6048,7 @@ class Character extends Entity {
             if (spellsIndexes.has(_spell))
                 _cost = spellsIndexes.get(_spell).manaCost;
             else
-                return undefined;
+                return this;
         }
         else
             _cost = _spell.manaCost;
@@ -6022,7 +6082,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return this;
         }
 
         if (this.prefersSpecies.has(_character.species)) {
@@ -6166,7 +6226,7 @@ class Character extends Entity {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
             else
-                return undefined;
+                return false;
         }
         return this.getSexCount(_character) > 0;
     }
@@ -6293,10 +6353,10 @@ class Character extends Entity {
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
         if (!(_room instanceof Room))
-            return false;
+            return this;
 
         if (_checkLocked && this.room.isLocked(_room))
-            return false;
+            return this;
 
         if (this.room instanceof Room)
             this.room.removeCharacter(this);

@@ -186,8 +186,8 @@ function debugRoomInformation() {
     _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(player.room.characters.size);
     for (var [_characterID, _character] of player.room.characters.entries()) {
         _blob = "";
-        _character.currentActions.forEach(function(_val, _key) {
-            
+        for (var _key in _character.getCurrentActions()) {
+            _val = _character.getCurrentAction(_key);
             if (_val instanceof Entity) {
                 _blob += _key + ":";
                 _arr.push(_val.toString());
@@ -196,7 +196,7 @@ function debugRoomInformation() {
                 _blob += _key;
             _blob += _arr.toString() + ", ";
             _arr = [];
-        }, this);
+        };
         _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _blob);
         _blob = "";
     }

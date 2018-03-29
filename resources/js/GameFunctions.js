@@ -251,7 +251,7 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
     /**
      * Hold or Release item
      */
-    if (_fromEntity instanceof Character && _fromEntity.holding(_itemInstance))
+    if (_fromEntity instanceof Character && _fromEntity.isHoldEntity(_itemInstance))
         _actionsBlob += Menu.createButton("itemInteractRelease('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Release");
     else
         _actionsBlob += Menu.createButton("itemInteractHold('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Hold ");
@@ -1370,6 +1370,35 @@ function characterSex(_characterA, _characterB, _furniture = undefined, _action 
     return _characterA.fuck(_characterB, _furniture);
 }
 /**
+ * Makes _characterA give _characterB oral sex
+ * @param  {Character} _characterA  Giving oral
+ * @param  {Character} _characterB  Receiving oral
+ * @return {Boolean}                Whether or not oral sex happens, or undefined
+ */
+function characterOral(_characterA, _characterB) {
+    if (!(_characterA instanceof Character)) {
+        if (charactersIndexes.has(_characterA))
+            _characterA = charactersIndexes.get(_characterA);
+        else
+            return undefined;
+    }
+    if (!(_characterB instanceof Character)) {
+        if (charactersIndexes.has(_characterB))
+            _characterB = charactersIndexes.get(_characterB);
+        else
+            return undefined;
+    }
+
+    if (_characterB.hasBodyPart("penis")) {
+        _characterA.addAction("oral", _characterB.getBodyPart("penis"));
+        _characterB.addAction("sex", _characterA.getBodyPart("mouth"));
+    }
+    else if (_character.hasBodyPart("vagina")) {
+        _characterA.addAction("oral", _characterB.getBodyPart("vagina"));
+        _characterB.addAction("sex", _characterA.getBodyPart("mouth"));
+    }
+}
+/**
  * Increments sex count for both Characters
  * @param  {Character} _characterA Character performing sex
  * @param  {Character} _characterB Character receiving sex
@@ -1799,7 +1828,7 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
 
     if (_character.isWearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
         return false;
-    else if (_character.isHolding(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
+    else if (_character.isHoldEntity(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
         return false;
     if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         if (debug) console.log("  Removing {0} from {1}".format(_itemInstance.parent.id, _character.id));
@@ -1970,7 +1999,7 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
         if (_fromEntity instanceof Character) {
             if (_itemInstance.parent instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
-            else if (_fromEntity.holding(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
+            else if (_fromEntity.isHoldEntity(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
             else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.parent.id, _fromEntity.id)))
                 return false;

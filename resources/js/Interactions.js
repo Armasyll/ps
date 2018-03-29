@@ -755,7 +755,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                     }
                     case "hold" : {
                         if (_entity instanceof Character) {
-                            if (_entity.holding(_itemInstance)) {
+                            if (_entity.isHoldEntity(_itemInstance)) {
                                 Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.parent.name));
                             }
                             else {
@@ -942,7 +942,7 @@ function itemInteractHold(_itemInstance, _character = player) {
     }
 
     if (_character.isWearing(_itemInstance))
-        _character.takeOff(_itemInstance);
+        _character.removeClothing(_itemInstance);
     if (_character.addHeldEntity(_itemInstance))
         unsafeExec("{0}Hold({1})".format(_itemInstance.parent.id, _character.id));
 
