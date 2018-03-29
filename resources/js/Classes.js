@@ -2697,24 +2697,24 @@ class Character extends Entity {
     /**
      * Removes Entity held in either hand
      * NOTE: Directly modifies this.currentAction
-     * @param  {ItemInstance, String} _itemInstance EntityInstance, EntityInstance ID, "leftHand", or "rightHand"
+     * @param  {EntityInstance, String} _entityInstance EntityInstance, EntityInstance ID, "leftHand", or "rightHand"
      * @return {this} This
      */
-    removeHeldEntity(_itemInstance) {
+    removeHeldEntity(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
             if (instanceIndices.has(_entityInstance))
                 _entityInstance = instanceIndices.get(_entityInstance);
-            else if (_itemInstance == "leftHand")
+            else if (_entityInstance == "leftHand")
                 _entityInstance = this.getEntityInLeftHand();
-            else if (_itemInstance == "rightHand")
+            else if (_entityInstance == "rightHand")
                 _entityInstance = this.getEntityInRightHand();
             else
                 return this;
         }
-        if (_itemInstance instanceof ItemInstance) {
-            if (this.getEntityInRightHand() == _itemInstance)
+        if (_entityInstance instanceof ItemInstance) {
+            if (this.getEntityInRightHand() == _entityInstance)
                 this.removeEntityInRightHand();
-            if (this.getEntityInLeftHand() == _itemInstance)
+            if (this.getEntityInLeftHand() == _entityInstance)
                 this.removeEntityInLeftHand();
         }
         this.currentActions["hold"] = this.heldEntities;
