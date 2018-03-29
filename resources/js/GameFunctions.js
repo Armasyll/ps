@@ -310,7 +310,7 @@ function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntit
         if (itemInstancesIndexes.has(_itemInstance))
             _itemInstance = itemInstancesIndexes.get(_itemInstance);
         else if (_itemInstance instanceof Item)
-            _itemInstance = new ItemInstance(_itemInstance);
+            _itemInstance = new ItemInstance(undefined, _itemInstance);
         else
             return undefined;
     }
@@ -341,7 +341,7 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
         if (itemInstancesIndexes.has(_itemInstance))
             _itemInstance = itemInstancesIndexes.get(_itemInstance);
         else if (_itemInstance instanceof Item)
-            _itemInstance = new ItemInstance(_itemInstance);
+            _itemInstance = new ItemInstance(undefined, _itemInstance);
         else
             return undefined;
     }
@@ -1882,7 +1882,7 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
                 }, this);
             }
             else
-                _itemInstance = new ItemInstance(_itemInstance, _fromEntity);
+                _itemInstance = new ItemInstance(undefined, _itemInstance, _fromEntity);
         }
         else if (itemsIndexes.has(_itemInstance)) {
             _itemInstance = itemsIndexes.get(_itemInstance);
@@ -1895,7 +1895,7 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
                 }, this);
             }
             else
-                _itemInstance = new ItemInstance(_itemInstance, _fromEntity);
+                _itemInstance = new ItemInstance(undefined, _itemInstance, _fromEntity);
         }
         else
             return undefined;
@@ -1958,9 +1958,9 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
         if (itemInstancesIndexes.has(_itemInstance))
             _itemInstance = itemInstancesIndexes.get(_itemInstance);
         else if (_itemInstance instanceof Item)
-            _itemInstance = new ItemInstance(_itemInstance);
+            _itemInstance = new ItemInstance(undefined, _itemInstance);
         else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
         else
             return undefined;
     }
@@ -2003,9 +2003,9 @@ function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
         if (itemInstancesIndexes.has(_itemInstance))
             _itemInstance = itemInstancesIndexes.get(_itemInstance);
         else if (_itemInstance instanceof Item)
-            _itemInstance = new ItemInstance(_itemInstance);
+            _itemInstance = new ItemInstance(undefined, _itemInstance);
         else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
         else
             return undefined;
     }
@@ -2036,9 +2036,9 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
         if (itemInstancesIndexes.has(_itemInstance))
             _itemInstance = itemInstancesIndexes.get(_itemInstance);
         else if (_itemInstance instanceof Item)
-            _itemInstance = new ItemInstance(_itemInstance);
+            _itemInstance = new ItemInstance(undefined, _itemInstance);
         else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
         else
             return undefined;
     }
@@ -2685,9 +2685,9 @@ function addAllItems(_character = player, _execEvents = true) {
 
     itemsIndexes.forEach(function(_item) {
         if (_execEvents)
-            characterAddItem(_character, undefined, new ItemInstance(_item, _character), true);
+            characterAddItem(_character, undefined, new ItemInstance(undefined, _item, _character), true);
         else
-            characterAddItem(_character, undefined, new ItemInstance(_item, _character), false);
+            characterAddItem(_character, undefined, new ItemInstance(undefined, _item, _character), false);
     }, this);
 
     return true;

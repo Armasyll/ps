@@ -65,11 +65,11 @@ carrotPhone7 = new Phone("carrotPhone7", "Carrot Phone 6S", "Carrot Phone 7 smar
 sungsamUniverse7 = new Phone("sungsamUniverse7", "Sungsam Universe 7 smartphone, developed by Sungsam.", undefined, 180, 0.150);
 goatoGrazr = new Phone("motoGrazr", "Goatorola Grazr", "Flip phone from the early 2000s.", undefined, 20, 100);
 
-remmyPhone = new PhoneInstance(carrotPhone6S, remmy);
-wolterPhone = new PhoneInstance(carrotPhone7, wolter);
-annekePhone = new PhoneInstance(carrotPhone7, anneke);
-charliePhone = new PhoneInstance(goatoGrazr, charlie);
-bettyPhone = new PhoneInstance(carrotPhone7, betty);
+remmyPhone = new PhoneInstance(undefined, carrotPhone6S, remmy);
+wolterPhone = new PhoneInstance(undefined, carrotPhone7, wolter);
+annekePhone = new PhoneInstance(undefined, carrotPhone7, anneke);
+charliePhone = new PhoneInstance(undefined, goatoGrazr, charlie);
+bettyPhone = new PhoneInstance(undefined, carrotPhone7, betty);
 
 
 if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");

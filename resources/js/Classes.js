@@ -2334,7 +2334,7 @@ class Character extends Entity {
                 else if (_entity instanceof Item) {
                     switch (_actionType) {
                         case "hold" : {
-                            this.hold(new ItemInstance(_entity));
+                            this.hold(new ItemInstance(undefined, _entity));
                             break;
                         }
                     }
@@ -2525,9 +2525,9 @@ class Character extends Entity {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(_itemInstance);
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
             else if (itemsIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+                _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
             else
                 return undefined;
         }
@@ -4424,9 +4424,9 @@ class Character extends Entity {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
-                _itemInstance = new ItemInstance(_itemInstance);
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
             else if (clothingIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
+                _itemInstance = new ItemInstance(undefined, clothingIndexes.get(_itemInstance));
             else
                 return this;
         }
@@ -4441,7 +4441,7 @@ class Character extends Entity {
         return this;
     }
     removeClothing(_itemInstance, _type = undefined) {
-        if (kClothingTypes.has(_itemInstance)) {
+        if (typeof _itemInstance == "string" && kClothingTypes.has(_itemInstance)) {
             this.clothing[_itemInstance] = undefined;
             return this;
         }
@@ -4453,15 +4453,14 @@ class Character extends Entity {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
-                _itemInstance = new ItemInstance(_itemInstance);
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
             else if (clothingIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(clothingIndexes.get(_itemInstance));
+                _itemInstance = new ItemInstance(undefined, clothingIndexes.get(_itemInstance));
             else
                 return this;
         }
 
-        if (_itemInstance instanceof ItemInstance)
-            this.clothing[kClothingTypes.has(_type) ? _type : _itemInstance.parent.type] = _itemInstance;
+        this.clothing[_itemInstance.parent.type] = undefined;
         return this;
     }
 
@@ -5054,6 +5053,8 @@ class Character extends Entity {
         return this.removeClothing(_itemInstance);
     }
     isWearing(_itemInstance) {
+        if (_itemInstance == undefined) 
+            return false;
         var _clothing;
         var _checkInstance = true;
         if (!(_itemInstance instanceof ItemInstance)) {
@@ -5255,11 +5256,11 @@ class Character extends Entity {
 
     hasBodyPart(_bodyPart) {
         if (!kBodyPartTypes.has(_bodyPart)) {
-            if (_bodyPart instanceof bodyParts)
+            if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
             else if (bodyPartsIndexes.has(_bodyPart))
                 _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
-            else if (_bodyPart instanceof bodyPartsIndexes)
+            else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
             else if (bodyPartInstancesIndexes.has(_bodyPart))
                 _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).parent.type;
@@ -5277,9 +5278,9 @@ class Character extends Entity {
         }
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
-                _bodyPart = new BodyPartInstance(_bodyPart, this, undefined, undefined, this.species);
+                _bodyPart = new BodyPartInstance(undefined, _bodyPart, this, undefined, undefined, this.species);
             else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(bodyPartsIndexes.get(_bodyPart), this, undefined, undefined, this.species);
+                _bodyPart = new BodyPartInstance(undefined, bodyPartsIndexes.get(_bodyPart), this, undefined, undefined, this.species);
             else if (bodyPartInstancesIndexes.has(_bodyPart))
                 _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
             else
@@ -5297,9 +5298,9 @@ class Character extends Entity {
         }
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
-                _bodyPart = new BodyPartInstance(_bodyPart.getType(), this, undefined, undefined, this.species);
+                _bodyPart = new BodyPartInstance(undefined, _bodyPart.getType(), this, undefined, undefined, this.species);
             else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(bodyPartsIndexes.get(_bodyPart).getType(), this, undefined, undefined, this.species);
+                _bodyPart = new BodyPartInstance(undefined, bodyPartsIndexes.get(_bodyPart).getType(), this, undefined, undefined, this.species);
             else if (bodyPartInstancesIndexes.has(_bodyPart))
                 _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
             else
@@ -5310,11 +5311,11 @@ class Character extends Entity {
     }
     getBodyPart(_bodyPart) {
         if (!kBodyPartTypes.has(_bodyPart)) {
-            if (_bodyPart instanceof bodyParts)
+            if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
             else if (bodyPartsIndexes.has(_bodyPart))
                 _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
-            else if (_bodyPart instanceof bodyPartsIndexes)
+            else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
             else if (bodyPartInstancesIndexes.has(_bodyPart))
                 _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).parent.type;
@@ -8056,9 +8057,9 @@ class Furniture extends Entity {
             if (itemInstancesIndexes.has(_itemInstance))
                 _itemInstance = itemInstancesIndexes.get(_itemInstance);
             else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(_itemInstance);
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
             else if (itemsIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(itemsIndexes.get(_itemInstance));
+                _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
             else
                 return this;
         }
@@ -8529,28 +8530,21 @@ class EntityInstance {
      * @param  {Number} _durabilityMax Max durability, defaults to 1
      */
     constructor(_id, _parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
-        if (typeof _id == "undefined")
+        if (_id == undefined)
             _id = uuidv4();
-        this.id = _id;
-
-        if (typeof _parent == "undefined")
-            return undefined;
-        else if (!(_parent instanceof Entity)) {
-            if (entityIndexes.has(_parent))
-                entityIndexes.get(_parent);
-            else if (_parent instanceof EntityInstance)
-                _parent = _parent.parent;
-            else if (instancesIndexes.has(_parent))
-                _parent = instancesIndexes.get(_parent).parent;
-            else
-                return undefined;
+        else if (typeof _id == "string" || typeof _id == "number") {
+            _id = _id.replace(/[^0-9a-z\-]/gi, '');
+            if (_id.length == 0)
+                _id = uuidv4();
         }
+
+        this.id = _id;
 
         this.name = undefined;
         this.description = undefined;
         this.image = undefined;
         this.child = undefined;
-        this.parent = _parent;
+        this.parent = undefined;
         this.owner = undefined;
         this.price = 0;
         this.weight = 0.0;
@@ -8558,6 +8552,7 @@ class EntityInstance {
         this.durabilityMax = 1;
 
         this.setOwner(_owner);
+        this.setParent(_parent);
         this.setPrice(_price || _parent.price);
         this.setWeight(_weight || _parent.weight);
         this.setDurability(_durability || 1);
@@ -8592,6 +8587,10 @@ class EntityInstance {
         if (!(_entity instanceof Entity)){
             if (entityIndexes.has(_entity))
                 _entity = entityIndexes.get(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity.parent;
+            else if (instancesIndexes.has(_entity))
+                _entity = instancesIndexes.get(_entity).parent;
             else
                 _entity = undefined;
         }
@@ -8805,7 +8804,7 @@ class EntityInstance {
     }
 }
 class ItemInstance extends EntityInstance {
-    constructor(_parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+    constructor(_id = undefined, _parent = undefined, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Item)) {
             if (itemsIndexes.has(_parent)) 
                 _parent = itemsIndexes.get(_parent);
@@ -8820,7 +8819,7 @@ class ItemInstance extends EntityInstance {
                 return undefined;
         }
 
-        super(uuidv4(), _parent, _owner, _price, _weight, _durability, _durabilityMax);
+        super(_id, _parent, _owner, _price, _weight, _durability, _durabilityMax);
 
         itemInstancesIndexes.set(this.id, this);
     }
@@ -8840,7 +8839,7 @@ class BodyPartInstance extends ItemInstance {
      * @param  {Number} _durabilityMax Max durability
      * @param  {String} _type          Species type
      */
-    constructor(_parent, _owner = undefined, _durability = 1, _durabilityMax = 1, _type = undefined) {
+    constructor(_id = undefined, _parent, _owner = undefined, _durability = 1, _durabilityMax = 1, _type = undefined) {
         if (!(_parent instanceof BodyPart)) {
             if (bodyPartsIndexes.has(_parent))
                 _parent = bodyPartsIndexes.get(_parent);
@@ -8855,7 +8854,7 @@ class BodyPartInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(_parent, _owner, undefined, undefined, _durability, _durabilityMax);
+        super(_id, _parent, _owner, undefined, undefined, _durability, _durabilityMax);
 
         this.setChild(_owner);
         this.setType(_type);
@@ -8885,7 +8884,7 @@ class BodyPartInstance extends ItemInstance {
     }
 }
 class PhoneInstance extends ItemInstance {
-    constructor(_parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+    constructor(_id, _parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Phone)) {
             if (phonesIndexes.has(_parent)) 
                 _parent = phonesIndexes.get(_parent);
@@ -8900,7 +8899,7 @@ class PhoneInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(_parent, _owner, _price, _weight, _durability, _durabilityMax);
+        super(_id, _parent, _owner, _price, _weight, _durability, _durabilityMax);
 
         this.receivedMessages = new Map();
         this.readMessages = new Map();
@@ -8960,7 +8959,7 @@ class PhoneInstance extends ItemInstance {
     }
 }
 class WeaponInstance extends ItemInstance {
-    constructor(_parent, _owner = undefined) {
+    constructor(_id, _parent, _owner = undefined) {
         if (!(_parent instanceof Weapon)) {
             if (weaponsIndexes.has(_parent)) 
                 _parent = weaponsIndexes.get(_parent);
@@ -8975,7 +8974,7 @@ class WeaponInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(uuidv4(), _parent, _owner, _price, _weight);
+        super(_id, _parent, _owner, _price, _weight);
     }
 
     delete() {
@@ -8985,7 +8984,7 @@ class WeaponInstance extends ItemInstance {
     }
 }
 class ArmorInstance extends ItemInstance {
-    constructor(_parent, _owner = undefined) {}
+    constructor(_id, _parent, _owner = undefined) {}
 
     delete() {
         armorInstancesIndexes.delete(this.id);

@@ -770,10 +770,10 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                             break;
                         if (_entity instanceof Character) {
                             if (_entity.isWearing(_itemInstance)) {
-                                Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {1}".format(this.parent.name));
+                                Menu.addOption("itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {0}".format(this.parent.name));
                             }
                             else {
-                                Menu.addOption("itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {1}".format(this.parent.name));
+                                Menu.addOption("itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {0}".format(this.parent.name));
                             }
                         }
                         else {}

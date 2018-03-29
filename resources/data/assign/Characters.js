@@ -236,10 +236,10 @@ betty.addItem(alBuildingLocationKey);
 betty.addItem(bettyBuildingLocationKey);
 betty.addItem(bettyApartmentLocationKey);
 betty.addItem(masterKey);
-betty.addItem(new ItemInstance(straponHorseBlack, "betty", 45, 2, 90, 100));
+betty.addItem(new ItemInstance(undefined, straponHorseBlack, "betty", 45, 2, 90, 100));
 charlie.addItem(chartyApartmentLocationKey);
-charlie.addItem(new ItemInstance(charlieBeatingHeart, "charlie", 80, 0.08, Number.MAX_VALUE, Number.MAX_VALUE));
-charlie.addItem(new ItemInstance(charlieLeftEye, "charlie", 30, 0.003, Number.MAX_VALUE, Number.MAX_VALUE));
+charlie.addItem(new ItemInstance(undefined, charlieBeatingHeart, "charlie", 80, 0.08, Number.MAX_VALUE, Number.MAX_VALUE));
+charlie.addItem(new ItemInstance(undefined, charlieLeftEye, "charlie", 30, 0.003, Number.MAX_VALUE, Number.MAX_VALUE));
 marty.addItem(chartyApartmentLocationKey);
 ozzy.addItem(ozzyApartmentLocationKey);
 pandora.addItem(pandorasBoxLocationKey);
@@ -249,8 +249,8 @@ velvet.addItem(alApartmentLocationKey);
 wolter.addItem(twinsApartmentLocationKey);
 
 // Assign held Items to Characters
-anneke.hold(new ItemInstance(dildoCanineRed, "anneke", 20, 0.8, 90, 100));
-charlie.hold(new ItemInstance(charliePalmMirror, "charlie", 1, 0.005, Number.MAX_VALUE, Number.MAX_VALUE));
+anneke.hold(new ItemInstance(undefined, dildoCanineRed, "anneke", 20, 0.8, 90, 100));
+charlie.hold(new ItemInstance(undefined, charliePalmMirror, "charlie", 1, 0.005, Number.MAX_VALUE, Number.MAX_VALUE));
 
 // Assign Phones to Characters
 remmy.addItem(remmyPhone);
