@@ -2853,11 +2853,11 @@ function saveGame() {
     _save.setAttribute('download', "ps_{0}.json".format(Date.now()));
 
     _save.style.display = 'none';
-    document.body.appendChild(_save);
+    document.body.appendParent(_save);
 
     _save.click();
 
-    document.body.removeChild(_save);
+    document.body.removeParent(_save);
 }
 function loadGame(_json) {
     if (typeof _json == "string") {

@@ -4202,7 +4202,7 @@ class Character extends Entity {
         return this;
     }
 
-    addDating(_character, _updateChild = true) {
+    addDating(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -4210,14 +4210,14 @@ class Character extends Entity {
                 return undefined;
         }
         this._dating.add(_character);
-        if (_updateChild)
+        if (_updateParent)
             _character.addDating(this, false);
         return this;
     }
-    dateCharacter(_character, _updateChild = true) {
-        return this.addDating(_character, _updateChild);
+    dateCharacter(_character, _updateParent = true) {
+        return this.addDating(_character, _updateParent);
     }
-    addDated(_character, _int = 1, _updateChild = true) {
+    addDated(_character, _int = 1, _updateParent = true) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -4225,14 +4225,14 @@ class Character extends Entity {
                 return undefined;
         }
         if (typeof _int === "boolean") {
-            _updateChild = _int;
+            _updateParent = _int;
             if (this._dated.has(_character))
                 _int = this._dated.get(_character) + 1;
             else
                 _int = 1;
         }
         else if (typeof _int === "undefined") {
-            _updateChild = true;
+            _updateParent = true;
             if (this._dated.has(_character))
                 _int = this._dated.get(_character) + 1;
             else
@@ -4245,12 +4245,12 @@ class Character extends Entity {
         }
 
         this._dated.set(_character, _int);
-        if (_updateChild)
+        if (_updateParent)
             _character.addDated(this, _int, false);
         return this;
     }
-    datedCharacter(_character, _int = 0, _updateChild = true) {
-        return this.addDated(_character, _int, _updateChild);
+    datedCharacter(_character, _int = 0, _updateParent = true) {
+        return this.addDated(_character, _int, _updateParent);
     }
     isDatingCharacter(_character) {
         if (!(_character instanceof Character)) {
@@ -4297,7 +4297,7 @@ class Character extends Entity {
         else
             return 0;
     }
-    deleteDating(_character, _updateChild) {
+    deleteDating(_character, _updateParent) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -4309,14 +4309,14 @@ class Character extends Entity {
             this._dating.delete(_character);
             this.hasDatedCharacter(_character);
         }
-        if (_updateChild)
+        if (_updateParent)
             _character.deleteDating(this, false);
         return this;
     }
-    dumpCharacter(_character, _updateChild = true) {
-        return this.deleteDating(_character, _updateChild);
+    dumpCharacter(_character, _updateParent = true) {
+        return this.deleteDating(_character, _updateParent);
     }
-    deleteDated(_character, _updateChild) {
+    deleteDated(_character, _updateParent) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -4326,7 +4326,7 @@ class Character extends Entity {
 
         if (this.hasDated(_character))
             this._dated.delete(_character);
-        if (_updateChild)
+        if (_updateParent)
             _character.deleteDated(this, false);
         return this;
     }
@@ -5674,11 +5674,11 @@ class Character extends Entity {
     /**
      * Wrapper function for this.incSexCount(Character)
      * @param {Character}  _character   Character
-     * @param {Boolean} _updateChild Whether or not to update the passed Character
+     * @param {Boolean} _updateParent Whether or not to update the passed Character
      */
-    addSexWith(_character, _updateChild = true) {
+    addSexWith(_character, _updateParent = true) {
         this.incSexCount(_character);
-        if (_updateChild)
+        if (_updateParent)
             _character.incSexCount(_character);
         return this;
     }
@@ -5911,7 +5911,7 @@ class Character extends Entity {
         return this.sexCountMap.has(_character) ? this.sexCountMap.get(_character) : 0;
     }
 
-    addRelative(_character, _updateChild = true) {
+    addRelative(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
             if (charactersIndexes.has(_character))
                 _character = charactersIndexes.get(_character);
@@ -5919,7 +5919,7 @@ class Character extends Entity {
                 return undefined;
         }
         this.relatives.add(_character);
-        if (_updateChild)
+        if (_updateParent)
             _character.addRelative(this, false);
         return this;
     }
@@ -7013,7 +7013,7 @@ class Room {
         return this;
     }
 
-    setAttachedRoom(_direction, _room, _options = {}, _updateChild = false) {
+    setAttachedRoom(_direction, _room, _options = {}, _updateParent = false) {
         if (!(_room instanceof Room))
             _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
 
@@ -7122,7 +7122,7 @@ class Room {
             }
         }
 
-        if (_updateChild) {
+        if (_updateParent) {
             var _inversedDirection = 6;
             var __options = {};
 
@@ -7161,31 +7161,31 @@ class Room {
         }
         return this;
     }
-    setNorthRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(0, _room, _options, _updateChild);
+    setNorthRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(0, _room, _options, _updateParent);
         return this;
     }
-    setEastRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(1, _room, _options, _updateChild);
+    setEastRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(1, _room, _options, _updateParent);
         return this;
     }
-    setSouthRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(2, _room, _options, _updateChild);
+    setSouthRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(2, _room, _options, _updateParent);
         return this;
     }
-    setWestRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(3, _room, _options, _updateChild);
+    setWestRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(3, _room, _options, _updateParent);
         return this;
     }
-    setDownRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(4, _room, _options, _updateChild);
+    setDownRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(4, _room, _options, _updateParent);
         return this;
     }
-    setUpRoom(_room, _options = undefined, _updateChild = true) {
-        this.setAttachedRoom(5, _room, _options, _updateChild);
+    setUpRoom(_room, _options = undefined, _updateParent = true) {
+        this.setAttachedRoom(5, _room, _options, _updateParent);
         return this;
     }
-    unsetAttachedRoom(_direction, _updateChild = true, _unsetRoom = false) {
+    unsetAttachedRoom(_direction, _updateParent = true, _unsetRoom = false) {
         switch(_direction) {
             case 0 : {
                 this.northSide = 3;
@@ -7212,7 +7212,7 @@ class Room {
             this.cell.cells.delete(this.attachedRooms.get(_direction).cell);
         }
 
-        if (_updateChild) {
+        if (_updateParent) {
             var inversedDirection = 4;
 
             switch (_direction) {
@@ -7262,28 +7262,28 @@ class Room {
             this.unsetRoom(this.attachedRooms.get(_direction));
         return this;
     }
-    unsetNorthRoom(_updateChild = true) {
-        this.unsetAttachedRoom(0, _updateChild);
+    unsetNorthRoom(_updateParent = true) {
+        this.unsetAttachedRoom(0, _updateParent);
         return this;
     }
-    unsetEastRoom(_updateChild = true) {
-        this.unsetAttachedRoom(1, _updateChild);
+    unsetEastRoom(_updateParent = true) {
+        this.unsetAttachedRoom(1, _updateParent);
         return this;
     }
-    unsetSouthRoom(_updateChild = true) {
-        this.unsetAttachedRoom(2, _updateChild);
+    unsetSouthRoom(_updateParent = true) {
+        this.unsetAttachedRoom(2, _updateParent);
         return this;
     }
-    unsetWestRoom(_updateChild = true) {
-        this.unsetAttachedRoom(3, _updateChild);
+    unsetWestRoom(_updateParent = true) {
+        this.unsetAttachedRoom(3, _updateParent);
         return this;
     }
-    unsetDownRoom(_updateChild = true) {
-        this.unsetAttachedRoom(4, _updateChild);
+    unsetDownRoom(_updateParent = true) {
+        this.unsetAttachedRoom(4, _updateParent);
         return this;
     }
-    unsetUpRoom(_updateChild = true) {
-        this.unsetAttachedRoom(5, _updateChild);
+    unsetUpRoom(_updateParent = true) {
+        this.unsetAttachedRoom(5, _updateParent);
         return this;
     }
     clearAttachedRooms() {
@@ -7305,44 +7305,44 @@ class Room {
         return this.attachedRooms.has(5);
     }
 
-    setNorthWall(wallType, updateChild = true) {
+    setNorthWall(wallType, updateParent = true) {
         this.northSide = wallType;
-        if (updateChild && this.attachedRooms.has(0) && this.attachedRooms.get(0) instanceof Room)
+        if (updateParent && this.attachedRooms.has(0) && this.attachedRooms.get(0) instanceof Room)
             this.attachedRooms.get(0).setSouthWall(wallType, false);
         return this;
     }
-    setEastWall(wallType, updateChild = true) {
+    setEastWall(wallType, updateParent = true) {
         this.eastSide = wallType;
-        if (updateChild && this.attachedRooms.has(1) && this.attachedRooms.get(1) instanceof Room)
+        if (updateParent && this.attachedRooms.has(1) && this.attachedRooms.get(1) instanceof Room)
             this.attachedRooms.get(1).setWestWall(wallType, false);
         return this;
     }
-    setSouthWall(wallType, updateChild = true) {
+    setSouthWall(wallType, updateParent = true) {
         this.southSide = wallType;
-        if (updateChild && this.attachedRooms.has(2) && this.attachedRooms.get(2) instanceof Room)
+        if (updateParent && this.attachedRooms.has(2) && this.attachedRooms.get(2) instanceof Room)
             this.attachedRooms.get(2).setNorthWall(wallType, false);
         return this;
     }
-    setWestWall(wallType, updateChild = true) {
+    setWestWall(wallType, updateParent = true) {
         this.westSide = wallType;
-        if (updateChild && this.attachedRooms.has(3) && this.attachedRooms.get(3) instanceof Room)
+        if (updateParent && this.attachedRooms.has(3) && this.attachedRooms.get(3) instanceof Room)
             this.attachedRooms.get(3).setEastWall(wallType, false);
         return this;
     }
-    setWalls(_northWallType = 3, _eastWallType = undefined, _southWallType = undefined, _westWallType = undefined, updateChild = true) {
+    setWalls(_northWallType = 3, _eastWallType = undefined, _southWallType = undefined, _westWallType = undefined, updateParent = true) {
         if (typeof _eastWallType == 'undefined') {
             _eastWallType = _northWallType;
             _southWallType = _northWallType;
             _westWallType = _northWallType;
         }
         if (typeof _northWallType != 'undefined')
-            this.setNorthWall(_northWallType, updateChild);
+            this.setNorthWall(_northWallType, updateParent);
         if (typeof _eastWallType != 'undefined')
-            this.setEastWall(_eastWallType, updateChild);
+            this.setEastWall(_eastWallType, updateParent);
         if (typeof _southWallType != 'undefined')
-            this.setSouthWall(_southWallType, updateChild);
+            this.setSouthWall(_southWallType, updateParent);
         if (typeof _westWallType != 'undefined')
-            this.setWestWall(_westWallType, updateChild);
+            this.setWestWall(_westWallType, updateParent);
         return this;
     }
 
@@ -8567,24 +8567,6 @@ class EntityInstance {
     }
 
     /**
-     * Sets Parent
-     * @param {Entity} _entity Entity, or undefined
-     */
-    setParent(_entity) {
-        if (!(_entity instanceof Entity)){
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
-            else
-                _entity = undefined;
-        }
-        this.child = _entity;
-        return this;
-    }
-    getParent() {
-        return this.child;
-    }
-
-    /**
      * Sets Child
      * @param {Entity} _entity Entity, or undefined
      */
@@ -8595,10 +8577,28 @@ class EntityInstance {
             else
                 _entity = undefined;
         }
-        this.parent = _entity;
+        this.child = _entity;
         return this;
     }
     getChild() {
+        return this.child;
+    }
+
+    /**
+     * Sets Parent
+     * @param {Entity} _entity Entity, or undefined
+     */
+    setParent(_entity) {
+        if (!(_entity instanceof Entity)){
+            if (entityIndexes.has(_entity))
+                _entity = entityIndexes.get(_entity);
+            else
+                _entity = undefined;
+        }
+        this.parent = _entity;
+        return this;
+    }
+    getParent() {
         return this.parent;
     }
 
@@ -8857,7 +8857,7 @@ class BodyPartInstance extends ItemInstance {
 
         super(_parent, _owner, undefined, undefined, _durability, _durabilityMax);
 
-        this.setParent(_owner);
+        this.setChild(_owner);
         this.setType(_type);
 
         bodyPartInstancesIndexes.set(this.id, this);
