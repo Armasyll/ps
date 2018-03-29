@@ -2629,6 +2629,28 @@ class Character extends Entity {
         return this.items.length;
     }
 
+    setHandedness(_hand) {
+        if (_hand == "leftHand")
+            this.handedness = "leftHand";
+        else if (_hand == "rightHand")
+            this.handedness = "rightHand";
+    }
+    getHandedness() {
+        return this.handedness;
+    }
+    setLeftHanded(_bool = true) {
+        if (_bool === true)
+            this.setHandedness("leftHand");
+        else
+            this.setHandedness("rightHand");
+    }
+    setRightHanded(_bool = true) {
+        if (_bool === true)
+            this.setHandedness("rightHand");
+        else
+            this.setHandedness("leftHand");
+    }
+
     /**
      * Adds Entity(s) to this Character's heldEntities
      * NOTE: Directly modifies this.currentAction
