@@ -72,4 +72,4 @@ charliePhone = new PhoneInstance(undefined, goatoGrazr, charlie);
 bettyPhone = new PhoneInstance(undefined, carrotPhone7, betty);
 
 
-if (debug) console.log("\tInitialized " + itemsIndexes.size + " Items.");
+if (debug) console.log("\tInitialized " + itemIndices.size + " Items.");

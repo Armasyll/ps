@@ -51,4 +51,4 @@ happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happy
 zootopiaCreditUnion44thLocation = new Location("zootopiaCreditUnion44thLocation", "Zootopia Credit Union", "", "resources/images/locations/zootopiaCreditUnionLocation.svg", "bank")
 
 
-if (debug) console.log("\tInitialized " + locationsIndexes.size + " Locations.");
+if (debug) console.log("\tInitialized " + locationIndices.size + " Locations.");

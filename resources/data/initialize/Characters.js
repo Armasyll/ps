@@ -23,6 +23,6 @@ var weaver = new Character("weaver", "Weaver", undefined, undefined, "commoner",
 var wolter = new Character("wolter", "Wolter", undefined, undefined, "noble", 20, "m", "aardwolf");
 
 // Do not edit this. Assigns a Character to Player, updated next in resources/data/start.js
-var player = Array.from(charactersIndexes)[0];
+var player = Array.from(characterIndices)[0];
 
-if (debug) console.log("\tInitialized " + charactersIndexes.size + " Characters.");
+if (debug) console.log("\tInitialized " + characterIndices.size + " Characters.");

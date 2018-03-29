@@ -24,4 +24,4 @@ packStreetHappytownLocksmithsCell = new Cell("packStreetHappytownLocksmithsCell"
 
 zootopiaCreditUnion44thCell = new Cell("zootopiaCreditUnion44thCell", "Zootopia Credit Union, 44th Street", zootopiaCreditUnion44thLocation)
 
-if (debug) console.log("\tInitialized " + cellsIndexes.size + " Cells.");
+if (debug) console.log("\tInitialized " + cellIndices.size + " Cells.");

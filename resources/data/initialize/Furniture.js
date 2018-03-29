@@ -41,4 +41,4 @@ pandorasBoxAisleA1RightShelf = new Furniture("pandorasBoxAisleA1RightShelf", "'D
 pandorasBoxAisleA2RightShelf = new Furniture("pandorasBoxAisleA2RightShelf", "'E-F' Shelf", "A shelf containing enemas and fleshlights.", undefined, "shelf", 0, 6);
 pandorasBoxAisleA3RightShelf = new Furniture("pandorasBoxAisleA3RightShelf", "'G-H' Shelf", "A shelf containing gag balls and harnesses.", undefined, "shelf", 0, 6);
 
-if (debug) console.log("\tInitialized " + furnitureIndexes.size + " Furniture.");
+if (debug) console.log("\tInitialized " + furnitureIndices.size + " Furniture.");

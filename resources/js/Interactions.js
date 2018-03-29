@@ -1,7 +1,7 @@
 function entityInteract(_entity, _clearContent = false, _clearMenu = true) {
     if (!_entity instanceof Entity || !_entity instanceof Instance) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
@@ -23,20 +23,20 @@ function entityInteract(_entity, _clearContent = false, _clearMenu = true) {
             return false;
     }
     else if (typeof _entity == "string") {
-        if (charactersIndexes.has(_entity))
-            return characterInteract(charactersIndexes.get(_entity), _clearContent);
-        else if (furnitureIndexes.has(_entity))
-            return furnitureInteract(furnitureIndexes.get(_entity), _clearContent, _clearMenu);
-        else if (phoneIndexes.has(_entity))
-            return phoneInteract(phoneIndexes.get(_entity), _clearContent, _clearMenu);
-        else if (itemIndexes.has(_entity))
-            return itemInteract(itemIndexes.get(_entity), player, _clearContent, _clearMenu);
-        else if (itemInstancesIndexes.has(_entity))
-            return itemInteract(itemInstancesIndexes.get(_entity), player, _clearContent, _clearMenu);
-        else if (spellsIndexes.has(_entity))
-            return spellInteract(spellsIndexes.get(_entity), player, _clearContent, _clearMenu);
-        else if (roomsIndexes.has(_entity))
-            return roomInteract(roomsIndexes.get(_entity), _clearContent, _clearMenu);
+        if (characterIndices.has(_entity))
+            return characterInteract(characterIndices.get(_entity), _clearContent);
+        else if (furnitureIndices.has(_entity))
+            return furnitureInteract(furnitureIndices.get(_entity), _clearContent, _clearMenu);
+        else if (phoneIndices.has(_entity))
+            return phoneInteract(phoneIndices.get(_entity), _clearContent, _clearMenu);
+        else if (itemIndices.has(_entity))
+            return itemInteract(itemIndices.get(_entity), player, _clearContent, _clearMenu);
+        else if (itemInstanceIndices.has(_entity))
+            return itemInteract(itemInstanceIndices.get(_entity), player, _clearContent, _clearMenu);
+        else if (spellIndices.has(_entity))
+            return spellInteract(spellIndices.get(_entity), player, _clearContent, _clearMenu);
+        else if (roomIndices.has(_entity))
+            return roomInteract(roomIndices.get(_entity), _clearContent, _clearMenu);
         else
             return false;
     }
@@ -44,7 +44,7 @@ function entityInteract(_entity, _clearContent = false, _clearMenu = true) {
 
 function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
     if (!(_room instanceof Room))
-        _room = roomsIndexes.get(_room);
+        _room = roomIndices.get(_room);
 
     if (player.room.isLocked(_room) && !player.hasKey(_room)) {
         if (_room.location != player.room.location)
@@ -156,7 +156,7 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
         }
     }
 
-    eventsIndexes.forEach(function(_event) {
+    eventIndices.forEach(function(_event) {
         if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
             return undefined;
         }
@@ -197,8 +197,8 @@ function roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
 
 function characterInteract(_character, _clearContent = true) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -210,7 +210,7 @@ function characterInteract(_character, _clearContent = true) {
 
     Menu.showingBaseMenu = false;
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     lastMenu = "characterInteract('{0}', false)".format(_character.id);
 
     Title.set(
@@ -266,8 +266,8 @@ function characterInteract(_character, _clearContent = true) {
 }
 function characterInteractOpen(_character, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             _character = player;
     }
@@ -388,8 +388,8 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
 }
 function characterInteractTalk(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -413,8 +413,8 @@ function characterInteractTalk(_character) {
 }
 function characterInteractSex(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -429,8 +429,8 @@ function characterInteractSex(_character) {
 }
 function characterInteractFollow(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -439,8 +439,8 @@ function characterInteractFollow(_character) {
 }
 function characterInteractAttack(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -455,8 +455,8 @@ function characterInteractAttack(_character) {
 }
 function characterInteractStay(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -465,8 +465,8 @@ function characterInteractStay(_character) {
 }
 function characterInteractHug(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -481,8 +481,8 @@ function characterInteractHug(_character) {
 }
 function characterInteractWake(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -493,7 +493,7 @@ function characterInteractWake(_character) {
 
 function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
 
     lastMenu = "furnitureInteract('{0}', false, true)".format(_furniture.id);
 
@@ -556,7 +556,7 @@ function furnitureInteract(_furniture, _clearContent = false, _clearMenu = true)
 }
 function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
 
     if (enablePopups) {
         $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(player.image));
@@ -626,9 +626,9 @@ function furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true,
 }
 function furnitureInteractUse(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
@@ -648,9 +648,9 @@ function furnitureInteractUse(_furniture, _character = player) {
 }
 function furnitureInteractSit(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
@@ -662,9 +662,9 @@ function furnitureInteractSit(_furniture, _character = player) {
 }
 function furnitureInteractLay(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
         return;
@@ -676,9 +676,9 @@ function furnitureInteractLay(_furniture, _character = player) {
 }
 function furnitureInteractSleep(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
     
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
@@ -697,9 +697,9 @@ function furnitureInteractSleep(_furniture, _character = player) {
 }
 function furnitureInteractLook(_furniture, _character = player) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
 
     if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
@@ -710,11 +710,11 @@ function furnitureInteractLook(_furniture, _character = player) {
 }
 function furnitureInteractSex(_furniture, _characterA = player, _characterB = undefined) {
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.get(_furniture);
+        _furniture = furnitureIndices.get(_furniture);
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
 
 
     if (!(_furniture instanceof Furniture) || !(_characterA instanceof Character))
@@ -726,12 +726,12 @@ function furnitureInteractSex(_furniture, _characterA = player, _characterB = un
 
 function itemInteract(_itemInstance, _entity = player, _clearContent = false, _clearMenu = true) {
     if (!(_entity instanceof Entity)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
-        else if (furnitureIndexes.has(_entity))
-            _entity = furnitureIndexes.get(_entity);
-        else if (itemsIndexes.has(_entity))
-            _entity = itemsIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
+        else if (furnitureIndices.has(_entity))
+            _entity = furnitureIndices.get(_entity);
+        else if (itemIndices.has(_entity))
+            _entity = itemIndices.get(_entity);
         else
             return undefined;
     }
@@ -775,7 +775,7 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
                     }
                     case "hold" : {
                         if (_entity instanceof Character) {
-                            if (_entity.isHoldEntity(_itemInstance)) {
+                            if (_entity.isHoldingEntity(_itemInstance)) {
                                 Menu.addOption("itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.parent.name));
                             }
                             else {
@@ -829,15 +829,15 @@ function itemInteract(_itemInstance, _entity = player, _clearContent = false, _c
 }
 function itemInteractUse(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -853,22 +853,22 @@ function itemInteractUse(_itemInstance, _character = player) {
  */
 function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (charactersIndexes.has(_entityB))
-            _entityB = charactersIndexes.get(_entityB);
+        if (characterIndices.has(_entityB))
+            _entityB = characterIndices.get(_entityB);
         else
             _entityB = undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -887,22 +887,22 @@ function itemInteractPut(_itemInstance, _characterA = player, _entityB = undefin
  */
 function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (charactersIndexes.has(_entityB))
-            _entityB = charactersIndexes.get(_entityB);
+        if (characterIndices.has(_entityB))
+            _entityB = characterIndices.get(_entityB);
         else
             _entityB = undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -921,22 +921,22 @@ function itemInteractGive(_itemInstance, _characterA = player, _entityB = undefi
  */
 function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
 
     if (!(_entityB instanceof Character) && _entityB != undefined) {
-        if (charactersIndexes.has(_entityB))
-            _entityB = charactersIndexes.get(_entityB);
+        if (characterIndices.has(_entityB))
+            _entityB = characterIndices.get(_entityB);
         else
             _entityB = undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -948,15 +948,15 @@ function itemInteractTake(_itemInstance, _characterA = player, _entityB = undefi
 }
 function itemInteractHold(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -973,15 +973,15 @@ function itemInteractHold(_itemInstance, _character = player) {
 }
 function itemInteractRelease(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -996,15 +996,15 @@ function itemInteractRelease(_itemInstance, _character = player) {
 }
 function itemInteractWear(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1019,15 +1019,15 @@ function itemInteractWear(_itemInstance, _character = player) {
 }
 function itemInteractDisrobe(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1042,15 +1042,15 @@ function itemInteractDisrobe(_itemInstance, _character = player) {
 }
 function itemInteractLook(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1066,15 +1066,15 @@ function itemInteractLook(_itemInstance, _character = player) {
 }
 function itemInteractAttack(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1090,15 +1090,15 @@ function itemInteractAttack(_itemInstance, _character = player) {
 }
 function itemInteractSex(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1111,15 +1111,15 @@ function itemInteractSex(_itemInstance, _character = player) {
 }
 function itemInteractMasturbate(_itemInstance, _character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1137,15 +1137,15 @@ function itemInteractMasturbate(_itemInstance, _character = player) {
 }
 function itemInteractConsume(_itemInstance, _character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1165,14 +1165,14 @@ function itemInteractConsume(_itemInstance, _character) {
 
 function spellInteract(_spell, _character = player, _clearContent = false, _clearMenu = true) {
     if (!(_spell instanceof Spell)) {
-        if (spellsIndexes.has(_spell))
-            _spell = spellsIndexes.get(_spell);
+        if (spellIndices.has(_spell))
+            _spell = spellIndices.get(_spell);
         else
             return undefined;
     }
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1256,18 +1256,18 @@ function spellInteractCast(_spell, _entity) {
     if (debug) console.log("Running spellInteractCast...");
     if (!(_spell instanceof Spell)) {
         if (debug) console.log("  Looking for Spell");
-        if (spellsIndexes.has(_spell))
-            _spell = spellsIndexes.get(_spell);
+        if (spellIndices.has(_spell))
+            _spell = spellIndices.get(_spell);
         else
             return undefined;
     }
     if (!(_entity instanceof Entity)) {
         if (debug) console.log("  Looking for Entity");
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else if (_entity instanceof Room) {}
-        else if (roomsIndexes.has(_entity)) {
-            _entity = roomsIndexes.get(_entity);
+        else if (roomIndices.has(_entity)) {
+            _entity = roomIndices.get(_entity);
         }
         else
             return undefined;
@@ -1282,8 +1282,8 @@ function spellInteractCast(_spell, _entity) {
 
 function phoneInteract(_phoneInstance, _clearContent = false, _clearMenu = true) {
     if (!(_phoneInstance instanceof PhoneInstance)) {
-        if (phoneInstancesIndexes.has(_phoneInstance))
-            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        if (phoneInstanceIndices.has(_phoneInstance))
+            _phoneInstance = phoneInstanceIndices.get(_phoneInstance);
         else
             return undefined;
     }
@@ -1317,8 +1317,8 @@ function phoneInteract(_phoneInstance, _clearContent = false, _clearMenu = true)
 }
 function textMessageInteract(_phoneInstance, _messageCategory) {
     if (!(_phoneInstance instanceof PhoneInstance)) {
-        if (phoneInstancesIndexes.has(_phoneInstance))
-            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        if (phoneInstanceIndices.has(_phoneInstance))
+            _phoneInstance = phoneInstanceIndices.get(_phoneInstance);
         else
             return undefined;
     }
@@ -1371,15 +1371,15 @@ function textMessageInteract(_phoneInstance, _messageCategory) {
 }
 function textMessageInteractRead(_phoneInstance, _textMessage) {
     if (!(_phoneInstance instanceof PhoneInstance)) {
-        if (phoneInstancesIndexes.has(_phoneInstance))
-            _phoneInstance = phoneInstancesIndexes.get(_phoneInstance);
+        if (phoneInstanceIndices.has(_phoneInstance))
+            _phoneInstance = phoneInstanceIndices.get(_phoneInstance);
         else
             return undefined;
     }
 
     if (!(_textMessage instanceof TextMessage)) {
-        if (textMessageIndexes.has(_textMessage))
-            _textMessage = textMessageIndexes.get(_textMessage);
+        if (textMessageIndices.has(_textMessage))
+            _textMessage = textMessageIndices.get(_textMessage);
         else
             return undefined;
     }
@@ -1392,7 +1392,7 @@ function textMessageInteractRead(_phoneInstance, _textMessage) {
 
 function webSiteInteract(_webSite = undefined) {
     if (!(_webSite instanceof WebSite))
-        _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
+        _webSite = webSiteIndices.has(_webSite) ? webSiteIndices.get(_webSite) : undefined;
     
     if (typeof _webSite == "undefined")
         document.getElementById("webModalBody").innerHTML = "404 Page Not Found.";

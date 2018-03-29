@@ -242,7 +242,7 @@ function debugSwitchRoom() {
     i = 1;
     _blob = "";
     _blob += '<div class="btn-group btn-group-justified">';
-    roomsIndexes.forEach(function (_key, _val) {
+    roomIndices.forEach(function (_key, _val) {
         _blob += Menu.createButton("roomInteract(" + _key.id + ", true)", _key.name, _key.id, false);
         if (i % 4 == 0)
             _blob += '</div><div class="btn-group btn-group-justified">';
@@ -258,7 +258,7 @@ function debugSwitchRoom() {
 }
 function debugCharactersInformation(_character = player) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
     
     if (typeof _character == 'undefined')
         return undefined;
@@ -270,7 +270,7 @@ function debugCharactersInformation(_character = player) {
     
 
     // Character List
-    charactersIndexes.forEach(function(__character) {
+    characterIndices.forEach(function(__character) {
     	_blob += "<option value='{0}'' {2}>{1}</option>".format(__character.id, __character.name, (_character == __character ? "selected" : ""));
     });
     Content.add("<h4>Character:</h4> <select onchange='debugCharactersInformation(this.value)'>" + _blob + "</select><br/>");
@@ -305,20 +305,20 @@ function debugCharactersInformation(_character = player) {
 
     // Clothes
     _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugClothesPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Clothing</a></h3></div><div id='debugClothesPanel' class='panel-collapse collapse'><div class='panel-body'>";
-    var _clothingIndexes = new Map(clothingIndexes);
+    var _clothingIndices = new Map(clothingIndices);
     var _clothingOptionsBlob = "";
     var _tableColSpan = Object.keys(_character.defaultDisposition).length + 3;
     
     _blob += "<table class='table'>";
     Array.from(kClothingTypes).forEach(function(_clothingType) {
-    	_clothingIndexes.forEach(function(_clothing) {
+    	_clothingIndices.forEach(function(_clothing) {
     		if (_clothing.type == _clothingType) {
 	            _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(
                     _clothing.id,
                     _clothing.name,
                     (player.clothing[_clothingType] !== undefined && _character.clothing[_clothingType] == _clothing ? "selected" : "")
                 );
-	            _clothingIndexes.delete(_clothing.id);
+	            _clothingIndices.delete(_clothing.id);
     		}
     	}, this);
     	_blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
@@ -371,7 +371,7 @@ function debugCharactersInformation(_character = player) {
     
     //  Them->You
     _blob += "<tr><td colspan='{0}'><b>Characters'</b> Dispositions for You</td></tr>".format(_tableColSpan);
-    charactersIndexes.forEach(function(__character) {
+    characterIndices.forEach(function(__character) {
         if (__character == _character)
             return undefined;
         
@@ -409,7 +409,7 @@ function debugSwitchCharacter() {
     i = 1;
     _blob = "";
     _blob += '<div class="btn-group btn-group-justified">';
-    charactersIndexes.forEach(function (_key, _val) {
+    characterIndices.forEach(function (_key, _val) {
         if (_key == player)
             return undefined;
         _blob += Menu.createButton("switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.sex ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
@@ -436,7 +436,7 @@ function debugPrintUnassignedRooms() {
     
     _blob = "";
     _blob += "<u>";
-    roomsIndexes.forEach(function(_room) {
+    roomIndices.forEach(function(_room) {
         if (!_room.mappedToGrid)
             _blob += ("<ul>" + _room.id + "</ul>");
     });
@@ -532,7 +532,7 @@ function quitGame() {
 }
 function switchCharacter(_character) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     
     if (player == _character)
         Content.add("<p>You are already " + player.toString() + "</p>");

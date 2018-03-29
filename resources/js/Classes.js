@@ -589,7 +589,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (typeof this.canvas === 'undefined')
             this.initialize();
@@ -609,7 +609,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (typeof _room.cell.backgroundColor != 'undefined')
             document.getElementById('mapContentDisplay').style.backgroundColor = _room.cell.backgroundColor;
@@ -692,7 +692,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         var originalX = this.cWidth/2 - this.baseSize/2 + (xPos * this.baseSize);
         var originalY = this.cHeight/2 - this.baseSize/2 + (yPos * this.baseSize);
@@ -1113,7 +1113,7 @@ class Entity {
             this.addSpecialProperty("exists");
         }
         
-        entityIndexes.set(this.id, this);
+        entityIndices.set(this.id, this);
     }
 
     toJSON() {
@@ -1302,7 +1302,7 @@ class Entity {
     }
 
     delete() {
-        entityIndexes.delete(this.id);
+        entityIndices.delete(this.id);
         return undefined;
     }
 }
@@ -2053,7 +2053,7 @@ class Character extends Entity {
         this.addAvailableAction("hug");
         this.addAvailableAction("kiss");
 
-        charactersIndexes.set(this.id, this);
+        characterIndices.set(this.id, this);
 
         this.setSpecies(_species);
         this.stand();
@@ -2168,8 +2168,8 @@ class Character extends Entity {
             if (!(this.followers instanceof Set)) this.followers = new Set();
             _tmpArr = JSON.parse(json["followers"]);
             _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character))
-                    this.addFollower(charactersIndexes.get(_character));
+                if (characterIndices.has(_character))
+                    this.addFollower(characterIndices.get(_character));
             }, this);
         } catch (e) {}
         delete json["followers"];
@@ -2178,8 +2178,8 @@ class Character extends Entity {
             if (!(this._dating instanceof Set)) this._dating = new Set();
             _tmpArr = JSON.parse(json["_dating"]);
             _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character))
-                    this.dateCharacter(charactersIndexes.get(_character));
+                if (characterIndices.has(_character))
+                    this.dateCharacter(characterIndices.get(_character));
             }, this);
         } catch (e) {}
         delete json["_dating"];
@@ -2188,8 +2188,8 @@ class Character extends Entity {
             if (!(this.items instanceof Set)) this.items = new Array();
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemInstancesIndexes.has(_item))
-                    this.addItem(itemInstancesIndexes.get(_item));
+                if (itemInstanceIndices.has(_item))
+                    this.addItem(itemInstanceIndices.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -2198,8 +2198,8 @@ class Character extends Entity {
             if (!(this.knownLocations instanceof Set)) this.knownLocations = new Set();
             _tmpArr = JSON.parse(json["knownLocations"]);
             _tmpArr.forEach(function(_location) {
-                if (locationsIndexes.has(_location))
-                    this.knownLocations.add(locationsIndexes.get(_location));
+                if (locationIndices.has(_location))
+                    this.knownLocations.add(locationIndices.get(_location));
             }, this);
         } catch (e) {}
         delete json["knownLocations"];
@@ -2208,8 +2208,8 @@ class Character extends Entity {
             if (!(this.knownSpells instanceof Set)) this.knownSpells = new Set();
             _tmpArr = JSON.parse(json["knownSpells"]);
             _tmpArr.forEach(function(_spell) {
-                if (spellsIndexes.has(_spell))
-                    this.knownSpells.add(spellsIndexes.get(_spell));
+                if (spellIndices.has(_spell))
+                    this.knownSpells.add(spellIndices.get(_spell));
             }, this);
         } catch (e) {}
         delete json["knownSpells"];
@@ -2227,8 +2227,8 @@ class Character extends Entity {
             if (!(this.relatlives instanceof Set)) this.relatlives = new Set();
             _tmpArr = JSON.parse(json["relatives"]);
             _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character))
-                    this.addRelative(charactersIndexes.get(_character), false);
+                if (characterIndices.has(_character))
+                    this.addRelative(characterIndices.get(_character), false);
             }, this);
         } catch (e) {}
         delete json["relatives"];
@@ -2249,9 +2249,9 @@ class Character extends Entity {
             if (!(this.sexCountMap instanceof Set)) this.sexCountMap = new Map();
             _tmpArr = JSON.parse(json["sexCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (charactersIndexes.has(_character)) {
+                if (characterIndices.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.sexCountMap.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexCountMap.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2265,9 +2265,9 @@ class Character extends Entity {
             if (!(this.sexRefusalCountMap instanceof Set)) this.sexRefusalCountMap = new Map();
             _tmpArr = JSON.parse(json["sexRefusalCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (charactersIndexes.has(_character)) {
+                if (characterIndices.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.sexRefusalCountMap.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexRefusalCountMap.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2282,7 +2282,7 @@ class Character extends Entity {
             this.characterDisposition = new Map();
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
-                if (charactersIndexes.has(_character[0]))
+                if (characterIndices.has(_character[0]))
                     this.setCharacterDisposition(_character[0], _character[1]);
                 else
                     return undefined;
@@ -2304,8 +2304,8 @@ class Character extends Entity {
                 var _actionType = _arr[0];
                 var _entity = _arr[1];
 
-                if (entityIndexes.has(_entity))
-                    _entity = entityIndexes.get(_entity);
+                if (entityIndices.has(_entity))
+                    _entity = entityIndices.get(_entity);
                 if (_entity instanceof Furniture) {
                     switch (_actionType) {
                         case "lay" : {
@@ -2375,7 +2375,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["clothing"]);
             _tmpArr.forEach(function(_clothing) {
                 if (!(_clothing instanceof Clothing))
-                    _clothing = clothingIndexes.has(_clothing) ? clothingIndexes.get(_clothing) : undefined;
+                    _clothing = clothingIndices.has(_clothing) ? clothingIndices.get(_clothing) : undefined;
 
                 if (_clothing instanceof Clothing)
                     this.wear(_clothing);
@@ -2389,9 +2389,9 @@ class Character extends Entity {
             if (!(this._dated instanceof Set)) this._dated = new Map();
             _tmpArr = JSON.parse(json["_dated"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (charactersIndexes.has(_character)) {
+                if (characterIndices.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this._dated.set(charactersIndexes.get(_character), (_int >= 0 ? _int : 0));
+                    this._dated.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2408,31 +2408,31 @@ class Character extends Entity {
         delete json["defaultDisposition"];
         //  following
         this.following = undefined;
-        if (charactersIndexes.has(json["following"]))
-            this.follow(charactersIndexes.get(json["following"]));
+        if (characterIndices.has(json["following"]))
+            this.follow(characterIndices.get(json["following"]));
         delete json["following"];
         //  furniture
         this.furniture = undefined;
-        if (furnitureIndexes.has(json["furniture"])) {
-            furnitureIndexes.get(json["furniture"]).addCharacter(this);
-            this.furniture = furnitureIndexes.get(json["furniture"]);
+        if (furnitureIndices.has(json["furniture"])) {
+            furnitureIndices.get(json["furniture"]).addCharacter(this);
+            this.furniture = furnitureIndices.get(json["furniture"]);
         }
         delete json["furniture"];
         //  phone
         this.phone = undefined;
-        if (phonesIndexes.has(json["phone"])) {
-            this.phone = phonesIndexes.get(json["phone"]);
+        if (phoneIndices.has(json["phone"])) {
+            this.phone = phoneIndices.get(json["phone"]);
         }
         delete json["phone"];
         //  previousRoom
         this.previousRoom = undefined;
-        if (roomsIndexes.has(json["previousRoom"]))
-            this.previousRoom = roomsIndexes.get(json["previousRoom"]);
+        if (roomIndices.has(json["previousRoom"]))
+            this.previousRoom = roomIndices.get(json["previousRoom"]);
         delete json["previousRoom"];
         //  room
         this.room = undefined;
-        if (roomsIndexes.has(json["room"]))
-            this.moveToRoom(roomsIndexes.get(json["room"]));
+        if (roomIndices.has(json["room"]))
+            this.moveToRoom(roomIndices.get(json["room"]));
         delete json["room"];
         delete json["cell"];
         delete json["location"];
@@ -2505,8 +2505,8 @@ class Character extends Entity {
         else if (_cost instanceof Spell) {
             _cost = _cost.manaCost;
         }
-        else if (spellsIndexes.has(_cost))
-            _cost = spellsIndexes.get(_cost).manaCost;
+        else if (spellIndices.has(_cost))
+            _cost = spellIndices.get(_cost).manaCost;
         if (this.manaCostOffsetPercent == 0 || _cost == 0)
             return _cost;
         else if (_cost < 0)
@@ -2525,12 +2525,12 @@ class Character extends Entity {
      */
     addItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Item)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (itemsIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
+            else if (itemIndices.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
             else
                 return undefined;
         }
@@ -2549,8 +2549,8 @@ class Character extends Entity {
      */
     removeItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else
                 _itemInstance = this.getItem(_itemInstance);
         }
@@ -2568,8 +2568,8 @@ class Character extends Entity {
         var _foundItem = false;
 
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Item) {
                 this.items.some(function(__itemInstance) {
                     if (__itemInstance.parent == _itemInstance) {
@@ -2587,8 +2587,8 @@ class Character extends Entity {
                 else
                     return false;
             }
-            else if (itemsIndexes.has(_itemInstance)) {
-                _itemInstance = itemsIndexes.get(_itemInstance);
+            else if (itemIndices.has(_itemInstance)) {
+                _itemInstance = itemIndices.get(_itemInstance);
                 this.items.some(function(__itemInstance) {
                     if (__itemInstance.parent == _itemInstance) {
                         _itemInstance = __itemInstance;
@@ -2660,8 +2660,8 @@ class Character extends Entity {
      */
     addHeldEntity(_entityInstance, _hand = undefined) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instancesIndexes.has(_entityInstance))
-                _entityInstance = instancesIndexes.get(_entityInstance);
+            if (instanceIndices.has(_entityInstance))
+                _entityInstance = instanceIndices.get(_entityInstance);
             else
                 return this;
         }
@@ -2702,8 +2702,8 @@ class Character extends Entity {
      */
     removeHeldEntity(_itemInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instancesIndexes.has(_entityInstance))
-                _entityInstance = instancesIndexes.get(_entityInstance);
+            if (instanceIndices.has(_entityInstance))
+                _entityInstance = instanceIndices.get(_entityInstance);
             else if (_itemInstance == "leftHand")
                 _entityInstance = this.getEntityInLeftHand();
             else if (_itemInstance == "rightHand")
@@ -2778,8 +2778,8 @@ class Character extends Entity {
     }
     isHoldingEntity(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (entityInstancesIndexes.has(_entityInstance))
-                _entityInstance = entityInstancesIndexes.get(_entityInstance);
+            if (entityInstanceIndices.has(_entityInstance))
+                _entityInstance = entityInstanceIndices.get(_entityInstance);
             else {
                 _entityInstance = this.getItem(_entityInstance);
                 if (!(_entityInstance instanceof EntityInstance))
@@ -4067,8 +4067,8 @@ class Character extends Entity {
 
     getSexualOrientationCompatibility(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4119,8 +4119,8 @@ class Character extends Entity {
         if (debug) console.log("Running setCharacterDisposition");
 
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4239,8 +4239,8 @@ class Character extends Entity {
         if (debug) console.log("Running getCharacterDisposition");
 
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4257,7 +4257,7 @@ class Character extends Entity {
         if (debug) console.log("Running hasCharacterDisposition");
         
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         
         return this.characterDisposition.has(_character);
     }
@@ -4269,8 +4269,8 @@ class Character extends Entity {
     }
     incCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4287,8 +4287,8 @@ class Character extends Entity {
     }
     decCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4306,8 +4306,8 @@ class Character extends Entity {
 
     addDating(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4321,8 +4321,8 @@ class Character extends Entity {
     }
     addDated(_character, _int = 1, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4356,8 +4356,8 @@ class Character extends Entity {
     }
     isDatingCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4369,8 +4369,8 @@ class Character extends Entity {
     }
     hasDatedCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4388,8 +4388,8 @@ class Character extends Entity {
     }
     getNumberOfDates(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4401,8 +4401,8 @@ class Character extends Entity {
     }
     deleteDating(_character, _updateParent) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4420,8 +4420,8 @@ class Character extends Entity {
     }
     deleteDated(_character, _updateParent) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4523,12 +4523,12 @@ class Character extends Entity {
     }
     setClothing(_itemInstance, _type = undefined) {
         if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (clothingIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, clothingIndexes.get(_itemInstance));
+            else if (clothingIndices.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, clothingIndices.get(_itemInstance));
             else
                 return this;
         }
@@ -4555,12 +4555,12 @@ class Character extends Entity {
             return this;
         }
         if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (clothingIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, clothingIndexes.get(_itemInstance));
+            else if (clothingIndices.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, clothingIndices.get(_itemInstance));
             else
                 return this;
         }
@@ -4573,7 +4573,7 @@ class Character extends Entity {
         if (!kActionTypes.has(_actionType))
             return undefined;
         if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
 
         this.currentActions[_actionType] = _entity;
         return this;
@@ -4582,7 +4582,7 @@ class Character extends Entity {
         if (!kActionTypes.has(_actionType))
             return undefined;
         if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
 
         delete this.currentActions[_actionType];
         return this;
@@ -4638,12 +4638,12 @@ class Character extends Entity {
 
     attack(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4653,8 +4653,8 @@ class Character extends Entity {
     }
     charmed(_character, _cron = "4m") {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -4664,8 +4664,8 @@ class Character extends Entity {
     }
     consume(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instancesIndexes.has(_entityInstance))
-                _entityInstance = instancesIndexes.get(_entityInstance);
+            if (instanceIndices.has(_entityInstance))
+                _entityInstance = instanceIndices.get(_entityInstance);
             else
                 return undefined;
         }
@@ -4678,14 +4678,14 @@ class Character extends Entity {
     }
     fuck(_character = undefined, _furniture = undefined) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
         
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
         
         if (_character.sex == 1)
             this.hadSexWithFemale = true;
@@ -4701,8 +4701,8 @@ class Character extends Entity {
     }
     follow(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character)
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character)
             else
                 return undefined;
         }
@@ -4712,12 +4712,12 @@ class Character extends Entity {
     }
     give(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4733,12 +4733,12 @@ class Character extends Entity {
     }
     hug(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4748,12 +4748,12 @@ class Character extends Entity {
     }
     kiss(_entity, _bodyPart = undefined) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4763,12 +4763,12 @@ class Character extends Entity {
     }
     kneel(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4783,7 +4783,7 @@ class Character extends Entity {
     }
     lay(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -4804,12 +4804,12 @@ class Character extends Entity {
     }
     look(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4842,12 +4842,12 @@ class Character extends Entity {
     }
     open(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4855,8 +4855,8 @@ class Character extends Entity {
     }
     oral(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instancesIndexes.has(_entityInstance))
-                _entityInstance = instancesIndexes.get(_entityInstance);
+            if (instanceIndices.has(_entityInstance))
+                _entityInstance = instanceIndices.get(_entityInstance);
             else
                 return undefined;
         }
@@ -4878,12 +4878,12 @@ class Character extends Entity {
     }
     pray(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4893,12 +4893,12 @@ class Character extends Entity {
     }
     put(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4907,8 +4907,8 @@ class Character extends Entity {
     }
     rape(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character)
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character)
             else
                 return undefined;
         }
@@ -4938,7 +4938,7 @@ class Character extends Entity {
     }*/
     sit(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -4959,7 +4959,7 @@ class Character extends Entity {
     }
     sleep(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -5002,14 +5002,14 @@ class Character extends Entity {
     }
     steal(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity)
             else
                 return undefined;
         }
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else
                 return;
         }
@@ -5019,21 +5019,21 @@ class Character extends Entity {
     }
     take(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity)
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity)
             else
                 return undefined;
         }
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else
                 return;
         }
     }
     talk(_entity) {
         if (!(_entity instanceof Entity))
-            _entity = entityIndexes.has(_entity) ? entityIndexes.get(_entity) : undefined;
+            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
         this.addCurrentAction("talk", _entity);
         return true;
     }
@@ -5065,8 +5065,8 @@ class Character extends Entity {
 
     addSexRefusalCount(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -5079,8 +5079,8 @@ class Character extends Entity {
     }
     getSexRefusalCount(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -5140,15 +5140,15 @@ class Character extends Entity {
         var _clothing;
         var _checkInstance = true;
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Clothing) {
                 _checkInstance = false;
                 _clothing = _itemInstance;
             }
-            else if (clothingIndexes.has(_itemInstance)) {
+            else if (clothingIndices.has(_itemInstance)) {
                 _checkInstance = false;
-                _clothing = clothingIndexes.get(_itemInstance).parent;
+                _clothing = clothingIndices.get(_itemInstance).parent;
             }
             else
                 return undefined;
@@ -5174,7 +5174,7 @@ class Character extends Entity {
 
     hasKey(_room) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (_room instanceof Room) {
             if (this.containsItem(_room.sid + "Key") || this.containsItem(_room.location.id + "Key") || this.containsItem(_room.cell.location.id + "Key") || this.containsItem("masterKey"))
@@ -5340,12 +5340,12 @@ class Character extends Entity {
         if (!kBodyPartTypes.has(_bodyPart)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
-            else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
+            else if (bodyPartIndices.has(_bodyPart))
+                _bodyPart = bodyPartIndices.get(_bodyPart).type;
             else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
-            else if (bodyPartInstancesIndexes.has(_bodyPart))
-                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).parent.type;
+            else if (bodyPartInstanceIndices.has(_bodyPart))
+                _bodyPart = bodyPartInstanceIndices.get(_bodyPart).parent.type;
             else
                 return undefined;
         }
@@ -5361,10 +5361,10 @@ class Character extends Entity {
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = new BodyPartInstance(undefined, _bodyPart, this, undefined, undefined, this.species);
-            else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(undefined, bodyPartsIndexes.get(_bodyPart), this, undefined, undefined, this.species);
-            else if (bodyPartInstancesIndexes.has(_bodyPart))
-                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+            else if (bodyPartIndices.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(undefined, bodyPartIndices.get(_bodyPart), this, undefined, undefined, this.species);
+            else if (bodyPartInstanceIndices.has(_bodyPart))
+                _bodyPart = bodyPartInstanceIndices.get(_bodyPart);
             else
                 return undefined;
         }
@@ -5381,10 +5381,10 @@ class Character extends Entity {
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = new BodyPartInstance(undefined, _bodyPart.getType(), this, undefined, undefined, this.species);
-            else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(undefined, bodyPartsIndexes.get(_bodyPart).getType(), this, undefined, undefined, this.species);
-            else if (bodyPartInstancesIndexes.has(_bodyPart))
-                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart);
+            else if (bodyPartIndices.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(undefined, bodyPartIndices.get(_bodyPart).getType(), this, undefined, undefined, this.species);
+            else if (bodyPartInstanceIndices.has(_bodyPart))
+                _bodyPart = bodyPartInstanceIndices.get(_bodyPart);
             else
                 return this;
         }
@@ -5395,12 +5395,12 @@ class Character extends Entity {
         if (!kBodyPartTypes.has(_bodyPart)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
-            else if (bodyPartsIndexes.has(_bodyPart))
-                _bodyPart = bodyPartsIndexes.get(_bodyPart).type;
+            else if (bodyPartIndices.has(_bodyPart))
+                _bodyPart = bodyPartIndices.get(_bodyPart).type;
             else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
-            else if (bodyPartInstancesIndexes.has(_bodyPart))
-                _bodyPart = bodyPartInstancesIndexes.get(_bodyPart).parent.type;
+            else if (bodyPartInstanceIndices.has(_bodyPart))
+                _bodyPart = bodyPartInstanceIndices.get(_bodyPart).parent.type;
             else
                 return undefined;
         }
@@ -5741,8 +5741,8 @@ class Character extends Entity {
      */
     incSexCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 _character = undefined;
         }
@@ -5772,8 +5772,8 @@ class Character extends Entity {
      */
     incVaginalReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5788,8 +5788,8 @@ class Character extends Entity {
      */
     incVaginalGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5804,8 +5804,8 @@ class Character extends Entity {
      */
     incAnalReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5820,8 +5820,8 @@ class Character extends Entity {
      */
     incAnalGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5831,8 +5831,8 @@ class Character extends Entity {
     }
     incCunnilingusReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5842,8 +5842,8 @@ class Character extends Entity {
     }
     incCunnilingusGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5853,8 +5853,8 @@ class Character extends Entity {
     }
     incAnalingusReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5864,8 +5864,8 @@ class Character extends Entity {
     }
     incAnalingusGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5875,8 +5875,8 @@ class Character extends Entity {
     }
     incFellatioReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5886,8 +5886,8 @@ class Character extends Entity {
     }
     incFellatioGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5897,8 +5897,8 @@ class Character extends Entity {
     }
     incHandjobReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5908,8 +5908,8 @@ class Character extends Entity {
     }
     incHandjobGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5945,8 +5945,8 @@ class Character extends Entity {
 
     addFollower(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5955,8 +5955,8 @@ class Character extends Entity {
     }
     removeFollower(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -5973,8 +5973,8 @@ class Character extends Entity {
     }
     isFollowing(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -5986,8 +5986,8 @@ class Character extends Entity {
 
     getSexCount(_character = undefined) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return 0;
         }
@@ -5996,8 +5996,8 @@ class Character extends Entity {
 
     addRelative(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -6009,8 +6009,8 @@ class Character extends Entity {
 
     addKnownLocation(_location) {
         if (!(_location instanceof Location)) {
-            if (locationsIndexes.has(_location))
-                _location = locationsIndexes.get(_location);
+            if (locationIndices.has(_location))
+                _location = locationIndices.get(_location);
             else
                 return this;
         }
@@ -6022,8 +6022,8 @@ class Character extends Entity {
     }
     removeKnownLocation(_location) {
         if (!(_location instanceof Location)) {
-            if (locationsIndexes.has(_location))
-                _location = locationsIndexes.get(_location);
+            if (locationIndices.has(_location))
+                _location = locationIndices.get(_location);
             else
                 return this;
         }
@@ -6036,8 +6036,8 @@ class Character extends Entity {
 
     addKnownSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellsIndexes.has(_spell))
-                _spell = spellsIndexes.get(_spell);
+            if (spellIndices.has(_spell))
+                _spell = spellIndices.get(_spell);
             else
                 return this;
         }
@@ -6049,8 +6049,8 @@ class Character extends Entity {
     }
     removeKnownSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellsIndexes.has(_spell))
-                _spell = spellsIndexes.get(_spell);
+            if (spellIndices.has(_spell))
+                _spell = spellIndices.get(_spell);
             else
                 return this;
         }
@@ -6067,8 +6067,8 @@ class Character extends Entity {
             _cost = _spell;
         }
         else if (!(_spell instanceof Spell)) {
-            if (spellsIndexes.has(_spell))
-                _cost = spellsIndexes.get(_spell).manaCost;
+            if (spellIndices.has(_spell))
+                _cost = spellIndices.get(_spell).manaCost;
             else
                 return this;
         }
@@ -6101,8 +6101,8 @@ class Character extends Entity {
     }
     addNewCharacterDispositionFor(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0, hateOffset = 0) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -6245,8 +6245,8 @@ class Character extends Entity {
 
     hadSexWith(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return false;
         }
@@ -6254,7 +6254,7 @@ class Character extends Entity {
     }
     calculateChanceToFuck(_character, _ignoreLustAndRut = false) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         if (typeof _character == 'undefined')
             return 0;
         if (!_character.characterDisposition.has(this))
@@ -6372,7 +6372,7 @@ class Character extends Entity {
 
     moveToRoom(_room, _checkLocked = false) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (!(_room instanceof Room))
             return this;
@@ -6460,7 +6460,7 @@ class Location {
 
             this.floorImage = undefined;
 
-            locationsIndexes.set(_id, this);
+            locationIndices.set(_id, this);
         }
     }
     
@@ -6497,9 +6497,9 @@ class Location {
         try {
             var _tmpSet = new Set(JSON.parse(json["owner"]));
             _owner.forEach(function(_character) {
-                if (charactersIndexes.has(_character)) {
+                if (characterIndices.has(_character)) {
                     _tmSet.delete(_character);
-                    this.owner.add(charactersIndexes.get(_character));
+                    this.owner.add(characterIndices.get(_character));
                 }
             }, this);
         } catch (e) {}
@@ -6522,7 +6522,7 @@ class Location {
 
     isOwner(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
         if (_character instanceof Character)
             return this.owner.has(_character);
@@ -6536,8 +6536,8 @@ class Location {
     }
     addOwner(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return this;
         }
@@ -6621,8 +6621,8 @@ class Location {
 
     containsCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return false;
         }
@@ -6684,13 +6684,13 @@ class Cell {
             this.backgroundImage = undefined; // for minimap
             this.backgroundColor = undefined; // for minimap
 
-            cellsIndexes.set(_id, this);
+            cellIndices.set(_id, this);
         }
     }
 
     addRoom(_room, x, y) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         this.rooms.add(_room);
 
@@ -6700,7 +6700,7 @@ class Cell {
     }
     setRoom(_room, x, y) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (debug) console.log("\tSetting " + _room.id + " to <" + x + "," + y + ">");
 
@@ -6713,7 +6713,7 @@ class Cell {
 
     setLocation(_location) {
         if (!(_location instanceof Location))
-            _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+            _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
 
         this.location = _location;
 
@@ -6724,7 +6724,7 @@ class Cell {
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
         var _containsCharacter = false;
 
@@ -6843,7 +6843,7 @@ class Room {
             this.stairsUpImage = undefined;
             this.stairsDownImage = undefined;
 
-            roomsIndexes.set(_id, this);
+            roomIndices.set(_id, this);
         }
     }
     
@@ -6865,7 +6865,7 @@ class Room {
 
     setLocation(_location) {
         if (!(_location instanceof Location))
-            _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+            _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
         if (typeof _location == 'undefined' && this.cell instanceof Cell && this.cell.location instanceof Location)
             _location = this.cell.location;
         this.location = _location;
@@ -6875,7 +6875,7 @@ class Room {
     }
     setCell(_cell) {
         if (!(_cell instanceof Cell))
-            _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
+            _cell = cellIndices.has(_cell) ? cellIndices.get(_cell) : undefined;
         this.cell = _cell;
         if (this.cell instanceof Cell)
             this.cell.addRoom(this, this.x, this.y);
@@ -6892,20 +6892,20 @@ class Room {
 
     addCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         this.characters.add(_character);
         return this;
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         this.characters.delete(_character);
         return this;
     }
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
@@ -7098,7 +7098,7 @@ class Room {
 
     setAttachedRoom(_direction, _room, _options = {}, _updateParent = false) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (debug) console.log("\tAttempting to attach " + _room.id + " to the " + (_direction == 0 ? "north" : (_direction == 1 ? "east" : (_direction == 2 ? "south" : "west"))) + " of " + this.id);
 
@@ -7464,7 +7464,7 @@ class Room {
                 return _addedFurniture;
             }
             else
-                _furniture = furnitureIndexes.get(_furniture);
+                _furniture = furnitureIndices.get(_furniture);
         }
 
         _furniture.room = this;
@@ -7473,7 +7473,7 @@ class Room {
     }
     removeFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.get(_furniture);
+            _furniture = furnitureIndices.get(_furniture);
 
         _furniture.room = undefined;
         this.furniture.delete(_furniture);
@@ -7482,7 +7482,7 @@ class Room {
 
     containsFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.get(_furniture);
+            _furniture = furnitureIndices.get(_furniture);
 
         return this.furniture.has(_furniture);
     }
@@ -7525,7 +7525,7 @@ class Room {
      */
     getFurnitureToRestOn(_character, _considerCharacterPreferences = false, _lay = false, _furnitureTypePreferences = []) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
         if (_character instanceof Character) {
             var _requiredSpaceMultiplier = _lay ? 2 : 1;
@@ -7700,7 +7700,7 @@ class Item extends Entity {
             this.defaultDurabilityMax = _defaultDurability;
         }
 
-        itemsIndexes.set(_id, this);
+        itemIndices.set(_id, this);
     }
     
     moveToEntity(_entity) {
@@ -7714,7 +7714,7 @@ class Item extends Entity {
     }
     moveToFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndexes.get(_furniture);
+            _furniture = furnitureIndices.get(_furniture);
 
         if (_furniture instanceof Furniture) {
             if (_furniture.room instanceof Room)
@@ -7726,7 +7726,7 @@ class Item extends Entity {
     }
     moveToCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
 
         if (_character instanceof Character) {
             if (_character.room instanceof Room)
@@ -7738,7 +7738,7 @@ class Item extends Entity {
     }
     moveToRoom(_room) {
         if (!(_room instanceof Room))
-            _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
         if (_room instanceof Room) {
             this.room = _room;
@@ -7750,7 +7750,7 @@ class Item extends Entity {
     }
 
     delete() {
-        itemsIndexes.delete(this.id);
+        itemIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7758,11 +7758,11 @@ class Item extends Entity {
 
 class BodyPart extends Item {
     constructor(_id, _name = undefined) {
-        if (bodyPartsIndexes.has(_id))
-            return bodyPartsIndexes.get(_id);
+        if (bodyPartIndices.has(_id))
+            return bodyPartIndices.get(_id);
         super(_id, _name);
         this.setType(_id);
-        bodyPartsIndexes.set(_id, this);
+        bodyPartIndices.set(_id, this);
     }
 
     setType(_type) {
@@ -7777,7 +7777,7 @@ class BodyPart extends Item {
     }
 
     delete() {
-        bodyPartsIndexes.delete(this.id);
+        bodyPartIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7808,11 +7808,11 @@ class Key extends Item {
             super(_id, _name, _description, _image, _plural, _specialProperties);
         }
 
-        keysIndexes.set(_id, this);
+        keyIndices.set(_id, this);
     }
 
     delete() {
-        keysIndexes.delete(this.id);
+        keyIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7849,7 +7849,7 @@ class Clothing extends Item {
             this.setType(_type);
         }
 
-        clothingIndexes.set(_id, this);
+        clothingIndices.set(_id, this);
     }
 
     setType(_type) {
@@ -7861,7 +7861,7 @@ class Clothing extends Item {
     }
 
     delete() {
-        clothingIndexes.delete(this.id);
+        clothingIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7924,7 +7924,7 @@ class Consumable extends Item {
             this.modAlcohol = 0;
         }
 
-        consumableIndexes.set(_id, this);
+        consumableIndices.set(_id, this);
     }
 
     setType(_type) {
@@ -7936,7 +7936,7 @@ class Consumable extends Item {
     }
 
     delete() {
-        consumableIndexes.delete(this.id);
+        consumableIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7949,16 +7949,16 @@ class Cheque extends Item {
     constructor(_from, _to, _amount = 1, _memo = "", _signed = false) {
         if (debug) console.log("Attempting to create a Cheque...");
         if (!(_from instanceof Character)) {
-            if (charactersIndexes.has(_from))
-                _from = charactersIndexes.get(_from);
+            if (characterIndices.has(_from))
+                _from = characterIndices.get(_from);
             else {
                 if (debug) console.log("  _from was not a valid Character.");
                 return undefined;
             }
         }
         if (!(_to instanceof Character)) {
-            if (charactersIndexes.has(_to))
-                _to = charactersIndexes.get(_to);
+            if (characterIndices.has(_to))
+                _to = characterIndices.get(_to);
             else {
                 if (debug) console.log("  _to was not a valid Character.");
                 return undefined;
@@ -7982,13 +7982,13 @@ class Cheque extends Item {
         this.signed = _signed == true ? true : false;
         this.description = "A cheque from {0} to {1} for the amount of ${2}, with the memo '{3}'".format(this.from.name, this.to.name, this.amount, this.memo)
 
-        chequesIndexes.set(this.id, this);
+        chequeIndices.set(this.id, this);
     }
 
     sign(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 return undefined;
         }
@@ -7998,7 +7998,7 @@ class Cheque extends Item {
     }
 
     delete() {
-        chequesIndexes.delete(this.id);
+        chequeIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8008,7 +8008,7 @@ class Weapon extends Item {
     }
 
     delete() {
-        weaponIndexes.delete(this.id);
+        weaponIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8018,7 +8018,7 @@ class Armor extends Clothing {
     }
 
     delete() {
-        armorIndexes.delete(this.id);
+        armorIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8059,7 +8059,7 @@ class Furniture extends Entity {
             this.storageSpace = _storageSpace;
             this.characters = new Set(); // <Character, Action>
 
-            furnitureIndexes.set(_id, this);
+            furnitureIndices.set(_id, this);
         }
     }
 
@@ -8104,8 +8104,8 @@ class Furniture extends Entity {
         try {
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemInstancesIndexes.has(_item))
-                    this.addItem(itemInstancesIndexes.get(_item));
+                if (itemInstanceIndices.has(_item))
+                    this.addItem(itemInstanceIndices.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -8113,8 +8113,8 @@ class Furniture extends Entity {
         // Entities
         if (json.hasOwnProperty("characters"))
             delete json["characters"];
-        if (roomsIndexes.has(json["room"]))
-            roomsIndexes.get(json["room"]).addFurniture(this);
+        if (roomIndices.has(json["room"]))
+            roomIndices.get(json["room"]).addFurniture(this);
         delete json["room"];
         delete json["cell"];
         
@@ -8136,12 +8136,12 @@ class Furniture extends Entity {
      */
     addItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Item)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (itemsIndexes.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
+            else if (itemIndices.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
             else
                 return this;
         }
@@ -8156,8 +8156,8 @@ class Furniture extends Entity {
      */
     removeItem(_itemInstance) {
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else
                 _itemInstance = this.getItem(_itemInstance);
         }
@@ -8174,8 +8174,8 @@ class Furniture extends Entity {
         var _foundItem = false;
 
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_itemInstance))
-                _itemInstance = itemInstancesIndexes.get(_itemInstance);
+            if (itemInstanceIndices.has(_itemInstance))
+                _itemInstance = itemInstanceIndices.get(_itemInstance);
             else if (_itemInstance instanceof Item) {
                 this.items.some(function(__itemInstance) {
                     if (__itemInstance.parent == _itemInstance) {
@@ -8193,8 +8193,8 @@ class Furniture extends Entity {
                 else
                     return false;
             }
-            else if (itemsIndexes.has(_itemInstance)) {
-                _itemInstance = itemsIndexes.get(_itemInstance);
+            else if (itemIndices.has(_itemInstance)) {
+                _itemInstance = itemIndices.get(_itemInstance);
                 this.items.some(function(__itemInstance) {
                     if (__itemInstance.parent == _itemInstance) {
                         _itemInstance = __itemInstance;
@@ -8374,20 +8374,20 @@ class Furniture extends Entity {
 
     addCharacter(_character, _actionType = "sit") {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         this.characters.add(_character);
         return this;
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         this.characters.delete(_character);
         return this;
     }
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
@@ -8424,7 +8424,7 @@ class Furniture extends Entity {
     }
 
     delete() {
-        furnitureIndexes.delete(this.id);
+        furnitureIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8439,7 +8439,7 @@ class Furniture extends Entity {
     }
 
     delete() {
-        electronicDevicesIndexes.delete(this.id);
+        electronicDeviceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8451,11 +8451,11 @@ class Furniture extends Entity {
 class Phone extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         super(_id, _name, _description, _image, false, ["metal","electricity","smooth","mirror"], _defaultPrice, _defaultWeight, _defaultDurability);
-        phonesIndexes.set(_id, this);
+        phoneIndices.set(_id, this);
     }
 
     delete() {
-        phoneIndexes.delete(this.id);
+        phoneIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8470,25 +8470,25 @@ class TextMessage {
      */
     constructor(_fromPhone, _toPhone, _message = "", _time = undefined) {
         if (!(_fromPhone instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_fromPhone))
-                _fromPhone = itemInstancesIndexes.get(_fromPhone);
+            if (itemInstanceIndices.has(_fromPhone))
+                _fromPhone = itemInstanceIndices.get(_fromPhone);
             else
                 return undefined;
         }
         if (!(_toPhone instanceof ItemInstance)) {
-            if (itemInstancesIndexes.has(_toPhone))
-                _toPhone = itemInstancesIndexes.get(_toPhone);
+            if (itemInstanceIndices.has(_toPhone))
+                _toPhone = itemInstanceIndices.get(_toPhone);
             else
                 return undefined;
         }
 
-        this.id = "{0}{1}{2}".format(_fromPhone.owner.id, _toPhone.owner.name, textMessageIndexes.size);
+        this.id = "{0}{1}{2}".format(_fromPhone.owner.id, _toPhone.owner.name, textMessageIndices.size);
         this.from = _fromPhone.owner.name;
         this.to = _toPhone.owner.name;
         this.time = _time == undefined ? "{0}/{1}/{2} {3}:{4}:{5}".format(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds()) : _time;
         this.message = _message;
 
-        textMessageIndexes.set(this.id, this);
+        textMessageIndices.set(this.id, this);
     }
 }
 class WebPage {
@@ -8497,12 +8497,12 @@ class WebPage {
         this.name = _name;
 
         if (!(_webSite instanceof WebSite))
-            _webSite = webSiteIndexes.has(_webSite) ? webSiteIndexes.get(_webSite) : undefined;
+            _webSite = webSiteIndices.has(_webSite) ? webSiteIndices.get(_webSite) : undefined;
 
         this.webSite = _webSite;
         this.content = _content;
 
-        webPageIndexes.set(this.id, this);
+        webPageIndices.set(this.id, this);
     }
 }
 class WebSite {
@@ -8512,12 +8512,12 @@ class WebSite {
         this.description = _description;
         this.pages = new Set();
 
-        webSiteIndexes.set(this.id, this);
+        webSiteIndices.set(this.id, this);
     }
 
     _addPagePage(_page) {
         if (!(_page instanceof WebPage))
-            _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
+            _page = webPageIndices.has(_page) ? webPageIndices.get(_page) : undefined;
 
         if (_page instanceof WebPage) {
             _page.webSite = this;
@@ -8530,8 +8530,8 @@ class WebSite {
         this._addPagePage(_page);
     }
     addPage(_id, _name = undefined, _content = undefined) {
-        if (!(_id instanceof WebPage) && webPageIndexes.has(_id))
-            _id = webPageIndexes.get(_id);
+        if (!(_id instanceof WebPage) && webPageIndices.has(_id))
+            _id = webPageIndices.get(_id);
 
         if (_id instanceof WebPage)
             this._addPagePage(_id);
@@ -8541,7 +8541,7 @@ class WebSite {
     }
     getPage(_page) {
         if (!(_page instanceof WebPage))
-            _page = webPageIndexes.has(_page) ? webPageIndexes.get(_page) : undefined;
+            _page = webPageIndices.has(_page) ? webPageIndices.get(_page) : undefined;
 
         if (_page instanceof WebPage && this.pages.contains(_page))
             return _page;
@@ -8586,7 +8586,7 @@ class Spell extends Entity {
         else _staminaCost = Number.parseInt(_staminaCost);
         this.staminaCost = _staminaCost;
 
-        spellsIndexes.set(this.id, this);
+        spellIndices.set(this.id, this);
     }
 
     setSchool(_school) {
@@ -8640,7 +8640,7 @@ class EntityInstance {
         this.setDurability(_durability || 1);
         this.setDurabilityMax(_durabilityMax || this.durability);
 
-        instancesIndexes.set(this.id, this);
+        instanceIndices.set(this.id, this);
     }
 
     /**
@@ -8649,8 +8649,8 @@ class EntityInstance {
      */
     setChild(_entity) {
         if (!(_entity instanceof Entity)){
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else
                 _entity = undefined;
         }
@@ -8667,12 +8667,12 @@ class EntityInstance {
      */
     setParent(_entity) {
         if (!(_entity instanceof Entity)){
-            if (entityIndexes.has(_entity))
-                _entity = entityIndexes.get(_entity);
+            if (entityIndices.has(_entity))
+                _entity = entityIndices.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instancesIndexes.has(_entity))
-                _entity = instancesIndexes.get(_entity).parent;
+            else if (instanceIndices.has(_entity))
+                _entity = instanceIndices.get(_entity).parent;
             else
                 _entity = undefined;
         }
@@ -8689,8 +8689,8 @@ class EntityInstance {
      */
     setOwner(_character) {
         if (!(_character instanceof Character)){
-            if (charactersIndexes.has(_character))
-                _character = charactersIndexes.get(_character);
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
             else
                 _character = undefined;
         }
@@ -8881,19 +8881,19 @@ class EntityInstance {
     }
 
     delete() {
-        instancesIndexes.delete(this.id);
+        instanceIndices.delete(this.id);
         return undefined;
     }
 }
 class ItemInstance extends EntityInstance {
     constructor(_id = undefined, _parent = undefined, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Item)) {
-            if (itemsIndexes.has(_parent)) 
-                _parent = itemsIndexes.get(_parent);
+            if (itemIndices.has(_parent)) 
+                _parent = itemIndices.get(_parent);
             else if (_parent instanceof ItemInstance && _parent.parent instanceof Item) 
                 _parent = _parent.parent;
-            else if (itemInstancesIndexes.has(_parent)) {
-                _parent = itemInstancesIndexes.get(_parent).parent;
+            else if (itemInstanceIndices.has(_parent)) {
+                _parent = itemInstanceIndices.get(_parent).parent;
                 if (!(_parent.parent instanceof Item))
                     return undefined;
             }
@@ -8903,11 +8903,11 @@ class ItemInstance extends EntityInstance {
 
         super(_id, _parent, _owner, _price, _weight, _durability, _durabilityMax);
 
-        itemInstancesIndexes.set(this.id, this);
+        itemInstanceIndices.set(this.id, this);
     }
 
     delete() {
-        itemInstancesIndexes.delete(this.id);
+        itemInstanceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8923,12 +8923,12 @@ class BodyPartInstance extends ItemInstance {
      */
     constructor(_id = undefined, _parent, _owner = undefined, _durability = 1, _durabilityMax = 1, _type = undefined) {
         if (!(_parent instanceof BodyPart)) {
-            if (bodyPartsIndexes.has(_parent))
-                _parent = bodyPartsIndexes.get(_parent);
+            if (bodyPartIndices.has(_parent))
+                _parent = bodyPartIndices.get(_parent);
             else if (_parent instanceof BodyPartInstance && _parent.parent instanceof BodyPart)
                 _parent = _parent.parent;
-            else if (bodyPartInstancesIndexes.has(_parent)) {
-                _parent = bodyPartInstancesIndexes.get(_parent).parent;
+            else if (bodyPartInstanceIndices.has(_parent)) {
+                _parent = bodyPartInstanceIndices.get(_parent).parent;
                 if (!(_parent.parent instanceof Phone))
                     return undefined;
             }
@@ -8941,7 +8941,7 @@ class BodyPartInstance extends ItemInstance {
         this.setChild(_owner);
         this.setType(_type);
 
-        bodyPartInstancesIndexes.set(this.id, this);
+        bodyPartInstanceIndices.set(this.id, this);
     }
     setType(_type) {
         if (!kSpeciesTypes.has(_type)) {
@@ -8960,7 +8960,7 @@ class BodyPartInstance extends ItemInstance {
     }
 
     delete() {
-        bodyPartInstancesIndexes.delete(this.id);
+        bodyPartInstanceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8968,12 +8968,12 @@ class BodyPartInstance extends ItemInstance {
 class PhoneInstance extends ItemInstance {
     constructor(_id, _parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Phone)) {
-            if (phonesIndexes.has(_parent)) 
-                _parent = phonesIndexes.get(_parent);
+            if (phoneIndices.has(_parent)) 
+                _parent = phoneIndices.get(_parent);
             else if (_parent instanceof PhoneInstance && _parent.parent instanceof Phone) 
                 _parent = _parent.parent;
-            else if (phoneInstancesIndexes.has(_parent)) {
-                _parent = phoneInstancesIndexes.get(_parent).parent;
+            else if (phoneInstanceIndices.has(_parent)) {
+                _parent = phoneInstanceIndices.get(_parent).parent;
                 if (!(_parent.parent instanceof Phone))
                     return undefined;
             }
@@ -8987,7 +8987,7 @@ class PhoneInstance extends ItemInstance {
         this.readMessages = new Map();
         this.sentMessages = new Map();
 
-        phoneInstancesIndexes.set(this.id, this);
+        phoneInstanceIndices.set(this.id, this);
     }
 
     newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
@@ -9023,7 +9023,7 @@ class PhoneInstance extends ItemInstance {
 
     readMessage(_textMessage) {
         if (!(_textMessage instanceof TextMessage))
-            _textMessage = textMessageIndexes.has(_textMessage) ? textMessageIndexes.get(_textMessage) : undefined;
+            _textMessage = textMessageIndices.has(_textMessage) ? textMessageIndices.get(_textMessage) : undefined;
         if (!(_textMessage instanceof TextMessage))
             return undefined;
 
@@ -9035,7 +9035,7 @@ class PhoneInstance extends ItemInstance {
     }
 
     delete() {
-        phoneInstancesIndexes.delete(this.id);
+        phoneInstanceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9043,12 +9043,12 @@ class PhoneInstance extends ItemInstance {
 class WeaponInstance extends ItemInstance {
     constructor(_id, _parent, _owner = undefined) {
         if (!(_parent instanceof Weapon)) {
-            if (weaponsIndexes.has(_parent)) 
-                _parent = weaponsIndexes.get(_parent);
+            if (weaponIndices.has(_parent)) 
+                _parent = weaponIndices.get(_parent);
             else if (_parent instanceof WeaponInstance && _parent.parent instanceof Weapon) 
                 _parent = _parent.parent;
-            else if (weaponInstancesIndexes.has(_parent)) {
-                _parent = weaponInstancesIndexes.get(_parent).parent;
+            else if (weaponInstanceIndices.has(_parent)) {
+                _parent = weaponInstanceIndices.get(_parent).parent;
                 if (!(_parent.parent instanceof Weapon))
                     return undefined;
             }
@@ -9060,7 +9060,7 @@ class WeaponInstance extends ItemInstance {
     }
 
     delete() {
-        weaponsInstancesIndexes.delete(this.id);
+        weaponsInstanceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9069,7 +9069,7 @@ class ArmorInstance extends ItemInstance {
     constructor(_id, _parent, _owner = undefined) {}
 
     delete() {
-        armorInstancesIndexes.delete(this.id);
+        armorInstanceIndices.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9345,30 +9345,30 @@ class GameEvent {
         }
         else {
             if (!(_characterA instanceof Character))
-                _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+                _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
 
             if (!(_characterB instanceof Character))
-                _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+                _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
 
             if (!(_item instanceof Item)) {
                 if (_item instanceof ItemInstance)
                     _item = _item.parent;
-                else if (!_item instanceof ItemInstance && itemInstancesIndexes.has(_item))
-                    _item = itemInstancesIndexes.get(_item).parent;
-                else if (itemsIndexes.has(_item))
-                    _item = itemsIndexes.get(_item);
+                else if (!_item instanceof ItemInstance && itemInstanceIndices.has(_item))
+                    _item = itemInstanceIndices.get(_item).parent;
+                else if (itemIndices.has(_item))
+                    _item = itemIndices.get(_item);
                 else
                     _item = undefined;
             }
 
             if (!(_location instanceof Location))
-                _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+                _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
 
             if (!(_cell instanceof Cell))
-                _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
+                _cell = cellIndices.has(_cell) ? cellIndices.get(_cell) : undefined;
 
             if (!(_room instanceof Room))
-                _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+                _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
 
             if (_cron instanceof Cron || _cron == undefined) {}
             else if (typeof _cron == 'string') {
@@ -9427,7 +9427,7 @@ class GameEvent {
 
             this.nextFunction = _nextFunction;
 
-            eventsIndexes.set(this.id, this);
+            eventIndices.set(this.id, this);
         }
     }
 
@@ -9451,7 +9451,7 @@ class GameEvent {
 
     delete() {
         if (debug) console.log("Deleting {0}".format(this.id));
-        eventsIndexes.delete(this.id);
+        eventIndices.delete(this.id);
         return undefined;
     }
 }

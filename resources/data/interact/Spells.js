@@ -1,12 +1,12 @@
 function spellLevitateCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -15,13 +15,13 @@ function spellLevitateCast(_entity, _character = player) {
 }
 function spellTeleportCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -29,20 +29,20 @@ function spellTeleportCast(_entity, _character = player) {
 	return true;
 }
 function spellUnlockCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellUnlock");
+	var _spell = spellIndices.get("spellUnlock");
 
 	if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else if (_entity instanceof Room) {}
-        else if (roomsIndexes.has(_entity)) {
-        	_entity = roomsIndexes.get(_entity);
+        else if (roomIndices.has(_entity)) {
+        	_entity = roomIndices.get(_entity);
         }
         else
         	return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -57,13 +57,13 @@ function spellUnlockCast(_entity, _character = player) {
 }
 function spellImbueCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -72,13 +72,13 @@ function spellImbueCast(_entity, _character = player) {
 }
 function spellMirrorOpenCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -87,13 +87,13 @@ function spellMirrorOpenCast(_entity, _character = player) {
 }
 function spellMirrorWalkCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -102,13 +102,13 @@ function spellMirrorWalkCast(_entity, _character = player) {
 }
 function spellMirrorLookCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -116,16 +116,16 @@ function spellMirrorLookCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterSleepCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterSummon");
+	var _spell = spellIndices.get("spellCharacterSummon");
 
     if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -136,16 +136,16 @@ function spellCharacterSleepCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterSummonCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterSummon");
+	var _spell = spellIndices.get("spellCharacterSummon");
 
     if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -155,16 +155,16 @@ function spellCharacterSummonCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterLustCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterLust");
+	var _spell = spellIndices.get("spellCharacterLust");
 
     if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -174,16 +174,16 @@ function spellCharacterLustCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterRutCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterRut");
+	var _spell = spellIndices.get("spellCharacterRut");
 
     if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -196,16 +196,16 @@ function spellCharacterRutCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterTempDispositionCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterTempDisposition");
+	var _spell = spellIndices.get("spellCharacterTempDisposition");
 
     if (!(_entity instanceof Character)) {
-        if (charactersIndexes.has(_entity))
-            _entity = charactersIndexes.get(_entity);
+        if (characterIndices.has(_entity))
+            _entity = characterIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -217,13 +217,13 @@ function spellCharacterTempDispositionCast(_entity, _character = player) {
 }
 function spellCharacterGradualDispositionCast(_entity, _character = player) {
     if (!(_character instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -232,13 +232,13 @@ function spellCharacterGradualDispositionCast(_entity, _character = player) {
 }
 function spellCharacterCompelCast(_entity, _character = player) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -247,16 +247,16 @@ function spellCharacterCompelCast(_entity, _character = player) {
 	return true;
 }
 function spellCharacterDominateCast(_entity, _character = player) {
-	var _spell = spellsIndexes.get("spellCharacterDominate");
+	var _spell = spellIndices.get("spellCharacterDominate");
 
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;
@@ -295,13 +295,13 @@ function spellCharacterDominateCast(_entity, _character = player) {
 }
 function spellCharacterPossessCast(_entity, _character = player) {
     if (!(_character instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : player;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : player;
 
     if (!_character.castSpell(_spell))
     	return false;

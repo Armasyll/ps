@@ -181,4 +181,4 @@ packStreetHappytownLocksmithsEntrance = new Room("packStreetHappytownLocksmithsE
 // 
 zootopiaCreditUnion44thEntrance = new Room("zootopiaCreditUnion44thEntrance", undefined, "Lobby", "hallway", zootopiaCreditUnion44thCell);
 
-if (debug) console.log("\tInitialized " + roomsIndexes.size + " Rooms.");
+if (debug) console.log("\tInitialized " + roomIndices.size + " Rooms.");

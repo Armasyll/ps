@@ -159,12 +159,12 @@ function rosieGiveCharlieHeart() {
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
     Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
-    eventsIndexes.has('charlieHeartbeatRosieCellEvent') && eventsIndexes.get('charlieHeartbeatRosieCellEvent').delete();
-    eventsIndexes.has('charlieHeartbeatRosieRoomEvent') && eventsIndexes.get('charlieHeartbeatRosieRoomEvent').delete();
-    eventsIndexes.has('charlieTakeHeartEvent') && eventsIndexes.get('charlieTakeHeartEvent').delete();
-    eventsIndexes.has('charlieReceiveHeartEvent') && eventsIndexes.get('charlieReceiveHeartEvent').delete();
-    eventsIndexes.has('charlieRemoveLeftEyeEvent') && eventsIndexes.get('charlieRemoveLeftEyeEvent').delete();
-    eventsIndexes.has('charlieReceiveLeftEyeEvent') && eventsIndexes.get('charlieReceiveLeftEyeEvent').delete();
+    eventIndices.has('charlieHeartbeatRosieCellEvent') && eventIndices.get('charlieHeartbeatRosieCellEvent').delete();
+    eventIndices.has('charlieHeartbeatRosieRoomEvent') && eventIndices.get('charlieHeartbeatRosieRoomEvent').delete();
+    eventIndices.has('charlieTakeHeartEvent') && eventIndices.get('charlieTakeHeartEvent').delete();
+    eventIndices.has('charlieReceiveHeartEvent') && eventIndices.get('charlieReceiveHeartEvent').delete();
+    eventIndices.has('charlieRemoveLeftEyeEvent') && eventIndices.get('charlieRemoveLeftEyeEvent').delete();
+    eventIndices.has('charlieReceiveLeftEyeEvent') && eventIndices.get('charlieReceiveLeftEyeEvent').delete();
 
     Menu.clear();
     Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
@@ -255,7 +255,7 @@ function remmyApartmentBathroomWaterbucket(_event = undefined) {
 }
 function charlieHeartbeatRosie(_event = undefined) {
     if (!(_event instanceof GameEvent))
-        _event = eventsIndexes.has(_event) ? eventsIndexes.get(_event) : undefined;
+        _event = eventIndices.has(_event) ? eventIndices.get(_event) : undefined;
 
     if (_event.id == 'charlieHeartbeatRosieRoomEvent')
         Content.add("<p>You feel the heart tug towards the vixen before you.</p>");

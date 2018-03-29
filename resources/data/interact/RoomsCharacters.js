@@ -103,7 +103,7 @@ function remmyApartmentBedroomWolterSexFellatioGive() {
 }
 function remmyApartmentLivingroomCouchMasturbate(_character = player) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 9 : 7), lastMenu, "Back");
@@ -119,19 +119,19 @@ function remmyApartmentLivingroomCouchMasturbate(_character = player) {
 }
 function remmyApartmentLivingroomCouchMasturbateDildoAnal(_character = player) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     
     tick("15m");
 }
 function remmyApartmentLivingroomCouchMasturbateDildoVaginal(_character = player) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     
     tick("15m");
 }
 function remmyApartmentLivingroomCouchMasturbateFleshlight(_character = player) {
     if (!(_character instanceof Character))
-        _character = charactersIndexes.get(_character);
+        _character = characterIndices.get(_character);
     
     tick("15m");
 }

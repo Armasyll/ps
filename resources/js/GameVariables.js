@@ -6,17 +6,17 @@
  * Map of BodyPart(s)
  * @type {Map<String, BodyPart}
  */
-var bodyPartsIndexes = new Map();
+var bodyPartIndices = new Map();
 /**
  * Map of Cell(s)
  * @type {Map<String, Cell}
  */
-var cellsIndexes = new Map();
+var cellIndices = new Map();
 /**
  * Map of Character(s)
  * @type {Map<String, Character}
  */
-var charactersIndexes = new Map();
+var characterIndices = new Map();
 /**
  * Map of pathed Character movements from Room to Room
  * @type {Map<Character, Set<Room>>}
@@ -26,117 +26,117 @@ var characterMovements = new Map();
  * Map of Clothing
  * @type {Map<String, Clothing>}
  */
-var clothingIndexes = new Map();
+var clothingIndices = new Map();
 /**
  * Map of Consumable(s)
  * @type {Map<String, Consumable>}
  */
-var consumableIndexes = new Map();
+var consumableIndices = new Map();
 /**
  * Map of Entity(s)
  * @type {Map<String, Entity}
  */
-var entityIndexes = new Map();
+var entityIndices = new Map();
 /**
  * Map of GameEvent(s).
  * @type {Map<String, GameEvent>}
  */
-var eventsIndexes = new Map();
+var eventIndices = new Map();
 /**
  * Map of Furniture
  * @type {Map<String, Furniture>}
  */
-var furnitureIndexes = new Map();
+var furnitureIndices = new Map();
 /**
  * Map of Item(s)
  * @type {Map<String, Item>}
  */
-var itemsIndexes = new Map();
+var itemIndices = new Map();
 /**
  * Map of Instance(s)
  * @type {Map<String, Instance>}
  */
-var instancesIndexes = new Map();
+var instanceIndices = new Map();
 /**
  * Map of ItemInstance(s)
  * @type {Map<String, ItemInstance>}
  */
-var itemInstancesIndexes = new Map();
+var itemInstanceIndices = new Map();
 /**
  * Map of ItemInstance(s)
  * @type {Map<String, ItemInstance>}
  */
-var bodyPartInstancesIndexes = new Map();
+var bodyPartInstanceIndices = new Map();
 /**
  * Map of Key(s)
  * @type {Map<String, Key>}
  */
-var keysIndexes = new Map();
+var keyIndices = new Map();
 /**
  * Map of Location(s)
  * @type {Map<String, Location>}
  */
-var locationsIndexes = new Map();
+var locationIndices = new Map();
 /**
  * Map of Phone(s)
  * @type {Map<String, Phone>}
  */
-var phonesIndexes = new Map();
+var phoneIndices = new Map();
 /**
  * Map of PhoneInstance(s)
  * @type {Map<String, PhoneInstance>}
  */
-var phoneInstancesIndexes = new Map();
+var phoneInstanceIndices = new Map();
 /**
  * Map of Cheque(s)
  * @type {Map<String, Cheque>}
  */
-var chequesIndexes = new Map();
+var chequeIndices = new Map();
 /**
  * Map of Weapon(s)
  * @type {Map<String, Room>}
  */
-var weaponsIndexes = new Map();
+var weaponIndices = new Map();
 /**
  * Map of WeaponInstance(s)
  * @type {Map<String, WeaponInstance>}
  */
-var weaponInstancesIndexes = new Map();
+var weaponInstanceIndices = new Map();
 /**
  * Map of Armor
  * @type {Map<String, Room>}
  */
-var armorIndexes = new Map();
+var armorIndices = new Map();
 /**
  * Map of ArmorInstance(s)
  * @type {Map<String, ArmorInstance>}
  */
-var armorInstancesIndexes = new Map();
+var armorInstanceIndices = new Map();
 /**
  * Map of Room(s)
  * @type {Map<String, Room>}
  */
-var roomsIndexes = new Map();
+var roomIndices = new Map();
 /**
  * Map of Spell(s)
  * @type {Map<String, Spell>}
  */
-var spellsIndexes = new Map();
+var spellIndices = new Map();
 /**
  * Map of TextMessage(s)
  * @type {Map<String, TextMessage>}
  */
-var textMessageIndexes = new Map();
+var textMessageIndices = new Map();
 /**
  * Map of WebPage(s)
  * @type {Map<String, WebPage}
  */
-var webPageIndexes = new Map();
+var webPageIndices = new Map();
 /**
  * Map of WebSite(s)
  * @type {Map<String, WebSite>}
  */
-var webSiteIndexes = new Map();
+var webSiteIndices = new Map();
 
 var agreeTOS = false;
 var lastMenu = undefined;

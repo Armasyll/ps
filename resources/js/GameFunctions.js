@@ -111,7 +111,7 @@ function toggleRape() {
     enableRape = !enableRape;
     document.getElementById("toggleRapeButton").innerHTML = (enableRape ? "Disable" : "Enable") + " Non-Con";
     
-    charactersIndexes.forEach(function(_character) {
+    characterIndices.forEach(function(_character) {
         if (enableRape && _character.age >= 18)
             _character.addAvailableAction("rape");
         else
@@ -187,14 +187,14 @@ function presentContinuousTense(_contraction = false, _useName = false) {
 
 function _generateEntityItemsGraphicalList(_fromEntity = player, _toEntity = undefined, _modify = false, _filter = undefined) {
     if (!(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else
             return undefined;
     }
     if (!(_toEntity instanceof Entity)) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else
             _toEntity = undefined;
     }
@@ -221,20 +221,20 @@ function _generateEntityItemsGraphicalList(_fromEntity = player, _toEntity = und
 }
 function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
     if (!(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else
             return undefined;
     }
     if (!(_toEntity instanceof Entity)) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else
             _toEntity = undefined;
     }
@@ -251,7 +251,7 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
     /**
      * Hold or Release item
      */
-    if (_fromEntity instanceof Character && _fromEntity.isHoldEntity(_itemInstance))
+    if (_fromEntity instanceof Character && _fromEntity.isHoldingEntity(_itemInstance))
         _actionsBlob += Menu.createButton("itemInteractRelease('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Release");
     else
         _actionsBlob += Menu.createButton("itemInteractHold('{0}', '{1}'); runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Hold ");
@@ -307,22 +307,22 @@ function _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemI
 }
 function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(undefined, _itemInstance);
         else
             return undefined;
     }
     if (!(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else
             return undefined;
     }
     if (!(_toEntity instanceof Entity)) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else
             return undefined;
     }
@@ -338,22 +338,22 @@ function _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntit
 function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true, _filter = undefined) {
     if (debug) console.log("Executing _generateEntityItemsMenuMove");
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(undefined, _itemInstance);
         else
             return undefined;
     }
     if (typeof _fromEntity != "undefined" && !(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else
             _fromEntity = undefined;
     }
     if (!(_toEntity instanceof Entity)) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else
             return undefined;
     }
@@ -401,16 +401,16 @@ function _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _t
  */
 function _findPhone(_blob) {
     if (!(_blob instanceof PhoneInstance)) {
-        if (phoneInstancesIndexes.has(_blob))
-            return phoneInstancesIndexes.get(_blob);
+        if (phoneInstanceIndices.has(_blob))
+            return phoneInstanceIndices.get(_blob);
         else if (_blob instanceof Character) {
             if (_blob.phone instanceof PhoneInstance)
                 return _blob.phone;
             else
                 return undefined;
         }
-        else if (charactersIndexes.has(_blob)) {
-            _blob = charactersIndexes.get(_blob);
+        else if (characterIndices.has(_blob)) {
+            _blob = characterIndices.get(_blob);
             if (_blob.phone instanceof PhoneInstance)
                 return _blob.phone;
             else
@@ -439,13 +439,13 @@ function clearContentAndMenu() {
  */
 function characterSetRoom(_character = player, _room) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_room instanceof Room))
-        _room = roomsIndexes.get(_room);
+        _room = roomIndices.get(_room);
     
     if (debug) console.log("Executing characterSetRoom({0}, {1})".format(_character.id, _room.id));
     
@@ -470,7 +470,7 @@ function characterSetRoom(_character = player, _room) {
         
         if (_character != player) {
             if (debug) console.log("Checking for room events.");
-            eventsIndexes.forEach(function(_event) {
+            eventIndices.forEach(function(_event) {
                 if (
                     typeof _event.cron == 'undefined' &&
                     (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
@@ -579,7 +579,7 @@ function tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExe
             
             if (debug) console.log("Checking for cron events.");
             
-            eventsIndexes.forEach(function(_event) {
+            eventIndices.forEach(function(_event) {
                 if (
                     _event.cron instanceof Cron &&
                     (
@@ -623,10 +623,10 @@ function tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExe
  */
 function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
     if (!(_startCell instanceof Cell))
-        _startCell = cellsIndexes.get(_startCell);
+        _startCell = cellIndices.get(_startCell);
     
     if (!(_targetCell instanceof Cell))
-        _targetCell = cellsIndexes.get(_targetCell);
+        _targetCell = cellIndices.get(_targetCell);
     
     if (!_startCell instanceof Cell || !_targetCell instanceof Cell) {
         if (debug) {
@@ -692,10 +692,10 @@ function _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Se
  */
 function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
     if (!(_startRoom instanceof Room))
-        _startRoom = roomsIndexes.get(_startRoom);
+        _startRoom = roomIndices.get(_startRoom);
     
     if (!(_targetRoom instanceof Room))
-        _targetRoom = roomsIndexes.get(_targetRoom);
+        _targetRoom = roomIndices.get(_targetRoom);
     
     if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
         return undefined;
@@ -761,10 +761,10 @@ function _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Se
  */
 function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
     if (!(_startRoom instanceof Room))
-        _startRoom = roomsIndexes.get(_startRoom);
+        _startRoom = roomIndices.get(_startRoom);
     
     if (!(_targetRoom instanceof Room))
-        _targetRoom = roomsIndexes.get(_targetRoom);
+        _targetRoom = roomIndices.get(_targetRoom);
     
     if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
         return undefined;
@@ -839,19 +839,19 @@ function _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _ex
  */
 function setCharacterPath(_character, _targetRoom) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_targetRoom instanceof Room)) {
-        if (typeof _targetRoom == "string" && roomsIndexes.has(_targetRoom))
-            _targetRoom = roomsIndexes.has(_targetRoom) ? roomsIndexes.get(_targetRoom) : undefined;
+        if (typeof _targetRoom == "string" && roomIndices.has(_targetRoom))
+            _targetRoom = roomIndices.has(_targetRoom) ? roomIndices.get(_targetRoom) : undefined;
         else if (_targetRoom instanceof Character) {
             _targetRoom = _targetRoom.room instanceof Room ? _targetRoom.room : undefined;
         }
-        else if (charactersIndexes.has(_targetRoom)) {
-            var _character = charactersIndexes.get(_targetRoom);
+        else if (characterIndices.has(_targetRoom)) {
+            var _character = characterIndices.get(_targetRoom);
             _targetRoom = _character.room instanceof Room ? _character.room : undefined;
         }
         else
@@ -873,11 +873,11 @@ function setCharacterPath(_character, _targetRoom) {
  */
 function setEventCharacterLocationSchedule(_id = undefined, _character, _targetRoom, _cron, _function, _runOnce = true) {
     if (_id == undefined)
-        _id = "{0}{1}CharacterSchedule{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventsIndexes.size);
+        _id = "{0}{1}CharacterSchedule{2}Event".format(_character.id, _targetRoom.id.capitalize(), eventIndices.size);
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
     if (!(_targetRoom instanceof Room))
-        _targetRoom = roomsIndexes.get(_targetRoom);
+        _targetRoom = roomIndices.get(_targetRoom);
     if (!(_cron instanceof Cron))
         return undefined;
     if (typeof _runOnce != "boolean")
@@ -914,16 +914,16 @@ function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB
     if (_id == undefined)
         _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
     if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
+        if (itemIndices.has(_item))
+            _item = itemIndices.get(_item);
         else if (_item instanceof ItemInstance)
             _item = _item.parent;
-        else if (itemInstancesIndexes.has(_item))
-            _item = itemInstancesIndexes.get(_item);
+        else if (itemInstanceIndices.has(_item))
+            _item = itemInstanceIndices.get(_item);
         else
             _item = undefined;
     }
@@ -935,16 +935,16 @@ function setCharacterMeetingPlaceEvent(_id = undefined, _characterA, _characterB
 
     if (_room instanceof Room)
         return setCharacterMeetinRoomEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
-    else if (roomsIndexes.has(_place))
-        return setCharacterMeetinRoomEvent(_id, _characterA, _characterB, roomsIndexes.get(_place), _item, _function, _runOnce);
+    else if (roomIndices.has(_place))
+        return setCharacterMeetinRoomEvent(_id, _characterA, _characterB, roomIndices.get(_place), _item, _function, _runOnce);
     else if (_place instanceof Cell)
         return setCharacterMeetinCellEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
-    else if (cellsIndexes.has(_place))
-        return setCharacterMeetinCellEvent(_id, _characterA, _characterB, cellsIndexes.get(_place), _item, _function, _runOnce);
+    else if (cellIndices.has(_place))
+        return setCharacterMeetinCellEvent(_id, _characterA, _characterB, cellIndices.get(_place), _item, _function, _runOnce);
     else if (_place instanceof Location)
         return setCharacterMeetinLocationEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
-    else if (locationsIndexes.has(_place))
-        return setCharacterMeetinLocationEvent(_id, _characterA, _characterB, locationsIndexes.get(_place), _item, _function, _runOnce);
+    else if (locationIndices.has(_place))
+        return setCharacterMeetinLocationEvent(_id, _characterA, _characterB, locationIndices.get(_place), _item, _function, _runOnce);
     else
         return undefined;
 }
@@ -962,21 +962,21 @@ function setCharacterMeetingRoomEvent(_id = undefined, _characterA, _characterB,
     if (_id == undefined)
         _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
     if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
+        if (itemIndices.has(_item))
+            _item = itemIndices.get(_item);
         else if (_item instanceof ItemInstance)
             _item = _item.parent;
-        else if (itemInstancesIndexes.has(_item))
-            _item = itemInstancesIndexes.get(_item);
+        else if (itemInstanceIndices.has(_item))
+            _item = itemInstanceIndices.get(_item);
         else
             _item = undefined;
     }
     if (!(_room instanceof Room))
-        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+        _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
     if (typeof _runOnce != "boolean")
         _runOnce = true;
 
@@ -1011,21 +1011,21 @@ function setCharacterMeetingCellEvent(_id = undefined, _characterA, _characterB,
     if (_id == undefined)
         _id = "{0}{1}{2}{3}CharacterMeetingCellEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
     if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
+        if (itemIndices.has(_item))
+            _item = itemIndices.get(_item);
         else if (_item instanceof ItemInstance)
             _item = _item.parent;
-        else if (itemInstancesIndexes.has(_item))
-            _item = itemInstancesIndexes.get(_item);
+        else if (itemInstanceIndices.has(_item))
+            _item = itemInstanceIndices.get(_item);
         else
             _item = undefined;
     }
     if (!(_cell instanceof Cell))
-        _cell = cellsIndexes.has(_cell) ? cellsIndexes.get(_cell) : undefined;
+        _cell = cellIndices.has(_cell) ? cellIndices.get(_cell) : undefined;
     if (typeof _runOnce != "boolean")
         _runOnce = true;
 
@@ -1060,21 +1060,21 @@ function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _charact
     if (_id == undefined)
         _id = "{0}{1}{2}{3}CharacterMeetingLocationEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
     if (!(_item instanceof Item)) {
-        if (itemsIndexes.has(_item))
-            _item = itemsIndexes.get(_item);
+        if (itemIndices.has(_item))
+            _item = itemIndices.get(_item);
         else if (_item instanceof ItemInstance)
             _item = _item.parent;
-        else if (itemInstancesIndexes.has(_item))
-            _item = itemInstancesIndexes.get(_item);
+        else if (itemInstanceIndices.has(_item))
+            _item = itemInstanceIndices.get(_item);
         else
             _item = undefined;
     }
     if (!(_location instanceof Location))
-        _location = locationsIndexes.has(_location) ? locationsIndexes.get(_location) : undefined;
+        _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
     if (typeof _runOnce != "boolean")
         _runOnce = true;
 
@@ -1104,7 +1104,7 @@ function setCharacterMeetingLocationEvent(_id = undefined, _characterA, _charact
  */
 function setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce = true) {
     if (_id == undefined)
-        _id = "miscTimeFunction{0}Event".format(eventsIndexes.size);
+        _id = "miscTimeFunction{0}Event".format(eventIndices.size);
     if (!(_cron instanceof Cron))
         return undefined;
     if (typeof _runOnce != "boolean")
@@ -1120,8 +1120,8 @@ function setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce =
  */
 function characterSit(_character, _furniture = undefined) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1143,8 +1143,8 @@ function characterSit(_character, _furniture = undefined) {
  */
 function characterLay(_character, _furniture = undefined) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1166,8 +1166,8 @@ function characterLay(_character, _furniture = undefined) {
  */
 function characterSleep(_character, _furniture = undefined) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1200,8 +1200,8 @@ function characterSleep(_character, _furniture = undefined) {
  */
 function characterStand(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1221,8 +1221,8 @@ function characterStand(_character) {
  */
 function characterWalk(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1243,14 +1243,14 @@ function characterWalk(_character) {
  */
 function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1291,8 +1291,8 @@ function characterFollow(_characterA, _characterB, _preGeneratedPath = undefined
  */
 function characterStay(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1313,19 +1313,19 @@ function characterStay(_character) {
  */
 function characterSex(_characterA, _characterB, _furniture = undefined, _action = "lay") {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
     
     if (typeof _action != "undefined")
         _action = kActionTypes.has(_action) ? _action : "lay";
@@ -1377,14 +1377,14 @@ function characterSex(_characterA, _characterB, _furniture = undefined, _action 
  */
 function characterOral(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1405,14 +1405,14 @@ function characterOral(_characterA, _characterB) {
  */
 function characterIncSex(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             _characterB = undefined;
     }
@@ -1427,14 +1427,14 @@ function characterIncSex(_characterA, _characterB) {
  */
 function characterIncAnal(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             _characterB = undefined;
     }
@@ -1450,14 +1450,14 @@ function characterIncAnal(_characterA, _characterB) {
  */
 function characterIncVaginal(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1481,14 +1481,14 @@ function characterIncVaginal(_characterA, _characterB) {
  */
 function characterIncFellatio(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1511,14 +1511,14 @@ function characterIncFellatio(_characterA, _characterB) {
  */
 function characterIncCunnilingus(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1541,14 +1541,14 @@ function characterIncCunnilingus(_characterA, _characterB) {
  */
 function characterIncAnalingus(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1563,14 +1563,14 @@ function characterIncAnalingus(_characterA, _characterB) {
  */
 function characterIncHandjob(_characterA, _characterB) {
     if (!(_characterA instanceof Character)) {
-        if (charactersIndexes.has(_characterA))
-            _characterA = charactersIndexes.get(_characterA);
+        if (characterIndices.has(_characterA))
+            _characterA = characterIndices.get(_characterA);
         else
             return undefined;
     }
     if (!(_characterB instanceof Character)) {
-        if (charactersIndexes.has(_characterB))
-            _characterB = charactersIndexes.get(_characterB);
+        if (characterIndices.has(_characterB))
+            _characterB = characterIndices.get(_characterB);
         else
             return undefined;
     }
@@ -1584,8 +1584,8 @@ function characterIncHandjob(_characterA, _characterB) {
  */
 function characterIncMasturbate(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1598,8 +1598,8 @@ function characterIncMasturbate(_character) {
  */
 function characterIncAutofellatioCount(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1614,8 +1614,8 @@ function characterIncAutofellatioCount(_character) {
  */
 function characterIncAutocunnilingusCount(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1630,8 +1630,8 @@ function characterIncAutocunnilingusCount(_character) {
  */
 function characterIncAutoanalingusCount(_character) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -1647,13 +1647,13 @@ function characterIncAutoanalingusCount(_character) {
  */
 function characterMasturbate(_character, _furniture = undefined, _action = "lay") {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_furniture instanceof Furniture))
-        _furniture = furnitureIndexes.has(_furniture) ? furnitureIndexes.get(_furniture) : undefined;
+        _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
     
     if (typeof _action != "undefined")
         _action = kActionTypes.has(_action) ? _action : "lay";
@@ -1672,14 +1672,14 @@ function characterMasturbate(_character, _furniture = undefined, _action = "lay"
 function characterDisrobeItem(_character, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing characterDisrobeItem");
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1702,20 +1702,20 @@ function characterDisrobeItem(_character, _itemInstance, _executeScene = false) 
 function characterGiveItem(_character, _entity, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing characterGiveItem");
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_entity instanceof Entity) && _entity != undefined) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             _entity = undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1728,14 +1728,14 @@ function characterGiveItem(_character, _entity, _itemInstance, _executeScene = f
 }
 function characterHoldItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1753,14 +1753,14 @@ function characterPutItem(_character, _entity, _itemInstance, _executeScene = fa
 function characterReleaseItem(_character, _itemInstance, _hand = undefined, _executeScene = false) {
     if (debug) console.log("Executing characterReleaseItem");
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1783,20 +1783,20 @@ function characterReleaseItem(_character, _itemInstance, _hand = undefined, _exe
 function characterAddItem(_character, _entity, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing characterAddItem");
     if (!(_character instanceof Entity)) {
-        if (entityIndexes.has(_character))
-            _character = entityIndexes.get(_character);
+        if (entityIndices.has(_character))
+            _character = entityIndices.get(_character);
         else
             return undefined;
     }
     if (!(_entity instanceof Entity) && _entity != undefined) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             _entity = undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1814,21 +1814,21 @@ function characterTakeItem(_character, _entity, _itemInstance, _executeScene = f
 function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing characterRemoveItem");
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
 
     if (_character.isWearing(_itemInstance) && !characterDisrobeItem(_character, _itemInstance))
         return false;
-    else if (_character.isHoldEntity(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
+    else if (_character.isHoldingEntity(_itemInstance) && !characterReleaseItem(_character, _itemInstance))
         return false;
     if (unsafeExec("{0}Remove({1}, {2})".format(_itemInstance.parent.id, _character.id, _executeScene))) {
         if (debug) console.log("  Removing {0} from {1}".format(_itemInstance.parent.id, _character.id));
@@ -1840,20 +1840,20 @@ function characterRemoveItem(_character, _itemInstance, _executeScene = false) {
 }
 function entityAddItem(_fromEntity, _toEntity, _itemInstance, _executeScene = false) {
     if (!(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else
             return undefined;
     }
     if (!(_toEntity instanceof Entity) && _toEntity != undefined) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else
             _toEntity = undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -1899,8 +1899,8 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
     var _eventRun = false;
 
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item) {
             if (_fromEntity instanceof Entity) {
                 _fromEntity.items.some(function(__itemInstance) {
@@ -1913,8 +1913,8 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
             else
                 _itemInstance = new ItemInstance(undefined, _itemInstance, _fromEntity);
         }
-        else if (itemsIndexes.has(_itemInstance)) {
-            _itemInstance = itemsIndexes.get(_itemInstance);
+        else if (itemIndices.has(_itemInstance)) {
+            _itemInstance = itemIndices.get(_itemInstance);
             if (_fromEntity instanceof Entity) {
                 _fromEntity.items.some(function(__itemInstance) {
                     if (__itemInstance.parent == _itemInstance) {
@@ -1932,8 +1932,8 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
 
     if (debug) console.log("  Checking if _fromEntity is an instance of Entity");
     if (typeof _fromEntity != "undefined" && !(_fromEntity instanceof Entity)) {
-        if (entityIndexes.has(_fromEntity))
-            _fromEntity = entityIndexes.get(_fromEntity);
+        if (entityIndices.has(_fromEntity))
+            _fromEntity = entityIndices.get(_fromEntity);
         else {
             if (debug) console.log("    _fromEntity {0} isn't an Entity.".format(_fromEntity));
             _fromEntity = undefined;
@@ -1944,8 +1944,8 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
     
     if (debug) console.log("  Checking if _toEntity is an instance of Entity");
     if (!(_toEntity instanceof Entity)) {
-        if (entityIndexes.has(_toEntity))
-            _toEntity = entityIndexes.get(_toEntity);
+        if (entityIndices.has(_toEntity))
+            _toEntity = entityIndices.get(_toEntity);
         else {
             if (debug) console.log("    _toEntity {0} isn't an Entity.".format(_toEntity));
             return undefined;
@@ -1984,12 +1984,12 @@ function entityGiveItem(_fromEntity = undefined, _toEntity = undefined, _itemIns
 }
 function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(undefined, _itemInstance);
-        else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
+        else if (itemIndices.has(_itemInstance))
+            _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
         else
             return undefined;
     }
@@ -1999,7 +1999,7 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
         if (_fromEntity instanceof Character) {
             if (_itemInstance.parent instanceof Clothing && _fromEntity.isWearing(_itemInstance) && !characterDisrobeItem(_fromEntity, _itemInstance, _fromEntity == player))
                 return false
-            else if (_fromEntity.isHoldEntity(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
+            else if (_fromEntity.isHoldingEntity(_itemInstance) && !characterReleaseItem(_fromEntity, _itemInstance, undefined, _fromEntity == player))
                 return false;
             else if (!unsafeExec("{0}Remove({1})".format(_itemInstance.parent.id, _fromEntity.id)))
                 return false;
@@ -2014,7 +2014,7 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
         _fromEntity.removeItem(_itemInstance);
 
         if (debug) console.log("Checking for item removal events");
-        eventsIndexes.forEach(function(_event) {
+        eventIndices.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "remove" && _event.item == _itemInstance && (typeof _event.characterA == 'undefined' || _event.characterB == _fromEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
@@ -2029,12 +2029,12 @@ function _executeItemRemoveEvents(_itemInstance, _fromEntity, _toEntity) {
 }
 function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(undefined, _itemInstance);
-        else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
+        else if (itemIndices.has(_itemInstance))
+            _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
         else
             return undefined;
     }
@@ -2046,7 +2046,7 @@ function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
 
     if (typeof _fromEntity == 'undefined' || !(_fromEntity.containsItem(_itemInstance.parent))) {
         if (debug) console.log("Checking for item given events");
-        eventsIndexes.forEach(function(_event) {
+        eventIndices.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "give" && _event.item == _itemInstance.parent && (typeof _event.characterA == 'undefined' || _event.characterA == _fromEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _toEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
@@ -2062,12 +2062,12 @@ function _executeItemGiveEvents(_itemInstance, _fromEntity, _toEntity) {
 }
 function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else if (_itemInstance instanceof Item)
             _itemInstance = new ItemInstance(undefined, _itemInstance);
-        else if (itemsIndexes.has(_itemInstance))
-            _itemInstance = new ItemInstance(undefined, itemsIndexes.get(_itemInstance));
+        else if (itemIndices.has(_itemInstance))
+            _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
         else
             return undefined;
     }
@@ -2083,7 +2083,7 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
         }
 
         if (debug) console.log("Checking for item taken events");
-        eventsIndexes.forEach(function(_event) {
+        eventIndices.forEach(function(_event) {
             if (typeof _event.cron == 'undefined' && _event.action == "take" && _event.item == _itemInstance.parent && (typeof _event.characterA == 'undefined' || _event.characterA == _toEntity) && (typeof _event.characterB == 'undefined' || _event.characterB == _fromEntity)) {
                 if (_fromEntity == player || _toEntity == player) {
                     hideModals();
@@ -2099,14 +2099,14 @@ function _executeItemTakeEvents(_itemInstance, _fromEntity, _toEntity) {
 }*/
 function entityRemoveItem(_entity, _itemInstance, _executeScene = false) {
     if (!(_entity instanceof Entity)) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             return undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -2122,20 +2122,20 @@ function entityRemoveItem(_entity, _itemInstance, _executeScene = false) {
 function furnitureAddItem(_furniture, _entity, _itemInstance, _executeScene = false) {
     if (debug) console.log("Executing furnitureAddItem");
     if (!(_furniture instanceof Furniture)) {
-        if (furnitureIndexes.has(_furniture))
-            _furniture = furnitureIndexes.get(_furniture);
+        if (furnitureIndices.has(_furniture))
+            _furniture = furnitureIndices.get(_furniture);
         else
             return undefined;
     }
     if (!(_entity instanceof Entity) && _entity != undefined) {
-        if (entityIndexes.has(_entity))
-            _entity = entityIndexes.get(_entity);
+        if (entityIndices.has(_entity))
+            _entity = entityIndices.get(_entity);
         else
             _entity = undefined;
     }
     if (!(_itemInstance instanceof ItemInstance)) {
-        if (itemInstancesIndexes.has(_itemInstance))
-            _itemInstance = itemInstancesIndexes.get(_itemInstance);
+        if (itemInstanceIndices.has(_itemInstance))
+            _itemInstance = itemInstanceIndices.get(_itemInstance);
         else
             return undefined;
     }
@@ -2150,8 +2150,8 @@ function furnitureAddItem(_furniture, _entity, _itemInstance, _executeScene = fa
 
 function characterSetLife(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2161,8 +2161,8 @@ function characterSetLife(_character, _int) {
 }
 function characterDecLife(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2172,8 +2172,8 @@ function characterDecLife(_character, _int) {
 }
 function characterIncLife(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2183,8 +2183,8 @@ function characterIncLife(_character, _int) {
 }
 function characterSetLifeMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2194,8 +2194,8 @@ function characterSetLifeMax(_character, _int) {
 }
 function characterDecLifeMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2205,8 +2205,8 @@ function characterDecLifeMax(_character, _int) {
 }
 function characterIncLifeMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2216,8 +2216,8 @@ function characterIncLifeMax(_character, _int) {
 }
 function characterSetStamina(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2227,8 +2227,8 @@ function characterSetStamina(_character, _int) {
 }
 function characterDecStamina(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2238,8 +2238,8 @@ function characterDecStamina(_character, _int) {
 }
 function characterIncStamina(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2249,8 +2249,8 @@ function characterIncStamina(_character, _int) {
 }
 function characterSetStaminaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2260,8 +2260,8 @@ function characterSetStaminaMax(_character, _int) {
 }
 function characterDecStaminaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2271,8 +2271,8 @@ function characterDecStaminaMax(_character, _int) {
 }
 function characterIncStaminaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2282,8 +2282,8 @@ function characterIncStaminaMax(_character, _int) {
 }
 function characterSetMana(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2293,8 +2293,8 @@ function characterSetMana(_character, _int) {
 }
 function characterIncMana(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2304,8 +2304,8 @@ function characterIncMana(_character, _int) {
 }
 function characterDecMana(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2315,8 +2315,8 @@ function characterDecMana(_character, _int) {
 }
 function characterSetManaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2326,8 +2326,8 @@ function characterSetManaMax(_character, _int) {
 }
 function characterIncManaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2337,8 +2337,8 @@ function characterIncManaMax(_character, _int) {
 }
 function characterDecManaMax(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2348,8 +2348,8 @@ function characterDecManaMax(_character, _int) {
 }
 function characterSetMoney(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2359,8 +2359,8 @@ function characterSetMoney(_character, _int) {
 }
 function characterDecMoney(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2370,8 +2370,8 @@ function characterDecMoney(_character, _int) {
 }
 function characterIncMoney(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2381,8 +2381,8 @@ function characterIncMoney(_character, _int) {
 }
 function characterSetLust(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2392,8 +2392,8 @@ function characterSetLust(_character, _int) {
 }
 function characterDecLust(_character, _int) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2428,8 +2428,8 @@ function decLust(_int) {return characterDecLust(player, _int);}
 
 function cashCheque(_character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
@@ -2541,7 +2541,7 @@ function characterTakeOver(_characterA, _characterB) {
     _characterA.name = '<i>{0}</i>'.format(_characterB.name);
     _characterA.items = arr.get('items');
     
-    charactersIndexes.forEach(function(_character) {
+    characterIndices.forEach(function(_character) {
         if (_character != player && _character != _characterA && _character != _characterB) {
             _character.characterDisposition.set(_characterA, _character.characterDisposition.get(_characterB));
         }
@@ -2556,9 +2556,9 @@ function characterTakeOver(_characterA, _characterB) {
  */
 function _lockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
-        _roomA = roomsIndexes.has(_roomA) ? roomsIndexes.get(_roomA) : undefined;
+        _roomA = roomIndices.has(_roomA) ? roomIndices.get(_roomA) : undefined;
     if (!(_roomB instanceof Room))
-        _roomB = roomsIndexes.has(_roomB) ? roomsIndexes.get(_roomB) : undefined;
+        _roomB = roomIndices.has(_roomB) ? roomIndices.get(_roomB) : undefined;
 
     if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
         return undefined;
@@ -2578,9 +2578,9 @@ function _lockRoom(_roomA, _roomB) {
  */
 function _unlockRoom(_roomA, _roomB) {
     if (!(_roomA instanceof Room))
-        _roomA = roomsIndexes.has(_roomA) ? roomsIndexes.get(_roomA) : undefined;
+        _roomA = roomIndices.has(_roomA) ? roomIndices.get(_roomA) : undefined;
     if (!(_roomB instanceof Room))
-        _roomB = roomsIndexes.has(_roomB) ? roomsIndexes.get(_roomB) : undefined;
+        _roomB = roomIndices.has(_roomB) ? roomIndices.get(_roomB) : undefined;
 
     if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
         return undefined;
@@ -2600,7 +2600,7 @@ function _unlockRoom(_roomA, _roomB) {
  */
 function roomLockFromInside(_room) {
     if (!(_room instanceof Room))
-        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+        _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
     
     if (typeof _room == "undefined")
         return undefined;
@@ -2631,7 +2631,7 @@ function roomLockFromInside(_room) {
  */
 function roomUnlockFromInside(_room) {
     if (!(_room instanceof Room))
-        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+        _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
     
     if (typeof _room == "undefined")
         return undefined;
@@ -2663,9 +2663,9 @@ function roomUnlockFromInside(_room) {
  */
 function roomLockFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
-        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+        _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
     
     if (typeof _room == "undefined" || typeof _character == "undefined")
         return undefined;
@@ -2683,9 +2683,9 @@ function roomLockFromOutside(_room, _character = player) {
  */
 function roomUnlockFromOutside(_room, _character = player) {
     if (!(_room instanceof Room))
-        _room = roomsIndexes.has(_room) ? roomsIndexes.get(_room) : undefined;
+        _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
     if (!(_character instanceof Character))
-        _character = charactersIndexes.has(_character) ? charactersIndexes.get(_character) : undefined;
+        _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
     
     if (typeof _room == "undefined" || typeof _character == "undefined")
         return undefined;
@@ -2704,15 +2704,15 @@ function roomUnlockFromOutside(_room, _character = player) {
  */
 function addAllItems(_character = player, _execEvents = true) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
     if (!(typeof _execEvents == 'boolean'))
         _execEvents = true;
 
-    itemsIndexes.forEach(function(_item) {
+    itemIndices.forEach(function(_item) {
         if (_execEvents)
             characterAddItem(_character, undefined, new ItemInstance(undefined, _item, _character), true);
         else
@@ -2728,13 +2728,13 @@ function addAllItems(_character = player, _execEvents = true) {
  */
 function addAllLocations(_character = player) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
-    locationsIndexes.forEach(function(_location) {
+    locationIndices.forEach(function(_location) {
         _character.addKnownLocation(_location);
     }, this);
 
@@ -2747,13 +2747,13 @@ function addAllLocations(_character = player) {
  */
 function addAllSpells(_character = player, _execEvents = true) {
     if (!(_character instanceof Character)) {
-        if (charactersIndexes.has(_character))
-            _character = charactersIndexes.get(_character);
+        if (characterIndices.has(_character))
+            _character = characterIndices.get(_character);
         else
             return undefined;
     }
 
-    spellsIndexes.forEach(function(_spell) {
+    spellIndices.forEach(function(_spell) {
         _character.addKnownSpell(_spell);
     }, this);
 
@@ -2768,13 +2768,13 @@ function addAllSpells(_character = player, _execEvents = true) {
  */
 function calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {
     if (!(_characterA instanceof Character))
-        _characterA = charactersIndexes.has(_characterA) ? charactersIndexes.get(_characterA) : undefined;
+        _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
     
     if (typeof _characterA == 'undefined')
         return undefined;
     
     if (!(_characterB instanceof Character))
-        _characterB = charactersIndexes.has(_characterB) ? charactersIndexes.get(_characterB) : undefined;
+        _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
     
     if (typeof _characterB == 'undefined')
         return undefined;
@@ -2856,7 +2856,7 @@ function useNormalMenu() {
 function saveGame() {
     var _charArr = new Array();
     var _furnArr = new Array();
-    charactersIndexes.forEach(function(_character) {_charArr.push(_character.toJSON())}, this);
+    characterIndices.forEach(function(_character) {_charArr.push(_character.toJSON())}, this);
     var _text = JSON.stringify(
         {
             "player":player.id,
@@ -2910,9 +2910,9 @@ function loadGame(_json) {
             }
             catch (e) {}
 
-            if (furnitureIndexes.has(_furniture["id"])) {
+            if (furnitureIndices.has(_furniture["id"])) {
                 if (debug) console.log("Found Furniture `{0}`, updating its Furniture instance.".format(_furniture["id"]));
-                furnitureIndexes.get(_furniture["id"]).fromJSON(_furniture);
+                furnitureIndices.get(_furniture["id"]).fromJSON(_furniture);
             }
             else {
                 if (debug) console.log("Couldn't find Furniture `{0}`, creating a new Furniture instance.".format(_furniture["id"]));
@@ -2929,9 +2929,9 @@ function loadGame(_json) {
             }
             catch (e) {}
 
-            if (charactersIndexes.has(_character["id"])) {
+            if (characterIndices.has(_character["id"])) {
                 if (debug) console.log("Found Character `{0}`, updating their Character instance.".format(_character["id"]));
-                charactersIndexes.get(_character["id"]).fromJSON(_character);
+                characterIndices.get(_character["id"]).fromJSON(_character);
             }
             else {
                 if (debug) console.log("Couldn't find Character `{0}`, creating a new Character instance.".format(_character["id"]));
@@ -2943,9 +2943,9 @@ function loadGame(_json) {
     // WebSites, WebPages
     // Cron, GameEvents
     if (_json.hasOwnProperty("GameEvents")) {
-        eventsIndexes.clear();
+        eventIndices.clear();
     }
-    if (_json.hasOwnProperty("player") && charactersIndexes.has(_json["player"])) player = charactersIndexes.get(_json["player"]);
+    if (_json.hasOwnProperty("player") && characterIndices.has(_json["player"])) player = characterIndices.get(_json["player"]);
     if (_json.hasOwnProperty("lastMenu")) lastMenu = _json["lastMenu"];
     if (_json.hasOwnProperty("lastGameEvent")) lastGameEvent = _json["lastGameEvent"];
     if (_json.hasOwnProperty("enableMinimap")) enableMinimap = _json["enableMinimap"];
