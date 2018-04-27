@@ -323,7 +323,7 @@ function characterInteractOpen(_character, _switch = false, _allowSwitch = true,
         if (_clearContent && !_scenesViewedThisWindow.has("characterInteractOpen")) {
             var _blob = "";
             if (_characterB == _characterA)
-                _blob += "Looking through {0} pockets and on {0} person, {1} find{2} ".format(possessiveAdjective(), subjectPronoun(true), (pov == 3 ? "s" : ""));
+                _blob += "Looking through {0} pockets and on {0} person, {1} find{2} ".format(possessiveAdjective()), subjectPronoun(true), (pov == 3 ? "s" : "");
             else
                 _blob += "Looking through {0}'s pockets and on {1} person, {2} find{3} ".format(_characterB.name, _characterB.possessiveAdjective(), subjectPronoun(true), (pov == 3 ? "s" : ""));
 
