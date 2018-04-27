@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Pack Street Simulator">
+        <meta name="author" content="armasyll">
+        <link rel="icon" href="favicon.ico">
+        <title>Pack Street Simulator - Dark Edition</title>
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/ps.css">
+        <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
+        <script data-description="General Functions" src="resources/js/GeneralFunctions.js"></script>
+    </head>
+    <body>
+        <div class="modal" id="webModal" tabindex="-1">
+            <div class="modal-dialog modal-lg" style="height:94%;">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                        <h4 id="webModalTitle" class="modal-title"></h4>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Bookmarks
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="webModalBookmarks" class="dropdown-menu">
+                                <li><a onclick="webSiteInteract('eweTube')">EweTube</a></li>
+                                <li><a onclick="webSiteInteract('zoogle')">Zoogle</a></li>
+                                <li><a onclick="webSiteInteract('muzzleBook')">MuzzleBook</a></li>
+                                <li class="divider"></li>
+                                <li><a onclick="webSiteInteract('gekroulette')">Gekroulette</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="webModalBody" class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="optionsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                        <h4 class="modal-title">Game Options</h4>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" id="saveGameButton" class="btn btn-info" onClick="saveGame()">Save Game</button>
+                        <label class="custom-file">
+                            <input type="file" id="fileInput" class="custom-file-input" onChange="loadFile(this)" style="display:none">
+                            <span class="btn btn-info custom-file-control">Load Game</span>
+                        </label>
+                        <hr/>
+                        <button type="button" id="toggleRapeButton" class="btn btn-info" onClick="toggleRape()"></button>
+                        <button type="button" class="btn btn-info" onClick="alert(':V')"><b>:V</b></button>
+                        <button type="button" id="toggleGoreButton" class="btn btn-info" onClick="toggleGore()"></button>
+                        <hr/>
+                        <button type="button" id="toggleAutoscrollButton" class="btn btn-info" onClick="toggleAutoscroll()"></button>
+                        <button type="button" id="toggleInventoryModalButton" class="btn btn-info" onClick="toggleInventoryModal()"></button>
+                        <button type="button" id="toggleMenuSizeButton" class="btn btn-info" onClick="toggleMenuSize()"></button>
+                        <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="toggleDebug()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="helpModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                        <h4 class="modal-title">Help</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr><td>`</td><td>Developer Menu</td></tr>
+                            <tr><td>o</td><td>Game Options</td></tr>
+                            <tr><td>h</td><td>Help</td></tr>
+                            <tr><td>1-4</td><td rowspan=3 style='vertical-align:middle;'>Menu navigation</td></tr>
+                            <tr><td>q-r</td></tr>
+                            <tr><td>a-f</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="aboutModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                        <h4 class="modal-title">About</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Packstreet Simulator written by Armasyll</p>
+                        <p>Graphical assets from tgweaver and unnamed artists, used with permission.</p>
+                        <p>Written assets from Armasyll and Zorotokon, used with permission.</p>
+                        <p>Javascript libraries used are jQuery and Bootstrap</p>
+                        <br/>
+                        <p><a href='HowToSetupPS.html' target='_blank'>How shit's done</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="personalInventoryModal" tabindex="-1">
+            <div class="modal-dialog modal-lg" style="height:93vh">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header">
+                        <h4 id="personalInventoryModal-title" class="modal-title"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div id="personalInventoryModal-body" class="modal-body" style='background-color: rgb(44, 44, 44); height:82vh;'>
+                        <div class="container-fluid" style="height:100%;">
+                            <div id="personalInventoryModal-list" class="col-sm-6"></div>
+                            <div id="personalInventoryModal-description" class="col-sm-6" style='background-color: #ffffff; height:100%; border-radius:4px;'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="deviceInterfaceModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 id="deviceInterfaceModal-title" class="modal-title"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div id="deviceInterfaceModal-body" class="modal-body" style='background-color: rgb(44, 44, 44);'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="dualInventoryModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom:2em;">
+                        <ul class="nav nav-tabs" style="background-color: white;">
+                            <li><a id="dualInventoryTab-characterA" data-toggle="tab" href="#dualInventoryContent-characterA">characterA's Inventory</a></li>
+                            <li class="active"><a id="dualInventoryTab-characterB" data-toggle="tab" href="#dualInventoryContent-characterB">characterB's Inventory</a></li>
+                        </ul>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body" style='background-color: rgb(44, 44, 44);'>
+                        <div class="tab-content">
+                            <div id="dualInventoryContent-characterA" class="tab-pane">
+                            </div>
+                            <div id="dualInventoryContent-characterB" class="tab-pane active">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id='rowMid' class='row'>
+                <div id='locationInfoContainer' class="col-sm-3 hidden-xs">
+                    <div id="locationContentDisplay">
+                        <div class="row text-center" style="height:164px;">
+                            <div id="locationTitleTopImageContainer" class="text-center" style="width:164px; background-color:white; border-radius:0.25em; margin-left:auto; margin-right:auto;">
+                                <img src='resources/images/characters/Armasyll.svg'/>
+                            </div>
+                        </div>
+                        <div class="locationTitleTopText text-center">Pack Street Simulator</div>
+                        <div class="locationTitleMid trim text-center">by Armasyll</div>
+                        <div class="locationTitleBot trim text-center">&nbsp;</div>
+                    </div>
+                    <div id="mapContentDisplay" style="background-color:rgb(44, 44, 44); border-radius:4px;">
+                        <canvas id="map"></canvas>
+                    </div>
+                </div>
+                <div id="contentContainer" class="col-sm-9 col-xs-12">
+                    <div style="height:100%; border-radius:4px; background-color:white;">
+                        <div id="contentContainerHead">
+                            <ol id="contentContainerHeadLocation" class="breadcrumb">
+                                <li class="locationTitleBot">&nbsp;</li>
+                                <li class="locationTitleMid">&nbsp;</li>
+                                <li class="locationTitleTopText">&nbsp;</li>
+                            </ol>
+                            <div class="timeDisplay"></div>
+                        </div>
+                        <div id="contentContainerBody">
+                            <blockquote><p>WARNING. This page contains sexually oriented adult material intended for individuals 18 years of age or older. If you are not yet 18, if adult material offends you, or if you are accessing this site from any country or locale where adult material is prohibited by law, PLEASE LEAVE NOW! If you understand and accept these terms, you may ENTER.</p></blockquote>
+                        </div>
+                        <div id="debugContentContainerBody" class="hidden">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='rowBot' class='row'>
+                <div class="col-xs-3">
+                    <div id="gamePlayerInfoDisplay" class="">
+                        <div id="playerName" class="col-md-12 text-center text-info">Player Name</div>
+                        <div id="playerLifeDisplay">
+                            <div class="col-md-5 col-sm-4 hidden-xs text-info text-right">Life:</div>
+                            <div class="col-md-7 col-sm-8 col-xs-8">
+                                <span id="playerLife">Life</span>/<span id="playerLifeMax" class="text-primary">&nbsp;</span>
+                            </div>
+                        </div>
+                        <div id="playerStaminaDisplay">
+                            <div class="col-md-5 col-sm-4 hidden-xs text-info text-right">Stamina:</div>
+                            <div class="col-md-7 col-sm-8 col-xs-12">
+                                <span id="playerStamina">Stamina</span>/<span id="playerStaminaMax" class="text-primary">&nbsp;</span>
+                            </div>
+                        </div>
+                        <div id="playerManaDisplay" class="invisible">
+                            <div class="col-md-5 col-sm-4 hidden-xs text-info text-right">Mana:</div>
+                            <div class="col-md-7 col-sm-8 col-xs-12">
+                                <span id="playerMana">Mana</span>/<span id="playerManaMax" class="text-primary">&nbsp;</span>
+                            </div>
+                        </div>
+                        <div id="playerMoneyDisplay">
+                            <div class="col-md-5 col-sm-4 hidden-xs text-info text-right">Money:</div>
+                            <div class="col-md-7 col-sm-8 col-xs-12">
+                                <span id="playerMoney" class="text-primary">&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="gameControlsDisplay" class="btn-group btn-group-justified" role="group">
+                        <div id="gameControlsOptions" class="btn-group hidden" role="group">
+                            <button class="btn" data-toggle="modal" data-target="#optionsModal">
+                                <small class="hidden-md hidden-sm hidden-xs" style="position:absolute; right:0px; top:-3px;">[O]</small>
+                                O<span class="hidden-xs">ptions</span>
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button class="btn" data-toggle="modal" data-target="#helpModal">
+                                <small class="hidden-md hidden-sm hidden-xs" style="position:absolute; right:0px; top:-3px;">[H]</small>
+                                H<span class="hidden-xs">elp</span>
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button class="btn" data-toggle="modal" data-target="#aboutModal">
+                                A<span class="hidden-xs">bout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="choiceContainer" class="col-xs-9">
+                    <div class="btn-group btn-group-justified">
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                		<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                		<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                		<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                	</div>
+                    <div class="btn-group btn-group-justified">
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    </div>
+                    <div class="btn-group btn-group-justified">
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    	<a class="btn btn-basic invisible" type="button" onclick="" title="" style=""><small style="position:absolute; right:0px; top:-3px;">[]</small><div class="trim"><span class="button-title">&nbsp;</span></div><small class="trim"><span>&nbsp;</span></small></a>
+                    </div>
+                </div>
+                <div id="debugChoiceContainer" class="col-xs-9 hidden">
+                </div>
+            </div>
+        </div>
+        <script data-description="Game Variables" src="resources/js/GameVariables.js"></script>
+        <script data-description="Game Variables" src="resources/js/Tiles.js"></script>
+        <script data-description="Game Functions" src="resources/js/GameFunctions.js"></script>
+        <script data-description="Additional Game Variables">
+            var enableRape = false;
+            var enableGore = false;
+            var debug = false;
+        </script>
+        <script data-description="Classes" src="resources/js/Classes.js"></script>
+        
+        <script data-description="DefaultEntities" src="resources/js/DefaultEntities.js"></script>
+        <script data-description="Interactions" src="resources/js/Interactions.js"></script>
+        
+        <script data-description="Locations" src="resources/data/initialize/Locations.js"></script>
+        <script data-description="Cells" src="resources/data/initialize/Cells.js"></script>
+        <script data-description="Rooms" src="resources/data/initialize/Rooms.js"></script>
+        <script data-description="Characters" src="resources/data/initialize/Characters.js"></script>
+        <script data-description="Furniture" src="resources/data/initialize/Furniture.js"></script>
+        <script data-description="Items" src="resources/data/initialize/Items.js"></script>
+        <script data-description="Spells" src="resources/data/initialize/Spells.js"></script>
+        <script data-description="WebSites" src="resources/data/initialize/WebSites.js"></script>
+        <script data-description="WebPages" src="resources/data/initialize/WebPages.js"></script>
+        
+        <script data-description="Locations Assignments" src="resources/data/assign/Locations.js"></script>
+        <script data-description="Cells Assignments" src="resources/data/assign/Cells.js"></script>
+        <script data-description="Rooms Assignments" src="resources/data/assign/Rooms.js"></script>
+        <script data-description="Characters Assignments" src="resources/data/assign/Characters.js"></script>
+        <script data-description="Furniture Assignments" src="resources/data/assign/Furniture.js"></script>
+        <script data-description="Items Assignments" src="resources/data/assign/Items.js"></script>
+        
+        <script data-description="Rooms Interactions" src="resources/data/interact/Rooms.js"></script>
+        <script data-description="Character Interactions" src="resources/data/interact/Characters.js"></script>
+        <script data-description="Furniture Interactions" src="resources/data/interact/Furniture.js"></script>
+        <script data-description="Items Interactions" src="resources/data/interact/Items.js"></script>
+        <script data-description="Spell Interactions" src="resources/data/interact/Spells.js"></script>
+        
+        <script data-description="Room-specific Character Interactions" src="resources/data/interact/RoomsCharacters.js"></script>
+        <script data-description="General Interactions" src="resources/data/interact/General.js"></script>
+        
+        <script data-description="Menus" src="resources/js/Menus.js"></script>
+        <script data-description="Start the game" src="resources/js/Start.js"></script>
+        <script data-description="Start the game" src="resources/data/Start.js"></script>
+        <script data-description="Events" src="resources/data/initialize/GameEvents.js"></script>
+    </body>
+</html>

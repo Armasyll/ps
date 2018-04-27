@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>How to setup PS stuff :v</title>
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="vendors/bootstrap/bootstrap-theme.css">
+        <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
+        <style>
+            img {
+                max-width:100%;
+                max-height:100%;
+            }
+        </style>
+    </head>
+    <body class="body">
+        <div class="wrapper">
+            <div class="container inner">
+                <div class='row'>
+                    <nav class="col-sm-2">
+                        <ul class="nav nav-pills nav-stacked affix-top" data-spy="affix">
+                            <li><a href="#tldr">Brief Summary</a></li>
+                            <li><a href="#creatingLocations">Creating Locations</a></li>
+                            <li><a href="#creatingCells">Creating Cells</a></li>
+                            <li><a href="#creatingRooms">Creating Rooms</a></li>
+                            <li><a href="#creatingCharacters">Creating Characters</a></li>
+                            <li><a href="#creatingFurniture">Creating Furniture</a></li>
+                            <li><a href="#assigningRooms">Assigning Rooms</a></li>
+                            <li><a href="#assigningCharacters">Assigning Characters</a></li>
+                            <li><a href="#assigningFurniture">Assigning Furniture</a></li>
+                            <li><a href="#interactRooms">Interacting with Rooms</a></li>
+                            <li><a href="#interactCharacters">Interacting with Characters</a></li>
+                            <li><a href="#interactCharactersRooms">Interacting with Characters in Rooms</a></li>
+                            <li><a href="#assigningPlayer">Assigning the Player</a></li>
+                            <li><a href="#grammaticalFunctions">Grammatical Functions</a></li>
+                        </ul>
+                    </nav>
+                    <div class='col-sm-10'>
+                        <div id="tldr" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Brief Summary</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>Location(s) may contain Cell(s) and-or Room(s).</p>
+                                <p>Cell(s) will always contain Room(s), and will always belong to a Location.</p>
+                                <p>Room(s) will always belong to a Cell, and may have their own Location, but they will always have the Location of their Cell.</p>
+                                <p>Room(s) may contain Character(s) and-or Furniture.</p>
+                                <p>Character(s) and Furniture may contain Item(s).</p>
+                                <p>Character(s) may wear Clothing, which are extended Item(s), and will contain the Clothing when worn.</p>
+                                <p>Location(s), Cell(s), Room(s), Character(s), Item(s), and Furniture are all instances of Entity.</p>
+                                <p>An Entity has an ID (its variable name,) a Name (a readable name that may be displayed,) a Description (a readable, descriptive sentence that may be displayed,) and Owner (Yes, a Character can be owned by another Character, but there's no functionality for that.)</p>
+                            </div>
+                        </div>
+                        <div id="creatingLocations" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Locations</h3>
+                            </div>
+                            <div class="panel-body">
+                                
+<pre>
+//[resources/data/initialize/Locations.js]
+eg: variableNameLocation = new Location("variableNameLocation", "Displayed Name");
+eg: variableNameOtherLocation = new Location("variableNameOtherLocation", "Displayed Name");
+
+bunnyburrowLocation = new Location("bunnyburrowLocation", "Bunnyburrow");
+hoppsHouseholdLocation = new Location("hoppsHouseholdLocation", "Hopps' Household");
+</pre>
+                            </div>
+                        </div>
+                        <div id="creatingCells" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Cells</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/initialize/Cells.js]
+eg: variableNameCell = new Cell("variableNameCell", "Display Name", variableNameLocation);
+
+bunnyburrowCell = new Cell("bunnyburrowCell", Bunnyburrow", bunnyburrowLocation);
+hoppsHouseholdFirstFloorCell = new Cell("hoppsHouseholdFirstFloorCell", "First Floor", hoppsHouseholdLocation);
+hoppsHouseholdSecondFloorCell = new Cell("hoppsHouseholdSecondFloorCell", "Second Floor", hoppsHouseholdLocation);
+</pre>
+                            </div>
+                        </div>
+                        <div id="creatingRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Rooms</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/initialize/Rooms.js]
+eg: variableNameRoom01 = new Room("variableNameRoom01", "variableNameRoom", "Display Name", "roomType", variableNameCell);
+eg: variableNameRoom02 = new Room("variableNameRoom02", "variableNameRoom", "Display Name", "roomType", variableNameCell);
+eg: variableNameOtherRoom01 = new Room("variableNameOtherRoom01", undefined, "Display Name", "roomType", variableNameCell, variableNameOtherLocation);
+
+hoppsHouseholdHallwayA = new Room("hoppsHouseholdHallwayA", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayB = new Room("hoppsHouseholdHallwayB", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayC = new Room("hoppsHouseholdHallwayC", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdHallwayD = new Room("hoppsHouseholdHallwayD", "hoppsHouseholdHallway", "Hallway", "hallway", hoppsHouseholdFirstFloorCell);
+judyRoom = new Room("judyRoom", undefined, "Judy's Room", "bedroom", hoppsHouseholdFirstFloorCell);
+violetRoom = new Room("violetRoom", undefined, "Violet's Bedroom", "bedroom", hoppsHousehold, "bedroom", hoppsHouseholdFirstFloorCell);
+hoppsHouseholdGuestRoom = new Room("hoppsHouseholdGuestRoom", undefined, "Guest Room", "bedroom", hoppsHousehold, hoppsHouseholdFirstFloorCell);
+</pre>
+                            </div>
+                        </div>
+                        <div id="creatingCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Characters</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/initialize/Characters.js]
+eg: variableNameCharacter = new Character("variableNameCharacter", "Display Name", age, sex, "speciesType");
+
+judy = new Character("judy", "Judy Hopps", 24, "f", "rabbit");
+violet = new Character("violet", "Violet Hopps", 28, "f", "rabbit");
+nick = new Character("nick", "Nick Wilde", 32, "m", "fox");
+</pre>
+                            </div>
+                        </div>
+                        <div id="creatingFurniture" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Furniture</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/initialize/Furniture.js]
+eg: variableNameFurniture = new Furniture("variableNameFurniture", "Display Name", "Description", "furnitureType", 4 (space for characters), 2 (space for items));
+
+guestBed = new Furniture("guestBed", "Small Bed", "A small bed, barely large enough for a fox.", "bed", 2, 1]);
+</pre>
+                            </div>
+                        </div>
+                        <div id="creatingItems" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Creating Items</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/initialize/Items.js]
+// Items
+eg: variableNameItem = new Item("variableNameItem", "Display Name", "Description", "path/to/picture.ext");
+
+playBuck942 = new Item("playBuck942", "Playbuck Magazine issue 942", "resources/images/items/playBuck942.svg");
+doesGoneWildeDownAtTheFarmVHS = new Item("doesGoneWildeDownAtTheFarmVHS", "Does Gone Wilde, Country Style - Four hours of country does showing a city fox what life on the farm is really like.");
+sluttyPictureOfViolet = new Item("sluttyPictureOfViolet", "Lewd picture of Violet", "A picture of Violet Hopps in lingerie, laying on a small bed, spreading her legs for the camera.");
+sluttyPictureOfJudy = new Item("sluttyPictureOfJudy", "Lewd picture of Judy", "A picture of Judy Hopps wearing a form-fitting fox costume, with the crotch exposed.");
+
+// Clothing
+eg: variableNameClothing = new Clothing("variableNameClothing", "Display Name", "Description", "bodyPartType", "path/to/picture.ext");
+
+clothingPoliceVest = new Clothing("clothingPoliceVest", "ZPD-issued Vest", "A black, lightly-plated police vest.", "torso");
+clothingPolicePants = new Clothing("clothingPolicePants", "ZPD-issued Pants", "A pair of blue, body-hugging dress pants.", "legs");
+clothingFoxPanties = new Clothing("clothingFoxPanties", "Panties", "Orange panties with the picture of a winking fox on the front.", "groin");
+clothingBlackTurtleneck = new Clothing("clothingBlackTurtleneck", "Turtleneck Shirt", "A black turtleneck shirt.", "torso");
+clothingGreenSkirt = new Clothing("clothingGreenSkirt", "Skirt", "A modest green skirt.", "legs");
+
+// Keys
+// For a key to work, it has to have the variable name of the Location, Cell, or Room it is to be used with, suffixed by 'Key'
+eg: variableNameLocationKey = new Key("variableNameLocationKey", "Display Name", "Description", "path/to/picture.ext");
+eg: variableNameCellKey = new Key("variableNameCellKey", "Display Name", "Description", "path/to/picture.ext");
+eg: variableNameRoomKey = new Key("variableNameRoomKey", "Display Name", "Description", "path/to/picture.ext");
+
+hoppsHouseholdGuestRoomKey = new Key("hoppsHouseholdGuestRoomKey", "Guest Room Key", "resources/images/items/guestRoomKey.svg");
+hoppsHouseholdLocationKey = new Key("hoppsHouseholdLocationKey", "Hopps' Household Skeleton Key", "resources/images/items/hoppsHouseholdLocationKey.svg");
+hoppsHouseholdFakeGuestRoomKey = new Key("hoppsHouseholdFakeGuestRoomKey", "Guest Room Key", "resources/images/items/guestRoomKey.svg");
+</pre>
+                            </div>
+                        </div>
+                        <div id="assigningRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Rooms</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/assign/Rooms.js]
+hoppsHouseholdHallwayA.setNorthRoom(hoppsHouseholdHallwayB);
+hoppsHouseholdHallwayA.setEastRoom(judyRoom);
+hoppsHouseholdHallwayB.setNorthRoom(hoppsHouseholdHallwayC);
+hoppsHouseholdHallwayB.setEastRoom(hoppsHouseholdGuestRoom);
+hoppsHouseholdHallwayC.setEastRoom(violetRoom);
+hoppsHouseholdGuestRoom.addFurniture(guestBed);
+</pre>
+                            </div>
+                        </div>
+                        <div id="assigningCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Characters</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/assign/Characters.js]
+judy.setEyeColour("violet");                // Assigns Judy's eye colour
+judy.setFurColour("gray", white);           // Assigns Judy's primary and secondary fur colours
+judy.image = "resources/images/characters/judy.svg";  // Assigns Judy's Minimap and Avatar icons
+judy.addSexWith(nick);                      // Pops both their cherries, and lists each other as having had sex with the other
+
+judy.wear(clothingPoliceVest);
+judy.wear(clothingPolicePants);
+judy.wear(clothingFoxPanties);
+violet.wear(clothingBlackTurtleneck);
+violet.wear(clothingGreenSkirt);
+
+nick.addItem(hoppsHouseholdGuestRoomKey);
+nick.addItem(sluttyPictureOfJudy);
+violet.addItem(hoppsHouseholdLocationKey);
+judy.addItem(hoppsHouseholdFakeGuestRoomKey);
+
+judy.moveToRoom(judyRoom);
+violet.moveTo(violetRoom);
+nick.moveTo(hoppsHouseholdGuestRoom);
+
+nick.sleep(guestBed);
+</pre>
+                            </div>
+                        </div>
+                        <div id="assigningFurniture" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning Furniture</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/assign/Furniture.js]
+guestBed.addItem(playBuck942);
+guestBed.addItem(doesGoneWildeDownAtTheFarmVHS);
+guestBed.addItem(sluttyPictureOfViolet);
+</pre>
+                            </div>
+                        </div>
+                        <div id="interactRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Rooms</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/interact/Rooms.js]
+eg: ...
+function variableNameRoom01Interact(_showContent = true) {
+    if (_showContent) {
+        Content.add("&lt;p&gt;This section is displayed when first Moving into the room.&lt;/p&gt;");
+    }
+    
+    if (!Menu.showingBaseMenu) {
+        Content.add("&lt;p&gt;While this section is displayed when Exploring the room.&lt;/p&gt;");
+    }
+}
+
+function hoppsHouseholdHallwayInteract(_showBaseMenu = false, _clearContent = true) {    
+    if (_clearContent) {
+        Content.clear();
+        Content.add("&lt;p&gt;You're standing in the hallway of the Hopps family.&lt;/p&gt;");
+    }
+}
+function judyRoomInteract(_showBaseMenu = false, _clearContent = true) {    
+    if (_clearContent) {
+        Content.clear();
+        Content.add("&lt;p&gt;Judy's bedroom, filled with fox dildos and " + (player == nick ? "your" : "Nick's + " shirts.&lt;/p&gt;");
+    }
+}
+function violetRoomInteract(_showBaseMenu = false, _clearContent = true) {    
+    if (_clearContent) {
+        Content.clear();
+        Content.add("&lt;p&gt;Violet's bedroom, filled with pictures of Judy and " + (player == nick ? "you" : "Nick") + ".&lt;/p&gt;");
+    }
+}
+function hoppsHouseholdGuestRoomInteract(_showBaseMenu = false, _clearContent = true) {    
+    if (_clearContent) {
+        Content.clear();
+        Content.add("&lt;p&gt;A small guest room with two tiny, almost impercetible, holes drilled into the walls adjacent to the door.&lt;/p&gt;");
+    }
+}
+</pre>
+                            </div>
+                        </div>
+                        <div id="interactCharacters" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Characters</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/interact/Character.js]
+function judyTalk() {
+    _character = judy;
+    
+    fn = new Function(player.location.sid + _character.name + "Talk()");
+    try {fn();}catch (err) {}
+    Menu.generate();
+}
+function judySex() {
+    _character = judy;
+    
+    fn = new Function(player.location.sid + _character.name + "Sex()");
+    try {fn();}catch (err) {}
+    Menu.generate();
+}
+function judyFollow() {
+    _character = judy;
+    
+    fn = new Function(player.location.sid + _character.name + "Follow()");
+    try {fn();}catch (err) {}
+    Menu.generate();
+}
+</pre>
+                            </div>
+                        </div>
+                        <div id="interactCharactersRooms" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Interacting with Characters in Rooms</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/interact/RoomsCharacters.js]
+// location + character name + action [ + optional action ]
+function judyRoomJudyTalk() {
+}
+function judyRoomJudySex() {
+    Content.add("Hey Judy, let's fuck!");
+    if (player.location.containsCharacter(violet) &amp;&amp; player.location.containsCharacter(judy) &amp;&amp; player == nick)
+        Menu.addOption("judyRoomJudyVioletNickThreeway", "Convince Judy and Violet to have a threeway.");
+    else
+        Content.add("Not without my big sister, " + player.name + "!");
+}
+function judyRoomVioletSex() {
+    if (player.location.containsCharacter(violet) &amp;&amp; player.location.containsCharacter(judy) &amp;&amp; player == nick)
+        Menu.addOption("judyRoomJudyVioletNickThreeway", "Convince Judy and Violet to have a threeway.");
+    else
+        Content.add("Not without my younger sister, " + player.name + "!");
+}
+function judyRoomJudyVioletNickThreeway() {
+    Content.add("&lt;p&gt;They both grin as they grab both of your arms. " + (!player.wearingShirt &amp;&amp; !player.wearingPants &amp;&amp; !player.wearingUnderwear ? " You're already naked, so they get to work." : " They tear your clothes off and get to work.") + "&lt;/p&gt;");
+}
+</pre>
+                            </div>
+                        </div>
+                        <div id="assigningPlayer" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Assigning the Player to a Character</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+//[resources/data/Start.js]
+...
+player = nick;
+...
+</pre>
+                                </p>
+                            </div>
+                        </div>
+                        <div id="grammaticalFunctions" class="panel panel-default autocollapse">
+                            <div class="panel-heading clickable">
+                                <h3 class="panel-title text-center">Grammatical Functions</h3>
+                            </div>
+                            <div class="panel-body">
+<pre>
+nick.subjectPronoun()
+// would return "he"
+nick.objectPronoun()
+// would return "him"
+nick.possessivePronoun()
+// would return "his"
+nick.possessiveAdjective()
+// would return "his"
+nick.reflexivePronoun()
+// would return "himself"
+
+nick.name
+// would return "Nick"
+nick.singularPossesiveName()
+// would return "Nick's"
+
+nick.grammaticalGender()
+// would return "male"
+
+nick.getHand()
+// would return "paw"
+nick.getHands()
+// would return "paws"
+
+nick.getStance()
+// would return "lay"
+nick.getStancePresentTense()
+// would return "laying"
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

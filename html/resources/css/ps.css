@@ -1,0 +1,189 @@
+
+html, body {
+	height:100%;
+	min-height:100%;
+	background-color:#1A1A1A;
+}
+img {
+	max-height:100%;
+	max-width:100%;
+}
+.container {
+	min-height:100%;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+}
+.trim {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	white-space: nowrap;
+}
+.trim > * {
+	display: table-cell;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.button-title:first-letter {
+	text-transform: uppercase;
+}
+.inventoryItemContainer {
+	display:inline-block;
+	background-color: white;
+	border-radius: 4px;
+	margin: 1em;
+	padding: 0.25em;
+	width:12em;
+	max-width:12em;
+	height:21em;
+	max-height:21em;
+	vertical-align:top;
+}
+.inventoryItemContainer > img {
+	border:0.1em solid white;
+	background-color:white;
+	border-radius:0.5em;
+	max-height: 5em;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	vertical-align:top;
+}
+.btn.locked {
+    background-image: url('../images/misc/keyhole.svg');
+	background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left center; 
+}
+.btn.charmed {
+    background-image: url('../images/misc/charmed.png');
+	background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left center; 
+}
+.btn-basic, .btn-basic:active {
+	background-color: #eee;
+	border-color: #eee;
+	color: #000;
+}
+.btn-basic:hover {
+	background-color: #fff;
+	border-color: #fff;
+	color: #000;
+}
+.btn-mana, .btn-mana:active {
+	background-color: #4b1e66;
+	background-border: #4b1e66;
+	color: white;
+}
+.btn-mana:hover {
+	background-color: #4d2863;
+	background-border: #4d2863;
+	color:white;
+}
+.alert-mana {
+	color: #4d2863;
+	background-color: #dab7eb;
+	border-color: #dab7eb;
+}
+.text-mana {
+	color: #4d2863;
+}
+.btn-info-flicker {
+	-webkit-animation: glowing 1500ms infinite;
+	-moz-animation: glowing 1500ms infinite;
+	-o-animation: glowing 1500ms infinite;
+	animation: glowing 1500ms infinite;
+}
+
+@-webkit-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+@keyframes glowing {
+  0% { background-color: #eeeeee; }
+  33% { background-color: #ACD4E1; }
+  66% { background-color: #6abbd4; }
+  100% { background-color: #eeeeee; }
+}
+
+#locationTitleTopImageContainer, #locationTitleTopImageContainer > img, #locationTitleTopImageContainer > svg {
+	max-height: 162px;
+	max-width: 162px;
+}
+
+#contentContainer {
+	height:100%;
+	padding-right:0px;
+	padding-bottom:15px;
+	padding-left:0px;
+}
+#contentContainerHead {
+	background-color: #f5f5f5;
+	height: 2.5em;
+	min-height: 2.5em;
+}
+#contentContainerHead > #contentContainerHeadLocation {
+	float:left;
+}
+#contentContainerHead > .timeDisplay {
+	float:right;
+	margin-top:0.5em;
+	margin-right: 0.5em;
+}
+#contentContainerBody, #debugContentContainerBody {
+	overflow-y: scroll;
+	padding: 1em;
+	height: calc(100% - 2.5em);
+	width: 100%;
+}
+#choiceContainer {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+#choiceContainer > .btn-group:first-child > .btn-group:first-child > .btn{
+	border-bottom-left-radius: 0px;
+}
+#choiceContainer > .btn-group:first-child > .btn-group:last-child > .btn{
+	border-bottom-right-radius: 0px;
+}
+
+#choiceContainer > .btn-group:nth-child(2) > .btn-group:first-child > .btn{
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+}
+#choiceContainer > .btn-group:nth-child(2) > .btn-group:last-child > .btn{
+	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+#choiceContainer > .btn-group:last-child > .btn-group:first-child > .btn{
+	border-top-left-radius: 0px;
+}
+#choiceContainer > .btn-group:last-child > .btn-group:last-child > .btn{
+	border-top-right-radius: 0px;
+}
+#locationContentDisplay > div {
+	color: #c3c3c3;
+}
+#personalInventoryModal-list {
+	overflow-y: scroll;
+	height: 100%;
