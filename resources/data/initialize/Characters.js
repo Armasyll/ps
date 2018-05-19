@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Characters");
+if ((PSDE.debugEnabled)) console.log("Initializing Characters");
 
 // var characterId = new Character("characterId", "Last, First name", "Description", "Image path", "Character class", Age, Sex, Species);
 //     characterId.setAttributes(Strength, Endurance, Constitution, Intelligence, Wisdom, Charisma);
@@ -13,7 +13,7 @@ var cotton = new Character("cotton", "Hoops, Cotton", undefined, undefined, "com
 var judy = new Character("judy", "Hopps, Judy", undefined, undefined, "paladin", 24, "m", "rabbit");
 var marty = new Character("marty", "Marty", undefined, undefined, "commoner", 25, "m", "stoat");
 var martina = new Character("martina", "Martina", undefined, undefined, "commoner", 25, "f", "stoat");
-var nick = new Character("nick", "Wilde, Nick", undefined, undefined, "sorcerer", 33, "m", "fox");
+var nick = new Character("nickWilde", "Wilde, Nick", undefined, undefined, "sorcerer", 33, "m", "fox");
 var ozzy = new Character("ozzy", "Ozymandias", undefined, undefined, "bard", 19, "m", "hyena");
 var pandora = new Character("pandora", "Pandora", undefined, undefined, "expert", 39, "f", "tiger");
 var rosie = new Character("rosie", "Wilde, Rosie", undefined, undefined, "commoner", 14, "f", "fox");
@@ -23,6 +23,6 @@ var weaver = new Character("weaver", "Weaver", undefined, undefined, "commoner",
 var wolter = new Character("wolter", "Wolter", undefined, undefined, "noble", 20, "m", "aardwolf");
 
 // Do not edit this. Assigns a Character to Player, updated next in resources/data/start.js
-var player = Array.from(characterIndices)[0];
+PSDE.player = Array.from(PSDE.characters)[0];
 
-if (debug) console.log("\tInitialized " + characterIndices.size + " Characters.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.characters.size + " Characters.");

@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Locations");
+if ((PSDE.debugEnabled)) console.log("Initializing Locations");
 
 
 zootopiaLocation = new Location("zootopiaLocation", "Zootopia");
@@ -51,4 +51,4 @@ happytownLocksmithsLocation = new Location("happytownLocksmithsLocation", "Happy
 zootopiaCreditUnion44thLocation = new Location("zootopiaCreditUnion44thLocation", "Zootopia Credit Union", "", "resources/images/locations/zootopiaCreditUnionLocation.svg", "bank")
 
 
-if (debug) console.log("\tInitialized " + locationIndices.size + " Locations.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.locations.size + " Locations.");

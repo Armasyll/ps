@@ -4,9 +4,11 @@ spellUnlock = new Spell("spellUnlock", "Knock", "A target that is held shut by a
 spellMirrorOpen = new Spell("spellMirrorOpen", "Open Mirror", "Stores items in mirrors.", undefined, "transmutation", 25, 0, 2);
 spellMirrorWalk = new Spell("spellMirrorWalk", "Travel through Mirror", "", undefined, "conjuration", 75, 0, 2);
 spellMirrorLook = new Spell("spellMirrorLook", "Look through Mirror", "", undefined, "divination", 50, 0, 2);
-spellCharacterSleep = new Spell("spellCharacterSleep", "Sleep", "Puts a character to sleep.", undefined, "enchantment", 35, 0, 2);
+spellCharacterSleep = new Spell("spellCharacterSleep", "Sleep", "Puts a target to sleep.", undefined, "enchantment", 35, 0, 2);
 spellCharacterSummon = new Spell("spellCharacterSummon", "Summon", "Summons someone, anyone, to you.", undefined, "conjuration", 100, 0, 2);
 spellCauseFear = new Spell("spellCauseFear", "Cause Fear", "The sense of mortality is re-awakened in a target.", undefined, "necromancy", 100, 0, 2);
+spellCharacterMindSwap = new Spell("spellCharacterMindSwap", "Mind Swap", "Swaps minds with a target.", undefined, "enchantment", 100, 0, 2);
+spellPowerWordKill = new Spell("spellPowerWordKill", "Power Word: Kill", "Kills a target, instantly.", undefined, "enchantment", 90, 0, 2);
 
 spellCharacterLust = new Spell("spellCharacterLust", "Lust", "Increases a person's lust.", undefined, "enchantment", 25, 0, 2);
 spellCharacterRut = new Spell("spellCharacterRut", "Uncontrollable Lust", "Sends a person into an uncontrollable lust.", undefined, "enchantment", 50, 0, 2);

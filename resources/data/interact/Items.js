@@ -1,7 +1,7 @@
 function magicBettyFleshlightHold(_character, _executeScene = true) {
 	if (!(_character instanceof Character)) {
-	    if (characterIndices.has(_character))
-	        _character = characterIndices.get(_character);
+	    if (PSDE.characters.has(_character))
+	        _character = PSDE.characters.get(_character);
 	    else
 	        return undefined;
 	}
@@ -18,8 +18,8 @@ function magicBettyFleshlightHold(_character, _executeScene = true) {
 }
 function magicBettyFleshlightMasturbate(_character, _executeScene = true) {
 	if (!(_character instanceof Character)) {
-	    if (characterIndices.has(_character))
-	        _character = characterIndices.get(_character);
+	    if (PSDE.characters.has(_character))
+	        _character = PSDE.characters.get(_character);
 	    else
 	        return undefined;
 	}
@@ -35,8 +35,8 @@ function magicBettyFleshlightMasturbate(_character, _executeScene = true) {
 
 function charlieLeftEyeHold(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -53,8 +53,8 @@ function charlieLeftEyeHold(_character, _executeScene = true) {
 }
 function charlieLeftEyeRelease(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -71,8 +71,8 @@ function charlieLeftEyeRelease(_character, _executeScene = true) {
 }
 function charlieLeftEyeConsume(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -101,8 +101,8 @@ function charlieLeftEyeConsume(_character, _executeScene = true) {
 
 function charlieBeatingHeartAttack(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -117,8 +117,8 @@ function charlieBeatingHeartAttack(_character, _executeScene = true) {
 }
 function charlieBeatingHeartConsume(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -126,7 +126,7 @@ function charlieBeatingHeartConsume(_character, _executeScene = true) {
         _executeScene = true;
 
     if (_executeScene) {
-        clearContentAndMenu();
+        PSDE.clearContentAndMenu();
         Content.add("<p>As soon as your teeth break the flesh of Charlie's heart, you feel a sudden and painful tightness in your chest.</p><p>Your vision darkens at the corner of your eyes, and your breathing becomes laborious. No matter how fast or deep your breaths, it never feels as if you have enough air.</p><p>A ringing is heard, high and constant.</p><p>Everything grows cold.</p><p>Then, as your darkening vision focuses on your arms, you hear a voice groan, \"Ugh, hooves.\"</p><p>It was your voice.</p><p>\"At least I have a huge dick this time.\"</p>");
         Menu.addOption("location.reload()", "Reload", "You died.");
     }
@@ -138,8 +138,8 @@ function charlieBeatingHeartKiss(_character, _executeScene = true) {
 }
 function charlieBeatingHeartHold(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -155,8 +155,8 @@ function charlieBeatingHeartHold(_character, _executeScene = true) {
 }
 function charlieBeatingHeartMasturbate(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -171,8 +171,8 @@ function charlieBeatingHeartMasturbate(_character, _executeScene = true) {
 }
 function charlieBeatingHeartRelease(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -189,8 +189,8 @@ function charlieBeatingHeartRelease(_character, _executeScene = true) {
 
 function charliePalmMirrorHold(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }
@@ -206,8 +206,8 @@ function charliePalmMirrorHold(_character, _executeScene = true) {
 }
 function charliePalmMirrorRelease(_character, _executeScene = true) {
     if (!(_character instanceof Character)) {
-        if (characterIndices.has(_character))
-            _character = characterIndices.get(_character);
+        if (PSDE.characters.has(_character))
+            _character = PSDE.characters.get(_character);
         else
             return undefined;
     }

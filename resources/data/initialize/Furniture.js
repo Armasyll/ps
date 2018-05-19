@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Furniture");
+if ((PSDE.debugEnabled)) console.log("Initializing Furniture");
 
 alApartmentBedroomBed = new Furniture("alApartmentBedroomBed", "Bed", "A large, soft, white bed.", undefined, "bed", 4, 4);
 alApartmentBedroomMirror = new Furniture("alApartmentBedroomMirror", "Mirror", "A simple, tall mirror.", undefined, "mirror", 0, 0);
@@ -41,4 +41,4 @@ pandorasBoxAisleA1RightShelf = new Furniture("pandorasBoxAisleA1RightShelf", "'D
 pandorasBoxAisleA2RightShelf = new Furniture("pandorasBoxAisleA2RightShelf", "'E-F' Shelf", "A shelf containing enemas and fleshlights.", undefined, "shelf", 0, 6);
 pandorasBoxAisleA3RightShelf = new Furniture("pandorasBoxAisleA3RightShelf", "'G-H' Shelf", "A shelf containing gag balls and harnesses.", undefined, "shelf", 0, 6);
 
-if (debug) console.log("\tInitialized " + furnitureIndices.size + " Furniture.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.furniture.size + " Furniture.");

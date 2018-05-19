@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Rooms");
+if ((PSDE.debugEnabled)) console.log("Initializing Rooms");
 
 // Zootopia
 zootopia42ndStreet01 = new Room("zootopia42ndStreet01", "zootopia42ndStreet", "1 42nd Street", "street", zootopiaCell, zootopia42ndStreetLocation);
@@ -181,4 +181,4 @@ packStreetHappytownLocksmithsEntrance = new Room("packStreetHappytownLocksmithsE
 // 
 zootopiaCreditUnion44thEntrance = new Room("zootopiaCreditUnion44thEntrance", undefined, "Lobby", "hallway", zootopiaCreditUnion44thCell);
 
-if (debug) console.log("\tInitialized " + roomIndices.size + " Rooms.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.rooms.size + " Rooms.");

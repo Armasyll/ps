@@ -125,11 +125,11 @@ function unixTimeToDate(_unixTimestamp = currentTime) {
     
     return _date;
 }
-function unixTimeToDateString(_unixTimestamp = currentTime) {
+function unixTimeToDateString(_unixTimestamp = PSDE.currentTime) {
     if (Number.isInteger(_unixTimestamp) && _unixTimestamp.length > 10)
         _date = unixTimeToDate(_unixTimestamp);
     else
-        _date = currentTime;
+        _date = PSDE.currentTime;
     
     return String(
         _date.getFullYear() + "/" +
@@ -164,7 +164,7 @@ function unsafeExec(_executableString = undefined) {
     var _return = undefined;
     
     if (!window.hasOwnProperty(_executableString.split('(')[0])) {
-        if (debug) console.log("  `{0}` is not a function.".format(_executableString.split('(')[0]));
+        if ((PSDE.debugEnabled)) console.log("  `{0}` is not a function.".format(_executableString.split('(')[0]));
         return true;
     }
 
@@ -173,7 +173,7 @@ function unsafeExec(_executableString = undefined) {
         _return = fn();
     }
     catch (err) {
-        if (debug)
+        if ((PSDE.debugEnabled))
             console.log(err);
     }
     

@@ -1,6 +1,6 @@
-if (debug) console.log("Assigning Rooms");
+if ((PSDE.debugEnabled)) console.log("Assigning Rooms");
 
-limbo.setUpRoom(alBuildingBasementF, undefined, false);
+PSDE.rooms.get("limbo").setUpRoom(alBuildingBasementF, undefined, false);
 
 // Zootopia, Pack Street
 zootopiaPackStreet01.setEastRoom(zootopia42ndStreet06);

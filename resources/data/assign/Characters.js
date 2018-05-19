@@ -1,6 +1,7 @@
-if (debug) console.log("Assigning Characters");
+if ((PSDE.debugEnabled)) console.log("Assigning Characters");
 
-al.setAttributes(21,12,16,11,15,11);
+al.setAttributes(18,13,16,11,15,11);
+al.setLevel(12);
 al.setImage("resources/images/characters/Al.png");
 al.setEyeColour("blue");
 al.setFurColour("alabaster");
@@ -15,6 +16,7 @@ al.addPreferredSpecies("deer");
 al.addSexWith(velvet);
 
 anneke.setAttributes(8,13,10,11,12,12);
+anneke.setLevel(3)
 anneke.setImage("resources/images/characters/Anneke.svg");
 anneke.setEyeColour("dark blue");
 anneke.setFurColour("brown");
@@ -39,7 +41,8 @@ anneke.addDated(nick, 1);
 anneke.addDated(ozzy, 1);
 anneke.addDated(wolter, 1);
 
-avo.setAttributes(13,17,13,14,16,14);
+avo.setAttributes(12,15,12,13,12,14);
+avo.setLevel(8)
 avo.setImage("resources/images/characters/Avo.png");
 avo.setEyeColour("dark blue");
 avo.setFurColour("black");
@@ -55,7 +58,8 @@ avo.addDated(marty, 1);
 avo.addDated(nick, 1);
 avo.addDated(wolter, 3);
 
-betty.setAttributes(23,20,17,15,18,11);
+betty.setAttributes(17,14,14,13,14,12);
+betty.setLevel(12)
 betty.setImage("resources/images/characters/Betty.png");
 betty.setEyeColour("yellow");
 betty.setFurColour("black", "emperor");
@@ -77,7 +81,8 @@ betty.addPreferredSpecies("sheep");
 betty.addPreferredSpecies("wolf");
 betty.addDated(velvet, 1);
 
-charlie.setAttributes(11,22,11,20,16,9);
+charlie.setAttributes(10,18,10,30,24,8);
+charlie.setLevel(20)
 charlie.setImage("resources/images/characters/Charlie.svg");
 charlie.setEyes("slit");
 charlie.setEyeColour("light blue");
@@ -108,13 +113,14 @@ charlie.addDated(marty, 1);
 charlie.addDated(nick, 1);
 charlie.addDated(wolter, 2);
 
-cotton.setAttributes(7,14,14,11,8,10).setImage("resources/images/characters/Cotton.png").moveTo(limbo).addPreferredSpecies("fox").addPreferredSpecies("rabbit");
-judy.setAttributes(16,22,13,16,14,12).moveTo(limbo).addPreferredSpecies("fox").addPreferredSpecies("rabbit").addSexWith(nick).addDating(nick);
-martina.setAttributes(9,11,10,17,14,16).setImage("resources/images/characters/Martina.svg").moveTo(chartyApartmentBedroomMarty).addSexWith(ozzy, true).addDated(ozzy, 1);
-marty.setAttributes(10,12,10,17,14,10).setImage("resources/images/characters/Marty.svg").moveTo(chartyApartmentBedroomMarty);
-nick.setAttributes(15,21,13,21,22,20).moveTo(limbo).addPreferredSpecies("fox").addPreferredSpecies("rabbit");
+cotton.setAttributes(10,10,10,10,10,10).setLevel(1).setImage("resources/images/characters/Cotton.png").moveTo(PSDE.rooms.get("limbo")).addPreferredSpecies("fox").addPreferredSpecies("rabbit");
+judy.setAttributes(16,16,13,15,14,12).setLevel(13).moveTo(PSDE.rooms.get("limbo")).addPreferredSpecies("fox").addPreferredSpecies("rabbit").addSexWith(nick).addDating(nick);
+martina.setAttributes(8,10,10,17,14,15).setLevel(7).setImage("resources/images/characters/Martina.svg").moveTo(chartyApartmentBedroomMarty).addSexWith(ozzy, true).addDated(ozzy, 1);
+marty.setAttributes(10,12,10,17,15,10).setLevel(7).setImage("resources/images/characters/Marty.svg").moveTo(chartyApartmentBedroomMarty);
+nick.setAttributes(15,16,13,30,30,17).setLevel(20).moveTo(PSDE.rooms.get("limbo")).addPreferredSpecies("fox").addPreferredSpecies("rabbit");
 
-ozzy.setAttributes(21,20,18,15,13,18);
+ozzy.setAttributes(14,11,12,11,10,14);
+ozzy.setLevel(11)
 ozzy.setImage("resources/images/characters/Ozzy.png");
 ozzy.setEyes("circle");
 ozzy.setEyeColour("orange");
@@ -132,7 +138,8 @@ ozzy.addPreferredSpecies("hyna");
 ozzy.addPreferredSpecies("sheep");
 ozzy.addPreferredSpecies("wolf");
 
-pandora.setAttributes(23,20,19,17,18,20);
+pandora.setAttributes(16,16,16,13,13,16);
+pandora.setLevel(15);
 pandora.setImage("resources/images/characters/Pandora.svg");
 pandora.setEyes("slit");
 pandora.setEyeColour("green");
@@ -149,6 +156,7 @@ pandora.addDated(nick, 1);
 pandora.addDated(remmy, 1, false);
 
 remmy.setAttributes(14,12,12,10,10,8);
+remmy.setLevel(6);
 remmy.setImage("resources/images/characters/RemmySheared.svg");
 remmy.setEyes("rectangle");
 remmy.setEyeColour("orange");
@@ -169,7 +177,8 @@ remmy.setPenisSize(24);
 remmy.setPenisGirth(16);
 remmy.setPrefersPredators(true);
 
-rosie.setAttributes(6,16,11,11,8,12);
+rosie.setAttributes(6,14,11,11,8,12);
+rosie.setLevel(1);
 rosie.setImage("resources/images/characters/Rosie.png");
 rosie.setEyeColour("lightblue");
 rosie.setFurColour("red","cream");
@@ -182,7 +191,8 @@ rosie.addPreferredSpecies("wolf");
 
 tellerMicely.setImage("resources/images/characters/tellerMicely.png").moveTo(zootopiaCreditUnion44thEntrance).addPreferredSpecies("stoat");
 
-velvet.setAttributes(10,20,11,18,16,16);
+velvet.setAttributes(10,15,11,15,15,14);
+velvet.setLevel(10);
 velvet.setImage("resources/images/characters/Velvet.png");
 velvet.setEyeColour("brown");
 velvet.moveTo(alApartmentBedroom);
@@ -196,7 +206,8 @@ velvet.addDated(al, 2);
 
 weaver.setImage("resources/images/characters/RedWeaver.png").setEyeColour("red").moveTo(weaverApartmentLivingroom);
 
-wolter.setAttributes(9,12,10,11,12,13);
+wolter.setAttributes(9,12,11,11,12,11);
+wolter.setLevel(3);
 wolter.setImage("resources/images/characters/Wolter.svg");
 wolter.setEyeColour("dark blue");
 wolter.setFurColour("brown");
@@ -257,10 +268,10 @@ remmy.addItem(remmyPhone);
 wolter.addItem(wolterPhone);
 
 // Make the Characters do something
-characterLay(anneke, twinsApartmentBedroomAnnekeBed);
-characterMasturbate(anneke);
-characterSleep(wolter, remmyApartmentLivingroomCouch);
-characterSit(charlie, remmyApartmentLivingroomCouch);
-characterLay(pandora, pandorasBoxBasementHiddenBedroomBed);
-characterLay(remmy, remmyApartmentBedroomBed);
-characterSex(al, velvet, alApartmentBedroomBed);
+anneke.lay(twinsApartmentBedroomAnnekeBed);
+anneke.masturbate();
+wolter.sleep(remmyApartmentLivingroomCouch);
+charlie.sit(remmyApartmentLivingroomCouch);
+pandora.lay(pandorasBoxBasementHiddenBedroomBed);
+remmy.lay(remmyApartmentBedroomBed);
+al.fuck(velvet, alApartmentBedroomBed);

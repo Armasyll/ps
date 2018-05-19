@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Cells");
+if ((PSDE.debugEnabled)) console.log("Initializing Cells");
 
 zootopiaCell = new Cell("zootopiaCell", "Zootopia", zootopiaLocation);
 
@@ -24,4 +24,4 @@ packStreetHappytownLocksmithsCell = new Cell("packStreetHappytownLocksmithsCell"
 
 zootopiaCreditUnion44thCell = new Cell("zootopiaCreditUnion44thCell", "Zootopia Credit Union, 44th Street", zootopiaCreditUnion44thLocation)
 
-if (debug) console.log("\tInitialized " + cellIndices.size + " Cells.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.cells.size + " Cells.");

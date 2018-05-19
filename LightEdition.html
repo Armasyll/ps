@@ -46,18 +46,18 @@
                         <h4 class="modal-title">Game Options</h4>
                     </div>
                     <div class="modal-body">
-                        <button type="button" id="saveGameButton" class="btn btn-info" onClick="saveGame()">Save Game</button>
+                        <button type="button" id="saveGameButton" class="btn btn-info" onClick="PSDE.saveGame()">Save Game</button>
                         <label class="custom-file">
-                            <input type="file" id="fileInput" class="custom-file-input" onChange="loadFile(this)" style="display:none">
+                            <input type="file" id="fileInput" class="custom-file-input" onChange="PSDE.loadFile(this)" style="display:none">
                             <span class="btn btn-info custom-file-control">Load Game</span>
                         </label>
                         <hr/>
                         <button type="button" class="btn btn-info" onClick="alert(':V')"><b>:V</b></button>
                         <hr/>
-                        <button type="button" id="toggleAutoscrollButton" class="btn btn-info" onClick="toggleAutoscroll()"></button>
-                        <button type="button" id="toggleInventoryModalButton" class="btn btn-info" onClick="toggleInventoryModal()"></button>
-                        <button type="button" id="toggleMenuSizeButton" class="btn btn-info" onClick="toggleMenuSize()"></button>
-                        <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="toggleDebug()"></button>
+                        <button type="button" id="toggleAutoscrollButton" class="btn btn-info" onClick="PSDE.toggleAutoscroll()"></button>
+                        <button type="button" id="toggleInventoryModalButton" class="btn btn-info" onClick="PSDE.toggleInventoryModal()"></button>
+                        <button type="button" id="toggleMenuSizeButton" class="btn btn-info" onClick="PSDE.toggleMenuSize()"></button>
+                        <button type="button" id="toggleDebugButton" class="btn btn-info" onClick="PSDE.toggleDebug()"></button>
                     </div>
                 </div>
             </div>
@@ -257,30 +257,15 @@
                 </div>
             </div>
         </div>
-        <script data-description="Game Variables" src="resources/js/GameVariables.js"></script>
         <script data-description="Game Variables" src="resources/js/Tiles.js"></script>
-        <script data-description="Game Functions" src="resources/js/GameFunctions.js"></script>
+        <script data-description="Game Functions" src="resources/js/EventListeners.js"></script>
         <script data-description="Additional Game Variables">
-            /*
-            Dear ZNN staff,
-                If you're reading this, a 'const' means the variable cannot be changed. Since the variables below are by default 'false' and they cannot be changed, the player will not see content that checks against them.
-            That is, unless they go snooping around. In which case, they're going outside the constraints that I placed for their little snowflake eyes.
-            Really, nothing I can do then.
-            
-            Sincerely,
-            Armasyll
-            
-            P.S.
-                :v
-            */
-            const enableRape = false;
-            const enableGore = false;
-            var debug = false;
+            const PSDE.enableRape = false;
+            const PSDE.enableGore = false;
         </script>
         <script data-description="Classes" src="resources/js/Classes.js"></script>
         
         <script data-description="DefaultEntities" src="resources/js/DefaultEntities.js"></script>
-        <script data-description="Interactions" src="resources/js/Interactions.js"></script>
         
         <script data-description="Locations" src="resources/data/initialize/Locations.js"></script>
         <script data-description="Cells" src="resources/data/initialize/Cells.js"></script>
@@ -308,7 +293,6 @@
         <script data-description="Room-specific Character Interactions" src="resources/data/interact/RoomsCharacters.js"></script>
         <script data-description="General Interactions" src="resources/data/interact/General.js"></script>
         
-        <script data-description="Menus" src="resources/js/Menus.js"></script>
         <script data-description="Start the game" src="resources/js/Start.js"></script>
         <script data-description="Start the game" src="resources/data/Start.js"></script>
         <script data-description="Events" src="resources/data/initialize/GameEvents.js"></script>

@@ -1,4 +1,4 @@
-if (debug) console.log("Assigning Furniture");
+if ((PSDE.debugEnabled)) console.log("Assigning Furniture");
 
 remmyApartmentBathroomTub.addItem(charlieBigBlackRemmyDildo);
 remmyApartmentBedroomBed.addItem(remmyMediumPinkRibbedFleshlight);

@@ -70,7 +70,7 @@ class Content {
         document.getElementById(this.contentContainer).innerHTML = _string;
         $('a[data-toggle=tooltip]').tooltip();
 
-        if (enableAutoscroll)
+        if (PSDE.enableAutoscroll)
             document.getElementById(this.contentContainer).scrollTop = document.getElementById(this.contentContainer).scrollHeight;
     }
     /**
@@ -84,7 +84,7 @@ class Content {
         document.getElementById(this.contentContainer).innerHTML += _string;
         $('a[data-toggle=tooltip]').tooltip();
 
-        if (enableAutoscroll)
+        if (PSDE.enableAutoscroll)
             document.getElementById(this.contentContainer).scrollTop = document.getElementById(this.contentContainer).scrollHeight;
     }
     /**
@@ -349,69 +349,69 @@ class Menu {
 
         if (_downRoom instanceof Room) {
             _room = _downRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_northRoom instanceof Room) {
             _room = _northRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_upRoom instanceof Room) {
             _room = _upRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_westRoom instanceof Room) {
             _room = _westRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_southRoom instanceof Room) {
             _room = _southRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_eastRoom instanceof Room) {
             _room = _eastRoom;
-            if (player.room.cell.location != _room.cell.location)
+            if (PSDE.player.room.cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(player.room) ? 4 : 0, "btn-info" + (player.room.isLocked(_room) && !player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         _room = undefined;
     }
@@ -589,7 +589,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         if (typeof this.canvas === 'undefined')
             this.initialize();
@@ -609,7 +609,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         if (typeof _room.cell.backgroundColor != 'undefined')
             document.getElementById('mapContentDisplay').style.backgroundColor = _room.cell.backgroundColor;
@@ -692,7 +692,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         var originalX = this.cWidth/2 - this.baseSize/2 + (xPos * this.baseSize);
         var originalY = this.cHeight/2 - this.baseSize/2 + (yPos * this.baseSize);
@@ -736,7 +736,7 @@ class Minimap {
             this.canvas.beginPath();
             this.canvas.rect(originalX + 4, originalY + 4, this.baseSize - 8, this.baseSize - 8);
             this.canvas.setLineDash([2, 15]);
-            this.canvas.strokeStyle = (typeof player.furColourAHex != 'undefined' ? player.furColourAHex : (player.hasFurColouration ? player.furColourA : "rgba(255, 255, 0, 0.5)"));
+            this.canvas.strokeStyle = (typeof PSDE.player.furColourAHex != 'undefined' ? PSDE.player.furColourAHex : (PSDE.player.hasFurColouration ? PSDE.player.furColourA : "rgba(255, 255, 0, 0.5)"));
             this.canvas.stroke();
 
             this.canvas.strokeStyle = "rgb(0, 0, 0)";
@@ -1011,7 +1011,7 @@ class Minimap {
             }
         }
 
-        if (debug) {
+        if (PSDE.enableDebug) {
             this.canvas.fillStyle = "yellow";
             this.canvas.textAlign = "center";
             this.canvas.fillText("<{0}, {1}>".format(_room.x, _room.y), originalX + this.baseSize / 2, originalY + this.baseSize / 2);
@@ -1034,6 +1034,3988 @@ class Minimap {
         facadeLink.onload = function() {
             this.canvas.drawImage(this, originalX, originalY, this.baseSize, this.baseSize);
         };
+    }
+}
+
+class PSDE {
+    constructor() {
+        this.initialized = false;
+        //this.initialized = false;
+    }
+    static initialize() {
+        this.initialized = true;
+        /**
+         * Map of BodyParts
+         * @type {Map<String, BodyPart}
+         */
+        this.bodyParts = new Map();
+        /**
+         * Map of Cells
+         * @type {Map<String, Cell}
+         */
+        this.cells = new Map();
+        /**
+         * Map of Characters
+         * @type {Map<String, Character}
+         */
+        this.characters = new Map();
+        /**
+         * Map of pathed Character movements from Room to Room
+         * @type {Map<Character, Set<Room>>}
+         */
+        this.characterPathes = new Map();
+        /**
+         * Map of Clothing
+         * @type {Map<String, Clothing>}
+         */
+        this.clothing = new Map();
+        /**
+         * Map of Consumables
+         * @type {Map<String, Consumable>}
+         */
+        this.consumables = new Map();
+        /**
+         * Map of Entities
+         * @type {Map<String, Entity}
+         */
+        this.entities = new Map();
+        /**
+         * Map of GameEvent(s)
+         * @type {Map<String, GameEvent>}
+         */
+        this.events = new Map();
+        /**
+         * Map of Furniture
+         * @type {Map<String, Furniture>}
+         */
+        this.furniture = new Map();
+        /**
+         * Map of Items
+         * @type {Map<String, Item>}
+         */
+        this.items = new Map();
+        /**
+         * Map of Instances
+         * @type {Map<String, Instance>}
+         */
+        this.instances = new Map();
+        /**
+         * Map of Item Instances
+         * @type {Map<String, ItemInstance>}
+         */
+        this.itemInstances = new Map();
+        /**
+         * Map of BodyPart Instances
+         * @type {Map<String, ItemInstance>}
+         */
+        this.bodyPartInstances = new Map();
+        /**
+         * Map of Keys
+         * @type {Map<String, this.key>}
+         */
+        this.keys = new Map();
+        /**
+         * Map of Locations
+         * @type {Map<String, Location>}
+         */
+        this.locations = new Map();
+        /**
+         * Map of Phones
+         * @type {Map<String, Phone>}
+         */
+        this.phones = new Map();
+        /**
+         * Map of Phone Instances
+         * @type {Map<String, PhoneInstance>}
+         */
+        this.phoneInstances = new Map();
+        /**
+         * Map of Cheques
+         * @type {Map<String, Cheque>}
+         */
+        this.cheques = new Map();
+        /**
+         * Map of Weapons
+         * @type {Map<String, Room>}
+         */
+        this.weapons = new Map();
+        /**
+         * Map of Weapon Instances
+         * @type {Map<String, WeaponInstance>}
+         */
+        this.weaponInstances = new Map();
+        /**
+         * Map of Armor
+         * @type {Map<String, Room>}
+         */
+        this.armor = new Map();
+        /**
+         * Map of Armor Instances
+         * @type {Map<String, ArmorInstance>}
+         */
+        this.armorInstances = new Map();
+        /**
+         * Map of Rooms
+         * @type {Map<String, Room>}
+         */
+        this.rooms = new Map();
+        /**
+         * Map of Spells
+         * @type {Map<String, Spell>}
+         */
+        this.spells = new Map();
+        /**
+         * Map of TextMessages
+         * @type {Map<String, TextMessage>}
+         */
+        this.textMessages = new Map();
+        /**
+         * Map of WebPages
+         * @type {Map<String, WebPage}
+         */
+        this.webPages = new Map();
+        /**
+         * Map of WebSites
+         * @type {Map<String, WebSite>}
+         */
+        this.webSites = new Map();
+
+        this.player = undefined;
+        this.agreeTOS = false;
+        this.lastMenu = undefined;
+        this.lastGameEvent = undefined;
+        this.enableThreeDContent = false;
+        this.enableDebug = false;
+        this.enableGore = false;
+        this.enableRape = false;
+        this.enableAudio = false;
+        this.enableImages = true;
+        this.enableVideo = true;
+        this.enableMinimap = true;
+        this.enableAutoscroll = false;
+        this.enablePopups = false;
+        this.currentTime = new Date("2017-07-03T17:35:00.000Z");
+        this.previousTime = this.currentTime;
+        this.pov = 2; // 1 - first person, 2 - second person, 3 - third person
+
+        this._eventsExecutedThisTick = new Set(); // Set of Events executed during the current Tick
+        this._scenesViewedThisWindow = new Set(); // Set of Events executed during the current Room visit
+        this._interruptTick = false;
+        this._interruptMenu = false;
+
+        this.kMale = 0, this.kFemale = 1;
+        this.kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
+        this.kBodyPartTypes = new Set(["ankles","anus","arms","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","knot","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
+        this.kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
+        this.kHandTypes = new Set(["fur","pad","hoof","clovenhoof","skin"]);
+        this.kFeetTypes = this.kHandTypes;
+        this.kEyeTypes = new Set(["circle","slit","rectangle","none"]);
+        this.kPeltTypes = new Set(["skin","fur","wool","hair"]);
+        this.kLocationTypes = new Set(["general","city","house","apartment","bank","park","store"]);
+        this.kRoomTypes = new Set(["hallway","lobby","bedroom","livingroom","bathroom","kitchen","diningroom","closet","basement","extBuilding","street","walkway","lot"]);
+        this.kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
+        this.kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk","kneel"]);
+        this.kInteractionTypes = new Set(["attack","charmed","bite","boop","cast","channel","choke","consume","cut","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","oral","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);
+        this.kActionTypes = new Set([...this.kIntraactionTypes, ...this.kInteractionTypes]);
+        this.kConsumableTypes = new Set(["food","drink","medicine","other"]);
+        this.kSpecialProperties = new Set(["exists","living","dead","mirror","water","earth","metal","broken","wood","magic","nature","container","charm","bone","jagged","smooth","cursed","blessed","bludgeoning","slashing","piercing","acid","cold","fire","lightning","necrotic","poison"]);
+
+        this.kCharacterXPMax = 355000;
+        this.kCharacterLevelMax = 20;
+
+        /**
+         * Classless should be a broad description for commoner, expert, and noble; it shouldn't be used, unless I'm lazy.
+         * @type {Set}
+         */
+        this.kCharacterClasses = new Set(["bard","cleric","druid","paladin","ranger","sorcerer","warlock","wizard","classless","commoner","expert","noble"]);
+
+        this.kSpellSchools = new Set(["abjuration","conjuration","divination","enchantment","evocation","illusion","necromancy","transmutation","universal"]);
+
+        this.kWeaponSimpleMeleeTypes = new Set(["club","dagger","greatclub","handaxe","javelin","lighthammer","mace","quarterstaff","sickle","spear"]);
+        this.kWeaponSimpleRangedTypes = new Set(["lightcrossbow","dart","shortbow","sling"]);
+        this.kWeaponMartialMeleeTypes = new Set(["battleaxe","flail","glaive","greataxe","greatsword","halberd","lance","longsword","maul","morningstar","pike","rapier","scimitar","shortsword","trident","warpick","warhammer","whip"]);
+        this.kWeaponMartialRangedTypes = new Set(["blowgun","handcrossbow","heavycrossbow","longbow","net"]);
+        this.kWeaponMeleeTypes = new Set([...this.kWeaponSimpleMeleeTypes, ...this.kWeaponMartialMeleeTypes]);
+        this.kWeaponRangedTypes = new Set([...this.kWeaponSimpleRangedTypes, ...this.kWeaponMartialRangedTypes]);
+        this.kWeaponTypes = new Set([...this.kWeaponMeleeTypes, ...this.kWeaponRangedTypes]);
+        this.kWeaponProperties = new Set(["ammunition","finesse","heavy","light","loading","range","reach","special","thrown","twohanded","versatile"]);
+
+        this.kDamageTypes = new Set(["bludgeoning","slashing","piercing","acid","cold","fire","lightning","necrotic","poison","psychic","radiant","thunder"]);
+
+        this.kWeaponTypeProperties = new Map();
+            this.kWeaponTypeProperties.set("club", new Set(["light"]));
+            this.kWeaponTypeProperties.set("dagger", new Set(["finesse","light","range","thrown"]));
+            this.kWeaponTypeProperties.set("greatclub", new Set(["twohanded"]));
+            this.kWeaponTypeProperties.set("handaxe", new Set(["light","range","thrown"]));
+            this.kWeaponTypeProperties.set("javeline", new Set(["range","thrown"]));
+            this.kWeaponTypeProperties.set("lighthammer", new Set(["light","range","thrown"]));
+            this.kWeaponTypeProperties.set("mace", new Set());
+            this.kWeaponTypeProperties.set("quarterstaff", new Set(["versatile"]));
+            this.kWeaponTypeProperties.set("sickle", new Set(["light"]));
+            this.kWeaponTypeProperties.set("spear", new Set(["range","versatile"]));
+            this.kWeaponTypeProperties.set("lightcrossbow", new Set(["ammunition","loading","range","twohanded"]));
+            this.kWeaponTypeProperties.set("dart", new Set(["finesse","range","thrown"]));
+            this.kWeaponTypeProperties.set("shortbow", new Set(["ammunition","range","twohanded"]));
+            this.kWeaponTypeProperties.set("sling", new Set(["ammunition","range"]));
+            this.kWeaponTypeProperties.set("battleaxe", new Set(["versatile"]));
+            this.kWeaponTypeProperties.set("flail", new Set());
+            this.kWeaponTypeProperties.set("glaive", new Set(["heavy","reach","twohanded"]));
+            this.kWeaponTypeProperties.set("greataxe", new Set(["heavy","twohanded"]));
+            this.kWeaponTypeProperties.set("greatsword", new Set(["heavy","twohanded"]));
+            this.kWeaponTypeProperties.set("halberd", new Set(["heavy","reach","twohanded"]));
+            this.kWeaponTypeProperties.set("lance", new Set(["reach","special"]));
+            this.kWeaponTypeProperties.set("longsword", new Set(["versatile"]));
+            this.kWeaponTypeProperties.set("maul", new Set(["heavy","twohanded"]));
+            this.kWeaponTypeProperties.set("morningstar", new Set());
+            this.kWeaponTypeProperties.set("pike", new Set(["heavy","reach"]));
+            this.kWeaponTypeProperties.set("rapier", new Set(["finesse"]));
+            this.kWeaponTypeProperties.set("scimitar", new Set(["finesse","light"]));
+            this.kWeaponTypeProperties.set("shortsword", new Set(["finesse","light"]));
+            this.kWeaponTypeProperties.set("trident", new Set(["range","thrown","versatile"]));
+            this.kWeaponTypeProperties.set("warpick", new Set());
+            this.kWeaponTypeProperties.set("warhammer", new Set(["versatile"]));
+            this.kWeaponTypeProperties.set("whip", new Set(["finesse","reach"]));
+            this.kWeaponTypeProperties.set("blowgun", new Set(["ammunition","range","loading"]));
+            this.kWeaponTypeProperties.set("crossbowhand", new Set(["ammunition","light","loading","range"]));
+            this.kWeaponTypeProperties.set("crossbowheavy", new Set(["ammunition","heavy","loading","range","twohanded"]));
+            this.kWeaponTypeProperties.set("longbow", new Set(["ammunition","heavy","range","twohanded"]));
+            this.kWeaponTypeProperties.set("net", new Set(["special","thrown"]));
+        this.kWeaponTypeDamage = new Map();
+            this.kWeaponTypeDamage.set("club","1d4");
+            this.kWeaponTypeDamage.set("dagger","1d4");
+            this.kWeaponTypeDamage.set("greatclub","1d8");
+            this.kWeaponTypeDamage.set("handaxe","1d6");
+            this.kWeaponTypeDamage.set("javeline","1d6");
+            this.kWeaponTypeDamage.set("lighthammer","1d4");
+            this.kWeaponTypeDamage.set("mace","1d6");
+            this.kWeaponTypeDamage.set("quarterstaff","1d6");
+            this.kWeaponTypeDamage.set("sickle","1d4");
+            this.kWeaponTypeDamage.set("spear","1d6");
+            this.kWeaponTypeDamage.set("lightcrossbow","1d8");
+            this.kWeaponTypeDamage.set("dart","1d4");
+            this.kWeaponTypeDamage.set("shortbow","1d6");
+            this.kWeaponTypeDamage.set("sling","1d4");
+            this.kWeaponTypeDamage.set("battleaxe","1d8");
+            this.kWeaponTypeDamage.set("flail","1d8");
+            this.kWeaponTypeDamage.set("glaive","1d10");
+            this.kWeaponTypeDamage.set("greataxe","1d12");
+            this.kWeaponTypeDamage.set("greatsword","2d6");
+            this.kWeaponTypeDamage.set("halberd","1d10");
+            this.kWeaponTypeDamage.set("lance","1d12");
+            this.kWeaponTypeDamage.set("longsword","1d8");
+            this.kWeaponTypeDamage.set("maul","2d6");
+            this.kWeaponTypeDamage.set("morningstar","1d8");
+            this.kWeaponTypeDamage.set("pike","1d10");
+            this.kWeaponTypeDamage.set("rapier","1d8");
+            this.kWeaponTypeDamage.set("scimitar","1d6");
+            this.kWeaponTypeDamage.set("shortsword","1d6");
+            this.kWeaponTypeDamage.set("trident","1d6");
+            this.kWeaponTypeDamage.set("warpick","1d8");
+            this.kWeaponTypeDamage.set("warhammer","1d8");
+            this.kWeaponTypeDamage.set("whip","1d4");
+            this.kWeaponTypeDamage.set("blowgun","1d2");
+            this.kWeaponTypeDamage.set("crossbowhand","1d6");
+            this.kWeaponTypeDamage.set("crossbowheavy","1d10");
+            this.kWeaponTypeDamage.set("longbow","1d8");
+        this.kWeaponTypeCost = new Map();
+            this.kWeaponTypeCost.set("club",0.1);
+            this.kWeaponTypeCost.set("dagger",20);
+            this.kWeaponTypeCost.set("greatclub",2);
+            this.kWeaponTypeCost.set("handaxe",50);
+            this.kWeaponTypeCost.set("javeline",50);
+            this.kWeaponTypeCost.set("lighthammer",20);
+            this.kWeaponTypeCost.set("mace",50);
+            this.kWeaponTypeCost.set("quarterstaff",2);
+            this.kWeaponTypeCost.set("sickle",10);
+            this.kWeaponTypeCost.set("spear",10);
+            this.kWeaponTypeCost.set("lightcrossbow",250);
+            this.kWeaponTypeCost.set("dart",0.5);
+            this.kWeaponTypeCost.set("shortbow",250);
+            this.kWeaponTypeCost.set("sling",1);
+            this.kWeaponTypeCost.set("battleaxe",100);
+            this.kWeaponTypeCost.set("flail",100);
+            this.kWeaponTypeCost.set("glaive",200);
+            this.kWeaponTypeCost.set("greataxe",300);
+            this.kWeaponTypeCost.set("greatsword",500);
+            this.kWeaponTypeCost.set("halberd",200);
+            this.kWeaponTypeCost.set("lance",100);
+            this.kWeaponTypeCost.set("longsword",150);
+            this.kWeaponTypeCost.set("maul",100);
+            this.kWeaponTypeCost.set("morningstar",150);
+            this.kWeaponTypeCost.set("pike",50);
+            this.kWeaponTypeCost.set("rapier",250);
+            this.kWeaponTypeCost.set("scimitar",250);
+            this.kWeaponTypeCost.set("shortsword",100);
+            this.kWeaponTypeCost.set("trident",50);
+            this.kWeaponTypeCost.set("warpick",50);
+            this.kWeaponTypeCost.set("warhammer",150);
+            this.kWeaponTypeCost.set("whip",20);
+            this.kWeaponTypeCost.set("blowgun",100);
+            this.kWeaponTypeCost.set("crossbowhand",750);
+            this.kWeaponTypeCost.set("crossbowheavy",500);
+            this.kWeaponTypeCost.set("longbow",500);
+            this.kWeaponTypeCost.set("net",10);
+
+        this.kArmorLightTypes = new Set(["padded","leather","studdedleather"]);
+        this.kArmorMediumTypes = new Set(["hide","chainshirt","scalemail","breastplate","halfplate"]);
+        this.kArmorHeavyTypes = new Set(["ringmail","chainmail","splint","plate"]);
+        this.kShieldTypes = new Set(["shield"]);
+        this.kArmorTypes = new Set([...this.kArmorLightTypes, ...this.kArmorMediumTypes, ...this.kArmorHeavyTypes, ...this.kShieldTypes]);
+        /**
+         * Amount of protection from attacks
+         * @type {Map} <String, Number>
+         */
+        this.kArmorTypeClass = new Map();
+            this.kArmorTypeClass.set("padded", 11);
+            this.kArmorTypeClass.set("leather", 11);
+            this.kArmorTypeClass.set("studdedleather", 12);
+            this.kArmorTypeClass.set("hide", 12);
+            this.kArmorTypeClass.set("chainshirt", 13);
+            this.kArmorTypeClass.set("scalemail", 14);
+            this.kArmorTypeClass.set("breastplate", 14);
+            this.kArmorTypeClass.set("halfplate", 15);
+            this.kArmorTypeClass.set("ringmail", 14);
+            this.kArmorTypeClass.set("chainmail", 16);
+            this.kArmorTypeClass.set("splint", 17);
+            this.kArmorTypeClass.set("plate", 18);
+            this.kArmorTypeClass.set("shield", 2);
+        /**
+         * Whether or not an ArmorType has a strength requirement which is a detriment to stealth
+         * @type {Map}
+         */
+        this.kArmorTypeStrength = new Map();
+            this.kArmorTypeStrength.set("chainmail", 13);
+            this.kArmorTypeStrength.set("splint", 15);
+            this.kArmorTypeStrength.set("plate", 15);
+        /**
+         * Whether or not an ArmorType is a detriment to stealth
+         * @type {Map} <String, boolean>
+         */
+        this.kArmorTypeStealth = new Map();
+            this.kArmorTypeStealth.set("padded", false);
+            this.kArmorTypeStealth.set("scalemail", false);
+            this.kArmorTypeStealth.set("halfplate", false);
+            this.kArmorTypeStealth.set("ringmail", false);
+            this.kArmorTypeStealth.set("chainmail", false);
+            this.kArmorTypeStealth.set("splint", false);
+            this.kArmorTypeStealth.set("plate", false);
+        this.kArmorTypeCost = new Map();
+            this.kArmorTypeCost.set("padded", 50);
+            this.kArmorTypeCost.set("leather", 100);
+            this.kArmorTypeCost.set("studdedleather", 450);
+            this.kArmorTypeCost.set("hide", 100);
+            this.kArmorTypeCost.set("chainshirt", 50);
+            this.kArmorTypeCost.set("scalemail", 500);
+            this.kArmorTypeCost.set("breastplate", 4000);
+            this.kArmorTypeCost.set("halfplate", 7500);
+            this.kArmorTypeCost.set("ringmail", 300);
+            this.kArmorTypeCost.set("chainmail", 750);
+            this.kArmorTypeCost.set("splint", 2000);
+            this.kArmorTypeCost.set("plate", 15000);
+            this.kArmorTypeCost.set("shield", 100);
+        
+        this.limbo = new Room("limbo", "limbo", "Limbo", 0, new Cell("limboCell", "Limbo", new Location("limbo", "Limbo")));
+            this.limbo.setNorthRoom(this.limbo, undefined, false);
+            this.limbo.setEastRoom(this.limbo, undefined, false);
+            this.limbo.setSouthRoom(this.limbo, undefined, false);
+            this.limbo.setWestRoom(this.limbo, undefined, false);
+            this.limbo.setDownRoom(this.limbo, undefined, false);
+    }
+    /**
+     * Calculates Character level; Doesn't calculate at all.
+     * @param {Number} _int Character experience
+     * @return {Number} Integer between 0 and PSDE.kCharacterMaxLevel
+     */
+    static calculateLevel(_int) {
+        if (_int < 300) return 1;
+        else if (_int < 900) return 2;
+        else if (_int < 2700) return 3;
+        else if (_int < 6500) return 4;
+        else if (_int < 14000) return 5;
+        else if (_int < 23000) return 6;
+        else if (_int < 34000) return 7;
+        else if (_int < 48000) return 8;
+        else if (_int < 64000) return 9;
+        else if (_int < 85000) return 10;
+        else if (_int < 100000) return 11;
+        else if (_int < 120000) return 12;
+        else if (_int < 140000) return 13;
+        else if (_int < 165000) return 14;
+        else if (_int < 195000) return 15;
+        else if (_int < 225000) return 16;
+        else if (_int < 265000) return 17;
+        else if (_int < 305000) return 18;
+        else if (_int < 355000) return 19;
+        else return 20;
+    }
+    /**
+     * Calculates Character ability score modifier; Also doesn't calculate at all.
+     * @param  {Number} _int Ability level
+     * @return {Number}      Modifier
+     */
+    static calculateAbilityScoreModifier(_int) {
+        if (_int == 30)
+            return 10;
+        else if (_int > 27)
+            return 9;
+        else if (_int > 25)
+            return 8;
+        else if (_int > 23)
+            return 7;
+        else if (_int > 21)
+            return 6;
+        else if (_int > 19)
+            return 5;
+        else if (_int > 17)
+            return 4;
+        else if (_int > 15)
+            return 3;
+        else if (_int > 13)
+            return 2;
+        else if (_int > 11)
+            return 1
+        else if (_int > 9)
+            return 0
+        else if (_int > 7)
+            return -1;
+        else if (_int > 5)
+            return -2;
+        else if (_int > 3)
+            return -3;
+        else if (_int > 1)
+            return -4;
+        else
+            return -5;
+    }
+
+    static cashCheque(_character = player) {
+        if (!(_character instanceof Character)) {
+            if (characterIndices.has(_character))
+                _character = characterIndices.get(_character);
+            else
+                return undefined;
+        }
+        if (!(_character.cell.location.type == "bank")) {
+            Content.add("<p>How can you cash a cheque if you're not at a bank?</p>");
+            return false;
+        }
+        var _chequeCashed = false;
+
+        _character.items.forEach(function(_itemInstance) {
+            if (_itemInstance.parent instanceof Cheque) {
+                if (_itemInstance.parent.to instanceof Character && (_itemInstance.parent.signed || _itemInstance.parent.to == _character) && !isNaN(_itemInstance.parent.amount) && _itemInstance.parent.amount > 0) {
+                    _itemInstance.parent.to.incMoney(_itemInstance.parent.amount);
+                    _character.removeItem(_itemInstance);
+                    _itemInstance.parent.delete();
+                    _itemInstance.delete();
+                    _chequeCashed = true;
+                }
+            }
+        });
+        return _chequeCashed;
+    }
+
+    static getCharacterByID(_string) {
+        return this.characters.get(_string);
+    }
+    static getItemByID(_string) {
+        return this.items.get(_string);
+    }
+    static getSpellByID(_string) {
+        return this.spells.get(_string);
+    }
+
+    static mainMenu() {
+        Menu.addOption("PSDE.startGame()", "Enter", "You meet the conditions above.");
+        Menu.generate();
+    }
+    static baseMenu(_clearContent = false, _clearMenu = true) {
+        PSDE.lastMenu = "PSDE.baseMenu({0}, {1})".format(_clearContent, _clearMenu);
+        Menu.showingBaseMenu = true;
+        
+        if (!(PSDE.player.room instanceof Room))
+            PSDE.characterSetRoom(PSDE.player, PSDE.rooms.get("limbo"));
+        
+        if (_clearMenu) {
+            Title.clear();
+            Title.set(
+                (PSDE.player.room.location.isOwner(PSDE.player) ? "Your "  + (PSDE.player.room.type !== 'undefined' ? PSDE.player.room.type : "room").capitalize() : PSDE.player.room.name), 
+                undefined, 
+                (typeof PSDE.player.room.location !== 'undefined' ? (PSDE.player.room.location == PSDE.player.room.cell.location ? PSDE.player.room.cell.name : PSDE.player.room.location.name) : "&nbsp;"), 
+                (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+            );
+
+            Menu.clear();
+            
+            var roomNorth = undefined, roomEast = undefined, roomSouth = undefined, roomWest = undefined, roomDown = undefined, roomUp = undefined;
+            if (PSDE.player.room.attachedRooms.has(0) && PSDE.player.room.attachedRooms.get(0) instanceof Room)
+                roomNorth = PSDE.player.room.attachedRooms.get(0);
+            
+            if (PSDE.player.room.attachedRooms.has(1) && PSDE.player.room.attachedRooms.get(1) instanceof Room)
+                roomEast = PSDE.player.room.attachedRooms.get(1);
+            
+            if (PSDE.player.room.attachedRooms.has(2) && PSDE.player.room.attachedRooms.get(2) instanceof Room)
+                roomSouth = PSDE.player.room.attachedRooms.get(2);
+            
+            if (PSDE.player.room.attachedRooms.has(3) && PSDE.player.room.attachedRooms.get(3) instanceof Room)
+                roomWest = PSDE.player.room.attachedRooms.get(3);
+            
+            if (PSDE.player.room.attachedRooms.has(4) && PSDE.player.room.attachedRooms.get(4) instanceof Room)
+                roomDown = PSDE.player.room.attachedRooms.get(4);
+            
+            if (PSDE.player.room.attachedRooms.has(5) && PSDE.player.room.attachedRooms.get(5) instanceof Room)
+                roomUp = PSDE.player.room.attachedRooms.get(5);
+            
+            if (!PSDE.enableThreeDContent)
+                Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
+            Menu.setOption(0, "PSDE.roomInteract({0}, false, false)".format(PSDE.player.room.id), "Explore " + (PSDE.player.room.owner == PSDE.player ? "your " + PSDE.player.room.typeName() : PSDE.player.room.name));
+            Menu.setOption(1, "PSDE.personalCharacterMenu()", "Personal Menu");
+            if (PSDE.player.room.characters.size == 2) {
+                _character = undefined;
+                PSDE.player.room.characters.forEach(function(character) {
+                    if (character != PSDE.player)
+                        _character = character;
+                });
+                Menu.setOption(
+                    2, 
+                    "PSDE.characterInteract(" + _character.id + ", true)", 
+                    "Interact with " + _character.name, (_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age + " year old " + _character.grammaticalGender() + "."),
+                    undefined,
+                    undefined,
+                    "btn-basic {0}".format(PSDE.player.manaMax > 24 && _character.isCharmed() ? "charmed" : "")
+                );
+            }
+            else if (PSDE.player.room.characters.size > 1)
+                Menu.setOption(2, "PSDE.localCharactersMenu()", "Interact with those near you.");
+            if (PSDE.player.phone instanceof PhoneInstance) {
+                if (PSDE.player.phone.receivedMessages.size > 0)
+                    Menu.setOption(3, "this.parentNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker'); PSDE.phoneInteract({0}, true)".format(PSDE.player.phone.id), "Check Phone", "{0} Unread Messages".format(PSDE.player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
+                else
+                    Menu.setOption(3, "PSDE.phoneInteract('{0}', true)".format(PSDE.player.phone.id), "Check Phone");
+            }
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.tick('1m', true, true)", "Wait");
+            if (PSDE.player.manaMax > 0 && PSDE.player.spells.size > 0)
+                Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.spellMenu()", "Spells", undefined, undefined, undefined, "btn-mana");
+            Menu.generate();
+        }
+    }
+    static personalCharacterMenu() {
+        PSDE.lastMenu = "PSDE.personalCharacterMenu()";
+        
+        Title.set("Interact with yourself", PSDE.player.image);
+        
+        if (PSDE.player['ateCharlie'])
+            Content.add("You have blood caked across your face and dripping down your jaw, as well as bits of cream-coloured fur and red chunks of meat. You are very full.");
+        
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.setOption((Menu.useWideMenu ? 13 : 10), "$('#optionsModal').modal()", "Options");
+        Menu.setOption((Menu.useWideMenu ? 12 : 9), "PSDE.debugMenu()", "Debug", undefined, undefined, 4);
+        Menu.addOption("PSDE.getAppearance(PSDE.player, 1)", "Appearance");
+        Menu.addOption("PSDE.characterInteractOpen()", "Inventory");
+        Menu.generate();
+    }
+    static localCharactersMenu() {
+        PSDE.lastMenu = "PSDE.localCharactersMenu()";
+        
+        Title.set("Interact with those near you.");
+        
+        Menu.clear();
+        for (var [_characterID, _character] of PSDE.player.room.characters.entries()) {
+            if (_character != PSDE.player) {
+                Menu.addOption(
+                    "PSDE.characterInteract({0}, true)".format(_character.id), 
+                    _character.name, 
+                    "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()),
+                    undefined,
+                    undefined,
+                    "btn-basic {0}".format(PSDE.player.manaMax > 24 && _character.isCharmed() ? "charmed" : "")
+                );
+            }
+        }
+        
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+    static spellMenu() {
+        PSDE.lastMenu = "PSDE.spellMenu()";
+        
+        Title.set("Spells");
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        PSDE.player.spells.forEach(function(_spell) {
+            Menu.addOption(
+                "PSDE.spellInteract({0}, PSDE.player)".format(_spell.id),
+                _spell.name,
+                _spell.description,
+                undefined,
+                undefined,
+                "btn-mana"
+            );
+        });
+        Menu.generate();
+    }
+    static debugMenu() {
+        $('#gameOptionsModal').modal('hide');
+        Content.useDebugContent();
+        Menu.useDebugMenu();
+        
+        Title.set(undefined, undefined, undefined, "Debug Menu");
+        
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.addOption("PSDE.debugRoomInformation()", "Room Information");
+        Menu.addOption("PSDE.debugSwitchRoom()", "Switch Room");
+        Menu.addOption("PSDE.debugCharactersInformation()", "Characters Information");
+        Menu.addOption("PSDE.debugSwitchCharacter()", "Switch Character");
+        Menu.addOption("PSDE.debugBrowserInformation()", "Browser Information");
+        Menu.addOption("PSDE.debugMenuPopulate()", "Populate Menu", "with useless boxes");
+        Menu.addOption("PSDE.player.addItem('masterKey')", "Get Skeleton Key");
+        Menu.addOption("PSDE.addAllItems({0}, false)".format(PSDE.player.id), "Add All Items");
+        Menu.addOption("PSDE.addAllLocations({0})".format(PSDE.player.id), "Add All Locations");
+        Menu.addOption("PSDE.addAllSpells({0});{0}.setManaMax(100);{0}.setMana(100);{0}.setManaCostOffsetPercent(100)".format(PSDE.player.id), "Add All Spells", undefined, undefined, undefined, "btn-mana");
+        Menu.generate();
+    }
+    static debugMenuClose() {
+        Content.useNormalContent();
+        Menu.useNormalMenu();
+        Menu.generate();
+    }
+    static debugRoomInformation() {
+        var _contentBody = "";
+        _contentBody += "<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(PSDE.player.room.toString());
+        var _blob = "";
+        var _arr = [];
+        
+        
+        _contentBody += "<h4>Attached Rooms ({0}):</h4> <ul>".format(PSDE.player.room.attachedRooms.size);
+        for (var [_roomID, _room] of PSDE.player.room.attachedRooms.entries()) {
+            _contentBody += "<li>{0}</li>".format(_room.toString());
+        }
+        _contentBody += "</ul>";
+        
+        
+        _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(PSDE.player.room.characters.size);
+        for (var [_characterID, _character] of PSDE.player.room.characters.entries()) {
+            _blob = "";
+            for (var _key in _character.getCurrentActions()) {
+                _val = _character.getCurrentAction(_key);
+                if (_val instanceof Entity) {
+                    _blob += _key + ":";
+                    _arr.push(_val.toString());
+                }
+                else
+                    _blob += _key;
+                _blob += _arr.toString() + ", ";
+                _arr = [];
+            };
+            _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _blob);
+            _blob = "";
+        }
+        _contentBody += "</ul>";
+        
+        
+        _contentBody += "<h4>Furniture in Current Room ({0}):</h4> <ul>".format(PSDE.player.room.characters.size);
+        for (var [_furnitureID, _furniture] of PSDE.player.room.furniture.entries()) {
+            _contentBody += "<li>{0}".format(_furniture.toString());
+                _contentBody += "<ul>";
+                    if (_furniture.isSeat()) {
+                    _contentBody += "<li>Seating ({0}/{1})".format(_furniture.seatingSpace - _furniture.availableSeatingSpace(), _furniture.seatingSpace);
+                        _contentBody += "<ul>";
+                            _furniture.characters.forEach(function(_character) {
+                                _contentBody += "<li>{0} {1}</li>".format(_character.toString(), _character.getStancePresentTense());
+                            }, this);
+                        _contentBody += "</ul>";
+                    _contentBody += "</li>";
+                    }
+                    if (_furniture.isStorage()) {
+                        _contentBody += "<li>Storage ({0}/{1})".format(_furniture.items.length, _furniture.storageSpace);
+                            _contentBody += "<ul>";
+                                _furniture.items.forEach(function(_item) {
+                                    _contentBody += "<li>{0}</li>".format(_item.toString());
+                                }, this);
+                            _contentBody += "</ul>";
+                        _contentBody += "</li>";
+                    }
+                _contentBody += "</ul>";
+            _contentBody += "</li>";
+        }
+        _contentBody += "</ul>";
+        
+        
+        Content.set(_contentBody);
+    }
+    static debugSwitchRoom() {
+        PSDE.clearContentAndMenu();
+        
+        Title.set("Switch Room", undefined, undefined, "Debug Menu");
+
+        Content.add("<p>You are currently in " + PSDE.player.room.id + "</p>");
+        i = 1;
+        var _blob = "";
+        _blob += '<div class="btn-group btn-group-justified">';
+        PSDE.rooms.forEach(function (_key, _val) {
+            _blob += Menu.createButton("PSDE.roomInteract(" + _key.id + ", true)", _key.name, _key.id, false);
+            if (i % 4 == 0)
+                _blob += '</div><div class="btn-group btn-group-justified">';
+            i++;
+        });
+        _blob += '</div>';
+        
+        Content.add(_blob);
+        
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+    static debugCharactersInformation(_character = PSDE.player) {
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
+        
+        if (typeof _character == 'undefined')
+            return undefined;
+        
+        Content.clear();
+        
+        var _blob = "";
+        var _arr = [];
+        
+
+        // Character List
+        PSDE.characters.forEach(function(__character) {
+            _blob += "<option value='{0}'' {2}>{1}</option>".format(__character.id, __character.name, (_character == __character ? "selected" : ""));
+        });
+        Content.add("<h4>Character:</h4> <select onchange='PSDE.debugCharactersInformation(this.value)'>" + _blob + "</select><br/>");
+        Content.add("<hr/>");
+        _blob = "";
+
+
+        // Misc. Stats
+        _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugStatsPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Stats</a></h3></div><div id='debugStatsPanel' class=''><div class='panel-body'>";
+        _blob += "<label class='col-sm-2'>Life:</label><input onchange='{1}.setLife(this.value)' type='number' min='0' max='4096' name='life' value='{0}'/><br/>".format(_character.life, _character.id);
+        _blob += "<label class='col-sm-2'>Max Life:</label><input onchange='{1}.setLifeMax(this.value)' type='number' min='1' max='4096' name='lifeMax' value='{0}'/><br/>".format(_character.lifeMax, _character.id);
+        if (_character.manaMax > 0) {
+            _blob += "<label class='col-sm-2'>Mana:</label><input onchange='{1}.setMana(this.value)' type='number' min='0' max='4096' name='mana' value='{0}'/><br/>".format(_character.mana, _character.id);
+            _blob += "<label class='col-sm-2'>Max Mana:</label><input onchange='{1}.setManaMax(this.value)' type='number' min='1' max='4096' name='manaMax' value='{0}'/><br/>".format(_character.manaMax, _character.id);
+        }
+        _blob += "<label class='col-sm-2'>Stamina:</label><input onchange='{1}.setStamina(this.value)' type='number' min='0' max='4096' name='stamina' value='{0}'/><br/>".format(_character.stamina, _character.id);
+        _blob += "<label class='col-sm-2'>Max Stamina:</label><input onchange='{1}.setStaminaMax(this.value)' type='number' min='1' max='4096' name='staminaMax' value='{0}'/><br/>".format(_character.staminaMax, _character.id);
+        _blob += "<label class='col-sm-2'>Money:</label><input onchange='{1}.setMoney(this.value)' type='number' min='0' name='money' value='{0}'/><br/>".format(_character.money, _character.id);
+        _blob += "<label class='col-sm-2'>Sleeping:</label><input onchange='{1}.setSleep(this.checked)' type='checkbox' name='sleeping' {0}/><br/>".format((_character.isSleeping() ? 'checked' : ''), _character.id);
+        _blob += "<hr/>";
+        _blob += "<label class='col-sm-2'>Lust:</label><input onchange='{1}.setLust(this.value)' type='number' min='0' max='100' name='lust' value='{0}'/><br/>".format(_character.lust, _character.id);
+        _blob += "<label class='col-sm-2'>Exhibitionism:</label><input onchange='{1}.setExhibitionism(this.value)' type='number' min='0' max='100' name='exhibitionism' value='{0}'/><br/>".format(_character.exhibitionism, _character.id);
+        _blob += "<label class='col-sm-2'>Somnophilia:</label><input onchange='{1}.setSomnophilia(this.value)' type='number' min='0' max='100' name='somnophilia' value='{0}'/><br/>".format(_character.somnophilia, _character.id);
+        _blob += "<label class='col-sm-2'>Intoxication:</label><input onchange='{1}.setIntoxication(this.value)' type='number' min='0' max='100' name='intoxication' value='{0}'/><br/>".format(_character.intoxication, _character.id);
+        _blob += "<label class='col-sm-2'>Incestual:</label><input onchange='{1}.setIncestual(this.value)' type='number' min='0' max='100' name='incestual' value='{0}'/><br/>".format(_character.incestual, _character.id);
+        _blob += "<label class='col-sm-2'>Rut:</label><input onchange='{1}.setRut(this.checked)' type='checkbox' name='rut' {0}/><br/>".format((_character.rut ? 'checked' : ''), _character.id);
+        _blob += "<label class='col-sm-2'>Orientation:</label><select id='debugSetSexualOrientation' onchange='{0}.setSexualOrientation(this.value)'><option value='0' {1}>Straight</option><option value='1' {2}>Gay</option><option value='2' {3}>Bisexual</option></select><br/>".format(_character.id, (_character.sexualOrientation == 0 ? 'selected' : ''), (_character.sexualOrientation == 1 ? 'selected' : ''), (_character.sexualOrientation == 2 ? 'selected' : ''));
+        _blob += "</div></div></div>";
+        Content.add(_blob);
+        _blob = "";
+
+
+        // Clothes
+        _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugClothesPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Clothing</a></h3></div><div id='debugClothesPanel' class='panel-collapse collapse'><div class='panel-body'>";
+        var _clothing = new Map(PSDE.clothing);
+        var _clothingOptionsBlob = "";
+        var _tableColSpan = Object.keys(_character.defaultDisposition).length + 3;
+        
+        _blob += "<table class='table'>";
+        Array.from(this.kClothingTypes).forEach(function(_clothingType) {
+            _clothing.forEach(function(_clothing) {
+                if (_clothing.type == _clothingType) {
+                    _clothingOptionsBlob += "<option value='{0}' {2}>{1}</option>".format(
+                        _clothing.id,
+                        _clothing.name,
+                        (PSDE.player.clothing[_clothingType] !== undefined && _character.clothing[_clothingType] == _clothing ? "selected" : "")
+                    );
+                    _clothing.delete(_clothing.id);
+                }
+            }, this);
+            _blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
+                PSDE.player.id,
+                (PSDE.player.clothing[_clothingType] !== undefined ? PSDE.player.clothing[_clothingType].parent.id : "undefined"),
+                _clothingOptionsBlob,
+                _clothingType
+            );
+            _clothingOptionsBlob = "";
+        }, this);
+        _blob += "</table>";
+        _blob += "</div></div></div>";
+        Content.add(_blob);
+        _blob = "";
+        
+
+        // Disposition
+        _blob += "<div class='panel panel-default autocollapse'><div data-toggle='collapse' href='#debugDispositionPanel' class='panel-heading clickable'><h3 class='panel-title text-center'><a>Disposition</a></h3></div><div id='debugDispositionPanel' class='panel-collapse collapse'><div class='panel-body'>";
+        _blob += "<form class='form-inline'><table class='table'>";
+        _blob += "<thead><tr><th>Name</th>";
+        for (var _property in _character.defaultDisposition) {
+            _blob += "<th>{0}</th>".format(_property.capitalize());
+        }
+        _blob += "<th>Rut</th>";
+        _blob += "<th>Lust</th>";
+        _blob += "<th>Chance to Fuck</th>";
+        _blob += "</tr></thead><tbody>";
+        
+        //  Defaults
+        _blob += "<tr><td>Default</td>";
+        for (var _property in _character.defaultDisposition) {
+            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _character.defaultDisposition[_property]);
+        }
+        _blob += "</tr>";
+        
+        //  You->Them
+        _blob += "<tr><td colspan='{0}'><b>Your</b> Dispositions for Characters</td></tr>".format(_tableColSpan);
+        _character.getCharacterDispositions().forEach(function(_disposition, __character) {
+            if (!_disposition.hasOwnProperty("passion"))
+                return undefined;
+            _blob += "<tr><td>{0}</td>".format(__character.id);
+            for (var _property in _disposition) {
+                _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(PSDE.calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
+            }
+            _blob += "<td></td>";
+            _blob += "<td></td>";
+            _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(PSDE.calculateChanceToFuck(__character, _character), __character.id.capitalize());
+            _blob += "</tr>";
+        }, this);
+        
+        //  Them->You
+        _blob += "<tr><td colspan='{0}'><b>Characters'</b> Dispositions for You</td></tr>".format(_tableColSpan);
+        PSDE.characters.forEach(function(__character) {
+            if (__character == _character)
+                return undefined;
+            
+            if (__character.hasCharacterDisposition(_character)) {
+                var _disposition = __character.getCharacterDisposition(_character);
+                
+                _blob += "<tr><td>{0}</td>".format(__character.id);
+                for (var _property in __character.characterDisposition.get(_character)) {
+                    _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(PSDE.calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _disposition[_property], _character.id, __character.id.capitalize());
+                }
+                _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.calculateChanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (__character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
+                _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.calculateChanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
+                _blob += "<td id='calculateChanceToFuckYou{1}'>{0}</td>".format(PSDE.calculateChanceToFuck(_character, __character), __character.id.capitalize());
+                _blob += "</tr>";
+            }
+        }, this);
+        
+        _blob += "</tbody></table></form>";
+        _blob += "</div></div></div>";
+        Content.add(_blob);
+        _blob = "";
+
+        // Sets Clothing values
+        var changeClothingElements = document.getElementsByClassName('changeClothing');
+        for (var i = 0; i < changeClothingElements.length; i++) {
+            changeClothingElements[i].value = changeClothingElements[i].getAttribute('selected');
+        }
+    }
+    static debugSwitchCharacter() {
+        PSDE.clearContentAndMenu();
+        
+        Title.set("Switch Character", undefined, undefined, "Debug Menu");
+
+        Content.add("<p>You are currently " + PSDE.player.name + "</p>");
+        i = 1;
+        var _blob = "";
+        _blob += '<div class="btn-group btn-group-justified">';
+        PSDE.characters.forEach(function (_key, _val) {
+            if (_key == PSDE.player)
+                return undefined;
+            _blob += Menu.createButton("PSDE.switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.getSex() ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
+            if (i % 4 == 0)
+                _blob += '</div><div class="btn-group btn-group-justified">';
+            i++;
+        });
+        _blob += '</div>';
+        
+        Content.add(_blob);
+        
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose(); PSDE.roomInteract(" + PSDE.player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+    static debugBrowserInformation() {
+        Content.clear();
+        
+        Content.add("<blockquote>Window WidthxHeight : " + $(window).width() + "x" + $(window).height() + "</blockquote>");
+    }
+    static debugPrintUnassignedRooms() {
+        Content.clear();
+        Content.add("Rooms not assigned to grid:");
+        
+        var _blob = "";
+        _blob += "<u>";
+        PSDE.rooms.forEach(function(_room) {
+            if (!_room.mappedToGrid)
+                _blob += ("<ul>" + _room.id + "</ul>");
+        });
+        _blob += "</u>";
+        
+        Content.add(_blob);
+    }
+    static debugMenuPopulate() {
+        Menu.setOption(0, "PSDE.debugMenu()", "Debug Menu");
+        for (var _i = 0; _i < 33; _i++) {
+            Menu.addOption("PSDE.debugMenu()", "Option {0}".format(_i))
+        }
+        Menu.generate();
+    }
+    static getAppearance(_character, _self = false) {
+        Title.setTopImage(_character.image);
+        
+        var _blob = "";
+        
+        if (_self)
+            _blob += ("Your name is " + _character.toString() + ", ");
+        else
+            _blob += (_character.toString() + " is ");
+        _blob += ("a " + _character.age + " year old ");
+        if (_character.hasColouration())
+            _blob += (_character.furColourA + "-coloured ");
+        _blob += (_character.grammaticalGender() + ". ");
+        
+        if (_self)
+            _blob += ("You're");
+        else
+            _blob += (_character.subjectPronoun().capitalize() + "'s");
+        
+        _blob += (" wearing ");
+        
+        if (_character.hasShirt() && _character.hasPants()) {
+            _blob += (_character.getShirt().toString() + ", and " + _character.getPants().toString() + ".");
+        }
+        else if (_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
+            _blob += (_character.getShirt().toString() + ", no pants, and " + _character.getUnderwear().toString() + ".");
+        }
+        else if (_character.hasShirt() && !_character.hasPants() && !_character.hasUnderwear()) {
+            _blob += (_character.getShirt().toString() + ", and nothing below the waste.");
+        }
+        else if (!_character.hasShirt() && _character.hasPants()) {
+            if (_character.getPants().plural)
+                _blob += ("no shirt, but a pair of " + _character.getPants().toString() + ".");
+            else
+                _blob += ("no shirt, but a " + _character.getPants().toString() + ".");
+        }
+        else if (!_character.hasShirt() && !_character.hasPants() && _character.hasUnderwear()) {
+            if (_character.getUnderwear().plural)
+                _blob += ("nothing but a pair of " + _character.getUnderwear().toString() + ".");
+            else
+                _blob += "nothing by a {0}.".format(_character.getUnderwear().toString());
+        }
+        else {
+            _blob += ("absolutely nothing.");
+        }
+
+        if (_character.hasSomethingInBothHands()) {
+            _blob += "</p><p>In your left {0} {3} {1}, and in your right {4} {2}.".format(_character.getHand(), _character.getEntityInLeftHand().parent.toString(), _character.getEntityInRightHand().parent.toString(), _character.getEntityInLeftHand().parent.plural ? "are" : "is a", _character.getEntityInRightHand().parent.plural ? "" : "a");
+        }
+        else if (_character.hasSomethingInLeftHand()) {
+            _blob += "</p><p>In your left {0} {2} {1}.".format(_character.getHand(), _character.getEntityInLeftHand().parent.toString(), _character.getEntityInLeftHand().parent.plural ? "are" : "is a");
+        }
+        else if (_character.hasSomethingInRightHand()) {
+            _blob += "</p><p>In your right {0} {2} {1}.".format(_character.getHand(), _character.getEntityInRightHand().parent.toString(), _character.getEntityInRightHand().parent.plural ? "are" : "is a");
+        }
+        
+        Content.add("<p>" + _blob + "</p>");
+    }
+    static startGame() {
+        PSDE.agreeTOS = true;
+        Menu.showingBaseMenu = true;
+        document.getElementById("gameControlsOptions").classList.remove("hidden");
+        if (PSDE.enableMinimap)
+            Minimap.generateMapFromStartRoom(PSDE.player.room);
+        
+        PSDE.clearContentAndMenu();
+        
+        Content.add("<p>Your name is " + PSDE.player.toString() + ", a " + PSDE.player.age + " year old " + (PSDE.player.getSex() == PSDE.kMale ? 'male' : 'female') + " " + PSDE.player.species + ".</p>");
+        
+        Menu.addOption("PSDE.roomInteract({0}, true)".format(PSDE.player.room.id), "Get a move on.");
+        Menu.generate();
+        
+        PSDE.updateTimeDisplay();
+        PSDE.updatePlayerInfoDisplay();
+    }
+    static quitGame() {
+        PSDE.clearContentAndMenu();
+        PSDE.close();
+    }
+    static switchCharacter(_character) {
+        if (!(_character instanceof Character))
+            _character = PSDE.getCharacterByID(_character);
+        
+        if (PSDE.player == _character)
+            Content.add("<p>You are already " + PSDE.player.toString() + "</p>");
+        else {
+            _pcPreviousRoom = PSDE.player.room
+            PSDE.player = _character;
+            if (!(PSDE.player.room instanceof Room))
+                PSDE.characterSetRoom(PSDE.player, PSDE.rooms.get("limbo"));
+            PSDE.player.sleeping = false;
+            
+            if (PSDE.enableMinimap && PSDE.player.room != _pcPreviousRoom) {
+                Minimap.generateMapFromStartRoom(PSDE.player.room);
+            }
+            
+            PSDE.updatePlayerInfoDisplay();
+            debugSwitchCharacter();
+        }
+    }
+    /**
+     * Resizes the GUI. If the Minimap is hidden by Bootstrap constrains, it is disabled, otherwise it is enabled.
+     */
+    static resizeGui() {
+        if (PSDE.enableDebug) console.log("Resizing GUI");
+
+        document.getElementById("rowMid").style.height = (document.body.offsetHeight - document.getElementById("rowBot").offsetHeight) + "px";
+        document.getElementById("rowBot").style.height = document.getElementById("rowBot").offsetHeight + "px";
+        document.getElementById("mapContentDisplay").style.height = document.getElementById("rowMid").offsetHeight - document.getElementById("locationContentDisplay").offsetHeight - 15 + "px";
+        document.getElementById("map").style.height = document.getElementById("mapContentDisplay").offsetHeight + "px";
+        
+        if (isHidden(document.getElementById("locationInfoContainer")))
+            document.getElementById("contentContainerHeadLocation").style.display = '';
+        else
+            document.getElementById("contentContainerHeadLocation").style.display = 'none';
+        
+        if (isHidden(document.getElementById("locationInfoContainer")))
+            PSDE.enableMinimap = false;
+        else
+            PSDE.enableMinimap = true;
+    }
+
+    /**
+     * Updates the in-game Time display
+     */
+    static updateTimeDisplay() {
+        for (var _i = 0; _i < document.getElementsByClassName('timeDisplay').length; _i++) {
+            document.getElementsByClassName('timeDisplay')[_i].innerHTML = unixTimeToDateString(PSDE.currentTime);
+        }
+    }
+    static updatePlayerInfoDisplay() {
+        document.getElementById("playerName").innerHTML = ("{0}{1}{2}".format(PSDE.player.name, PSDE.player.nickname != undefined ? ("(" + PSDE.player.nickanem + ")") : "", PSDE.player.surname != undefined ? (" " + PSDE.player.surname) : ""));
+        document.getElementById("playerMoney").innerHTML = (PSDE.player.money);
+
+        document.getElementById("playerLife").innerHTML = (PSDE.player.life);
+        document.getElementById("playerLifeMax").innerHTML = (PSDE.player.lifeMax);
+        if (PSDE.player.life < PSDE.player.lifeMax / 5) {
+            document.getElementById("playerLife").classList.add("text-danger");
+            document.getElementById("playerLife").classList.remove("text-warning");
+            document.getElementById("playerLife").classList.remove("text-primary");
+        }
+        else if (PSDE.player.life < PSDE.player.lifeMax / 2) {
+            document.getElementById("playerLife").classList.remove("text-danger");
+            document.getElementById("playerLife").classList.add("text-warning");
+            document.getElementById("playerLife").classList.remove("text-primary");
+        }
+        else {
+            document.getElementById("playerLife").classList.remove("text-danger");
+            document.getElementById("playerLife").classList.remove("text-warning");
+            document.getElementById("playerLife").classList.add("text-primary");
+        }
+
+        document.getElementById("playerStamina").innerHTML = (PSDE.player.stamina);
+        document.getElementById("playerStaminaMax").innerHTML = (PSDE.player.staminaMax);
+        if (PSDE.player.stamina < PSDE.player.staminaMax / 5) {
+            document.getElementById("playerStamina").classList.add("text-danger");
+            document.getElementById("playerStamina").classList.remove("text-warning");
+            document.getElementById("playerStamina").classList.remove("text-primary");
+        }
+        else if (PSDE.player.stamina < PSDE.player.staminaMax / 2) {
+            document.getElementById("playerStamina").classList.remove("text-danger");
+            document.getElementById("playerStamina").classList.add("text-warning");
+            document.getElementById("playerStamina").classList.remove("text-primary");
+        }
+        else {
+            document.getElementById("playerStamina").classList.remove("text-danger");
+            document.getElementById("playerStamina").classList.remove("text-warning");
+            document.getElementById("playerStamina").classList.add("text-primary");
+        }
+
+        if (PSDE.player.manaMax == 0)
+            document.getElementById("playerManaDisplay").classList.add("invisible");
+        else
+            document.getElementById("playerManaDisplay").classList.remove("invisible");
+        document.getElementById("playerMana").innerHTML = (PSDE.player.mana);
+        document.getElementById("playerManaMax").innerHTML = (PSDE.player.manaMax);
+        if (PSDE.player.mana < PSDE.player.manaMax / 5) {
+            document.getElementById("playerMana").classList.add("text-danger");
+            document.getElementById("playerMana").classList.remove("text-warning");
+            document.getElementById("playerMana").classList.remove("text-primary");
+        }
+        else if (PSDE.player.mana < PSDE.player.manaMax / 2) {
+            document.getElementById("playerMana").classList.remove("text-danger");
+            document.getElementById("playerMana").classList.add("text-warning");
+            document.getElementById("playerMana").classList.remove("text-primary");
+        }
+        else {
+            document.getElementById("playerMana").classList.remove("text-danger");
+            document.getElementById("playerMana").classList.remove("text-warning");
+            document.getElementById("playerMana").classList.add("text-primary");
+        }
+    }
+
+    static toggleDebug() {
+        PSDE.enableDebug = !PSDE.enableDebug;
+        document.getElementById("toggleDebugButton").innerHTML = (PSDE.enableDebug ? "Disable" : "Enable") + " Debugging";
+    }
+    static toggleInventoryModal() {
+        PSDE.enableModules = !PSDE.enableModules;
+        document.getElementById("toggleInventoryModalButton").innerHTML = (PSDE.enableModules ? "Use Menu Inventory" : "Use Popup Inventory");
+    }
+    static toggleMenuSize() {
+        Menu.useWideMenu ? PSDE.useNormalMenu() : PSDE.useWideMenu();
+        document.getElementById("toggleMenuSizeButton").innerHTML = "Use {0} Menu".format(Menu.useWideMenu ? "Normal" : "Wide");
+    }
+    static toggleAutoscroll() {
+        PSDE.enableAutoscroll = !PSDE.enableAutoscroll;
+        document.getElementById("toggleAutoscrollButton").innerHTML = (PSDE.enableAutoscroll ? "Disable" : "Enable") + " Autoscroll";
+    }
+    static toggleRape() {
+        PSDE.enableRape = !PSDE.enableRape;
+        document.getElementById("toggleRapeButton").innerHTML = (PSDE.enableRape ? "Disable" : "Enable") + " Non-Con";
+        
+        PSDE.characters.forEach(function(_character) {
+            if (PSDE.enableRape && _character.age >= 18)
+                _character.addAvailableAction("rape");
+            else
+                _character.removeAvailableAction("rape");
+        }, this);
+    }
+    static toggleGore() {
+        PSDE.enableGore = !PSDE.enableGore;
+        document.getElementById("toggleGoreButton").innerHTML = (PSDE.enableGore ? "Disable" : "Enable") + " Violence";
+    }
+    static setPOV(_int = 2) {
+        if (isNaN(_int)) {
+            Number.parseInt(_int);
+        }
+        switch (_int) {
+            case 1 : {
+                PSDE.pov = 1
+                break;
+            }
+            case 2 : {
+                PSDE.pov = 2;
+                break;
+            }
+            case 3 : {
+                PSDE.pov = 3;
+                break;
+            }
+            default : {
+                PSDE.pov = 2;
+            }
+        }
+    }
+
+
+    static subjectPronoun(_useName = false) {
+        return PSDE.pov == 1 ? "I" : PSDE.pov == 2 ? "you" : _useName ? PSDE.player.name : PSDE.player.objectPronoun();
+    }
+    static personalPronoun(_useName = false) {return PSDE.subjectPronoun(_useName);}
+    static objectPronoun(_useName = false) {
+        return PSDE.pov == 1 ? "me" : PSDE.pov == 2 ? "you" : _useName ? PSDE.player.name : PSDE.player.objectPronoun();
+    }
+    static objectPronounPlural() {
+        return PSDE.pov == 1 ? "us" : PSDE.pov == 2 ? "you" : "them";
+    }
+    static possessivePronoun(_useName = false) {
+        return PSDE.pov == 1 ? "mine" : PSDE.pov == 2 ? "yours" : _useName ? PSDE.player.singularPossesiveName() : PSDE.player.possessivePronoun();
+    }
+    static possessivePronounPlural() {
+        return PSDE.pov == 1 ? "ours" : PSDE.pov == 2 ? "yours" : "theirs";
+    }
+    static possessiveAdjective(_useName = false) {
+        return PSDE.pov == 1 ? "my" : PSDE.pov == 2 ? "your" : _useName ? PSDE.player.singularPossesiveName() : PSDE.player.possessiveAdjective();
+    }
+    static possessiveAdjectivePlural() {
+        return PSDE.pov == 1 ? "our" : PSDE.pov == 2 ? "your" : "their";
+    }
+    static reflexivePronoun() {
+        return PSDE.pov == 1 ? "myself" : PSDE.pov == 2 ? "yourself" : PSDE.player.reflexivePronoun();
+    }
+    static presentPerfectTense(_contraction, _useName = false) {
+        if (_contraction)
+            return PSDE.pov == 1 ? "I have" : PSDE.pov == 2 ? "you have" : _useName ? (PSDE.player.name + "has ") : "he has";
+        else
+            return PSDE.pov == 1 ? "I've" : PSDE.pov == 2 ? "you've" : _useName ? (PSDE.player.name + "has ") : "he's";
+    }
+    static presentContinuousTense(_contraction = false, _useName = false) {
+        if (_contraction)
+            return (PSDE.pov == 1 ? "I'm" : PSDE.pov == 2 ? "you're" : _useName ? (PSDE.player.name + " is") : (PSDE.player.subjectPronoun() + " is"));
+        else
+            return (PSDE.pov == 1 ? "I am" : PSDE.pov == 2 ? "you are" : _useName ? (PSDE.player.name + " is") : (PSDE.player.subjectPronoun() + " is"));
+    }
+
+    static _generateEntityItemsGraphicalList(_fromEntity = PSDE.player, _toEntity = undefined, _modify = false, _filter = undefined) {
+        if (!(_fromEntity instanceof Entity)) {
+            if (PSDE.entities.has(_fromEntity))
+                _fromEntity = PSDE.entities.get(_fromEntity);
+            else
+                return undefined;
+        }
+        if (!(_toEntity instanceof Entity)) {
+            if (PSDE.entities.has(_toEntity))
+                _toEntity = PSDE.entities.get(_toEntity);
+            else
+                _toEntity = undefined;
+        }
+
+        PSDE.lastMenu = "_generateEntityItemsGraphicalList({0}, {1}, {2}, {3})".format(_fromEntity.id, _toEntity instanceof Entity ? _toEntity.id : undefined, _modify ? "true" : "false", _filter);
+
+        var _body = "";
+        _fromEntity.items.forEach(function(_itemInstance) {
+            _body += "<div class='list-group'>";
+            _body += String(
+                    "<a href='#' class='list-group-item list-group-item-action' data-id='{2}' onclick='_generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(\"{2}\", \"{3}\", \"{4}\", \"{5}\")'><img src='{0}' class='float-left' style='max-height:64px; max-width:64px; height:64px; width:64px;' height='64px' width='64px'/>{1}</a>"
+                ).format(
+                    _itemInstance.parent.image,
+                    _itemInstance.parent.name,
+                    _itemInstance.id,
+                    _fromEntity.id,
+                    _toEntity instanceof Entity ? _toEntity.id : undefined,
+                    _filter
+                );
+            _body += "</div>";
+        }, this);
+        
+        return _body;
+    }
+    static _generateEntityItemsGraphicalListItemInstanceDescriptionPopulate(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+        if (!(_fromEntity instanceof Entity)) {
+            if (PSDE.entities.has(_fromEntity))
+                _fromEntity = PSDE.entities.get(_fromEntity);
+            else
+                return undefined;
+        }
+        if (!(_toEntity instanceof Entity)) {
+            if (PSDE.entities.has(_toEntity))
+                _toEntity = PSDE.entities.get(_toEntity);
+            else
+                _toEntity = undefined;
+        }
+        
+        PSDE.lastMenu = "_generateEntityItemsGraphicalListItemInstanceDescriptionPopulate('{0}', '{1}', '{2}', '{3}')".format(_itemInstance.id, _fromEntity.id, _toEntity instanceof Character ? _toEntity.id : undefined, _filter);
+        var _actionsBlob = "";
+        var _itemAction = "";
+
+        /**
+         * Move item from _fromEntity to _toEntity
+         */
+        if (_toEntity instanceof Entity)
+            _actionsBlob += Menu.createButton("_generateEntityItemsGraphicalMove('{0}', '{1}', '{2}', '{3}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id, _toEntity.id, _filter), _toEntity instanceof Character ? "Give to " + _toEntity.name : "Put in " + _toEntity.name);
+        /**
+         * Hold or Release item
+         */
+        if (_fromEntity instanceof Character && _fromEntity.hasHeldEntity(_itemInstance))
+            _actionsBlob += Menu.createButton("PSDE.itemInteractRelease('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Release");
+        else
+            _actionsBlob += Menu.createButton("PSDE.itemInteractHold('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Hold ");
+        /**
+         * Consume item
+         */
+        if (_itemInstance.parent instanceof Consumable) {
+            if (typeof _itemInstance.parent.type == "undefined" || _itemInstance.parent.type == "other")
+                _itemAction = "Consume";
+            else if (_itemInstance.parent.type == "drink")
+                _itemAction = "Drink";
+            else if (_itemInstance.parent.type == "food")
+                _itemAction = "Eat";
+            else if (_itemInstance.parent.type == "medicine")
+                _itemAction = "Consume";
+            _actionsBlob += Menu.createButton("PSDE.itemInteractConsume('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id), _itemAction);
+        }
+        /**
+         * Wear item
+         */
+        if (_itemInstance.parent instanceof Clothing) {
+            var _youWear = _fromEntity.isWearing(_itemInstance);
+            var _theyWear = _toEntity instanceof Character && _toEntity.isWearing(_itemInstance);
+            if (_youWear)
+                _actionsBlob += Menu.createButton("PSDE.itemInteractWear('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Disrobe yourself");
+            else if (_theyWear)
+                _actionsBlob += Menu.createButton("PSDE.itemInteractWear('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _toEntity.id), "Disrobe" + _toEntity.name);
+            else
+                _actionsBlob += Menu.createButton("PSDE.itemInteractWear('{0}', '{1}'); PSDE.runLastMenu()".format(_itemInstance.id, _fromEntity.id), "Wear");
+        }
+
+        var _blob = String(
+                "<h4>{0}</h4>" +
+                "<img src='{1}' class='center-block' style='max-height:64px; height:64px;'/>" +
+                "<blockquote>{2}</blockquote>" +
+                "<table class='table' style='position:absolute; bottom:0px; width:94%;'>" +
+                    "<tr><td colspan=2>{6}</td></tr>" +
+                    "<tr><td>Durability</td><td>{3}</td></tr>" +
+                    "<tr><td>Weight</td><td>{4}</td></tr>" +
+                    "<tr><td>Price</td><td>{5}</td></tr>" +
+                "</table>"
+            ).format(
+                _itemInstance.parent.name,
+                _itemInstance.parent.image,
+                _itemInstance.parent.description,
+                _itemInstance.durability,
+                _itemInstance.mass,
+                _itemInstance.price,
+                _actionsBlob
+            );
+
+        $("#personalInventoryModal-description").html(_blob);
+    }
+    static _generateEntityItemsGraphicalMove(_itemInstance = undefined, _fromEntity = undefined, _toEntity = undefined, _filter = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else if (_itemInstance instanceof Item)
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
+            else
+                return undefined;
+        }
+        if (!(_fromEntity instanceof Entity)) {
+            if (PSDE.entities.has(_fromEntity))
+                _fromEntity = PSDE.entities.get(_fromEntity);
+            else
+                return undefined;
+        }
+        if (!(_toEntity instanceof Entity)) {
+            if (PSDE.entities.has(_toEntity))
+                _toEntity = PSDE.entities.get(_toEntity);
+            else
+                return undefined;
+        }
+        
+        if (_fromEntity.give(_toEntity, _itemInstance)) {
+            var _lazyEntity = _fromEntity;
+            if (_lazyEntity == PSDE.player)
+                _lazyEntity = _toEntity;
+            $('#dualInventoryContent-characterA').html(_generateEntityItemsGraphicalList(PSDE.player, _lazyEntity, true));
+            $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_lazyEntity, PSDE.player, true));
+        }
+    }
+    static _generateEntityItemsMenuMove(_itemInstance, _fromEntity = undefined, _toEntity = undefined, _useLastMenu = false, _switch = false, _allowSwitch = true, _filter = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else if (_itemInstance instanceof Item)
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
+            else
+                return undefined;
+        }
+        if (typeof _fromEntity != "undefined" && !(_fromEntity instanceof Entity)) {
+            if (PSDE.entities.has(_fromEntity))
+                _fromEntity = PSDE.entities.get(_fromEntity);
+            else
+                _fromEntity = undefined;
+        }
+        if (!(_toEntity instanceof Entity)) {
+            if (PSDE.entities.has(_toEntity))
+                _toEntity = PSDE.entities.get(_toEntity);
+            else
+                return undefined;
+        }
+        if (PSDE.enableDebug) console.log("Executing _generateEntityItemsMenuMove({0}, {1}, {2}, {3}, {4}, {5}, {6})".format(_itemInstance.parent.id, _fromEntity.id, _toEntity.id, _useLastMenu ? "true" : "false", _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter ? _filter : "undefined"));
+        var _gaveItem = false;
+        if (_switch) {
+            if (PSDE.enableDebug) console.log("  Switch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.parent.id, _toEntity.id));
+            _gaveItem = _fromEntity.give(_toEntity, _itemInstance);
+        }
+        else {
+            if (PSDE.enableDebug) console.log("  NoSwitch: {0} is giving {1} to {2}".format(_fromEntity.id, _itemInstance.parent.id, _toEntity.id));
+            _gaveItem = _fromEntity.give(_toEntity, _itemInstance);
+        }
+        if (PSDE.enableDebug) console.log("  _gaveItem : {0}".format(_gaveItem ? "true" : "false"));
+        if (_gaveItem && PSDE._interruptMenu) {
+            PSDE._interruptMenu = false;
+            return true;
+        }
+        
+        if (_gaveItem) {
+            if (PSDE.enableDebug) console.log("  Gave {0} to {1}".format(_itemInstance.parent.id, _toEntity.id));
+            if (_switch) {
+                if (_toEntity instanceof Character)
+                    PSDE.characterInteractOpen(_toEntity, _switch, _allowSwitch, _filter, false);
+                else if (_toEntity instanceof Furniture)
+                    PSDE.furnitureInteractOpen(_toEntity, _switch, _allowSwitch, _filter, false);
+            }
+            else {
+                if (_fromEntity instanceof Character)
+                    PSDE.characterInteractOpen(_fromEntity, _switch, _allowSwitch, _filter, false);
+                else if (_fromEntity instanceof Furniture)
+                    PSDE.furnitureInteractOpen(_fromEntity, _switch, _allowSwitch, _filter, false);
+            }
+            
+            if (_toEntity == PSDE.player) {
+                if (_fromEntity instanceof Character)
+                    Content.add("<p>{0} take{1} the {2} from {3}.</p>".format(PSDE.subjectPronoun(true).capitalize(), PSDE.pov == 3 ? "s" : "", _itemInstance.parent.toString(), _fromEntity.toString()));
+                else if (_fromEntity instanceof Furniture)
+                    Content.add("<p>{0} take{1} the {2} from the {3}.</p>".format(PSDE.subjectPronoun(true).capitalize(), PSDE.pov == 3 ? "s" : "", _itemInstance.parent.toString(), _fromEntity.toString()));
+            }
+        }
+        return _gaveItem;
+    }
+
+    /**
+     * Finds the PhoneInstance from itself, its String ID, the Character which has it, or the String ID of the Character which has it
+     * @param  {String, PhoneInstance, Character} _blob The thing to search
+     * @return {PhoneInstance}       PhoneInstance
+     */
+    static findPhone(_blob) {
+        if (!(_blob instanceof PhoneInstance)) {
+            if (PSDE.phoneInstances.has(_blob))
+                return PSDE.phoneInstances.get(_blob);
+            else if (_blob instanceof Character) {
+                if (_blob.phone instanceof PhoneInstance)
+                    return _blob.phone;
+                else
+                    return undefined;
+            }
+            else if (PSDE.characters.has(_blob)) {
+                _blob = PSDE.getCharacterByID(_blob);
+                if (_blob.phone instanceof PhoneInstance)
+                    return _blob.phone;
+                else
+                    return undefined;
+            }
+            else
+                return undefined;
+        }
+        else
+            return _blob;
+    }
+
+    /**
+     * Clears the Content and Menu.
+     */
+    static clearContentAndMenu() {
+        Menu.clear();
+        Content.clear();
+        Menu.clear();
+    }
+    /**
+     * Moves a Character to the specified Room.
+     * @param Character _character
+     * @param Room _room
+     * @return Boolean Whether or not the Character was moved to the Room.
+     */
+    static characterSetRoom(_character = PSDE.player, _room) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.get(_room);
+        
+        if (PSDE.enableDebug) console.log("Executing PSDE.characterSetRoom({0}, {1})".format(_character.id, _room.id));
+        
+        if (_character.room != _room) {
+            _character.moveToRoom(_room);
+            
+            if (_character.hasFollowers) {
+                _character.followers.forEach(function(_follower) {
+                    if (_follower.room == _character.previousRoom || _follower.room == _character.room)
+                        PSDE.characterSetRoom(_follower, _room);
+                    else
+                        PSDE.characterPathes.set(_follower, PSDE._findPathToRoom(_follower.room, _room));
+                }, this);
+            }
+            
+            if (PSDE.characterPathes.has(_character))
+                _character.walk();
+            else
+                _character.stand();
+            
+            if (_character != PSDE.player) {
+                if (PSDE.enableDebug) console.log("Checking for room events.");
+                PSDE.events.forEach(function(_event) {
+                    if (
+                        typeof _event.cron == 'undefined' &&
+                        (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
+                        (typeof _event.characterB == 'undefined' || _character.room.containsCharacter(_event.characterB)) &&
+                        _character.room == _event.room &&
+                        (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
+                    ) {
+                        _event.execute();
+                    }
+                }, this);
+            }
+            else
+                PSDE.tick("2m");
+        }
+        
+        return _character.room == _room;
+    }
+    /**
+     * Passes time.
+     * @param String time Amount of time to pass. If passed an integer, will treat it as seconds. "30s" will pass 30 seconds, "30m" will pass 30 minutes, "24h" will pass 24 hours, and "2d" will pass 2 days, in-game time.
+     * @param Boolean _updateMinimap Update the Minimap, if it's enabled.
+     * @param Boolean _runLastMenu Return to (run again) the last-used menu.
+     * @return Date The current time, in-game.
+     */
+    static tick(time, _updateMinimap = true, _runLastMenu = false, _clearEventsExecutedThisTick = true) {
+        var _newTime = new Date(PSDE.currentTime);
+        
+        if (typeof _updateMinimap != "boolean")
+            _updateMinimap = true;
+        if (typeof _runLastMenu != "boolean")
+            _runLastMenu = false;
+        if (typeof _clearEventsExecutedThisTick != "boolean")
+            _clearEventsExecutedThisTick = true;
+        
+        if (PSDE.enableDebug) console.log("Executing PSDE.tick({0}, {1}, {2})".format(time, _updateMinimap ? "true" : "false", _runLastMenu ? "true" : "false"));
+
+        if (Number.isInteger(time))
+            _newTime.addSeconds(time);
+        else {
+            var number = Number.parseInt(time.slice(0, -1));
+            if (Number.isInteger(number) && number > 0) {
+                switch (time.slice(-1).toLowerCase()) {
+                    case "s" : {
+                        _newTime.addSeconds(number);
+                        break;
+                    }
+                    case "m" : {
+                        _newTime.addMinutes(number);
+                        break;
+                    }
+                    case "h" : {
+                        _newTime.addHours(number);
+                        break;
+                    }
+                    case "d" : {
+                        _newTime.addDate(number);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (_newTime instanceof Date) {
+            while (PSDE.currentTime < _newTime) {
+                PSDE.previousTime = PSDE.currentTime;
+                PSDE.currentTime.addMinutes(1);
+                
+                if (PSDE.currentTime.getSeconds() == 0) {
+                    if (PSDE.characterPathes.size > 0) {
+                        PSDE.characterPathes.forEach(function(_rooms, _character) {
+                            if (_rooms.size > 0) {
+                                var _room = _rooms.values().next().value;
+                                if (!_character.room.isLocked(_room) || _character.hasKey(_room)) {
+                                    PSDE.characterSetRoom(_character, _room);
+                                    _rooms.delete(_room);
+                                }
+                                else
+                                    PSDE.characterPathes.delete(_character);
+                            }
+                            else
+                                PSDE.characterPathes.delete(_character);
+                        }, this);
+                    }
+                }
+                
+                if (PSDE.enableDebug) console.log("Checking for cron events.");
+                
+                PSDE.events.forEach(function(_event) {
+                    if (
+                        _event.cron instanceof Cron &&
+                        (
+                            (typeof _event.location == 'undefined' || (_event.characterA instanceof Character && (_event.characterA.location == _event.location || _event.characterA.cell.location == _event.location))) &&
+                            (typeof _event.cell == 'undefined' || (_event.characterA instanceof Character && _event.characterA.cell == _event.cell)) &&
+                            (typeof _event.room == 'undefined' || (_event.characterA instanceof Character && _event.characterA.room == _event.room))
+                        ) &&
+                        (
+                            (typeof _event.cron.year == 'undefined' || (_event.cron.containsYear(PSDE.currentTime))) &&
+                            (typeof _event.cron.month == 'undefined' || (_event.cron.containsMonth(PSDE.currentTime))) &&
+                            (typeof _event.cron.dom == 'undefined' || (_event.cron.containsDOM(PSDE.currentTime))) &&
+                            (typeof _event.cron.dow == 'undefined' || (_event.cron.containsDOW(PSDE.currentTime))) &&
+                            (typeof _event.cron.hours == 'undefined' || (_event.cron.containsHours(PSDE.currentTime))) &&
+                            (typeof _event.cron.minutes == 'undefined' || (_event.cron.containsMinutes(PSDE.currentTime)))
+                        )
+                    ) {
+                        if (PSDE.enableDebug) console.log("EVENT: {0} : {1} == {2} ? ".format(_event.id, PSDE.currentTime.getDay(), _event.cron.dow));
+                        _event.execute();
+                    }
+                }, this);
+            }
+        }
+        
+        PSDE.updateTimeDisplay();
+        PSDE.updatePlayerInfoDisplay();
+        
+        if (PSDE.enableMinimap && _updateMinimap)
+            Minimap.generateMapFromStartRoom(PSDE.player.room);
+        if (_runLastMenu)
+            PSDE.runLastMenu();
+
+        if (_clearEventsExecutedThisTick)
+            PSDE._eventsExecutedThisTick.clear();
+        return PSDE.currentTime;
+    }
+    /**
+     * Creates path from Cell(1) to Cell(2), excluding an optional Set of Cell(s)
+     * @param Cell _startCell
+     * @param Cell _targetCell
+     * @param Set<Cell> _excludeCells
+     * @return Set<Cell> Set of Cell(s) that follow a linear path, or undefined
+     */
+    static _findPathFromCellToCell(_startCell, _targetCell, _excludeCells = new Set()) {
+        if (!(_startCell instanceof Cell))
+            _startCell = PSDE.cells.get(_startCell);
+        
+        if (!(_targetCell instanceof Cell))
+            _targetCell = PSDE.cells.get(_targetCell);
+        
+        if (!_startCell instanceof Cell || !_targetCell instanceof Cell) {
+            if (PSDE.enableDebug) {
+                if (!_startCell instanceof Cell &&  !_targetCell instanceof Cell)
+                    console.log("\tStart and Target cells aren't instance of Cell");
+                else if (!_startCell instanceof Cell)
+                    console.log("\tStart cell isn't an instance of Cell.");
+                else
+                    console.log("\tTarget cell isn't an instance of Cell.");
+            }
+            return undefined;
+        }
+        
+        if (_startCell == _targetCell)
+            return new Set();
+        
+        var _openList = new Set();
+        var _closedList = _excludeCells;
+        var _child = new Map();
+        var _timeout = 0;
+        
+        if (_startCell != _targetCell) {
+            _openList.add(_startCell);
+            
+            while (_openList.size > 0 && _timeout < 511) {
+                var _currentCell = _openList.values().next().value;
+                
+                if (_currentCell == _targetCell) {
+                    var cur = _currentCell;
+                    var ret = [];
+                    while (_child.has(_currentCell)) {
+                        ret.push(_currentCell);
+                        _currentCell = _child.get(_currentCell);
+                    }
+                    return ret.reverse();
+                }
+                
+                _openList.delete(_currentCell);
+                _closedList.add(_currentCell);
+                
+                _currentCell.cells.forEach(function(_neighbor) {
+                    if (_closedList.has(_neighbor))
+                        return undefined;
+                    
+                    if (!_openList.has(_neighbor))
+                        _openList.add(_neighbor);
+                    
+                    _child.set(_neighbor, _currentCell);
+                }, this);
+                
+                _timeout++;
+            }
+        }
+        
+        return undefined;
+    }
+    /**
+     * Creates path from Room(1) to Room(2), which share a Cell, excluding an optional Set of Room(s)
+     * @param Room _startRoom
+     * @param Room _targetRoom
+     * @param Set<Room> _excludeRooms
+     * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
+     */
+    static _findPathFromRoomToRoom(_startRoom, _targetRoom, _excludeRooms = new Set()) {
+        if (!(_startRoom instanceof Room))
+            _startRoom = PSDE.rooms.get(_startRoom);
+        
+        if (!(_targetRoom instanceof Room))
+            _targetRoom = PSDE.rooms.get(_targetRoom);
+        
+        if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
+            return undefined;
+        
+        if (_startRoom.cell != _targetRoom.cell)
+            return undefined;
+        
+        var _openList = new Set();
+        var _closedList = _excludeRooms;
+        var _child = new Map();
+        var _timeout = 0;
+        
+        _openList.add(_startRoom);
+        
+        while (_openList.size > 0 && _timeout < 511) {
+            var _currentRoom = _openList.values().next().value;
+            
+            if (_currentRoom == _targetRoom) {
+                var cur = _currentRoom;
+                var ret = [];
+                while (_child.has(_currentRoom)) {
+                    ret.push(_currentRoom);
+                    _currentRoom = _child.get(_currentRoom);
+                }
+                return new Set(ret.reverse());
+            }
+            
+            _openList.delete(_currentRoom);
+            _closedList.add(_currentRoom);
+            
+            _currentRoom.attachedRooms.forEach(function(_neighbor) {
+                if (_closedList.has(_neighbor))
+                    return undefined;
+                
+                var _gScore = Math.abs(_currentRoom.x - _startRoom.x) + Math.abs(_currentRoom.y - _startRoom.x) + 1;
+                var _gScoreIsBest = false;
+                
+                if (!_openList.has(_neighbor)) {
+                    _gScoreIsBest = true;
+                    _openList.add(_neighbor);
+                }
+                else if (_gScore < (Math.abs(_neighbor.x - _startRoom.x) + Math.abs(_neighbor.y - _startRoom.x))) {
+                    _gScoreIsBest = true;
+                }
+                
+                if (_gScoreIsBest) {
+                    _child.set(_neighbor, _currentRoom);
+                }
+            }, this);
+            
+            _timeout++;
+        }
+        
+        return undefined;
+    }
+    /**
+     * Creates path from Room(1) to Room(2), which may or may no share a Cell, excluding an optional Set of Room(s) and an optional Set of Cell(s)
+     * @param Room _startRoom
+     * @param Room _targetRoom
+     * @param Set<Room> _excludeRooms
+     * @param Set<Cell> _excludeCells
+     * @return Set<Room> Set of Room(s) that follow a linear path, or undefined
+     */
+    static _findPathToRoom(_startRoom, _targetRoom, _excludeRooms = new Set(), _excludeCells = new Set()) {
+        if (!(_startRoom instanceof Room))
+            _startRoom = PSDE.rooms.get(_startRoom);
+        
+        if (!(_targetRoom instanceof Room))
+            _targetRoom = PSDE.rooms.get(_targetRoom);
+        
+        if (!_startRoom instanceof Room || !_targetRoom instanceof Room)
+            return undefined;
+        
+        if (_startRoom.cell != _targetRoom.cell) {
+            var _cellPath = PSDE._findPathFromCellToCell(_startRoom.cell, _targetRoom.cell);
+            var _roomPath = new Array();
+            var _cTargetRoom = undefined;
+            var _cRoom = _startRoom;
+            var _nRoom = undefined;
+            var _cCell = _startRoom.cell;
+            var _pCells = new Set();
+            var _i = 1;
+            
+            if (_cellPath.size == 0)
+                return undefined;
+            
+            Array.from(_cRoom.cell.gateways).some(function(_room) {
+                _pCells.add(_room.cell);
+                Array.from(_room.attachedRooms.values()).some(function(__room) {
+                    _pCells.add(__room.cell);
+                    if (__room.cell == _cellPath[0]) {
+                        _cTargetRoom = _room;
+                        _nRoom = __room;
+                        
+                        return true;
+                    }
+                }, this);
+            }, this);
+            
+            if (_cRoom != _cTargetRoom)
+                _roomPath = _roomPath.concat(Array.from(PSDE._findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+            
+            _roomPath = _roomPath.concat(_nRoom);
+            _cRoom = _nRoom;
+            
+            while (_cRoom != _targetRoom && _i < 511) {
+                if (_cRoom.cell != _targetRoom.cell) {
+                    Array.from(_cRoom.cell.gateways).some(function(_room) {
+                        return Array.from(_room.attachedRooms.values()).some(function(__room) {
+                            if (!_pCells.has(__room.cell) && __room.cell == _cellPath[_i]) {
+                                _cTargetRoom = _room;
+                                _nRoom = __room;
+                                
+                                return true;
+                            }
+                        }, this);
+                    }, this);
+                    
+                    _roomPath = _roomPath.concat(Array.from(PSDE._findPathFromRoomToRoom(_cRoom, _cTargetRoom)));
+                    _roomPath = _roomPath.concat(_nRoom);
+                    _cRoom = _nRoom;
+                    
+                    _i++;
+                }
+                else {
+                    _roomPath = _roomPath.concat(Array.from(PSDE._findPathFromRoomToRoom(_cRoom, _targetRoom)));
+                    _cRoom = _targetRoom;
+                }
+            }
+            
+            return new Set(_roomPath);
+        }
+        else
+            return PSDE._findPathFromRoomToRoom(_startRoom, _targetRoom);
+    }
+    /**
+     * Moves Character in a path from their current room to target Room.
+     * @param Character _character
+     * @param Room _targetRoom
+     * @return Boolean Whether or not the path is available, or undefined if the Character or Room are invalid.
+     */
+    static setCharacterPath(_character, _targetRoom) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+        if (!(_targetRoom instanceof Room)) {
+            if (typeof _targetRoom == "string" && PSDE.rooms.has(_targetRoom))
+                _targetRoom = PSDE.rooms.has(_targetRoom) ? PSDE.rooms.get(_targetRoom) : undefined;
+            else if (_targetRoom instanceof Character) {
+                _targetRoom = _targetRoom.room instanceof Room ? _targetRoom.room : undefined;
+            }
+            else if (PSDE.characters.has(_targetRoom)) {
+                var _character = PSDE.getCharacterByID(_targetRoom);
+                _targetRoom = _character.room instanceof Room ? _character.room : undefined;
+            }
+            else
+                _targetRoom = undefined;
+        }
+        
+        if (typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
+            return undefined;
+        
+        return PSDE.characterPathes.set(_character, PSDE._findPathToRoom(_character.room, _targetRoom));
+    }
+    /**
+     * Moves Character in a path from their current Room to the target Room at the specific Cron time.
+     * @param {String} _id Unique ID
+     * @param {Character} _character
+     * @param {Room} _targetRoom
+     * @param {Cron} _cron
+     * @param {Boolean} _runOnce
+     */
+    static setCharacterRoomScheduleEvent(_id = undefined, _character, _targetRoom, _cron, _function, _runOnce = true) {
+        if (_id == undefined)
+            _id = "{0}{1}CharacterSchedule{2}Event".format(_character.id, _targetRoom.id.capitalize(), PSDE.events.size);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
+        if (!(_targetRoom instanceof Room))
+            _targetRoom = PSDE.rooms.get(_targetRoom);
+        if (!(_cron instanceof Cron))
+            return undefined;
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+        
+        if (!(_character instanceof Character) || !(_targetRoom instanceof Room))
+            return undefined;
+        
+        return new GameEvent(
+            _id,        // _id
+            undefined,  // _action
+            undefined,  // _characterA
+            undefined,  // _characterB
+            undefined,  // _item
+            undefined,  // _location
+            undefined,  // _cell
+            undefined,  // _room
+            _cron,      // _cron
+            "PSDE.setCharacterPath({0}, {1}) {2}".format(_character.id, _targetRoom.id, (_function != undefined && _function.length > 2 ? ";" + _function : "")), // _nextFunction
+            _runOnce    // _runOnce
+        );
+    }
+    /**
+     * Event triggered when Character(1) meets Character(2) {somewhere} with Item
+     * @param {String} _id Unique ID
+     * @param {Character} _characterA Primary Character
+     * @param {Character} _characterB Secondary Character
+     * @param {Location, Cell, Room} _place      Location, Cell, or Room
+     * @param {Item} _item       Optional Item
+     * @param {Function} _function Function to run
+     * @param {Boolean} _runOnce Run once
+     */
+    static setCharactersPlaceItemEvent(_id = undefined, _characterA, _characterB, _place, _item, _function = undefined, _runOnce = true) {
+        if (_id == undefined)
+            _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
+        if (!(_item instanceof Item)) {
+            if (PSDE.items.has(_item))
+                _item = PSDE.items.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.parent;
+            else if (PSDE.itemInstances.has(_item))
+                _item = PSDE.itemInstances.get(_item);
+            else
+                _item = undefined;
+        }
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+
+        if (_characterA == undefined || _characterB == undefined || _function == undefined)
+            return undefined;
+
+        if (_room instanceof Room)
+            return PSDE.setCharacterMeetinRoomEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+        else if (PSDE.rooms.has(_place))
+            return PSDE.setCharacterMeetinRoomEvent(_id, _characterA, _characterB, PSDE.rooms.get(_place), _item, _function, _runOnce);
+        else if (_place instanceof Cell)
+            return PSDE.setCharacterMeetinCellEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+        else if (PSDE.cells.has(_place))
+            return PSDE.setCharacterMeetinCellEvent(_id, _characterA, _characterB, PSDE.cells.get(_place), _item, _function, _runOnce);
+        else if (_place instanceof Location)
+            return PSDE.setCharacterMeetinLocationEvent(_id, _characterA, _characterB, _place, _item, _function, _runOnce);
+        else if (PSDE.locations.has(_place))
+            return PSDE.setCharacterMeetinLocationEvent(_id, _characterA, _characterB, PSDE.locations.get(_place), _item, _function, _runOnce);
+        else
+            return undefined;
+    }
+    /**
+     * Event triggered when Character(1) meets Character(2) in Room with Item
+     * @param {String} _id Unique ID
+     * @param {Character} _characterA Primary Character
+     * @param {Character} _characterB Secondary Character
+     * @param {Room} _room      Room
+     * @param {Item} _item       Optional Item
+     * @param {Function} _function Function to run
+     * @param {Boolean} _runOnce Run once
+     */
+    static setCharactersRoomItemEvent(_id = undefined, _characterA, _characterB, _room, _item, _function, _runOnce = true) {
+        if (_id == undefined)
+            _id = "{0}{1}{2}{3}CharacterMeetingRoomEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
+        if (!(_item instanceof Item)) {
+            if (PSDE.items.has(_item))
+                _item = PSDE.items.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.parent;
+            else if (PSDE.itemInstances.has(_item))
+                _item = PSDE.itemInstances.get(_item);
+            else
+                _item = undefined;
+        }
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+
+        if (_characterA == undefined || _characterB == undefined || _room == undefined || _function == undefined)
+            return undefined;
+
+        return new GameEvent(
+            _id,
+            undefined,
+            _characterA,
+            _characterB,
+            _item,
+            undefined,
+            undefined,
+            _room,
+            undefined,
+            _function,
+            _runOnce
+        );
+    }
+    /**
+     * Event triggered when Character(1) meets Character(2) in Cell with Item
+     * @param {String} _id Unique ID
+     * @param {Character} _characterA Primary Character
+     * @param {Character} _characterB Secondary Character
+     * @param {Cell} _cell      Cell
+     * @param {Item} _item       Optional Item
+     * @param {Function} _function Function to run
+     * @param {Boolean} _runOnce Run once
+     */
+    static setCharactersCellItemEvent(_id = undefined, _characterA, _characterB, _cell, _item, _function, _runOnce = true) {
+        if (_id == undefined)
+            _id = "{0}{1}{2}{3}CharacterMeetingCellEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
+        if (!(_item instanceof Item)) {
+            if (PSDE.items.has(_item))
+                _item = PSDE.items.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.parent;
+            else if (PSDE.itemInstances.has(_item))
+                _item = PSDE.itemInstances.get(_item);
+            else
+                _item = undefined;
+        }
+        if (!(_cell instanceof Cell))
+            _cell = PSDE.cells.has(_cell) ? PSDE.cells.get(_cell) : undefined;
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+
+        if (_characterA == undefined || _characterB == undefined || _cell == undefined || _function == undefined)
+            return undefined;
+
+        return new GameEvent(
+            _id,
+            undefined,
+            _characterA,
+            _characterB,
+            _item,
+            undefined,
+            _cell,
+            undefined,
+            undefined,
+            _function,
+            _runOnce
+        );
+    }
+    /**
+     * Event triggered when Character(1) meets Character(2) at Cell with Item
+     * @param {String} _id Unique ID
+     * @param {Character} _characterA Primary Character
+     * @param {Character} _characterB Secondary Character
+     * @param {Location} _location      Location
+     * @param {Item} _item       Optional Item
+     * @param {Function} _function Function to run
+     * @param {Boolean} _runOnce Run once
+     */
+    static setCharactersLocationItemEvent(_id = undefined, _characterA, _characterB, _location, _item, _function, _runOnce = true) {
+        if (_id == undefined)
+            _id = "{0}{1}{2}{3}CharacterMeetingLocationEvent".format(_characterA.id, _characterB.id.capitalize(), _room.id.capitalize(), _item.id.capitalize());
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
+        if (!(_item instanceof Item)) {
+            if (PSDE.items.has(_item))
+                _item = PSDE.items.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.parent;
+            else if (PSDE.itemInstances.has(_item))
+                _item = PSDE.itemInstances.get(_item);
+            else
+                _item = undefined;
+        }
+        if (!(_location instanceof Location))
+            _location = PSDE.locations.has(_location) ? PSDE.locations.get(_location) : undefined;
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+
+        if (_characterA == undefined || _characterB == undefined || _location == undefined || _function == undefined)
+            return undefined;
+
+        return new GameEvent(
+            _id,
+            undefined,
+            _characterA,
+            _characterB,
+            _item,
+            _location,
+            undefined,
+            undefined,
+            undefined,
+            _function,
+            _runOnce
+        );
+    }
+    /**
+     * Triggers Function at the specific Cron time
+     * @param {String} _id Unique ID
+     * @param {String} _nextFunction
+     * @param {Cron} _cron
+     * @param {Boolean} _runOnce
+     */
+    static setTimedFunctionEvent(_id = undefined, _nextFunction, _cron, _runOnce = true) {
+        if (_id == undefined)
+            _id = "miscTimeFunction{0}Event".format(PSDE.events.size);
+        if (!(_cron instanceof Cron))
+            return undefined;
+        if (typeof _runOnce != "boolean")
+            _runOnce = true;
+        
+        return new GameEvent(_id, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _cron, _nextFunction, _runOnce);
+    }
+
+    /**
+     * Returns to (runs again) the last-used menu.
+     */
+    static runLastMenu() {
+        fn = new Function(PSDE.lastMenu);
+        try {return fn();}catch (err) {}
+    }
+
+    /**
+     * Hides all Bootstrap Modals
+     */
+    static hideModals() {
+        $("#webModal").modal("hide");
+        $("#optionsModal").modal("hide");
+        $("#helpModal").modal("hide");
+        $("#aboutModal").modal("hide");
+        $("#personalInventoryModal").modal("hide");
+        $("#dualInventoryModal").modal("hide");
+    }
+
+    /**
+     * Lock access to the second Room from the first Room.
+     * @param {Room} _roomA
+     * @param {Room} _roomB
+     * @return {Boolean} Whether or not the Room was locked, or undefined
+     */
+    static _lockRoom(_roomA, _roomB) {
+        if (!(_roomA instanceof Room))
+            _roomA = PSDE.rooms.has(_roomA) ? PSDE.rooms.get(_roomA) : undefined;
+        if (!(_roomB instanceof Room))
+            _roomB = PSDE.rooms.has(_roomB) ? PSDE.rooms.get(_roomB) : undefined;
+
+        if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
+            return undefined;
+
+        if (!_roomA.attachedRooms.flip().has(_roomB))
+            return undefined;
+        else
+            _roomB.lock(_roomA);
+
+        Minimap.generateMapFromStartRoom(PSDE.player.room);
+    }
+    /**
+     * Unlock access to the Room(2) from Room(1).
+     * @param {Room} _roomA
+     * @param {Room} _roomB
+     * @return {Boolean} Whether or not the Room was unlocked, or undefined
+     */
+    static _unlockRoom(_roomA, _roomB) {
+        if (!(_roomA instanceof Room))
+            _roomA = PSDE.rooms.has(_roomA) ? PSDE.rooms.get(_roomA) : undefined;
+        if (!(_roomB instanceof Room))
+            _roomB = PSDE.rooms.has(_roomB) ? PSDE.rooms.get(_roomB) : undefined;
+
+        if (!(_roomA instanceof Room) || !(_roomB instanceof Room))
+            return undefined;
+
+        if (!_roomA.attachedRooms.flip().has(_roomB))
+            return undefined;
+        else
+            _roomB.unlock(_roomA);
+
+        if (PSDE.player.room.cell == _roomB.cell && PSDE.enableMinimap)
+            Minimap.generateMapFromStartRoom(PSDE.player.room);
+    }
+    /**
+     * Locks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
+     * @param {Room} _room
+     * @return {Boolean} Whether or not the Room was locked, or undefined
+     */
+    static roomLockFromInside(_room) {
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+        
+        if (typeof _room == "undefined")
+            return undefined;
+        
+        var _wasLocked = false;
+        if (_room.attachedRooms.size > 1) {
+            _room.attachedRooms.forEach(function(__room) {
+                if (__room.type == "hallway") {
+                    _wasLocked = true;
+                    PSDE._lockRoom(__room, _room);
+                }
+            }, this);
+        }
+        else if (_room.attachedRooms.size == 1) {
+            var __room = Array.from(_room.attachedRooms.values())[0];
+            if (__room.type != "hallway") {
+                _wasLocked = true;
+                PSDE._lockRoom(__room, _room);
+            }
+        }
+        
+        return _wasLocked;
+    }
+    /**
+     * Unlocks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
+     * @param {Room} _room
+     * @return {Boolean} Whether or not the Room was unlocked, or undefined
+     */
+    static roomUnlockFromInside(_room) {
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+        
+        if (typeof _room == "undefined")
+            return undefined;
+        
+        var _wasUnlocked = false;
+        if (_room.attachedRooms.size > 1) {
+            _room.attachedRooms.forEach(function(__room) {
+                if (__room.type == "hallway") {
+                    _wasUnlocked = true;
+                    PSDE._unlockRoom(__room, _room);
+                }
+            }, this);
+        }
+        else if (_room.attachedRooms.size == 1) {
+            var __room = Array.from(_room.attachedRooms.values())[0];
+            if (__room.type != "hallway") {
+                _wasUnlocked = true;
+                PSDE._unlockRoom(__room, _room);
+            }
+        }
+        
+        return _wasUnlocked;
+    }
+    /**
+     * Locks access to the Room from the Character's Room, if the Character has the key to the Room.
+     * @param {Room} _room
+     * @param {Character} _character
+     * @return {Boolean} Whether or not the Room was locked, or undefined
+     */
+    static roomLockFromOutside(_room, _character = PSDE.player) {
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
+        
+        if (typeof _room == "undefined" || typeof _character == "undefined")
+            return undefined;
+        
+        if (!_character.hasKey(_room))
+            return false;
+
+        return PSDE._lockRoom(_character.room, _room);
+    }
+    /**
+     * Unlocks access to the Room from the Character's Room, if the Character has the key to the Room.
+     * @param {Room} _room
+     * @param {Character} _character
+     * @return {Boolean} Whether or not the Room was unlocked, or undefined
+     */
+    static roomUnlockFromOutside(_room, _character = PSDE.player) {
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
+        
+        if (typeof _room == "undefined" || typeof _character == "undefined")
+            return undefined;
+        
+        if (!_character.hasKey(_room))
+            return false;
+
+        return PSDE._unlockRoom(_character.room, _room);
+    }
+
+    /**
+     * Adds all Item(s) to the specified Character
+     * @param {Character} _character Character to PSDE.add all Item(s) to, defaults to Player
+     * @param {Boolean} _execEvents Whether or not to execute Item-specified GameEvent(s), defaults to True
+     * @return {Boolean}
+     */
+    static addAllItems(_character = PSDE.player, _execEvents = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+        if (!(typeof _execEvents == 'boolean'))
+            _execEvents = true;
+
+        PSDE.items.forEach(function(_item) {
+            if (_item instanceof BodyPart || _item instanceof BodyPartInstance)
+                return undefined;
+            _character.addItem(new ItemInstance(undefined, _item, _character));
+        }, this);
+
+        return true;
+    }
+    /**
+     * Adds all known Locations(s) to the specified Character
+     * @param {Character} _character Character to PSDE.add all known Location(s) to, defaults to Player
+     * @return {Boolean}
+     */
+    static addAllLocations(_character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+
+        PSDE.locations.forEach(function(_location) {
+            _character.addKnownLocation(_location);
+        }, this);
+
+        return true;
+    }
+    /**
+     * Adds all known Spell(s) to the specified Character
+     * @param {Character} _character Character to PSDE.add all known Spell(s) to, defaults to Player
+     * @return {Boolean}
+     */
+    static addAllSpells(_character = PSDE.player, _execEvents = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+
+        PSDE.spells.forEach(function(_spell) {
+            _character.addSpell(_spell);
+        }, this);
+
+        return true;
+    }
+
+    /**
+     * Chance for Character(2) to have sex with Character(1)
+     * @param {Character} _characterA Character requesting
+     * @param {Character} _characterB Character respoding to request
+     * @return {Number}, or undefined
+     */
+    static calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
+        
+        if (typeof _characterA == 'undefined')
+            return undefined;
+        
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
+        
+        if (typeof _characterB == 'undefined')
+            return undefined;
+        
+        return _characterA.calculateChanceToFuck(_characterB, _ignoreLustAndRut);
+    }
+    /**
+     * Rolls a number between 1 and _sides, multiplied by _times, and incremented by _addition
+     * @param  {Number} _times Multiplier
+     * @param  {Number} _sides Max number per _times
+     * @param  {Number} _addition To be PSDE.added to the result
+     * @return {Number}        Result
+     */
+    static roll(_times = 1, _sides = 2, _addition = 0) {
+        if (typeof _times == "string" && _times.indexOf('d') > -1) {
+            var _split = _times.split('d');
+            if (_split.length < 2) {
+                _times = 1;
+                _sides = 2;
+                _addition = 0;
+            }
+            else {
+                _times = Number.parseInt(_split[0]);
+                if (_split[1].indexOf('+') > -1) {
+                    _split = _split[1].split('+');
+                    _sides = Number.parseInt(_split[0]);
+                    _addition = Number.parseInt(_split[1]);
+                }
+                else if (_split[1].indexOf('-') > -1) {
+                    _split = _split[1].split('-');
+                    _sides = Number.parseInt(_split[0]);
+                    _addition = -1 * Number.parseInt(_split[1]);
+                }
+                else {
+                    _sides = Number.parseInt(_split[1]);
+                    _addition = 0;
+                }
+            }
+        }
+        else {
+            _times = Number.parseInt(_times);
+            _sides = Number.parseInt(_sides);
+            _addition = Number.parseInt(_addition);
+        }
+
+        if (isNaN(_times)) _times = 1;
+        else if (_times < 1) _times = 1;
+        else if (_times > 10) _times = 10;
+        if (isNaN(_sides)) _sides = 2;
+        else if (_sides < 2) _sides = 2;
+        else if (_sides > 100) _sides = 100;
+        if (isNaN(_addition)) _addition = 0;
+        else if (_addition < Number.MIN_SAFE_INTEGER) _addition = Number.MIN_SAFE_INTEGER;
+        else if (_addition > Number.MAX_SAFE_INTEGER) _addition = Number.MAX_SAFE_INTEGER;
+
+        var _count = 0;
+        for (var i = 0; i < _times; i++) {
+            _count += Math.floor(Math.random() * _sides) + 1;
+        }
+        return _count + _addition;
+    }
+
+    /**
+     * Sets the Menu to 15 buttons, and runs the last menu.
+     */
+    static useWideMenu() {
+        Menu.useWideMenu = true;
+        PSDE.runLastMenu();
+    }
+    /**
+     * Sets the Menu to 12 buttons, and runs the last menu.
+     */
+    static useNormalMenu() {
+        Menu.useWideMenu = false;
+        PSDE.runLastMenu();
+    }
+
+    static saveGame() {
+        var _charArr = new Array();
+        var _furnArr = new Array();
+        PSDE.characters.forEach(function(_character) {_charArr.push(_character.toJSON())}, this);
+        var _text = JSON.stringify(
+            {
+                "player":PSDE.player.id,
+                "lastMenu":PSDE.lastMenu,
+                "lastGameEvent":PSDE.lastGameEvent,
+                "enableMinimap":PSDE.enableMinimap,
+                "enableAutoscroll":PSDE.enableAutoscroll,
+                "currentTime":PSDE.currentTime,
+                "previousTime":PSDE.previousTime,
+                "enableRape":enableRape,
+                "enableGore":enableGore,
+                "enableModules":PSDE.enableModules,
+                "_interruptTick":PSDE._interruptTick,
+                "characters":_charArr,
+                "furniture":_furnArr
+            }
+        );
+
+        var _save = document.createElement('a');
+        _save.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(_text));
+        _save.setAttribute('download', "ps_{0}.json".format(Date.now()));
+
+        _save.style.display = 'none';
+        document.body.appendParent(_save);
+
+        _save.click();
+
+        document.body.removeParent(_save);
+    }
+    static loadGame(_json) {
+        if (typeof _json == "string") {
+            try {
+                var _json = JSON.parse(_json);
+            }
+            catch (e) {
+                if (PSDE.enableDebug) console.log("Parameter `_json` could not be parsed to JSON.");
+                return undefined;
+            }
+        }
+        
+        // Locations, Cells, Rooms
+        // Clothing, Keys, ElectronicDevices, Items, Furniture, Characters
+        if (_json.hasOwnProperty("furniture")) {
+            _json["furniture"].forEach(function(_furniture) {
+                try {
+                    var _tmpFurniture = JSON.parse(_furniture);
+                    _furniture = _tmpFurniture;
+                }
+                catch (e) {}
+
+                if (PSDE.furniture.has(_furniture["id"])) {
+                    if (PSDE.enableDebug) console.log("Found Furniture `{0}`, updating its Furniture instance.".format(_furniture["id"]));
+                    PSDE.furniture.get(_furniture["id"]).fromJSON(_furniture);
+                }
+                else {
+                    if (PSDE.enableDebug) console.log("Couldn't find Furniture `{0}`, creating a new Furniture instance.".format(_furniture["id"]));
+                    window[_furniture["id"]] = new Furniture(_furniture);
+                }
+            });
+        }
+        if (_json.hasOwnProperty("characters")) {
+            _json["characters"].forEach(function(_character) {
+                try {
+                    var _tmpCharacter = JSON.parse(_character);
+                    var _character = _tmpCharacter;
+                }
+                catch (e) {}
+
+                if (PSDE.characters.has(_character["id"])) {
+                    if (PSDE.enableDebug) console.log("Found Character `{0}`, updating their Character instance.".format(_character["id"]));
+                    PSDE.getCharacterByID(_character["id"]).fromJSON(_character);
+                }
+                else {
+                    if (PSDE.enableDebug) console.log("Couldn't find Character `{0}`, creating a new Character instance.".format(_character["id"]));
+                    window[_character["id"]] = new Character(_character);
+                }
+            });
+        }
+        // Initialize all first, then assign properties
+        // WebSites, WebPages
+        // Cron, GameEvents
+        if (_json.hasOwnProperty("GameEvents")) {
+            PSDE.events.clear();
+        }
+        if (_json.hasOwnProperty("player") && PSDE.characters.has(_json["player"])) PSDE.player = PSDE.getCharacterByID(_json["player"]);
+        if (_json.hasOwnProperty("lastMenu")) PSDE.lastMenu = _json["lastMenu"];
+        if (_json.hasOwnProperty("lastGameEvent")) PSDE.lastGameEvent = _json["lastGameEvent"];
+        if (_json.hasOwnProperty("enableMinimap")) PSDE.enableMinimap = _json["enableMinimap"];
+        if (_json.hasOwnProperty("enableAutoscroll")) PSDE.enableAutoscroll = _json["enableAutoscroll"];
+        if (_json.hasOwnProperty("currentTime")) PSDE.currentTime = new Date(_json["PSDE.currentTime"]);
+        if (_json.hasOwnProperty("previousTime")) PSDE.previousTime = new Date(_json["PSDE.previousTime"]);
+        if (document.getElementById("toggleRapeButton") != null) {
+            if (_json.hasOwnProperty("enableRape")) enableRape = _json["enableRape"];
+            if (_json.hasOwnProperty("enableGore")) enableGore = _json["enableGore"];
+        }
+        if (_json.hasOwnProperty("enableModules")) PSDE.enableModules = _json["enableModules"];
+        if (_json.hasOwnProperty("_interruptTick")) PSDE._interruptTick = _json["_interruptTick"];
+        PSDE.startGame();
+    }
+    static loadFile(input) {
+        var file, fr, _blob;
+
+        if (typeof window.FileReader !== 'function') {
+            alert("The file API isn't supported on this browser yet.");
+            return undefined;
+        }
+
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");
+        }
+        else {
+            file = input.files[0];
+            fr = new FileReader();
+            fr.onload = function(e) {
+                PSDE.loadGame(e.target.result);
+            };
+            fr.readAsText(file);
+        }
+    }
+    static entityInteract(_entity, _clearContent = false, _clearMenu = true) {
+        if (!_entity instanceof Entity || !_entity instanceof Instance) {
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
+            else
+                return undefined;
+        }
+
+        if (_entity instanceof Object) {
+            if (_entity instanceof Character)
+                return PSDE.characterInteract(_entity, _clearContent);
+            else if (_entity instanceof Furniture)
+                return PSDE.furnitureInteract(_entity, _clearContent, _clearMenu);
+            else if (_entity instanceof Phone)
+                return PSDE.phoneInteract(_entity, _clearContent, _clearMenu);
+            else if (_entity instanceof Item || _entity instanceof ItemInstance)
+                return PSDE.itemInteract(_entity, PSDE.player, _clearContent, _clearMenu);
+            else if (_entity instanceof Spell)
+                return PSDE.spellInteract(_entity, PSDE.player, _clearContent, _clearMenu);
+            else if (_entity instanceof Room)
+                return PSDE.roomInteract(_entity, _clearContent, _clearMenu);
+            else
+                return false;
+        }
+        else if (typeof _entity == "string") {
+            if (PSDE.characters.has(_entity))
+                return PSDE.characterInteract(PSDE.characters.get(_entity), _clearContent);
+            else if (PSDE.furniture.has(_entity))
+                return PSDE.furnitureInteract(PSDE.furniture.get(_entity), _clearContent, _clearMenu);
+            else if (PSDE.phones.has(_entity))
+                return PSDE.phoneInteract(PSDE.phones.get(_entity), _clearContent, _clearMenu);
+            else if (PSDE.items.has(_entity))
+                return PSDE.itemInteract(PSDE.items.get(_entity), PSDE.player, _clearContent, _clearMenu);
+            else if (PSDE.itemInstances.has(_entity))
+                return PSDE.itemInteract(PSDE.itemInstances.get(_entity), PSDE.player, _clearContent, _clearMenu);
+            else if (PSDE.spells.has(_entity))
+                return PSDE.spellInteract(PSDE.spells.get(_entity), PSDE.player, _clearContent, _clearMenu);
+            else if (PSDE.rooms.has(_entity))
+                return PSDE.roomInteract(PSDE.rooms.get(_entity), _clearContent, _clearMenu);
+            else
+                return false;
+        }
+    }
+
+    static roomInteract(_room, _clearContent = undefined, _showBaseMenu = true) {
+        if (!(_room instanceof Room))
+            _room = PSDE.rooms.get(_room);
+
+        if (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room)) {
+            if (_room.location != PSDE.player.room.location)
+                Content.add("<p>{0} is locked from this side.</p>".format(_room.location.name));
+            else
+                Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
+            return undefined;
+        }
+
+        var _previousRoomDifferent = (!(PSDE.player.room instanceof Room) || !(PSDE.player.room.sid == _room.sid));
+
+        if (_clearContent != false && _previousRoomDifferent)
+            Content.clear();
+        
+        if (PSDE.player.room !== _room) {
+            if ((PSDE.enableDebug)) console.log("Previous Room: {0}".format(PSDE.player.room.id));
+            PSDE.characterSetRoom(PSDE.player, _room);
+            if ((PSDE.enableDebug)) console.log("Current Room: {0}".format(PSDE.player.room.id));
+        }
+
+        Title.set(
+            (PSDE.player.room.location.isOwner(PSDE.player) ? "Your {0}".format((PSDE.player.room.type !== 'undefined' ? PSDE.player.room.type : "room").capitalize()) : PSDE.player.room.name),
+            undefined,
+            (typeof PSDE.player.room.location !== 'undefined' ? (PSDE.player.room.location == PSDE.player.room.cell.location ? PSDE.player.room.cell.name : PSDE.player.room.location.name) : "&nbsp;"),
+            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+        );
+
+        Menu.showingBaseMenu = _showBaseMenu == true;
+
+        if (Menu.showingBaseMenu) {
+            if ((PSDE.enableDebug)) console.log("\tBase Menu and Room for ".format(_room.sid));
+            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)));
+
+            PSDE._scenesViewedThisWindow.add(PSDE.player.previousRoom);
+
+            PSDE.baseMenu(0, 1);
+            
+            if (_previousRoomDifferent)
+                PSDE._scenesViewedThisWindow.clear();
+        }
+        else {
+            Menu.clear();
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+            PSDE._scenesViewedThisWindow.add(PSDE.player.previousRoom);
+
+            if ((PSDE.enableDebug)) console.log("\tRoom for {0}".format(_room.sid));
+            PSDE.lastMenu = "PSDE.roomInteract('{0}', false)".format(_room.sid);
+            
+            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)));
+
+            _room.furniture.forEach(function(_furniture) {
+                Menu.addOption("PSDE.furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
+            });
+            
+            Menu.generate();
+        }
+
+        if (!PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)) {
+            if (PSDE.player.room.characters.size > 1) {
+                var _blob = "";
+                var _characters = [];
+                var _followingCharacters = [];
+
+                Array.from(PSDE.player.room.characters).forEach(function(__character) {
+                    if (!__character.isFollowing(PSDE.player) && __character != PSDE.player)
+                        _characters.push(__character);
+                }, this);
+                
+                if (_characters.length > 0) {
+                    if (_characters.length == 1)
+                        _blob += _characters[0].toString() + " is here";
+                    else {
+                        // Lazy
+                        for (var i = 0; i < _characters.length - 1; i++) {
+                            _blob += (_characters[i]);
+                            if (_characters.length > 2)
+                                _blob += (", ");
+                        }
+                        _blob += " and " + _characters[_characters.length - 1] + " are here";
+                    }
+                }
+                if (PSDE.player.followers.size > 0) {
+                    if (_characters.length > 0)
+                        _blob += ", along with ";
+                    _followingCharacters = Array.from(PSDE.player.followers);
+                    if (_followingCharacters.length == 1)
+                        _blob += _followingCharacters[0].toString();
+                    else {
+                        // Lazy
+                        for (var i = 0; i < _followingCharacters.length - 1; i++) {
+                            _blob += (_followingCharacters[i]);
+                            if (_followingCharacters.length > 2)
+                                _blob += (", ");
+                        }
+                        _blob += " and " + _followingCharacters[_followingCharacters.length - 1];
+                    }
+                    if (_characters.length == 0) {
+                        if (_followingCharacters.length > 1)
+                            _blob += " are";
+                        else
+                            _blob += " is";
+                    }
+                    _blob += " following beside you.";
+                }
+                else
+                    _blob += ".";
+                Content.add("<p>" + _blob + "</p>");
+            }
+        }
+
+        PSDE.events.forEach(function(_event) {
+            if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
+                return undefined;
+            }
+
+            if (
+                typeof _event.characterA == 'undefined' ||
+                (
+                    _event.characterA == PSDE.player &&
+                    (typeof _event.item == 'undefined' || _event.characterA.containsItem(_event.item))
+                )
+            ) {
+                if (typeof _event.location == 'undefined' ||
+                    (_event.location == _room.location || _event.location == _room.cell.location) &&
+                    (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
+                ) {
+                    if (typeof _event.cell == 'undefined' ||
+                        (
+                            _event.cell == _room.cell &&
+                            (typeof _event.characterB == 'undefined' || _event.characterB.room.cell == _event.cell) &&
+                            (_event.characterA.previousRoom.cell != _event.characterA.room.cell)
+                        )
+                    ) {
+                        if (typeof _event.room == 'undefined' ||
+                            (
+                                _event.room == _room &&
+                                (typeof _event.characterB == 'undefined' || _event.characterB.room == _event.room)
+                            )
+                        ) {
+                            _event.execute();
+                        }
+                    }
+                }
+            }
+        }, this);
+
+        PSDE._eventsExecutedThisTick.clear();
+    }
+
+    static characterInteract(_character, _clearContent = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!_character.characterDisposition.has(PSDE.player))
+            _character.addNewCharacterDispositionFor(PSDE.player);
+        if (!PSDE.player.characterDisposition.has(_character))
+            PSDE.player.addNewCharacterDispositionFor(_character);
+
+        Menu.showingBaseMenu = false;
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.get(_character);
+        PSDE.lastMenu = "PSDE.characterInteract('{0}', false)".format(_character.id);
+
+        Title.set(
+            _character.name,
+            _character.image,
+            (typeof PSDE.player.room.location !== 'undefined' ? PSDE.player.room.location.name : "&nbsp;"),
+            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+        );
+
+        if (_clearContent) {
+            Content.clear();
+
+            unsafeExec("{0}{1}()".format(PSDE.player.room.sid, _character.id.capitalize()));
+        }
+
+        Menu.clear();
+
+        if (typeof window["{0}Talk".format(_character.id)] == "function")
+            Menu.setOption(0, "PSDE.characterInteractTalk({0})".format(_character.id), "Talk");
+        else
+            Menu.setOption(0, "PSDE.characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, 4);
+
+        if (typeof window["{0}Sex".format(_character.id)] == "function") {
+            if ((PSDE.player.age >= 18 && _character.age >= 18))
+                Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex");
+            else
+                Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
+        }
+        else
+            Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
+
+        Menu.setOption(2, "PSDE.getAppearance({0})".format(_character.id), "Appearance");
+
+        if ((PSDE.enableDebug))
+            Menu.setOption(4, "PSDE.characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
+        else
+            Menu.setOption(4, "PSDE.characterInteractOpen({0}, true, false, undefined, false)".format(_character.id), "Give", "Give them an item.")
+
+        if (PSDE.player.room.characters.size > 2)
+            Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
+
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+        if (typeof window["{0}Hug".format(_character.id)] == "function")
+            Menu.addOption("PSDE.characterInteractHug({0})".format(_character.id), "Hug");
+
+        if (_character.isSleeping())
+            Menu.addOption("PSDE.characterInteractWake({0})".format(_character.id), "Wake");
+
+        unsafeExec("{0}Interact({1})".format(_character.id, _clearContent));
+
+        Menu.generate();
+    }
+    static characterInteractOpen(_character, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                _character = PSDE.player;
+        }
+        if (typeof _switch != "boolean")
+            _switch = false;
+        if (typeof _allowSwitch != "boolean")
+            _allowSwitch = true;
+        if (_filter != undefined) {
+            if (_filter == "Item" ||
+                _filter == "Key" ||
+                _filter == "Clothing" ||
+                _filter == "Consumable" ||
+                _filter == "Cheque" ||
+                _filter == "ElectronicDevice" ||
+                _filter == "Phone") {}
+            else
+                _filter = undefined;
+        }
+
+        PSDE.lastMenu = "PSDE.characterInteractOpen({0}, {1}, {2}, {3}, {4})".format(_character.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter, false);
+
+        if (PSDE.enableModules) {
+            if (!_allowSwitch) {
+                $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
+                $("#personalInventoryModal-list").html(_generateEntityItemsGraphicalList(PSDE.player, _character, false));
+                $("#personalInventoryModal-description").html("");
+                $("#personalInventoryModal").modal("show");
+            }
+            else if (_character != PSDE.player) {
+                $("#dualInventoryTab-characterA").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(PSDE.player.image));
+                $("#dualInventoryTab-characterB").html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_character.image, _character.singularPossessiveName()));
+                $("#dualInventoryContent-characterA").html(_generateEntityItemsGraphicalList(PSDE.player, _character, true));
+                $("#dualInventoryContent-characterB").html(_generateEntityItemsGraphicalList(_character, PSDE.player, true));
+                $("#dualInventoryModal").modal("show");
+            }
+            else {
+                $("#personalInventoryModal-title").html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(_character.image));
+                $("#personalInventoryModal-list").html(_generateEntityItemsGraphicalList(_character, undefined, false));
+                $("#personalInventoryModal-description").html("");
+                $("#personalInventoryModal").modal("show");
+            }
+        }
+        else {
+            if (_switch) {
+                var _characterB = PSDE.player;
+                var _characterA = _character;
+            }
+            else {
+                var _characterA = PSDE.player;
+                var _characterB = _character;
+            }
+
+            if (_clearContent && !PSDE._scenesViewedThisWindow.has("PSDE.characterInteractOpen")) {
+                var _blob = "";
+                if (_characterB == _characterA)
+                    _blob += "Looking through {0} pockets and on {0} person, {1} find{2} ".format(PSDE.possessiveAdjective(), PSDE.subjectPronoun(true), (PSDE.pov == 3 ? "s" : ""));
+                else
+                    _blob += "Looking through {0}'s pockets and on {1} person, {2} find{3} ".format(_characterB.name, _characterB.possessiveAdjective(), PSDE.subjectPronoun(true), (PSDE.pov == 3 ? "s" : ""));
+
+                if (_characterB.getNumberOfItems() == 0)
+                    _blob += "that it is empty.";
+                else if (_characterB.getNumberOfItems() == 1)
+                    _blob += "a " + _characterB.items[0].parent.toString() + ".";
+                else if (_characterB.getNumberOfItems() == 2)
+                    _blob += "{0}, and {1}".format(_characterB.items[0].parent.plural ? _characterB.items[0].parent.toString() : _characterB.items[0].parent, _characterB.items[1].parent.plural ? _characterB.items[1].parent : _characterB.items[1].parent);
+                else {
+                    // Lazy
+                    var _arr = _characterB.items;
+
+                    for (var i = 0; i < _arr.length - 1; i++) {
+                        _blob += (_arr[i].parent.toString());
+                        if (_arr.length > 2)
+                            _blob += (", ");
+                    }
+                    _blob += " and " + _arr[_arr.length - 1].parent.toString() + ".";
+                    _arr = null;
+                }
+                Content.add("<p>" + _blob + "</p>");
+                _blob = null;
+                PSDE._scenesViewedThisWindow.add("PSDE.characterInteractOpen");
+            }
+
+            Menu.clear();
+            Menu.showingBaseMenu = false;
+            if (_allowSwitch) {
+                if (_characterA != _characterB) {
+                    Menu.setOption((Menu.useWideMenu ? 4 : 3), "PSDE.characterInteractOpen({0}, {1}, {2}, '{3}', false)".format(_character.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == PSDE.player ? "yours" : _characterA.singularPossessiveName()));
+                    if (_characterB != PSDE.player)
+                        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+                }
+                else
+                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.personalCharacterMenu()".format(PSDE.player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
+            }
+            else {
+                if (_character != PSDE.player)
+                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
+                else
+                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.personalCharacterMenu()".format(PSDE.player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
+            }
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+            if (_character != PSDE.player) {
+                _characterB.items.forEach(function(_itemInstance) {
+                    if (_filter == _itemInstance.parent.constructor.name)
+                        Menu.addOption("PSDE._generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4}, '{5}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch, _filter), (_switch ? "Give " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
+                    else
+                        Menu.addOption("PSDE._generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, {4})".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _allowSwitch), (_switch ? "Give " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
+                }, this);
+            }
+            else {
+                _characterB.items.forEach(function(_itemInstance) {
+                    if (_filter == undefined || _filter == _itemInstance.parent.constructor.name)
+                        Menu.addOption("PSDE.itemInteract('{0}')".format(_itemInstance.id), "<span class='hidden-md hidden-sm hidden-xs'>Interact with </span>{0}".format(_itemInstance.parent.name), _itemInstance.parent.description, undefined, undefined, "btn-primary");
+                }, this);
+            }
+            Menu.generate();
+        }
+    }
+    static characterInteractTalk(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+        if (typeof window["{0}Follow".format(_character.id)] == "function") {
+            if (_character.following != PSDE.player)
+                Menu.setOption(3, "PSDE.characterInteractFollow('{0}')".format(_character.id), "Ask {0} to follow you".format(_character.objectPronoun()));
+            else
+                Menu.setOption(3, "PSDE.characterInteractStay('{0}')".format(_character.id), "Ask {0} to stay here".format(_character.objectPronoun()));
+        }
+
+        unsafeExec("{0}Talk()".format(_character.id));
+
+
+        Menu.generate();
+    }
+    static characterInteractSex(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+        unsafeExec("{0}Sex()".format(_character.id));
+
+        Menu.generate();
+    }
+    static characterInteractFollow(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (unsafeExec("{0}Follow()".format(_character.id))) {
+            _character.follow(PSDE.player);
+            PSDE.player.addFollower(_character);
+        }
+    }
+    static characterInteractAttack(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+        unsafeExec("{0}Attack()".format(_character.id));
+
+        Menu.generate();
+    }
+    static characterInteractStay(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        unsafeExec("{0}Stay()".format(_character.id));
+    }
+    static characterInteractHug(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+        unsafeExec("{0}Hug()".format(_character.id));
+
+        Menu.generate();
+    }
+    static characterInteractWake(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        _character.wake();
+        PSDE.characterInteract(_character, false);
+    }
+
+    static furnitureInteract(_furniture, _clearContent = false, _clearMenu = true) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+
+        PSDE.lastMenu = "PSDE.furnitureInteract('{0}', false, true)".format(_furniture.id);
+
+        if (PSDE.player.furniture != _furniture)
+            Content.add("<p>You decide to look over the {0}, and you see that it has {1} inside of it.</p>".format(_furniture.type, (_furniture.getNumberOfItems() == 0 ? "no items" : (_furniture.getNumberOfItems() == 1 ? "an item" : "a few items"))));
+
+        Title.set(
+            _furniture.name,
+            _furniture.image,
+            (typeof PSDE.player.room.location !== 'undefined' ? PSDE.player.room.location.name : "&nbsp;"),
+            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+        );
+
+        if (_clearMenu) {
+            if (_furniture.availableActions.size == 0) {
+                Content.add("<p>There is little you can do with {0}.</p>".format(_furniture.name));
+            }
+            else {
+                Menu.clear();
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.roomInteract({0}, false, false)".format(PSDE.player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+                Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+                Menu.addOption("PSDE.furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.getNumberOfItems() > 0 ? "There are items inside" : ""));
+
+                _furniture.availableActions.forEach(function(_action) {
+                    if (PSDE.kActionTypes.has(_action)) {
+                        switch(_action) {
+                            /*case "use" : {
+                                if (_furniture.type == "mirror" && PSDE.player.mana > 0)
+                                    Menu.addOption("PSDE.furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, "btn-mana");
+                                else
+                                    Menu.addOption("PSDE.furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
+                                break;
+                            }*/
+                            case "sit" : {
+                                if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isSitting()))
+                                    Menu.addOption("PSDE.furnitureInteractSit({0})".format(this.id), "Sit on {0}".format(this.name));
+                                break;
+                            }
+                            case "lay" : {
+                                if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isLying()))
+                                    Menu.addOption("PSDE.furnitureInteractLay({0})".format(this.id), "Lay in {0}".format(this.name));
+                                break;
+                            }
+                            case "sleep" : {
+                                if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isSleeping()))
+                                    Menu.addOption("PSDE.furnitureInteractSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
+                                break;
+                            }
+                            case "sex" : {
+                                if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isFucking()))
+                                    Menu.addOption("PSDE.furnitureInteractSex({0})".format(this.id), "Fuck {0}".format(this.name));
+                                break;
+                            }
+                        }
+                    }
+                }, _furniture);
+                Menu.generate();
+            }
+        }
+    }
+    static furnitureInteractOpen(_furniture, _switch = false, _allowSwitch = true, _filter = undefined, _clearContent = true) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+
+        if (PSDE.enableModules) {
+            $('#dualInventoryTab-characterA').html("<img style='height:2em' src='{0}' alt=''/>Your Inventory".format(PSDE.player.image));
+            $('#dualInventoryTab-characterB').html("<img style='height:2em' src='{0}' alt=''/>{1} Inventory".format(_furniture.image, _furniture.name));
+            $('#dualInventoryContent-characterA').html(_generateEntityItemsGraphicalList(PSDE.player, _furniture, true));
+            $('#dualInventoryContent-characterB').html(_generateEntityItemsGraphicalList(_furniture, PSDE.player, true));
+            $("#dualInventoryModal").modal("show");
+        }
+        else {
+            if (_switch) {
+                var _characterB = PSDE.player;
+                var _characterA = _furniture;
+            }
+            else {
+                var _characterA = PSDE.player;
+                var _characterB = _furniture;
+            }
+
+            if (_clearContent && !PSDE._scenesViewedThisWindow.has("PSDE.furnitureInteractOpen")) {
+                var _blob = "";
+                _blob += ("Looking through the {0}, you find ".format(_characterB.toString()));
+
+                if (_characterB.getNumberOfItems() == 0) {
+                    _blob += "that it is empty.";
+                }
+                else if (_characterB.getNumberOfItems() == 1) {
+                    _blob += "a {0} {1}.".format((_characterB.items[0].parent.plural ? "PSDE.set of" : ""), _characterB.items[0].parent.toString());
+                }
+                else if (_characterB.getNumberOfItems() == 2) {
+                    _blob += "a {0}{1} and {2}{3}.".format((_characterB.items[0].parent.plural ? "PSDE.set of " : ""), _characterB.items[0].parent.toString(), (_characterB.items[1].parent.plural ? "" : "a "), _characterB.items[1].parent.toString());
+                }
+                else {
+                    // Lazy
+                    var _arr = _characterB.parent;
+
+                    for (var i = 0; i < _arr.length - 1; i++) {
+                        _blob += (_arr[i].parent.toString());
+                        if (_arr.length > 2)
+                            _blob += (", ");
+                    }
+                    _blob += (" and " + _arr[_arr.length - 1].parent.toString() + ".");
+                    _arr = null;
+                }
+                Content.add("<p>" + _blob + "</p>");
+                _blob = null;
+                PSDE._scenesViewedThisWindow.add("PSDE.furnitureInteractOpen");
+            }
+
+            Menu.clear();
+            Menu.showingBaseMenu = false;
+            Menu.setOption((Menu.useWideMenu ? 4 : 3), "PSDE.furnitureInteractOpen('{0}', {1}, {2}, '{3}', false)".format(_furniture.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == PSDE.player ? "yours" : _characterA.name));
+            if (_characterB instanceof Furniture)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.furnitureInteract('{0}', false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+            else if (_characterB instanceof Character)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.furnitureInteract('{0}', false, true)".format(_furniture.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_furniture.name));
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+
+            _characterB.items.forEach(function(_itemInstance) {
+                if (_filter == _itemInstance.parent.constructor.name)
+                    Menu.addOption("PSDE._generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true, '{4}')".format(_itemInstance.id, _characterB.id, _characterA.id, _switch, _filter), (_switch ? "Put " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
+                else
+                    Menu.addOption("PSDE._generateEntityItemsMenuMove('{0}', '{1}', '{2}', false, {3}, true)".format(_itemInstance.id, _characterB.id, _characterA.id, _switch), (_switch ? "Put " : "Take ") + _itemInstance.parent.name, _itemInstance.parent.description, undefined, undefined, "btn-primary");
+            }, this);
+
+            Menu.generate();
+        }
+    }
+    static furnitureInteractUse(_furniture, _character = PSDE.player) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.characters.get(_character) : undefined;
+
+        if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+            return;
+
+        if (_furniture.type == "mirror") {
+            if (_character.mana > 0) {
+                Content.add("<p>Pressing your {0} to the mirror, you feel its surface ripple. With {1} focus, your reflection quickly fades to black.</p>".format(_character.getHand(), (_character.mana > 75 ? "an effortless" : (_character.mana > 50 ? "a gentle" : (_character.mana > 25 ? "a strained" : "a headache-inducing")))));
+                unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
+            }
+            else {
+                Content.add("Pressing your {0} to the mirror, you feel its smooth and cold surface.".format(_character.getHand()));
+            }
+        }
+        else {
+            unsafeExec("{0}Use({1})".format(_furniture.id, _character.id));
+        }
+    }
+    static furnitureInteractSit(_furniture, _character = PSDE.player) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.characters.get(_character) : undefined;
+
+        if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+            return;
+
+        if (PSDE.characterSit(_character, _furniture))
+            unsafeExec("{0}Sit({1})".format(_furniture.id, _character.id));
+        
+        PSDE.runLastMenu();
+    }
+    static furnitureInteractLay(_furniture, _character = PSDE.player) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.characters.get(_character) : undefined;
+
+        if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+            return;
+
+        if (PSDE.characterLay(_character, _furniture))
+            unsafeExec("{0}Lay({1})".format(_furniture.id, _character.id));
+        
+        PSDE.runLastMenu();
+    }
+    static furnitureInteractSleep(_furniture, _character = PSDE.player) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.characters.get(_character) : undefined;
+        
+
+        if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+            return;
+
+
+        if ((PSDE.enableDebug)) console.log("Attempting to sleep in {0}".format(_furniture.id));
+
+        if (PSDE.characterSleep(_character, _furniture))
+            unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
+
+        if (_character == PSDE.player)
+            _character.removeCurrentAction("sleep");
+        
+        PSDE.runLastMenu();
+    }
+    static furnitureInteractLook(_furniture, _character = PSDE.player) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_character instanceof Character))
+            _character = PSDE.characters.has(_character) ? PSDE.characters.get(_character) : undefined;
+
+
+        if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
+            return;
+
+
+        unsafeExec("{0}Look({1})".format(_furniture.id, _character.id));
+    }
+    static furnitureInteractSex(_furniture, _characterA = PSDE.player, _characterB = undefined) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.get(_furniture);
+        if (!(_characterA instanceof Character))
+            _characterA = PSDE.characters.has(_characterA) ? PSDE.characters.get(_characterA) : undefined;
+        if (!(_characterB instanceof Character))
+            _characterB = PSDE.characters.has(_characterB) ? PSDE.characters.get(_characterB) : undefined;
+
+
+        if (!(_furniture instanceof Furniture) || !(_characterA instanceof Character))
+            return;
+
+        if (PSDE.characterSex(_characterA, _characterB, _furniture))
+            unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefined)));
+    }
+
+    static itemInteract(_itemInstance, _entity = PSDE.player, _clearContent = false, _clearMenu = true) {
+        if (!(_entity instanceof Entity)) {
+            if (PSDE.characters.has(_entity))
+                _entity = PSDE.characters.get(_entity);
+            else if (PSDE.furniture.has(_entity))
+                _entity = PSDE.furniture.get(_entity);
+            else if (PSDE.items.has(_entity))
+                _entity = PSDE.items.get(_entity);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
+        }
+
+        if (PSDE.enableModules) {}
+        else {
+            if (_itemInstance.parent.description != undefined && _itemInstance.parent.description.length > 0 && !PSDE._scenesViewedThisWindow.has("PSDE.itemInteract"))
+                Content.add("<p>{0} look{1} at {2}{3}.</p>".format(PSDE.subjectPronoun(true).capitalize(), (PSDE.pov == 3 ? "s" : ""), (_itemInstance.owner === undefined ? "" : (_itemInstance.owner == PSDE.player ? PSDE.possessiveAdjective() : _itemInstance.owner.singularPossessiveName()) + " "), _itemInstance.parent.toString()));
+
+            PSDE.lastMenu = "PSDE.itemInteract('{0}', '{1}', false, true)".format(_itemInstance.id, _entity.id);
+
+            Menu.clear();
+            PSDE._scenesViewedThisWindow.add("PSDE.itemInteract");
+            if (_entity instanceof Character)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
+            else if (_entity instanceof Furniture)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.furnitureInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
+            else if (_entity instanceof Item)
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
+            
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            
+            _itemInstance.parent.availableActions.forEach(function(_action) {
+                if (PSDE.kActionTypes.has(_action)) {
+                    switch(_action) {
+                        /*case "use" : {
+                            !(_itemInstance.parent instanceof Clothing) && Menu.addOption("PSDE.itemInteractUse('{0}', '{1}')".format(this.id, _entity.id), "Use {0}".format(this.parent.name));
+                            break;
+                        }*/
+                        case "put" : {
+                            if (_entity instanceof Character) {}
+                            else {
+                                Menu.addOption("PSDE.itemInteractPut('{0}', '{1}')".format(this.id, _entity.id), "Put {0}".format(this.parent.name));
+                            }
+                            break;
+                        }
+                        case "hold" : {
+                            if (_entity instanceof Character) {
+                                if (_entity.hasHeldEntity(_itemInstance)) {
+                                    Menu.addOption("PSDE.itemInteractRelease('{0}', '{1}')".format(this.id, _entity.id), "Release {0}".format(this.parent.name));
+                                }
+                                else {
+                                    Menu.addOption("PSDE.itemInteractHold('{0}', '{1}')".format(this.id, _entity.id), "Hold {0}".format(this.parent.name));
+                                }
+                            }
+                            else {}
+                            break;
+                        }
+                        case "wear" : {
+                            if (!_itemInstance.parent instanceof Clothing)
+                                break;
+                            if (_entity instanceof Character) {
+                                if (_entity.isWearing(_itemInstance)) {
+                                    Menu.addOption("PSDE.itemInteractDisrobe('{0}', '{1}')".format(this.id, _entity.id), "Take off {0}".format(this.parent.name));
+                                }
+                                else {
+                                    Menu.addOption("PSDE.itemInteractWear('{0}', '{1}')".format(this.id, _entity.id), "Wear {0}".format(this.parent.name));
+                                }
+                            }
+                            else {}
+                            break;
+                        }
+                        case "masturbate" : {
+                            if (_entity instanceof Character) {
+                                Menu.addOption("PSDE.itemInteractMasturbate('{0}', '{1}')".format(this.id, _entity.id), "Masturbate with {0}".format(this.parent.name));
+                            }
+                            else {}
+                            break;
+                        }
+                        case "consume" : {
+                            if (_entity instanceof Character) {
+                                Menu.addOption(
+                                    "PSDE.itemInteractConsume('{0}', '{1}')".format(this.id, _entity.id),
+                                    "{0} {1}".format(
+                                        this.parent.type == "food" ? "Eat" : this.parent.type == "drink" ? "Drink" : "Apply",
+                                        this.parent.name
+                                    )
+                                );
+                            }
+                            else {}
+                            break;
+                        }
+                    }
+                }
+            }, _itemInstance);
+            Menu.generate();
+        }
+
+        return true;
+    }
+    static itemInteractUse(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        return unsafeExec("{0}Use({1})".format(_itemInstance.parent.id, PSDE.player.id));
+    }
+    /**
+     * Item is taken from Character and Put into the Entity; PSDE.addItem for non-Character(s)
+     * @param  {Item} _item       [description]
+     * @param  {Character} _characterA [description]
+     * @param  {Entity} _entityB    [description]
+     * @return {Boolean}             [description]
+     */
+    static itemInteractPut(_itemInstance, _characterA = PSDE.player, _entityB = undefined) {
+        if (!(_characterA instanceof Character)) {
+            if (PSDE.characters.has(_characterA))
+                _characterA = PSDE.characters.get(_characterA);
+            else
+                return undefined;
+        }
+
+        if (!(_entityB instanceof Character) && _entityB != undefined) {
+            if (PSDE.characters.has(_entityB))
+                _entityB = PSDE.characters.get(_entityB);
+            else
+                _entityB = undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        _characterA.removeItem(_itemInstance);
+        _entityB.addItem(_itemInstance);
+
+        return true;
+    }
+    /**
+     * Item is Taken from Character and Put into the Entity; PSDE.addItem for Character(s)
+     * @param  {Item} _item       [description]
+     * @param  {Character} _characterA [description]
+     * @param  {Entity} _entityB    [description]
+     * @return {Boolean}             [description]
+     */
+    static itemInteractGive(_itemInstance, _characterA = PSDE.player, _entityB = undefined) {
+        if (!(_characterA instanceof Character)) {
+            if (PSDE.characters.has(_characterA))
+                _characterA = PSDE.characters.get(_characterA);
+            else
+                return undefined;
+        }
+
+        if (!(_entityB instanceof Character) && _entityB != undefined) {
+            if (PSDE.characters.has(_entityB))
+                _entityB = PSDE.characters.get(_entityB);
+            else
+                _entityB = undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        _characterA.removeItem(_itemInstance);
+        _entityB.addItem(_itemInstance);
+
+        return true;
+    }
+    /**
+     * Item is Given to Character after being Taken from Entity
+     * @param  {Item} _item       [description]
+     * @param  {Character} _characterA [description]
+     * @param  {Entity} _entityB    [description]
+     * @return {Boolean}             [description]
+     */
+    static itemInteractTake(_itemInstance, _characterA = PSDE.player, _entityB = undefined) {
+        if (!(_characterA instanceof Character)) {
+            if (PSDE.characters.has(_characterA))
+                _characterA = PSDE.characters.get(_characterA);
+            else
+                return undefined;
+        }
+
+        if (!(_entityB instanceof Character) && _entityB != undefined) {
+            if (PSDE.characters.has(_entityB))
+                _entityB = PSDE.characters.get(_entityB);
+            else
+                _entityB = undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        _entityB.removeItem(_item);
+        _characterA.addItem(_item);
+
+        return true;
+    }
+    static itemInteractHold(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.isWearing(_itemInstance))
+            _character.removeClothing(_itemInstance);
+        if (_character.addHeldEntity(_itemInstance))
+            unsafeExec("{0}Hold({1})".format(_itemInstance.parent.id, _character.id));
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.runLastMenu();
+        return true;
+    }
+    static itemInteractRelease(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.removeHeldEntity(_itemInstance))
+            unsafeExec("{0}Release({1})".format(_itemInstance.parent.id, _character.id));
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.runLastMenu();
+        return true;
+    }
+    static itemInteractWear(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.hasHeldEntity(_itemInstance))
+            _character.removeHeldEntity(_itemInstance);
+        if (!_character.isWearing(_itemInstance))
+            _character.setClothing(_itemInstance);
+        if (PSDE.enableModules) {}
+        else
+            PSDE.itemInteract(_itemInstance, _character);
+
+        return true;
+    }
+    static itemInteractDisrobe(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.isWearing(_itemInstance))
+            _character.removeClothing(_itemInstance);
+        if (PSDE.enableModules) {}
+        else
+            PSDE.itemInteract(_itemInstance, _character);
+
+        return true;
+    }
+    static itemInteractLook(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.look(_itemInstance))
+            unsafeExec("{0}Look({1})".format(_itemInstance.parent.id, _character.id));
+
+        if (PSDE.enableModules) {}
+        else
+            Content.add(_itemInstance.description);
+
+        return true;
+    }
+    static itemInteractAttack(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.attack(_itemInstance.parent))
+            unsafeExec("{0}Attack({1})".format(_itemInstance, _character.id));
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.itemInteract(_itemInstance, _character);
+
+        return true;
+    }
+    static itemInteractSex(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.itemInteract(_itemInstance, _character);
+
+        return true;
+    }
+    static itemInteractMasturbate(_itemInstance, _character = PSDE.player) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.isWearing(_itemInstance))
+            _character.removeClothing(_itemInstance);
+        if (_character.masturbate(_itemInstance))
+            unsafeExec("{0}Masturbate({1})".format(_itemInstance.parent.id, _character.id));
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.itemInteract(_itemInstance, _character);
+
+        return true;
+    }
+    static itemInteractConsume(_itemInstance, _character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else
+                return undefined;
+        }
+
+        if (_character.consume(_itemInstance)) {
+            this.addCurrentAction("consume", _itemInstance);
+            unsafeExec("{0}Consume({1})".format(_itemInstance.parent.id, _character.id));
+        }
+
+        if (PSDE.enableModules) {}
+        else
+            PSDE.runLastMenu();
+        this.removeCurrentAction("consume", _itemInstance);
+
+        return true;
+    }
+
+    static spellInteract(_spell, _character = PSDE.player, _clearContent = false, _clearMenu = true) {
+        if (!(_spell instanceof Spell)) {
+            if (PSDE.spells.has(_spell))
+                _spell = PSDE.spells.get(_spell);
+            else
+                return undefined;
+        }
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.characters.get(_character);
+            else
+                return undefined;
+        }
+
+        PSDE.lastMenu = "PSDE.spellInteract('{0}', '{1}', false, true)".format(_spell.id, _character.id);
+
+        Menu.clear();
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.spellMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Spells");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        switch (_spell.id) {
+            case "spellLevitate" : {
+                break;
+            }
+            case "spellTeleport" : {
+                break;
+            }
+            case "spellUnlock" : {
+                _character.room.roomsOptions.forEach(function(_options, _room) {
+                    if (_options.isLocked) {
+                        Menu.addOption(
+                            "PSDE.spellInteractCast({0}, {1})".format(_spell.id, _room.id),
+                            _room.location != PSDE.player.room.location ? _room.location.name : _room.name,
+                            "{0} {1}".format(_spell.name, _room.location != PSDE.player.room.location ? _room.location.name : _room.name),
+                            undefined,
+                            undefined,
+                            "btn-mana"
+                        );
+                    }
+                });
+                break;
+            }
+            case "spellImbue" : {
+                break;
+            }
+            case "spellMirrorOpen" : {}
+            case "spellMirrorWalk" : {}
+            case "spellMirrorLook" : {}
+            case "spellMirror*" : {
+
+                break;
+            }
+            case "spellCharacterSleep" : {}
+            case "spellCharacterSummon" : {}
+            case "spellCharacterLust" : {}
+            case "spellCharacterRut" : {}
+            case "spellCharacterTempDisposition" : {}
+            case "spellCharacterGradualDisposition" : {}
+            case "spellCharacterCompel" : {}
+            case "spellCharacterDominate" : {}
+            case "spellCharacterPossess" : {}
+            case "spellCharacter*" : {
+                Title.clear();
+                Title.set(
+                    "Spell Targets", 
+                    _spell.image, 
+                    _spell.name, 
+                    "Spells"
+                );
+
+                _character.room.characters.forEach(function(__character) {
+                    if (__character == PSDE.player || __character.isCharmed())
+                        return undefined;
+                    Menu.addOption(
+                        "PSDE.spellInteractCast({0}, {1})".format(_spell.id, __character.id),
+                        __character.name,
+                        "{0} {1}".format(_spell.name, __character.name),
+                        undefined,
+                        undefined,
+                        "btn-mana"
+                    );
+                });
+                break;
+            }
+            default : {
+
+            }
+        }
+        Menu.generate();
+    }
+    static spellInteractCast(_spell, _entity) {
+        if ((PSDE.enableDebug)) console.log("Running PSDE.spellInteractCast...");
+        if (!(_spell instanceof Spell)) {
+            if ((PSDE.enableDebug)) console.log("  Looking for Spell");
+            if (PSDE.spells.has(_spell))
+                _spell = PSDE.spells.get(_spell);
+            else
+                return undefined;
+        }
+        if (!(_entity instanceof Entity)) {
+            if ((PSDE.enableDebug)) console.log("  Looking for Entity");
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
+            else if (_entity instanceof Room) {}
+            else if (PSDE.rooms.has(_entity)) {
+                _entity = PSDE.rooms.get(_entity);
+            }
+            else
+                return undefined;
+        }
+        if ((PSDE.enableDebug)) console.log("  with {0}, {1}".format(_spell.id, _entity.id));
+
+        if (unsafeExec("{0}Cast({1}, PSDE.player)".format(_spell.id, _entity.id)))
+            PSDE.runLastMenu();
+        else
+            return false;
+    }
+
+    static phoneInteract(_phoneInstance, _clearContent = false, _clearMenu = true) {
+        if (!(_phoneInstance instanceof PhoneInstance)) {
+            if (PSDE.phoneInstances.has(_phoneInstance))
+                _phoneInstance = PSDE.phoneInstances.get(_phoneInstance);
+            else
+                return undefined;
+        }
+
+        Title.clear();
+        Title.set(
+            "Home Screen", 
+            undefined, 
+            PSDE.player.phone.parent.name, 
+            PSDE.player.name
+        );
+
+        if (PSDE.enableModules) {
+
+        }
+        else {
+            if (_clearContent) {
+                if (_phoneInstance.owner == PSDE.player)
+                    Content.add("<p>You check your phone.</p>");
+                else
+                    Content.add("<p>You check {0} phone.</p>".format(_phoneInstance.owner.singularPossessiveName()));
+            }
+
+            Menu.clear();
+            Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+            Menu.addOption("PSDE.textMessageInteract('{0}', 0)".format(_phoneInstance.id), "Received Messages");
+            Menu.addOption("PSDE.textMessageInteract('{0}', 1)".format(_phoneInstance.id), "Read Messages");
+            Menu.addOption("PSDE.textMessageInteract('{0}', 2)".format(_phoneInstance.id), "Sent Messages");
+            Menu.generate();
+        }
+    }
+    static textMessageInteract(_phoneInstance, _messageCategory) {
+        if (!(_phoneInstance instanceof PhoneInstance)) {
+            if (PSDE.phoneInstances.has(_phoneInstance))
+                _phoneInstance = PSDE.phoneInstances.get(_phoneInstance);
+            else
+                return undefined;
+        }
+
+        var _title = "";
+        var _messageType = "";
+
+        switch(_messageCategory) {
+            case 1 : {
+                _title = "Read Messages";
+                _messageType = _phoneInstance.readMessages;
+                break;
+            }
+            case 2 : {
+                _title = "Sent Messages";
+                _messageType = _phoneInstance.sentMessages;
+                break;
+            }
+            default : {
+                _messageCategory = 0;
+                _title = "Received Messages";
+                _messageType = _phoneInstance.receivedMessages;
+            }
+        }
+
+        PSDE.lastMenu = "PSDE.textMessageInteract('{0}', '{1}')".format(_phoneInstance.id, _messageCategory);
+
+        Title.clear();
+        Title.set(
+            _title, 
+            undefined, 
+            PSDE.player.phone.parent.name, 
+            PSDE.player.name
+        );
+
+        Menu.clear();
+        if (_messageCategory == 2) {
+            _messageType.forEach(function(_textMessage) {
+                Menu.addOption("PSDE.textMessageInteractRead('{0}', '{1}')".format(_phoneInstance.id, _textMessage.id), "To " + _textMessage.to, _textMessage.time);
+            });
+        }
+        else {
+            _messageType.forEach(function(_textMessage) {
+                Menu.addOption("PSDE.textMessageInteractRead('{0}', '{1}')".format(_phoneInstance.id, _textMessage.id), "From " + _textMessage.from, _textMessage.time);
+            });
+        }
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.phoneInteract('{0}')".format(_phoneInstance.id), "Check Phone");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(0)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.generate();
+    }
+    static textMessageInteractRead(_phoneInstance, _textMessage) {
+        if (!(_phoneInstance instanceof PhoneInstance)) {
+            if (PSDE.phoneInstances.has(_phoneInstance))
+                _phoneInstance = PSDE.phoneInstances.get(_phoneInstance);
+            else
+                return undefined;
+        }
+
+        if (!(_textMessage instanceof TextMessage)) {
+            if (PSDE.textMessages.has(_textMessage))
+                _textMessage = PSDE.textMessages.get(_textMessage);
+            else
+                return undefined;
+        }
+
+        _phoneInstance.readMessage(_textMessage);
+        Content.add("<blockquote class='small'><div>{0}</div><div>From: {1}</div><div>To: {2}</div><p>{3}</p></blockquote>".format(_textMessage.time, _textMessage.from, _textMessage.to, _textMessage.message));
+
+        PSDE.runLastMenu();
+    }
+
+    static webSiteInteract(_webSite = undefined) {
+        if (!(_webSite instanceof WebSite))
+            _webSite = webSites.has(_webSite) ? webSites.get(_webSite) : undefined;
+        
+        if (typeof _webSite == "undefined")
+            document.getElementById("webModalBody").innerHTML = "404 Page Not Found.";
+        else
+            document.getElementById("webModalBody").innerHTML = _webSite.id;
     }
 }
 
@@ -1060,12 +5042,12 @@ class Entity {
             if (typeof _id == "string") {
                 _id = _id.replace(/\W+/g, "");
                 if (_id.length == 0) {
-                    if (debug) console.log("ID for Character was not a valid String");
+                    if (PSDE.enableDebug) console.log("ID for Character was not a valid String");
                     return undefined;
                 }
             }
             else {
-                if (debug) console.log("ID for Character was not a String");
+                if (PSDE.enableDebug) console.log("ID for Character was not a String");
                 return undefined;
             }
             /**
@@ -1094,12 +5076,12 @@ class Entity {
 
             /**
              * Actions available to this Entity
-             * @type {Set} <kActionTypes>
+             * @type {Set} <PSDE.kActionTypes>
              */
             this.availableActions = new Set();
             /**
-             * kSpecialProperties
-             * @type {Set} <kSpecialProperties>
+             * PSDE.kSpecialProperties
+             * @type {Set} <PSDE.kSpecialProperties>
              */
             this.specialProperties = new Set();
 
@@ -1113,7 +5095,54 @@ class Entity {
             this.addSpecialProperty("exists");
         }
         
-        entityIndices.set(this.id, this);
+        PSDE.entities.set(this.id, this);
+    }
+    triggerActionEvent(_action, _item = undefined, _characterB = undefined) {
+        if (!PSDE.kActionTypes.has(_action))
+            return undefined;
+        if (!(_item instanceof Item) && _item != undefined) {
+            if (PSDE.items.has(_item))
+                _item = PSDE.items.get(_item);
+            else if (_item instanceof ItemInstance)
+                _item = _item.parent;
+            else if (PSDE.itemInstances.has(_item))
+                _item = PSDE.itemInstances.get(_item).parent;
+            else
+                return undefined;
+        }
+        if (!(_characterB instanceof Entity) && _characterB != undefined) {
+            if (PSDE.entities.has(_characterB))
+                _characterB = PSDE.entities.get(_characterB);
+            else
+                return undefined;
+        }
+        var _eventResults = new Array();
+        PSDE.events.forEach(function(_event) {
+            if (
+                _event.action == _action &&
+                _event.item == _item &&
+                (_event.characterA == undefined || _event.characterA.id == this.id) &&
+                (_event.characterB == undefined || _characterB instanceof Entity && _event.characterB.id == _characterB.id) &&
+                (_event.room == undefined || this.room instanceof Room && _event.room.sid == this.room.sid) &&
+                (_event.cell == undefined || this.cell instanceof Cell && _event.cell.id == this.room.cell.id) &&
+                (_event.location == undefined || (this.room.cell.location instanceof Location || this.room.location instanceof Location) && (_event.location.id == this.room.cell.id || _event.location.id == this.room.location.id)) &&
+                (_event.cron == undefined || _event.cron.containsDateTime(PSDE.currentTime) || _event.cron.containsDateTime(PSDE.previousTime))
+            ) {
+                _eventResults.push(_event.execute());
+            }
+        }, this);
+        if (_eventResults.length == 0)
+            return true;
+        else {
+            var _result = false;
+            _eventResults.some(function(_results) {
+                if (_results) {
+                    _result = true;
+                    return true;
+                }
+            }, this);
+            return _result;
+        }
     }
 
     toJSON() {
@@ -1209,7 +5238,7 @@ class Entity {
                 this.image = "resources/images/{0}/{1}.svg".format(_subPath, this.id);
             else
                 this.image = "resources/images/{0}/{1}.{2}".format(_subPath, _image[0], _image[1]);
-            delete this._fileType;
+            this._fileType = null;
         }
         else if (_image.slice(0, 11) == "data:image/") {
             this.image = _image;
@@ -1224,29 +5253,29 @@ class Entity {
 
     /**
      * Adds an available Action when interacting with this Entity
-     * @param {String} _actions (kActionTypes)
+     * @param {String} _actions (PSDE.kActionTypes)
      */
     addAvailableAction(_actions) {
-        if (kActionTypes.has(_actions))
+        if (PSDE.kActionTypes.has(_actions))
             this.availableActions.add(_actions);
         else if (_actions instanceof Array) {
             _actions.forEach(function(_action) {
-                kActionTypes.has(_action) && this.availableActions.add(_action);
+                PSDE.kActionTypes.has(_action) && this.availableActions.add(_action);
             }, this);
         }
         return this;
     }
     /**
      * Removes an available Action when interacting with this Entity
-     * @param  {String} _actions (kActionTypes)
+     * @param  {String} _actions (PSDE.kActionTypes)
      * @return {Booealn}          Whether or not the Action was removed
      */
     removeAvailableAction(_actions) {
-        if (kActionTypes.has(_actions))
+        if (PSDE.kActionTypes.has(_actions))
             this.availableActions.delete(_actions);
         else if (_actions instanceof Array) {
             _actions.forEach(function(_action) {
-                kActionTypes.has(_action) && this.availableActions.delete(_action);
+                PSDE.kActionTypes.has(_action) && this.availableActions.delete(_action);
             }, this);
         }
         return this;
@@ -1256,33 +5285,33 @@ class Entity {
     }
 
     /**
-     * Adds a kSpecialProperties
-     * @param {String} _specialProperties (kSpecialProperties)
+     * Adds a PSDE.kSpecialProperties
+     * @param {String} _specialProperties (PSDE.kSpecialProperties)
      */
     addSpecialProperty(_specialProperties) {
-        if (kSpecialProperties.has(_specialProperties))
+        if (PSDE.kSpecialProperties.has(_specialProperties))
             this.specialProperties.add(_specialProperties);
         else if (_specialProperties instanceof Array) {
             _specialProperties.forEach(function(_specialProperties) {
-                kSpecialProperties.has(_specialProperties) && this.specialProperties.add(_specialProperties);
+                PSDE.kSpecialProperties.has(_specialProperties) && this.specialProperties.add(_specialProperties);
             }, this);
         }
         return this;
     }
     /**
-     * Returns this Entity's kSpecialProperties
-     * @return {Set} <String (kSpecialProperties)>
+     * Returns this Entity's PSDE.kSpecialProperties
+     * @return {Set} <String (PSDE.kSpecialProperties)>
      */
     getSpecialProperties() {
         return this.specialProperties;
     }
     /**
-     * Returns whether or not this Entity has the specified kSpecialProperties
-     * @param  {String}  _specialProperties (kSpecialProperties)
-     * @return {Boolean}              Whether or not this Entity has the specified kSpecialProperties
+     * Returns whether or not this Entity has the specified PSDE.kSpecialProperties
+     * @param  {String}  _specialProperties (PSDE.kSpecialProperties)
+     * @return {Boolean}              Whether or not this Entity has the specified PSDE.kSpecialProperties
      */
     hasSpecialProperty(_specialProperties) {
-        if (kSpecialProperties.has(_specialProperties))
+        if (PSDE.kSpecialProperties.has(_specialProperties))
             return this.specialProperties.has(_specialProperties);
         else
             return false;
@@ -1302,8 +5331,207 @@ class Entity {
     }
 
     delete() {
-        entityIndices.delete(this.id);
+        PSDE.entities.delete(this.id);
         return undefined;
+    }
+}
+
+class EntityWithStorage extends Entity {
+    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
+        super(_id, _name, _description, _image);
+        /**
+         * Item(s) this Character has
+         * @type {Array} <ItemInstance>
+         */
+        this.items = new Array();
+    }
+    /**
+     * Adds _itemInstance; creates an ItemInstance if an Item is passed
+     * @param  {Entity} _entity       _entity to take the _itemInstance from
+     * @param  {ItemInstance} _itemInstance ItemInstance, or Item, to be added
+     * @return {Boolean}               Whether or not _itemInstance was added
+     */
+    addItem(_itemInstance, _entity = undefined) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else if (_itemInstance instanceof Item)
+                _itemInstance = new ItemInstance(undefined, _itemInstance);
+            else if (PSDE.items.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, PSDE.items.get(_itemInstance));
+            else
+                return undefined;
+        }
+        if (!(_entity instanceof Entity)) {
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity.parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
+            else
+                _entity = undefined;
+        }
+
+        if (this.triggerActionEvent("take", _itemInstance.parent, _entity)) {
+            if (!this.containsItem(_itemInstance.id))
+                this.items.push(_itemInstance);
+
+            if (this instanceof Character && _itemInstance instanceof PhoneInstance && _itemInstance.owner == this)
+                this.phone = _itemInstance;
+        }
+
+        return this;
+    }
+    /**
+     * Alias for addItem
+     * @param  {Entity} _entity       _entity to take the _itemInstance from
+     * @param  {ItemInstance} _itemInstance ItemInstance, or Item, to be added
+     * @return {Boolean}               Whether or not _itemInstance was added
+     */
+    take(_entity, _itemInstance) {
+        return this.addItem(_itemInstance, _entity).containsItem(_itemInstance);
+    }
+    /**
+     * Removes an ItemInstance from this Character
+     * @param  {ItemInstance} _itemInstance ItemInstance, or Item, to be removed
+     * @return {Boolean}               Whether or not _itemInstance was removed
+     */
+    removeItem(_itemInstance) {
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = this.getItem(_itemInstance);
+            if (typeof _itemInstance == "undefined") return undefined;
+        }
+        if (!this.hasItem(_itemInstance))
+            return false;
+        if (this instanceof Character) {
+            if (this.isWearing(_itemInstance)) {
+                this.disrobe(_itemInstance);
+                if (this.isWearing(_itemInstance))
+                    return false;
+            }
+            if (this.hasHeldEntity(_itemInstance)) {
+                this.removeHeldEntity(_itemInstance);
+                if (this.hasHeldEntity(_itemInstance))
+                    return false
+            }
+        }
+        if (this.triggerActionEvent("remove", _itemInstance.parent)) {
+            this.items.splice(this.items.indexOf(_itemInstance), 1);
+            return true;
+        }
+        else
+            return false;
+    }
+    /**
+     * Alias for removeItem
+     * @param  {ItemInstance} _itemInstance ItemInstance, or Item, to be removed
+     * @return {Boolean}               Whether or not _itemInstance was removed
+     */
+    remove(_itemInstance) {
+        return !(this.removeItem(_itemInstance, _entity).containsItem(_itemInstance));
+    }
+    /**
+     * Returns the ItemInstance of a passed Item or ItemInstance if this Character has it
+     * @param  {ItemInstance} _itemInstance The Item or ItemInstance to search for
+     * @return {ItemInstance}               The ItemInstance that is found, or undefined if it isn't
+     */
+    getItem(_itemInstance) {
+        var _foundItem = false;
+
+        if (!(_itemInstance instanceof ItemInstance)) {
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
+            else if (_itemInstance instanceof Item) {
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.parent == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                /**
+                 * We've already gone through this.items and found what we were looking for, or not;
+                 * no need to continue through the rest of this method.
+                 */
+                if (_foundItem)
+                    return _itemInstance;
+                else
+                    return false;
+            }
+            else if (PSDE.items.has(_itemInstance)) {
+                _itemInstance = PSDE.items.get(_itemInstance);
+                this.items.some(function(__itemInstance) {
+                    if (__itemInstance.parent == _itemInstance) {
+                        _itemInstance = __itemInstance;
+                        _foundItem = true;
+                        return true;
+                    }
+                }, this);
+                if (_foundItem)
+                    return _itemInstance;
+                else
+                    return false;
+            }
+            else
+                return undefined;
+        }
+
+        this.items.some(function(__itemInstance) {
+            if (__itemInstance.id == _itemInstance.id)
+                _foundItem = true;
+        });
+
+        if (_foundItem)
+            return _itemInstance;
+        else
+            return false;
+    }
+
+    containsItem(_itemInstance) {
+        return this.getItem(_itemInstance) instanceof ItemInstance;
+    }
+    hasItem(_itemInstance) {
+        return this.getItem(_itemInstance) instanceof ItemInstance;
+    }
+    getItems() {
+        return this.items;
+    }
+    getNumberOfItems() {
+        return this.items.length;
+    }
+    /**
+     * Moves _itemInstance to _entity, triggering disrobe, release, remove, and take events in the process.
+     * @param  {Entity} _entity       [description]
+     * @param  {ItemInstance} _itemInstance [description]
+     * @return {Boolean}               [description]
+     */
+    give(_entity, _itemInstance) {
+        if (!(_entity instanceof Entity)) {
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity.parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
+            else
+                return undefined;
+        }
+        if (!(_itemInstance instanceof ItemInstance)) {
+            _itemInstance = _entity.getItem(_itemInstance);
+            if (_itemInstance == undefined) return undefined;
+        }
+        if (PSDE.enableDebug) console.log("Executing give({0}, {1}) as {2}".format(_entity.id, _itemInstance.parent.id, this.id));
+        if (!this.hasItem(_itemInstance))
+            return false;
+        if (!this.removeItem(_itemInstance))
+            return false;
+        if (_entity instanceof Character && this.triggerActionEvent("give", _itemInstance.parent, _entity))
+            return _entity.take(_entity, _itemInstance);
+        else if (this.triggerActionEvent("put", _itemInstance.parent, _entity))
+            return _entity.take(_entity, _itemInstance);
+        else
+            return false;
     }
 }
 
@@ -1311,7 +5539,7 @@ class Entity {
  * Class that represents all Character(s)
  * @extends {Entity}
  */
-class Character extends Entity {
+class Character extends EntityWithStorage {
     /**
      * Creates a Character
      * @param  {String} _id      Unique ID
@@ -1349,7 +5577,7 @@ class Character extends Entity {
             }
         }
 
-        if (debug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
+        if (PSDE.enableDebug) console.log("Creating a new instance of Character with ID `{0}`".format(_id));
 
         if (_createNewInstanceFromScratch)
             super(_id.replace(/[^0-9a-z]/gi, ''));
@@ -1369,17 +5597,30 @@ class Character extends Entity {
          * @type {String} Relative path to an image, or base64 encoded String
          */
         this.image = undefined;
+        /**
+         * Character's mesh
+         * @type {[type]}
+         */
+        this.mesh = undefined;
         this.class = undefined;
         /**
          * Age
          * @type {Number} 0 to Number.MAX_SAFE_INTEGER
          */
         this.age = 18;
-        this.sex = 0;
-        this.gender = 0;
+        /**
+         * Physical sexual identity
+         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
+         */
+        this._sex = PSDE.kMale;
+        /**
+         * Personal sexual identity
+         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
+         */
+        this.gender = PSDE.kMale;
         /**
          * Intraactions this Character is currently performing
-         * @type {Map} <kIntraactionTypes>
+         * @type {Map} <PSDE.kIntraactionTypes>
          */
         this.currentActions = {};
         /**
@@ -1391,12 +5632,7 @@ class Character extends Entity {
          * Spells known by this Character
          * @type {Set} <Spell>
          */
-        this.knownSpells = new Set();
-        /**
-         * Item(s) this Character has
-         * @type {Array} <ItemInstance>
-         */
-        this.items = new Array();
+        this.spells = new Set();
         /**
          * Dominant hand
          * @type {String} "leftHand" or "rightHand"
@@ -1499,6 +5735,8 @@ class Character extends Entity {
          * @type {Number}
          */
         this.charisma = 10;
+        this.xp = 0;
+        this.level = 1;
         /**
          * Max life; should never drop below 1
          * @type {Number} 1 to Number.MAX_SAFE_INTEGER
@@ -1580,16 +5818,6 @@ class Character extends Entity {
          */
         this.living = true;
         /**
-         * Physical sexual identity
-         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
-         */
-        //this.sex = 0;
-        /**
-         * Personal sexual identity
-         * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
-         */
-        //this.gender = 0;
-        /**
          * Primary fur colour
          * @type {String}
          */
@@ -1626,12 +5854,12 @@ class Character extends Entity {
         this.predator = false;
         /**
          * Hand type
-         * @type {String} (kHandTypes)
+         * @type {String} (PSDE.kHandTypes)
          */
         this.handType = "pad";
         /**
          * Feet type
-         * @type {String} (kHandTypes)
+         * @type {String} (PSDE.kHandTypes)
          */
         this.feetType = "pad";
         /**
@@ -1641,7 +5869,7 @@ class Character extends Entity {
         this.relatives = new Set();
         /**
          * Eye type
-         * @type {String} (kEyeTypes)
+         * @type {String} (PSDE.kEyeTypes)
          */
         this.eyeType = "circle";
         /**
@@ -1651,7 +5879,7 @@ class Character extends Entity {
         this.eyeColour = "green";
         /**
          * Pelt type
-         * @type {String} (kPeltTypes)
+         * @type {String} (PSDE.kPeltTypes)
          */
         this.peltType = "fur";
         /**
@@ -2039,7 +6267,8 @@ class Character extends Entity {
         this.setClass(_class);
         this.setAge(_age);
         this.setSex(_sex);
-        this.setGender(this.sex);
+        this.setGender(this.getSex());
+        this.setSpecies(_species);
         this.addAvailableAction("talk");
         this.addAvailableAction("attack");
         this.addAvailableAction("follow");
@@ -2047,33 +6276,31 @@ class Character extends Entity {
         this.addAvailableAction("hold");
         this.addAvailableAction("open"); // inventory... maybe :v
         this.addAvailableAction("give");
-        this.addAvailableAction("remove");
         this.addAvailableAction("take");
-        this.addAvailableAction("wear");
         this.addAvailableAction("hug");
         this.addAvailableAction("kiss");
 
-        characterIndices.set(this.id, this);
+        PSDE.characters.set(this.id, this);
 
-        this.setSpecies(_species);
+        this._generateProperties();
         this.stand();
     }
     
     fromJSON(json = "") {
-        if (debug) console.log("Running fromJSON");
+        if (PSDE.enableDebug) console.log("Running fromJSON");
         
         if (typeof json == "string") {
             try {
                 json = JSON.parse(json);
             }
             catch (e) {
-                if (debug) console.log("Parameter `json` could not be parsed to JSON.");
+                if (PSDE.enableDebug) console.log("Parameter `json` could not be parsed to JSON.");
                 return undefined;
             }
         }
         
         if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
-            if (debug) console.log("ID or Name are undefined.");
+            if (PSDE.enableDebug) console.log("ID or Name are undefined.");
             return undefined;
         }
 
@@ -2138,7 +6365,7 @@ class Character extends Entity {
             if (!(this.bodyParts instanceof Set)) this.bodyParts = new Set();
             _tmpArr = JSON.parse(json["bodyParts"]);
             _tmpArr.forEach(function(_bodyPart) {
-                if (kBodyPartTypes.has(_bodyPart))
+                if (PSDE.kBodyPartTypes.has(_bodyPart))
                     this.addBodyPart(_bodyPart);
             }, this);
         } catch (e) {}
@@ -2148,7 +6375,7 @@ class Character extends Entity {
             if (!(this.bodyPartsSlickWithCum instanceof Set)) this.bodyPartsSlickWithCum = new Set();
             _tmpArr = JSON.parse(json["bodyPartsSlickWithCum"]);
             _tmpArr.forEach(function(_bodyPart) {
-                if (kBodyPartTypes.has(_bodyPart))
+                if (PSDE.kBodyPartTypes.has(_bodyPart))
                     this.addBodyPartSlickWithCum(_bodyPart);
             }, this);
         } catch (e) {}
@@ -2158,7 +6385,7 @@ class Character extends Entity {
             if (!(this.bodyPartsSlickWithPre instanceof Set)) this.bodyPartsSlickWithPre = new Set();
             _tmpArr = JSON.parse(json["bodyPartsSlickWithPre"]);
             _tmpArr.forEach(function(_bodyPart) {
-                if (kBodyPartTypes.has(_bodyPart))
+                if (PSDE.kBodyPartTypes.has(_bodyPart))
                     this.addBodyPartSlickWithPre(_bodyPart);
             }, this);
         } catch (e) {}
@@ -2168,8 +6395,8 @@ class Character extends Entity {
             if (!(this.followers instanceof Set)) this.followers = new Set();
             _tmpArr = JSON.parse(json["followers"]);
             _tmpArr.forEach(function(_character) {
-                if (characterIndices.has(_character))
-                    this.addFollower(characterIndices.get(_character));
+                if (PSDE.characters.has(_character))
+                    this.addFollower(PSDE.getCharacterByID(_character));
             }, this);
         } catch (e) {}
         delete json["followers"];
@@ -2178,8 +6405,8 @@ class Character extends Entity {
             if (!(this._dating instanceof Set)) this._dating = new Set();
             _tmpArr = JSON.parse(json["_dating"]);
             _tmpArr.forEach(function(_character) {
-                if (characterIndices.has(_character))
-                    this.dateCharacter(characterIndices.get(_character));
+                if (PSDE.characters.has(_character))
+                    this.dateCharacter(PSDE.getCharacterByID(_character));
             }, this);
         } catch (e) {}
         delete json["_dating"];
@@ -2188,8 +6415,8 @@ class Character extends Entity {
             if (!(this.items instanceof Set)) this.items = new Array();
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemInstanceIndices.has(_item))
-                    this.addItem(itemInstanceIndices.get(_item));
+                if (PSDE.itemInstances.has(_item))
+                    this.addItem(PSDE.itemInstances.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -2198,21 +6425,21 @@ class Character extends Entity {
             if (!(this.knownLocations instanceof Set)) this.knownLocations = new Set();
             _tmpArr = JSON.parse(json["knownLocations"]);
             _tmpArr.forEach(function(_location) {
-                if (locationIndices.has(_location))
-                    this.knownLocations.add(locationIndices.get(_location));
+                if (PSDE.locations.has(_location))
+                    this.knownLocations.add(PSDE.locations.get(_location));
             }, this);
         } catch (e) {}
         delete json["knownLocations"];
-        //  knownSpells
+        //  spells
         try {
-            if (!(this.knownSpells instanceof Set)) this.knownSpells = new Set();
-            _tmpArr = JSON.parse(json["knownSpells"]);
+            if (!(this.spells instanceof Set)) this.spells = new Set();
+            _tmpArr = JSON.parse(json["spells"]);
             _tmpArr.forEach(function(_spell) {
-                if (spellIndices.has(_spell))
-                    this.knownSpells.add(spellIndices.get(_spell));
+                if (PSDE.spells.has(_spell))
+                    this.spells.add(PSDE.spells.get(_spell));
             }, this);
         } catch (e) {}
-        delete json["knownSpells"];
+        delete json["spells"];
         //  prefersSpecies
         try {
             if (!(this.prefersSpecies instanceof Set)) this.prefersSpecies = new Set();
@@ -2227,8 +6454,8 @@ class Character extends Entity {
             if (!(this.relatlives instanceof Set)) this.relatlives = new Set();
             _tmpArr = JSON.parse(json["relatives"]);
             _tmpArr.forEach(function(_character) {
-                if (characterIndices.has(_character))
-                    this.addRelative(characterIndices.get(_character), false);
+                if (PSDE.characters.has(_character))
+                    this.addRelative(PSDE.getCharacterByID(_character), false);
             }, this);
         } catch (e) {}
         delete json["relatives"];
@@ -2237,7 +6464,7 @@ class Character extends Entity {
             if (!(this.specialProperties instanceof Set)) this.specialProperties = new Set();
             _tmpArr = JSON.parse(json["specialProperties"]);
             _tmpArr.forEach(function(_specialProperties) {
-                if (kSpecialProperties.has(_specialProperties))
+                if (PSDE.kSpecialProperties.has(_specialProperties))
                     this.addSpecialProperty(_specialProperties);
             }, this);
         } catch (e) {}
@@ -2249,9 +6476,9 @@ class Character extends Entity {
             if (!(this.sexCountMap instanceof Set)) this.sexCountMap = new Map();
             _tmpArr = JSON.parse(json["sexCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (characterIndices.has(_character)) {
+                if (PSDE.characters.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.sexCountMap.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexCountMap.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2265,9 +6492,9 @@ class Character extends Entity {
             if (!(this.sexRefusalCountMap instanceof Set)) this.sexRefusalCountMap = new Map();
             _tmpArr = JSON.parse(json["sexRefusalCountMap"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (characterIndices.has(_character)) {
+                if (PSDE.characters.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this.sexRefusalCountMap.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
+                    this.sexRefusalCountMap.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2282,7 +6509,7 @@ class Character extends Entity {
             this.characterDisposition = new Map();
             _tmpArr = JSON.parse(json["characterDisposition"]);
             _tmpArr.forEach(function(_character) {
-                if (characterIndices.has(_character[0]))
+                if (PSDE.characters.has(_character[0]))
                     this.setCharacterDisposition(_character[0], _character[1]);
                 else
                     return undefined;
@@ -2304,8 +6531,8 @@ class Character extends Entity {
                 var _actionType = _arr[0];
                 var _entity = _arr[1];
 
-                if (entityIndices.has(_entity))
-                    _entity = entityIndices.get(_entity);
+                if (PSDE.entities.has(_entity))
+                    _entity = PSDE.entities.get(_entity);
                 if (_entity instanceof Furniture) {
                     switch (_actionType) {
                         case "lay" : {
@@ -2375,7 +6602,7 @@ class Character extends Entity {
             _tmpArr = JSON.parse(json["clothing"]);
             _tmpArr.forEach(function(_clothing) {
                 if (!(_clothing instanceof Clothing))
-                    _clothing = clothingIndices.has(_clothing) ? clothingIndices.get(_clothing) : undefined;
+                    _clothing = PSDE.clothing.has(_clothing) ? PSDE.clothing.get(_clothing) : undefined;
 
                 if (_clothing instanceof Clothing)
                     this.wear(_clothing);
@@ -2389,9 +6616,9 @@ class Character extends Entity {
             if (!(this._dated instanceof Set)) this._dated = new Map();
             _tmpArr = JSON.parse(json["_dated"]);
             _tmpArr.forEach(function(_int, _character) {
-                if (characterIndices.has(_character)) {
+                if (PSDE.characters.has(_character)) {
                     _int = Number.parseInt(_int);
-                    this._dated.set(characterIndices.get(_character), (_int >= 0 ? _int : 0));
+                    this._dated.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
                 }
                 else
                     return undefined;
@@ -2408,36 +6635,36 @@ class Character extends Entity {
         delete json["defaultDisposition"];
         //  following
         this.following = undefined;
-        if (characterIndices.has(json["following"]))
-            this.follow(characterIndices.get(json["following"]));
+        if (PSDE.characters.has(json["following"]))
+            this.follow(PSDE.getCharacterByID(json["following"]));
         delete json["following"];
         //  furniture
         this.furniture = undefined;
-        if (furnitureIndices.has(json["furniture"])) {
-            furnitureIndices.get(json["furniture"]).addCharacter(this);
-            this.furniture = furnitureIndices.get(json["furniture"]);
+        if (PSDE.furniture.has(json["furniture"])) {
+            PSDE.furniture.get(json["furniture"]).addCharacter(this);
+            this.furniture = PSDE.furniture.get(json["furniture"]);
         }
         delete json["furniture"];
         //  phone
         this.phone = undefined;
-        if (phoneIndices.has(json["phone"])) {
-            this.phone = phoneIndices.get(json["phone"]);
+        if (PSDE.phones.has(json["phone"])) {
+            this.phone = PSDE.phones.get(json["phone"]);
         }
         delete json["phone"];
         //  previousRoom
         this.previousRoom = undefined;
-        if (roomIndices.has(json["previousRoom"]))
-            this.previousRoom = roomIndices.get(json["previousRoom"]);
+        if (PSDE.rooms.has(json["previousRoom"]))
+            this.previousRoom = PSDE.rooms.get(json["previousRoom"]);
         delete json["previousRoom"];
         //  room
         this.room = undefined;
-        if (roomIndices.has(json["room"]))
-            this.moveToRoom(roomIndices.get(json["room"]));
+        if (PSDE.rooms.has(json["room"]))
+            this.moveToRoom(PSDE.rooms.get(json["room"]));
         delete json["room"];
         delete json["cell"];
         delete json["location"];
 
-        if (kHandTypes.has(json["handType"]))
+        if (PSDE.kHandTypes.has(json["handType"]))
             this.setHand(json["handType"])
         delete json["handType"];
 
@@ -2463,7 +6690,7 @@ class Character extends Entity {
 
     setImage(_image) {
         if (typeof _image == "undefined")
-            this.image = "resources/images/characters/{0}.svg".format(this.id); // base64 image, or url
+            this.image = "resources/images/characters/Avatar.svg".format(this.id); // base64 image, or url
         else if (_image.slice(0, 28) == "resources/images/characters/") {
             _image = _image.slice(28);
             _image = _image.split('.');
@@ -2490,7 +6717,7 @@ class Character extends Entity {
     }
 
     setClass(_class) {
-        if (kCharacterClasses.has(_class))
+        if (PSDE.kCharacterClasses.has(_class))
             this.class = _class;
         else
             this.class = "commoner";
@@ -2505,128 +6732,14 @@ class Character extends Entity {
         else if (_cost instanceof Spell) {
             _cost = _cost.manaCost;
         }
-        else if (spellIndices.has(_cost))
-            _cost = spellIndices.get(_cost).manaCost;
+        else if (PSDE.spells.has(_cost))
+            _cost = PSDE.spells.get(_cost).manaCost;
         if (this.manaCostOffsetPercent == 0 || _cost == 0)
             return _cost;
         else if (_cost < 0)
             return 0;
         else
             return _cost - (_cost / (100 / this.manaCostOffsetPercent));
-    }
-
-    getItems() {
-        return this.items;
-    }
-    /**
-     * Adds an ItemInstance to this Character; creates an ItemInstance if an Item is passed
-     * @param {ItemInstance} _itemInstance The ItemInstance, or Item, to be added to this Character
-     * @return {Boolean}               Whether or not the ItemInstance was added
-     */
-    addItem(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (itemIndices.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
-            else
-                return undefined;
-        }
-        if (!this.containsItem(_itemInstance.id))
-            this.items.push(_itemInstance);
-
-        if (_itemInstance instanceof PhoneInstance && _itemInstance.owner == this)
-            this.phone = _itemInstance;
-
-        return this;
-    }
-    /**
-     * Removes an ItemInstance from this Character
-     * @param  {ItemInstance} _itemInstance The ItemInstance, or Item, to be removed from this Character
-     * @return {Boolean}               Whether or not the ItemInstance was removed
-     */
-    removeItem(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else
-                _itemInstance = this.getItem(_itemInstance);
-        }
-        if (_itemInstance instanceof ItemInstance)
-            this.items.splice(this.items.indexOf(_itemInstance), 1);
-
-        return this;
-    }
-    /**
-     * Returns the ItemInstance of a passed Item or ItemInstance if this Character has it
-     * @param  {ItemInstance} _itemInstance The Item or ItemInstance to search for
-     * @return {ItemInstance}               The ItemInstance that is found, or undefined if it isn't
-     */
-    getItem(_itemInstance) {
-        var _foundItem = false;
-
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else if (_itemInstance instanceof Item) {
-                this.items.some(function(__itemInstance) {
-                    if (__itemInstance.parent == _itemInstance) {
-                        _itemInstance = __itemInstance;
-                        _foundItem = true;
-                        return true;
-                    }
-                }, this);
-                /**
-                 * We've already gone through this.items and found what we were looking for, or not;
-                 * no need to continue through the rest of this method.
-                 */
-                if (_foundItem)
-                    return _itemInstance;
-                else
-                    return false;
-            }
-            else if (itemIndices.has(_itemInstance)) {
-                _itemInstance = itemIndices.get(_itemInstance);
-                this.items.some(function(__itemInstance) {
-                    if (__itemInstance.parent == _itemInstance) {
-                        _itemInstance = __itemInstance;
-                        _foundItem = true;
-                        return true;
-                    }
-                }, this);
-                if (_foundItem)
-                    return _itemInstance;
-                else
-                    return false;
-            }
-            else
-                return undefined;
-        }
-
-        this.items.some(function(__itemInstance) {
-            if (__itemInstance.id == _itemInstance.id)
-                _foundItem = true;
-        });
-
-        if (_foundItem)
-            return _itemInstance;
-        else
-            return false;
-    }
-
-    containsItem(_itemInstance) {
-        return this.getItem(_itemInstance) instanceof ItemInstance;
-    }
-    hasItem(_itemInstance) {
-        return this.getItem(_itemInstance) instanceof ItemInstance;
-    }
-    getItems() {
-        return this.items;
-    }
-    getNumberOfItems() {
-        return this.items.length;
     }
 
     setHandedness(_hand) {
@@ -2660,8 +6773,8 @@ class Character extends Entity {
      */
     addHeldEntity(_entityInstance, _hand = undefined) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instanceIndices.has(_entityInstance))
-                _entityInstance = instanceIndices.get(_entityInstance);
+            if (PSDE.instances.has(_entityInstance))
+                _entityInstance = PSDE.instances.get(_entityInstance);
             else
                 return this;
         }
@@ -2690,8 +6803,14 @@ class Character extends Entity {
             else
                 _hand = this.getFreeHand();
         }
-        this.heldEntities[_hand] = _entityInstance;
-        this.currentActions["hold"] = this.heldEntities;
+        if (this.heldEntities[_hand] instanceof Entity) {
+            if (!this.removeHeldEntity(this.heldEntities[_hand]))
+                return this;
+        }
+        if (this.triggerActionEvent("hold", _entityInstance.parent)) {
+            this.heldEntities[_hand] = _entityInstance;
+            this.currentActions["hold"] = this.heldEntities;
+        }
         return this;
     }
     /**
@@ -2702,8 +6821,8 @@ class Character extends Entity {
      */
     removeHeldEntity(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instanceIndices.has(_entityInstance))
-                _entityInstance = instanceIndices.get(_entityInstance);
+            if (PSDE.instances.has(_entityInstance))
+                _entityInstance = PSDE.instances.get(_entityInstance);
             else if (_entityInstance == "leftHand")
                 _entityInstance = this.getEntityInLeftHand();
             else if (_entityInstance == "rightHand")
@@ -2711,19 +6830,19 @@ class Character extends Entity {
             else
                 return this;
         }
-        if (_entityInstance instanceof ItemInstance) {
+        if (this.hasHeldEntity(_entityInstance) && this.triggerActionEvent("release", _entityInstance.parent)) {
             if (this.getEntityInRightHand() == _entityInstance)
                 this.removeEntityInRightHand();
             if (this.getEntityInLeftHand() == _entityInstance)
                 this.removeEntityInLeftHand();
+            this.currentActions["hold"] = this.heldEntities;
         }
-        this.currentActions["hold"] = this.heldEntities;
         return this;
     }
     hasHeldEntity(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (entityInstanceIndices.has(_entityInstance))
-                _entityInstance = entityInstanceIndices.get(_entityInstance);
+            if (PSDE.entityInstances.has(_entityInstance))
+                _entityInstance = PSDE.entityInstances.get(_entityInstance);
             else {
                 _entityInstance = this.getItem(_entityInstance);
                 if (!(_entityInstance instanceof EntityInstance))
@@ -3161,6 +7280,51 @@ class Character extends Entity {
                 return;
         }
     }
+    setLevel(_int = 0) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > PSDE.kCharacterLevelMax)
+            _int = PSDE.kCharacterLevelMax;
+        this.experiencePoints = PSDE.calculateLevel(_int);
+        return this;
+    }
+
+    setXP(_int = 0) {
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > PSDE.kCharacterXPMax)
+            _int = PSDE.kCharacterXPMax;
+        this.experiencePoints = _int;
+        return this;
+    }
+    incXP(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setXP(this.xp + Number.parseInt(_int));
+    }
+    addXP(_int) {
+        return this.incXP(_int);
+    }
+    decXP(_int = 1) {
+        if (isNaN(_int))
+            _int = 1;
+        else if (_int < 1)
+            _int = 1;
+        return this.setXP(this.xp - Number.parseInt(_int));
+    }
+    subXP(_int) {
+        return this.decXP(_int);
+    }
+    getXP() {
+        return this.xp;
+    }
+
     setLife(_int) {
         if (isNaN(_int))
             _int = 0;
@@ -3698,13 +7862,13 @@ class Character extends Entity {
     }
 
     setExhibitionism(_int) {
-    	if (isNaN(_int))
-    		_int = 0;
-    	else if (_int < 0)
-    		_int = 0;
-    	else if (_int > 100)
-    		_int = 100;
-    	this.exhibitionism = _int;
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > 100)
+            _int = 100;
+        this.exhibitionism = _int;
         return this;
     }
     incExhibitionism(_int = 1) {
@@ -3732,13 +7896,13 @@ class Character extends Entity {
     }
 
     setSomnophilia(_int) {
-    	if (isNaN(_int))
-    		_int = 0;
-    	else if (_int < 0)
-    		_int = 0;
-    	else if (_int > 100)
-    		_int = 100;
-    	this.somnophilia = _int;
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > 100)
+            _int = 100;
+        this.somnophilia = _int;
         return this;
     }
     incSomnophilia(_int = 1) {
@@ -3766,13 +7930,13 @@ class Character extends Entity {
     }
 
     setIntoxication(_int) {
-    	if (isNaN(_int))
-    		_int = 0;
-    	else if (_int < 0)
-    		_int = 0;
-    	else if (_int > 100)
-    		_int = 100;
-    	this.intoxication = _int;
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > 100)
+            _int = 100;
+        this.intoxication = _int;
         return this;
     }
     incIntoxication(_int = 1) {
@@ -3800,14 +7964,14 @@ class Character extends Entity {
     }
 
     setIncestual(_int) {
-    	_int = Number.parseInt(_int);
-    	if (isNaN(_int))
-    		_int = 0;
-    	else if (_int < 0)
-    		_int = 0;
-    	else if (_int > 100)
-    		_int = 100;
-    	this.incestual = _int;
+        _int = Number.parseInt(_int);
+        if (isNaN(_int))
+            _int = 0;
+        else if (_int < 0)
+            _int = 0;
+        else if (_int > 100)
+            _int = 100;
+        this.incestual = _int;
         return this;
     }
     incIncestual(_int = 1) {
@@ -4036,14 +8200,14 @@ class Character extends Entity {
         }
         else
             _sex = 0;
-        this.sex = _sex;
+        this._sex = _sex;
         return this;
     }
     getSexName() {
-        return this.sex == 0 ? "male" : (this.sex == 1 ? "female" : "herm");
+        return this.getSex() == PSDE.kMale ? "male" : (this.getSex() == PSDE.kFemale ? "female" : "herm");
     }
     getSex() {
-        return this.sex;
+        return this._sex;
     }
 
     setGender(_gender) {
@@ -4080,16 +8244,16 @@ class Character extends Entity {
 
     getSexualOrientationCompatibility(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
         if (this.sexualOrientation == 2) // If you're bi
             return true;
-        else if (this.sex != _character.sex && this.sexualOrientation == 0) // else if you're both opposite sex, and you're straight
+        else if (this.getSex() != _character.getSex() && this.sexualOrientation == 0) // else if you're both opposite sex, and you're straight
             return true;
-        else if (this.sex == _character.sex && this.sexualOrientation == 1) // else if you're both same sex, and you're gay
+        else if (this.getSex() == _character.getSex() && this.sexualOrientation == 1) // else if you're both same sex, and you're gay
             return true;
         else // else no
             return false;
@@ -4129,11 +8293,11 @@ class Character extends Entity {
         return this;
     }
     setCharacterDisposition(_character, _passion = undefined, _friendship = undefined, _playfulness = undefined, _soulmate = undefined, _familial = undefined, _obsession = undefined, _hate = undefined) {
-        if (debug) console.log("Running setCharacterDisposition");
+        if (PSDE.enableDebug) console.log("Running setCharacterDisposition");
 
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4249,11 +8413,11 @@ class Character extends Entity {
         return this.getCharacterDisposition(_character, "hate");
     }
     getCharacterDisposition(_character, _dispositionType = undefined) {
-        if (debug) console.log("Running getCharacterDisposition");
+        if (PSDE.enableDebug) console.log("Running getCharacterDisposition");
 
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4267,10 +8431,10 @@ class Character extends Entity {
             return false;
     }
     hasCharacterDisposition(_character) {
-        if (debug) console.log("Running hasCharacterDisposition");
+        if (PSDE.enableDebug) console.log("Running hasCharacterDisposition");
         
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         
         return this.characterDisposition.has(_character);
     }
@@ -4282,8 +8446,8 @@ class Character extends Entity {
     }
     incCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4300,8 +8464,8 @@ class Character extends Entity {
     }
     decCharacterAllDispositions(_character, _int) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4319,8 +8483,8 @@ class Character extends Entity {
 
     addDating(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4334,8 +8498,8 @@ class Character extends Entity {
     }
     addDated(_character, _int = 1, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4369,8 +8533,8 @@ class Character extends Entity {
     }
     isDatingCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4382,8 +8546,8 @@ class Character extends Entity {
     }
     hasDatedCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4401,8 +8565,8 @@ class Character extends Entity {
     }
     getNumberOfDates(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4414,8 +8578,8 @@ class Character extends Entity {
     }
     deleteDating(_character, _updateParent) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4433,8 +8597,8 @@ class Character extends Entity {
     }
     deleteDated(_character, _updateParent) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4529,19 +8693,19 @@ class Character extends Entity {
         return this.clothing["shoes"].parent;
     }
     getClothing(_type) {
-        if (kClothingTypes.has(_type))
+        if (PSDE.kClothingTypes.has(_type))
             return this.clothing[_clothing.type];
         else
             return this.clothing;
     }
     setClothing(_itemInstance, _type = undefined) {
         if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (clothingIndices.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, clothingIndices.get(_itemInstance));
+            else if (PSDE.clothing.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, PSDE.clothing.get(_itemInstance));
             else
                 return this;
         }
@@ -4549,9 +8713,9 @@ class Character extends Entity {
         if (!(this.containsItem(_itemInstance, true)))
             this.addItem(_itemInstance);
 
-        if (_itemInstance instanceof ItemInstance && kClothingTypes.has(_itemInstance.parent.type))
-            this.clothing[kClothingTypes.has(_type) ? _type : _itemInstance.parent.type] = _itemInstance;
-        else if (kClothingTypes.has(_type))
+        if (_itemInstance instanceof ItemInstance && PSDE.kClothingTypes.has(_itemInstance.parent.type))
+            this.clothing[PSDE.kClothingTypes.has(_type) ? _type : _itemInstance.parent.type] = _itemInstance;
+        else if (PSDE.kClothingTypes.has(_type))
             this.clothing[_type] = undefined;
         return this;
     }
@@ -4559,21 +8723,21 @@ class Character extends Entity {
         return this.setClothing(_itemInstance, _type);
     }
     removeClothing(_itemInstance, _type = undefined) {
-        if (typeof _itemInstance == "string" && kClothingTypes.has(_itemInstance)) {
+        if (typeof _itemInstance == "string" && PSDE.kClothingTypes.has(_itemInstance)) {
             this.clothing[_itemInstance] = undefined;
             return this;
         }
-        else if (kClothingTypes.has(_type)) {
+        else if (PSDE.kClothingTypes.has(_type)) {
             this.clothing[_type] = undefined;
             return this;
         }
         if (!(_itemInstance instanceof ItemInstance) && _itemInstance !== undefined) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
             else if (_itemInstance instanceof Clothing)
                 _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (clothingIndices.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, clothingIndices.get(_itemInstance));
+            else if (PSDE.clothing.has(_itemInstance))
+                _itemInstance = new ItemInstance(undefined, PSDE.clothing.get(_itemInstance));
             else
                 return this;
         }
@@ -4583,25 +8747,25 @@ class Character extends Entity {
     }
 
     addCurrentAction(_actionType, _entity = undefined) {
-        if (!kActionTypes.has(_actionType))
+        if (!PSDE.kActionTypes.has(_actionType))
             return undefined;
         if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
-            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
+            _entity = PSDE.entities.has(_entity) ? PSDE.entities.get(_entity) : undefined;
 
         this.currentActions[_actionType] = _entity;
         return this;
     }
     removeCurrentAction(_actionType, _entity = undefined) {
-        if (!kActionTypes.has(_actionType))
+        if (!PSDE.kActionTypes.has(_actionType))
             return undefined;
         if (!(_entity instanceof Entity) && !(_entity instanceof EntityInstance))
-            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
+            _entity = PSDE.entities.has(_entity) ? PSDE.entities.get(_entity) : undefined;
 
         delete this.currentActions[_actionType];
         return this;
     }
     hasCurrentAction(_actionType) {
-        if (!kActionTypes.has(_actionType))
+        if (!PSDE.kActionTypes.has(_actionType))
             return undefined;
         return this.hasCurrentActionOwnProperty(_actionType);
     }
@@ -4609,7 +8773,7 @@ class Character extends Entity {
         return this.currentActions;
     }
     getCurrentAction(_actionType) {
-        if (!kActionTypes.has(_actionType))
+        if (!PSDE.kActionTypes.has(_actionType))
             return undefined;
         else if (!this.hasCurrentAction(_actionType))
             return undefined;
@@ -4643,20 +8807,71 @@ class Character extends Entity {
         return this.positionPresentTense();
     }
     hasStance(_actionType) {
-        if (kIntraactionTypes.has(_actionType))
+        if (PSDE.kIntraactionTypes.has(_actionType))
             return this.hasCurrentAction(_actionType);
         else
             return false;
     }
 
+    /**
+     * Have anal sex with _entity
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
+    anal(_entity) {
+        if (!(_entity instanceof Character)) {
+            if (PSDE.characters.has(_entity))
+                _entity = PSDE.getCharacterByID(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity;
+            else if (PSDE.entityInstances.has(_entity))
+                _entity = PSDE.entityInstances.get(_entity);
+            else
+                return undefined;
+        }
+        this.fuck(_entity);
+        if (_entity instanceof Character) {
+            if (_entity.hasBodyPart("penis")) {
+                this.addCurrentAction("sex", _entity.getBodyPart("penis"));
+                _entity.addCurrentAction("sex", this.getBodyPart("anus"));
+                this.incAnalReceiveCount();
+                _entity.incAnalGiveCount();
+            }
+            else if (_entity.hasBodyPart("vagina") && _entity.hasStrapon()) {
+                this.addCurrentAction("sex", _entity.getStrapon());
+                _entity.addCurrentAction("sex", this.getBodyPart("anus"));
+                this.incAnalReceiveCount();
+                _entity.incAnalGiveCount();
+            }
+            else
+                return false;
+        }
+        else if (_entity instanceof BodyPartInstance) {
+            this.addCurrentAction("sex", _entity);
+            _entity.owner.addCurrentAction("sex", this.getBodyPart("anus"));
+            if (_entity.type == "penis") {
+                this.incAnalReceiveCount();
+                _entity.owner.incAnalGiveCount();
+            }
+            else
+                return false;
+        }
+        else if (_entity instanceof ItemInstance) {
+            this.addCurrentAction("sex", _entity);
+            this.incAnalReceiveCount();
+        }
+        else
+            return false;
+        return true;
+    }
     attack(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4666,8 +8881,8 @@ class Character extends Entity {
     }
     charmed(_character, _cron = "4m") {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -4677,67 +8892,100 @@ class Character extends Entity {
     }
     consume(_entityInstance) {
         if (!(_entityInstance instanceof EntityInstance)) {
-            if (instanceIndices.has(_entityInstance))
-                _entityInstance = instanceIndices.get(_entityInstance);
+            if (PSDE.instances.has(_entityInstance))
+                _entityInstance = PSDE.instances.get(_entityInstance);
             else
                 return undefined;
         }
 
-        this.addCurrentAction("consume", _entityInstance);
+        if (this.triggerActionEvent("consume", _itemInstance.parent)) {
+            this.addCurrentAction("consume", _entityInstance);
+            this.items.splice(this.items.indexOf(_itemInstance), 1);
+            PSDE.setTimedFunctionEvent(
+                "{0}Consume{1}{2}".format(this.id, _entityInstance.parent.id, PSDE.roll("1d4")),
+                "PSDE.getCharacterByID('{0}').removeCurrentAction('consume', _entityInstance)".format(this.id),
+                "2m",
+                true
+            );
+            return true;
+        }
+        else
+            return false;
         return true;
     }
+    /**
+     * Alias for removeClothing
+     * @param  {ItemInstance} _itemInstance Item Instance
+     * @return {[type]}               [description]
+     */
     disrobe(_itemInstance) {
         return this.removeClothing(_itemInstance);
     }
-    fuck(_character = undefined, _furniture = undefined) {
-        if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+    /**
+     * Have sex with )entity
+     * @param  {Entity}  _entity      [description]
+     * @param  {Boolean} _updateChild [description]
+     * @return {Boolean}               [description]
+     */
+    fuck(_entity = undefined, _updateChild = true) {
+        if (!(_entity instanceof Character)) {
+            if (PSDE.characters.has(_entity))
+                _entity = PSDE.getCharacterByID(_entity);
             else
                 return undefined;
         }
-        
-        if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
-        
-        if (_character.sex == 1)
+
+        if (_entity.getSex() == PSDE.kFemale)
             this.hadSexWithFemale = true;
-        else if (_character.sex == 0)
+        else if (_entity.getSex() == PSDE.kMale)
             this.hadSexWithMale = true;
 
         this.removeCurrentAction("masturbate");
-        _character.removeCurrentAction("masturbate");
-
         this.addCurrentAction("sex");
-        _character.addCurrentAction("sex");
+
+        this.incSexCount();
+
+        if (_updateChild)
+            _entity.fuck(this, false);
+
         return true;
     }
-    follow(_character) {
+    follow(_character, _preGeneratedPath = undefined, _updateChild = true) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character)
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character)
             else
                 return undefined;
         }
+        if (PSDE.characterPathes.has(_character))
+            this.walk();
+        else
+            this.stand();
+
+        if (_character.following == this) {
+            this.removeFollower(_character);
+            _character.following = undefiend;
+        }
+
         this.following = _character;
         this.addCurrentAction("follow", _character);
-        return true;
-    }
-    give(_entity, _itemInstance) {
-        if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
-            else if (_entity instanceof EntityInstance)
-                _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
-            else
-                return undefined;
-        }
 
-        if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
+        var _path = PSDE._findPathToRoom(this.room, _character.room);
+        PSDE.characterPathes.set(this, _path);
+
+        if (this.hasFollowers()) {
+            this.followers.forEach(function(_follower) {
+                if (_follower instanceof Character) {
+                    if (!(_follower.room == this.room))
+                        _follower.follow(_character, PSDE._findPathToRoom(_follower.room, _character.room));
+                    else
+                        _follower.follow(_character, _path);
+                }
+            }, this);
+            this.followers.clear();
+        }
+        if (_updateChild) {
+            _character.addFollower(this);
         }
         return true;
     }
@@ -4746,12 +8994,12 @@ class Character extends Entity {
     }
     hug(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4761,12 +9009,12 @@ class Character extends Entity {
     }
     kiss(_entity, _bodyPart = undefined) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4776,12 +9024,12 @@ class Character extends Entity {
     }
     kneel(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4796,7 +9044,7 @@ class Character extends Entity {
     }
     lay(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
+            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -4817,12 +9065,12 @@ class Character extends Entity {
     }
     look(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4830,6 +9078,11 @@ class Character extends Entity {
         this.addCurrentAction("look", _entity);
         return true;
     }
+    /**
+     * Masturbate
+     * @param  {Array}  _dontOverride Current actions to not override
+     * @return {Boolean}               [description]
+     */
     masturbate(_dontOverride = []) {
         if (typeof _dontOverride == "array") {}
         else if (typeof _dontOverride == "undefined")
@@ -4843,11 +9096,11 @@ class Character extends Entity {
         if (_dontOverride.contains("walk")) this.removeCurrentAction("walk");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
-        if (this.sex == kMale) {
+        if (this.getSex() == PSDE.kMale) {
             this.addHeldEntity(this.getBodyPart("penis"));
             this.addCurrentAction("masturbate", this.getBodyPart("penis"));
         }
-        else if (this.sex == kFemale) {
+        else if (this.getSex() == PSDE.kFemale) {
             this.addHeldEntity(this.getBodyPart("vagina"));
             this.addCurrentAction("masturbate", this.getBodyPart("vagina"));
         }
@@ -4855,48 +9108,80 @@ class Character extends Entity {
     }
     open(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
         return true;
     }
-    oral(_entityInstance) {
-        if (!(_entityInstance instanceof EntityInstance)) {
-            if (instanceIndices.has(_entityInstance))
-                _entityInstance = instanceIndices.get(_entityInstance);
+    /**
+     * Have oral sex with _entity
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
+    oral(_entity) {
+        if (!(_entity instanceof Character)) {
+            if (PSDE.characters.has(_entity))
+                _entity = PSDE.getCharacterByID(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity;
+            else if (PSDE.entityInstances.has(_entity))
+                _entity = PSDE.entityInstances.get(_entity);
             else
                 return undefined;
         }
-
-        this.addCurrentAction("oral", _entityInstance);
-        if (_entityInstance.owner instanceof Character) {
-            if (_entityInstance.type == "penis") {
-                this.incFellatioGiveCount(1);
-                _entityInstance.owner.incFellatioReceiveCount(1);
+        this.fuck(_entity);
+        if (_entity instanceof Character) {
+            if (_entity.hasBodyPart("penis")) {
+                this.addCurrentAction("sex", _entity.getBodyPart("penis"));
+                _entity.addCurrentAction("sex", this.getBodyPart("mouth"));
+                this.incFellatioGiveCount();
+                _entity.incFellatioReceiveCount();
             }
-            else if (_entityInstance.type == "vagina") {
-                this.incCunnilingusGiveCount(1);
-                _entityInstance.owner.incCunnilingusReceiveCount(1);
+            else if (_entity.hasBodyPart("vagina")) {
+                this.addCurrentAction("sex", _entity.getBodyPart("vagina"));
+                _entity.addCurrentAction("sex", this.getBodyPart("mouth"));
+                this.incCunnilingusGiveCount();
+                _entity.incCunnilingusReceiveCount();
             }
-            else if (_entityInstance.type == "")
-            _entityInstance.owner.addCurrentAction("sex", this.getBodyPart("mouth"));
         }
+        else if (_entity instanceof BodyPartInstance) {
+            this.addCurrentAction("sex", _entity);
+            _entity.owner.addCurrentAction("sex", this.getBodyPart("mouth"));
+            if (_entity.type == "penis") {
+                this.incFellatioGiveCount();
+                _entity.owner.incFellatioReceiveCount();
+            }
+            else if (_entity.type == "vagina") {
+                this.incCunnilingusGiveCount();
+                _entity.owner.incCunnilingusReceiveCount();
+            }
+            else if (_entity.type == "anus") {
+                this.incAnalingusGiveCount();
+                _entity.owner.incAnalingusReceiveCount();
+            }
+        }
+        else if (_entity instanceof ItemInstance) {
+            this.addCurrentAction("sex", _entity);
+            this.incFellatioGiveCount();
+        }
+        else
+            return false;
         return true;
     }
     pray(_entity) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 return undefined;
         }
@@ -4905,53 +9190,30 @@ class Character extends Entity {
         return true;
     }
     put(_entity, _itemInstance) {
-        if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
-            else if (_entity instanceof EntityInstance)
-                _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
-            else
-                return undefined;
-        }
-
         return this.give(_entity, _itemInstance);
     }
-    rape(_character) {
-        if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character)
-            else
-                return undefined;
-        }
+    /**
+     * Alias for fuck (for now :v)
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
+    rape(_entity) {
+        this.fuck(_entity);
     }
     release(_itemInstance, _hand = undefined) {
         return this.removeHeldEntity(_itemInstance, _hand);
     }
-    remove(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            _itemInstance = _entity.getItem(_itemInstance);
-            if (typeof _itemInstance == "undefined") return undefined;
-        }
-        if (this.hasItem(_itemInstance)) {
-            this.release(_itemInstance);
-            this.removeItem(_itemInstance);
-        }
-        else if (this.isWearing(_itemInstance)) {
-            this.disrobe(_itemInstance);
-            this.removeItem(_itemInstance);
-        }
-        else
-            return false;
-        return true;
+    /**
+     * Alias for fuck
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
+    sex(_entity) {
+        return this.fuck(_entity);
     }
-    /*sex(_character) {
-    
-    }*/
     sit(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
+            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -4972,7 +9234,7 @@ class Character extends Entity {
     }
     sleep(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.has(_furniture) ? furnitureIndices.get(_furniture) : undefined;
+            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
@@ -4981,7 +9243,7 @@ class Character extends Entity {
         this.removeCurrentAction("walk");
         this.removeCurrentAction("masturbate");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
-        if (_furniture instanceof Furniture && _furniture.type == "bed")
+        if (_furniture instanceof Furniture && (_furniture.type == "bed" || _furniture.type == "couch"))
             this.addCurrentAction("lay", _furniture);
 
         this.addCurrentAction("sleep");
@@ -5015,41 +9277,87 @@ class Character extends Entity {
     }
     steal(_entity, _itemInstance) {
         if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity)
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity)
             else
                 return undefined;
         }
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
             else
                 return;
         }
     }
+    /**
+     * Alias for oral
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
     suck(_entityInstance) {
         return this.oral(_entityInstance);
     }
-    take(_entity, _itemInstance) {
-        if (!(_entity instanceof Entity)) {
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity)
-            else
-                return undefined;
-        }
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else
-                return;
-        }
-    }
     talk(_entity) {
         if (!(_entity instanceof Entity))
-            _entity = entityIndices.has(_entity) ? entityIndices.get(_entity) : undefined;
+            _entity = PSDE.entities.has(_entity) ? PSDE.entities.get(_entity) : undefined;
         this.addCurrentAction("talk", _entity);
         return true;
     }
+    /**
+     * Have vaginal sex with _entity
+     * @param  {Entity} _entity [description]
+     * @return {Boolean}         [description]
+     */
+    vaginal(_entity) {
+        if (!(_entity instanceof Character)) {
+            if (PSDE.characters.has(_entity))
+                _entity = PSDE.getCharacterByID(_entity);
+            else if (_entity instanceof EntityInstance)
+                _entity = _entity;
+            else if (PSDE.entityInstances.has(_entity))
+                _entity = PSDE.entityInstances.get(_entity);
+            else
+                return undefined;
+        }
+        this.fuck(_entity);
+        if (_entity instanceof Character) {
+            if (_entity.hasBodyPart("penis")) {
+                this.addCurrentAction("sex", _entity.getBodyPart("penis"));
+                _entity.addCurrentAction("sex", this.getBodyPart("vagina"));
+                this.incAnalReceiveCount();
+                _entity.incAnalGiveCount();
+            }
+            else if (_entity.hasBodyPart("vagina") && _entity.hasStrapon()) {
+                this.addCurrentAction("sex", _entity.getStrapon());
+                _entity.addCurrentAction("sex", this.getBodyPart("vagina"));
+                this.incAnalReceiveCount();
+                _entity.incAnalGiveCount();
+            }
+            else
+                return false;
+        }
+        else if (_entity instanceof BodyPartInstance) {
+            this.addCurrentAction("sex", _entity);
+            _entity.owner.addCurrentAction("sex", this.getBodyPart("vagina"));
+            if (_entity.type == "penis") {
+                this.incAnalReceiveCount();
+                _entity.owner.incAnalGiveCount();
+            }
+            else
+                return false;
+        }
+        else if (_entity instanceof ItemInstance) {
+            this.addCurrentAction("sex", _entity);
+            this.incAnalReceiveCount();
+        }
+        else
+            return false;
+        return true;
+    }
+    /**
+     * Remove current action "sleep"
+     * @return {Boolean} [description]
+     */
     wake() {
         this.removeCurrentAction("sleep");
         return true;
@@ -5078,8 +9386,8 @@ class Character extends Entity {
 
     addSexRefusalCount(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -5092,8 +9400,8 @@ class Character extends Entity {
     }
     getSexRefusalCount(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -5129,7 +9437,7 @@ class Character extends Entity {
     }
 
     isClothed() {
-        if (this.sex == 0)
+        if (this.getSex() == PSDE.kMale)
             return this.getPants() instanceof Clothing;
         else
             return (this.getShirt() instanceof Clothing && this.getPants() instanceof Clothing);
@@ -5153,15 +9461,15 @@ class Character extends Entity {
         var _clothing;
         var _checkInstance = true;
         if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
+            if (PSDE.itemInstances.has(_itemInstance))
+                _itemInstance = PSDE.itemInstances.get(_itemInstance);
             else if (_itemInstance instanceof Clothing) {
                 _checkInstance = false;
                 _clothing = _itemInstance;
             }
-            else if (clothingIndices.has(_itemInstance)) {
+            else if (PSDE.clothing.has(_itemInstance)) {
                 _checkInstance = false;
-                _clothing = clothingIndices.get(_itemInstance).parent;
+                _clothing = PSDE.clothing.get(_itemInstance).parent;
             }
             else
                 return undefined;
@@ -5172,7 +9480,7 @@ class Character extends Entity {
             _clothing = _itemInstance.parent;
 
         if (_clothing instanceof Clothing) {
-            if (kClothingTypes.has(_clothing.type)) {
+            if (PSDE.kClothingTypes.has(_clothing.type)) {
                 if (!(this.clothing[_clothing.type] instanceof ItemInstance))
                     return false;
                 if (_checkInstance)
@@ -5187,7 +9495,7 @@ class Character extends Entity {
 
     hasKey(_room) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         if (_room instanceof Room) {
             if (this.containsItem(_room.sid + "Key") || this.containsItem(_room.location.id + "Key") || this.containsItem(_room.cell.location.id + "Key") || this.containsItem("masterKey"))
@@ -5272,7 +9580,7 @@ class Character extends Entity {
             return "hooves";
     }
     setHand(_type) {
-        if (kHandTypes.has(_type))
+        if (PSDE.kHandTypes.has(_type))
             this.handType = _type;
         else
             this.handType = "pad";
@@ -5280,7 +9588,7 @@ class Character extends Entity {
     }
 
     setFeet(_type) {
-        if (kFeetTypes.has(_type))
+        if (PSDE.kFeetTypes.has(_type))
             this.feetType = _type;
         else
             this.feetType = "pad";
@@ -5288,7 +9596,7 @@ class Character extends Entity {
     }
 
     setEyes(_type) {
-        if (kEyeTypes.has(_type))
+        if (PSDE.kEyeTypes.has(_type))
             this.eyeType = _type;
         else
             this.eyeType = "circle";
@@ -5305,7 +9613,7 @@ class Character extends Entity {
     }
 
     setPelt(_type) {
-        if (kPeltTypes.has(_type))
+        if (PSDE.kPeltTypes.has(_type))
             this.peltType = _type;
         else
             this.peltType = "fur";
@@ -5350,15 +9658,15 @@ class Character extends Entity {
     }
 
     hasBodyPart(_bodyPart) {
-        if (!kBodyPartTypes.has(_bodyPart)) {
+        if (!PSDE.kBodyPartTypes.has(_bodyPart)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
-            else if (bodyPartIndices.has(_bodyPart))
-                _bodyPart = bodyPartIndices.get(_bodyPart).type;
+            else if (PSDE.bodyParts.has(_bodyPart))
+                _bodyPart = PSDE.bodyParts.get(_bodyPart).type;
             else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
-            else if (bodyPartInstanceIndices.has(_bodyPart))
-                _bodyPart = bodyPartInstanceIndices.get(_bodyPart).parent.type;
+            else if (PSDE.bodyPartInstances.has(_bodyPart))
+                _bodyPart = PSDE.bodyPartInstances.get(_bodyPart).parent.type;
             else
                 return undefined;
         }
@@ -5374,10 +9682,10 @@ class Character extends Entity {
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = new BodyPartInstance(undefined, _bodyPart, this, undefined, undefined, this.species);
-            else if (bodyPartIndices.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(undefined, bodyPartIndices.get(_bodyPart), this, undefined, undefined, this.species);
-            else if (bodyPartInstanceIndices.has(_bodyPart))
-                _bodyPart = bodyPartInstanceIndices.get(_bodyPart);
+            else if (PSDE.bodyParts.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(undefined, PSDE.bodyParts.get(_bodyPart), this, undefined, undefined, this.species);
+            else if (PSDE.bodyPartInstances.has(_bodyPart))
+                _bodyPart = PSDE.bodyPartInstances.get(_bodyPart);
             else
                 return undefined;
         }
@@ -5394,10 +9702,10 @@ class Character extends Entity {
         if (!(_bodyPart instanceof BodyPartInstance)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = new BodyPartInstance(undefined, _bodyPart.getType(), this, undefined, undefined, this.species);
-            else if (bodyPartIndices.has(_bodyPart))
-                _bodyPart = new BodyPartInstance(undefined, bodyPartIndices.get(_bodyPart).getType(), this, undefined, undefined, this.species);
-            else if (bodyPartInstanceIndices.has(_bodyPart))
-                _bodyPart = bodyPartInstanceIndices.get(_bodyPart);
+            else if (PSDE.bodyParts.has(_bodyPart))
+                _bodyPart = new BodyPartInstance(undefined, PSDE.bodyParts.get(_bodyPart).getType(), this, undefined, undefined, this.species);
+            else if (PSDE.bodyPartInstances.has(_bodyPart))
+                _bodyPart = PSDE.bodyPartInstances.get(_bodyPart);
             else
                 return this;
         }
@@ -5405,88 +9713,106 @@ class Character extends Entity {
         return this;
     }
     getBodyPart(_bodyPart) {
-        if (!kBodyPartTypes.has(_bodyPart)) {
+        if (!PSDE.kBodyPartTypes.has(_bodyPart)) {
             if (_bodyPart instanceof BodyPart)
                 _bodyPart = _bodyPart.type;
-            else if (bodyPartIndices.has(_bodyPart))
-                _bodyPart = bodyPartIndices.get(_bodyPart).type;
+            else if (PSDE.bodyParts.has(_bodyPart))
+                _bodyPart = PSDE.bodyParts.get(_bodyPart).type;
             else if (_bodyPart instanceof BodyPartInstance)
                 _bodyPart = _bodyPart.parent.type;
-            else if (bodyPartInstanceIndices.has(_bodyPart))
-                _bodyPart = bodyPartInstanceIndices.get(_bodyPart).parent.type;
+            else if (PSDE.bodyPartInstances.has(_bodyPart))
+                _bodyPart = PSDE.bodyPartInstances.get(_bodyPart).parent.type;
             else
                 return undefined;
         }
         return this.bodyParts.get(_bodyPart);
     }
+    clearBodyParts() {
+        this.bodyParts.clear();
+    }
 
     setSpecies(_species) {
-        if (kSpeciesTypes.has(_species))
+        if (PSDE.kSpeciesTypes.has(_species))
             this.species = _species;
         else
             this.species = "fox";
-
+        return this;
+    }
+    _generateProperties() {
+        var _baseHeight = 0; // Average height in metres at the age of 20
+        var _baseMass = 0; // Average mass in kilograms at the age of 20
+        this.clearBodyParts();
         this.addBodyPart(["ankles","anus","arms","arms","back","chest","feet","fingers","groin","hands","head","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulder","shoulders","stomach","toes","tongue","waist","wrists"]);
-        if (this.sex == 0)
+        if (this.getSex() == PSDE.kMale)
             this.addBodyPart(["penis","testicles"]);
         else
             this.addBodyPart(["vagina","clitoris"]);
-
-        if (_species == "fox") {
-            if (this.sex == 0) {
+        this.muscle = 0.5;
+        this.fat = 0.25;
+        if (this.species == "fox") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
                 this.addBodyPart("knot");
+                _baseMass = 36;
+                _baseHeight = 1.20;
             }
             else {
                 this.vaginaSize = 15;
                 this.vaginaGirth = 10;
+                _baseMass = 32;
+                _baseHeight = 1.12;
             }
 
-            this.bodySize = 0.5;
             this.predator = true;
             this.setFeet("pad");
             this.setHand("pad");
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "wolf") {
-            if (this.sex == 0) {
+        else if (this.species == "wolf") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
                 this.addBodyPart("knot");
+                _baseMass = 72;
+                _baseHeight = 1.9;
             }
             else {
                 this.vaginaSize = 25;
                 this.vaginaGirth = 16;
+                _baseMass = 66;
+                _baseHeight = 1.8;
             }
 
-            this.bodySize = 1.0;
             this.predator = true;
             this.setFeet("pad");
             this.setHand("pad");
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "aardwolf") {
-            if (this.sex == 0) {
+        else if (this.species == "aardwolf") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
+                _baseMass = 32;
+                _baseHeight = 1.10;
             }
             else {
                 this.vaginaSize = 15;
                 this.vaginaGirth = 10;
+                _baseMass = 28;
+                _baseHeight = 1.02;
             }
 
-            this.bodySize = 0.5;
             this.predator = true;
             this.setFeet("pad");
             this.setHand("pad");
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "hyena") {
-            if (this.sex == 0) {
+        else if (this.species == "hyena") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
             }
@@ -5502,8 +9828,8 @@ class Character extends Entity {
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "sheep") {
-            if (this.sex == 0) {
+        else if (this.species == "sheep") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 19;
                 this.penisGirth = 11;
             }
@@ -5520,8 +9846,8 @@ class Character extends Entity {
             this.setFur("wool");
             this.peltSoftness = 75;
         }
-        else if (_species == "stoat") {
-            if (this.sex == 0) {
+        else if (this.species == "stoat") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 8;
                 this.penisGirth = 7;
             }
@@ -5537,8 +9863,8 @@ class Character extends Entity {
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "deer") {
-            if (this.sex == 0) {
+        else if (this.species == "deer") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 22;
                 this.penisGirth = 12;
             }
@@ -5555,14 +9881,16 @@ class Character extends Entity {
             this.setFur("wool");
             this.peltSoftness = 75;
         }
-        else if (_species == "rabbit") {
-            if (this.sex == 0) {
+        else if (this.species == "rabbit") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 12;
                 this.penisGirth = 8;
             }
             else {
                 this.vaginaSize = 12;
                 this.vaginaGirth = 8;
+                this.mass = 14.9;
+                this.height = 0.81;
             }
             
             this.bodySize = 0.4;
@@ -5573,8 +9901,8 @@ class Character extends Entity {
             this.setFur("fur");
             this.peltSoftness = 75;
         }
-        else if (_species == "jackal") {
-            if (this.sex == 0) {
+        else if (this.species == "jackal") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 18;
                 this.penisGirth = 12;
                 this.addBodyPart("knot");
@@ -5591,8 +9919,8 @@ class Character extends Entity {
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "coyote") {
-            if (this.sex == 0) {
+        else if (this.species == "coyote") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
                 this.addBodyPart("knot");
@@ -5609,8 +9937,8 @@ class Character extends Entity {
             this.setEyes("circle");
             this.setFur("fur");
         }
-        else if (_species == "tiger") {
-            if (this.sex == 0) {
+        else if (this.species == "tiger") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 28;
                 this.penisGirth = 15;
             }
@@ -5625,8 +9953,8 @@ class Character extends Entity {
             this.setHand("pad");
             this.setFur("fur");
         }
-        else if (_species == "antelope") {
-            if (this.sex == 0) {
+        else if (this.species == "antelope") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 22;
                 this.penisGirth = 12;
             }
@@ -5642,8 +9970,8 @@ class Character extends Entity {
             this.setEyes("rectangle");
             this.setFur("hair");
         }
-        else if (_species == "pig") {
-            if (this.sex == 0) {
+        else if (this.species == "pig") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
             }
@@ -5659,8 +9987,8 @@ class Character extends Entity {
             this.setEyes("circle");
             this.setFur("skin");
         }
-        else if (_species == "horse") {
-            if (this.sex == 0) {
+        else if (this.species == "horse") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 45;
                 this.penisGirth = 25;
             }
@@ -5676,8 +10004,8 @@ class Character extends Entity {
             this.setEyes("rectangle");
             this.setFur("hair");
         }
-        else if (_species == "mouse") {
-            if (this.sex == 0) {
+        else if (this.species == "mouse") {
+            if (this.getSex() == PSDE.kMale) {
                 this.penisSize = 1;
                 this.penisGirth = 0.5;
             }
@@ -5694,6 +10022,7 @@ class Character extends Entity {
             this.setFur("fur");
             this.peltSoftness = 75;
         }
+        this.width = this.height / 2.4;
         return this;
     }
     getSpecies() {
@@ -5754,8 +10083,8 @@ class Character extends Entity {
      */
     incSexCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 _character = undefined;
         }
@@ -5785,8 +10114,8 @@ class Character extends Entity {
      */
     incVaginalReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5801,8 +10130,8 @@ class Character extends Entity {
      */
     incVaginalGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5817,8 +10146,8 @@ class Character extends Entity {
      */
     incAnalReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5833,8 +10162,8 @@ class Character extends Entity {
      */
     incAnalGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5844,8 +10173,8 @@ class Character extends Entity {
     }
     incCunnilingusReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5855,8 +10184,8 @@ class Character extends Entity {
     }
     incCunnilingusGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5866,8 +10195,8 @@ class Character extends Entity {
     }
     incAnalingusReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5877,8 +10206,8 @@ class Character extends Entity {
     }
     incAnalingusGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5888,8 +10217,8 @@ class Character extends Entity {
     }
     incFellatioReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5899,8 +10228,8 @@ class Character extends Entity {
     }
     incFellatioGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5910,8 +10239,8 @@ class Character extends Entity {
     }
     incHandjobReceiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5921,8 +10250,8 @@ class Character extends Entity {
     }
     incHandjobGiveCount(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -5956,28 +10285,40 @@ class Character extends Entity {
         return this;
     }
 
-    addFollower(_character) {
+
+
+    addFollower(_character, _updateChild = false) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
         this.followers.add(_character);
+        if (_updateChild) {
+            _character.follow(this);
+        }
         return this;
     }
-    removeFollower(_character) {
+    removeFollower(_character, _updateChild = false) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
-        if (this.followers.has(_character))
+        if (this.followers.has(_character)) {
+            if (_updateChild) {
+                _character.stay();
+            }
             this.followers.delete(_character);
+        }
         return this;
     }
-    clearFollowers() {
+    clearFollowers(_updateChild = true) {
+        this.followers.forEach(function(_character) {
+            this.removeFollower(_character, true);
+        }, this);
         this.followers.clear();
         return this;
     }
@@ -5986,8 +10327,8 @@ class Character extends Entity {
     }
     isFollowing(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -5999,8 +10340,8 @@ class Character extends Entity {
 
     getSexCount(_character = undefined) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return 0;
         }
@@ -6009,8 +10350,8 @@ class Character extends Entity {
 
     addRelative(_character, _updateParent = true) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -6022,8 +10363,8 @@ class Character extends Entity {
 
     addKnownLocation(_location) {
         if (!(_location instanceof Location)) {
-            if (locationIndices.has(_location))
-                _location = locationIndices.get(_location);
+            if (PSDE.locations.has(_location))
+                _location = PSDE.locations.get(_location);
             else
                 return this;
         }
@@ -6035,8 +10376,8 @@ class Character extends Entity {
     }
     removeKnownLocation(_location) {
         if (!(_location instanceof Location)) {
-            if (locationIndices.has(_location))
-                _location = locationIndices.get(_location);
+            if (PSDE.locations.has(_location))
+                _location = PSDE.locations.get(_location);
             else
                 return this;
         }
@@ -6047,31 +10388,25 @@ class Character extends Entity {
         return this.removeKnownLocation(_location);
     }
 
-    addKnownSpell(_spell) {
+    addSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellIndices.has(_spell))
-                _spell = spellIndices.get(_spell);
+            if (PSDE.spells.has(_spell))
+                _spell = PSDE.spells.get(_spell);
             else
                 return this;
         }
-        this.knownSpells.add(_spell);
+        this.spells.add(_spell);
         return this;
     }
-    addSpell(_spell) {
-        return this.addKnownSpell(_spell);
-    }
-    removeKnownSpell(_spell) {
+    removeSpell(_spell) {
         if (!(_spell instanceof Spell)) {
-            if (spellIndices.has(_spell))
-                _spell = spellIndices.get(_spell);
+            if (PSDE.spells.has(_spell))
+                _spell = PSDE.spells.get(_spell);
             else
                 return this;
         }
-        this.knownSpells.delete(_spell);
+        this.spells.delete(_spell);
         return true;
-    }
-    removeSpell(_spell) {
-        return this.removeKnownSpell(_spell);
     }
 
     castSpell(_spell) {
@@ -6080,8 +10415,8 @@ class Character extends Entity {
             _cost = _spell;
         }
         else if (!(_spell instanceof Spell)) {
-            if (spellIndices.has(_spell))
-                _cost = spellIndices.get(_spell).manaCost;
+            if (PSDE.spells.has(_spell))
+                _cost = PSDE.spells.get(_spell).manaCost;
             else
                 return this;
         }
@@ -6094,7 +10429,7 @@ class Character extends Entity {
     }
 
     addPreferredSpecies(_species) {
-        if (kSpeciesTypes.has(_species)) {
+        if (PSDE.kSpeciesTypes.has(_species)) {
             _species = _species;
             this.prefersSpecies.add(_species);
         }
@@ -6102,7 +10437,7 @@ class Character extends Entity {
     }
 
     addAvoidedSpecies(_species) {
-        if (kSpeciesTypes.has(_species)) {
+        if (PSDE.kSpeciesTypes.has(_species)) {
             _species = _species;
             this.avoidsSpecies.add(_species);
         }
@@ -6114,15 +10449,15 @@ class Character extends Entity {
     }
     addNewCharacterDispositionFor(_character, passionOffset = 0, friendshipOffset = 0, playfulnessOffset = 0, soulmateOffset = 0, familialOffset = 0, obsessionOffset = 0, hateOffset = 0) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
 
         if (this.prefersSpecies.has(_character.species)) {
-            if (this.prefersSex == _character.sex) {
-                if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
+            if (this.prefersSex == _character.getSex()) {
+                if (this.sexualOrientation == 0 && _character.getSex() != this.getSex() || this.sexualOrientation == 1 && _character.getSex() == this.getSex() || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
                             passionOffset += 3;
@@ -6174,8 +10509,8 @@ class Character extends Entity {
             playfulnessOffset += 2;
         }
         else if (this.avoidsSpecies.has(_character.species)) {
-            if (this.prefersSex == _character.sex) {
-                if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
+            if (this.prefersSex == _character.getSex()) {
+                if (this.sexualOrientation == 0 && _character.getSex() != this.getSex() || this.sexualOrientation == 1 && _character.getSex() == this.getSex() || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
                             passionOffset += 2;
@@ -6215,8 +10550,8 @@ class Character extends Entity {
             }
         }
         else {
-            if (this.prefersSex == _character.sex) {
-                if (this.sexualOrientation == 0 && _character.sex != this.sex || this.sexualOrientation == 1 && _character.sex == this.sex || this.sexualOrientation == 2) {
+            if (this.prefersSex == _character.getSex()) {
+                if (this.sexualOrientation == 0 && _character.getSex() != this.getSex() || this.sexualOrientation == 1 && _character.getSex() == this.getSex() || this.sexualOrientation == 2) {
                     if (this.philautia > 74) {
                         if (this.agape > 74)
                             passionOffset += 2;
@@ -6258,8 +10593,8 @@ class Character extends Entity {
 
     hadSexWith(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return false;
         }
@@ -6267,7 +10602,7 @@ class Character extends Entity {
     }
     calculateChanceToFuck(_character, _ignoreLustAndRut = false) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         if (typeof _character == 'undefined')
             return 0;
         if (!_character.characterDisposition.has(this))
@@ -6275,7 +10610,7 @@ class Character extends Entity {
         if (typeof _ignoreLustAndRut != "boolean")
             _ignoreLustAndRut = false;
         
-        if (debug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
+        if (PSDE.enableDebug) console.log("Calculating chance for {0} to fuck {1}.".format(_character.name, this.name));
 
         var chance = 0;
         var _disposition = _character.getCharacterDisposition(this);
@@ -6293,7 +10628,7 @@ class Character extends Entity {
         chance += _disposition.obsession;
         chance -= _disposition.hate;
 
-        if (debug) console.log("\tAfter disposition check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter disposition check: " + Math.ceil(chance));
 
         // Species Preferences
         if (_character.prefersSpecies.has(this.species))
@@ -6307,15 +10642,15 @@ class Character extends Entity {
         if (_character.avoidsPrey && this.predator == false || _character.avoidsPredators && this.predator == true)
             chance -= 5;
 
-        if (debug) console.log("\tAfter species preference check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter species preference check: " + Math.ceil(chance));
 
         // Sexual Orientation
-        if (_character.sexualOrientation == 0 && this.sex != _character.sex || _character.sexualOrientation == 1 && this.sex == _character.sex || _character.sexualOrientation == 2)
+        if (_character.sexualOrientation == 0 && this.getSex() != _character.getSex() || _character.sexualOrientation == 1 && this.getSex() == _character.getSex() || _character.sexualOrientation == 2)
             chance += 10;
         else
             chance -= 50;
 
-        if (debug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
 
         if (_ignoreLustAndRut) {
                 // Rut and Lust
@@ -6332,24 +10667,24 @@ class Character extends Entity {
                 else
                     chance += (_character.rut ? _character.lust/16 : _character.lust/20);
         
-                if (debug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
+                if (PSDE.enableDebug) console.log("\tAfter rut and lust check: " + Math.ceil(chance));
         }
 
         // Exhibitionism
         if (this.room instanceof Room) {
-	        if (this.room.characters.size > 2){
-	            if (_character.exhibitionism > 0)
-	                chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
-	            else {
-	                this.room.characters.forEach(function(_this) {
-	                    if (_this != _character.this && _this != this)
-	                        chance += _character.hadSexWith(_this) ? 5 : -5;
-	                }, this);
-	            }
-	        }
-	    }
+            if (this.room.characters.size > 2){
+                if (_character.exhibitionism > 0)
+                    chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
+                else {
+                    this.room.characters.forEach(function(_this) {
+                        if (_this != _character.this && _this != this)
+                            chance += _character.hadSexWith(_this) ? 5 : -5;
+                    }, this);
+                }
+            }
+        }
 
-        if (debug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
 
         // Incest
         if (_character.relatives.has(this)) {
@@ -6363,12 +10698,12 @@ class Character extends Entity {
                 chance -= 50;
         }
 
-        if (debug) console.log("\tAfter incest check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter incest check: " + Math.ceil(chance));
 
         // Intoxication
         chance += _character.intoxication/2.5;
 
-        if (debug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter intoxication check: " + Math.ceil(chance));
 
         // Somnophilia
         if (_character.isSleeping()) {
@@ -6378,14 +10713,14 @@ class Character extends Entity {
                 chance += 10;
         }
 
-        if (debug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
+        if (PSDE.enableDebug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
 
         return Math.ceil(chance);
     }
 
     moveToRoom(_room, _checkLocked = false) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         if (!(_room instanceof Room))
             return this;
@@ -6473,15 +10808,15 @@ class Location {
 
             this.floorImage = undefined;
 
-            locationIndices.set(_id, this);
+            PSDE.locations.set(_id, this);
         }
     }
     
     fromJSON(jsonString = "") {
-        if (debug) console.log("Running fromJSON");
+        if (PSDE.enableDebug) console.log("Running fromJSON");
         
         if (typeof jsonString != "string") {
-            if (debug) console.log("Parameter `jsonString` is not a string.");
+            if (PSDE.enableDebug) console.log("Parameter `jsonString` is not a string.");
             return undefined;
         }
         
@@ -6490,13 +10825,13 @@ class Location {
                 var json = JSON.parse(jsonString);
             }
             catch (e) {
-                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                if (PSDE.enableDebug) console.log("Parameter `jsonString` could not be parsed to JSON.");
                 return undefined;
             }
         }
         
         if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
-            if (debug) console.log("ID or Name are undefined.");
+            if (PSDE.enableDebug) console.log("ID or Name are undefined.");
             return undefined;
         }
         else
@@ -6510,9 +10845,9 @@ class Location {
         try {
             var _tmpSet = new Set(JSON.parse(json["owner"]));
             _owner.forEach(function(_character) {
-                if (characterIndices.has(_character)) {
+                if (PSDE.characters.has(_character)) {
                     _tmSet.delete(_character);
-                    this.owner.add(characterIndices.get(_character));
+                    this.owner.add(PSDE.getCharacterByID(_character));
                 }
             }, this);
         } catch (e) {}
@@ -6535,7 +10870,7 @@ class Location {
 
     isOwner(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
 
         if (_character instanceof Character)
             return this.owner.has(_character);
@@ -6549,8 +10884,8 @@ class Location {
     }
     addOwner(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
@@ -6593,7 +10928,7 @@ class Location {
             var _blob = "";
             var _arr = Array.from(this.owner);
 
-            for (i = 0; i < _arr.length - 1; i++) {
+            for (var i = 0; i < _arr.length - 1; i++) {
                 _blob += _arr[i].toString();
                 if (_arr.length > 2)
                     _blob += ", ";
@@ -6605,7 +10940,7 @@ class Location {
     }
 
     setType(_type) {
-        if (kLocationTypes.has(_type))
+        if (PSDE.kLocationTypes.has(_type))
             this.type = _type;
         else
             this.type = "general";
@@ -6634,8 +10969,8 @@ class Location {
 
     containsCharacter(_character) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return false;
         }
@@ -6697,13 +11032,13 @@ class Cell {
             this.backgroundImage = undefined; // for minimap
             this.backgroundColor = undefined; // for minimap
 
-            cellIndices.set(_id, this);
+            PSDE.cells.set(_id, this);
         }
     }
 
     addRoom(_room, x, y) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         this.rooms.add(_room);
 
@@ -6713,9 +11048,9 @@ class Cell {
     }
     setRoom(_room, x, y) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
-        if (debug) console.log("\tSetting " + _room.id + " to <" + x + "," + y + ">");
+        if (PSDE.enableDebug) console.log("\tSetting " + _room.id + " to <" + x + "," + y + ">");
 
         if (this.grid[x] === undefined)
             this.grid[x] = [];
@@ -6726,7 +11061,7 @@ class Cell {
 
     setLocation(_location) {
         if (!(_location instanceof Location))
-            _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
+            _location = PSDE.locations.has(_location) ? PSDE.locations.get(_location) : undefined;
 
         this.location = _location;
 
@@ -6737,7 +11072,7 @@ class Cell {
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
 
         var _containsCharacter = false;
 
@@ -6856,7 +11191,7 @@ class Room {
             this.stairsUpImage = undefined;
             this.stairsDownImage = undefined;
 
-            roomIndices.set(_id, this);
+            PSDE.rooms.set(_id, this);
         }
     }
     
@@ -6878,7 +11213,7 @@ class Room {
 
     setLocation(_location) {
         if (!(_location instanceof Location))
-            _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
+            _location = PSDE.locations.has(_location) ? PSDE.locations.get(_location) : undefined;
         if (typeof _location == 'undefined' && this.cell instanceof Cell && this.cell.location instanceof Location)
             _location = this.cell.location;
         this.location = _location;
@@ -6888,7 +11223,7 @@ class Room {
     }
     setCell(_cell) {
         if (!(_cell instanceof Cell))
-            _cell = cellIndices.has(_cell) ? cellIndices.get(_cell) : undefined;
+            _cell = PSDE.cells.has(_cell) ? PSDE.cells.get(_cell) : undefined;
         this.cell = _cell;
         if (this.cell instanceof Cell)
             this.cell.addRoom(this, this.x, this.y);
@@ -6896,29 +11231,29 @@ class Room {
     }
 
     setType(_type) {
-        if (kRoomTypes.has(_type))
-        	this.type = _type;
+        if (PSDE.kRoomTypes.has(_type))
+            this.type = _type;
         else
-        	this.type = "hallway";
+            this.type = "hallway";
         return this;
     }
 
     addCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         this.characters.add(_character);
         return this;
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         this.characters.delete(_character);
         return this;
     }
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
@@ -6995,24 +11330,24 @@ class Room {
 
         var _roomDirectionNumber = _room.attachedRooms.flip().get(this);
         if (typeof _roomDirectionNumber == 'number') {
-        	switch (_roomDirectionNumber) {
-        		case 0: {
-        			_room.northSide = 2;
-        			break;
-        		}
-        		case 1: {
-        			_room.eastSide = 2;
-        			break;
-        		}
-        		case 2: {
-        			_room.southSide = 2;
-        			break;
-        		}
-        		case 3: {
-        			_room.westSide = 2;
-        			break;
-        		}
-        	}
+            switch (_roomDirectionNumber) {
+                case 0: {
+                    _room.northSide = 2;
+                    break;
+                }
+                case 1: {
+                    _room.eastSide = 2;
+                    break;
+                }
+                case 2: {
+                    _room.southSide = 2;
+                    break;
+                }
+                case 3: {
+                    _room.westSide = 2;
+                    break;
+                }
+            }
         }
 
         var _options = _room.roomsOptions.get(this);
@@ -7111,9 +11446,9 @@ class Room {
 
     setAttachedRoom(_direction, _room, _options = {}, _updateParent = false) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
-        if (debug) console.log("\tAttempting to attach " + _room.id + " to the " + (_direction == 0 ? "north" : (_direction == 1 ? "east" : (_direction == 2 ? "south" : "west"))) + " of " + this.id);
+        if (PSDE.enableDebug) console.log("\tAttempting to attach " + _room.id + " to the " + (_direction == 0 ? "north" : (_direction == 1 ? "east" : (_direction == 2 ? "south" : "west"))) + " of " + this.id);
 
         this.attachedRooms.set(_direction, _room);
 
@@ -7477,7 +11812,7 @@ class Room {
                 return _addedFurniture;
             }
             else
-                _furniture = furnitureIndices.get(_furniture);
+                _furniture = PSDE.furniture.get(_furniture);
         }
 
         _furniture.room = this;
@@ -7486,7 +11821,7 @@ class Room {
     }
     removeFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.get(_furniture);
+            _furniture = PSDE.furniture.get(_furniture);
 
         _furniture.room = undefined;
         this.furniture.delete(_furniture);
@@ -7495,7 +11830,7 @@ class Room {
 
     containsFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.get(_furniture);
+            _furniture = PSDE.furniture.get(_furniture);
 
         return this.furniture.has(_furniture);
     }
@@ -7538,7 +11873,7 @@ class Room {
      */
     getFurnitureToRestOn(_character, _considerCharacterPreferences = false, _lay = false, _furnitureTypePreferences = []) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
 
         if (_character instanceof Character) {
             var _requiredSpaceMultiplier = _lay ? 2 : 1;
@@ -7668,7 +12003,7 @@ class Item extends Entity {
      * @param  {String}  _description Description
      * @param  {String}  _image       Image path of base64
      * @param  {Boolean} _plural      Whether or not the item is plural
-     * @param  {Set}     _specialProperties Set of kSpecialProperties
+     * @param  {Set}     _specialProperties Set of PSDE.kSpecialProperties
      */
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _plural = false, _specialProperties = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         if (_id instanceof Item) {
@@ -7713,7 +12048,7 @@ class Item extends Entity {
             this.defaultDurabilityMax = _defaultDurability;
         }
 
-        itemIndices.set(_id, this);
+        PSDE.items.set(_id, this);
     }
     
     moveToEntity(_entity) {
@@ -7727,7 +12062,7 @@ class Item extends Entity {
     }
     moveToFurniture(_furniture) {
         if (!(_furniture instanceof Furniture))
-            _furniture = furnitureIndices.get(_furniture);
+            _furniture = PSDE.furniture.get(_furniture);
 
         if (_furniture instanceof Furniture) {
             if (_furniture.room instanceof Room)
@@ -7739,7 +12074,7 @@ class Item extends Entity {
     }
     moveToCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
 
         if (_character instanceof Character) {
             if (_character.room instanceof Room)
@@ -7751,7 +12086,7 @@ class Item extends Entity {
     }
     moveToRoom(_room) {
         if (!(_room instanceof Room))
-            _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
         if (_room instanceof Room) {
             this.room = _room;
@@ -7763,7 +12098,7 @@ class Item extends Entity {
     }
 
     delete() {
-        itemIndices.delete(this.id);
+        PSDE.items.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7771,15 +12106,15 @@ class Item extends Entity {
 
 class BodyPart extends Item {
     constructor(_id, _name = undefined) {
-        if (bodyPartIndices.has(_id))
-            return bodyPartIndices.get(_id);
+        if (PSDE.bodyParts.has(_id))
+            return PSDE.bodyParts.get(_id);
         super(_id, _name);
         this.setType(_id);
-        bodyPartIndices.set(_id, this);
+        PSDE.bodyParts.set(_id, this);
     }
 
     setType(_type) {
-        if (kBodyPartTypes.has(_type))
+        if (PSDE.kBodyPartTypes.has(_type))
             this.type = _type;
         else
             this.type = "appendix";
@@ -7790,7 +12125,7 @@ class BodyPart extends Item {
     }
 
     delete() {
-        bodyPartIndices.delete(this.id);
+        PSDE.bodyParts.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7821,11 +12156,11 @@ class Key extends Item {
             super(_id, _name, _description, _image, _plural, _specialProperties);
         }
 
-        keyIndices.set(_id, this);
+        PSDE.keys.set(_id, this);
     }
 
     delete() {
-        keyIndices.delete(this.id);
+        PSDE.keys.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7862,19 +12197,19 @@ class Clothing extends Item {
             this.setType(_type);
         }
 
-        clothingIndices.set(_id, this);
+        PSDE.clothing.set(_id, this);
     }
 
     setType(_type) {
-        if (kClothingTypes.has(_type))
-        	this.type = _type;
+        if (PSDE.kClothingTypes.has(_type))
+            this.type = _type;
         else
-        	this.type = "shirt";
+            this.type = "shirt";
         return this;
     }
 
     delete() {
-        clothingIndices.delete(this.id);
+        PSDE.clothing.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7937,11 +12272,11 @@ class Consumable extends Item {
             this.modAlcohol = 0;
         }
 
-        consumableIndices.set(_id, this);
+        PSDE.consumables.set(_id, this);
     }
 
     setType(_type) {
-        if (kConsumableTypes.has(_type))
+        if (PSDE.kConsumableTypes.has(_type))
             this.type = _type;
         else
             this.type = "food";
@@ -7949,7 +12284,7 @@ class Consumable extends Item {
     }
 
     delete() {
-        consumableIndices.delete(this.id);
+        PSDE.consumables.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -7960,34 +12295,34 @@ class Consumable extends Item {
  */
 class Cheque extends Item {
     constructor(_from, _to, _amount = 1, _memo = "", _signed = false) {
-        if (debug) console.log("Attempting to create a Cheque...");
+        if (PSDE.enableDebug) console.log("Attempting to create a Cheque...");
         if (!(_from instanceof Character)) {
-            if (characterIndices.has(_from))
-                _from = characterIndices.get(_from);
+            if (PSDE.characters.has(_from))
+                _from = PSDE.getCharacterByID(_from);
             else {
-                if (debug) console.log("  _from was not a valid Character.");
+                if (PSDE.enableDebug) console.log("  _from was not a valid Character.");
                 return undefined;
             }
         }
         if (!(_to instanceof Character)) {
-            if (characterIndices.has(_to))
-                _to = characterIndices.get(_to);
+            if (PSDE.characters.has(_to))
+                _to = PSDE.getCharacterByID(_to);
             else {
-                if (debug) console.log("  _to was not a valid Character.");
+                if (PSDE.enableDebug) console.log("  _to was not a valid Character.");
                 return undefined;
             }
         }
         _amount = Number.parseInt(_amount);
         if (isNaN(_amount)) {
-            if (debug) console.log("  _amount was not a valid number.");
+            if (PSDE.enableDebug) console.log("  _amount was not a valid number.");
             return undefined;
         }
         else if (_amount < 1) {
-            if (debug) console.log("  _amount was less than 1.");
+            if (PSDE.enableDebug) console.log("  _amount was less than 1.");
             return undefined;
         }
 
-        super("cheque{0}{1}{2}".format(_from.id.capitalize(), _to.id.capitalize(), _amount, String(currentTime.getTime()).slice(0, -3)), "Cheque");
+        super("cheque{0}{1}{2}".format(_from.id.capitalize(), _to.id.capitalize(), _amount, String(PSDE.currentTime.getTime()).slice(0, -3)), "Cheque");
         this.from = _from;
         this.to = _to;
         this.amount = _amount;
@@ -7995,13 +12330,13 @@ class Cheque extends Item {
         this.signed = _signed == true ? true : false;
         this.description = "A cheque from {0} to {1} for the amount of ${2}, with the memo '{3}'".format(this.from.name, this.to.name, this.amount, this.memo)
 
-        chequeIndices.set(this.id, this);
+        PSDE.cheques.set(this.id, this);
     }
 
     sign(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -8011,7 +12346,7 @@ class Cheque extends Item {
     }
 
     delete() {
-        chequeIndices.delete(this.id);
+        PSDE.cheques.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8021,7 +12356,7 @@ class Weapon extends Item {
     }
 
     delete() {
-        weaponIndices.delete(this.id);
+        PSDE.weaponInstances.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8031,7 +12366,7 @@ class Armor extends Clothing {
     }
 
     delete() {
-        armorIndices.delete(this.id);
+        PSDE.armor.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8041,7 +12376,7 @@ class Armor extends Clothing {
  * Class that represents all Furniture
  * @extends {Entity}
  */
-class Furniture extends Entity {
+class Furniture extends EntityWithStorage {
     /**
      * Creats Furniture
      * @param  {String}  _id            Unique ID
@@ -8063,8 +12398,6 @@ class Furniture extends Entity {
         else {
             super(_id, _name, _description, _image);
 
-            this.items = new Array();
-
             this.type = undefined;
             this.setType(_type);
 
@@ -8072,15 +12405,15 @@ class Furniture extends Entity {
             this.storageSpace = _storageSpace;
             this.characters = new Set(); // <Character, Action>
 
-            furnitureIndices.set(_id, this);
+            PSDE.furniture.set(_id, this);
         }
     }
 
     fromJSON(jsonString = "") {
-        if (debug) console.log("Running fromJSON");
+        if (PSDE.enableDebug) console.log("Running fromJSON");
         
         if (typeof jsonString != "string") {
-            if (debug) console.log("Parameter `jsonString` is not a string.");
+            if (PSDE.enableDebug) console.log("Parameter `jsonString` is not a string.");
             return undefined;
         }
         
@@ -8089,13 +12422,13 @@ class Furniture extends Entity {
                 var json = JSON.parse(jsonString);
             }
             catch (e) {
-                if (debug) console.log("Parameter `jsonString` could not be parsed to JSON.");
+                if (PSDE.enableDebug) console.log("Parameter `jsonString` could not be parsed to JSON.");
                 return undefined;
             }
         }
         
         if (typeof json["id"] == "undefined" || typeof json["name"] == undefined) {
-            if (debug) console.log("ID or Name are undefined.");
+            if (PSDE.enableDebug) console.log("ID or Name are undefined.");
             return undefined;
         }
         else
@@ -8117,8 +12450,8 @@ class Furniture extends Entity {
         try {
             _tmpArr = JSON.parse(json["items"]);
             _tmpArr.forEach(function(_item) {
-                if (itemInstanceIndices.has(_item))
-                    this.addItem(itemInstanceIndices.get(_item));
+                if (PSDE.itemInstances.has(_item))
+                    this.addItem(PSDE.itemInstances.get(_item));
             }, this);
         } catch (e) {}
         delete json["items"];
@@ -8126,8 +12459,8 @@ class Furniture extends Entity {
         // Entities
         if (json.hasOwnProperty("characters"))
             delete json["characters"];
-        if (roomIndices.has(json["room"]))
-            roomIndices.get(json["room"]).addFurniture(this);
+        if (PSDE.rooms.has(json["room"]))
+            PSDE.rooms.get(json["room"]).addFurniture(this);
         delete json["room"];
         delete json["cell"];
         
@@ -8142,117 +12475,11 @@ class Furniture extends Entity {
         }
     }
 
-    /**
-     * Adds an ItemInstance to this Furniture; creates an ItemInstance if an Item is passed
-     * @param {ItemInstance} _itemInstance The ItemInstance, or Item, to be added to this Furniture
-     * @return {Boolean}               Whether or not the ItemInstance was added
-     */
-    addItem(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else if (_itemInstance instanceof Item)
-                _itemInstance = new ItemInstance(undefined, _itemInstance);
-            else if (itemIndices.has(_itemInstance))
-                _itemInstance = new ItemInstance(undefined, itemIndices.get(_itemInstance));
-            else
-                return this;
-        }
-        if (!this.containsItem(_itemInstance.id))
-            this.items.push(_itemInstance);
-        return this;
-    }
-    /**
-     * Removes an ItemInstance from this Furniture
-     * @param  {ItemInstance} _itemInstance The ItemInstance, or Item, to be removed from this Furniture
-     * @return {Boolean}               Whether or not the ItemInstance was removed
-     */
-    removeItem(_itemInstance) {
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else
-                _itemInstance = this.getItem(_itemInstance);
-        }
-        if (_itemInstance instanceof ItemInstance)
-            this.items.splice(this.items.indexOf(_itemInstance), 1);
-        return this;
-    }
-    /**
-     * Returns the ItemInstance of a passed Item or ItemInstance if this Furniture has it
-     * @param  {ItemInstance} _itemInstance The Item or ItemInstance to search for
-     * @return {ItemInstance}               The ItemInstance that is found, or undefined if it isn't
-     */
-    getItem(_itemInstance) {
-        var _foundItem = false;
-
-        if (!(_itemInstance instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_itemInstance))
-                _itemInstance = itemInstanceIndices.get(_itemInstance);
-            else if (_itemInstance instanceof Item) {
-                this.items.some(function(__itemInstance) {
-                    if (__itemInstance.parent == _itemInstance) {
-                        _itemInstance = __itemInstance;
-                        _foundItem = true;
-                        return true;
-                    }
-                }, this);
-                /**
-                 * We've already gone through this.items and found what we were looking for, or not;
-                 * no need to continue through the rest of this method.
-                 */
-                if (_foundItem)
-                    return _itemInstance;
-                else
-                    return false;
-            }
-            else if (itemIndices.has(_itemInstance)) {
-                _itemInstance = itemIndices.get(_itemInstance);
-                this.items.some(function(__itemInstance) {
-                    if (__itemInstance.parent == _itemInstance) {
-                        _itemInstance = __itemInstance;
-                        _foundItem = true;
-                        return true;
-                    }
-                }, this);
-                if (_foundItem)
-                    return _itemInstance;
-                else
-                    return false;
-            }
-            else
-                return undefined;
-        }
-
-        this.items.some(function(__itemInstance) {
-            if (__itemInstance.id == _itemInstance.id)
-                _foundItem = true;
-        });
-
-        if (_foundItem)
-            return _itemInstance;
-        else
-            return false;
-    }
-
-    containsItem(_itemInstance) {
-        return this.getItem(_itemInstance) instanceof ItemInstance;
-    }
-    hasItem(_itemInstance) {
-        return this.getItem(_itemInstance) instanceof ItemInstance;
-    }
-    getItems() {
-        return this.items;
-    }
-    getNumberOfItems() {
-        return this.items.length;
-    }
-
     setType(_type) {
-        if (kFurnitureTypes.has(_type))
-        	this.type = _type;
+        if (PSDE.kFurnitureTypes.has(_type))
+            this.type = _type;
         else
-        	this.type = "chair";
+            this.type = "chair";
 
         switch(this.type) {
             case "bed" : {
@@ -8387,20 +12614,20 @@ class Furniture extends Entity {
 
     addCharacter(_character, _actionType = "sit") {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         this.characters.add(_character);
         return this;
     }
     removeCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         this.characters.delete(_character);
         return this;
     }
 
     containsCharacter(_character) {
         if (!(_character instanceof Character))
-            _character = characterIndices.has(_character) ? characterIndices.get(_character) : undefined;
+            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
         return this.characters.has(_character);
     }
     hasCharacter(_character) {
@@ -8437,26 +12664,11 @@ class Furniture extends Entity {
     }
 
     delete() {
-        furnitureIndices.delete(this.id);
+        PSDE.furniture.delete(this.id);
         super.delete();
         return undefined;
     }
 }
-/**
- * Class that represents all Electronic Devices
- * @extends {Item}
- */
-/*class ElectronicDevice extends Item {
-    constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined) {
-        super(_id, _name, _description, _image);
-    }
-
-    delete() {
-        electronicDeviceIndices.delete(this.id);
-        super.delete();
-        return undefined;
-    }
-}*/
 /**
  * Class that represents all Phones
  * @extends {Item}
@@ -8464,11 +12676,11 @@ class Furniture extends Entity {
 class Phone extends Item {
     constructor(_id = undefined, _name = undefined, _description = undefined, _image = undefined, _defaultPrice = 0, _defaultWeight = 0.001, _defaultDurability = 1) {
         super(_id, _name, _description, _image, false, ["metal","electricity","smooth","mirror"], _defaultPrice, _defaultWeight, _defaultDurability);
-        phoneIndices.set(_id, this);
+        PSDE.phones.set(_id, this);
     }
 
     delete() {
-        phoneIndices.delete(this.id);
+        PSDE.phones.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8483,25 +12695,25 @@ class TextMessage {
      */
     constructor(_fromPhone, _toPhone, _message = "", _time = undefined) {
         if (!(_fromPhone instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_fromPhone))
-                _fromPhone = itemInstanceIndices.get(_fromPhone);
+            if (PSDE.itemInstances.has(_fromPhone))
+                _fromPhone = PSDE.itemInstances.get(_fromPhone);
             else
                 return undefined;
         }
         if (!(_toPhone instanceof ItemInstance)) {
-            if (itemInstanceIndices.has(_toPhone))
-                _toPhone = itemInstanceIndices.get(_toPhone);
+            if (PSDE.itemInstances.has(_toPhone))
+                _toPhone = PSDE.itemInstances.get(_toPhone);
             else
                 return undefined;
         }
 
-        this.id = "{0}{1}{2}".format(_fromPhone.owner.id, _toPhone.owner.name, textMessageIndices.size);
+        this.id = "{0}{1}{2}".format(_fromPhone.owner.id, _toPhone.owner.name, PSDE.textMessages.size);
         this.from = _fromPhone.owner.name;
         this.to = _toPhone.owner.name;
-        this.time = _time == undefined ? "{0}/{1}/{2} {3}:{4}:{5}".format(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds()) : _time;
+        this.time = _time == undefined ? "{0}/{1}/{2} {3}:{4}:{5}".format(PSDE.currentTime.getFullYear(), PSDE.currentTime.getMonth(), PSDE.currentTime.getDate(), PSDE.currentTime.getHours(), PSDE.currentTime.getMinutes(), PSDE.currentTime.getSeconds()) : _time;
         this.message = _message;
 
-        textMessageIndices.set(this.id, this);
+        PSDE.textMessages.set(this.id, this);
     }
 }
 class WebPage {
@@ -8510,12 +12722,12 @@ class WebPage {
         this.name = _name;
 
         if (!(_webSite instanceof WebSite))
-            _webSite = webSiteIndices.has(_webSite) ? webSiteIndices.get(_webSite) : undefined;
+            _webSite = PSDE.webSites.has(_webSite) ? PSDE.webSites.get(_webSite) : undefined;
 
         this.webSite = _webSite;
         this.content = _content;
 
-        webPageIndices.set(this.id, this);
+        PSDE.webPages.set(this.id, this);
     }
 }
 class WebSite {
@@ -8525,12 +12737,12 @@ class WebSite {
         this.description = _description;
         this.pages = new Set();
 
-        webSiteIndices.set(this.id, this);
+        PSDE.webSites.set(this.id, this);
     }
 
     _addPagePage(_page) {
         if (!(_page instanceof WebPage))
-            _page = webPageIndices.has(_page) ? webPageIndices.get(_page) : undefined;
+            _page = PSDE.webPages.has(_page) ? PSDE.webPages.get(_page) : undefined;
 
         if (_page instanceof WebPage) {
             _page.webSite = this;
@@ -8543,8 +12755,8 @@ class WebSite {
         this._addPagePage(_page);
     }
     addPage(_id, _name = undefined, _content = undefined) {
-        if (!(_id instanceof WebPage) && webPageIndices.has(_id))
-            _id = webPageIndices.get(_id);
+        if (!(_id instanceof WebPage) && PSDE.webPages.has(_id))
+            _id = PSDE.webPages.get(_id);
 
         if (_id instanceof WebPage)
             this._addPagePage(_id);
@@ -8554,7 +12766,7 @@ class WebSite {
     }
     getPage(_page) {
         if (!(_page instanceof WebPage))
-            _page = webPageIndices.has(_page) ? webPageIndices.get(_page) : undefined;
+            _page = PSDE.webPages.has(_page) ? PSDE.webPages.get(_page) : undefined;
 
         if (_page instanceof WebPage && this.pages.contains(_page))
             return _page;
@@ -8573,7 +12785,7 @@ class Spell extends Entity {
      * @param  {String} _name        Name
      * @param  {String} _description Description
      * @param  {String} _image       Image path of base64
-     * @param  {String} _school      kSpellSchools
+     * @param  {String} _school      PSDE.kSpellSchools
      * @param  {Number} _manaCost    Cost of Spell in Mana
      * @param  {Number} _lifeCost    Cost of Spell in Life
      * @param  {Number} _staminaCost Cost of Spell in Stamina
@@ -8599,11 +12811,11 @@ class Spell extends Entity {
         else _staminaCost = Number.parseInt(_staminaCost);
         this.staminaCost = _staminaCost;
 
-        spellIndices.set(this.id, this);
+        PSDE.spells.set(this.id, this);
     }
 
     setSchool(_school) {
-        if (kSpellSchools.has(_school))
+        if (PSDE.kSpellSchools.has(_school))
             this.school = _school;
         else
             this.school = "universal";
@@ -8620,11 +12832,11 @@ class EntityInstance {
      * @param  {Entity} _parent         Entity, String ID of Entity, EntityInstance, or String ID of EntityInstance
      * @param  {Character} _owner      Owner
      * @param  {Number} _price         Price, defaults to 0
-     * @param  {Number} _weight        Weight, defaults to 0.001
+     * @param  {Number} _mass        Weight, defaults to 0.001
      * @param  {Number} _durability    Durability, defaults to 1
      * @param  {Number} _durabilityMax Max durability, defaults to 1
      */
-    constructor(_id, _parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+    constructor(_id, _parent, _owner = undefined, _price = 0, _mass = 1.0, _durability = 1, _durabilityMax = 1) {
         if (_id == undefined)
             _id = uuidv4();
         else if (typeof _id == "string" || typeof _id == "number") {
@@ -8642,18 +12854,18 @@ class EntityInstance {
         this.parent = undefined;
         this.owner = undefined;
         this.price = 0;
-        this.weight = 0.0;
+        this.mass = 1.0;
         this.durability = 1;
         this.durabilityMax = 1;
 
         this.setOwner(_owner);
         this.setParent(_parent);
         this.setPrice(_price || _parent.price);
-        this.setWeight(_weight || _parent.weight);
+        this.setWeight(_mass || _parent.mass);
         this.setDurability(_durability || 1);
         this.setDurabilityMax(_durabilityMax || this.durability);
 
-        instanceIndices.set(this.id, this);
+        PSDE.instances.set(this.id, this);
     }
 
     /**
@@ -8662,8 +12874,8 @@ class EntityInstance {
      */
     setChild(_entity) {
         if (!(_entity instanceof Entity)){
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else
                 _entity = undefined;
         }
@@ -8680,12 +12892,12 @@ class EntityInstance {
      */
     setParent(_entity) {
         if (!(_entity instanceof Entity)){
-            if (entityIndices.has(_entity))
-                _entity = entityIndices.get(_entity);
+            if (PSDE.entities.has(_entity))
+                _entity = PSDE.entities.get(_entity);
             else if (_entity instanceof EntityInstance)
                 _entity = _entity.parent;
-            else if (instanceIndices.has(_entity))
-                _entity = instanceIndices.get(_entity).parent;
+            else if (PSDE.instances.has(_entity))
+                _entity = PSDE.instances.get(_entity).parent;
             else
                 _entity = undefined;
         }
@@ -8702,8 +12914,8 @@ class EntityInstance {
      */
     setOwner(_character) {
         if (!(_character instanceof Character)){
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 _character = undefined;
         }
@@ -8745,11 +12957,11 @@ class EntityInstance {
             _float = 0.001;
         else if (_float > Number.MAX_SAFE_INTEGER)
             _float = Number.MAX_SAFE_INTEGER;
-        this.weight = _float;
+        this.mass = _float;
         return this;
     }
     getWeight() {
-        return (this.weight || this.parent.weight);
+        return (this.mass || this.parent.mass);
     }
 
     /**
@@ -8865,7 +13077,7 @@ class EntityInstance {
             _subPath = "locations";
         }
 
-        if (typeof _image == "undefined")
+        if (_image == undefined)
             this.image = "resources/items/genericItem/{0}.svg".format(this.id); // base64 image, or url
         else if (_image.slice(0, 17) == "resources/images/") {
             _image = _image.slice(17).split('/');
@@ -8894,19 +13106,19 @@ class EntityInstance {
     }
 
     delete() {
-        instanceIndices.delete(this.id);
+        PSDE.instances.delete(this.id);
         return undefined;
     }
 }
 class ItemInstance extends EntityInstance {
-    constructor(_id = undefined, _parent = undefined, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+    constructor(_id = undefined, _parent = undefined, _owner = undefined, _price = 0, _mass = 1.0, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Item)) {
-            if (itemIndices.has(_parent)) 
-                _parent = itemIndices.get(_parent);
+            if (PSDE.items.has(_parent)) 
+                _parent = PSDE.items.get(_parent);
             else if (_parent instanceof ItemInstance && _parent.parent instanceof Item) 
                 _parent = _parent.parent;
-            else if (itemInstanceIndices.has(_parent)) {
-                _parent = itemInstanceIndices.get(_parent).parent;
+            else if (PSDE.itemInstances.has(_parent)) {
+                _parent = PSDE.itemInstances.get(_parent).parent;
                 if (!(_parent.parent instanceof Item))
                     return undefined;
             }
@@ -8914,13 +13126,13 @@ class ItemInstance extends EntityInstance {
                 return undefined;
         }
 
-        super(_id, _parent, _owner, _price, _weight, _durability, _durabilityMax);
+        super(_id, _parent, _owner, _price, _mass, _durability, _durabilityMax);
 
-        itemInstanceIndices.set(this.id, this);
+        PSDE.itemInstances.set(this.id, this);
     }
 
     delete() {
-        itemInstanceIndices.delete(this.id);
+        PSDE.itemInstances.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -8936,12 +13148,12 @@ class BodyPartInstance extends ItemInstance {
      */
     constructor(_id = undefined, _parent, _owner = undefined, _durability = 1, _durabilityMax = 1, _type = undefined) {
         if (!(_parent instanceof BodyPart)) {
-            if (bodyPartIndices.has(_parent))
-                _parent = bodyPartIndices.get(_parent);
+            if (PSDE.bodyParts.has(_parent))
+                _parent = PSDE.bodyParts.get(_parent);
             else if (_parent instanceof BodyPartInstance && _parent.parent instanceof BodyPart)
                 _parent = _parent.parent;
-            else if (bodyPartInstanceIndices.has(_parent)) {
-                _parent = bodyPartInstanceIndices.get(_parent).parent;
+            else if (PSDE.bodyPartInstances.has(_parent)) {
+                _parent = PSDE.bodyPartInstances.get(_parent).parent;
                 if (!(_parent.parent instanceof Phone))
                     return undefined;
             }
@@ -8954,10 +13166,10 @@ class BodyPartInstance extends ItemInstance {
         this.setChild(_owner);
         this.setType(_type);
 
-        bodyPartInstanceIndices.set(this.id, this);
+        PSDE.bodyPartInstances.set(this.id, this);
     }
     setType(_type) {
-        if (!kSpeciesTypes.has(_type)) {
+        if (!PSDE.kSpeciesTypes.has(_type)) {
             if (_type instanceof Character)
                 _type = _type.getSpecies();
             else if (this.owner instanceof Character)
@@ -8973,20 +13185,20 @@ class BodyPartInstance extends ItemInstance {
     }
 
     delete() {
-        bodyPartInstanceIndices.delete(this.id);
+        PSDE.bodyPartInstances.delete(this.id);
         super.delete();
         return undefined;
     }
 }
 class PhoneInstance extends ItemInstance {
-    constructor(_id, _parent, _owner = undefined, _price = 0, _weight = 0.001, _durability = 1, _durabilityMax = 1) {
+    constructor(_id, _parent, _owner = undefined, _price = 0, _mass = 1.0, _durability = 1, _durabilityMax = 1) {
         if (!(_parent instanceof Phone)) {
-            if (phoneIndices.has(_parent)) 
-                _parent = phoneIndices.get(_parent);
+            if (PSDE.phones.has(_parent)) 
+                _parent = PSDE.phones.get(_parent);
             else if (_parent instanceof PhoneInstance && _parent.parent instanceof Phone) 
                 _parent = _parent.parent;
-            else if (phoneInstanceIndices.has(_parent)) {
-                _parent = phoneInstanceIndices.get(_parent).parent;
+            else if (PSDE.phoneInstances.has(_parent)) {
+                _parent = PSDE.phoneInstances.get(_parent).parent;
                 if (!(_parent.parent instanceof Phone))
                     return undefined;
             }
@@ -8994,18 +13206,18 @@ class PhoneInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(_id, _parent, _owner, _price, _weight, _durability, _durabilityMax);
+        super(_id, _parent, _owner, _price, _mass, _durability, _durabilityMax);
 
         this.receivedMessages = new Map();
         this.readMessages = new Map();
         this.sentMessages = new Map();
 
-        phoneInstanceIndices.set(this.id, this);
+        PSDE.phoneInstances.set(this.id, this);
     }
 
     newReadMessage(_fromPhone, _message, _time = "Thu, 01 Jan 1970 12:00:00 GMT") {
         if (!(_fromPhone instanceof PhoneInstance))
-            _fromPhone = _findPhone(_fromPhone);
+            _fromPhone = PSDE.findPhone(_fromPhone);
 
         var _textMessage = new TextMessage(_fromPhone, this, _message);
         _textMessage.time = _time;
@@ -9023,20 +13235,20 @@ class PhoneInstance extends ItemInstance {
      */
     sendMessage(_toPhone, _message, _time = undefined) {
         if (!(_toPhone instanceof PhoneInstance))
-            _toPhone = _findPhone(_toPhone);
+            _toPhone = PSDE.findPhone(_toPhone);
 
         var _textMessage = new TextMessage(this, _toPhone, _message, _time);
         _toPhone.receivedMessages.set(_textMessage.id, _textMessage);
         this.sentMessages.set(_textMessage.id, _textMessage);
 
-        if (_toPhone == player.phone)
+        if (_toPhone == PSDE.player.phone)
             Content.add("<p>You've received a text message.</p>");
         return this;
     }
 
     readMessage(_textMessage) {
         if (!(_textMessage instanceof TextMessage))
-            _textMessage = textMessageIndices.has(_textMessage) ? textMessageIndices.get(_textMessage) : undefined;
+            _textMessage = PSDE.textMessages.has(_textMessage) ? PSDE.textMessages.get(_textMessage) : undefined;
         if (!(_textMessage instanceof TextMessage))
             return undefined;
 
@@ -9048,7 +13260,7 @@ class PhoneInstance extends ItemInstance {
     }
 
     delete() {
-        phoneInstanceIndices.delete(this.id);
+        PSDE.phoneInstances.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9056,12 +13268,12 @@ class PhoneInstance extends ItemInstance {
 class WeaponInstance extends ItemInstance {
     constructor(_id, _parent, _owner = undefined) {
         if (!(_parent instanceof Weapon)) {
-            if (weaponIndices.has(_parent)) 
-                _parent = weaponIndices.get(_parent);
+            if (PSDE.weaponInstances.has(_parent)) 
+                _parent = PSDE.weaponInstances.get(_parent);
             else if (_parent instanceof WeaponInstance && _parent.parent instanceof Weapon) 
                 _parent = _parent.parent;
-            else if (weaponInstanceIndices.has(_parent)) {
-                _parent = weaponInstanceIndices.get(_parent).parent;
+            else if (PSDE.weaponInstances.has(_parent)) {
+                _parent = PSDE.weaponInstances.get(_parent).parent;
                 if (!(_parent.parent instanceof Weapon))
                     return undefined;
             }
@@ -9069,11 +13281,11 @@ class WeaponInstance extends ItemInstance {
                 return undefined;
         }
 
-        super(_id, _parent, _owner, _price, _weight);
+        super(_id, _parent, _owner, _price, _mass);
     }
 
     delete() {
-        weaponsInstanceIndices.delete(this.id);
+        PSDE.weaponInstances.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9082,7 +13294,7 @@ class ArmorInstance extends ItemInstance {
     constructor(_id, _parent, _owner = undefined) {}
 
     delete() {
-        armorInstanceIndices.delete(this.id);
+        PSDE.armorInstances.delete(this.id);
         super.delete();
         return undefined;
     }
@@ -9258,6 +13470,7 @@ class Cron {
     }
 
     containsMinutes(_date) {
+        if (this.minutes == undefined) return true;
         var _number = undefined;
 
         if (this.minutes == undefined)
@@ -9278,6 +13491,7 @@ class Cron {
             return String(_number).match(new RegExp("[{0}]".format(this.minutes))) != null;
     }
     containsHours(_date) {
+        if (this.hours == undefined) return true;
         var _number = undefined;
 
         if (this.hours == undefined)
@@ -9298,6 +13512,7 @@ class Cron {
             return String(_number).match(new RegExp("[{0}]".format(this.hours))) != null;
     }
     containsDOW(_date = undefined) {
+        if (this.dow == undefined) return true;
         var _number = undefined;
 
         if (this.dow == undefined)
@@ -9318,19 +13533,31 @@ class Cron {
             return String(_number).match(new RegExp("[{0}]".format(this.dow))) != null;
     }
     containsDOM(_date) {
+        if (this.dom == undefined) return true;
         if (_date instanceof Date)
             _date = _date.getDate();
         return (this.dom == _date);
     }
     containsMonth(_date) {
+        if (this.month == undefined) return true;
         if (_date instanceof Date)
             _date = _date.getMonth();
         return (this.month == _date);
     }
     containsYear(_date) {
+        if (this.year == undefined) return true;
         if (_date instanceof Date)
             _date = _date.getFullYear();
         return (this.year == _date);
+    }
+    containsTime(_date = PSDE.currentTime) {
+        return (this.containsHours(_date) && this.containsMinutes(_date));
+    }
+    containsDate(_date = PSDE.currentTime) {
+        return (this.containsYear(_date) && this.containsMonth(_date) && this.containsDOM(_date) && this.containsDOW(_date));
+    }
+    containsDateTime(_date = PSDE.currentTime) {
+        return (this.containsDate && this.containsTime);
     }
 }
 class GameEvent {
@@ -9358,40 +13585,40 @@ class GameEvent {
         }
         else {
             if (!(_characterA instanceof Character))
-                _characterA = characterIndices.has(_characterA) ? characterIndices.get(_characterA) : undefined;
+                _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
 
             if (!(_characterB instanceof Character))
-                _characterB = characterIndices.has(_characterB) ? characterIndices.get(_characterB) : undefined;
+                _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
 
             if (!(_item instanceof Item)) {
                 if (_item instanceof ItemInstance)
                     _item = _item.parent;
-                else if (!_item instanceof ItemInstance && itemInstanceIndices.has(_item))
-                    _item = itemInstanceIndices.get(_item).parent;
-                else if (itemIndices.has(_item))
-                    _item = itemIndices.get(_item);
+                else if (!_item instanceof ItemInstance && PSDE.itemInstances.has(_item))
+                    _item = PSDE.itemInstances.get(_item).parent;
+                else if (PSDE.items.has(_item))
+                    _item = PSDE.items.get(_item);
                 else
                     _item = undefined;
             }
 
             if (!(_location instanceof Location))
-                _location = locationIndices.has(_location) ? locationIndices.get(_location) : undefined;
+                _location = PSDE.locations.has(_location) ? PSDE.locations.get(_location) : undefined;
 
             if (!(_cell instanceof Cell))
-                _cell = cellIndices.has(_cell) ? cellIndices.get(_cell) : undefined;
+                _cell = PSDE.cells.has(_cell) ? PSDE.cells.get(_cell) : undefined;
 
             if (!(_room instanceof Room))
-                _room = roomIndices.has(_room) ? roomIndices.get(_room) : undefined;
+                _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
 
             if (_cron instanceof Cron || _cron == undefined) {}
             else if (typeof _cron == 'string') {
                 var _cronPrefix = Number.parseInt(_cron.slice(0, -1));
                 var _cronSuffix = _cron.slice(-1);
                 if (_cronPrefix < 0) {
-                    if (debug) console.log("   Cron from String contained an invalid number prefix.");
+                    if (PSDE.enableDebug) console.log("   Cron from String contained an invalid number prefix.");
                     return undefined;
                 }
-                var _cron = new Date(currentTime);
+                var _cron = new Date(PSDE.currentTime);
                 switch (_cronSuffix) {
                     case "y" : {
                         _cron.addYear(_cronPrefix);
@@ -9414,7 +13641,7 @@ class GameEvent {
                         break;
                     }
                     default : {
-                        if (debug) console.log("   Cron from String contained an invalid time suffix.");
+                        if (PSDE.enableDebug) console.log("   Cron from String contained an invalid time suffix.");
                         return undefined;
                     }
                 }
@@ -9440,31 +13667,31 @@ class GameEvent {
 
             this.nextFunction = _nextFunction;
 
-            eventIndices.set(this.id, this);
+            PSDE.events.set(this.id, this);
         }
     }
 
     execute() {
-        if (_eventsExecutedThisTick.has(this))
+        if (PSDE._eventsExecutedThisTick.has(this))
             return;
 
-        if (debug) console.log("Executing " + this.id);
+        if (PSDE.enableDebug) console.log("Executing " + this.id);
 
-        lastGameEvent = this;
+        PSDE.lastGameEvent = this;
         unsafeExec(this.nextFunction);
-        lastGameEvent = undefined;
+        PSDE.lastGameEvent = undefined;
 
         if (this.runOnce) {
             this.delete();
         }
 
-        _eventsExecutedThisTick.add(this);
+        PSDE._eventsExecutedThisTick.add(this);
         return this;
     }
 
     delete() {
-        if (debug) console.log("Deleting {0}".format(this.id));
-        eventIndices.delete(this.id);
+        if (PSDE.enableDebug) console.log("Deleting {0}".format(this.id));
+        PSDE.events.delete(this.id);
         return undefined;
     }
 }

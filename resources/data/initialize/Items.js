@@ -1,4 +1,4 @@
-if (debug) console.log("Initializing Items");
+if ((PSDE.debugEnabled)) console.log("Initializing Items");
 
 // Generic Items
 charlieBigBlackRemmyDildo = new Item("charlieBigBlackRemmyDildo", "Dildo", "A big black ram dildo");
@@ -62,7 +62,7 @@ purplePotion = new Consumable("purplePotion", "Purple Liquid", "Some Grape Fizz 
 // Phones
 carrotPhone6S = new Phone("carrotPhone6S", "Carrot Phone 6S", "Carrot Phone 6s smartphone designed, developed, and marketed by Carrot Inc.", undefined, 200, 0.180);
 carrotPhone7 = new Phone("carrotPhone7", "Carrot Phone 6S", "Carrot Phone 7 smartphone designed, developed, and marketed by Carrot Inc.", undefined, 500, 0.140);
-sungsamUniverse7 = new Phone("sungsamUniverse7", "Sungsam Universe 7 smartphone, developed by Sungsam.", undefined, 180, 0.150);
+sungsamUniverse7 = new Phone("sungsamUniverse7", "Sungsam Universe 7", "Sungsam Universe 7 smartphone, developed by Sungsam.", undefined, 180, 0.150);
 goatoGrazr = new Phone("motoGrazr", "Goatorola Grazr", "Flip phone from the early 2000s.", undefined, 20, 100);
 
 remmyPhone = new PhoneInstance(undefined, carrotPhone6S, remmy);
@@ -72,4 +72,4 @@ charliePhone = new PhoneInstance(undefined, goatoGrazr, charlie);
 bettyPhone = new PhoneInstance(undefined, carrotPhone7, betty);
 
 
-if (debug) console.log("\tInitialized " + itemIndices.size + " Items.");
+if ((PSDE.debugEnabled)) console.log("\tInitialized " + PSDE.items.size + " Items.");

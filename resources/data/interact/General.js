@@ -1,17 +1,20 @@
 function charlieCheckMirror() {
-    if (charlie.room == player.room) {
+    _character = PSDE.getCharacterByID("charlie");
+    _character = PSDE.getCharacterByID("charlie");
+    if (_character.room == PSDE.player.room) {
         Content.add("<p>You see Charlie looking herself over in her small mirror just before she snaps it shut and puts it away.</p>");
     }
-    charlie.release(charliePalmMirror);
+    _character.release(charliePalmMirror);
 }
 function charlieEatFruitypebbles() {
-    clearContentAndMenu();
+    _character = PSDE.getCharacterByID("charlie");
+    PSDE.clearContentAndMenu();
 
-    Title.set("Eat Fruity Pebbles");
+    Menu.set("Eat Fruity Pebbles");
 
     _blob = "";
     _blob += ("Remmy chooses to eat some fruity fucking pebbles");
-    if (player.room.characters.has(charlie)) {
+    if (PSDE.player.room.characters.has(charlie)) {
         _blob += (", and Charlie joins him. For some reason, they both strip naked and sit on the couch, enjoying their morning cereal.<br/>");
         _blob += ("<img src='resources/images/fuck yeah fruity pebbles by the_weaver.png'/>");
         _blob += ("<p style='dispay:inline;'>(Image by tg_weaver, used with permission.)</p>");
@@ -20,13 +23,14 @@ function charlieEatFruitypebbles() {
         _blob += (".");
     Content.add("<p>" + _blob + "</p>");
 
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function charlieEatCharlie() {
-    clearContentAndMenu();
+    _character = PSDE.getCharacterByID("charlie");
+    PSDE.clearContentAndMenu();
 
-    Title.set("Eat Charlie");
+    Menu.set("Eat Charlie");
 
     Content.add("<p>You nibble at Charlie&apos;s neck affectionately, but she pushes you away. You push into her again, and she knows better than to resist you this time. You&apos;ve played this game out before, and she always ends up ‘running into a doorknob,&apos; or ‘falling down some stairs.&apos; She gasps as your teeth bite at her neck, eliciting fake moans. Not good enough.</p>");
     Content.add("<p>You bite down hard, hard enough to break the skin, hard enough to draw blood, hard enough to get a real scream from Charlie. And scream she did, as a rivulet of blood escaped her body and touched your tongue. You pull back, lips painted red, Charlie gasping, not looking at you. You&apos;ve stopped, just for a moment. The other animals in the apartment know better than to interrupt you and Charlie&apos;s play time, no.</p>");
@@ -59,29 +63,30 @@ function charlieEatCharlie() {
     Content.add("<img src='resources/images/Remmy Horror TT1 by akella.jpg'/>");
     Content.add("<p style='dispay:inline;'>(Image by Akella, used with permission.)</p>");
 
-    charlie.moveToRoom(limbo);
-    charlie.clearFollowing();
-    charlie.living = false;
-    charlie.cannibalized = true;
+    _character.moveToRoom(limbo);
+    _character.clearFollowing();
+    _character.living = false;
+    _character.cannibalized = true;
 
-    player.room.ateCharlie = true;
-    player.ateCharlie = true;
+    PSDE.player.room.ateCharlie = true;
+    PSDE.player.ateCharlie = true;
 
-    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.addOption("charlieEatCharlieMore()", "Eat some more of Charlie");
     Menu.generate();
 }
 function charlieEatCharlieMore() {
-    clearContentAndMenu();
+    _character = PSDE.getCharacterByID("charlie");
+    PSDE.clearContentAndMenu();
 
     Content.add("You decide to take a bigger bite out of Charlie. Getting down on all four of your hooves, you look her over briefly. <br/>");
-    if (charlie.hasShirt && charlie.hasPants())
+    if (_character.hasShirt && _character.hasPants())
         Content.add("Her shirt is torn around the turtleneck and splattered in blood. There are bits of meat sticking out around her neck. ");
-    else if (!charlie.hasShirt())
+    else if (!_character.hasShirt())
         Content.add("Her neck and jaw are torn out, and her chest caked in blood. ");
 
-    if (!charlie.hasPants() && !charlie.hasUnderwear())
+    if (!_character.hasPants() && !_character.hasUnderwear())
         Content.add("The sight of her blodied, naked body gives you a thrill. You still feel a hunger, as well as lust. <br/>");
     else
         Content.add("You peel away her blodied clothes, throwing them into a pile by the couch. You still feel a hunger, as well as stronge, insatiable lust. <br/>");
@@ -94,50 +99,58 @@ function charlieEatCharlieMore() {
     Menu.generate();
 }
 function charlieEatCharlieFuck() {
-    clearContentAndMenu();
+    _character = PSDE.getCharacterByID("charlie");
+    PSDE.clearContentAndMenu();
 
     Content.add("<p>Pulling her limp, bloody corpse into your arms, you hug her body against yours, and start prodding your cock between her thighs. Blood smears across your face as you pull and squeeze her body against your thrusts. You can't tell whether it's blood, your precum, or if her body had felt some kind of sexual thrill before she died, but your cock slides easily in.</p>");
     Content.add("<p>You can't tell how long you've been fucking her body, but finally you cum. Releasing her body, it hits the floor with a dull thud, and your cock slips out. Your seed slowly mixed with the blood on the floor. With the sickening, horrible deed done, you wipe your mouth of bits of fur, meat, and blood.</p>");
 
-    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    //Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("charlieEatCharlieCont()", "Continue...");
     Menu.generate();
 }
 function charlieEatCharlieCont() {
-    clearContentAndMenu();
+    _character = PSDE.getCharacterByID("charlie");
+    PSDE.clearContentAndMenu();
 
     Content.add("After your grousome acts, you've gained two new items; " + charlieLeftEye.toString() + " and " + charlieBeatingHeart.toString());
 
-    player.addItem(charlieLeftEye);
-    player.addItem(charlieBeatingHeart);
+    PSDE.player.addItem(charlieLeftEye);
+    PSDE.player.addItem(charlieBeatingHeart);
 
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
 }
 function charlieFirstDateAsk() {
+    _character = PSDE.getCharacterByID("charlie");
     
 }
 function charlieFirstDateSchedule() {
+    _character = PSDE.getCharacterByID("charlie");
 
 }
 function charlieFirstDateMeet() {
+    _character = PSDE.getCharacterByID("charlie");
 
 }
 function charlieFirstDatePost() {
+    _character = PSDE.getCharacterByID("charlie");
 
 }
 
-function rosieGiveCharlieHeart() {
+function rosieTakeCharlieHeart() {
+    PSDE._interruptMenu = true;
+    _character = PSDE.getCharacterByID("rosie");
     Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie.</p>");
-    if (rosie.sleeping) {
+    if (_character.sleeping) {
         Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
         Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
         var _blob = "<p>Rosie wakes with a snort as her head lifts, lazily, from her tail. Blue eyes stare blearily in your direction as she opens her mouth in a wide yawn. ";
-        if (rosie.characterDisposition.get(remmy)['philia'] > 50 || rosie.characterDisposition.get(remmy)['storge'] > 50)
-            _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(player.sex == 0 ? "dad" : "mom");
-        else if (rosie.characterDisposition.get(remmy)['philia'] > 20 || rosie.characterDisposition.get(remmy)['storge'] > 20)
-            _blob += "In a chipper but tired voice she asks, \"Ugh, is it morning yet, {0}?\"".format(player.name);
-        else if (rosie.characterDisposition.get(remmy)['philia'] > 0 || rosie.characterDisposition.get(remmy)['storge'] > 0)
+        if (_character.characterDisposition.get(PSDE.player)['philia'] > 50 || _character.characterDisposition.get(PSDE.player)['storge'] > 50)
+            _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(PSDE.player.getSex() == PSDE.kMale ? "dad" : "mom");
+        else if (_character.characterDisposition.get(PSDE.player)['philia'] > 20 || _character.characterDisposition.get(PSDE.player)['storge'] > 20)
+            _blob += "In a chipper but tired voice she asks, \"Ugh, is it morning yet, {0}?\"".format(PSDE.player.player);
+        else if (_character.characterDisposition.get(PSDE.player)['philia'] > 0 || _character.characterDisposition.get(PSDE.player)['storge'] > 0)
             _blob += "In a tired, irritated voice she asks, \"What?\"";
         else
             _blob += "In a tired mumble, she asks, \"Who are you?\"";
@@ -145,11 +158,11 @@ function rosieGiveCharlieHeart() {
         Content.add("<p>The heart near her beats, and both her head and eyes weakly turn in its direction as she lets out a ragged sigh.</p>");
     }
     else {
-        Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched {0}. Turning her head to the side, she glares at the heart. You look between it and Rosie, wondering if something is suppose to happen. The heart, still slick, gives a strong beat and slips out of your {1}, and falls to the ground with a soft thud as it stops beating.</p><p>\"Oh, shit,\" you say loudly, and try to pick the heart up off of the ground.</p>".format(player.getHand(), player.getHands()));
+        Content.add("<p>Rosie gives you a confused stare, and then looks in your outstretched {0}. Turning her head to the side, she glares at the heart. You look between it and Rosie, wondering if something is suppose to happen. The heart, still slick, gives a strong beat and slips out of your {1}, and falls to the ground with a soft thud as it stops beating.</p><p>\"Oh, shit,\" you say loudly, and try to pick the heart up off of the ground.</p>".format(PSDE.player.getHand(), PSDE.player.getHands()));
         var _blob = "<p>Her blue eyes follow it, she takes a step back and looks back up to you. ";
-        if (rosie.characterDisposition.get(remmy)['philia'] > 25 || rosie.characterDisposition.get(remmy)['storge'] > 25)
-            _blob += "Confused, she asks, \"{0}, what's that?\"".format(player.name);
-        else if (rosie.characterDisposition.get(remmy)['philia'] > 0 || rosie.characterDisposition.get(remmy)['storge'] > 0)
+        if (_character.characterDisposition.get(PSDE.player)['philia'] > 25 || _character.characterDisposition.get(PSDE.player)['storge'] > 25)
+            _blob += "Confused, she asks, \"{0}, what's that?\"".format(PSDE.player.name);
+        else if (_character.characterDisposition.get(PSDE.player)['philia'] > 0 || _character.characterDisposition.get(PSDE.player)['storge'] > 0)
             _blob += "Fearful, she asks, \"What the fuck is that?\"";
         else
             _blob += "Fearful, she yells, \"Get that away from me!\" and bares her teeth.";
@@ -157,97 +170,96 @@ function rosieGiveCharlieHeart() {
         Content.add("<p>The heart near her beats, and she falls to her knees like a rag doll. Her head and eyes lazily turn in its direction as she lets out a ragged sigh.</p>");
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
-    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(player.philautia > 50 ? (player.characterDisposition.get(rosie)['storge'] > 25 || player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(PSDE.player.philautia > 50 ? (PSDE.player.characterDisposition.get(rosie)['storge'] > 25 || PSDE.player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
-    eventIndices.has('charlieHeartbeatRosieCellEvent') && eventIndices.get('charlieHeartbeatRosieCellEvent').delete();
-    eventIndices.has('charlieHeartbeatRosieRoomEvent') && eventIndices.get('charlieHeartbeatRosieRoomEvent').delete();
-    eventIndices.has('charlieTakeHeartEvent') && eventIndices.get('charlieTakeHeartEvent').delete();
-    eventIndices.has('charlieReceiveHeartEvent') && eventIndices.get('charlieReceiveHeartEvent').delete();
-    eventIndices.has('charlieRemoveLeftEyeEvent') && eventIndices.get('charlieRemoveLeftEyeEvent').delete();
-    eventIndices.has('charlieReceiveLeftEyeEvent') && eventIndices.get('charlieReceiveLeftEyeEvent').delete();
+    PSDE.events.has('charlieHeartbeatRosieCellEvent') && PSDE.events.get('charlieHeartbeatRosieCellEvent').delete();
+    PSDE.events.has('charlieHeartbeatRosieRoomEvent') && PSDE.events.get('charlieHeartbeatRosieRoomEvent').delete();
+    PSDE.events.has('charlieTakeHeartEvent') && PSDE.events.get('charlieTakeHeartEvent').delete();
+    PSDE.events.has('charlieReceiveHeartEvent') && PSDE.events.get('charlieReceiveHeartEvent').delete();
+    PSDE.events.has('charlieRemoveLeftEyeEvent') && PSDE.events.get('charlieRemoveLeftEyeEvent').delete();
+    PSDE.events.has('charlieReceiveLeftEyeEvent') && PSDE.events.get('charlieReceiveLeftEyeEvent').delete();
 
     Menu.clear();
-    Menu.addOption("rosieGiveCharlieHeartFlee()", "Leave, now.");
-    Menu.addOption("rosieGiveCharlieHeartStay()", "See what happens next.");
+    Menu.addOption("rosieTakeCharlieHeartFlee()", "Leave, now.");
+    Menu.addOption("rosieTakeCharlieHeartStay()", "See what happens next.");
     Menu.generate();
 }
-function rosieGiveCharlieHeartFlee() {
-    if (charlie.cell == rosie.cell)
-        setCharacterMovementToCharacter(charlie, rosie);
+function rosieTakeCharlieHeartFlee() {
+    _character = PSDE.getCharacterByID("rosie");
+    _subCharacter = PSDE.getCharacterByID("charlie");
+    if (_character.cell == _character.cell)
+        PSDE.setCharacterMovementToCharacter(_subCharacter, _character);
     else
-        charlie.moveTo(limbo);
+        _character.moveTo(PSDE.rooms.get("limbo"));
 
 
-    characterTakeOver(charlie, rosie);
+    spellCharacterMindSwap(_character, _subCharacter, true);
 
-    charlie.removeItem(charlieBeatingHeart);
-    charlie.removeItem(charlieLeftEye);
-    rosie.moveTo(limbo);
+    _character.removeItem(charlieBeatingHeart);
+    _character.removeItem(charlieLeftEye);
+    _character.moveTo(PSDE.rooms.get("limbo"));
 
-    charlie.sleeping = false;
-    charlie.alive = true;
-    charlie.image = 'resources/images/characters/RosieCharlie.png';
-    characterStand(charlie);
+    _character.sleeping = false;
+    _character.alive = true;
+    _character.image = 'resources/images/characters/RosieCharlie.png';
+    _subCharacter.stand();
 
-    tick("1m", true, false);
+    PSDE.tick("2m", true, false);
 }
-function rosieGiveCharlieHeartStay() {
-    characterSetRoom(charlie, rosie.room);
+function rosieTakeCharlieHeartStay() {
+    _character = PSDE.getCharacterByID("rosie");
+    _subCharacter = PSDE.getCharacterByID("charlie");
+    PSDE.characterSetRoom(_subCharacter, _character.room);
 
     var _blob = "";
 
-    if (typeof charlie.cannibalized != 'undefined') {
+    if (typeof _character.cannibalized != 'undefined') {
         _blob += "There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from. ";
-        if (typeof player.ateCharlie != 'undefined')
+        if (typeof PSDE.player.ateCharlie != 'undefined')
             _blob += ("To your horror, you see Charlie limp towards you. A turtleneck sweater conceals the lower half of her face from view and neck from view, where you remember biting and tearing into. You still see bits of red speckled in her fur, and a bruise on her cheek where you struck her.");
         else
             _blob += ("To a mix of relief and fear, you see a bruised and limping Charlie walk towards you. A turtleneck sweater conceals the lower half of her face, but you can make out red speckles of blood over her face.");
     }
-    else if (typeof charlie.overdosed != 'undefined') {
+    else if (typeof _character.overdosed != 'undefined') {
         _blob += "";
     }
-    else if (charlie.living && charlie.containsItem(charlieBeatingHeart)) {
+    else if (_character.living && _character.containsItem(charlieBeatingHeart)) {
         _blob += "There's the soft clak of claws hitting the floor around you, and you look around to see where exactly it's coming from. ";
         _blob += "As Charlie glares at you with a rare look of confusion, you see Rosie clutching her head as if in pain.</p>";
-        _blob += "<p>Charlie raises a paw up to the side of her face, and Rosie's moves to match her. Both vixens speak, one with a scratchy voice and the other with the pitch of a kit, and both say the same thing, \"What have you done, {0},\"".format(player.name);
+        _blob += "<p>Charlie raises a paw up to the side of her face, and Rosie's moves to match her. Both vixens speak, one with a scratchy voice and the other with the pitch of a kit, and both say the same thing, \"What have you done, {0},\"".format(PSDE.player.name);
     }
     else {
         _blob += "Rosie's paws reach forward and grasp the heart, bringing it to her lips. As her mouth opens, her canines surround a large portion of the beating organ, and she brings them forward, pressing into the raw flesh. With a quick bite into it, she pulls her head back, and without chewing, swallows.</p>";
         _blob += "With gnashing teeth she tears apart the quivering heart with ease. Her frantic gaze dulls, and settles on you. By the end of her meal, no blood trailed down her chin, and no morsel was wasted.";
     }
 
-    characterTakeOver(charlie, rosie);
+    spellCharacterMindSwap(_character, _subCharacter, true);
 
     Content.add("<p>" + _blob + "</p>");
     Content.add("<p>In a monotone voice that didn't fit her, Rosie finally spoke. \"I dislike this body, Cormo.\"</p>");
     Content.add("<p>While she sits up and brushes her fur down with a paw, you just shrug. \"Your heart only started acting funny when I got close to Rosie.'\" An empty Bug Burga box slaps you against the face.</p>");
     Content.add("<p>A scowl was fixed on Rosie's face as her eyes drifted to Charlie's normal resting squint. Rosie continued, \"It has fleas, a terrible diet,\" and examined her claws, \"and an in-grown claw.\"</p>");
 
-    charlie.removeItem(charlieBeatingHeart);
-    charlie.removeItem(charlieLeftEye);
-    rosie.moveTo(limbo);
+    _subCharacter.consume(charlieBeatingHeart);
+    _subCharacter.consume(charlieLeftEye);
+    _character.moveTo(PSDE.rooms.get("limbo"));
+    _character.sleep();
 
-    charlie.sleeping = false;
-    charlie.alive = true;
-    charlie.image = 'resources/images/characters/RosieCharlie.png';
-    characterStand(charlie);
+    _subCharacter.wake();
+    _subCharacter.alive = true;
+    _subCharacter.image = 'resources/images/characters/RosieCharlie.png';
 
-    tick("1m", true, false);
+    PSDE.tick("2m", true, false);
 
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 14 : 11), "baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+    Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.generate();
-}
-function rosieGiveCharlieHeartNightmare() {
-    music.src = 'audio/pbrlt.mp3';
-    music.volume = 0.005;
-    music.play();
 }
 
 function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
 
-    if (player.sex == 0 && player.lust > 75)
+    if (PSDE.player.getSex() == PSDE.kMale && PSDE.player.lust > 75)
         Content.add("<div class='small'>Also, you have an erection.</div>");
 }
 function remmyApartmentBathroomWaterbucket(_event = undefined) {
@@ -255,7 +267,7 @@ function remmyApartmentBathroomWaterbucket(_event = undefined) {
 }
 function charlieHeartbeatRosie(_event = undefined) {
     if (!(_event instanceof GameEvent))
-        _event = eventIndices.has(_event) ? eventIndices.get(_event) : undefined;
+        _event = PSDE.events.has(_event) ? PSDE.events.get(_event) : undefined;
 
     if (_event.id == 'charlieHeartbeatRosieRoomEvent')
         Content.add("<p>You feel the heart tug towards the vixen before you.</p>");
@@ -263,45 +275,49 @@ function charlieHeartbeatRosie(_event = undefined) {
         Content.add("<p>Charlie's heart suddenly beats faster.</p>");
 }
 function updateCharlieBuse(_event = undefined) {
-    if (debug) console.log("Running updateCharlieBuse with {0}".format(_event));
+    _character = PSDE.getCharacterByID("charlie");
+    if (PSDE.enableDebug) console.log("Running updateCharlieBuse with {0}".format(_event));
 
-    if (!charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
-        charlie.image = "resources/images/characters/CharlieNoHeartAndLeftEye.svg";
-    else if (!charlie.hasItem(charlieBeatingHeart) && charlie.hasItem(charlieLeftEye))
-        charlie.image = "resources/images/characters/CharlieNoHeart.svg";
-    else if (charlie.hasItem(charlieBeatingHeart) && !charlie.hasItem(charlieLeftEye))
-        charlie.image = "resources/images/characters/CharlieNoLeftEye.svg";
+    if (!_character.hasItem(charlieBeatingHeart) && !_character.hasItem(charlieLeftEye))
+        _character.image = "resources/images/characters/CharlieNoHeartAndLeftEye.svg";
+    else if (!_character.hasItem(charlieBeatingHeart) && _character.hasItem(charlieLeftEye))
+        _character.image = "resources/images/characters/CharlieNoHeart.svg";
+    else if (_character.hasItem(charlieBeatingHeart) && !_character.hasItem(charlieLeftEye))
+        _character.image = "resources/images/characters/CharlieNoLeftEye.svg";
     else
-        charlie.image = "resources/images/characters/Charlie.svg";
+        _character.image = "resources/images/characters/Charlie.svg";
 
-    if (!charlie.hasItem(charlieBeatingHeart)) {
-        Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + player.name + ",\" she tells you, and tries to grab it from your " + player.getHands() + ", but you move it away from her.</p><p>Her struggle ceases once you utter the word, \"No.\"</p>");
+    if (!_character.hasItem(charlieBeatingHeart)) {
+        Content.add("<p>Charlie's body slightly wavers as her eyes travel down your form, and stop at a pocket where you have her heart. Weakly, pleadingly, she reaches for the pocket, but you push her paws away with ease. \"I need the heart, " + PSDE.player.name + ",\" she tells you, and tries to grab it from your " + PSDE.player.getHands() + ", but you move it away from her.</p><p>Her struggle ceases once you utter the word, \"No.\"</p>");
         Content.add("<p>Her gaze dulls as her arms fall limp at her sides.</p>");
-        runLastMenu();
+        PSDE.runLastMenu();
     }
 
     return true;
 }
 
 function wolterConsidersJumpingTheFence(_event = undefined) {
-    wolter.setSexualOrientation(2);
-    wolter.incLust(25);
+    _character = PSDE.getCharacterByID("wolter");
+    _character.setSexualOrientation(2);
+    _character.incLust(25);
     
-    setEventCharacterLocationSchedule("wolterCallsRemmyForSomFuk", wolter, twinsApartmentBedroomWolter, new Cron(0, 6), undefined, true);
-    setTimedFunctionEvent("unlockRoomFromInside(twinsApartmentLivingroomA)", new Cron(2, 6), true);
-    if (wolter.phone instanceof Phone)
-        setTimedFunctionEvent("wolter.phone.sendMessage(remmy, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
+    PSDE.setEventCharacterLocationSchedule("wolterCallsRemmyForSomFuk", _character, twinsApartmentBedroomWolter, new Cron(0, 6), undefined, true);
+    PSDE.setTimedFunctionEvent("unlockRoomFromInside(twinsApartmentLivingroomA)", new Cron(2, 6), true);
+    if (_character.phone instanceof Phone)
+        PSDE.setTimedFunctionEvent("PSDE.getCharacterByID('wolter').phone.sendMessage(PSDE.player, 'Fluff, could we talk at my place?')", new Cron(30, 6), true);
 }
-function wolterPlayerFirsttimeSameSexSpecial() {    
+function wolterPlayerFirsttimeSameSexSpecial() {
 }
 function wolterFirstDateAsk() {
-    if (wolter.hadSexWith(remmy)) {
+    _character = PSDE.getCharacterByID("wolter");
+    if (_character.hadSexWith(PSDE.player)) {
         Content.add("<p></p>");
     }
 }
 function bettyRemmySleepparalysisSpecial() {
+    _character = PSDE.getCharacterByID("betty");
     _blob = "";
-    if (player.manaMax == 0) {
+    if (PSDE.player.manaMax == 0) {
         _blob += "<p>Your eyes opened.</p>";
         _blob += "<p>All you could see, though, was a gray ceiling, a shaded window, and a door off to the side. As you try to move, you quickly come to the realization that you cannot. Your eyes, though, move around, and you take in your surroundings.</p>";
         _blob += "<p>Dark, empty... 'Bleak' you manage to think, through a mental haze. Then, you see a shadow at the corner of the room, and your eyes quickly turn to see. But it moves with your eyes, avoiding your gaze. You can sense it, feel it, moving towards you as you try to focus on it.</p>";
@@ -309,36 +325,36 @@ function bettyRemmySleepparalysisSpecial() {
         _blob += "<p>Then, a great black figure stretches from the darkness, and moves over your eyes, smothering your vision. Needles press against your brow, and your mind conjures thoughts of piercing and ripping. Only an unsettling warmth is felt. It lays across your head, and trails down your neck. The absence of the pains you imagined do nothing to slow your heart, though.</p>";
         _blob += "<p>As the blackness retreats, you feel softness and warmth against your neck and face. From the short comfort, though, comes a roughness and needling at your jaw, and your mouth falls open. An object, long and white and tipped with a gleaming point, enters your vision. That gleaming tip points at your face, and moves towards your open mouth. You mind returns to ideas of piercing as a stabbing cold spreads where it prods.</p>";
 
-        if (enableRape && betty.lust > 25 && player.lust > 25 && (betty.getCharacterEros(player) > 40 || betty.getCharacterStorge(player) > 40)) {
+        if (PSDE.enableRape && _character.lust > 25 && PSDE.player.lust > 25 && (_character.getCharacterEros(PSDE.player) > 40 || _character.getCharacterStorge(PSDE.player) > 40)) {
             _blob += "<p></p>";
-            betty.incCharacterEros(player, 5);
-            betty.incLust(25);
-            player.decLust(50);
+            _character.incCharacterEros(PSDE.player, 5);
+            _character.incLust(25);
+            PSDE.player.decLust(50);
         }
         else {
             _blob += "<p>Again, there's an absence of pain. The coldness fades to a dull warmth as a feeling of softness returns to your face. You forget about the fear of the figure hiding beside you as your vision fades.</p>";
-            betty.incCharacterStorge(player, 2);
-            player.incCharacterStorge(betty, 1);
+            _character.incCharacterStorge(PSDE.player, 2);
+            PSDE.player.incCharacterStorge(_character, 1);
         }
     }
     else {
         _blob += "<p></p>";
 
-        if (enableRape && betty.lust > 25 && player.lust > 25 && (betty.getCharacterEros(player) > 40 || betty.getCharacterStorge(player) > 40)) {
+        if (PSDE.enableRape && _character.lust > 25 && PSDE.player.lust > 25 && (_character.getCharacterEros(PSDE.player) > 40 || _character.getCharacterStorge(PSDE.player) > 40)) {
             _blob += "<p></p>";
-            betty.incCharacterEros(player, 5);
-            betty.incLust(25);
-            player.incCharacterEros(betty, 15);
-            player.decLust(25);
+            _character.incCharacterEros(PSDE.player, 5);
+            _character.incLust(25);
+            PSDE.player.incCharacterEros(_character, 15);
+            PSDE.player.decLust(25);
         }
         else {
             _blob += "<p>You watch as Betty pulls the thermometer from your mouth and gives it a brief look. She lets out a huff, and puts it on the nightstand. Brushing a paw against your cheek, she leans back in her chair and grabs her book.</p>";
             _blob += "<p>She eventually falls asleep at your bedside.</p>";
-            betty.incCharacterStorge(player, 2);
-            player.incCharacterEros(betty, 3);
-            player.incCharacterPhilia(betty, 5);
-            player.incCharacterStorge(betty, 5);
-            player.decCharacterMiseo(betty, 5);
+            _character.incCharacterStorge(PSDE.player, 2);
+            PSDE.player.incCharacterEros(_character, 3);
+            PSDE.player.incCharacterPhilia(_character, 5);
+            PSDE.player.incCharacterStorge(_character, 5);
+            PSDE.player.decCharacterMiseo(_character, 5);
         }
     }
 

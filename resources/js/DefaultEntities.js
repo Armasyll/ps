@@ -1,14 +1,6 @@
-limboLocation = new Location("limbo", "Limbo");
-limboCell = new Cell("limboCell", "Limbo", limboLocation);
-limbo = new Room("limbo", "limbo", "Limbo", 0, limboCell, limboLocation);
+PSDE.initialize();
 
-limbo.setNorthRoom(limbo, undefined, false);
-limbo.setEastRoom(limbo, undefined, false);
-limbo.setSouthRoom(limbo, undefined, false);
-limbo.setWestRoom(limbo, undefined, false);
-limbo.setDownRoom(limbo, undefined, false);
-
-kBodyPartTypes.forEach(function(_bodyPart) {
+PSDE.kBodyPartTypes.forEach(function(_bodyPart) {
     //unsafeExec("{0} = new BodyPart('{0}', '{0}', 'Body Part', 'images/items/{0}.svg')".format(_bodyPart));
     _bodyPart = new BodyPart(_bodyPart);
 
@@ -20,9 +12,11 @@ kBodyPartTypes.forEach(function(_bodyPart) {
         }
         case "leftEye" : {
             _bodyPart.setName("Left Eye");
+            break;
         }
         case "rightEye" : {
             _bodyPart.setName("Right Eye");
+            break;
         }
         case "eyes" : {
             _bodyPart.setName("Eyes");
@@ -31,9 +25,11 @@ kBodyPartTypes.forEach(function(_bodyPart) {
         }
         case "leftEar" : {
             _bodyPart.setName("Left Ear");
+            break;
         }
         case "rightEar" : {
             _bodyPart.setName("Right Ear");
+            break;
         }
         case "ears" : {
             _bodyPart.setName("Ears");
@@ -70,22 +66,10 @@ kBodyPartTypes.forEach(function(_bodyPart) {
         	_bodyPart.addAvailableAction(["grab","grope","massage"]);
             break;
         }
-        case "leftBreast" : {
-            _bodyPart.setName("Left Tiddy");
-        }
-        case "rightBreast" : {
-            _bodyPart.setName("Right Tiddy");
-        }
         case "breasts" : {
             _bodyPart.setName("Tiddies");
         	_bodyPart.addAvailableAction(["grab","grope","massage","sex"]);
         	break;
-        }
-        case "leftNipple" : {
-            _bodyPart.setName("Left Nipple");
-        }
-        case "rightNipple" : {
-            _bodyPart.setName("Right Nipple");
         }
         case "nipples" : {
             _bodyPart.setName("Nipples");
@@ -129,9 +113,11 @@ kBodyPartTypes.forEach(function(_bodyPart) {
         }
         case "leftHand" : {
             _bodyPart.setName("Left Hand");
+            break;
         }
         case "rightHand" : {
             _bodyPart.setName("Right Hand");
+            break;
         }
         case "hands" : {
             _bodyPart.setName("Hands");
@@ -140,9 +126,11 @@ kBodyPartTypes.forEach(function(_bodyPart) {
         }
         case "leftFoot" : {
             _bodyPart.setName("Left Foot");
+            break;
         }
         case "rightFoot" : {
             _bodyPart.setName("Right Foot");
+            break;
         }
         case "feet" : {
             _bodyPart.setName("Feet");
