@@ -138,9 +138,9 @@ function charlieFirstDatePost() {
 
 }
 
-function rosieTakeCharlieHeart() {
+function rosieReynardTakeCharlieHeart() {
     PSDE._interruptMenu = true;
-    _character = PSDE.getCharacterByID("rosie");
+    _character = PSDE.getCharacterByID("rosieReynard");
     Content.add("<p>You steel yourself for what you're about to do; You owe as much to Charlie.</p>");
     if (_character.sleeping) {
         Content.add("<p>Placing Charlie's beating heart beside the sleeping vixen, you watch as her fur bristles and her body shivers. Her tail sweeps in front of her, and as her paws succed in a lazy, unguided attempt at grabbing it. As she hides her muzzle in her tail, she looks as though she's calm once again.</p>");
@@ -170,7 +170,7 @@ function rosieTakeCharlieHeart() {
         Content.add("<p>The heart near her beats, and she falls to her knees like a rag doll. Her head and eyes lazily turn in its direction as she lets out a ragged sigh.</p>");
     }
     Content.add("<p>With the heart out of your reach, it feels as though a great burden has been lifted from your shoulders, and you feel you can breath a sigh of relief. The heart beats again, and you watch as Rosie falls to her front paws before it.</p>");
-    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(PSDE.player.philautia > 50 ? (PSDE.player.characterDisposition.get(rosie)['storge'] > 25 || PSDE.player.characterDisposition.get(rosie)['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
+    Content.add("<p>A chill runs up your spine as you feel a sudden sense of urgency. You look again at the kneeling vixen, and {0}. Her wide-eyed stare is directed at the heart, and her mouth opens anxiously as a soft chitter leaves her throat.</p>".format(PSDE.player.philautia > 50 ? (PSDE.player.getCharacterDisposition("rosieReynard")['storge'] > 25 || PSDE.player.getCharacterDisposition("rosieReynard")['philia'] > 25 ? "feel your heart grow heavy" : "feel a pang of guilt") : "feel nothing"));
 
     PSDE.events.has('charlieHeartbeatRosieCellEvent') && PSDE.events.get('charlieHeartbeatRosieCellEvent').delete();
     PSDE.events.has('charlieHeartbeatRosieRoomEvent') && PSDE.events.get('charlieHeartbeatRosieRoomEvent').delete();
@@ -180,12 +180,12 @@ function rosieTakeCharlieHeart() {
     PSDE.events.has('charlieReceiveLeftEyeEvent') && PSDE.events.get('charlieReceiveLeftEyeEvent').delete();
 
     Menu.clear();
-    Menu.addOption("rosieTakeCharlieHeartFlee()", "Leave, now.");
-    Menu.addOption("rosieTakeCharlieHeartStay()", "See what happens next.");
+    Menu.addOption("rosieReynardTakeCharlieHeartFlee()", "Leave, now.");
+    Menu.addOption("rosieReynardTakeCharlieHeartStay()", "See what happens next.");
     Menu.generate();
 }
-function rosieTakeCharlieHeartFlee() {
-    _character = PSDE.getCharacterByID("rosie");
+function rosieReynardTakeCharlieHeartFlee() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     _subCharacter = PSDE.getCharacterByID("charlie");
     if (_character.cell == _character.cell)
         PSDE.setCharacterMovementToCharacter(_subCharacter, _character);
@@ -206,8 +206,8 @@ function rosieTakeCharlieHeartFlee() {
 
     PSDE.tick("2m", true, false);
 }
-function rosieTakeCharlieHeartStay() {
-    _character = PSDE.getCharacterByID("rosie");
+function rosieReynardTakeCharlieHeartStay() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     _subCharacter = PSDE.getCharacterByID("charlie");
     PSDE.characterSetRoom(_subCharacter, _character.room);
 

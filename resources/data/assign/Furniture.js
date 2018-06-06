@@ -1,7 +1,7 @@
 if ((PSDE.debugEnabled)) console.log("Assigning Furniture");
 
-remmyApartmentBathroomTub.addItem(charlieBigBlackRemmyDildo);
-remmyApartmentBedroomBed.addItem(remmyMediumPinkRibbedFleshlight);
-remmyApartmentBedroomHamper.addItem(alBuildingLocationKey);
-remmyApartmentLivingroomCouch.addItem(playBuck942);
-remmyApartmentBedroomBed.addItem(pandorasBoxLocationKey);
+PSDE.getFurnitureByID("remmyApartmentBathroomTub").addItem("charlieBigBlackRemmyDildo");
+PSDE.getFurnitureByID("remmyApartmentBedroomBed").addItem("remmyMediumPinkRibbedFleshlight");
+PSDE.getFurnitureByID("remmyApartmentBedroomHamper").addItem("alBuildingLocationKey");
+PSDE.getFurnitureByID("remmyApartmentLivingroomCouch").addItem("playBuck942");
+PSDE.getFurnitureByID("remmyApartmentBedroomBed").addItem("pandorasBoxLocationKey");

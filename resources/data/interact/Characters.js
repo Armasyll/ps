@@ -1,22 +1,22 @@
 function avoInteract(_clearContent = true) {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
     unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function avoTalk() {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
     unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function avoRape() {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
     unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function avoSex() {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
-    if (PSDE.calculateChanceToFuck(PSDE.player, _character) > 50 || PSDE.player.hasItem(avoBeatingHeart)) {
+    if (PSDE.player.calculateChanceToFuck(_character)) {
         unsafeExec("{0}{1}Sex()".format(PSDE.player.room.sid, _character.id.capitalize()));
     }
     else {
@@ -24,7 +24,7 @@ function avoSex() {
     }
 }
 function avoFollow() {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
     if (_character.sleeping) {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
@@ -37,17 +37,17 @@ function avoFollow() {
     return false;
 }
 function avoStay() {
-    _character = PSDE.characters.get("avo");
+    _character = PSDE.getCharacterByID("avo");
     
     Content.add("<p>You ask Avo to wait here, and she nods her head.</p>");
     
     PSDE.characterStay(_character);
     
-    PSDE.characterInteract(_character. false);
+    PSDE.characterInteract(_character, false);
 }
 
 function charlieInteract(_clearContent = true) {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
     if (_clearContent) {
         if (PSDE.player.hasItem("charlieBeatingHeart") && _character.hasItem("charlieBeatingHeart"))
@@ -60,9 +60,9 @@ function charlieInteract(_clearContent = true) {
     unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function charlieTalk() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
-    if (_character.getCharacterEros(PSDE.player) > 50 && _character.getCharacterPhilia(PSDE.player) > 50) {
+    if (_character.getCharacterDisposition(PSDE.player, "passion") > 50 && _character.getCharacterDisposition(PSDE.player, "friendship") > 50) {
         if (_character.hasDated(PSDE.player)) {
             if (!_character.isDatingCharacter(PSDE.player))
                 Menu.addOption("charlieDateAsk()", "Ask {0} out, again".format(_character.objectPronoun()));
@@ -76,14 +76,14 @@ function charlieTalk() {
     unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function charlieRape() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
     unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function charlieSex() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
-    if (PSDE.calculateChanceToFuck(PSDE.player, _character) > 49 || PSDE.player.hasItem("charlieBeatingHeart")) {
+    if (PSDE.player.calculateChanceToFuck(_character) > 49 || PSDE.player.hasItem("charlieBeatingHeart")) {
         Menu.clear();
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -105,14 +105,14 @@ function charlieSex() {
     }
 }
 function charlieSexVaginalGive() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
-    _ctf = PSDE.calculateChanceToFuck(PSDE.player, _character);
+    _ctf = PSDE.player.calculateChanceToFuck(_character);
     _blob = "";
     
 }
 function charlieSexFellatioGive() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
     if (_character.hasBodyPartSlickWithCum("mouth") && PSDE.player.hasBodyPartSlickWithCum("penis"))
         charlieSexFellatioGiveAgain();
@@ -120,9 +120,9 @@ function charlieSexFellatioGive() {
         charlieSexFellatioGiveInitial();
 }
 function charlieSexFellatioGiveInitial() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
-    _ctf = PSDE.calculateChanceToFuck(PSDE.player, _character);
+    _ctf = PSDE.player.calculateChanceToFuck(_character);
     _blob = "";
 
     if (PSDE.player.hasItem("charlieBeatingHeart") && _ctf < 50)
@@ -342,26 +342,26 @@ function charlieSexFellatioGiveInitial() {
     }
 }
 function charlieSexFellatioGiveAgain() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
-    _ctf = PSDE.calculateChanceToFuck(PSDE.player, charlie);
+    _ctf = PSDE.player.calculateChanceToFuck(charlie);
     _blob = "";
 
     if (PSDE.player.hasItem("charlieBeatingHeart") && _ctf < 50)
         return; // Something to do later
 }
 function _charlieSexFellatioGivePostAskShower() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
     Content.add("<p>\"How about a shower?\" " + PSDE.subjectPronoun(true).capitalize() + " ask" + (PSDE.pov == 3 ? "s" : "") + " with a grin, looking over the slightly glazed vixen.</p><p>\"Yes. That would be best, before your cum sets in. I'll also be using your toothbrush.\" " + PSDE.subjectPronoun() + " see" + (PSDE.pov == 3 ? "s" : "") + " her wipe the back of her paw against her muzzle, smearing more proof of " + PSDE.possessiveAdjectivePlural() + " recent activities across her fur.</p>");
     _character.follow(PSDE.player);
 }
 function _charlieSexFellatioGiveReluctantFollow() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
 
 }
 function _charlieSexFellatioGiveReluctantForce() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
     Content.add("<p>Her eyes open just enough for you to see her thin, black pupils. \"I hate you, {0}.\"</p>".format(PSDE.player.getFullName()));
     if (_character.isDatingCharacter(PSDE.player)) {
@@ -373,9 +373,9 @@ function _charlieSexFellatioGiveReluctantForce() {
     return true;
 }
 function _charlieSexUndressA() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
-    _reluctant = PSDE.player.hasItem("charlieBeatingHeart") && (_character.lust < 15 && _character.stamina < 15) || PSDE.calculateChanceToFuck(PSDE.player, charlie) < 50;
+    _reluctant = PSDE.player.hasItem("charlieBeatingHeart") && (_character.lust < 15 && _character.stamina < 15) || PSDE.player.calculateChanceToFuck(_character) < 50;
     _blob = "<p>";
     if (_character.isSitting()) {
         if (_reluctant)
@@ -426,7 +426,7 @@ function _charlieSexUndressA() {
     Content.add(_blob);
 }
 function charlieFollow() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
     if (_character.sleeping) {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
@@ -439,22 +439,22 @@ function charlieFollow() {
     return false;
 }
 function charlieStay() {
-    _character = PSDE.characters.get("charlie");
+    _character = PSDE.getCharacterByID("charlie");
     
     Content.add("<p>You ask {0} to wait here, and {1} nods {2} head.</p>".format(_character.name, _character.subjectPronoun(), _character.possessiveAdjective()));
     
     PSDE.characterStay(_character);
 }
 
-function rosieInteract(_clearContent = true) {
-    _character = PSDE.characters.get("rosie");
+function rosieReynardInteract(_clearContent = true) {
+    _character = PSDE.getCharacterByID("rosieReynard");
 
     unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
 }
-function rosieTalk() {
-    _character = PSDE.characters.get("rosie");
+function rosieReynardTalk() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     
-    if (PSDE.player == charlie) {
+    if (PSDE.player == PSDE.getCharacterByID("charlie")) {
         Content.add("<p>You walk casually over to the vixen, your long, fluffy tail puffing up the closer you get.</p>");
         if (rosie.sleeping)
             Content.add("<p>Rosie is lying down peacefully, with her chest rising and falling in a slow rhythm.");
@@ -463,13 +463,13 @@ function rosieTalk() {
     }
     unsafeExec(PSDE.player.room.sid + "RosieTalk()");
 }
-function rosieSex() {
-    _character = PSDE.characters.get("rosie");
+function rosieReynardSex() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     
     Content.add("<p>Looking over the vixen, a depreaved idea come to you-<h1 style='display:inline;'>\"No >:v\"</h1></p>");
 }
-function rosieFollow() {
-    _character = PSDE.characters.get("rosie");
+function rosieReynardFollow() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     
     if (_character.sleeping) {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
@@ -481,8 +481,8 @@ function rosieFollow() {
     }
     return false;
 }
-function rosieStay() {
-    _character = PSDE.characters.get("rosie");
+function rosieReynardStay() {
+    _character = PSDE.getCharacterByID("rosieReynard");
     
     Content.add("<p>\"Stay right here,\" {0} tell{1} {2}. She looks around before muttering \"Okay.\"</p>".format(PSDE.subjectPronoun(true), PSDE.pov == 3 ? "s" : "", _character.name));
     
@@ -490,17 +490,17 @@ function rosieStay() {
 }
 
 function tellerMicelyInteraction() {
-    _character = PSDE.characters.get("tellerMicely");
+    _character = PSDE.getCharacterByID("tellerMicely");
 
     unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function tellerMicelyTalk() {
-    _character = PSDE.characters.get("tellerMicely");
+    _character = PSDE.getCharacterByID("tellerMicely");
 
     unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function tellerMicelySex() {
-    _character = PSDE.characters.get("tellerMicely");
+    _character = PSDE.getCharacterByID("tellerMicely");
 
     if (PSDE.player.getSex() == PSDE.kMale)
         Content.add("<p>You briefly think about hot-gluing the nerdy little mouse. The thought won't go away.</p>");
@@ -509,14 +509,14 @@ function tellerMicelySex() {
     PSDE.player.incLust(1);
 }
 function _tellerMicelyFollow() {
-    _character = PSDE.characters.get("tellerMicely");
+    _character = PSDE.getCharacterByID("tellerMicely");
 
     Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(PSDE.player.getSex() == PSDE.kMale ? "Sir" : "Ma'am"));
 
     return false;
 }
 function tellerMicelyHug() {
-    _character = PSDE.characters.get("tellerMicely");
+    _character = PSDE.getCharacterByID("tellerMicely");
 
     Content.add("<p>\"{0}, this is highly inappropriate!\" Teller squeaks{1}</p>".format(
         PSDE.player.getSex() == PSDE.kMale ? "S-Sir" : "M-Ma'am",
@@ -525,7 +525,7 @@ function tellerMicelyHug() {
 }
 
 function wolterInteract(_clearContent = true) {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
 
     if (_clearContent) {
         _blob = "";
@@ -581,7 +581,7 @@ function wolterInteract(_clearContent = true) {
     unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
 }
 function wolterTalk() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     
     if (_character.getCharacterEros(PSDE.player) > 50 && _character.getCharacterPhilia(PSDE.player) > 50) {
         if (_character.hasDated(PSDE.player)) {
@@ -597,18 +597,18 @@ function wolterTalk() {
     unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function wolterRape() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     
     unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
 }
 function wolterSex() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     
     if (_character.isSleeping()) { // :v
     }
     else {
-        var _ctfLust = PSDE.calculateChanceToFuck(PSDE.player, _character);
-        var _ctfNoLust = PSDE.calculateChanceToFuck(PSDE.player, _character, true);
+        var _ctfLust = PSDE.player.calculateChanceToFuck(_character);
+        var _ctfNoLust = PSDE.player.calculateChanceToFuck(_character, true);
 
         // If the Player has a chance to fuck the Character without lust, 
         //  and they're both the same sex, 
@@ -693,7 +693,7 @@ function wolterSex() {
     }
 }
 function wolterFollow() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     
     if (_character.sleeping) {
         Content.add(String("<p>{0} is currently curled in on {1} and sleeping. You don't want to wake {2}.</p>").format(_character.name, _character.reflexivePronoun(), _character.objectPronoun()));
@@ -706,14 +706,14 @@ function wolterFollow() {
     return false;
 }
 function wolterStay() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     
     Content.add("<p>You ask {0} to wait here, and {1} nods {2} head.</p>".format(_character.name, _character.subjectPronoun(), _character.possessiveAdjective()));
     
     PSDE.characterStay(_character);
 }
 function wolterHug() {
-    _character = PSDE.characters.get("wolter");
+    _character = PSDE.getCharacterByID("wolter");
     var _arr = new Array();
     var _disposition = _character.getCharacterDisposition(PSDE.player);
 

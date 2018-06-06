@@ -8,13 +8,13 @@ new GameEvent("newDayWelcomeEvent", undefined, PSDE.player, undefined, undefined
 // Schedules
 PSDE.setCharacterRoomScheduleEvent(
 	"avoWorkRoutineStartEvent", // Name of the GameEvent
-	PSDE.characters.get("avo"), // Character following the schedule
+	PSDE.getCharacterByID("avo"), // Character following the schedule
 	"pandorasBoxCheckout", // Location of the schedule
 	new Cron(30, 7, undefined, undefined, "1-5"), // Time of the schedule; 7:30 AM, Mon-Fri
 	new GameEvent( // the Function called when the Character is at the Location; in this case, a new GameEvent
 		"avoWorkRoutineStartSitEvent", // Name of the GameEvent
 		"walk", // the currentAction of the Character which triggers the GameEvent
-		PSDE.characters.get("avo"),  // the Character triggering the GameEvent
+		PSDE.getCharacterByID("avo"),  // the Character triggering the GameEvent
 		undefined,
 		undefined,
 		undefined, 
@@ -28,23 +28,23 @@ PSDE.setCharacterRoomScheduleEvent(
 );
 PSDE.setCharacterRoomScheduleEvent(
 	"avoWorkRoutineEndEvent", // Name of the event
-	PSDE.characters.get("avo"), // Character following the schedule
+	PSDE.getCharacterByID("avo"), // Character following the schedule
 	"avoApartmentBedroomAvo", // Location of the schedule
 	new Cron(30, 17, undefined, undefined, "1-5"), // Time of the schedule; 5:30 PM Mon-Fri
-	PSDE.characters.get("avo").masturbate(), // Function called when the Character is at the Location
+	PSDE.getCharacterByID("avo").masturbate(), // Function called when the Character is at the Location
 	false // Run once
 );
 
 // One-time
 new GameEvent("remmyApartmentBathroomWaterbucketEvent", undefined, undefined, undefined, undefined, undefined, undefined, "remmyApartmentBathroom", undefined, "remmyApartmentBathroomWaterbucket('remmyApartmentBathroomWaterbucketEvent')", true);
-new GameEvent("rosieTakeCharlieHeart", "take", undefined, PSDE.characters.get("rosie"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "rosieTakeCharlieHeart('rosieTakeCharlieHeart')", true);
-new GameEvent("charlieCheckMirrorEvent", undefined, undefined, PSDE.characters.get("charlie"), undefined, undefined, undefined, PSDE.characters.get("charlie").room, undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", true);
+new GameEvent("rosieReynardTakeCharlieHeart", "take", undefined, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "rosieReynardTakeCharlieHeart('rosieReynardTakeCharlieHeart')", true);
+new GameEvent("charlieCheckMirrorEvent", undefined, undefined, PSDE.getCharacterByID("charlie"), undefined, undefined, undefined, PSDE.getCharacterByID("charlie").room, undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", true);
 
 // Repeated
-new GameEvent("charlieHeartbeatRosieCellEvent", undefined, PSDE.player, PSDE.characters.get("rosie"), PSDE.items.get("charlieBeatingHeart"), undefined, PSDE.characters.get("rosie").room.cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);
-new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, PSDE.player, PSDE.characters.get("rosie"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, PSDE.characters.get("rosie").room, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieRoomEvent')", true);
-new GameEvent("charlieRemoveHeartEvent", "remove", PSDE.player, PSDE.characters.get("charlie"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveHeartEvent')", false);
-new GameEvent("charlieReceiveHeartEvent", "take", PSDE.characters.get("charlie"), undefined, PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveHeartEvent')", false);
-new GameEvent("charlieRemoveLeftEyeEvent", "remove", PSDE.player, PSDE.characters.get("charlie"), PSDE.items.get("charlieLeftEye"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);
-new GameEvent("charlieReceiveLeftEyeEvent", "take", PSDE.characters.get("charlie"), undefined, PSDE.items.get("charlieLeftEye"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveLeftEyeEvent')", false);
-new GameEvent("tellerMicelyReceiveChequeEvent", "take", PSDE.characters.get("tellerMicely"), undefined, undefined, undefined, undefined, undefined, undefined, "PSDE.cashCheque()", false);
+new GameEvent("charlieHeartbeatRosieCellEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, PSDE.getCharacterByID("rosieReynard").room.cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);
+new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, PSDE.getCharacterByID("rosieReynard").room, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieRoomEvent')", true);
+new GameEvent("charlieRemoveHeartEvent", "remove", PSDE.player, PSDE.getCharacterByID("charlie"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveHeartEvent')", false);
+new GameEvent("charlieReceiveHeartEvent", "take", PSDE.getCharacterByID("charlie"), undefined, PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveHeartEvent')", false);
+new GameEvent("charlieRemoveLeftEyeEvent", "remove", PSDE.player, PSDE.getCharacterByID("charlie"), PSDE.items.get("charlieLeftEye"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);
+new GameEvent("charlieReceiveLeftEyeEvent", "take", PSDE.getCharacterByID("charlie"), undefined, PSDE.items.get("charlieLeftEye"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveLeftEyeEvent')", false);
+new GameEvent("tellerMicelyReceiveChequeEvent", "take", PSDE.getCharacterByID("tellerMicely"), undefined, undefined, undefined, undefined, undefined, undefined, "PSDE.cashCheque()", false);

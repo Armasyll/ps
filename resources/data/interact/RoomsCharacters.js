@@ -1,5 +1,5 @@
 function alBuildingBasementRosieInteract() {
-    _character = PSDE.getCharacterByID("rosie");
+    _character = PSDE.getCharacterByID("rosieReynard");
     
     Content.clear();
     
@@ -12,7 +12,7 @@ function alBuildingBasementRosieInteract() {
     Content.add("<p>There are some Bugburga boxes stacked in a neat pile a few feet away from her.</p>");
 }
 function alBuildingBasementRosieTalk() {
-    _character = PSDE.getCharacterByID("rosie");
+    _character = PSDE.getCharacterByID("rosieReynard");
     
     if (_character.isSleeping()) {
         Content.add("<p>The small vixen is sleeping, and you don't want to wake her.</p>");
@@ -185,7 +185,7 @@ function remmyApartmentLivingroomCharlieTalkWhatsUp() {
     Content.add("<p>" + _blob + "</p>");
     
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     
     Menu.generate();
@@ -199,7 +199,7 @@ function remmyApartmentLivingroomCharlieTalkHi() {
     Content.add("You sit beside {0} and say \"Hi,\"<br/>Her lips curl up just a smidgen, and she says \"Hello, Remmy.\"<br/>".format(_character.name));
     
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
     
@@ -216,13 +216,13 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
     if (_character['annoyed'] == 1)
         Content.add("<p>You say \"Hi,\" again.</p><p>The small smile on {0} face is gone as she repeats, \"Hello, {1}.\"</p>".format(_character.objectPronoun(), PSDE.player.surname));
     else if (_character['annoyed'] < 5) {
-        Content.add("As you continue bugging the {0} on your couch, {1} eyes gradually open".format(_character.getSpeciesName(), _character.objectPronoun()));
+        Content.add("As you continue bugging the {0} on your couch, {1} eyes gradually open".format(_character.getSpecies(), _character.objectPronoun()));
         if (_character['annoyed'] == 2)
             Content.add(", almost imperceptibly.");
         else if (_character['annoyed'] == 3)
             Content.add(" further.");
         else
-            Content.add(" even further. You can now see {0} {1} looking at you.".format(_character.eyeColour, (_character.eyeType == 0 ? "pupils" : (_character.eyeType == 1 ? "slits" : "ungulate eyes"))));
+            Content.add(" even further. You can now see {0} {1} looking at you.".format(_character.eyeColour, (_character.eyeType == "circle" ? "pupils" : (_character.eyeType == "slit" ? "slits" : "ungulate eyes"))));
         Content.add("<br/>");
     }
     else if (_character['annoyed'] == 5)
@@ -231,7 +231,7 @@ function remmyApartmentLivingroomCharlieTalkHiCont() {
         Content.add("<p>{0} gets up to leave, but then you call back to {1}; \"{0}, wait!\" {3} stops with {1} back turned to you.</p><p>Again, you say \"Hi.\"</p><p>{0} spins around to face you, grabs your shoulders, and gekkers loudly, moving {1} open mouth closer to yours with each 'gek'. Pushing you onto the other side of your couch, {2} turns back around and leaves.</p><p><i>How rude,</i> you think to yourself.<p/>".format(_character.name, _character.possessiveAdjective(), _character.subjectPronoun(), _character.subjectPronoun().capitalize()));
     
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     if (_character['annoyed'] < 6)
         Menu.addOption("remmyApartmentLivingroomCharlieTalkHiCont()", "Say hello, again");
@@ -251,7 +251,7 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
 
     if (PSDE.player.room.containsCharacter(wolter) && _subCharacter.isSleeping()) {
         Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(_subCharacter.name, _subCharacter.subjectPronoun(), _subCharacter.possessivePronoun(), PSDE.player.name, _character.name, _character.objectPronoun()));
-        _subCharacter.isSleeping() = false;
+        _subCharacter.wake();
     }
     
     Menu.clear();
@@ -285,7 +285,7 @@ function remmyApartmentLivingroomCharlieSex() {
     	if (!PSDE.player.hasItem(charlieBeatingHeart))
     		return false;
     }
-    else if (_character.lust < 15 || PSDE.calculateChanceToFuck(PSDE.player, _character) < 50) {
+    else if (_character.lust < 15 || PSDE.player.calculateChanceToFuck(_character) < 50) {
     	Content.add("<p>\"I'm not <i>in the mood</i>. Maybe later, if you give me a paw rub,\" she tells you, as she stretches one of her footpaws out.</p>");
     	if (!PSDE.player.hasItem(charlieBeatingHeart)) {
             Menu.addOption("charliePawrubGive()", "Give her a paw rub");
@@ -294,7 +294,7 @@ function remmyApartmentLivingroomCharlieSex() {
     }
 
     _blob += "<p>Pressing your lips to her neck, you give it a soft bite. ";
-    if (PSDE.player.hasItem(charlieBeatingHeart) && (_character.lust < 15 && _character.stamina < 15) || PSDE.calculateChanceToFuck(PSDE.player, _character) < 50)
+    if (PSDE.player.hasItem(charlieBeatingHeart) && (_character.lust < 15 && _character.stamina < 15) || PSDE.player.calculateChanceToFuck(_character) < 50)
     	_blob += "You can feel her heart beat harder as she turns her head away from you.</p><p>\"I told you,\" she says, but trails off as you pat her heart in your pocket.</p><p>\"Are you sure you're not in the mood?\" you ask. Her lips twitch into a snarl as the fur along her neck raises.</p>";
 	else
     	_blob += "\"Harder,\" she hisses, and you oblige, leaning into her and biting harder. Pulling away from her neck, you wrap your arms around her shoulders and give her a brief kiss on the lips. Quickly, she wipes saliva off of her lips with the back of her paw.</p>";
@@ -334,7 +334,7 @@ function remmyApartmentLivingroomCharlieSexWolter() {
     }
     
     Menu.clear();
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterSpitroast()", "Spitroast Charlie", "You both spitroast Charlie");
     Menu.addOption("remmyApartmentLivingroomCharlieSexWolterDoubleblowjob()", "Double Blowjob", "Charlie blows the both of you");
@@ -442,7 +442,7 @@ function remmyApartmentLivingroomCharlieSexCunnilingusGive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.generate();
     
     PSDE.tick("15m");
@@ -453,7 +453,7 @@ function remmyApartmentLivingroomCharlieSexFellatioGive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingSwallow()", "Cum in her mouth");
     Menu.addOption("remmyApartmentLivingroomCharlieSexOralGivingFacial()", "Cum on her face");
     Menu.generate();
@@ -470,7 +470,7 @@ function remmyApartmentLivingroomCharlieSexVaginalGive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexVaginalBellybutter()", "Pull out");
     Menu.generate();
@@ -487,7 +487,7 @@ function remmyApartmentLivingroomCharlieSexAnalGive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalCreampie()", "Cum inside her");
     Menu.addOption("remmyApartmentLivingroomCharlieSexAnalBackbaste()", "Pull out");
     Menu.generate();
@@ -504,7 +504,7 @@ function remmyApartmentLivingroomCharlieSexMasturbateGive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     Menu.generate();
     
     PSDE.tick("15m");
@@ -516,7 +516,7 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
+    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
     if (PSDE.player.room.containsCharacter(_subCharacter))
         if (_subCharacter.isSleeping() && PSDE.enableRape)
             Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter()", "Jizz on sleeping Wolter");

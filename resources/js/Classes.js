@@ -356,7 +356,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_northRoom instanceof Room) {
             _room = _northRoom;
@@ -367,7 +367,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_upRoom instanceof Room) {
             _room = _upRoom;
@@ -378,7 +378,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_westRoom instanceof Room) {
             _room = _westRoom;
@@ -389,7 +389,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_southRoom instanceof Room) {
             _room = _southRoom;
@@ -400,7 +400,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_eastRoom instanceof Room) {
             _room = _eastRoom;
@@ -411,7 +411,7 @@ class Menu {
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["PSDE.roomInteract(" + _room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         _room = undefined;
     }
@@ -1518,6 +1518,9 @@ class PSDE {
     static getCharacterByID(_string) {
         return this.characters.get(_string);
     }
+    static getFurnitureByID(_string) {
+        return this.furniture.get(_string);
+    }
     static getItemByID(_string) {
         return this.items.get(_string);
     }
@@ -1568,7 +1571,7 @@ class PSDE {
             
             if (!PSDE.enableThreeDContent)
                 Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
-            Menu.setOption(0, "PSDE.roomInteract({0}, false, false)".format(PSDE.player.room.id), "Explore " + (PSDE.player.room.owner == PSDE.player ? "your " + PSDE.player.room.typeName() : PSDE.player.room.name));
+            Menu.setOption(0, "PSDE.roomInteract('{0}', false, false)".format(PSDE.player.room.id), "Explore " + (PSDE.player.room.owner == PSDE.player ? "your " + PSDE.player.room.typeName() : PSDE.player.room.name));
             Menu.setOption(1, "PSDE.personalCharacterMenu()", "Personal Menu");
             if (PSDE.player.room.characters.size == 2) {
                 _character = undefined;
@@ -1756,7 +1759,7 @@ class PSDE {
         var _blob = "";
         _blob += '<div class="btn-group btn-group-justified">';
         PSDE.rooms.forEach(function (_key, _val) {
-            _blob += Menu.createButton("PSDE.roomInteract(" + _key.id + ", true)", _key.name, _key.id, false);
+            _blob += Menu.createButton("PSDE.roomInteract('" + _key.id + "', true)", _key.name, _key.id, false);
             if (i % 4 == 0)
                 _blob += '</div><div class="btn-group btn-group-justified">';
             i++;
@@ -1834,7 +1837,7 @@ class PSDE {
                     _clothing.delete(_clothing.id);
                 }
             }, this);
-            _blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='{0}.setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
+            _blob += "<tr><td>{3}</td><td><select class='changeClothing col-sm-3' onchange='PSDE.getCharacterByID(\"{0}\").setClothing(this.value, \"{3}\")' data-character='{0}' data-clothingSlot='{3}' selected='{1}'><option value='undefined'>Nothing</option>{2}</select></td></tr>".format(
                 PSDE.player.id,
                 (PSDE.player.clothing[_clothingType] !== undefined ? PSDE.player.clothing[_clothingType].parent.id : "undefined"),
                 _clothingOptionsBlob,
@@ -1863,7 +1866,11 @@ class PSDE {
         //  Defaults
         _blob += "<tr><td>Default</td>";
         for (var _property in _character.defaultDisposition) {
-            _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.defaultDisposition.set({1}, this.value)' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _character.defaultDisposition[_property]);
+            _blob += "<td><input type='text' class='changeDisposition' onchange='PSDE.getCharacterByID(\"{0}\").defaultDisposition.set(\"{1}\", this.value)' value='{2}' style='width:3em;'/></td>".format(
+                _character.id,
+                _property,
+                _character.defaultDisposition[_property]
+            );
         }
         _blob += "</tr>";
         
@@ -1874,11 +1881,11 @@ class PSDE {
                 return undefined;
             _blob += "<tr><td>{0}</td>".format(__character.id);
             for (var _property in _disposition) {
-                _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(PSDE.calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
+                _blob += "<td><input type='text' class='changeDisposition' onchange='PSDE.getCharacterByID(\"{0}\").setCharacterDisposition(\"{3}\", \"{1}\", this.value); $(\"#calculateChanceToFuckThem{4}\").text(PSDE.getCharacterByID(\"{3}\").calculateChanceToFuck(\"{0}\")); this.value = PSDE.getCharacterByID(\"{0}\").getCharacterDisposition(\"{3}\", \"{1}\");' value='{2}' style='width:3em;'/></td>".format(_character.id, _property, _disposition[_property], __character.id, __character.id.capitalize());
             }
             _blob += "<td></td>";
             _blob += "<td></td>";
-            _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(PSDE.calculateChanceToFuck(__character, _character), __character.id.capitalize());
+            _blob += "<td id='calculateChanceToFuckThem{1}'>{0}</td>".format(__character.calculateChanceToFuck(_character), __character.id.capitalize());
             _blob += "</tr>";
         }, this);
         
@@ -1893,11 +1900,11 @@ class PSDE {
                 
                 _blob += "<tr><td>{0}</td>".format(__character.id);
                 for (var _property in __character.characterDisposition.get(_character)) {
-                    _blob += "<td><input type='text' class='changeDisposition' onchange='{0}.setCharacterDisposition({3}, \"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(PSDE.calculateChanceToFuck({3}, {0}));' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _disposition[_property], _character.id, __character.id.capitalize());
+                    _blob += "<td><input type='text' class='changeDisposition' onchange='PSDE.getCharacterByID(\"{0}\").setCharacterDisposition(\"{3}\", \"{1}\", this.value); $(\"#calculateChanceToFuckYou{4}\").text(PSDE.getCharacterByID(\"{3}\").calculateChanceToFuck(\"{0}\")); this.value = PSDE.getCharacterByID(\"{0}\").getCharacterDisposition(\"{3}\", \"{1}\");' value='{2}' style='width:3em;'/></td>".format(__character.id, _property, _disposition[_property], _character.id, __character.id.capitalize());
                 }
-                _blob += "<td><input onchange='{0}.setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.calculateChanceToFuck({2}, {0}));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (__character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
-                _blob += "<td><input onchange='{0}.setLust(this.value); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.calculateChanceToFuck({2}, {0}));' type='text' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
-                _blob += "<td id='calculateChanceToFuckYou{1}'>{0}</td>".format(PSDE.calculateChanceToFuck(_character, __character), __character.id.capitalize());
+                _blob += "<td><input onchange='PSDE.getCharacterByID(\"{0}\").setRut(this.checked); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.getCharacterByID(\"{2}\").calculateChanceToFuck(\"{0}\"));' type='checkbox' name='rut' {1}/><br/>".format(__character.id, (__character.rut ? 'checked' : ''), _character.id, __character.id.capitalize());
+                _blob += "<td><input onchange='PSDE.getCharacterByID(\"{0}\").setLust(this.value); $(\"#calculateChanceToFuckYou{3}\").text(PSDE.getCharacterByID(\"{2}\").calculateChanceToFuck(\"{0}\")); this.value = PSDE.getCharacterByID(\"{0}\").getLust();' type='number' min='0' max='100' maxlength='3' size='3' name='lust' value='{1}'/></td>".format(__character.id, __character.lust, _character.id, __character.id.capitalize());
+                _blob += "<td id='calculateChanceToFuckYou{1}'>{0}</td>".format(_character.calculateChanceToFuck(__character), __character.id.capitalize());
                 _blob += "</tr>";
             }
         }, this);
@@ -1935,7 +1942,7 @@ class PSDE {
         Content.add(_blob);
         
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose(); PSDE.roomInteract(" + PSDE.player.room.id + ", true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose(); PSDE.roomInteract('" + PSDE.player.room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         Menu.generate();
     }
     static debugBrowserInformation() {
@@ -2033,7 +2040,7 @@ class PSDE {
         
         Content.add("<p>Your name is " + PSDE.player.toString() + ", a " + PSDE.player.age + " year old " + (PSDE.player.getSex() == PSDE.kMale ? 'male' : 'female') + " " + PSDE.player.species + ".</p>");
         
-        Menu.addOption("PSDE.roomInteract({0}, true)".format(PSDE.player.room.id), "Get a move on.");
+        Menu.addOption("PSDE.roomInteract('{0}', true)".format(PSDE.player.room.id), "Get a move on.");
         Menu.generate();
         
         PSDE.updateTimeDisplay();
@@ -3391,27 +3398,6 @@ class PSDE {
     }
 
     /**
-     * Chance for Character(2) to have sex with Character(1)
-     * @param {Character} _characterA Character requesting
-     * @param {Character} _characterB Character respoding to request
-     * @return {Number}, or undefined
-     */
-    static calculateChanceToFuck(_characterA, _characterB, _ignoreLustAndRut) {
-        if (!(_characterA instanceof Character))
-            _characterA = PSDE.characters.has(_characterA) ? PSDE.getCharacterByID(_characterA) : undefined;
-        
-        if (typeof _characterA == 'undefined')
-            return undefined;
-        
-        if (!(_characterB instanceof Character))
-            _characterB = PSDE.characters.has(_characterB) ? PSDE.getCharacterByID(_characterB) : undefined;
-        
-        if (typeof _characterB == 'undefined')
-            return undefined;
-        
-        return _characterA.calculateChanceToFuck(_characterB, _ignoreLustAndRut);
-    }
-    /**
      * Rolls a number between 1 and _sides, multiplied by _times, and incremented by _addition
      * @param  {Number} _times Multiplier
      * @param  {Number} _sides Max number per _times
@@ -3710,7 +3696,7 @@ class PSDE {
             unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)));
 
             _room.furniture.forEach(function(_furniture) {
-                Menu.addOption("PSDE.furnitureInteract({0}, false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
+                Menu.addOption("PSDE.furnitureInteract('{0}', false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
             });
             
             Menu.generate();
@@ -3842,25 +3828,25 @@ class PSDE {
         Menu.clear();
 
         if (typeof window["{0}Talk".format(_character.id)] == "function")
-            Menu.setOption(0, "PSDE.characterInteractTalk({0})".format(_character.id), "Talk");
+            Menu.setOption(0, "PSDE.characterInteractTalk('{0}')".format(_character.id), "Talk");
         else
-            Menu.setOption(0, "PSDE.characterInteractTalk({0})".format(_character.id), "Talk", undefined, undefined, 4);
+            Menu.setOption(0, "PSDE.characterInteractTalk('{0}')".format(_character.id), "Talk", undefined, undefined, 4);
 
         if (typeof window["{0}Sex".format(_character.id)] == "function") {
             if ((PSDE.player.age >= 18 && _character.age >= 18))
-                Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex");
+                Menu.setOption(1, "PSDE.characterInteractSex('{0}')".format(_character.id), "Sex");
             else
-                Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
+                Menu.setOption(1, "PSDE.characterInteractSex('{0}')".format(_character.id), "Sex", undefined, undefined, 4);
         }
         else
-            Menu.setOption(1, "PSDE.characterInteractSex({0})".format(_character.id), "Sex", undefined, undefined, 4);
+            Menu.setOption(1, "PSDE.characterInteractSex('{0}')".format(_character.id), "Sex", undefined, undefined, 4);
 
         Menu.setOption(2, "PSDE.getAppearance({0})".format(_character.id), "Appearance");
 
         if ((PSDE.enableDebug))
-            Menu.setOption(4, "PSDE.characterInteractOpen({0})".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
+            Menu.setOption(4, "PSDE.characterInteractOpen('{0}')".format(_character.id), "Inventory", "Rifle through {0} pockets, if {1} has them.".format(_character.possessiveAdjective(), _character.subjectPronoun()));
         else
-            Menu.setOption(4, "PSDE.characterInteractOpen({0}, true, false, undefined, false)".format(_character.id), "Give", "Give them an item.")
+            Menu.setOption(4, "PSDE.characterInteractOpen('{0}', true, false, undefined, false)".format(_character.id), "Give", "Give them an item.")
 
         if (PSDE.player.room.characters.size > 2)
             Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
@@ -3868,12 +3854,12 @@ class PSDE {
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         if (typeof window["{0}Hug".format(_character.id)] == "function")
-            Menu.addOption("PSDE.characterInteractHug({0})".format(_character.id), "Hug");
+            Menu.addOption("PSDE.characterInteractHug('{0}')".format(_character.id), "Hug");
 
         if (_character.isSleeping())
-            Menu.addOption("PSDE.characterInteractWake({0})".format(_character.id), "Wake");
+            Menu.addOption("PSDE.characterInteractWake('{0}')".format(_character.id), "Wake");
 
-        unsafeExec("{0}Interact({1})".format(_character.id, _clearContent));
+        unsafeExec("{0}Interact('{1}')".format(_character.id, _clearContent));
 
         Menu.generate();
     }
@@ -3900,7 +3886,7 @@ class PSDE {
                 _filter = undefined;
         }
 
-        PSDE.lastMenu = "PSDE.characterInteractOpen({0}, {1}, {2}, {3}, {4})".format(_character.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter, false);
+        PSDE.lastMenu = "PSDE.characterInteractOpen('{0}', {1}, {2}, {3}, {4})".format(_character.id, _switch ? "true" : "false", _allowSwitch ? "true" : "false", _filter, false);
 
         if (PSDE.enableModules) {
             if (!_allowSwitch) {
@@ -3967,16 +3953,16 @@ class PSDE {
             Menu.showingBaseMenu = false;
             if (_allowSwitch) {
                 if (_characterA != _characterB) {
-                    Menu.setOption((Menu.useWideMenu ? 4 : 3), "PSDE.characterInteractOpen({0}, {1}, {2}, '{3}', false)".format(_character.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == PSDE.player ? "yours" : _characterA.singularPossessiveName()));
+                    Menu.setOption((Menu.useWideMenu ? 4 : 3), "PSDE.characterInteractOpen('{0}', {1}, {2}, '{3}', false)".format(_character.id, !_switch, _allowSwitch, _filter), "Switch Inventory", "to {0}".format(_characterA == PSDE.player ? "yours" : _characterA.singularPossessiveName()));
                     if (_characterB != PSDE.player)
-                        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
+                        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_characterB.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_characterB.name));
                 }
                 else
                     Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.personalCharacterMenu()".format(PSDE.player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
             }
             else {
                 if (_character != PSDE.player)
-                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
+                    Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0}".format(_character.name));
                 else
                     Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.personalCharacterMenu()".format(PSDE.player.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Personal Menu");
             }
@@ -4129,38 +4115,38 @@ class PSDE {
             }
             else {
                 Menu.clear();
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.roomInteract({0}, false, false)".format(PSDE.player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.roomInteract('{0}', false, false)".format(PSDE.player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
                 Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
-                Menu.addOption("PSDE.furnitureInteractOpen({0})".format(_furniture.id), "Open", (_furniture.getNumberOfItems() > 0 ? "There are items inside" : ""));
+                Menu.addOption("PSDE.furnitureInteractOpen('{0}')".format(_furniture.id), "Open", (_furniture.getNumberOfItems() > 0 ? "There are items inside" : ""));
 
                 _furniture.availableActions.forEach(function(_action) {
                     if (PSDE.kActionTypes.has(_action)) {
                         switch(_action) {
                             /*case "use" : {
                                 if (_furniture.type == "mirror" && PSDE.player.mana > 0)
-                                    Menu.addOption("PSDE.furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, "btn-mana");
+                                    Menu.addOption("PSDE.furnitureInteractUse('{0}')".format(this.id), "Use {0}".format(this.name), undefined, undefined, undefined, "btn-mana");
                                 else
-                                    Menu.addOption("PSDE.furnitureInteractUse({0})".format(this.id), "Use {0}".format(this.name));
+                                    Menu.addOption("PSDE.furnitureInteractUse('{0}')".format(this.id), "Use {0}".format(this.name));
                                 break;
                             }*/
                             case "sit" : {
                                 if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isSitting()))
-                                    Menu.addOption("PSDE.furnitureInteractSit({0})".format(this.id), "Sit on {0}".format(this.name));
+                                    Menu.addOption("PSDE.furnitureInteractSit('{0}')".format(this.id), "Sit on {0}".format(this.name));
                                 break;
                             }
                             case "lay" : {
                                 if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isLying()))
-                                    Menu.addOption("PSDE.furnitureInteractLay({0})".format(this.id), "Lay in {0}".format(this.name));
+                                    Menu.addOption("PSDE.furnitureInteractLay('{0}')".format(this.id), "Lay in {0}".format(this.name));
                                 break;
                             }
                             case "sleep" : {
                                 if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isSleeping()))
-                                    Menu.addOption("PSDE.furnitureInteractSleep({0})".format(this.id), "Sleep in {0}".format(this.name));
+                                    Menu.addOption("PSDE.furnitureInteractSleep('{0}')".format(this.id), "Sleep in {0}".format(this.name));
                                 break;
                             }
                             case "sex" : {
                                 if (!(PSDE.player.furniture == this) || (PSDE.player.furniture == this && !PSDE.player.isFucking()))
-                                    Menu.addOption("PSDE.furnitureInteractSex({0})".format(this.id), "Fuck {0}".format(this.name));
+                                    Menu.addOption("PSDE.furnitureInteractSex('{0}')".format(this.id), "Fuck {0}".format(this.name));
                                 break;
                             }
                         }
@@ -4367,11 +4353,11 @@ class PSDE {
             Menu.clear();
             PSDE._scenesViewedThisWindow.add("PSDE.itemInteract");
             if (_entity instanceof Character)
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteractOpen('{0}', false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.singularPossessiveName()));
             else if (_entity instanceof Furniture)
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.furnitureInteractOpen({0}, false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.furnitureInteractOpen('{0}', false, true, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Inventory".format(_entity.name));
             else if (_entity instanceof Item)
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.itemInteractOpen({0}, false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.itemInteractOpen('{0}', false, false)".format(_entity.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>{0} Pockets".format(_entity.name));
             
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
             
@@ -5864,9 +5850,14 @@ class Character extends EntityWithStorage {
         this.feetType = "pad";
         /**
          * Relatives
-         * @type {Set} <Character>
+         * @type {Array} <Character>
          */
-        this.relatives = new Set();
+        this.biologicalParents = new Array();
+        this.fosterParents = new Array();
+        this.biologicalChildren = new Array();
+        this.fosterChildren = new Array();
+
+        this.spouse = undefined;
         /**
          * Eye type
          * @type {String} (PSDE.kEyeTypes)
@@ -6449,16 +6440,6 @@ class Character extends EntityWithStorage {
             }, this);
         } catch (e) {}
         delete json["prefersSpecies"];
-        //  relatives
-        try {
-            if (!(this.relatlives instanceof Set)) this.relatlives = new Set();
-            _tmpArr = JSON.parse(json["relatives"]);
-            _tmpArr.forEach(function(_character) {
-                if (PSDE.characters.has(_character))
-                    this.addRelative(PSDE.getCharacterByID(_character), false);
-            }, this);
-        } catch (e) {}
-        delete json["relatives"];
         //  specialProperties
         try {
             if (!(this.specialProperties instanceof Set)) this.specialProperties = new Set();
@@ -8985,7 +8966,7 @@ class Character extends EntityWithStorage {
             this.followers.clear();
         }
         if (_updateChild) {
-            _character.addFollower(this);
+            _character.addFollower(this, false);
         }
         return true;
     }
@@ -9389,7 +9370,7 @@ class Character extends EntityWithStorage {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
-                return undefined;
+                return this;
         }
         if (this.sexRefusalCountMap.has(_character))
             this.sexRefusalCountMap.set(_character, this.sexRefusalCountMap.get(_character) + 1);
@@ -10082,11 +10063,11 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     incSexCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
-                _character = undefined;
+                return this;
         }
         this.virgin = false;
         this.sexCount++;
@@ -10102,6 +10083,12 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     addSexWith(_character, _updateParent = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
         this.incSexCount(_character);
         if (_updateParent)
             _character.incSexCount(_character);
@@ -10113,7 +10100,7 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     incVaginalReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10129,7 +10116,7 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     incVaginalGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10145,7 +10132,7 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     incAnalReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10161,7 +10148,7 @@ class Character extends EntityWithStorage {
      * @param {this} This
      */
     incAnalGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10172,7 +10159,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incCunnilingusReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10183,7 +10170,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incCunnilingusGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10194,7 +10181,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incAnalingusReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10205,7 +10192,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incAnalingusGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10216,7 +10203,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incFellatioReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10227,7 +10214,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incFellatioGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10238,7 +10225,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incHandjobReceiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10249,7 +10236,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     incHandjobGiveCount(_character) {
-        if (!(_character instanceof Character)){
+        if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
@@ -10296,7 +10283,7 @@ class Character extends EntityWithStorage {
         }
         this.followers.add(_character);
         if (_updateChild) {
-            _character.follow(this);
+            _character.follow(this, undefined, false);
         }
         return this;
     }
@@ -10348,17 +10335,449 @@ class Character extends EntityWithStorage {
         return this.sexCountMap.has(_character) ? this.sexCountMap.get(_character) : 0;
     }
 
-    addRelative(_character, _updateParent = true) {
+    addFiance(_character, _updateChild = true) {
         if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
                 return this;
         }
-        this.relatives.add(_character);
-        if (_updateParent)
-            _character.addRelative(this, false);
+        if (this.fiance instanceof Character && _character != this.getFiance()) {
+            this.removeFiance(this.getFiance());
+        }
+        this.spouse = _character;
+        if (_updateChild) {
+            _character.addFiance(this, false);
+        }
         return this;
+    }
+    getFiance() {
+        return this.fiance;
+    }
+    removeFiance(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (this.fiance == _character) {
+            this.fiance = undefined;
+        }
+        if (_updateChild) {
+            _character.removeFiance(this, false);
+        }
+        return this;
+    }
+    clearFiance(_updateChild = true) {
+        this.fiance = undefined;
+        if (_updateChild) {
+            _character.clearFiance(false);
+        }
+        return this;
+    }
+    addSpouse(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (this.fiance == _character) {
+            this.clearFiance();
+        }
+        if (this.spouse instanceof Character && _character != this.getSpouse()) {
+            this.removeSpouse(this.getSpouse());
+        }
+        this.spouse = _character;
+        if (_updateChild) {
+            _character.addSpouse(this, false);
+        }
+        return this;
+    }
+    getSpouse() {
+        return this.spouse;
+    }
+    removeSpouse(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (this.spouse == _character) {
+            this.spouse = undefined;
+        }
+        if (_updateChild) {
+            _character.removeSpouse(this, false);
+        }
+        return this;
+    }
+    clearSpouse(_updateChild = true) {
+        this.spouse = undefined;
+        if (_updateChild) {
+            _character.clearSpouse(false);
+        }
+        return this;
+    }
+    marry(_character) {
+        return this.addSpouse(_character);
+    }
+    divorce(_character) {
+        return this.removeSpouse(_character);
+    }
+
+    addBiologicalParent(_character, _updateChild = true) {
+        if (PSDE.enableDebug) console.log("Running addBiologicalParent");
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (PSDE.enableDebug) console.log("    Checking if species are same");
+        if (_character.getSpecies() != this.getSpecies()) {
+            return this;
+        }
+        if (PSDE.enableDebug) console.log("    Checking if parent ({0}) is same-sex as first parent ({1})".format(_character.id, this.biologicalParents[0].id));
+        if (this.biologicalParents.length == 1 && this.biologicalParents[0].getSex() == _character.getSex()) {
+            return this;
+        }
+        else if (this.biologicalParents.length == 2) {
+            return this;
+        }
+        if (PSDE.enableDebug) console.log("    Checking if parent ({0}) is a foster parent".format(_character.id));
+        if (this.fosterParents.contains(_character)) {
+            this.fosterParents.remove(_character);
+        }
+        if (PSDE.enableDebug) console.log("    Checking if parent ({0}) is already assigned to {1}".format(_character.id, this.id));
+        if (!this.biologicalParents.contains(_character)) {
+            this.biologicalParents.push(_character);
+        }
+        if (_updateChild) {
+            _character.addBiologicalChild(this, false);
+        }
+        return this;
+    }
+    addFosterParent(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (this.biologicalParents.contains(_character)) {
+            this.biologicalParents.remove(_character);
+        }
+        if (!this.fosterParents.contains(_character)) {
+            this.fosterParents.push(_character);
+        }
+        if (_updateChild) {
+            _character.addFosterChild(this, false);
+        }
+        return this;
+    }
+    getParents() {
+        return new Array(...this.biologicalParents, ...this.fosterParents);
+    }
+    hasParent(_character) {
+        return this.getParents().contains(_character);
+    }
+    hasParents() {
+        return this.getParents().length > 0;
+    }
+
+    getBiologicalParents() {
+        return this.biologicalParents;
+    }
+    hasBiologicalParent(_character) {
+        return this.biologicalParents.contains(_character);
+    }
+    getFosterParents() {
+        return this.fosterParents;
+    }
+    hasFosterParent(_character) {
+        return this.fosterParents.contains(_character);
+    }
+
+    addBiologicalChild(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (_character.species != this.species) {
+            return this;
+        }
+        if (this.fosterChildren.contains(_character)) {
+            this.fosterChildren.remove(_character);
+        }
+        if (!this.biologicalChildren.contains(_character)) {
+            this.biologicalChildren.push(_character);
+        }
+        if (_updateChild) {
+            _character.addBiologicalParent(this, false);
+        }
+        return this;
+    }
+    addFosterChild(_character, _updateChild = true) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return this;
+        }
+        if (this.biologicalChildren.contains(_character)) {
+            this.biologicalChildren.remove(_character);
+        }
+        if (!this.fosterChildren.contains(_character)) {
+            this.fosterChildren.push(_character);
+        }
+        if (_updateChild) {
+            _character.addFosterParent(this, false);
+        }
+        return this;
+    }
+
+    getBiologicalChildren() {
+        return this.biologicalChildren;
+    }
+    hasBiologicalChild(_character) {
+        return this.getBiologicalChildren().contains(_character);
+    }
+    hasBiologicalChildren() {
+        return this.getBiologicalChildren().length > 0;
+    }
+    getFosterChildren() {
+        return this.fosterChildren;
+    }
+    hasFosterChild(_character) {
+        return this.getFosterChildren().contains(_character);
+    }
+    hasFosterChildren() {
+        return this.getFosterChildren().length > 0;
+    }
+    getChildren() {
+        return new Array(...this.getBiologicalChildren(), ...this.getFosterChildren());
+    }
+    hasChild(_character) {
+        return this.getChildren().contains(_character);
+    }
+    hasChildren() {
+        return this.getChildren().length > 0;
+    }
+
+    getBiologicalSiblings() {
+        var _arr = new Array();
+        this.getBiologicalParents().forEach(function(_parent) {
+            _parent.getBiologicalChildren().forEach(function(_child) {
+                if (_child == this || _arr.contains(_child)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_child);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    /**
+     * Returns whether or not this character is related to another.
+     * @param  {Character}  _character Character
+     * @return {Boolean}            Whether or not this character is related to another.
+     */
+    hasBiologicalSibling(_character) {
+        return this.getBiologicalSiblings().contains(_character);
+    }
+    hasBiologicalSiblings() {
+        return this.getBiologicalSiblings().length > 0;
+    }
+    getSiblings() {
+        var _arr = new Array();
+        this.getParents().forEach(function(_parent) {
+            _parent.getChildren().forEach(function(_child) {
+                if (_child == this || _arr.contains(_child)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_child);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    hasSibling(_character) {
+        return this.getSiblings().contains(_character);
+    }
+    hasSiblings() {
+        return this.getSiblings().length > 0;
+    }
+
+
+    getBiologicalGrandParents() {
+        var _arr = new Array();
+        this.getBiologicalParents().forEach(function(_parent) {
+            _parent.getBiologicalParents().forEach(function(_grandParent) {
+                if (_arr.contains(_grandParent)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_grandParent);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    getGrandParents() {
+        var _arr = new Array();
+        this.getParents().forEach(function(_parent) {
+            _parent.getParents().forEach(function(_grandParent) {
+                if (_arr.contains(_grandParent)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_grandParent);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+
+    getBiologicalGrandChildren() {
+        var _arr = new Array();
+        this.getBiologicalChildren().forEach(function(_children) {
+            _children.getBiologicalChildren().forEach(function(_grandChild) {
+                if (_arr.contains(_grandChild)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_grandChild);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    getGrandChildren() {
+        var _arr = new Array();
+        this.getChildren().forEach(function(_children) {
+            _children.getChildren().forEach(function(_grandChild) {
+                if (_arr.contains(_grandChild)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_grandChild);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+
+    getParentsBiologicalSiblings() {
+        var _arr = new Array();
+        this.getBiologicalParents().forEach(function(_parent) {
+            _parent.getBiologicalSiblings().forEach(function(_parentSiblings) {
+                if (_arr.contains(_parentSiblings)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_parentSiblings);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    getParentsSiblings() {
+        var _arr = new Array();
+        this.getParents().forEach(function(_parent) {
+            _parent.getSiblings().forEach(function(_parentSiblings) {
+                if (_arr.contains(_parentSiblings)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_parentSiblings);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+
+    getBiologicalCousins() {
+        var _arr = new Array();
+        this.getParentsBiologicalSiblings().forEach(function(_aunctles) {
+            _aunctles.getBiologicalChildren().forEach(function(_cousins) {
+                if (_arr.contains(_cousins)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_cousins);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+    getCousins() {
+        var _arr = new Array();
+        this.getParentsSiblings().forEach(function(_aunctles) {
+            _aunctles.getChildren().forEach(function(_cousins) {
+                if (_arr.contains(_cousins)) {
+                    return undefined;
+                }
+                else {
+                    _arr.push(_cousins);
+                }
+            }, this);
+        }, this);
+        return _arr;
+    }
+
+    /**
+     * Returns an integer based off of the number of direct parents this character has with another.
+     * @param  {Character} _character Character
+     * @return {Number}            0 - None, 1 - One parent, 2 - Both parents
+     */
+    calculateBiologicalSiblingRelations(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return 0;
+        }
+        if (this.biologicalParents.length > 0 && _character.biologicalParents.length > 0) {
+            var _parentAHasChild = this.biologicalParents[0].hasBiologicalChild(_character);
+            if (this.biologicalParents.length == 2) {
+                var _parentBHasChild = this.biologicalParents[1].hasBiologicalChild(_character);
+                if (_parentAHasChild && _parentBHasChild) {
+                    return 2;
+                }
+                else if (_parentAHasChild || _parentBHasChild) {
+                    return 1;
+                }
+            }
+            else if (_parentAHasChild) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
+    calculateBiologicalRelations(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return 0;
+        }
+        // If they're your parent or your child
+        if (this.getBiologicalParents().contains(_character) || this.getBiolgoicalChildren().containsCharacter)
+            return 1.0;
+        // If they're your sibling
+        var _siblingCalc = this.calculateBiologicalSiblingRelations(_character);
+        if (_siblingCalc > 0) {
+            return _siblingCalc;
+        }
+        // If they're your grand parent or grand child
     }
 
     addKnownLocation(_location) {
@@ -10616,7 +11035,7 @@ class Character extends EntityWithStorage {
         var _disposition = _character.getCharacterDisposition(this);
 
         // Disposition
-        if (_character.hadSexWith(this) && !_character.relatives.has(this)) {
+        if (_character.hadSexWith(this) && !_character.hasSibling(this)) {
             chance += _disposition.passion / 2 + (_character.getSexCount(this) * 3);
             chance += _disposition.friendship / 4;
         }
@@ -10652,7 +11071,7 @@ class Character extends EntityWithStorage {
 
         if (PSDE.enableDebug) console.log("\tAfter sexual preference check: " + Math.ceil(chance));
 
-        if (_ignoreLustAndRut) {
+        if (!_ignoreLustAndRut) {
                 // Rut and Lust
                 if (_character.rut && _character.lust > 98)
                     chance += (_character.rut ? _character.lust/1.5 : _character.lust/2);
@@ -10687,7 +11106,7 @@ class Character extends EntityWithStorage {
         if (PSDE.enableDebug) console.log("\tAfter Exhibitionism check: " + Math.ceil(chance));
 
         // Incest
-        if (_character.relatives.has(this)) {
+        if (_character.hasSibling(this)) {
             if (_character.incestual > 66)
                 chance += _disposition.familial / 3 + (_character.getSexCount(this) * 2);
             else if (_character.incestual > 33)
@@ -10707,7 +11126,7 @@ class Character extends EntityWithStorage {
 
         // Somnophilia
         if (_character.isSleeping()) {
-            if (enableRape)
+            if (PSDE.enableRape)
                 chance = 100;
             else if (_character.somnophilia > 50 && _character.hadSexWith(this) && _disposition.passion > 75)
                 chance += 10;
