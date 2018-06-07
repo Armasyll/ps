@@ -1720,7 +1720,7 @@ class PSDE {
                 });
                 Menu.setOption(
                     2, 
-                    "PSDE.characterInteract(\"{0}\", true)".format(_character.id), 
+                    "PSDE.characterInteract('{0}', true)".format(_character.id), 
                     "Interact with " + _character.name, (_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age + " year old " + _character.grammaticalGender() + "."),
                     undefined,
                     undefined,
@@ -1766,7 +1766,7 @@ class PSDE {
         for (var [_characterID, _character] of PSDE.getCharacterCurrentRoom(PSDE.player).characters.entries()) {
             if (_character != PSDE.player) {
                 Menu.addOption(
-                    "PSDE.characterInteract(\"{0}\", true)".format(_character.id), 
+                    "PSDE.characterInteract('{0}', true)".format(_character.id), 
                     _character.name, 
                     "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()),
                     undefined,
@@ -4310,7 +4310,7 @@ class PSDE {
         }
 
         Menu.clear();
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract(\"{0}\", false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_character.id), "Back");
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         unsafeExec("{0}Attack()".format(_character.id));
@@ -4336,7 +4336,7 @@ class PSDE {
         }
 
         Menu.clear();
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract(\"{0}\", false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_character.id), "Back");
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         unsafeExec("{0}Hug()".format(_character.id));
