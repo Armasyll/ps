@@ -1647,7 +1647,7 @@ class PSDE {
             else
                 return undefined;
         }
-        if (!(_character.cell.location.type == "bank")) {
+        if (!(PSDE.getCharacterCurrentRoom(_character).cell.location.type == "bank")) {
             Content.add("<p>How can you cash a cheque if you're not at a bank?</p>");
             return false;
         }
