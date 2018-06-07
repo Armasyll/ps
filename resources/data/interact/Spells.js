@@ -50,7 +50,7 @@ function spellUnlockCast(_entity, _character = PSDE.player) {
 	if ((PSDE.enableDebug)) console.log("Running {0} with {1} and {2}".format(_spell.id, _entity.id, _character.id));
 
     if (_entity instanceof Room) {
-    	PSDE._unlockRoom(_character.room, _entity);
+    	PSDE._unlockRoom(PSDE.getCharacterCurrentRoom(_character), _entity);
     }
 
 	return true;
@@ -150,7 +150,7 @@ function spellCharacterSummonCast(_entity, _character = PSDE.player) {
     if (!_character.castSpell(_spell))
     	return false;
 
-	PSDE.setCharacterCurrentRoom(_entity, _character.room);
+	PSDE.setCharacterCurrentRoom(_entity, PSDE.getCharacterCurrentRoom(_character));
 
 	return true;
 }
@@ -362,9 +362,7 @@ function spellCharacterMindSwap(_entity, _character = PSDE.player, _freeCast = f
     arr.set('intoxicated', _character.intoxicated);
     arr.set('incestual', _character.incestual);
 
-    arr.set('room', _character.room);
-    arr.set('cell', _character.cell);
-    arr.set('location', _character.location);
+    PSDE.moveCharacterToRoom(_character, PSDE.getCharacterCurrentRoom(_entity));
 
     for (var key in _entity) {
         if (typeof key != "object")

@@ -187,7 +187,7 @@ function rosieReynardTakeCharlieHeart() {
 function rosieReynardTakeCharlieHeartFlee() {
     _character = PSDE.getCharacterByID("rosieReynard");
     _subCharacter = PSDE.getCharacterByID("charlie");
-    if (_character.cell == _character.cell)
+    if (PSDE.getCharacterCurrentRoom(_character).cell == PSDE.getCharacterCurrentRoom(_subCharacter).cell)
         PSDE.setCharacterMovementToCharacter(_subCharacter, _character);
     else
         PSDE.moveCharacterTo(_character, "limbo");
