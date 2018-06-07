@@ -466,7 +466,7 @@ function rosieReynardTalk() {
 function rosieReynardSex() {
     _character = PSDE.getCharacterByID("rosieReynard");
     
-    Content.add("<p>Looking over the vixen, a depreaved idea come to you-<h1 style='display:inline;'>\"No >:v\"</h1></p>");
+    Content.add("<p>Looking over the vixen, a sickening idea comes to you-<h1 style='display:inline;'>\"No >:v\"</h1></p>");
 }
 function rosieReynardFollow() {
     _character = PSDE.getCharacterByID("rosieReynard");
