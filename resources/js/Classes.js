@@ -1720,7 +1720,7 @@ class PSDE {
                 });
                 Menu.setOption(
                     2, 
-                    "PSDE.characterInteract(" + _character.id + ", true)", 
+                    "PSDE.characterInteract(\"{0}\", true)".format(_character.id), 
                     "Interact with " + _character.name, (_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age + " year old " + _character.grammaticalGender() + "."),
                     undefined,
                     undefined,
@@ -1731,7 +1731,7 @@ class PSDE {
                 Menu.setOption(2, "PSDE.localCharactersMenu()", "Interact with those near you.");
             if (PSDE.player.phone instanceof PhoneInstance) {
                 if (PSDE.player.phone.receivedMessages.size > 0)
-                    Menu.setOption(3, "this.parentNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker'); PSDE.phoneInteract({0}, true)".format(PSDE.player.phone.id), "Check Phone", "{0} Unread Messages".format(PSDE.player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
+                    Menu.setOption(3, "this.parentNodes[2].innerHTML = '&nbsp;'; this.classList.remove('btn-info-flicker'); PSDE.phoneInteract(\"{0}\", true)".format(PSDE.player.phone.id), "Check Phone", "{0} Unread Messages".format(PSDE.player.phone.receivedMessages.size), undefined, undefined, undefined, undefined, "btn-info-flicker");
                 else
                     Menu.setOption(3, "PSDE.phoneInteract('{0}', true)".format(PSDE.player.phone.id), "Check Phone");
             }
@@ -1766,7 +1766,7 @@ class PSDE {
         for (var [_characterID, _character] of PSDE.getCharacterCurrentRoom(PSDE.player).characters.entries()) {
             if (_character != PSDE.player) {
                 Menu.addOption(
-                    "PSDE.characterInteract({0}, true)".format(_character.id), 
+                    "PSDE.characterInteract(\"{0}\", true)".format(_character.id), 
                     _character.name, 
                     "{0} year old {1}.".format(_character.age == 9001 ? "<span class='text-mana'>&infin;</span>" : _character.age, _character.grammaticalGender()),
                     undefined,
@@ -1788,7 +1788,7 @@ class PSDE {
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         PSDE.player.spells.forEach(function(_spell) {
             Menu.addOption(
-                "PSDE.spellInteract({0}, PSDE.player)".format(_spell.id),
+                "PSDE.spellInteract(\"{0}\", PSDE.player)".format(_spell.id),
                 _spell.name,
                 _spell.description,
                 undefined,
@@ -3937,7 +3937,7 @@ class PSDE {
 
         if (Menu.showingBaseMenu) {
             if ((PSDE.enableDebug)) console.log("\tBase Menu and Room for ".format(_room.sid));
-            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
+            unsafeExec("{0}Interact(\"{1}\")".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
 
             PSDE._scenesViewedThisWindow.add(PSDE.getCharacterPreviousRoom(PSDE.player));
 
@@ -3955,7 +3955,7 @@ class PSDE {
             if ((PSDE.enableDebug)) console.log("\tRoom for {0}".format(_room.sid));
             PSDE.lastMenu = "PSDE.roomInteract('{0}', false)".format(_room.sid);
             
-            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
+            unsafeExec("{0}Interact(\"{1}\")".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
 
             _room.furniture.forEach(function(_furniture) {
                 Menu.addOption("PSDE.furnitureInteract('{0}', false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
@@ -4257,7 +4257,7 @@ class PSDE {
 
 
         Menu.clear();
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false, true)".format(_character.id), "Back");
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         if (typeof window["{0}Follow".format(_character.id)] == "function") {
@@ -4310,7 +4310,7 @@ class PSDE {
         }
 
         Menu.clear();
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract(\"{0}\", false, true)".format(_character.id), "Back");
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         unsafeExec("{0}Attack()".format(_character.id));
@@ -4336,7 +4336,7 @@ class PSDE {
         }
 
         Menu.clear();
-        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract({0}, false, true)".format(_character.id), "Back");
+        Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract(\"{0}\", false, true)".format(_character.id), "Back");
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         unsafeExec("{0}Hug()".format(_character.id));
