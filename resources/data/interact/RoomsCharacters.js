@@ -24,12 +24,12 @@ function alBuildingBasementRosieTalk() {
 function alBuildingSecondFloorHallwayCharlieInteract() {
     _character = PSDE.getCharacterByID("charlie");
     
-    Content.add("<p>You look at {0} as you stand in {1}</p>".format(_character.name, PSDE.player.room.name));
+    Content.add("<p>You look at {0} as you stand in {1}</p>".format(_character.name, PSDE.getCharacterCurrentRoom(player).name));
 }
 function alBuildingSecondFloorHallwayCharlieTalk() {
     _character = PSDE.getCharacterByID("charlie");
     
-    Content.add("<p>You talk to {0} as you stand in {1}</p>".format(_character.name, PSDE.player.room.name));
+    Content.add("<p>You talk to {0} as you stand in {1}</p>".format(_character.name, PSDE.getCharacterCurrentRoom(player).name));
 }
 function alBuildingSecondFloorHallwayCharlieSex() {
     _character = PSDE.getCharacterByID("charlie");
@@ -82,8 +82,8 @@ function chartyApartmentBedroomCharlieCharlieTalk() {
     if (_character['annoyed'] >= 6) {
         Content.add("{0} leaps from her window, and falls to her death two stories down.".format(_character.name));
         Content.add("You somehow obtain " + charlieBeatingHeart.toString() + " and " + charlieLeftEye.toString() + ".");
-        __character.living = false;
-        PSDE.characterSetRoom(_character, PSDE.rooms.get("limbo"));
+        _character.living = false;
+        PSDE.setCharacterCurrentRoom(_character, "limbo");
     }
     
     PSDE.tick("3m");
@@ -247,9 +247,9 @@ function remmyApartmentLivingroomCharlieTalkHiGekkering() {
     
     Content.add("<p>{0} gekkers at you angrily and leaves.</p>".format(_character.name));
     
-    PSDE.characterSetRoom(_character, PSDE.rooms.get("chartyApartmentBedroomCharlie"));
+    PSDE.moveCharacterToRoom(_character, "chartyApartmentBedroomCharlie");
 
-    if (PSDE.player.room.containsCharacter(wolter) && _subCharacter.isSleeping()) {
+    if (PSDE.getCharacterCurrentRoom(player).containsCharacter(wolter) && _subCharacter.isSleeping()) {
         Content.add("<p>{0} wakes with a snort. Sitting up quickly and looking around, {1} has a tired, dopey grin on {2} face.</p><p>\"Hey, {3}, what's cookin'?\" {1} asks, as {4} closes the door to the hallway behind {5}.</p>".format(_subCharacter.name, _subCharacter.subjectPronoun(), _subCharacter.possessivePronoun(), PSDE.player.name, _character.name, _character.objectPronoun()));
         _subCharacter.wake();
     }
@@ -266,9 +266,9 @@ function remmyApartmentLivingroomCharlieSex() {
     
     _blob = "";
 
-    if (PSDE.player.room.containsCharacter(_subCharacter)) {
+    if (PSDE.getCharacterCurrentRoom(player).containsCharacter(_subCharacter)) {
         if (_subCharacter.isSleeping()) {
-            _blob += "<p>Gently sitting on " + (PSDE.player.room.location.isOwner(PSDE.player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. ".format(_character.name);
+            _blob += "<p>Gently sitting on " + (PSDE.getCharacterCurrentRoom(player).location.isOwner(PSDE.player) ? "your" : "Remmy's") + " couch, as not to wake Wolter, you lean in close to {0}. \"Wanna see if we can have a quickie without waking Wolter?\" you whisper into her ear. ".format(_character.name);
         	if (PSDE.player.hasItem(charlieBeatingHeart))
         		_blob += "{0}'s head nods, her gaze never leaving your own.</p>".format(_character.name);
     		else
@@ -303,7 +303,7 @@ function remmyApartmentLivingroomCharlieSex() {
     
     PSDE.tick("2m", true, false);
     
-    if (PSDE.player.room.containsCharacter(_subCharacter)) {
+    if (PSDE.getCharacterCurrentRoom(player).containsCharacter(_subCharacter)) {
         if (_subCharacter.isSleeping()) {
             if (PSDE.enableRape) {
                 Menu.addOption("remmyApartmentLivingroomCharlieSexWolterRapeSleeping()", "Rape Sleeping Wolter", "{0} will hold him down".format(_character.name));
@@ -319,7 +319,7 @@ function remmyApartmentLivingroomCharlieSex() {
         }
     }
     
-    if (PSDE.player.room.containsCharacter(_subCharacter) && (!_subCharacter.isSleeping()))
+    if (PSDE.getCharacterCurrentRoom(player).containsCharacter(_subCharacter) && (!_subCharacter.isSleeping()))
         PSDE.setCharacterPath(_subCharacter, twinsApartmentLivingroomA);
 }
 function remmyApartmentLivingroomCharlieSexWolter() {
@@ -517,7 +517,7 @@ function remmyApartmentLivingroomCharlieSexMasturbateReceive() {
     Menu.clear();
     Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
     Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.characterInteract('{0}', false)".format(_character.id), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>" + _character.name);
-    if (PSDE.player.room.containsCharacter(_subCharacter))
+    if (PSDE.getCharacterCurrentRoom(player).containsCharacter(_subCharacter))
         if (_subCharacter.isSleeping() && PSDE.enableRape)
             Menu.addOption("remmyApartmentLivingroomCharlieSexMasturbateReceivingRapeWolter()", "Jizz on sleeping Wolter");
     Menu.generate();

@@ -216,6 +216,14 @@ function toCM(_blob) {
     return _blob;
 }
 
+function isInt(n){
+    return Number(n) === n && n % 1 === 0;
+}
+
+function isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+}
+
 if(!jQuery) {
     include_jQuery();
     var $ = jQuery.noConflict();

@@ -1,23 +1,23 @@
 function avoInteract(_clearContent = true) {
     _character = PSDE.getCharacterByID("avo");
     
-    unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
+    unsafeExec("{0}{1}Interact({2})".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize(), _clearContent));
 }
 function avoTalk() {
     _character = PSDE.getCharacterByID("avo");
     
-    unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Talk()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function avoRape() {
     _character = PSDE.getCharacterByID("avo");
     
-    unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Rape()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function avoSex() {
     _character = PSDE.getCharacterByID("avo");
     
     if (PSDE.player.calculateChanceToFuck(_character)) {
-        unsafeExec("{0}{1}Sex()".format(PSDE.player.room.sid, _character.id.capitalize()));
+        unsafeExec("{0}{1}Sex()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
     }
     else {
         Content.add("No thank you.");
@@ -57,7 +57,7 @@ function charlieInteract(_clearContent = true) {
     if (PSDE.enableGore && PSDE.enableRape)
         Menu.addOption("charlieEatCharlie()", "Murder and eat {0}".format(_character.name));
 
-    unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
+    unsafeExec("{0}{1}Interact({2})".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize(), _clearContent));
 }
 function charlieTalk() {
     _character = PSDE.getCharacterByID("charlie");
@@ -73,12 +73,12 @@ function charlieTalk() {
             Menu.addOption("charlieFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun()));
     }
 
-    unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Talk()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function charlieRape() {
     _character = PSDE.getCharacterByID("charlie");
     
-    unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Rape()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function charlieSex() {
     _character = PSDE.getCharacterByID("charlie");
@@ -96,7 +96,7 @@ function charlieSex() {
         Menu.addOption("charlieSexMasturbateGive()", "Finger her", (PSDE.player.getHand() == "hoof" ? "Hoof her, really." : ""));
         Menu.addOption("charlieSexMasturbateReceive()", "Let her jerk you off", "Pawpads are better than hooves.");
 
-        unsafeExec("{0}{1}Sex()".format(PSDE.player.room.sid, _character.id.capitalize()));
+        unsafeExec("{0}{1}Sex()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 
         Menu.generate();
     }
@@ -130,7 +130,7 @@ function charlieSexFellatioGiveInitial() {
     else
         _blob += "\"Wanna go down on me?\" " + PSDE.subjectPronoun() + " ask" + (PSDE.pov == 3 ? "s" : "") + " her, ";
 
-    if (PSDE.player.room.characters.size == 2) {
+    if (PSDE.getCharacterCurrentRoom(PSDE.player).characters.size == 2) {
         if (PSDE.player.hasItem("charlieBeatingHeart")) {
             _blob += "and her eyes never leave " + PSDE.possessivePronoun() + " as she nods her head.";
         }
@@ -141,7 +141,7 @@ function charlieSexFellatioGiveInitial() {
     else {
         _character.s = new Array();
         _otherCharactersSleeping = true;
-        PSDE.player.room.characters.forEach(function(__character) {
+        PSDE.getCharacterCurrentRoom(PSDE.player).characters.forEach(function(__character) {
             if (__character != _character && __character != PSDE.player) {
                 _character.s.push(__character);
                 if (!__character.isSleeping())
@@ -336,7 +336,7 @@ function charlieSexFellatioGiveInitial() {
         _blob = "";
     }
     
-    if (PSDE.player.room.location.id == "chartyApartmentLocation" || PSDE.player.room.location.id == "PSDE.playerApartmentLocation") {
+    if (PSDE.getCharacterCurrentRoom(PSDE.player).location.id == "chartyApartmentLocation" || PSDE.getCharacterCurrentRoom(PSDE.player).location.id == "PSDE.playerApartmentLocation") {
         Menu.addOption("_charlieSexFellatioGivePostAskShower()", "Shower?", "Ask her if she wants to share a shower.")
         Menu.generate();
     }
@@ -449,7 +449,7 @@ function charlieStay() {
 function rosieReynardInteract(_clearContent = true) {
     _character = PSDE.getCharacterByID("rosieReynard");
 
-    unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
+    unsafeExec("{0}{1}Interact({2})".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize(), _clearContent));
 }
 function rosieReynardTalk() {
     _character = PSDE.getCharacterByID("rosieReynard");
@@ -461,7 +461,7 @@ function rosieReynardTalk() {
         else
             Content.add("<p>Rosie looks up at you with her sad, blue eyes, as you ask her, \"Hey kid, wanna /ll/?\"");
     }
-    unsafeExec(PSDE.player.room.sid + "RosieTalk()");
+    unsafeExec(PSDE.getCharacterCurrentRoom(PSDE.player).sid + "RosieTalk()");
 }
 function rosieReynardSex() {
     _character = PSDE.getCharacterByID("rosieReynard");
@@ -492,12 +492,12 @@ function rosieReynardStay() {
 function tellerMicelyInteraction() {
     _character = PSDE.getCharacterByID("tellerMicely");
 
-    unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Interact({2})".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function tellerMicelyTalk() {
     _character = PSDE.getCharacterByID("tellerMicely");
 
-    unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Talk()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function tellerMicelySex() {
     _character = PSDE.getCharacterByID("tellerMicely");
@@ -578,7 +578,7 @@ function wolterInteract(_clearContent = true) {
 
         Content.add("<p>" + _blob + "</p>");
     }
-    unsafeExec("{0}{1}Interact({2})".format(PSDE.player.room.sid, _character.id.capitalize(), _clearContent));
+    unsafeExec("{0}{1}Interact({2})".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize(), _clearContent));
 }
 function wolterTalk() {
     _character = PSDE.getCharacterByID("wolter");
@@ -594,12 +594,12 @@ function wolterTalk() {
             Menu.addOption("wolterFirstDateAsk()", "Ask {0} out".format(_character.objectPronoun()));
     }
 
-    unsafeExec("{0}{1}Talk()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Talk()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function wolterRape() {
     _character = PSDE.getCharacterByID("wolter");
     
-    unsafeExec("{0}{1}Rape()".format(PSDE.player.room.sid, _character.id.capitalize()));
+    unsafeExec("{0}{1}Rape()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
 }
 function wolterSex() {
     _character = PSDE.getCharacterByID("wolter");
@@ -619,7 +619,7 @@ function wolterSex() {
             unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
         }
         else if (_ctfLust > 49) { // Else if the Player has a chance to fuck the Character with Lust
-            unsafeExec("{0}{1}Sex()".format(PSDE.player.room.sid, _character.id.capitalize()));
+            unsafeExec("{0}{1}Sex()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
         }
         else { // Else Character isn't interested
             if (_character.getCharacterSexCount(PSDE.player) > 1) { // And they've fucked the Player more than once

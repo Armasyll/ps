@@ -38,11 +38,11 @@ PSDE.setCharacterRoomScheduleEvent(
 // One-time
 new GameEvent("remmyApartmentBathroomWaterbucketEvent", undefined, undefined, undefined, undefined, undefined, undefined, "remmyApartmentBathroom", undefined, "remmyApartmentBathroomWaterbucket('remmyApartmentBathroomWaterbucketEvent')", true);
 new GameEvent("rosieReynardTakeCharlieHeart", "take", undefined, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "rosieReynardTakeCharlieHeart('rosieReynardTakeCharlieHeart')", true);
-new GameEvent("charlieCheckMirrorEvent", undefined, undefined, PSDE.getCharacterByID("charlie"), undefined, undefined, undefined, PSDE.getCharacterByID("charlie").room, undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", true);
+new GameEvent("charlieCheckMirrorEvent", undefined, undefined, PSDE.getCharacterByID("charlie"), undefined, undefined, undefined, PSDE.getCharacterCurrentRoom("charlie"), undefined, "charlieCheckMirror('charlieCheckMirrorEvent')", true);
 
 // Repeated
-new GameEvent("charlieHeartbeatRosieCellEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, PSDE.getCharacterByID("rosieReynard").room.cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);
-new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, PSDE.getCharacterByID("rosieReynard").room, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieRoomEvent')", true);
+new GameEvent("charlieHeartbeatRosieCellEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, PSDE.getCharacterCurrentRoom("rosieReynard").cell, undefined, undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieCellEvent')", false);
+new GameEvent("charlieHeartbeatRosieRoomEvent", undefined, PSDE.player, PSDE.getCharacterByID("rosieReynard"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, PSDE.getCharacterCurrentRoom("rosieReynard"), undefined, "charlieHeartbeatRosie('charlieHeartbeatRosieRoomEvent')", true);
 new GameEvent("charlieRemoveHeartEvent", "remove", PSDE.player, PSDE.getCharacterByID("charlie"), PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveHeartEvent')", false);
 new GameEvent("charlieReceiveHeartEvent", "take", PSDE.getCharacterByID("charlie"), undefined, PSDE.items.get("charlieBeatingHeart"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieReceiveHeartEvent')", false);
 new GameEvent("charlieRemoveLeftEyeEvent", "remove", PSDE.player, PSDE.getCharacterByID("charlie"), PSDE.items.get("charlieLeftEye"), undefined, undefined, undefined, undefined, "updateCharlieBuse('charlieRemoveLeftEyeEvent')", false);

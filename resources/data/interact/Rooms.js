@@ -41,8 +41,8 @@ function alBuildingBasementInteract(_showContent = true) {
     
     if (!Menu.showingBaseMenu) {
         Content.add("<p>There's the skittering of something small and insignificant in the distance.</p>");
-        if (PSDE.player.room.furniture.size > 0)
-            roomFurnitureExamine(PSDE.player.room);
+        if (PSDE.getCharacterCurrentRoom(player).furniture.size > 0)
+            roomFurnitureExamine(PSDE.getCharacterCurrentRoom(player));
     }
 }
 function avoApartmentLivingroomInteract(_showContent = true) {
@@ -129,7 +129,7 @@ function remmyApartmentLivingroomInteract(_showContent = true) {
         Content.add("<p>Along the back there's a door to your bedroom, and to the side there's a bathroom. By the kitchenette is a door to the second floor hallway.</p>");
         Content.add("<p>In the event of an emergency, the livingroom window is suppose to open to a fire escape. It was painted shut, though. You'd chip the paint off to get the window open, but you " + (PSDE.player == PSDE.characters.get("charlie") ? 'like the smell of sheep' : 'think it may be lead-based') + ".</p>");
         
-        if (PSDE.player.room['ateCharlie']) {
+        if (PSDE.getCharacterCurrentRoom(player)['ateCharlie']) {
             if (PSDE.player == PSDE.characters.get("charlie"))
                 Content.add("There are remains of your body on the floor, as well as a pool of dried blood.<br/>");
             else
@@ -145,7 +145,7 @@ function remmyApartmentBedroomInteract(_showContent = true) {
     if (_showContent) {
         Content.add("<p>Stepping into " + (PSDE.player == PSDE.characters.get("remmy") ? "your" : "Remmy's") + " room, you notice that it smells " + (PSDE.player == PSDE.characters.get("charlie") ? "of you. 'Good,' you think" : (PSDE.player == PSDE.characters.get("remmy") ? "kind of flowery" : "strongly of Charlie")) + ".</p>");
         
-        if (PSDE.player.room['ateCharlie']) {
+        if (PSDE.getCharacterCurrentRoom(player)['ateCharlie']) {
             if (PSDE.player == PSDE.characters.get("charlie"))
                 Content.add("There are remains of your body on the bed, as well as stains of blood along the blanket and floor.<br/>");
             else
@@ -162,7 +162,7 @@ function remmyApartmentBathroomInteract(_showContent = true) {
         if (remmyApartmentBathroomTub.hasItem(charlieBigBlackRemmyDildo))
             Content.add((PSDE.player == PSDE.characters.get("remmy") ? 'Strangely, or not, given your guest, there\'s a' : (PSDE.player == PSDE.characters.get("charlie") ? 'Your' : 'Remmy\'s')) + " big black dildo shaped almost exactly like " + (PSDE.player == PSDE.characters.get("remmy") ? 'your' : "Remmy's") + " penis protruding from the middle of the tub. It's still slick.</p>");
         
-        if (PSDE.player.room['ateCharlie']) {
+        if (PSDE.getCharacterCurrentRoom(player)['ateCharlie']) {
             if (PSDE.player == PSDE.characters.get("charlie"))
                 Content.add("There are remains of your body on the floor, as well as a pool of dried blood.<br/>");
             else

@@ -1,7 +1,7 @@
 function charlieCheckMirror() {
     _character = PSDE.getCharacterByID("charlie");
     _character = PSDE.getCharacterByID("charlie");
-    if (_character.room == PSDE.player.room) {
+    if (PSDE.getCharacterCurrentRoom(_character) == PSDE.PSDE.getCharacterCurrentRoom(player)) {
         Content.add("<p>You see Charlie looking herself over in her small mirror just before she snaps it shut and puts it away.</p>");
     }
     _character.release(charliePalmMirror);
@@ -14,7 +14,7 @@ function charlieEatFruitypebbles() {
 
     _blob = "";
     _blob += ("Remmy chooses to eat some fruity fucking pebbles");
-    if (PSDE.player.room.characters.has(charlie)) {
+    if (PSDE.PSDE.getCharacterCurrentRoom(player).hasCharacter(_character)) {
         _blob += (", and Charlie joins him. For some reason, they both strip naked and sit on the couch, enjoying their morning cereal.<br/>");
         _blob += ("<img src='resources/images/fuck yeah fruity pebbles by the_weaver.png'/>");
         _blob += ("<p style='dispay:inline;'>(Image by tg_weaver, used with permission.)</p>");
@@ -63,12 +63,12 @@ function charlieEatCharlie() {
     Content.add("<img src='resources/images/Remmy Horror TT1 by akella.jpg'/>");
     Content.add("<p style='dispay:inline;'>(Image by Akella, used with permission.)</p>");
 
-    _character.moveToRoom(limbo);
+    PSDE.moveCharacterToRoom(_character, limbo);
     _character.clearFollowing();
     _character.living = false;
     _character.cannibalized = true;
 
-    PSDE.player.room.ateCharlie = true;
+    PSDE.PSDE.getCharacterCurrentRoom(player).ateCharlie = true;
     PSDE.player.ateCharlie = true;
 
     //Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -190,14 +190,14 @@ function rosieReynardTakeCharlieHeartFlee() {
     if (_character.cell == _character.cell)
         PSDE.setCharacterMovementToCharacter(_subCharacter, _character);
     else
-        _character.moveTo(PSDE.rooms.get("limbo"));
+        PSDE.moveCharacterTo(_character, "limbo");
 
 
     spellCharacterMindSwap(_character, _subCharacter, true);
 
     _character.removeItem(charlieBeatingHeart);
     _character.removeItem(charlieLeftEye);
-    _character.moveTo(PSDE.rooms.get("limbo"));
+    PSDE.moveCharacterTo(_character, "limbo");
 
     _character.sleeping = false;
     _character.alive = true;
@@ -209,7 +209,7 @@ function rosieReynardTakeCharlieHeartFlee() {
 function rosieReynardTakeCharlieHeartStay() {
     _character = PSDE.getCharacterByID("rosieReynard");
     _subCharacter = PSDE.getCharacterByID("charlie");
-    PSDE.characterSetRoom(_subCharacter, _character.room);
+    PSDE.moveCharacterToRoom(_subCharacter, PSDE.getCharacterCurrentRoom(_character));
 
     var _blob = "";
 
@@ -242,7 +242,7 @@ function rosieReynardTakeCharlieHeartStay() {
 
     _subCharacter.consume(charlieBeatingHeart);
     _subCharacter.consume(charlieLeftEye);
-    _character.moveTo(PSDE.rooms.get("limbo"));
+    PSDE.moveCharacterTo(_character, "limbo");
     _character.sleep();
 
     _subCharacter.wake();

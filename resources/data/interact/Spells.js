@@ -150,7 +150,7 @@ function spellCharacterSummonCast(_entity, _character = PSDE.player) {
     if (!_character.castSpell(_spell))
     	return false;
 
-	PSDE.characterSetRoom(_entity, _character.room);
+	PSDE.setCharacterCurrentRoom(_entity, _character.room);
 
 	return true;
 }

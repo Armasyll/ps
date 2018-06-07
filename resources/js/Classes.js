@@ -349,69 +349,69 @@ class Menu {
 
         if (_downRoom instanceof Room) {
             _room = _downRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 4 : 5)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Down", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_northRoom instanceof Room) {
             _room = _northRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 5 : 6)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>North", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_upRoom instanceof Room) {
             _room = _upRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 6 : 7)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>Up", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_westRoom instanceof Room) {
             _room = _westRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 8 : 10)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>West", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_southRoom instanceof Room) {
             _room = _southRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 9 : 11)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>South", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         if (_eastRoom instanceof Room) {
             _room = _eastRoom;
-            if (PSDE.player.room.cell.location != _room.cell.location)
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).cell.location != _room.cell.location)
                 _metaName = _room.cell.location.name;
-            else if (PSDE.player.room.location === _room.location || typeof _room.location === 'undefined')
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).location === _room.location || typeof _room.location === 'undefined')
                 _metaName = _room.name;
             else
                 _metaName = _room.location.name;
 
-            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(PSDE.player.room) ? 4 : 0, "btn-info" + (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
+            this.options[(this.numberOfOptions == 12 ? 10 : 12)] = ["PSDE.roomInteract('" + _room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Move </span>East", _metaName, undefined, _room.isHidden(PSDE.getCharacterCurrentRoom(PSDE.player)) ? 4 : 0, "btn-info" + (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room) ? " locked" : "")];
         }
         _room = undefined;
     }
@@ -589,7 +589,7 @@ class Minimap {
             this.initialize();
 
         if (!(_room instanceof Room))
-            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
+            _room = PSDE.hasRoom(_room) ? PSDE.getRoomByID(_room) : undefined;
 
         if (typeof this.canvas === 'undefined')
             this.initialize();
@@ -1065,6 +1065,22 @@ class PSDE {
          */
         this.characterPathes = new Map();
         /**
+         * Previous Room
+         * @type {Map<Character, Room>}
+         */
+        this.characterPreviousRoom = new Map;
+        /**
+         * Current Room
+         * @type {Map<Character, Room>}
+         */
+        this.characterCurrentRoom = new Map();
+        this.furnitureRoom = new Map();
+        /**
+         * Currently used furniture
+         * @type {Map<Character, Furniture>}
+         */
+        this.characterFurniture = new Map();
+        /**
          * Map of Clothing
          * @type {Map<String, Clothing>}
          */
@@ -1421,12 +1437,148 @@ class PSDE {
             this.limbo.setWestRoom(this.limbo, undefined, false);
             this.limbo.setDownRoom(this.limbo, undefined, false);
     }
+    static getCharacters() {
+        return this.characters;
+    }
+    static getCharacterByID(_string) {
+        return this.characters.get(_string);
+    }
+    static getCharacter(_string) {
+        if (_string instanceof Character) {
+            return _string;
+        }
+        else {
+            return this.getCharacterByID(_string);
+        }
+    }
+    static hasCharacter(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                return true;
+            else
+                return undefined;
+        }
+        else if (PSDE.characters.has(_character.id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    static getRooms() {
+        return this.rooms;
+    }
+    static getRoomByID(_string) {
+        return this.rooms.get(_string);
+    }
+    static getRoom(_string) {
+        if (_string instanceof Room) {
+            return _string;
+        }
+        else {
+            return this.getRoomByID(_string);
+        }
+    }
+    static hasRoom(_room) {
+        if (!(_room instanceof Room)) {
+            if (PSDE.rooms.has(_room))
+                return true;
+            else
+                return false;
+        }
+        else if (PSDE.rooms.has(_room.id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    static getFurniture(_string) {
+        if (_string instanceof Furniture) {
+            return _string;
+        }
+        else if (typeof _string == "string") {
+            return this.getFurnitureByID(_string);
+        }
+        else {
+            return this.furniture;
+        }
+    }
+    static getFurnitureByID(_string) {
+        return this.furniture.get(_string);
+    }
+    // getFurniture (singular) and getFurniture (plural) are both getFurniture
+    static hasFurniture(_furniture) {
+        if (!(_furniture instanceof Furniture)) {
+            if (PSDE.furniture.has(_furniture))
+                return true;
+            else
+                return false;
+        }
+        else if (PSDE.furniture.has(_furniture.id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    static getItems() {
+        return this.items;
+    }
+    static getItemByID(_string) {
+        return this.items.get(_string);
+    }
+    static getItem(_string) {
+        if (_string instanceof Item) {
+            return _string;
+        }
+        else {
+            return this.getItemByID(_string);
+        }
+    }
+    static hasItem(_item) {
+        if (!(_item instanceof Item)) {
+            if (PSDE.items.has(_item))
+                return true;
+            else
+                return undefined;
+        }
+        else if (PSDE.items.has(_item.id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    static getSpellByID(_string) {
+        return this.spells.get(_string);
+    }
+    static getSpell(_string) {
+        if (_string instanceof Spell) {
+            return _string;
+        }
+        else {
+            return this.getSpellByID(_string);
+        }
+    }
+
     /**
      * Calculates Character level; Doesn't calculate at all.
      * @param {Number} _int Character experience
      * @return {Number} Integer between 0 and PSDE.kCharacterMaxLevel
      */
     static calculateLevel(_int) {
+        if (!isInt(_int)) {
+            if (_int instanceof Character) {
+                _int = _int.getExperiencePoints();
+            }
+            else if (PSDE.hasCharacter(_int)) {
+                _int = PSDE.getCharacterByID(_int).getExperiencePoints();
+            }
+            else {
+                return 1;
+            }
+        }
         if (_int < 300) return 1;
         else if (_int < 900) return 2;
         else if (_int < 2700) return 3;
@@ -1490,8 +1642,8 @@ class PSDE {
 
     static cashCheque(_character = player) {
         if (!(_character instanceof Character)) {
-            if (characterIndices.has(_character))
-                _character = characterIndices.get(_character);
+            if (PSDE.hasCharacter(_character))
+                _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
@@ -1515,19 +1667,6 @@ class PSDE {
         return _chequeCashed;
     }
 
-    static getCharacterByID(_string) {
-        return this.characters.get(_string);
-    }
-    static getFurnitureByID(_string) {
-        return this.furniture.get(_string);
-    }
-    static getItemByID(_string) {
-        return this.items.get(_string);
-    }
-    static getSpellByID(_string) {
-        return this.spells.get(_string);
-    }
-
     static mainMenu() {
         Menu.addOption("PSDE.startGame()", "Enter", "You meet the conditions above.");
         Menu.generate();
@@ -1536,46 +1675,46 @@ class PSDE {
         PSDE.lastMenu = "PSDE.baseMenu({0}, {1})".format(_clearContent, _clearMenu);
         Menu.showingBaseMenu = true;
         
-        if (!(PSDE.player.room instanceof Room))
-            PSDE.characterSetRoom(PSDE.player, PSDE.rooms.get("limbo"));
+        if (!(PSDE.getCharacterCurrentRoom(PSDE.player) instanceof Room))
+            PSDE.setCharacterCurrentRoom(PSDE.player, "limbo");
         
         if (_clearMenu) {
             Title.clear();
             Title.set(
-                (PSDE.player.room.location.isOwner(PSDE.player) ? "Your "  + (PSDE.player.room.type !== 'undefined' ? PSDE.player.room.type : "room").capitalize() : PSDE.player.room.name), 
+                (PSDE.getCharacterCurrentRoom(PSDE.player).location.isOwner(PSDE.player) ? "Your "  + (PSDE.getCharacterCurrentRoom(PSDE.player).type !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).type : "room").capitalize() : PSDE.getCharacterCurrentRoom(PSDE.player).name), 
                 undefined, 
-                (typeof PSDE.player.room.location !== 'undefined' ? (PSDE.player.room.location == PSDE.player.room.cell.location ? PSDE.player.room.cell.name : PSDE.player.room.location.name) : "&nbsp;"), 
-                (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+                (typeof PSDE.getCharacterCurrentRoom(PSDE.player).location !== 'undefined' ? (PSDE.getCharacterCurrentRoom(PSDE.player).location == PSDE.getCharacterCurrentRoom(PSDE.player).cell.location ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.name : PSDE.getCharacterCurrentRoom(PSDE.player).location.name) : "&nbsp;"), 
+                (typeof PSDE.getCharacterCurrentRoom(PSDE.player).cell.location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.location.name : "&nbsp;")
             );
 
             Menu.clear();
             
             var roomNorth = undefined, roomEast = undefined, roomSouth = undefined, roomWest = undefined, roomDown = undefined, roomUp = undefined;
-            if (PSDE.player.room.attachedRooms.has(0) && PSDE.player.room.attachedRooms.get(0) instanceof Room)
-                roomNorth = PSDE.player.room.attachedRooms.get(0);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(0) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(0) instanceof Room)
+                roomNorth = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(0);
             
-            if (PSDE.player.room.attachedRooms.has(1) && PSDE.player.room.attachedRooms.get(1) instanceof Room)
-                roomEast = PSDE.player.room.attachedRooms.get(1);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(1) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(1) instanceof Room)
+                roomEast = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(1);
             
-            if (PSDE.player.room.attachedRooms.has(2) && PSDE.player.room.attachedRooms.get(2) instanceof Room)
-                roomSouth = PSDE.player.room.attachedRooms.get(2);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(2) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(2) instanceof Room)
+                roomSouth = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(2);
             
-            if (PSDE.player.room.attachedRooms.has(3) && PSDE.player.room.attachedRooms.get(3) instanceof Room)
-                roomWest = PSDE.player.room.attachedRooms.get(3);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(3) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(3) instanceof Room)
+                roomWest = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(3);
             
-            if (PSDE.player.room.attachedRooms.has(4) && PSDE.player.room.attachedRooms.get(4) instanceof Room)
-                roomDown = PSDE.player.room.attachedRooms.get(4);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(4) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(4) instanceof Room)
+                roomDown = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(4);
             
-            if (PSDE.player.room.attachedRooms.has(5) && PSDE.player.room.attachedRooms.get(5) instanceof Room)
-                roomUp = PSDE.player.room.attachedRooms.get(5);
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.has(5) && PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(5) instanceof Room)
+                roomUp = PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.get(5);
             
             if (!PSDE.enableThreeDContent)
                 Menu.setExplorationOptions(roomNorth, roomEast, roomSouth, roomWest, roomDown, roomUp);
-            Menu.setOption(0, "PSDE.roomInteract('{0}', false, false)".format(PSDE.player.room.id), "Explore " + (PSDE.player.room.owner == PSDE.player ? "your " + PSDE.player.room.typeName() : PSDE.player.room.name));
+            Menu.setOption(0, "PSDE.roomInteract('{0}', false, false)".format(PSDE.getCharacterCurrentRoom(PSDE.player).id), "Explore " + (PSDE.getCharacterCurrentRoom(PSDE.player).owner == PSDE.player ? "your " + PSDE.getCharacterCurrentRoom(PSDE.player).typeName() : PSDE.getCharacterCurrentRoom(PSDE.player).name));
             Menu.setOption(1, "PSDE.personalCharacterMenu()", "Personal Menu");
-            if (PSDE.player.room.characters.size == 2) {
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).characters.size == 2) {
                 _character = undefined;
-                PSDE.player.room.characters.forEach(function(character) {
+                PSDE.getCharacterCurrentRoom(PSDE.player).characters.forEach(function(character) {
                     if (character != PSDE.player)
                         _character = character;
                 });
@@ -1588,7 +1727,7 @@ class PSDE {
                     "btn-basic {0}".format(PSDE.player.manaMax > 24 && _character.isCharmed() ? "charmed" : "")
                 );
             }
-            else if (PSDE.player.room.characters.size > 1)
+            else if (PSDE.getCharacterCurrentRoom(PSDE.player).characters.size > 1)
                 Menu.setOption(2, "PSDE.localCharactersMenu()", "Interact with those near you.");
             if (PSDE.player.phone instanceof PhoneInstance) {
                 if (PSDE.player.phone.receivedMessages.size > 0)
@@ -1624,7 +1763,7 @@ class PSDE {
         Title.set("Interact with those near you.");
         
         Menu.clear();
-        for (var [_characterID, _character] of PSDE.player.room.characters.entries()) {
+        for (var [_characterID, _character] of PSDE.getCharacterCurrentRoom(PSDE.player).characters.entries()) {
             if (_character != PSDE.player) {
                 Menu.addOption(
                     "PSDE.characterInteract({0}, true)".format(_character.id), 
@@ -1687,20 +1826,20 @@ class PSDE {
     }
     static debugRoomInformation() {
         var _contentBody = "";
-        _contentBody += "<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(PSDE.player.room.toString());
+        _contentBody += "<h4>Current Room:</h4> <ul><li>{0}</li></ul>".format(PSDE.getCharacterCurrentRoom(PSDE.player).toString());
         var _blob = "";
         var _arr = [];
         
         
-        _contentBody += "<h4>Attached Rooms ({0}):</h4> <ul>".format(PSDE.player.room.attachedRooms.size);
-        for (var [_roomID, _room] of PSDE.player.room.attachedRooms.entries()) {
+        _contentBody += "<h4>Attached Rooms ({0}):</h4> <ul>".format(PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.size);
+        for (var [_roomID, _room] of PSDE.getCharacterCurrentRoom(PSDE.player).attachedRooms.entries()) {
             _contentBody += "<li>{0}</li>".format(_room.toString());
         }
         _contentBody += "</ul>";
         
         
-        _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(PSDE.player.room.characters.size);
-        for (var [_characterID, _character] of PSDE.player.room.characters.entries()) {
+        _contentBody += "<h4>Characters in Current Room ({0}):</h4> <ul>".format(PSDE.getCharacterCurrentRoom(PSDE.player).characters.size);
+        for (var [_characterID, _character] of PSDE.getCharacterCurrentRoom(PSDE.player).characters.entries()) {
             _blob = "";
             for (var _key in _character.getCurrentActions()) {
                 _val = _character.getCurrentAction(_key);
@@ -1719,8 +1858,8 @@ class PSDE {
         _contentBody += "</ul>";
         
         
-        _contentBody += "<h4>Furniture in Current Room ({0}):</h4> <ul>".format(PSDE.player.room.characters.size);
-        for (var [_furnitureID, _furniture] of PSDE.player.room.furniture.entries()) {
+        _contentBody += "<h4>Furniture in Current Room ({0}):</h4> <ul>".format(PSDE.getCharacterCurrentRoom(PSDE.player).characters.size);
+        for (var [_furnitureID, _furniture] of PSDE.getCharacterCurrentRoom(PSDE.player).furniture.entries()) {
             _contentBody += "<li>{0}".format(_furniture.toString());
                 _contentBody += "<ul>";
                     if (_furniture.isSeat()) {
@@ -1754,7 +1893,7 @@ class PSDE {
         
         Title.set("Switch Room", undefined, undefined, "Debug Menu");
 
-        Content.add("<p>You are currently in " + PSDE.player.room.id + "</p>");
+        Content.add("<p>You are currently in " + PSDE.getCharacterCurrentRoom(PSDE.player).id + "</p>");
         i = 1;
         var _blob = "";
         _blob += '<div class="btn-group btn-group-justified">';
@@ -1932,7 +2071,7 @@ class PSDE {
         PSDE.characters.forEach(function (_key, _val) {
             if (_key == PSDE.player)
                 return undefined;
-            _blob += Menu.createButton("PSDE.switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.getSex() ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof _key.room !== 'undefined' ? _key.room.name : "Limbo")), false);
+            _blob += Menu.createButton("PSDE.switchCharacter(" + _key.id + ")", _key.name + " " + _key.surname, (_key.age + "/" + (_key.getSex() ? "F" : "M") + "/" + _key.species.capitalize() + "/" + (typeof PSDE.getCharacterCurrentRoom(_key) !== 'undefined' ? PSDE.getCharacterCurrentRoom(_key).name : "Limbo")), false);
             if (i % 4 == 0)
                 _blob += '</div><div class="btn-group btn-group-justified">';
             i++;
@@ -1942,7 +2081,7 @@ class PSDE {
         Content.add(_blob);
         
         Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.debugMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Debug");
-        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose(); PSDE.roomInteract('" + PSDE.player.room.id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
+        Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.debugMenuClose(); PSDE.roomInteract('" + PSDE.getCharacterCurrentRoom(PSDE.player).id + "', true)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
         Menu.generate();
     }
     static debugBrowserInformation() {
@@ -2034,13 +2173,13 @@ class PSDE {
         Menu.showingBaseMenu = true;
         document.getElementById("gameControlsOptions").classList.remove("hidden");
         if (PSDE.enableMinimap)
-            Minimap.generateMapFromStartRoom(PSDE.player.room);
+            Minimap.generateMapFromStartRoom(PSDE.getCharacterCurrentRoom(PSDE.player));
         
         PSDE.clearContentAndMenu();
         
         Content.add("<p>Your name is " + PSDE.player.toString() + ", a " + PSDE.player.age + " year old " + (PSDE.player.getSex() == PSDE.kMale ? 'male' : 'female') + " " + PSDE.player.species + ".</p>");
         
-        Menu.addOption("PSDE.roomInteract('{0}', true)".format(PSDE.player.room.id), "Get a move on.");
+        Menu.addOption("PSDE.roomInteract('{0}', true)".format(PSDE.getCharacterCurrentRoom(PSDE.player).id), "Get a move on.");
         Menu.generate();
         
         PSDE.updateTimeDisplay();
@@ -2057,14 +2196,14 @@ class PSDE {
         if (PSDE.player == _character)
             Content.add("<p>You are already " + PSDE.player.toString() + "</p>");
         else {
-            _pcPreviousRoom = PSDE.player.room
+            _pcPreviousRoom = PSDE.getCharacterCurrentRoom(PSDE.player)
             PSDE.player = _character;
-            if (!(PSDE.player.room instanceof Room))
-                PSDE.characterSetRoom(PSDE.player, PSDE.rooms.get("limbo"));
+            if (!(PSDE.getCharacterCurrentRoom(PSDE.player) instanceof Room))
+                PSDE.setCharactercurrentRoom(PSDE.player, "limbo");
             PSDE.player.sleeping = false;
             
-            if (PSDE.enableMinimap && PSDE.player.room != _pcPreviousRoom) {
-                Minimap.generateMapFromStartRoom(PSDE.player.room);
+            if (PSDE.enableMinimap && PSDE.getCharacterCurrentRoom(PSDE.player) != _pcPreviousRoom) {
+                Minimap.generateMapFromStartRoom(PSDE.getCharacterCurrentRoom(PSDE.player));
             }
             
             PSDE.updatePlayerInfoDisplay();
@@ -2506,60 +2645,180 @@ class PSDE {
         Content.clear();
         Menu.clear();
     }
-    /**
-     * Moves a Character to the specified Room.
-     * @param Character _character
-     * @param Room _room
-     * @return Boolean Whether or not the Character was moved to the Room.
-     */
-    static characterSetRoom(_character = PSDE.player, _room) {
+    static setCharacterCurrentRoom(_character, _room) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else {
+                console.log("Character does not exist.");
+                return undefined;
+            }
+        }
+        if (!(_room instanceof Room)) {
+            if (PSDE.rooms.has(_room))
+                _room = PSDE.getRoomByID(_room);
+            else {
+                console.log("Room does not exist.");
+                return undefined;
+            }
+        }
+        var _previousRoom = PSDE.getCharacterCurrentRoom(_character);
+        if (_previousRoom instanceof Room) {
+            PSDE.setCharacterPreviousRoom(_character, _previousRoom);
+            _previousRoom.removeCharacter(_character);
+        }
+        PSDE.characterCurrentRoom.set(_character, _room);
+        _room.addCharacter(_character);
+        return true;
+    }
+    static setCharacterRoom(_character, _room) {
+        return PSDE.setCharacterCurrentRoom(_character, _room);
+    }
+    static getCharacterCurrentRoom(_character) {
         if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
             else
                 return undefined;
         }
-        if (!(_room instanceof Room))
-            _room = PSDE.rooms.get(_room);
-        
-        if (PSDE.enableDebug) console.log("Executing PSDE.characterSetRoom({0}, {1})".format(_character.id, _room.id));
-        
-        if (_character.room != _room) {
-            _character.moveToRoom(_room);
-            
-            if (_character.hasFollowers) {
-                _character.followers.forEach(function(_follower) {
-                    if (_follower.room == _character.previousRoom || _follower.room == _character.room)
-                        PSDE.characterSetRoom(_follower, _room);
-                    else
-                        PSDE.characterPathes.set(_follower, PSDE._findPathToRoom(_follower.room, _room));
-                }, this);
-            }
-            
-            if (PSDE.characterPathes.has(_character))
-                _character.walk();
-            else
-                _character.stand();
-            
-            if (_character != PSDE.player) {
-                if (PSDE.enableDebug) console.log("Checking for room events.");
-                PSDE.events.forEach(function(_event) {
-                    if (
-                        typeof _event.cron == 'undefined' &&
-                        (typeof _event.characterA == 'undefined' || _character == _event.characterA) &&
-                        (typeof _event.characterB == 'undefined' || _character.room.containsCharacter(_event.characterB)) &&
-                        _character.room == _event.room &&
-                        (typeof _event.item == 'undefined' || _event.characterA.hasItem(_event.item))
-                    ) {
-                        _event.execute();
-                    }
-                }, this);
-            }
-            else
-                PSDE.tick("2m");
+        if (PSDE.characterCurrentRoom.has(_character) && PSDE.characterCurrentRoom.get(_character) instanceof Room) {
+            return PSDE.characterCurrentRoom.get(_character);
         }
-        
-        return _character.room == _room;
+        else {
+            return undefined;
+        }
+    }
+    static setCharacterPreviousRoom(_character, _room) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+        if (!(_room instanceof Room)) {
+            if (PSDE.rooms.has(_room))
+                _room = PSDE.getRoomByID(_room);
+            else
+                return undefined;
+        }
+        PSDE.characterPreviousRoom.set(_character, _room);
+    }
+    static getCharacterPreviousRoom(_character) {
+        if (!(_character instanceof Character)) {
+            if (PSDE.characters.has(_character))
+                _character = PSDE.getCharacterByID(_character);
+            else
+                return undefined;
+        }
+        if (PSDE.characterPreviousRoom.has(_character) && PSDE.characterPreviousRoom.get(_character) instanceof Room) {
+            return PSDE.characterPreviousRoom.get(_character);
+        }
+        else {
+            return undefined;
+        }
+    }
+    static setFurnitureRoom(_furniture, _room) {
+        if (!(_furniture instanceof Furniture)) {
+            if (PSDE.furniture.has(_furniture))
+                _furniture = PSDE.getFurnitureByID(_furniture);
+            else
+                return undefined;
+        }
+        if (!(_room instanceof Room)) {
+            if (PSDE.rooms.has(_room))
+                _room = PSDE.getRoomByID(_room);
+            else
+                return undefined;
+        }
+    }
+    static getFurnitureRoom(_furniture) {
+        if (!(_furniture instanceof Furniture)) {
+            if (PSDE.furniture.has(_furniture))
+                _furniture = PSDE.getFurnitureByID(_furniture);
+            else
+                return undefined;
+        }
+        if (PSDE.furnitureRoom.has(_furniture) && PSDE.furnitureRoom.get(_furniture) instanceof Room) {
+            return PSDE.furnitureRoom.get(_furniture);
+        }
+        else {
+            return undefined;
+        }
+    }
+    /**
+     * Moves a Character to the specified Room.
+     * @param Character _character
+     * @param Room _room
+     * @return Boolean Whether or not the Character was moved to the Room.
+     */
+    static moveCharacterToRoom(_character, _room, _checkLocked = false) {
+        if (!(_character instanceof Character)) {
+            _character = PSDE.getCharacterByID(_character);
+            if (!(_character instanceof Character)) {
+                return undefined;
+            }
+        }
+        if (!(_room instanceof Room)) {
+            _room = PSDE.getRoomByID(_room);
+            if (!(_room instanceof Room)) {
+                return undefined;
+            }
+        }
+        if (PSDE.enableDebug) console.log("Running moveCharacterToRoom({0}, {1}, {2})".format(_character.id, _room.id, _checkLocked ? "true" : "false"));
+        if (PSDE.getCharacterCurrentRoom(_character) == _room) {
+            return true;
+        }
+        if (_checkLocked && PSDE.getCharacterCurrentRoom(_character).isLocked(_room))
+            return false;
+
+        if (PSDE.getCharacterCurrentRoom(_character) instanceof Room)
+            PSDE.getCharacterCurrentRoom(_character).removeCharacter(_character);
+
+        PSDE.setCharacterCurrentRoom(_character, _room);
+
+        _room.addCharacter(_character);
+        if (!_character.knownLocations.has(_room.cell.location))
+            _character.knownLocations.add(_room.cell.location);
+        if (!_character.knownLocations.has(_room.location))
+            _character.knownLocations.add(_room.location);
+
+        if (_character.hasFollowers) {
+            _character.followers.forEach(function(_follower) {
+                if (PSDE.getCharacterCurrentRoom(_follower) == PSDE.getCharacterPreviousRoom(_character) || PSDE.getCharacterCurrentRoom(_follower) == PSDE.getCharacterCurrentRoom(_character)) {
+                    PSDE.moveCharacterToRoom(_follower, _room);
+                }
+                else {
+                    PSDE.characterPathes.set(_follower, PSDE._findPathToRoom(PSDE.getCharacterCurrentRoom(_follower), _room));
+                }
+            }, this);
+        }
+        if (PSDE.characterPathes.has(_character)) {
+            _character.walk();
+        }
+        else {
+            _character.stand();
+        }
+        if (PSDE.enableDebug) console.log("Checking for room events.");
+        PSDE.events.forEach(function(_event) {
+            if (
+                _event.cron == undefined &&
+                (_event.characterA == undefined || _character == _event.characterA) &&
+                (_event.characterB == undefined || (PSDE.getCharacterCurrentRoom(_event.characterA) instanceof Room && PSDE.getCharacterCurrentRoom(_event.characterA).containsCharacter(_event.characterB))) &&
+                (_event.room == undefined || PSDE.getCharacterCurrentRoom(_event.characterA) instanceof Room && _event.room.sid == PSDE.getCharacterCurrentRoom(_event.characterA).sid) &&
+                (_event.cell == undefined || PSDE.getCharacterCurrentRoom(_event.characterA).cell instanceof Cell && _event.cell == PSDE.getCharacterCurrentRoom(_event.characterA).cell) &&
+                (_event.location == undefined || (
+                    (PSDE.getCharacterCurrentRoom(_event.characterA).cell.location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(_event.characterA).cell.location) ||
+                    (PSDE.getCharacterCurrentRoom(_event.characterA).location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(_event.characterA).location)
+                )) &&
+                (_event.item == undefined || _event.characterA.hasItem(_event.item))
+            ) {
+                _event.execute();
+            }
+        }, this);
+        if (_character == PSDE.player) {
+            PSDE.tick("2m");
+        }
+        return true;
     }
     /**
      * Passes time.
@@ -2616,8 +2875,8 @@ class PSDE {
                         PSDE.characterPathes.forEach(function(_rooms, _character) {
                             if (_rooms.size > 0) {
                                 var _room = _rooms.values().next().value;
-                                if (!_character.room.isLocked(_room) || _character.hasKey(_room)) {
-                                    PSDE.characterSetRoom(_character, _room);
+                                if (!PSDE.getCharacterCurrentRoom(_character).isLocked(_room) || _character.hasKey(_room)) {
+                                    PSDE.moveCharacterToRoom(_character, _room);
                                     _rooms.delete(_room);
                                 }
                                 else
@@ -2635,17 +2894,20 @@ class PSDE {
                     if (
                         _event.cron instanceof Cron &&
                         (
-                            (typeof _event.location == 'undefined' || (_event.characterA instanceof Character && (_event.characterA.location == _event.location || _event.characterA.cell.location == _event.location))) &&
-                            (typeof _event.cell == 'undefined' || (_event.characterA instanceof Character && _event.characterA.cell == _event.cell)) &&
-                            (typeof _event.room == 'undefined' || (_event.characterA instanceof Character && _event.characterA.room == _event.room))
+                            (_event.room == undefined || PSDE.getCharacterCurrentRoom(_event.characterA) instanceof Room && _event.room.sid == PSDE.getCharacterCurrentRoom(_event.characterA).sid) &&
+                            (_event.cell == undefined || PSDE.getCharacterCurrentRoom(_event.characterA).cell instanceof Cell && _event.cell == PSDE.getCharacterCurrentRoom(_event.characterA).cell) &&
+                            (_event.location == undefined || (
+                                (PSDE.getCharacterCurrentRoom(_event.characterA).cell.location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(_event.characterA).cell.location) ||
+                                (PSDE.getCharacterCurrentRoom(_event.characterA).location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(_event.characterA).location)
+                            ))
                         ) &&
                         (
-                            (typeof _event.cron.year == 'undefined' || (_event.cron.containsYear(PSDE.currentTime))) &&
-                            (typeof _event.cron.month == 'undefined' || (_event.cron.containsMonth(PSDE.currentTime))) &&
-                            (typeof _event.cron.dom == 'undefined' || (_event.cron.containsDOM(PSDE.currentTime))) &&
-                            (typeof _event.cron.dow == 'undefined' || (_event.cron.containsDOW(PSDE.currentTime))) &&
-                            (typeof _event.cron.hours == 'undefined' || (_event.cron.containsHours(PSDE.currentTime))) &&
-                            (typeof _event.cron.minutes == 'undefined' || (_event.cron.containsMinutes(PSDE.currentTime)))
+                            (_event.cron.year == undefined || (_event.cron.containsYear(PSDE.currentTime))) &&
+                            (_event.cron.month == undefined || (_event.cron.containsMonth(PSDE.currentTime))) &&
+                            (_event.cron.dom == undefined || (_event.cron.containsDOM(PSDE.currentTime))) &&
+                            (_event.cron.dow == undefined || (_event.cron.containsDOW(PSDE.currentTime))) &&
+                            (_event.cron.hours == undefined || (_event.cron.containsHours(PSDE.currentTime))) &&
+                            (_event.cron.minutes == undefined || (_event.cron.containsMinutes(PSDE.currentTime)))
                         )
                     ) {
                         if (PSDE.enableDebug) console.log("EVENT: {0} : {1} == {2} ? ".format(_event.id, PSDE.currentTime.getDay(), _event.cron.dow));
@@ -2659,7 +2921,7 @@ class PSDE {
         PSDE.updatePlayerInfoDisplay();
         
         if (PSDE.enableMinimap && _updateMinimap)
-            Minimap.generateMapFromStartRoom(PSDE.player.room);
+            Minimap.generateMapFromStartRoom(PSDE.getCharacterCurrentRoom(PSDE.player));
         if (_runLastMenu)
             PSDE.runLastMenu();
 
@@ -2901,20 +3163,20 @@ class PSDE {
             if (typeof _targetRoom == "string" && PSDE.rooms.has(_targetRoom))
                 _targetRoom = PSDE.rooms.has(_targetRoom) ? PSDE.rooms.get(_targetRoom) : undefined;
             else if (_targetRoom instanceof Character) {
-                _targetRoom = _targetRoom.room instanceof Room ? _targetRoom.room : undefined;
+                _targetRoom = PSDE.getCharacterCurrentRoom(_targetRoom) instanceof Room ? PSDE.getCharacterCurrentRoom(_targetRoom) : undefined;
             }
             else if (PSDE.characters.has(_targetRoom)) {
                 var _character = PSDE.getCharacterByID(_targetRoom);
-                _targetRoom = _character.room instanceof Room ? _character.room : undefined;
+                _targetRoom = PSDE.getCharacterCurrentRoom(_character) instanceof Room ? PSDE.getCharacterCurrentRoom(_character) : undefined;
             }
             else
                 _targetRoom = undefined;
         }
         
-        if (typeof _character.room == 'undefined' || typeof _targetRoom == 'undefined')
+        if (typeof PSDE.getCharacterCurrentRoom(_character) == 'undefined' || typeof _targetRoom == 'undefined')
             return undefined;
         
-        return PSDE.characterPathes.set(_character, PSDE._findPathToRoom(_character.room, _targetRoom));
+        return PSDE.characterPathes.set(_character, PSDE._findPathToRoom(PSDE.getCharacterCurrentRoom(_character), _targetRoom));
     }
     /**
      * Moves Character in a path from their current Room to the target Room at the specific Cron time.
@@ -3206,7 +3468,7 @@ class PSDE {
         else
             _roomB.lock(_roomA);
 
-        Minimap.generateMapFromStartRoom(PSDE.player.room);
+        Minimap.generateMapFromStartRoom(PSDE.getCharacterCurrentRoom(PSDE.player));
     }
     /**
      * Unlock access to the Room(2) from Room(1).
@@ -3228,8 +3490,8 @@ class PSDE {
         else
             _roomB.unlock(_roomA);
 
-        if (PSDE.player.room.cell == _roomB.cell && PSDE.enableMinimap)
-            Minimap.generateMapFromStartRoom(PSDE.player.room);
+        if (PSDE.getCharacterCurrentRoom(PSDE.player).cell == _roomB.cell && PSDE.enableMinimap)
+            Minimap.generateMapFromStartRoom(PSDE.getCharacterCurrentRoom(PSDE.player));
     }
     /**
      * Locks access to the Room from its attached hallway, or the if it is only attached to one other Room, that Room.
@@ -3311,7 +3573,7 @@ class PSDE {
         if (!_character.hasKey(_room))
             return false;
 
-        return PSDE._lockRoom(_character.room, _room);
+        return PSDE._lockRoom(PSDE.getCharacterCurrentRoom(_character), _room);
     }
     /**
      * Unlocks access to the Room from the Character's Room, if the Character has the key to the Room.
@@ -3331,7 +3593,7 @@ class PSDE {
         if (!_character.hasKey(_room))
             return false;
 
-        return PSDE._unlockRoom(_character.room, _room);
+        return PSDE._unlockRoom(PSDE.getCharacterCurrentRoom(_character), _room);
     }
 
     /**
@@ -3645,39 +3907,39 @@ class PSDE {
         if (!(_room instanceof Room))
             _room = PSDE.rooms.get(_room);
 
-        if (PSDE.player.room.isLocked(_room) && !PSDE.player.hasKey(_room)) {
-            if (_room.location != PSDE.player.room.location)
+        if (PSDE.getCharacterCurrentRoom(PSDE.player).isLocked(_room) && !PSDE.player.hasKey(_room)) {
+            if (_room.location != PSDE.getCharacterCurrentRoom(PSDE.player).location)
                 Content.add("<p>{0} is locked from this side.</p>".format(_room.location.name));
             else
                 Content.add("<p>{0} is locked from this side.</p>".format(_room.name));
             return undefined;
         }
 
-        var _previousRoomDifferent = (!(PSDE.player.room instanceof Room) || !(PSDE.player.room.sid == _room.sid));
+        var _previousRoomDifferent = (!(PSDE.getCharacterCurrentRoom(PSDE.player) instanceof Room) || !(PSDE.getCharacterCurrentRoom(PSDE.player).sid == _room.sid));
 
         if (_clearContent != false && _previousRoomDifferent)
             Content.clear();
         
-        if (PSDE.player.room !== _room) {
-            if ((PSDE.enableDebug)) console.log("Previous Room: {0}".format(PSDE.player.room.id));
-            PSDE.characterSetRoom(PSDE.player, _room);
-            if ((PSDE.enableDebug)) console.log("Current Room: {0}".format(PSDE.player.room.id));
+        if (PSDE.getCharacterCurrentRoom(PSDE.player) !== _room) {
+            if ((PSDE.enableDebug)) console.log("Previous Room: {0}".format(PSDE.getCharacterCurrentRoom(PSDE.player).id));
+            PSDE.moveCharacterToRoom(PSDE.player, _room);
+            if ((PSDE.enableDebug)) console.log("Current Room: {0}".format(PSDE.getCharacterCurrentRoom(PSDE.player).id));
         }
 
         Title.set(
-            (PSDE.player.room.location.isOwner(PSDE.player) ? "Your {0}".format((PSDE.player.room.type !== 'undefined' ? PSDE.player.room.type : "room").capitalize()) : PSDE.player.room.name),
+            (PSDE.getCharacterCurrentRoom(PSDE.player).location.isOwner(PSDE.player) ? "Your {0}".format((PSDE.getCharacterCurrentRoom(PSDE.player).type !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).type : "room").capitalize()) : PSDE.getCharacterCurrentRoom(PSDE.player).name),
             undefined,
-            (typeof PSDE.player.room.location !== 'undefined' ? (PSDE.player.room.location == PSDE.player.room.cell.location ? PSDE.player.room.cell.name : PSDE.player.room.location.name) : "&nbsp;"),
-            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).location !== 'undefined' ? (PSDE.getCharacterCurrentRoom(PSDE.player).location == PSDE.getCharacterCurrentRoom(PSDE.player).cell.location ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.name : PSDE.getCharacterCurrentRoom(PSDE.player).location.name) : "&nbsp;"),
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).cell.location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.location.name : "&nbsp;")
         );
 
         Menu.showingBaseMenu = _showBaseMenu == true;
 
         if (Menu.showingBaseMenu) {
             if ((PSDE.enableDebug)) console.log("\tBase Menu and Room for ".format(_room.sid));
-            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)));
+            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
 
-            PSDE._scenesViewedThisWindow.add(PSDE.player.previousRoom);
+            PSDE._scenesViewedThisWindow.add(PSDE.getCharacterPreviousRoom(PSDE.player));
 
             PSDE.baseMenu(0, 1);
             
@@ -3688,12 +3950,12 @@ class PSDE {
             Menu.clear();
             Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(false)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
-            PSDE._scenesViewedThisWindow.add(PSDE.player.previousRoom);
+            PSDE._scenesViewedThisWindow.add(PSDE.getCharacterPreviousRoom(PSDE.player));
 
             if ((PSDE.enableDebug)) console.log("\tRoom for {0}".format(_room.sid));
             PSDE.lastMenu = "PSDE.roomInteract('{0}', false)".format(_room.sid);
             
-            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)));
+            unsafeExec("{0}Interact({1})".format(_room.sid, _previousRoomDifferent && !PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))));
 
             _room.furniture.forEach(function(_furniture) {
                 Menu.addOption("PSDE.furnitureInteract('{0}', false, true)".format(_furniture.id), "Look at {0}".format(_furniture.name), _furniture.description);
@@ -3702,13 +3964,13 @@ class PSDE {
             Menu.generate();
         }
 
-        if (!PSDE._scenesViewedThisWindow.has(PSDE.player.previousRoom)) {
-            if (PSDE.player.room.characters.size > 1) {
+        if (!PSDE._scenesViewedThisWindow.has(PSDE.getCharacterPreviousRoom(PSDE.player))) {
+            if (PSDE.getCharacterCurrentRoom(PSDE.player).characters.size > 1) {
                 var _blob = "";
                 var _characters = [];
                 var _followingCharacters = [];
 
-                Array.from(PSDE.player.room.characters).forEach(function(__character) {
+                Array.from(PSDE.getCharacterCurrentRoom(PSDE.player).characters).forEach(function(__character) {
                     if (!__character.isFollowing(PSDE.player) && __character != PSDE.player)
                         _characters.push(__character);
                 }, this);
@@ -3756,32 +4018,32 @@ class PSDE {
         }
 
         PSDE.events.forEach(function(_event) {
-            if (typeof _event.cron != 'undefined' || (typeof _event.location == 'undefined' && typeof _event.cell == 'undefined' && typeof _event.room == 'undefined')) {
+            if (_event.cron != undefined || (_event.location == undefined && _event.cell == undefined && _event.room == undefined)) {
                 return undefined;
             }
 
             if (
-                typeof _event.characterA == 'undefined' ||
+                _event.characterA == undefined ||
                 (
                     _event.characterA == PSDE.player &&
-                    (typeof _event.item == 'undefined' || _event.characterA.containsItem(_event.item))
+                    (_event.item == undefined || _event.characterA.containsItem(_event.item))
                 )
             ) {
-                if (typeof _event.location == 'undefined' ||
+                if (_event.location == undefined ||
                     (_event.location == _room.location || _event.location == _room.cell.location) &&
-                    (typeof _event.characterB == 'undefined' || (_event.characterB.room.location == _event.location || _event.characterB.location == _event.location))
+                    (_event.characterB == undefined || (PSDE.getCharacterCurrentRoom(_event.characterB).location == _event.location || _event.characterB.location == _event.location))
                 ) {
-                    if (typeof _event.cell == 'undefined' ||
+                    if (_event.cell == undefined ||
                         (
                             _event.cell == _room.cell &&
-                            (typeof _event.characterB == 'undefined' || _event.characterB.room.cell == _event.cell) &&
-                            (_event.characterA.previousRoom.cell != _event.characterA.room.cell)
+                            (_event.characterB == undefined || PSDE.getCharacterCurrentRoom(_event.characterB).cell == _event.cell) &&
+                            (PSDE.getCharacterPreviousRoom(_event.characterA).cell != PSDE.getCharacterCurrentRoom(_event.characterA).cell)
                         )
                     ) {
-                        if (typeof _event.room == 'undefined' ||
+                        if (_event.room == undefined ||
                             (
                                 _event.room == _room &&
-                                (typeof _event.characterB == 'undefined' || _event.characterB.room == _event.room)
+                                (_event.characterB == undefined || PSDE.getCharacterCurrentRoom(_event.characterB) == _event.room)
                             )
                         ) {
                             _event.execute();
@@ -3815,14 +4077,14 @@ class PSDE {
         Title.set(
             _character.name,
             _character.image,
-            (typeof PSDE.player.room.location !== 'undefined' ? PSDE.player.room.location.name : "&nbsp;"),
-            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).location.name : "&nbsp;"),
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).cell.location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.location.name : "&nbsp;")
         );
 
         if (_clearContent) {
             Content.clear();
 
-            unsafeExec("{0}{1}()".format(PSDE.player.room.sid, _character.id.capitalize()));
+            unsafeExec("{0}{1}()".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid, _character.id.capitalize()));
         }
 
         Menu.clear();
@@ -3848,7 +4110,7 @@ class PSDE {
         else
             Menu.setOption(4, "PSDE.characterInteractOpen('{0}', true, false, undefined, false)".format(_character.id), "Give", "Give them an item.")
 
-        if (PSDE.player.room.characters.size > 2)
+        if (PSDE.getCharacterCurrentRoom(PSDE.player).characters.size > 2)
             Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.localCharactersMenu()", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>those nearby");
 
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
@@ -4105,8 +4367,8 @@ class PSDE {
         Title.set(
             _furniture.name,
             _furniture.image,
-            (typeof PSDE.player.room.location !== 'undefined' ? PSDE.player.room.location.name : "&nbsp;"),
-            (typeof PSDE.player.room.cell.location !== 'undefined' ? PSDE.player.room.cell.location.name : "&nbsp;")
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).location.name : "&nbsp;"),
+            (typeof PSDE.getCharacterCurrentRoom(PSDE.player).cell.location !== 'undefined' ? PSDE.getCharacterCurrentRoom(PSDE.player).cell.location.name : "&nbsp;")
         );
 
         if (_clearMenu) {
@@ -4115,7 +4377,7 @@ class PSDE {
             }
             else {
                 Menu.clear();
-                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.roomInteract('{0}', false, false)".format(PSDE.player.room.sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
+                Menu.setOption((Menu.useWideMenu ? 9 : 7), "PSDE.roomInteract('{0}', false, false)".format(PSDE.getCharacterCurrentRoom(PSDE.player).sid), "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>exploring room");
                 Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
                 Menu.addOption("PSDE.furnitureInteractOpen('{0}')".format(_furniture.id), "Open", (_furniture.getNumberOfItems() > 0 ? "There are items inside" : ""));
 
@@ -4794,12 +5056,12 @@ class PSDE {
                 break;
             }
             case "spellUnlock" : {
-                _character.room.roomsOptions.forEach(function(_options, _room) {
+                PSDE.getCharacterCurrentRoom(_character).roomsOptions.forEach(function(_options, _room) {
                     if (_options.isLocked) {
                         Menu.addOption(
                             "PSDE.spellInteractCast({0}, {1})".format(_spell.id, _room.id),
-                            _room.location != PSDE.player.room.location ? _room.location.name : _room.name,
-                            "{0} {1}".format(_spell.name, _room.location != PSDE.player.room.location ? _room.location.name : _room.name),
+                            _room.location != PSDE.getCharacterCurrentRoom(PSDE.player).location ? _room.location.name : _room.name,
+                            "{0} {1}".format(_spell.name, _room.location != PSDE.getCharacterCurrentRoom(PSDE.player).location ? _room.location.name : _room.name),
                             undefined,
                             undefined,
                             "btn-mana"
@@ -4836,7 +5098,7 @@ class PSDE {
                     "Spells"
                 );
 
-                _character.room.characters.forEach(function(__character) {
+                PSDE.getCharacterCurrentRoom(_character).characters.forEach(function(__character) {
                     if (__character == PSDE.player || __character.isCharmed())
                         return undefined;
                     Menu.addOption(
@@ -5104,14 +5366,17 @@ class Entity {
         }
         var _eventResults = new Array();
         PSDE.events.forEach(function(_event) {
+            if (_event.action != _action || _event.item != _item || _event.characterB != _characterB) {
+                return undefined;
+            }
             if (
-                _event.action == _action &&
-                _event.item == _item &&
-                (_event.characterA == undefined || _event.characterA.id == this.id) &&
-                (_event.characterB == undefined || _characterB instanceof Entity && _event.characterB.id == _characterB.id) &&
-                (_event.room == undefined || this.room instanceof Room && _event.room.sid == this.room.sid) &&
-                (_event.cell == undefined || this.cell instanceof Cell && _event.cell.id == this.room.cell.id) &&
-                (_event.location == undefined || (this.room.cell.location instanceof Location || this.room.location instanceof Location) && (_event.location.id == this.room.cell.id || _event.location.id == this.room.location.id)) &&
+                (_event.characterA == undefined || this instanceof Character && _event.characterA == this) &&
+                (_event.room == undefined || PSDE.getCharacterCurrentRoom(this) instanceof Room && _event.room.sid == PSDE.getCharacterCurrentRoom(this).sid) &&
+                (_event.cell == undefined || PSDE.getCharacterCurrentRoom(this).cell instanceof Cell && _event.cell == PSDE.getCharacterCurrentRoom(this).cell) &&
+                (_event.location == undefined || (
+                    (PSDE.getCharacterCurrentRoom(this).cell.location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(this).cell.location) ||
+                    (PSDE.getCharacterCurrentRoom(this).location instanceof Location && _event.location == PSDE.getCharacterCurrentRoom(this).location)
+                )) &&
                 (_event.cron == undefined || _event.cron.containsDateTime(PSDE.currentTime) || _event.cron.containsDateTime(PSDE.previousTime))
             ) {
                 _eventResults.push(_event.execute());
@@ -5721,7 +5986,7 @@ class Character extends EntityWithStorage {
          * @type {Number}
          */
         this.charisma = 10;
-        this.xp = 0;
+        this.experiencePoints = 0;
         this.level = 1;
         /**
          * Max life; should never drop below 1
@@ -6230,16 +6495,6 @@ class Character extends EntityWithStorage {
          * @type {Number} 0 to 100
          */
         this.incestual = 0;
-        /**
-         * Previous Room
-         * @type {Room} Can be undefined
-         */
-        this.previousRoom = undefined;
-        /**
-         * Current Room
-         * @type {Room} Cannot be undefined! But it is! :V
-         */
-        this.room = undefined;
 
         if (_name.split(", ").length > 1) {
             var tempName = _name.split(", ");
@@ -6632,19 +6887,7 @@ class Character extends EntityWithStorage {
             this.phone = PSDE.phones.get(json["phone"]);
         }
         delete json["phone"];
-        //  previousRoom
-        this.previousRoom = undefined;
-        if (PSDE.rooms.has(json["previousRoom"]))
-            this.previousRoom = PSDE.rooms.get(json["previousRoom"]);
-        delete json["previousRoom"];
-        //  room
-        this.room = undefined;
-        if (PSDE.rooms.has(json["room"]))
-            this.moveToRoom(PSDE.rooms.get(json["room"]));
-        delete json["room"];
-        delete json["cell"];
-        delete json["location"];
-
+        //  handType
         if (PSDE.kHandTypes.has(json["handType"]))
             this.setHand(json["handType"])
         delete json["handType"];
@@ -7287,7 +7530,7 @@ class Character extends EntityWithStorage {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setXP(this.xp + Number.parseInt(_int));
+        return this.setXP(this.experiencePoints + Number.parseInt(_int));
     }
     addXP(_int) {
         return this.incXP(_int);
@@ -7297,13 +7540,13 @@ class Character extends EntityWithStorage {
             _int = 1;
         else if (_int < 1)
             _int = 1;
-        return this.setXP(this.xp - Number.parseInt(_int));
+        return this.setXP(this.experiencePoints - Number.parseInt(_int));
     }
     subXP(_int) {
         return this.decXP(_int);
     }
     getXP() {
-        return this.xp;
+        return this.experiencePoints;
     }
 
     setLife(_int) {
@@ -8951,14 +9194,14 @@ class Character extends EntityWithStorage {
         this.following = _character;
         this.addCurrentAction("follow", _character);
 
-        var _path = PSDE._findPathToRoom(this.room, _character.room);
+        var _path = PSDE._findPathToRoom(PSDE.getCharacterCurrentRoom(this), PSDE.getCharacterCurrentRoom(_character));
         PSDE.characterPathes.set(this, _path);
 
         if (this.hasFollowers()) {
             this.followers.forEach(function(_follower) {
                 if (_follower instanceof Character) {
-                    if (!(_follower.room == this.room))
-                        _follower.follow(_character, PSDE._findPathToRoom(_follower.room, _character.room));
+                    if (!(PSDE.getCharacterCurrentRoom(_follower) == PSDE.getCharacterCurrentRoom(this)))
+                        _follower.follow(_character, PSDE._findPathToRoom(PSDE.getCharacterCurrentRoom(_follower), PSDE.getCharacterCurrentRoom(_character)));
                     else
                         _follower.follow(_character, _path);
                 }
@@ -11090,12 +11333,12 @@ class Character extends EntityWithStorage {
         }
 
         // Exhibitionism
-        if (this.room instanceof Room) {
+        if (PSDE.getCharacterCurrentRoom(this) instanceof Room) {
             if (this.room.characters.size > 2){
                 if (_character.exhibitionism > 0)
-                    chance += ((_character.exhibitionism / 5) * (this.room.characters.size - 2));
+                    chance += ((_character.exhibitionism / 5) * (PSDE.getCharacterCurrentRoom(this).characters.size - 2));
                 else {
-                    this.room.characters.forEach(function(_this) {
+                    PSDE.getCharacterCurrentRoom(this).characters.forEach(function(_this) {
                         if (_this != _character.this && _this != this)
                             chance += _character.hadSexWith(_this) ? 5 : -5;
                     }, this);
@@ -11135,45 +11378,6 @@ class Character extends EntityWithStorage {
         if (PSDE.enableDebug) console.log("\tAfter Somnophilia check: " + Math.ceil(chance));
 
         return Math.ceil(chance);
-    }
-
-    moveToRoom(_room, _checkLocked = false) {
-        if (!(_room instanceof Room))
-            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
-
-        if (!(_room instanceof Room))
-            return this;
-
-        if (_checkLocked && this.room.isLocked(_room))
-            return this;
-
-        if (this.room instanceof Room)
-            this.room.removeCharacter(this);
-
-        this.previousRoom = this.room;
-        this.room = _room;
-
-        if (this.room.cell instanceof Cell)
-            this.cell = this.room.cell;
-
-        if (typeof this.room.location != 'undefined')
-            this.location = this.room.location;
-        else if (this.cell instanceof Cell && typeof this.cell.location != 'undefined')
-            this.location = this.cell.location;
-        else
-            this.location = undefined;
-
-        _room.addCharacter(this);
-
-        if (!this.knownLocations.has(_room.cell.location))
-            this.knownLocations.add(_room.cell.location);
-        if (!this.knownLocations.has(_room.location))
-            this.knownLocations.add(_room.location);
-
-        return this;
-    }
-    moveTo(_room, _checkLocked = false) {
-        return this.moveToRoom(_room, _checkLocked);
     }
 
     toString(_useSingularPossesiveName = false) {
@@ -12234,7 +12438,7 @@ class Room {
                 _furniture = PSDE.furniture.get(_furniture);
         }
 
-        _furniture.room = this;
+        PSDE.setFurnitureRoom(_furniture, this);
         this.furniture.add(_furniture);
         return this;
     }
@@ -12243,6 +12447,7 @@ class Room {
             _furniture = PSDE.furniture.get(_furniture);
 
         _furniture.room = undefined;
+        PSDE.removeFurnitureRoom(_furniture, this);
         this.furniture.delete(_furniture);
         return this;
     }
@@ -12468,52 +12673,6 @@ class Item extends Entity {
         }
 
         PSDE.items.set(_id, this);
-    }
-    
-    moveToEntity(_entity) {
-        if (_entity instanceof Character)
-            this.moveToCharacter(_entity);
-        else if (_entity instanceof Furniture)
-            this.moveToFurniture(_entity);
-        else if (_entity instanceof Room)
-            this.moveToRoom(_entity);
-        return this;
-    }
-    moveToFurniture(_furniture) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = PSDE.furniture.get(_furniture);
-
-        if (_furniture instanceof Furniture) {
-            if (_furniture.room instanceof Room)
-                this.room = _furniture.room;
-            else
-                this.room = undefined;
-        }
-        return this;
-    }
-    moveToCharacter(_character) {
-        if (!(_character instanceof Character))
-            _character = PSDE.characters.has(_character) ? PSDE.getCharacterByID(_character) : undefined;
-
-        if (_character instanceof Character) {
-            if (_character.room instanceof Room)
-                this.room = _character.room;
-            else
-                this.room = undefined;
-        }
-        return this;
-    }
-    moveToRoom(_room) {
-        if (!(_room instanceof Room))
-            _room = PSDE.rooms.has(_room) ? PSDE.rooms.get(_room) : undefined;
-
-        if (_room instanceof Room) {
-            this.room = _room;
-        }
-        return this;
-    }
-    moveTo(_entity) {
-        return this.moveToEntity(_entity);
     }
 
     delete() {
