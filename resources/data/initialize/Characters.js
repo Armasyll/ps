@@ -32,6 +32,9 @@ new Character("nickWilde", "Wilde, Nick", undefined, undefined, "sorcerer", 33, 
 new Character("beckyWilde", "Wilde, Becky", undefined, undefined, "commoner", 21, "f", "fox");
 new Character("johnWilde", "Wilde, John", undefined, undefined, "commoner", 55, "m", "fox");
 new Character("vivianWilde", "Wilde, Vivian", undefined, undefined, "commoner", 51, "f", "fox");
+new Character("stan", "Stan", undefined, undefined, "commoner", 35, "m", "wolf");
+new Character("melody", "Melody Micely", undefined, undefined, "commoner", 18, "f", "mouse");
+
 // Do not edit this. Assigns a Character to Player, updated next in resources/data/start.js
 PSDE.player = Array.from(PSDE.characters)[0];
 
