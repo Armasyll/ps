@@ -1221,7 +1221,7 @@ class PSDE {
 
         this.kMale = 0, this.kFemale = 1;
         this.kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
-        this.kBodyPartTypes = new Set(["ankles","anus","arms","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","knot","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
+        this.kBodyPartTypes = new Set(["ankles","anus","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","knot","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
         this.kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
         this.kHandTypes = new Set(["fur","pad","hoof","clovenhoof","skin"]);
         this.kFeetTypes = this.kHandTypes;
@@ -1230,7 +1230,7 @@ class PSDE {
         this.kLocationTypes = new Set(["general","city","house","apartment","bank","park","store"]);
         this.kRoomTypes = new Set(["hallway","lobby","bedroom","livingroom","bathroom","kitchen","diningroom","closet","basement","extBuilding","street","walkway","lot"]);
         this.kFurnitureTypes = new Set(["chair","recliner","loveseat","couch","bed","table","desk","shelf","cupboard","cabinet","bureau","hook","tv","fridge","oven","microwave","toaster","tub","shower","sink","toilet","mirror","brokenMirror","basket","altar","sculpture"]);
-        this.kIntraactionTypes = new Set(["lay","sit","sleep","stand","stay","walk","kneel"]);
+        this.kIntraactionTypes = new Set(["lay","sit","crouch","stand","fly","sleep","move"]);
         this.kInteractionTypes = new Set(["attack","charmed","bite","boop","cast","channel","choke","consume","cut","disrobe","fist","follow","give","grope","hold","hug","kiss","lick","look","massage","masturbate","open","oral","pinch","poke","pray","pull","punch","push","put","rape","release","remove","rub","sex","sit","slap","steal","stroke","suck","take","talk","thrust","touch","use","wear"]);
         this.kActionTypes = new Set([...this.kIntraactionTypes, ...this.kInteractionTypes]);
         this.kConsumableTypes = new Set(["food","drink","medicine","other"]);
@@ -2793,7 +2793,7 @@ class PSDE {
             }, this);
         }
         if (PSDE.characterPathes.has(_character)) {
-            _character.walk();
+            _character.move();
         }
         else {
             _character.stand();
@@ -4519,7 +4519,7 @@ class PSDE {
         if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
             return;
 
-        if (PSDE.characterSit(_character, _furniture))
+        if (_character.sit(_furniture))
             unsafeExec("{0}Sit({1})".format(_furniture.id, _character.id));
         
         PSDE.runLastMenu();
@@ -4533,7 +4533,7 @@ class PSDE {
         if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
             return;
 
-        if (PSDE.characterLay(_character, _furniture))
+        if (_character.lay(_furniture))
             unsafeExec("{0}Lay({1})".format(_furniture.id, _character.id));
         
         PSDE.runLastMenu();
@@ -4551,7 +4551,7 @@ class PSDE {
 
         if ((PSDE.enableDebug)) console.log("Attempting to sleep in {0}".format(_furniture.id));
 
-        if (PSDE.characterSleep(_character, _furniture))
+        if (_character.sleep(_furniture))
             unsafeExec("{0}Sleep({1})".format(_furniture.id, _character.id));
 
         if (_character == PSDE.player)
@@ -4569,8 +4569,8 @@ class PSDE {
         if (!(_furniture instanceof Furniture) || !(_character instanceof Character))
             return;
 
-
-        unsafeExec("{0}Look({1})".format(_furniture.id, _character.id));
+        if (_character.look(_furniture))
+        	unsafeExec("{0}Look({1})".format(_furniture.id, _character.id));
     }
     static furnitureInteractSex(_furniture, _characterA = PSDE.player, _characterB = undefined) {
         if (!(_furniture instanceof Furniture))
@@ -4584,7 +4584,7 @@ class PSDE {
         if (!(_furniture instanceof Furniture) || !(_characterA instanceof Character))
             return;
 
-        if (PSDE.characterSex(_characterA, _characterB, _furniture))
+        if (_characterA.sex(_characterB, _furniture))
             unsafeExec("{0}Sex({1},{2})".format(_furniture.id, _characterA.id, (_characterB instanceof Character ? _characterB.id : undefined)));
     }
 
@@ -5074,7 +5074,7 @@ class PSDE {
                 break;
             }
             case "spellMirrorOpen" : {}
-            case "spellMirrorWalk" : {}
+            case "spellMirrorUse" : {}
             case "spellMirrorLook" : {}
             case "spellMirror*" : {
 
@@ -5875,6 +5875,12 @@ class Character extends EntityWithStorage {
          */
         this.currentActions = {};
         /**
+         * Stance this Character is currently performing
+         * 0 - Lay, 1 - Sit, 2 - Crouch, 3 - Stand, 4 - Fly
+         * @type {Number}
+         */
+        this.stance = 3;
+        /**
          * Locations known by this Character
          * @type {Set} <Location>
          */
@@ -6518,7 +6524,6 @@ class Character extends EntityWithStorage {
         this.addAvailableAction("talk");
         this.addAvailableAction("attack");
         this.addAvailableAction("follow");
-        this.addAvailableAction("stay");
         this.addAvailableAction("hold");
         this.addAvailableAction("open"); // inventory... maybe :v
         this.addAvailableAction("give");
@@ -6532,6 +6537,7 @@ class Character extends EntityWithStorage {
         this.stand();
     }
     
+    // Needs to be rewritten
     fromJSON(json = "") {
         if (PSDE.enableDebug) console.log("Running fromJSON");
         
@@ -6551,358 +6557,6 @@ class Character extends EntityWithStorage {
         }
 
         this.id = json["id"]; delete json["id"];
-        this.setAge(json.hasOwnProperty("age") ? json["age"] : 21); delete json["age"];
-        this.setHunger(json.hasOwnProperty("hunger") ? json["hunger"] : 0); delete json["hunger"];
-        this.setLife(json.hasOwnProperty("life") ? json["life"] : 100); delete json["life"];
-        this.setLifeMax(json.hasOwnProperty("lifeMax") ? json["lifeMax"] : 100); delete json["lifeMax"];
-        this.setMana(json.hasOwnProperty("mana") ? json["mana"] : 0); delete json["mana"];
-        this.setManaMax(json.hasOwnProperty("manaMax") ? json["manaMax"] : 0); delete json["manaMax"];
-        this.setManaCostOffsetPercent(json.hasOwnProperty("manaCostOffsetPercent") ? json["manaCostOffsetPercent"] : 0); delete json["manaCostOffsetPercent"];
-        this.setStamina(json.hasOwnProperty("stamina") ? json["stamina"] : 100); delete json["stamina"];
-        this.setStaminaMax(json.hasOwnProperty("staminaMax") ? json["staminaMax"] : 100); delete json["staminaMax"];
-        this.setMoney(json.hasOwnProperty("money") ? json["money"] : t0); delete json["money"];
-        this.setPhilautia(json.hasOwnProperty("philautia") ? json["philautia"] : t0); delete json["philautia"];
-        this.setAgape(json.hasOwnProperty("agape") ? json["agape"] : t0); delete json["agape"];
-        this.setSanguine(json.hasOwnProperty("sanguine") ? json["sanguine"] : 0); delete["sanguine"];
-        this.setPhlegmatic(json.hasOwnProperty("phlegmatic") ? json["phlegmatic"] : 0); delete["phlegmatic"];
-        this.setCholeric(json.hasOwnProperty("choleric") ? json["choleric"] : 0); delete["choleric"];
-        this.setMelancholic(json.hasOwnProperty("melancholic") ? json["melancholic"] : 0); delete["melancholic"];
-        this.setLust(json.hasOwnProperty("lust") ? json["lust"] : 0); delete json["lust"];
-        this.setExhibitionism(json.hasOwnProperty("exhibitionism") ? json["exhibitionism"] : 0); delete json["exhibitionism"];
-        this.setSomnophilia(json.hasOwnProperty("somnophilia") ? json["somnophilia"] : 0); delete json["somnophilia"];
-        this.setIntoxication(json.hasOwnProperty("intoxication") ? json["intoxication"] : 0); delete json["intoxication"];
-        this.setIncestual(json.hasOwnProperty("incestual") ? json["incestual"] : 0); delete json["incestual"];
-        this.setRut(json.hasOwnProperty("rut") ? json["rut"] : false); delete json["rut"];
-        this.setLiving(json.hasOwnProperty("living") ? json["living"] : true); delete json["living"];
-        this.setVirgin(json.hasOwnProperty("virgin") ? json["virgin"] : true); delete json["virgin"];
-        this.setSexualOrientation(json.hasOwnProperty("sexualOrientation") ? json["sexualOrientation"] : 0); delete json["sexualOrientation"];
-        this.setSex(json.hasOwnProperty("sex") ? json["sex"] : 0); delete json["sex"];
-        this.setSpecies(json.hasOwnProperty("species") ? json["species"] : "fox"); delete json["species"];
-        this.setFurColourA(json.hasOwnProperty("furColourA") ? json["furColourA"] : "orange"); delete json["furColourA"];
-        this.setFurColourB(json.hasOwnProperty("furColourB") ? json["furColourB"] : "cream"); delete json["furColourB"];
-        this.setFurColourAHex(json.hasOwnProperty("furColourAHex") ? json["furColourAHex"] : "#b5421f"); delete json["furColourAHex"];
-        this.setFurColourBHex(json.hasOwnProperty("furColourBHex") ? json["furColourBHex"] : "#cea971"); delete json["furColourBHex"];
-        this.setEyeColour(json.hasOwnProperty("eyeColour") ? json["eyeColour"] : "green"); delete json["eyeColour"];
-        this.setEyeColourHex(json.hasOwnProperty("eyeColourHex") ? json["eyeColourHex"] : "#466603"); delete json["eyeColourHex"];
-        
-        var _tmpArr = [];
-        
-        // Sets
-        //  availableActions
-        try {
-            if (!(this.availableActions instanceof Set)) this.availableActions = new Set();
-            _tmpArr = JSON.parse(json["availableActions"]);
-            _tmpArr.forEach(function(_int) {
-                this.addAvailableAction(_int);
-            }, this);
-        } catch (e) {}
-        delete json["availableActions"];
-        //  avoidsSpecies
-        try {
-            if (!(this.avoidsSpecies instanceof Set)) this.avoidsSpecies = new Set();
-            _tmpArr = JSON.parse(json["avoidsSpecies"]);
-            _tmpArr.forEach(function(_int) {
-                this.addPreferredSpecies(_int);
-            }, this);
-        } catch (e) {}
-        delete json["avoidsSpecies"];
-        //  bodyParts
-        try {
-            if (!(this.bodyParts instanceof Set)) this.bodyParts = new Set();
-            _tmpArr = JSON.parse(json["bodyParts"]);
-            _tmpArr.forEach(function(_bodyPart) {
-                if (PSDE.kBodyPartTypes.has(_bodyPart))
-                    this.addBodyPart(_bodyPart);
-            }, this);
-        } catch (e) {}
-        delete json["bodyParts"];
-        //  bodyPartsSlickWithCum
-        try {
-            if (!(this.bodyPartsSlickWithCum instanceof Set)) this.bodyPartsSlickWithCum = new Set();
-            _tmpArr = JSON.parse(json["bodyPartsSlickWithCum"]);
-            _tmpArr.forEach(function(_bodyPart) {
-                if (PSDE.kBodyPartTypes.has(_bodyPart))
-                    this.addBodyPartSlickWithCum(_bodyPart);
-            }, this);
-        } catch (e) {}
-        delete json["bodyPartsSlickWithCum"];
-        //  bodyPartsSlickWithPre
-        try {
-            if (!(this.bodyPartsSlickWithPre instanceof Set)) this.bodyPartsSlickWithPre = new Set();
-            _tmpArr = JSON.parse(json["bodyPartsSlickWithPre"]);
-            _tmpArr.forEach(function(_bodyPart) {
-                if (PSDE.kBodyPartTypes.has(_bodyPart))
-                    this.addBodyPartSlickWithPre(_bodyPart);
-            }, this);
-        } catch (e) {}
-        delete json["bodyPartsSlickWithPre"];
-        //  followers
-        try {
-            if (!(this.followers instanceof Set)) this.followers = new Set();
-            _tmpArr = JSON.parse(json["followers"]);
-            _tmpArr.forEach(function(_character) {
-                if (PSDE.characters.has(_character))
-                    this.addFollower(PSDE.getCharacterByID(_character));
-            }, this);
-        } catch (e) {}
-        delete json["followers"];
-        // _dating
-        try {
-            if (!(this._dating instanceof Set)) this._dating = new Set();
-            _tmpArr = JSON.parse(json["_dating"]);
-            _tmpArr.forEach(function(_character) {
-                if (PSDE.characters.has(_character))
-                    this.dateCharacter(PSDE.getCharacterByID(_character));
-            }, this);
-        } catch (e) {}
-        delete json["_dating"];
-        //  items
-        try {
-            if (!(this.items instanceof Set)) this.items = new Array();
-            _tmpArr = JSON.parse(json["items"]);
-            _tmpArr.forEach(function(_item) {
-                if (PSDE.itemInstances.has(_item))
-                    this.addItem(PSDE.itemInstances.get(_item));
-            }, this);
-        } catch (e) {}
-        delete json["items"];
-        //  knownLocations
-        try {
-            if (!(this.knownLocations instanceof Set)) this.knownLocations = new Set();
-            _tmpArr = JSON.parse(json["knownLocations"]);
-            _tmpArr.forEach(function(_location) {
-                if (PSDE.locations.has(_location))
-                    this.knownLocations.add(PSDE.locations.get(_location));
-            }, this);
-        } catch (e) {}
-        delete json["knownLocations"];
-        //  spells
-        try {
-            if (!(this.spells instanceof Set)) this.spells = new Set();
-            _tmpArr = JSON.parse(json["spells"]);
-            _tmpArr.forEach(function(_spell) {
-                if (PSDE.spells.has(_spell))
-                    this.spells.add(PSDE.spells.get(_spell));
-            }, this);
-        } catch (e) {}
-        delete json["spells"];
-        //  prefersSpecies
-        try {
-            if (!(this.prefersSpecies instanceof Set)) this.prefersSpecies = new Set();
-            _tmpArr = JSON.parse(json["prefersSpecies"]);
-            _tmpArr.forEach(function(_int) {
-                this.addPreferredSpecies(_int);
-            }, this);
-        } catch (e) {}
-        delete json["prefersSpecies"];
-        //  specialProperties
-        try {
-            if (!(this.specialProperties instanceof Set)) this.specialProperties = new Set();
-            _tmpArr = JSON.parse(json["specialProperties"]);
-            _tmpArr.forEach(function(_specialProperties) {
-                if (PSDE.kSpecialProperties.has(_specialProperties))
-                    this.addSpecialProperty(_specialProperties);
-            }, this);
-        } catch (e) {}
-        delete json["specialProperties"];
-        
-        // Maps
-        //  sexCountMap
-        try {
-            if (!(this.sexCountMap instanceof Set)) this.sexCountMap = new Map();
-            _tmpArr = JSON.parse(json["sexCountMap"]);
-            _tmpArr.forEach(function(_int, _character) {
-                if (PSDE.characters.has(_character)) {
-                    _int = Number.parseInt(_int);
-                    this.sexCountMap.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
-                }
-                else
-                    return undefined;
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["sexCountMap"];
-        //  sexRefusalCountMap
-        try {
-            if (!(this.sexRefusalCountMap instanceof Set)) this.sexRefusalCountMap = new Map();
-            _tmpArr = JSON.parse(json["sexRefusalCountMap"]);
-            _tmpArr.forEach(function(_int, _character) {
-                if (PSDE.characters.has(_character)) {
-                    _int = Number.parseInt(_int);
-                    this.sexRefusalCountMap.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
-                }
-                else
-                    return undefined;
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["sexRefusalCountMap"];
-        //  characterDisposition
-        try {
-            if (!(this.characterDisposition instanceof Set)) this.characterDisposition = new Map();
-            this.characterDisposition = new Map();
-            _tmpArr = JSON.parse(json["characterDisposition"]);
-            _tmpArr.forEach(function(_character) {
-                if (PSDE.characters.has(_character[0]))
-                    this.setCharacterDisposition(_character[0], _character[1]);
-                else
-                    return undefined;
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["characterDisposition"];
-        //  currentActions
-        try {
-            if (!(this.currentActions instanceof Set)) this.currentActions = new Map();
-            _tmpArr = JSON.parse(json["currentActions"]);
-            _tmpArr.forEach(function(_arr) {
-                if (!(_arr instanceof Array)) {
-                    console.log("  Error assigning currentActions, they're mangled.");
-                    return undefined;
-                }
-
-                var _actionType = _arr[0];
-                var _entity = _arr[1];
-
-                if (PSDE.entities.has(_entity))
-                    _entity = PSDE.entities.get(_entity);
-                if (_entity instanceof Furniture) {
-                    switch (_actionType) {
-                        case "lay" : {
-                            this.lay(_entity, ["sleep"]);
-                            break;
-                        }
-                        case "sit" : {
-                            this.sit(_entity, ["sleep"]);
-                            break;
-                        }
-                        case "sleep" : {
-                            this.sleep(_entity);
-                            break;
-                        }
-                    }
-                }
-                else if (_entity instanceof Character) {
-                    switch (_actionType) {
-                        case "follow" : {
-                            this.follow(_character);
-                            break;
-                        }
-                        case "sex" : {
-                            this.fuck(_entity)
-                            break;
-                        }
-                    }
-                }
-                else if (_entity instanceof Item) {
-                    switch (_actionType) {
-                        case "hold" : {
-                            this.addHeldEntity(new ItemInstance(undefined, _entity));
-                            break;
-                        }
-                    }
-                }
-                else if (_entity instanceof ItemInstance) {
-                    switch (_actionType) {
-                        case "hold" : {
-                            this.addHeldEntity(_entity);
-                            break;
-                        }
-                    }
-                }
-                else {
-                    if (!(typeof _entity == "undefined")) {
-                        console.log("    Error assigning {0}, it was unaccounted for.".format(_entity instanceof Entity ? _entity.id : _entity));
-                    }
-                    switch (_actionType) {
-                        case "sleep" : {
-                            this.sleep();
-                            break;
-                        }
-                        case "stand" : {
-                            this.stand();
-                        }
-                    }
-                }
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["currentActions"];
-        //  clothing
-        try {
-            if (!(this.clothing instanceof Set)) this.clothing = new Map();
-            _tmpArr = JSON.parse(json["clothing"]);
-            _tmpArr.forEach(function(_clothing) {
-                if (!(_clothing instanceof Clothing))
-                    _clothing = PSDE.clothing.has(_clothing) ? PSDE.clothing.get(_clothing) : undefined;
-
-                if (_clothing instanceof Clothing)
-                    this.wear(_clothing);
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["clothing"];
-        //  _dated
-        try {
-            if (!(this._dated instanceof Set)) this._dated = new Map();
-            _tmpArr = JSON.parse(json["_dated"]);
-            _tmpArr.forEach(function(_int, _character) {
-                if (PSDE.characters.has(_character)) {
-                    _int = Number.parseInt(_int);
-                    this._dated.set(PSDE.getCharacterByID(_character), (_int >= 0 ? _int : 0));
-                }
-                else
-                    return undefined;
-            }, this);
-        } catch (e) {
-            console.log(e);
-        }
-        delete json["_dated"];
-        // Arrays
-        
-        // Entities
-        //  defaultDisposition
-        this.defaultDisposition = this.setDefaultDisposition(json["defaultDisposition"]);
-        delete json["defaultDisposition"];
-        //  following
-        this.following = undefined;
-        if (PSDE.characters.has(json["following"]))
-            this.follow(PSDE.getCharacterByID(json["following"]));
-        delete json["following"];
-        //  furniture
-        this.furniture = undefined;
-        if (PSDE.furniture.has(json["furniture"])) {
-            PSDE.furniture.get(json["furniture"]).addCharacter(this);
-            this.furniture = PSDE.furniture.get(json["furniture"]);
-        }
-        delete json["furniture"];
-        //  phone
-        this.phone = undefined;
-        if (PSDE.phones.has(json["phone"])) {
-            this.phone = PSDE.phones.get(json["phone"]);
-        }
-        delete json["phone"];
-        //  handType
-        if (PSDE.kHandTypes.has(json["handType"]))
-            this.setHand(json["handType"])
-        delete json["handType"];
-
-        // Primitives
-        for (var property in json) {
-            if (this.hasOwnProperty(property)) {
-                if (json[property] == null)
-                    this[property] = undefined;
-                else
-                    this[property] = json[property];
-
-                delete json[property];
-            }
-        }
     }
 
     getFullName() {
@@ -8800,7 +8454,7 @@ class Character extends EntityWithStorage {
         else
             return 0;
     }
-    deleteDating(_character, _updateParent) {
+    removeDating(_character, _updateParent) {
         if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
@@ -8813,13 +8467,10 @@ class Character extends EntityWithStorage {
             this.hasDatedCharacter(_character);
         }
         if (_updateParent)
-            _character.deleteDating(this, false);
+            _character.removeDating(this, false);
         return this;
     }
-    dumpCharacter(_character, _updateParent = true) {
-        return this.deleteDating(_character, _updateParent);
-    }
-    deleteDated(_character, _updateParent) {
+    removeDated(_character, _updateParent) {
         if (!(_character instanceof Character)) {
             if (PSDE.characters.has(_character))
                 _character = PSDE.getCharacterByID(_character);
@@ -8830,7 +8481,7 @@ class Character extends EntityWithStorage {
         if (this.hasDated(_character))
             this._dated.delete(_character);
         if (_updateParent)
-            _character.deleteDated(this, false);
+            _character.removeDated(this, false);
         return this;
     }
 
@@ -8991,10 +8642,12 @@ class Character extends EntityWithStorage {
     hasCurrentAction(_actionType) {
         if (!PSDE.kActionTypes.has(_actionType))
             return undefined;
-        return this.hasCurrentActionOwnProperty(_actionType);
+        return this.currentActions.hasOwnProperty(_actionType);
     }
     getCurrentActions() {
-        return this.currentActions;
+        var _currentActions = Object.assign({}, this.currentActions);
+        _currentActions[this.getStance()] = this.furniture;
+        return _currentActions;
     }
     getCurrentAction(_actionType) {
         if (!PSDE.kActionTypes.has(_actionType))
@@ -9007,25 +8660,43 @@ class Character extends EntityWithStorage {
     hasCurrentAction(_actionType) {
         return this.currentActions.hasOwnProperty(_actionType);
     }
-    getStance() {
-        if (this.hasCurrentAction("lay"))
-            return "lay";
-        else if (this.hasCurrentAction("sit"))
-            return "sit";
-        else if (this.hasCurrentAction("stand"))
-            return "stand";
-        else if (this.hasCurrentAction("kneel"))
-            return "kneel";
+    getStance(_stance = this.stance) {
+    	switch (_stance) {
+    		case 0 : {
+    			return "lay";
+    		}
+    		case 1 : {
+    			return "sit";
+    		}
+    		case 2 : {
+    			return "crouch";
+    		}
+    		case 3 : {
+    			return "stand";
+    		}
+    		case 4 : {
+    			return "fly";
+    		}
+    	}
     }
-    getStancePresentTense() {
-        if (this.isLying())
-            return "lying";
-        else if (this.isSitting())
-            return "sitting";
-        else if (this.isStanding())
-            return "standing";
-        else if (this.isKneeling())
-            return "kneeling";
+    getStancePresentTense(_stance = this.stance) {
+    	switch (_stance) {
+    		case 0 : {
+    			return "lying";
+    		}
+    		case 1 : {
+    			return "sitting";
+    		}
+    		case 2 : {
+    			return "crouching";
+    		}
+    		case 3 : {
+    			return "standing";
+    		}
+    		case 4 : {
+    			return "flying";
+    		}
+    	}
     }
     getStancePresentParticiple() {
         return this.positionPresentTense();
@@ -9182,7 +8853,7 @@ class Character extends EntityWithStorage {
                 return undefined;
         }
         if (PSDE.characterPathes.has(_character))
-            this.walk();
+            this.move();
         else
             this.stand();
 
@@ -9246,7 +8917,44 @@ class Character extends EntityWithStorage {
         this.addCurrentAction("kiss", _entity, _bodyPart);
         return true;
     }
-    kneel(_entity) {
+    lay(_furniture = undefined, _dontOverride = []) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
+        this.removeCurrentAction("move");
+        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.stance = 0;
+
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
+        return true;
+    }
+    sit(_furniture = undefined, _dontOverride = []) {
+        if (!(_furniture instanceof Furniture))
+            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
+        this.removeCurrentAction("move");
+        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
+        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
+        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
+
+        this.stance = 1;
+        if (_furniture instanceof Furniture)
+            this.furniture = _furniture;
+        return true;
+    }
+    crouch(_entity) {
         if (!(_entity instanceof Entity)) {
             if (PSDE.entities.has(_entity))
                 _entity = PSDE.entities.get(_entity);
@@ -9258,33 +8966,31 @@ class Character extends EntityWithStorage {
                 return undefined;
         }
 
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("walk");
-
-        this.addCurrentAction("kneel", _entity);
+        this.stance = 2;
         return true;
     }
-    lay(_furniture = undefined, _dontOverride = []) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
+    stand(_dontOverride = []) {
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
             _dontOverride = Array.from(_dontOverride);
 
-        this.removeCurrentAction("sit");
-        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("walk");
+        this.removeCurrentAction("move");
         if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
-        this.addCurrentAction("lay", _furniture);
+        this.stance = 3;
 
-        if (_furniture instanceof Furniture)
-            this.furniture = _furniture;
+        this.furniture = undefined;
+        return true;
+    }
+    fly(_dontOverride = []) {
+        if (typeof _dontOverride == "undefined")
+            _dontOverride = [];
+        else if (_dontOverride instanceof Set)
+            _dontOverride = Array.from(_dontOverride);
+
+        this.stance = 4;
         return true;
     }
     look(_entity) {
@@ -9317,7 +9023,7 @@ class Character extends EntityWithStorage {
             _dontOverride = [];
 
         if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
-        if (_dontOverride.contains("walk")) this.removeCurrentAction("walk");
+        if (_dontOverride.contains("move")) this.removeCurrentAction("move");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
         if (this.getSex() == PSDE.kMale) {
@@ -9435,27 +9141,6 @@ class Character extends EntityWithStorage {
     sex(_entity) {
         return this.fuck(_entity);
     }
-    sit(_furniture = undefined, _dontOverride = []) {
-        if (!(_furniture instanceof Furniture))
-            _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
-        if (typeof _dontOverride == "undefined")
-            _dontOverride = [];
-        else if (_dontOverride instanceof Set)
-            _dontOverride = Array.from(_dontOverride);
-
-        this.removeCurrentAction("lay");
-        if (_dontOverride.contains("sleep")) this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
-        this.removeCurrentAction("walk");
-        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
-        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
-
-        this.addCurrentAction("sit", _furniture);
-
-        if (_furniture instanceof Furniture)
-            this.furniture = _furniture;
-        return true;
-    }
     sleep(_furniture = undefined, _dontOverride = []) {
         if (!(_furniture instanceof Furniture))
             _furniture = PSDE.furniture.has(_furniture) ? PSDE.furniture.get(_furniture) : undefined;
@@ -9464,34 +9149,15 @@ class Character extends EntityWithStorage {
         else if (_dontOverride instanceof Set)
             _dontOverride = Array.from(_dontOverride);
 
-        this.removeCurrentAction("walk");
+        if (_furniture instanceof Furniture && (_furniture.type == "bed" || _furniture.type == "couch"))
+            this.lay(_furniture, _dontOverride);
+
         this.removeCurrentAction("masturbate");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
-        if (_furniture instanceof Furniture && (_furniture.type == "bed" || _furniture.type == "couch"))
-            this.addCurrentAction("lay", _furniture);
-
         this.addCurrentAction("sleep");
 
         if (_furniture instanceof Furniture)
             this.furniture = _furniture;
-        return true;
-    }
-    stand(_dontOverride = []) {
-        if (typeof _dontOverride == "undefined")
-            _dontOverride = [];
-        else if (_dontOverride instanceof Set)
-            _dontOverride = Array.from(_dontOverride);
-
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("walk");
-        if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
-        if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
-
-        this.addCurrentAction("stand");
-
-        this.furniture = undefined;
         return true;
     }
     stay() {
@@ -9586,20 +9252,19 @@ class Character extends EntityWithStorage {
         this.removeCurrentAction("sleep");
         return true;
     }
-    walk(_dontOverride = []) {
+    move(_dontOverride = []) {
         if (typeof _dontOverride == "undefined")
             _dontOverride = [];
         else if (_dontOverride instanceof Set)
             _dontOverride = Array.from(_dontOverride);
 
-        this.removeCurrentAction("sit");
-        this.removeCurrentAction("lay");
-        this.removeCurrentAction("sleep");
-        this.removeCurrentAction("stand");
+        // If not crouching or standing, then stand; maybe I should add a 'crawl' method
+        if (this.stance < 2)
+        	this.stance = 3;
         if (_dontOverride.contains("masturbate")) this.removeCurrentAction("masturbate");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
-        this.addCurrentAction("walk");
+        this.addCurrentAction("move");
 
         this.furniture = undefined;
         return true;
@@ -9641,11 +9306,11 @@ class Character extends EntityWithStorage {
     isFucking() {
         return this.hasCurrentAction("sex");
     }
-    isKneeling() {
-        return this.hasCurrentAction("kneel");
+    isCrouching() {
+        return this.stance == 2;
     }
     isLying() {
-        return this.hasCurrentAction("lay");
+        return this.stance == 0;
     }
     isMasturbating() {
         return this.hasCurrentAction("masturbate");
@@ -9654,10 +9319,13 @@ class Character extends EntityWithStorage {
         return this.hasCurrentAction("sleep");
     }
     isSitting() {
-        return this.hasCurrentAction("sit");
+        return this.stance == 1;
     }
     isStanding() {
-        return this.hasCurrentAction("stand");
+        return this.stance == 3;
+    }
+    isFlying() {
+        return this.stance == 4;
     }
 
     isClothed() {
@@ -11045,9 +10713,6 @@ class Character extends EntityWithStorage {
         }
         this.knownLocations.delete(_location);
         return this;
-    }
-    removeLocation(_location) {
-        return this.removeKnownLocation(_location);
     }
 
     addSpell(_spell) {
@@ -13229,7 +12894,7 @@ class Furniture extends EntityWithStorage {
             // But then, if two people are fucking, then it takes double that... which makes no sense :v
             // So, only include laying. 2017/09/06
             //if (_actionType == 11 || _actionType == 3) {
-            if (_character.hasCurrentAction("lay"))
+            if (_character.stance == 0)
                 _baseMultiplier = 2;
 
             // but what if it's a stoat and a wolf :v

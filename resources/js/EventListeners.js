@@ -3,7 +3,7 @@ window.addEventListener(
     function() {
         PSDE.resizeGui();
         
-        if (PSDE.enableMinimap) {
+        if (PSDE.enableMinimap && PSDE.player.room instanceof Room) {
             Minimap.initialize();
             Minimap.generateMapFromStartRoom(PSDE.player.room);
         }
