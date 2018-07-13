@@ -89,7 +89,7 @@ function charlieSex() {
         Menu.setOption((Menu.useWideMenu ? 14 : 11), "PSDE.baseMenu(1)", "<span class='hidden-md hidden-sm hidden-xs'>Back to </span>Menu");
 
         Menu.addOption("charlieSexCunnilingusGive()", "Eat her out");
-        if (PSDE.player.getSex() == PSDE.kMale) Menu.addOption("charlieSexFellatioGive()", "Get a blowjob");
+        if (PSDE.player.getSex() == PSDE.MALE) Menu.addOption("charlieSexFellatioGive()", "Get a blowjob");
         else Menu.addOption("charlieSexCunnilingusReceive()", "Get her to eat you out");
         Menu.addOption("charlieSexVaginalGive()", "Vaginal");
         Menu.addOption("charlieSexAnalGive()", "Anal");
@@ -502,7 +502,7 @@ function tellerMicelyTalk() {
 function tellerMicelySex() {
     _character = PSDE.getCharacterByID("tellerMicely");
 
-    if (PSDE.player.getSex() == PSDE.kMale)
+    if (PSDE.player.getSex() == PSDE.MALE)
         Content.add("<p>You briefly think about hot-gluing the nerdy little mouse. The thought won't go away.</p>");
     else
         Content.add("<p>You briefly think about stuffing the nerdy little mouse up your pussy. The thought passes, though.</p>");
@@ -511,7 +511,7 @@ function tellerMicelySex() {
 function _tellerMicelyFollow() {
     _character = PSDE.getCharacterByID("tellerMicely");
 
-    Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(PSDE.player.getSex() == PSDE.kMale ? "Sir" : "Ma'am"));
+    Content.add("<p>\"I can't leave this desk, {0}.\" Teller says.</p>".format(PSDE.player.getSex() == PSDE.MALE ? "Sir" : "Ma'am"));
 
     return false;
 }
@@ -519,7 +519,7 @@ function tellerMicelyHug() {
     _character = PSDE.getCharacterByID("tellerMicely");
 
     Content.add("<p>\"{0}, this is highly inappropriate!\" Teller squeaks{1}</p>".format(
-        PSDE.player.getSex() == PSDE.kMale ? "S-Sir" : "M-Ma'am",
+        PSDE.player.getSex() == PSDE.MALE ? "S-Sir" : "M-Ma'am",
         PSDE.player.furSoftness > 50 ? ", but she then rubs her face against your " + PSDE.player.peltType + " and fails to hide a smile." : ".")
     );
 }
@@ -615,7 +615,7 @@ function wolterSex() {
         //  and the Character isn't straight, 
         //  and the Character hasn't had sex with the Player, 
         //  and the Character hasn't slept with the same sex before
-        if (_ctfNoLust > 49 && _character.getSex() == PSDE.player.getSex() && _character.getSexualOrientation() != 0 && _character.getCharacterSexCount(PSDE.player) == 0 && ((_character.getSex() == PSDE.kMale && !_character.sleptWithMale) || (_character.getSex() == PSDE.kFemale && !_character.sleptWithFemale))) {
+        if (_ctfNoLust > 49 && _character.getSex() == PSDE.player.getSex() && _character.getSexualOrientation() != 0 && _character.getCharacterSexCount(PSDE.player) == 0 && ((_character.getSex() == PSDE.MALE && !_character.sleptWithMale) || (_character.getSex() == PSDE.kFemale && !_character.sleptWithFemale))) {
             unsafeExec("wolterPlayerFirsttimeSameSexSpecial()");
         }
         else if (_ctfLust > 49) { // Else if the Player has a chance to fuck the Character with Lust
@@ -734,7 +734,7 @@ function wolterHug() {
                 }
                 else if (_character.dating(PSDE.player)) {
                     _arr = [
-                        "<p>Bringing your arms around {0}, he leans into you and holds you in return. \"You're handsome,\" you say, before pressing your lips to his. His eyes close as his paws travel up your back, pulling you further into the kiss. After a few moments, you part, and he smiles at you with a half-lidded gaze. \"{1}\" he says, and leans in for another kiss.</p>".format(_character.name, PSDE.player.getSex() == PSDE.kMale ? "You're not too bad yourself, stud," : "And you're beautiful,"),
+                        "<p>Bringing your arms around {0}, he leans into you and holds you in return. \"You're handsome,\" you say, before pressing your lips to his. His eyes close as his paws travel up your back, pulling you further into the kiss. After a few moments, you part, and he smiles at you with a half-lidded gaze. \"{1}\" he says, and leans in for another kiss.</p>".format(_character.name, PSDE.player.getSex() == PSDE.MALE ? "You're not too bad yourself, stud," : "And you're beautiful,"),
                         "<p>Slipping your {1} under {0}'s arms, you pull him against you. \"Love you,\" you say, looking up at his smile. He dips his head down, and presses his lips against the top of your muzzle. \"Love you too, {2}.\" he says, followed by another kiss to your cheek.</p>".format(_character.name, PSDE.player.getHands(), PSDE.player.name)
                     ];
                     _character.incLust(1);
@@ -746,15 +746,15 @@ function wolterHug() {
             else if (_disposition.eros > 66 && _character.lust > 33) {
                 if ((_character.sexualOrientation == 0 && _character.getSex() == PSDE.player.getSex()) || (_character.sexualOrientaiton == 1 && _character.getSex() != PSDE.player.getSex())) {
                     _arr = [
-                        "<p>You feel {0} jolt as you wrap your arms around him. Feeling something hard press against your leg, you see the {0} look away, grinning. \"Uh, sorry about that {1}, but you should'a warned a guy.\"</p>{2}".format(_character.name, PSDE.player.getSex() == PSDE.kMale ? "man" : PSDE.player.name, PSDE.player.lust > 50 ? "<p>Leaning into him, you say in a sultry voice, or as good a one as you can manage, \"Maybe I like like surprising <i>guys</i>.\"</p>" : ""),
-                        "<p>{0} leans in as you wrap your arms around him. His body feels unusually warm, and you can feel his breath against your neck. \"Wolter, you're hot,\" you say, stepping away from him. He looks up at you, and you can see his unfocused gaze before he squeezes his eyes shut.</p><p>{1}</p><p>He takes in a deep breath and slowly lets it out, looking away from you. \"Yeah, I think I might be catching, ah, something,\" he says, and for a brief moment you feel his tail brush against you.</p>".format(_character.name, PSDE.player.getSex() == PSDE.kMale ? "After a moment, you realize what you said, and quickly correct yourself, \"I mean, you're warm.\"" : "\"You're really warm,\" you correct yourself.")
+                        "<p>You feel {0} jolt as you wrap your arms around him. Feeling something hard press against your leg, you see the {0} look away, grinning. \"Uh, sorry about that {1}, but you should'a warned a guy.\"</p>{2}".format(_character.name, PSDE.player.getSex() == PSDE.MALE ? "man" : PSDE.player.name, PSDE.player.lust > 50 ? "<p>Leaning into him, you say in a sultry voice, or as good a one as you can manage, \"Maybe I like like surprising <i>guys</i>.\"</p>" : ""),
+                        "<p>{0} leans in as you wrap your arms around him. His body feels unusually warm, and you can feel his breath against your neck. \"Wolter, you're hot,\" you say, stepping away from him. He looks up at you, and you can see his unfocused gaze before he squeezes his eyes shut.</p><p>{1}</p><p>He takes in a deep breath and slowly lets it out, looking away from you. \"Yeah, I think I might be catching, ah, something,\" he says, and for a brief moment you feel his tail brush against you.</p>".format(_character.name, PSDE.player.getSex() == PSDE.MALE ? "After a moment, you realize what you said, and quickly correct yourself, \"I mean, you're warm.\"" : "\"You're really warm,\" you correct yourself.")
                     ];
                 }
                 else if (_character.dating(PSDE.player)) {
                     _arr = [
                         "<p>You wrap your arms around {0} and pull him close to you. As his arms lock around you too, he leans his muzzle in and presses it gently against yours. In that slow drawl you've come to love, he says to you, \"That's not a flashlight pressing against your thighs.\"</p><p><i>{1} damnit, {0}.</i> you think as you let out a sigh. \"Way to ruin the mood,\" you mutter, pressing your lips to his again. He just lets out a muffled laugh, and holds onto you just a little big longer.</p>".format(_character.name, (PSDE.player.manaMax > 0 ? "the gods" : "God")),
                         "<p>Coming at {0} from behind, you snake your {1} around his waist as he tries to turn around. Pressing your body against his back, you refuse to give him any wiggle room.</p><p>\"Someone's feeling frisky,\" he says as he leans into you, giving up in his struggle. You slide a {2} down his stomach, and slow stroke it against his crotch. \"Frisking sounds fun,\" you say softly into his ear, groping at his dick.</p>".format(_character.name, PSDE.player.getHands(), PSDE.player.getHand()),
-                        "<p>You give {0} a quick hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, and moves both of his paws down your back.</p>".format(_character.name, PSDE.player.getSex() == PSDE.kMale ? ", man" : "")
+                        "<p>You give {0} a quick hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, and moves both of his paws down your back.</p>".format(_character.name, PSDE.player.getSex() == PSDE.MALE ? ", man" : "")
                     ];
                     PSDE.player.incLust(4);
                     _character.incLust(15);
@@ -774,7 +774,7 @@ function wolterHug() {
             else {
                 _arr = [
                     "<p>Spreading your arms wide, you take {0} into a warm hug that he returns. You can almost hear what sounds like a purr coming from his throat.</p>".format(_character.name),
-                    "<p>You give {0} a quick bro hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, after finally letting you go.</p>".format(_character.name, PSDE.player.getSex() == PSDE.kMale ? ", man" : "")
+                    "<p>You give {0} a quick bro hug. It becomes a little awkward when he pulls you in further.</p><p>\"You're so soft{1},\" he says a few seconds later, after finally letting you go.</p>".format(_character.name, PSDE.player.getSex() == PSDE.MALE ? ", man" : "")
                 ];
                 _character.incCharacterPhilia(PSDE.player, 1);
             }
@@ -815,7 +815,7 @@ function wolterHug() {
                 _arr = ["<p></p>".format(_character.name)];
             }
             else {
-                if (PSDE.player.getSex() == PSDE.kMale)
+                if (PSDE.player.getSex() == PSDE.MALE)
                     _arr = ["<p>Hugging the random aardwolf, you feel him pat your pack gently. \"Uh, hey stranger. Nice to meet you, too,\" he says, stepping back from your embrace.</p>"];
                 else
                     _arr = ["<p>Hugging the random aardwolf, you feel him grope your tail. After a few seconds, he looks {1} at you with a grin, \"Hey cutey, I'm {0},\"</p>".format(_character.name, PSDE.player.bodySize > _character.bodySize ? "up" : "down")];

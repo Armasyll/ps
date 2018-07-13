@@ -1219,7 +1219,7 @@ class PSDE {
         this._interruptTick = false;
         this._interruptMenu = false;
 
-        this.kMale = 0, this.kFemale = 1;
+        this.MALE = 0, this.FEMALE = 1;
         this.kSpeciesTypes = new Set(["fox","wolf","aardwolf","hyena","sheep","stoat","deer","rabbit","jackal","coyote","tiger","antelope","pig","horse","mouse"]);
         this.kBodyPartTypes = new Set(["ankles","anus","arms","back","breasts","chest","clitoris","feet","fingers","groin","hands","head","knot","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","lips","mouth","neck","nose","penis","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulders","shoulders","stomach","testicles","toes","tongue","vagina","waist","wrists"]);
         this.kClothingTypes = new Set(["hat","mask","glasses","earPiercingLeft","earPiercingRight","nosePiercing","lipPiercing","tonguePiercing","collar","neckwear","shirt","jacket","belt","gloves","underwear","pants","socks","shoes","bra"]);
@@ -2177,7 +2177,7 @@ class PSDE {
         
         PSDE.clearContentAndMenu();
         
-        Content.add("<p>Your name is " + PSDE.player.toString() + ", a " + PSDE.player.age + " year old " + (PSDE.player.getSex() == PSDE.kMale ? 'male' : 'female') + " " + PSDE.player.species + ".</p>");
+        Content.add("<p>Your name is " + PSDE.player.toString() + ", a " + PSDE.player.age + " year old " + (PSDE.player.getSex() == PSDE.MALE ? 'male' : 'female') + " " + PSDE.player.species + ".</p>");
         
         Menu.addOption("PSDE.roomInteract('{0}', true)".format(PSDE.getCharacterCurrentRoom(PSDE.player).id), "Get a move on.");
         Menu.generate();
@@ -5863,12 +5863,12 @@ class Character extends EntityWithStorage {
          * Physical sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
-        this._sex = PSDE.kMale;
+        this._sex = PSDE.MALE;
         /**
          * Personal sexual identity
          * @type {Number} 0 - male, 1 - female, 2 - hermaphrodite
          */
-        this.gender = PSDE.kMale;
+        this.gender = PSDE.MALE;
         /**
          * Intraactions this Character is currently performing
          * @type {Map} <PSDE.kIntraactionTypes>
@@ -6621,25 +6621,21 @@ class Character extends EntityWithStorage {
     }
 
     setHandedness(_hand) {
-        if (_hand == "leftHand")
+        if (_hand == "leftHand") {
             this.handedness = "leftHand";
-        else if (_hand == "rightHand")
+        }
+        else {
             this.handedness = "rightHand";
+        }
     }
     getHandedness() {
         return this.handedness;
     }
-    setLeftHanded(_bool = true) {
-        if (_bool === true)
-            this.setHandedness("leftHand");
-        else
-            this.setHandedness("rightHand");
+    setLeftHanded() {
+        this.setHandedness("leftHand");
     }
-    setRightHanded(_bool = true) {
-        if (_bool === true)
-            this.setHandedness("rightHand");
-        else
-            this.setHandedness("leftHand");
+    setRightHanded() {
+        this.setHandedness("rightHand");
     }
 
     /**
@@ -8082,7 +8078,7 @@ class Character extends EntityWithStorage {
         return this;
     }
     getSexName() {
-        return this.getSex() == PSDE.kMale ? "male" : (this.getSex() == PSDE.kFemale ? "female" : "herm");
+        return this.getSex() == PSDE.MALE ? "male" : (this.getSex() == PSDE.FEMALE ? "female" : "herm");
     }
     getSex() {
         return this._sex;
@@ -8830,9 +8826,9 @@ class Character extends EntityWithStorage {
                 return undefined;
         }
 
-        if (_entity.getSex() == PSDE.kFemale)
+        if (_entity.getSex() == PSDE.FEMALE)
             this.hadSexWithFemale = true;
-        else if (_entity.getSex() == PSDE.kMale)
+        else if (_entity.getSex() == PSDE.MALE)
             this.hadSexWithMale = true;
 
         this.removeCurrentAction("masturbate");
@@ -9026,11 +9022,11 @@ class Character extends EntityWithStorage {
         if (_dontOverride.contains("move")) this.removeCurrentAction("move");
         if (_dontOverride.contains("sex")) this.removeCurrentAction("sex");
 
-        if (this.getSex() == PSDE.kMale) {
+        if (this.getSex() == PSDE.MALE) {
             this.addHeldEntity(this.getBodyPart("penis"));
             this.addCurrentAction("masturbate", this.getBodyPart("penis"));
         }
-        else if (this.getSex() == PSDE.kFemale) {
+        else if (this.getSex() == PSDE.FEMALE) {
             this.addHeldEntity(this.getBodyPart("vagina"));
             this.addCurrentAction("masturbate", this.getBodyPart("vagina"));
         }
@@ -9329,7 +9325,7 @@ class Character extends EntityWithStorage {
     }
 
     isClothed() {
-        if (this.getSex() == PSDE.kMale)
+        if (this.getSex() == PSDE.MALE)
             return this.getPants() instanceof Clothing;
         else
             return (this.getShirt() instanceof Clothing && this.getPants() instanceof Clothing);
@@ -9635,14 +9631,14 @@ class Character extends EntityWithStorage {
         var _baseMass = 0; // Average mass in kilograms at the age of 20
         this.clearBodyParts();
         this.addBodyPart(["ankles","anus","arms","arms","back","chest","feet","fingers","groin","hands","head","leftAnkle","leftArm","leftEar","leftEye","leftFoot","leftHand","leftLeg","leftNipple","leftShoulder","legs","legs","lips","mouth","neck","nose","rear","rightAnkle","rightArm","rightEar","rightEye","rightFoot","rightHand","rightLeg","rightNipple","rightShoulder","shoulder","shoulders","stomach","toes","tongue","waist","wrists"]);
-        if (this.getSex() == PSDE.kMale)
+        if (this.getSex() == PSDE.MALE)
             this.addBodyPart(["penis","testicles"]);
         else
             this.addBodyPart(["vagina","clitoris"]);
         this.muscle = 0.5;
         this.fat = 0.25;
         if (this.species == "fox") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
                 this.addBodyPart("knot");
@@ -9663,7 +9659,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "wolf") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
                 this.addBodyPart("knot");
@@ -9684,7 +9680,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "aardwolf") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
                 _baseMass = 32;
@@ -9704,7 +9700,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "hyena") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 25;
                 this.penisGirth = 16;
             }
@@ -9721,7 +9717,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "sheep") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 19;
                 this.penisGirth = 11;
             }
@@ -9739,7 +9735,7 @@ class Character extends EntityWithStorage {
             this.peltSoftness = 75;
         }
         else if (this.species == "stoat") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 8;
                 this.penisGirth = 7;
             }
@@ -9756,7 +9752,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "deer") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 22;
                 this.penisGirth = 12;
             }
@@ -9774,7 +9770,7 @@ class Character extends EntityWithStorage {
             this.peltSoftness = 75;
         }
         else if (this.species == "rabbit") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 12;
                 this.penisGirth = 8;
             }
@@ -9794,7 +9790,7 @@ class Character extends EntityWithStorage {
             this.peltSoftness = 75;
         }
         else if (this.species == "jackal") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 18;
                 this.penisGirth = 12;
                 this.addBodyPart("knot");
@@ -9812,7 +9808,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "coyote") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
                 this.addBodyPart("knot");
@@ -9830,7 +9826,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "tiger") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 28;
                 this.penisGirth = 15;
             }
@@ -9846,7 +9842,7 @@ class Character extends EntityWithStorage {
             this.setFur("fur");
         }
         else if (this.species == "antelope") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 22;
                 this.penisGirth = 12;
             }
@@ -9863,7 +9859,7 @@ class Character extends EntityWithStorage {
             this.setFur("hair");
         }
         else if (this.species == "pig") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 15;
                 this.penisGirth = 10;
             }
@@ -9880,7 +9876,7 @@ class Character extends EntityWithStorage {
             this.setFur("skin");
         }
         else if (this.species == "horse") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 45;
                 this.penisGirth = 25;
             }
@@ -9897,7 +9893,7 @@ class Character extends EntityWithStorage {
             this.setFur("hair");
         }
         else if (this.species == "mouse") {
-            if (this.getSex() == PSDE.kMale) {
+            if (this.getSex() == PSDE.MALE) {
                 this.penisSize = 1;
                 this.penisGirth = 0.5;
             }

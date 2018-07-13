@@ -147,7 +147,7 @@ function rosieReynardTakeCharlieHeart() {
         Content.add("<p>The heart stops mid-beat, as does the slow rising and falling of Rosie's chest. For a few moments, all is still and quiet before you.</p>");
         var _blob = "<p>Rosie wakes with a snort as her head lifts, lazily, from her tail. Blue eyes stare blearily in your direction as she opens her mouth in a wide yawn. ";
         if (_character.characterDisposition.get(PSDE.player)['philia'] > 50 || _character.characterDisposition.get(PSDE.player)['storge'] > 50)
-            _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(PSDE.player.getSex() == PSDE.kMale ? "dad" : "mom");
+            _blob += "In a tired, jovial voice she asks, \"Where's breakfast, <i>{0}</i>?\"".format(PSDE.player.getSex() == PSDE.MALE ? "dad" : "mom");
         else if (_character.characterDisposition.get(PSDE.player)['philia'] > 20 || _character.characterDisposition.get(PSDE.player)['storge'] > 20)
             _blob += "In a chipper but tired voice she asks, \"Ugh, is it morning yet, {0}?\"".format(PSDE.player.player);
         else if (_character.characterDisposition.get(PSDE.player)['philia'] > 0 || _character.characterDisposition.get(PSDE.player)['storge'] > 0)
@@ -259,7 +259,7 @@ function rosieReynardTakeCharlieHeartStay() {
 function newDayWelcome(_event = undefined) {
     Content.add("<blockquote><i>It's the dawn of a new day!</i></blockquote>");
 
-    if (PSDE.player.getSex() == PSDE.kMale && PSDE.player.lust > 75)
+    if (PSDE.player.getSex() == PSDE.MALE && PSDE.player.lust > 75)
         Content.add("<div class='small'>Also, you have an erection.</div>");
 }
 function remmyApartmentBathroomWaterbucket(_event = undefined) {

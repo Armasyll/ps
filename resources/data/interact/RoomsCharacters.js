@@ -113,7 +113,7 @@ function remmyApartmentLivingroomCouchMasturbate(_character = PSDE.player) {
 	    if (PSDE.player.getSex() == PSDE.kFemale)
 	        Menu.addOption("remmyApartmentLivingroomCouchMasturbateDildoVaginal()", "Ride " + (PSDE.player == PSDE.getCharacterByID("remmy") ? "your" : "Remmy's") + " couch", "Vaginal, with " + (PSDE.player == PSDE.getCharacterByID("charlie") ? "your" : "Charlie's") + " dildo");
 	}
-    if (PSDE.player.hasItem("remmyMediumPinkRibbedFleshlight") && PSDE.player.getSex() == PSDE.kMale)
+    if (PSDE.player.hasItem("remmyMediumPinkRibbedFleshlight") && PSDE.player.getSex() == PSDE.MALE)
         Menu.addOption("remmyApartmentLivingroomCouchMasturbateFleshlight()", "Fuck " + (PSDE.player == PSDE.getCharacterByID("remmy") ? "your" : "Remmy's") + " couch", "With " + (PSDE.player == PSDE.getCharacterByID("remmy") ? "your" : "Remmy's") + " fleshlight");
     Menu.generate();
 }
@@ -550,7 +550,7 @@ function zootopiaCreditUnion44thEntranceTellerMicelyInteract() {
 function zootopiaCreditUnion44thEntranceTellerMicelyTalk() {
     _character = PSDE.getCharacterByID("tellerMicely");
     
-    Content.add("<p>Looking up from her computer, the mouse bank teller greets you, \"Good {0}, {1}! How can I help you today?\"</p>".format(PSDE.currentTime.getHours() < 10 ? "morning" : PSDE.currentTime.getHours() < 16 ? "afternoon" : "evening", PSDE.player.getSex() == PSDE.kMale ? "sir" : "ma'am"));
+    Content.add("<p>Looking up from her computer, the mouse bank teller greets you, \"Good {0}, {1}! How can I help you today?\"</p>".format(PSDE.currentTime.getHours() < 10 ? "morning" : PSDE.currentTime.getHours() < 16 ? "afternoon" : "evening", PSDE.player.getSex() == PSDE.MALE ? "sir" : "ma'am"));
     Menu.addOption("zootopiaCreditUnion44thEntranceTellerMicelyCashCheque(PSDE.player)", "Cash Cheque");
 }
 function zootopiaCreditUnion44thEntranceTellerMicelyCashCheque() {
