@@ -7440,7 +7440,7 @@ class Character extends EntityWithStorage {
         return this.decStaminaMax(_int);
     }
     getStaminaMax() {
-        return this.getStaminaMax;
+        return this.staminaMax;
     }
 
     setMoney(_int) {
