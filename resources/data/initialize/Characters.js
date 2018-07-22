@@ -3,7 +3,7 @@ if ((PSDE.debugEnabled)) console.log("Initializing Characters");
 // var characterId = new Character("characterId", "Last, First name", "Description", "Image path", "Character class", Age, Sex, Species);
 //     characterId.setAttributes(Strength, Endurance, Constitution, Intelligence, Wisdom, Charisma);
 
-var remmy = new Character("remmy", "Cormo, Remmy", undefined, undefined, "commoner", 26, "m", "sheep");
+var remmy = new Character("remmy", "Cormo, Remmy", undefined, undefined, "commoner", 19, "m", "sheep");
 var al = new Character("al", "Al", undefined, undefined, "commoner", 39, "m", "wolf");
 var anneke = new Character("anneke", "Plettenberg, Anneke", undefined, undefined, "noble", 20, "f", "aardwolf");
 var avo = new Character("avo", "Avo", undefined, undefined, "commoner", 25, "f", "jackal");
