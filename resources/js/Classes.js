@@ -12312,9 +12312,6 @@ class Item extends Entity {
                 _plural = false;
             this.plural = _plural;
 
-            if (typeof _specialProperties == "string" || _specialProperties instanceof Array)
-                this.addSpecialProperty(_specialProperties);
-
             /**
              * Weight
              * @type {Number} 0.001 to Number.MAX_SAFE_INTEGER
