@@ -5,18 +5,18 @@ if ((PSDE.debugEnabled)) console.log("Initializing Characters");
 
 var remmy = new Character("remmy", "Cormo, Remmy", undefined, undefined, "commoner", 19, "m", "sheep");
 var al = new Character("al", "Al", undefined, undefined, "commoner", 39, "m", "wolf");
-var anneke = new Character("anneke", "Plettenberg, Anneke", undefined, undefined, "noble", 20, "f", "aardwolf");
+var anneke = new Character("anneke", "Plettenberg, Anneke", undefined, undefined, "noble", 18, "f", "aardwolf");
 var avo = new Character("avo", "Avo", undefined, undefined, "commoner", 25, "f", "jackal");
 var betty = new Character("betty", "Betty", undefined, undefined, "commoner", 37, "f", "wolf");
-var charlie = new Character("charlie", "Foxtrot, Charlie", undefined, undefined, "sorcerer", 28, "f", "fox");
+var charlie = new Character("charlie", "Foxtrot, Charlie", undefined, undefined, "sorcerer", 23, "f", "fox");
 var marty = new Character("marty", "Marty", undefined, undefined, "commoner", 25, "m", "stoat");
 var martina = new Character("martina", "Martina", undefined, undefined, "commoner", 25, "f", "stoat");
-var ozzy = new Character("ozzy", "Ozymandias", undefined, undefined, "bard", 19, "m", "hyena");
+var ozzy = new Character("ozzy", "Ozymandias", undefined, undefined, "bard", 21, "m", "hyena");
 var pandora = new Character("pandora", "Pandora", undefined, undefined, "expert", 39, "f", "tiger");
 var tellerMicely = new Character("tellerMicely", "Teller Micely", undefined, undefined, "expert", 27, "f", "mouse");
 var velvet = new Character("velvet", "Velvet", undefined, undefined, "expert", 39, "f", "deer");
 var weaver = new Character("weaver", "Weaver", undefined, undefined, "commoner", 30, "m", "antelope");
-var wolter = new Character("wolter", "Plettenberg, Wolter", undefined, undefined, "noble", 20, "m", "aardwolf");
+var wolter = new Character("wolter", "Plettenberg, Wolter", undefined, undefined, "noble", 18, "m", "aardwolf");
 
 new Character("wolekeFather", "Berthold Plettenberg", undefined, undefined, "noble", 45, "m", "aardwolf");
 new Character("wolekeMother", "Gosteke Plettenberg", undefined, undefined, "noble", 45, "f", "aardwolf");
