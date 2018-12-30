@@ -20,6 +20,7 @@ anneke.setLevel(3)
 anneke.setImage("resources/images/characters/Anneke.svg");
 anneke.setEyeColour("dark blue");
 anneke.setFurColour("brown");
+anneke.surname = "Van den Veld";
 PSDE.setCharacterCurrentRoom(anneke, "twinsApartmentBedroomAnneke");
 anneke.setPhilautia(50);
 anneke.setAgape(40);
@@ -201,6 +202,7 @@ wolter.setLevel(3);
 wolter.setImage("resources/images/characters/Wolter.svg");
 wolter.setEyeColour("dark blue");
 wolter.setFurColour("brown");
+wolter.surname = "Van den Veld";
 PSDE.setCharacterCurrentRoom(wolter, "remmyApartmentLivingroom");
 wolter.setPhilautia(50);
 wolter.setAgape(50);
